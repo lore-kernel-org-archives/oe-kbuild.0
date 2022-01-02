@@ -1,49 +1,63 @@
-Content-Type: multipart/mixed; boundary="===============0747198360556244980=="
+Content-Type: multipart/mixed; boundary="===============4191563714259385129=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/zswap.c:991:4: warning: Null pointer passed as 1st argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Sun, 02 Jan 2022 20:58:35 +0800
-Message-ID: <202201022009.hLRIFwFU-lkp@intel.com>
+Subject: Re: [PATCH v2 3/9] mm: remove set_page_count() from page_frag_alloc_align
+Date: Sun, 02 Jan 2022 20:18:02 +0800
+Message-ID: <202201022054.ufnNk7Fu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0747198360556244980==
+--===============4191563714259385129==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Tian Tao <tiantao6@hisilicon.com>
-CC: Nathan Chancellor <natechancellor@gmail.com>
-CC: Colin Ian King <colin.king@canonical.com>
-CC: Vitaly Wool <vitaly.wool@konsulko.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20211221150140.988298-4-pasha.tatashin@soleen.com>
+References: <20211221150140.988298-4-pasha.tatashin@soleen.com>
+TO: Pasha Tatashin <pasha.tatashin@soleen.com>
+TO: pasha.tatashin(a)soleen.com
+TO: linux-kernel(a)vger.kernel.org
+TO: linux-mm(a)kvack.org
+TO: linux-m68k(a)lists.linux-m68k.org
+TO: anshuman.khandual(a)arm.com
+TO: willy(a)infradead.org
+TO: akpm(a)linux-foundation.org
+TO: william.kucharski(a)oracle.com
+TO: mike.kravetz(a)oracle.com
+TO: vbabka(a)suse.cz
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   278218f6778bc7d6f8b67199446c56cec7ebb841
-commit: fc6697a89f56d9773b2fbff718d4cf2a6d63379d mm/zswap: add the flag can=
-_sleep_mapped
-date:   10 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-c007-20211227 (https://download.01.org/0day-ci/ar=
-chive/20220102/202201022009.hLRIFwFU-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 511726=
-c64d3b6cca66f7c54d457d586aa3129f67)
+Hi Pasha,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on hnaz-mm/master]
+[also build test WARNING on rostedt-trace/for-next geert-m68k/for-next linu=
+x/master linus/master v5.16-rc7 next-20211224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Pasha-Tatashin/Hardening-p=
+age-_refcount/20211221-230439
+base:   https://github.com/hnaz/linux-mm master
+:::::: branch date: 12 days ago
+:::::: commit date: 12 days ago
+config: x86_64-randconfig-c007-20211231 (https://download.01.org/0day-ci/ar=
+chive/20220102/202201022054.ufnNk7Fu-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7cd109=
+b92c72855937273a6c8ab19016fbe27d33)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfc6697a89f56d9773b2fbff718d4cf2a6d63379d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fc6697a89f56d9773b2fbff718d4cf2a6d63379d
+        # https://github.com/0day-ci/linux/commit/2add304c6e5eb6206507d871c=
+cfd11349cc32586
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Pasha-Tatashin/Hardening-page-_ref=
+count/20211221-230439
+        git checkout 2add304c6e5eb6206507d871ccfd11349cc32586
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -54,477 +68,354 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                     ^~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:760:6: note: Assuming 'zswap_init_failed' is false
-           if (zswap_init_failed) {
-               ^~~~~~~~~~~~~~~~~
-   mm/zswap.c:760:2: note: Taking false branch
-           if (zswap_init_failed) {
-           ^
-   mm/zswap.c:766:6: note: Assuming the condition is false
-           if (!strcmp(s, *(char **)kp->arg) && zswap_has_pool)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:766:36: note: Left side of '&&' is false
-           if (!strcmp(s, *(char **)kp->arg) && zswap_has_pool)
-                                             ^
-   mm/zswap.c:772:6: note: Assuming 'zswap_init_started' is true
-           if (!zswap_init_started)
-               ^~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:772:2: note: Taking false branch
-           if (!zswap_init_started)
-           ^
-   mm/zswap.c:775:6: note: Assuming 'type' is null
-           if (!type) {
-               ^~~~~
-   mm/zswap.c:775:2: note: Taking true branch
-           if (!type) {
-           ^
-   mm/zswap.c:776:7: note: Assuming the condition is false
-                   if (!zpool_has_pool(s)) {
-                       ^~~~~~~~~~~~~~~~~~
-   mm/zswap.c:776:3: note: Taking false branch
-                   if (!zpool_has_pool(s)) {
+   mm/page_alloc.c:5287:3: note: Taking false branch
+                   if (unlikely(!page)) {
                    ^
-   mm/zswap.c:795:6: note: Assuming 'pool' is null
-           if (pool) {
-               ^~~~
-   mm/zswap.c:795:2: note: Taking false branch
-           if (pool) {
-           ^
-   mm/zswap.c:803:7: note: 'pool' is null
-           if (!pool)
-                ^~~~
-   mm/zswap.c:803:2: note: Taking true branch
-           if (!pool)
-           ^
-   mm/zswap.c:804:34: note: Passing null pointer value via 2nd parameter 'c=
-ompressor'
-                   pool =3D zswap_pool_create(type, compressor);
-                                                  ^~~~~~~~~~
-   mm/zswap.c:804:10: note: Calling 'zswap_pool_create'
-                   pool =3D zswap_pool_create(type, compressor);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:592:6: note: Assuming 'zswap_has_pool' is true
-           if (!zswap_has_pool) {
-               ^~~~~~~~~~~~~~~
-   mm/zswap.c:592:2: note: Taking false branch
-           if (!zswap_has_pool) {
-           ^
-   mm/zswap.c:603:9: note: Calling 'kzalloc'
-           pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:542:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:559:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:603:9: note: Returning from 'kzalloc'
-           pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:604:6: note: Assuming 'pool' is non-null
-           if (!pool)
-               ^~~~~
-   mm/zswap.c:604:2: note: Taking false branch
-           if (!pool)
-           ^
-   mm/zswap.c:611:6: note: Assuming field 'zpool' is non-null
-           if (!pool->zpool) {
-               ^~~~~~~~~~~~
-   mm/zswap.c:611:2: note: Taking false branch
-           if (!pool->zpool) {
-           ^
-   mm/zswap.c:615:2: note: Taking false branch
-           pr_debug("using %s zpool\n", zpool_get_type(pool->zpool));
-           ^
-   include/linux/printk.h:430:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   mm/zswap.c:617:2: note: Null pointer passed as 2nd argument to string co=
-py function
-           strlcpy(pool->tfm_name, compressor, sizeof(pool->tfm_name));
-           ^                       ~~~~~~~~~~
->> mm/zswap.c:991:4: warning: Null pointer passed as 1st argument to memory=
- copy function [clang-analyzer-unix.cstring.NullArg]
-                           memcpy(tmp, src, entry->length);
-                           ^      ~~~
-   mm/zswap.c:938:12: note: 'tmp' initialized to a null pointer value
-           u8 *src, *tmp =3D NULL;
-                     ^~~
-   mm/zswap.c:945:6: note: Assuming the condition is false
-           if (!zpool_can_sleep_mapped(pool)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:945:2: note: Taking false branch
-           if (!zpool_can_sleep_mapped(pool)) {
-           ^
-   mm/zswap.c:959:10: note: Calling 'zswap_entry_find_get'
-           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:391:6: note: Assuming 'entry' is non-null, which participates=
- in a condition later
-           if (entry)
-               ^~~~~
-   mm/zswap.c:391:2: note: Taking true branch
-           if (entry)
-           ^
-   mm/zswap.c:394:2: note: Returning pointer (loaded from 'entry'), which p=
-articipates in a condition later
-           return entry;
-           ^~~~~~~~~~~~
-   mm/zswap.c:959:10: note: Returning from 'zswap_entry_find_get'
-           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:960:7: note: 'entry' is non-null
-           if (!entry) {
-                ^~~~~
-   mm/zswap.c:960:2: note: Taking false branch
-           if (!entry) {
-           ^
-   mm/zswap.c:968:9: note: Assuming 'offset' is equal to field 'offset'
-           BUG_ON(offset !=3D entry->offset);
-                  ^
-   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
+   mm/page_alloc.c:5296:7: note: Assuming 'page_list' is null
+                   if (page_list)
+                       ^~~~~~~~~
+   mm/page_alloc.c:5296:3: note: Taking false branch
+                   if (page_list)
+                   ^
+   mm/page_alloc.c:5299:29: note: Array access (from variable 'page_array')=
+ results in a null pointer dereference
+                           page_array[nr_populated] =3D page;
+                           ~~~~~~~~~~               ^
+   mm/page_alloc.c:5320:29: warning: Array access (from variable 'page_arra=
+y') results in a null pointer dereference [clang-analyzer-core.NullDerefere=
+nce]
+                           page_array[nr_populated] =3D page;
+                           ~~~~~~~~~~               ^
+   mm/page_alloc.c:5205:9: note: Assuming 'page_array' is null
+           while (page_array && nr_populated < nr_pages && page_array[nr_po=
+pulated])
+                  ^~~~~~~~~~
+   mm/page_alloc.c:5205:20: note: Left side of '&&' is false
+           while (page_array && nr_populated < nr_pages && page_array[nr_po=
+pulated])
+                             ^
+   mm/page_alloc.c:5209:15: note: Assuming 'nr_pages' is > 0
+           if (unlikely(nr_pages <=3D 0))
+                        ^
    include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
    # define unlikely(x)    __builtin_expect(!!(x), 0)
                                                ^
-   mm/zswap.c:968:2: note: Taking false branch
-           BUG_ON(offset !=3D entry->offset);
+   mm/page_alloc.c:5209:2: note: Taking false branch
+           if (unlikely(nr_pages <=3D 0))
            ^
-   include/asm-generic/bug.h:63:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   mm/zswap.c:968:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(offset !=3D entry->offset);
+   mm/page_alloc.c:5213:15: note: 'page_array' is null
+           if (unlikely(page_array && nr_pages - nr_populated =3D=3D 0))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   mm/page_alloc.c:5213:26: note: Left side of '&&' is false
+           if (unlikely(page_array && nr_pages - nr_populated =3D=3D 0))
+                                   ^
+   mm/page_alloc.c:5213:2: note: Taking false branch
+           if (unlikely(page_array && nr_pages - nr_populated =3D=3D 0))
            ^
-   include/asm-generic/bug.h:63:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   mm/zswap.c:971:10: note: Calling 'zswap_get_swap_cache_page'
-           switch (zswap_get_swap_cache_page(swpentry, &page)) {
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:908:6: note: Assuming 'page_was_allocated' is true
-           if (page_was_allocated)
-               ^~~~~~~~~~~~~~~~~~
-   mm/zswap.c:908:2: note: Taking true branch
-           if (page_was_allocated)
+   mm/page_alloc.c:5217:6: note: Calling 'memcg_kmem_enabled'
+           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
+               ^~~~~~~~~~~~~~~~~~~~
+   include/linux/memcontrol.h:1714:9: note: Left side of '&&' is false
+           return static_branch_likely(&memcg_kmem_enabled_key);
+                  ^
+   include/linux/jump_label.h:507:49: note: expanded from macro 'static_bra=
+nch_likely'
+   #define static_branch_likely(x)         likely_notrace(static_key_enable=
+d(&(x)->key))
+                                                          ^
+   include/linux/jump_label.h:416:67: note: expanded from macro 'static_key=
+_enabled'
+           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
+ &&     \
+                                                                           =
+ ^
+   include/linux/memcontrol.h:1714:9: note: Assuming the condition is true
+           return static_branch_likely(&memcg_kmem_enabled_key);
+                  ^
+   include/linux/jump_label.h:507:49: note: expanded from macro 'static_bra=
+nch_likely'
+   #define static_branch_likely(x)         likely_notrace(static_key_enable=
+d(&(x)->key))
+                                           ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
+   include/linux/jump_label.h:420:2: note: expanded from macro 'static_key_=
+enabled'
+           static_key_count((struct static_key *)x) > 0;                   =
+        \
            ^
-   mm/zswap.c:909:3: note: Returning zero, which participates in a conditio=
-n later
-                   return ZSWAP_SWAPCACHE_NEW;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:971:10: note: Returning from 'zswap_get_swap_cache_page'
-           switch (zswap_get_swap_cache_page(swpentry, &page)) {
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:971:2: note: Control jumps to 'case ZSWAP_SWAPCACHE_NEW:'  at=
- line 982
-           switch (zswap_get_swap_cache_page(swpentry, &page)) {
+   include/linux/compiler.h:79:35: note: expanded from macro 'likely_notrac=
+e'
+   # define likely_notrace(x)      likely(x)
+                                   ~~~~~~~^~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   include/linux/memcontrol.h:1714:2: note: Returning the value 1, which pa=
+rticipates in a condition later
+           return static_branch_likely(&memcg_kmem_enabled_key);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:5217:6: note: Returning from 'memcg_kmem_enabled'
+           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
+               ^~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:5217:6: note: Left side of '&&' is true
+   mm/page_alloc.c:5217:31: note: Assuming the condition is true
+           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
+                                        ^~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:5217:2: note: Taking true branch
+           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
            ^
-   mm/zswap.c:984:15: note: Loop condition is false.  Exiting loop
-                   acomp_ctx =3D raw_cpu_ptr(entry->pool->acomp_ctx);
-                               ^
-   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_pt=
-r'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   mm/zswap.c:989:7: note: Assuming the condition is true
-                   if (!zpool_can_sleep_mapped(pool)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:989:3: note: Taking true branch
-                   if (!zpool_can_sleep_mapped(pool)) {
+   mm/page_alloc.c:5218:3: note: Control jumps to line 5315
+                   goto failed;
                    ^
-   mm/zswap.c:991:4: note: Null pointer passed as 1st argument to memory co=
-py function
-                           memcpy(tmp, src, entry->length);
-                           ^      ~~~
-   mm/zswap.c:1296:3: warning: 1st function call argument is an uninitializ=
-ed value [clang-analyzer-core.CallAndMessage]
-                   memcpy(tmp, src, entry->length);
-                   ^      ~~~
-   mm/zswap.c:1257:18: note: 'tmp' declared without an initial value
-           u8 *src, *dst, *tmp;
-                           ^~~
-   mm/zswap.c:1263:10: note: Calling 'zswap_entry_find_get'
-           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:391:6: note: Assuming 'entry' is non-null, which participates=
- in a condition later
-           if (entry)
+   mm/page_alloc.c:5316:6: note: Assuming 'page' is non-null
+           if (page) {
+               ^~~~
+   mm/page_alloc.c:5316:2: note: Taking true branch
+           if (page) {
+           ^
+   mm/page_alloc.c:5317:7: note: Assuming 'page_list' is null
+                   if (page_list)
+                       ^~~~~~~~~
+   mm/page_alloc.c:5317:3: note: Taking false branch
+                   if (page_list)
+                   ^
+   mm/page_alloc.c:5320:29: note: Array access (from variable 'page_array')=
+ results in a null pointer dereference
+                           page_array[nr_populated] =3D page;
+                           ~~~~~~~~~~               ^
+>> mm/page_alloc.c:5559:3: warning: Value stored to 'refcnt' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   refcnt =3D page_ref_add_return(page, PAGE_FRAG_CACHE_MAX=
+_SIZE + 1);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   mm/page_alloc.c:5559:3: note: Value stored to 'refcnt' is never read
+                   refcnt =3D page_ref_add_return(page, PAGE_FRAG_CACHE_MAX=
+_SIZE + 1);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   mm/page_alloc.c:8380:3: warning: Division by zero [clang-analyzer-core.D=
+ivideZero]
+                   do_div(tmp, lowmem_pages);
+                   ^
+   include/asm-generic/div64.h:48:26: note: expanded from macro 'do_div'
+           __rem =3D ((uint64_t)(n)) % __base;                       \
+                                   ^
+   mm/page_alloc.c:8533:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   mm/page_alloc.c:8533:2: note: Taking false branch
+           if (rc)
+           ^
+   mm/page_alloc.c:8536:6: note: Assuming 'write' is not equal to 0
+           if (write)
+               ^~~~~
+   mm/page_alloc.c:8536:2: note: Taking true branch
+           if (write)
+           ^
+   mm/page_alloc.c:8537:3: note: Calling 'setup_per_zone_wmarks'
+                   setup_per_zone_wmarks();
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:8437:2: note: Calling '__setup_per_zone_wmarks'
+           __setup_per_zone_wmarks();
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:8365:2: note: 'lowmem_pages' initialized to 0
+           unsigned long lowmem_pages =3D 0;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page_alloc.c:8370:2: note: Loop condition is false. Execution continu=
+es on line 8375
+           for_each_zone(zone) {
+           ^
+   include/linux/mmzone.h:1122:2: note: expanded from macro 'for_each_zone'
+           for (zone =3D (first_online_pgdat())->node_zones; \
+           ^
+   mm/page_alloc.c:8375:2: note: Loop condition is true.  Entering loop body
+           for_each_zone(zone) {
+           ^
+   include/linux/mmzone.h:1122:2: note: expanded from macro 'for_each_zone'
+           for (zone =3D (first_online_pgdat())->node_zones; \
+           ^
+   mm/page_alloc.c:8378:3: note: Loop condition is false.  Exiting loop
+                   spin_lock_irqsave(&zone->lock, flags);
+                   ^
+   include/linux/spinlock.h:397:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:253:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   mm/page_alloc.c:8378:3: note: Loop condition is false.  Exiting loop
+                   spin_lock_irqsave(&zone->lock, flags);
+                   ^
+   include/linux/spinlock.h:395:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   mm/page_alloc.c:8380:3: note: '__base' initialized to 0
+                   do_div(tmp, lowmem_pages);
+                   ^
+   include/asm-generic/div64.h:46:2: note: expanded from macro 'do_div'
+           uint32_t __base =3D (base);                               \
+           ^~~~~~~~~~~~~~~
+   mm/page_alloc.c:8380:3: note: Division by zero
+                   do_div(tmp, lowmem_pages);
+                   ^
+   include/asm-generic/div64.h:48:26: note: expanded from macro 'do_div'
+           __rem =3D ((uint64_t)(n)) % __base;                       \
+                   ~~~~~~~~~~~~~~~~^~~~~~~~
+   Suppressed 12 warnings (11 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1489:2: warning: Value stored to '=
+r' is never read [clang-analyzer-deadcode.DeadStores]
+           r =3D amdgpu_atomfirmware_get_vram_info(adev,
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1489:2: note: Value stored to 'r' =
+is never read
+           r =3D amdgpu_atomfirmware_get_vram_info(adev,
+           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c:852:3: warning: Value stored to '=
+r' is never read [clang-analyzer-deadcode.DeadStores]
+                   r =3D amdgpu_atomfirmware_get_vram_info(adev,
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c:852:3: note: Value stored to 'r' =
+is never read
+                   r =3D amdgpu_atomfirmware_get_vram_info(adev,
 
-vim +991 mm/zswap.c
+vim +/refcnt +5559 mm/page_alloc.c
 
-2b2811178e85553 Seth Jennings      2013-07-10   914  =
+44fdffd70504c1 Alexander Duyck 2016-12-14  5511  =
 
-2b2811178e85553 Seth Jennings      2013-07-10   915  /*
-2b2811178e85553 Seth Jennings      2013-07-10   916   * Attempts to free an=
- entry by adding a page to the swap cache,
-2b2811178e85553 Seth Jennings      2013-07-10   917   * decompressing the e=
-ntry data into the page, and issuing a
-2b2811178e85553 Seth Jennings      2013-07-10   918   * bio write to write =
-the page back to the swap device.
-2b2811178e85553 Seth Jennings      2013-07-10   919   *
-2b2811178e85553 Seth Jennings      2013-07-10   920   * This can be thought=
- of as a "resumed writeback" of the page
-2b2811178e85553 Seth Jennings      2013-07-10   921   * to the swap device.=
-  We are basically resuming the same swap
-2b2811178e85553 Seth Jennings      2013-07-10   922   * writeback path that=
- was intercepted with the frontswap_store()
-2b2811178e85553 Seth Jennings      2013-07-10   923   * in the first place.=
-  After the page has been decompressed into
-2b2811178e85553 Seth Jennings      2013-07-10   924   * the swap cache, the=
- compressed version stored by zswap can be
-2b2811178e85553 Seth Jennings      2013-07-10   925   * freed.
-2b2811178e85553 Seth Jennings      2013-07-10   926   */
-12d79d64bfd3913 Dan Streetman      2014-08-06   927  static int zswap_write=
-back_entry(struct zpool *pool, unsigned long handle)
-2b2811178e85553 Seth Jennings      2013-07-10   928  {
-2b2811178e85553 Seth Jennings      2013-07-10   929  	struct zswap_header *=
-zhdr;
-2b2811178e85553 Seth Jennings      2013-07-10   930  	swp_entry_t swpentry;
-2b2811178e85553 Seth Jennings      2013-07-10   931  	struct zswap_tree *tr=
-ee;
-2b2811178e85553 Seth Jennings      2013-07-10   932  	pgoff_t offset;
-2b2811178e85553 Seth Jennings      2013-07-10   933  	struct zswap_entry *e=
-ntry;
-2b2811178e85553 Seth Jennings      2013-07-10   934  	struct page *page;
-1ec3b5fe6eec782 Barry Song         2020-12-14   935  	struct scatterlist in=
-put, output;
-1ec3b5fe6eec782 Barry Song         2020-12-14   936  	struct crypto_acomp_c=
-tx *acomp_ctx;
-1ec3b5fe6eec782 Barry Song         2020-12-14   937  =
+b358e2122b9d7a Kevin Hao       2021-02-04  5512  void *page_frag_alloc_alig=
+n(struct page_frag_cache *nc,
+b358e2122b9d7a Kevin Hao       2021-02-04  5513  		      unsigned int frags=
+z, gfp_t gfp_mask,
+b358e2122b9d7a Kevin Hao       2021-02-04  5514  		      unsigned int align=
+_mask)
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5515  {
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5516  	unsigned int size =3D PAG=
+E_SIZE;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5517  	struct page *page;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5518  	int offset;
+2add304c6e5eb6 Pasha Tatashin  2021-12-21  5519  	int refcnt;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5520  =
 
-fc6697a89f56d97 Tian Tao           2021-02-25   938  	u8 *src, *tmp =3D NUL=
-L;
-2b2811178e85553 Seth Jennings      2013-07-10   939  	unsigned int dlen;
-0ab0abcf511545d Weijie Yang        2013-11-12   940  	int ret;
-2b2811178e85553 Seth Jennings      2013-07-10   941  	struct writeback_cont=
-rol wbc =3D {
-2b2811178e85553 Seth Jennings      2013-07-10   942  		.sync_mode =3D WB_SY=
-NC_NONE,
-2b2811178e85553 Seth Jennings      2013-07-10   943  	};
-2b2811178e85553 Seth Jennings      2013-07-10   944  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5521  	if (unlikely(!nc->va)) {
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5522  refill:
+2976db8018532b Alexander Duyck 2017-01-10  5523  		page =3D __page_frag_cac=
+he_refill(nc, gfp_mask);
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5524  		if (!page)
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5525  			return NULL;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5526  =
 
-fc6697a89f56d97 Tian Tao           2021-02-25   945  	if (!zpool_can_sleep_=
-mapped(pool)) {
-fc6697a89f56d97 Tian Tao           2021-02-25   946  		tmp =3D kmalloc(PAGE=
-_SIZE, GFP_ATOMIC);
-fc6697a89f56d97 Tian Tao           2021-02-25   947  		if (!tmp)
-fc6697a89f56d97 Tian Tao           2021-02-25   948  			return -ENOMEM;
-fc6697a89f56d97 Tian Tao           2021-02-25   949  	}
-fc6697a89f56d97 Tian Tao           2021-02-25   950  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5527  #if (PAGE_SIZE < PAGE_FRAG=
+_CACHE_MAX_SIZE)
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5528  		/* if size can vary use =
+size else just use PAGE_SIZE */
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5529  		size =3D nc->size;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5530  #endif
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5531  		/* Even if we own the pa=
+ge, we do not use atomic_set().
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5532  		 * This would break get_=
+page_unless_zero() users.
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5533  		 */
+8644772637deb1 Alexander Duyck 2019-02-15  5534  		page_ref_add(page, PAGE_=
+FRAG_CACHE_MAX_SIZE);
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5535  =
 
-2b2811178e85553 Seth Jennings      2013-07-10   951  	/* extract swpentry f=
-rom data */
-12d79d64bfd3913 Dan Streetman      2014-08-06   952  	zhdr =3D zpool_map_ha=
-ndle(pool, handle, ZPOOL_MM_RO);
-2b2811178e85553 Seth Jennings      2013-07-10   953  	swpentry =3D zhdr->sw=
-pentry; /* here */
-2b2811178e85553 Seth Jennings      2013-07-10   954  	tree =3D zswap_trees[=
-swp_type(swpentry)];
-2b2811178e85553 Seth Jennings      2013-07-10   955  	offset =3D swp_offset=
-(swpentry);
-2b2811178e85553 Seth Jennings      2013-07-10   956  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5536  		/* reset page count bias=
+ and offset to start of new frag */
+2f064f3485cd29 Michal Hocko    2015-08-21  5537  		nc->pfmemalloc =3D page_=
+is_pfmemalloc(page);
+8644772637deb1 Alexander Duyck 2019-02-15  5538  		nc->pagecnt_bias =3D PAG=
+E_FRAG_CACHE_MAX_SIZE + 1;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5539  		nc->offset =3D size;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5540  	}
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5541  =
 
-2b2811178e85553 Seth Jennings      2013-07-10   957  	/* find and ref zswap=
- entry */
-2b2811178e85553 Seth Jennings      2013-07-10   958  	spin_lock(&tree->lock=
-);
-0ab0abcf511545d Weijie Yang        2013-11-12   959  	entry =3D zswap_entry=
-_find_get(&tree->rbroot, offset);
-2b2811178e85553 Seth Jennings      2013-07-10   960  	if (!entry) {
-2b2811178e85553 Seth Jennings      2013-07-10   961  		/* entry was invalid=
-ated */
-2b2811178e85553 Seth Jennings      2013-07-10   962  		spin_unlock(&tree->l=
-ock);
-068619e32ff6229 Vitaly Wool        2019-09-23   963  		zpool_unmap_handle(p=
-ool, handle);
-fc6697a89f56d97 Tian Tao           2021-02-25   964  		kfree(tmp);
-2b2811178e85553 Seth Jennings      2013-07-10   965  		return 0;
-2b2811178e85553 Seth Jennings      2013-07-10   966  	}
-2b2811178e85553 Seth Jennings      2013-07-10   967  	spin_unlock(&tree->lo=
-ck);
-2b2811178e85553 Seth Jennings      2013-07-10   968  	BUG_ON(offset !=3D en=
-try->offset);
-2b2811178e85553 Seth Jennings      2013-07-10   969  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5542  	offset =3D nc->offset - f=
+ragsz;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5543  	if (unlikely(offset < 0))=
+ {
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5544  		page =3D virt_to_page(nc=
+->va);
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5545  =
 
-2b2811178e85553 Seth Jennings      2013-07-10   970  	/* try to allocate sw=
-ap cache page */
-2b2811178e85553 Seth Jennings      2013-07-10   971  	switch (zswap_get_swa=
-p_cache_page(swpentry, &page)) {
-67d13fe846c57a5 Weijie Yang        2013-11-12   972  	case ZSWAP_SWAPCACHE_=
-FAIL: /* no memory or invalidate happened */
-2b2811178e85553 Seth Jennings      2013-07-10   973  		ret =3D -ENOMEM;
-2b2811178e85553 Seth Jennings      2013-07-10   974  		goto fail;
-2b2811178e85553 Seth Jennings      2013-07-10   975  =
+fe896d1878949e Joonsoo Kim     2016-03-17  5546  		if (!page_ref_sub_and_te=
+st(page, nc->pagecnt_bias))
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5547  			goto refill;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5548  =
 
-67d13fe846c57a5 Weijie Yang        2013-11-12   976  	case ZSWAP_SWAPCACHE_=
-EXIST:
-2b2811178e85553 Seth Jennings      2013-07-10   977  		/* page is already i=
-n the swap cache, ignore for now */
-09cbfeaf1a5a67b Kirill A. Shutemov 2016-04-01   978  		put_page(page);
-2b2811178e85553 Seth Jennings      2013-07-10   979  		ret =3D -EEXIST;
-2b2811178e85553 Seth Jennings      2013-07-10   980  		goto fail;
-2b2811178e85553 Seth Jennings      2013-07-10   981  =
+d8c19014bba8f5 Dongli Zhang    2020-11-15  5549  		if (unlikely(nc->pfmemal=
+loc)) {
+d8c19014bba8f5 Dongli Zhang    2020-11-15  5550  			free_the_page(page, com=
+pound_order(page));
+d8c19014bba8f5 Dongli Zhang    2020-11-15  5551  			goto refill;
+d8c19014bba8f5 Dongli Zhang    2020-11-15  5552  		}
+d8c19014bba8f5 Dongli Zhang    2020-11-15  5553  =
 
-2b2811178e85553 Seth Jennings      2013-07-10   982  	case ZSWAP_SWAPCACHE_=
-NEW: /* page is locked */
-2b2811178e85553 Seth Jennings      2013-07-10   983  		/* decompress */
-1ec3b5fe6eec782 Barry Song         2020-12-14   984  		acomp_ctx =3D raw_cp=
-u_ptr(entry->pool->acomp_ctx);
-1ec3b5fe6eec782 Barry Song         2020-12-14   985  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5554  #if (PAGE_SIZE < PAGE_FRAG=
+_CACHE_MAX_SIZE)
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5555  		/* if size can vary use =
+size else just use PAGE_SIZE */
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5556  		size =3D nc->size;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5557  #endif
+2add304c6e5eb6 Pasha Tatashin  2021-12-21  5558  		/* page count is 0, set =
+it to PAGE_FRAG_CACHE_MAX_SIZE + 1 */
+2add304c6e5eb6 Pasha Tatashin  2021-12-21 @5559  		refcnt =3D page_ref_add_=
+return(page, PAGE_FRAG_CACHE_MAX_SIZE + 1);
+2add304c6e5eb6 Pasha Tatashin  2021-12-21  5560  		VM_BUG_ON_PAGE(refcnt !=
+=3D PAGE_FRAG_CACHE_MAX_SIZE + 1, page);
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5561  =
 
-2b2811178e85553 Seth Jennings      2013-07-10   986  		dlen =3D PAGE_SIZE;
-068619e32ff6229 Vitaly Wool        2019-09-23   987  		src =3D (u8 *)zhdr +=
- sizeof(struct zswap_header);
-1ec3b5fe6eec782 Barry Song         2020-12-14   988  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5562  		/* reset page count bias=
+ and offset to start of new frag */
+8644772637deb1 Alexander Duyck 2019-02-15  5563  		nc->pagecnt_bias =3D PAG=
+E_FRAG_CACHE_MAX_SIZE + 1;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5564  		offset =3D size - fragsz;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5565  	}
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5566  =
 
-fc6697a89f56d97 Tian Tao           2021-02-25   989  		if (!zpool_can_sleep=
-_mapped(pool)) {
-fc6697a89f56d97 Tian Tao           2021-02-25   990  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5567  	nc->pagecnt_bias--;
+b358e2122b9d7a Kevin Hao       2021-02-04  5568  	offset &=3D align_mask;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5569  	nc->offset =3D offset;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5570  =
 
-fc6697a89f56d97 Tian Tao           2021-02-25  @991  			memcpy(tmp, src, en=
-try->length);
-fc6697a89f56d97 Tian Tao           2021-02-25   992  			src =3D tmp;
-fc6697a89f56d97 Tian Tao           2021-02-25   993  =
-
-fc6697a89f56d97 Tian Tao           2021-02-25   994  			zpool_unmap_handle(=
-pool, handle);
-fc6697a89f56d97 Tian Tao           2021-02-25   995  		}
-fc6697a89f56d97 Tian Tao           2021-02-25   996  =
-
-1ec3b5fe6eec782 Barry Song         2020-12-14   997  		mutex_lock(acomp_ctx=
-->mutex);
-1ec3b5fe6eec782 Barry Song         2020-12-14   998  		sg_init_one(&input, =
-src, entry->length);
-1ec3b5fe6eec782 Barry Song         2020-12-14   999  		sg_init_table(&outpu=
-t, 1);
-1ec3b5fe6eec782 Barry Song         2020-12-14  1000  		sg_set_page(&output,=
- page, PAGE_SIZE, 0);
-1ec3b5fe6eec782 Barry Song         2020-12-14  1001  		acomp_request_set_pa=
-rams(acomp_ctx->req, &input, &output, entry->length, dlen);
-1ec3b5fe6eec782 Barry Song         2020-12-14  1002  		ret =3D crypto_wait_=
-req(crypto_acomp_decompress(acomp_ctx->req), &acomp_ctx->wait);
-1ec3b5fe6eec782 Barry Song         2020-12-14  1003  		dlen =3D acomp_ctx->=
-req->dlen;
-1ec3b5fe6eec782 Barry Song         2020-12-14  1004  		mutex_unlock(acomp_c=
-tx->mutex);
-1ec3b5fe6eec782 Barry Song         2020-12-14  1005  =
-
-2b2811178e85553 Seth Jennings      2013-07-10  1006  		BUG_ON(ret);
-2b2811178e85553 Seth Jennings      2013-07-10  1007  		BUG_ON(dlen !=3D PAG=
-E_SIZE);
-2b2811178e85553 Seth Jennings      2013-07-10  1008  =
-
-2b2811178e85553 Seth Jennings      2013-07-10  1009  		/* page is up to dat=
-e */
-2b2811178e85553 Seth Jennings      2013-07-10  1010  		SetPageUptodate(page=
-);
-2b2811178e85553 Seth Jennings      2013-07-10  1011  	}
-2b2811178e85553 Seth Jennings      2013-07-10  1012  =
-
-b349acc76b7f654 Weijie Yang        2013-11-12  1013  	/* move it to the tai=
-l of the inactive list after end_writeback */
-b349acc76b7f654 Weijie Yang        2013-11-12  1014  	SetPageReclaim(page);
-b349acc76b7f654 Weijie Yang        2013-11-12  1015  =
-
-2b2811178e85553 Seth Jennings      2013-07-10  1016  	/* start writeback */
-2b2811178e85553 Seth Jennings      2013-07-10  1017  	__swap_writepage(page=
-, &wbc, end_swap_bio_write);
-09cbfeaf1a5a67b Kirill A. Shutemov 2016-04-01  1018  	put_page(page);
-2b2811178e85553 Seth Jennings      2013-07-10  1019  	zswap_written_back_pa=
-ges++;
-2b2811178e85553 Seth Jennings      2013-07-10  1020  =
-
-2b2811178e85553 Seth Jennings      2013-07-10  1021  	spin_lock(&tree->lock=
-);
-2b2811178e85553 Seth Jennings      2013-07-10  1022  	/* drop local referen=
-ce */
-0ab0abcf511545d Weijie Yang        2013-11-12  1023  	zswap_entry_put(tree,=
- entry);
-2b2811178e85553 Seth Jennings      2013-07-10  1024  =
-
-2b2811178e85553 Seth Jennings      2013-07-10  1025  	/*
-0ab0abcf511545d Weijie Yang        2013-11-12  1026  	* There are two possi=
-ble situations for entry here:
-0ab0abcf511545d Weijie Yang        2013-11-12  1027  	* (1) refcount is 1(n=
-ormal case),  entry is valid and on the tree
-0ab0abcf511545d Weijie Yang        2013-11-12  1028  	* (2) refcount is 0, =
-entry is freed and not on the tree
-0ab0abcf511545d Weijie Yang        2013-11-12  1029  	*     because invalid=
-ate happened during writeback
-0ab0abcf511545d Weijie Yang        2013-11-12  1030  	*  search the tree an=
-d free the entry if find entry
-2b2811178e85553 Seth Jennings      2013-07-10  1031  	*/
-0ab0abcf511545d Weijie Yang        2013-11-12  1032  	if (entry =3D=3D zswa=
-p_rb_search(&tree->rbroot, offset))
-0ab0abcf511545d Weijie Yang        2013-11-12  1033  		zswap_entry_put(tree=
-, entry);
-2b2811178e85553 Seth Jennings      2013-07-10  1034  	spin_unlock(&tree->lo=
-ck);
-2b2811178e85553 Seth Jennings      2013-07-10  1035  =
-
-0ab0abcf511545d Weijie Yang        2013-11-12  1036  	goto end;
-0ab0abcf511545d Weijie Yang        2013-11-12  1037  =
-
-0ab0abcf511545d Weijie Yang        2013-11-12  1038  	/*
-0ab0abcf511545d Weijie Yang        2013-11-12  1039  	* if we get here due =
-to ZSWAP_SWAPCACHE_EXIST
-c0c641d77b9ab0d Randy Dunlap       2021-02-25  1040  	* a load may be happe=
-ning concurrently.
-c0c641d77b9ab0d Randy Dunlap       2021-02-25  1041  	* it is safe and okay=
- to not free the entry.
-0ab0abcf511545d Weijie Yang        2013-11-12  1042  	* if we free the entr=
-y in the following put
-c0c641d77b9ab0d Randy Dunlap       2021-02-25  1043  	* it is also okay to =
-return !0
-0ab0abcf511545d Weijie Yang        2013-11-12  1044  	*/
-2b2811178e85553 Seth Jennings      2013-07-10  1045  fail:
-2b2811178e85553 Seth Jennings      2013-07-10  1046  	spin_lock(&tree->lock=
-);
-0ab0abcf511545d Weijie Yang        2013-11-12  1047  	zswap_entry_put(tree,=
- entry);
-2b2811178e85553 Seth Jennings      2013-07-10  1048  	spin_unlock(&tree->lo=
-ck);
-0ab0abcf511545d Weijie Yang        2013-11-12  1049  =
-
-0ab0abcf511545d Weijie Yang        2013-11-12  1050  end:
-fc6697a89f56d97 Tian Tao           2021-02-25  1051  	if (zpool_can_sleep_m=
-apped(pool))
-068619e32ff6229 Vitaly Wool        2019-09-23  1052  		zpool_unmap_handle(p=
-ool, handle);
-fc6697a89f56d97 Tian Tao           2021-02-25  1053  	else
-fc6697a89f56d97 Tian Tao           2021-02-25  1054  		kfree(tmp);
-fc6697a89f56d97 Tian Tao           2021-02-25  1055  =
-
-2b2811178e85553 Seth Jennings      2013-07-10  1056  	return ret;
-2b2811178e85553 Seth Jennings      2013-07-10  1057  }
-2b2811178e85553 Seth Jennings      2013-07-10  1058  =
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5571  	return nc->va + offset;
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5572  }
+b358e2122b9d7a Kevin Hao       2021-02-04  5573  EXPORT_SYMBOL(page_frag_al=
+loc_align);
+b63ae8ca096dfd Alexander Duyck 2015-05-06  5574  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0747198360556244980==--
+--===============4191563714259385129==--
 
