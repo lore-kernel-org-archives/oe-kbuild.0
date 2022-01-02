@@ -1,47 +1,64 @@
-Content-Type: multipart/mixed; boundary="===============3902538634150626051=="
+Content-Type: multipart/mixed; boundary="===============8106543406251813189=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/dp/dp_aux.c:149:2: warning: Value stored to 'data' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 03 Jan 2022 00:11:02 +0800
-Message-ID: <202201030024.YFWNNqQy-lkp@intel.com>
+Subject: Re: [PATCH v3] tty: rpmsg: Fix race condition releasing tty port
+Date: Sun, 02 Jan 2022 23:30:28 +0800
+Message-ID: <202201022353.FgGnJg5A-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3902538634150626051==
+--===============8106543406251813189==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20211215153121.30010-1-arnaud.pouliquen@foss.st.com>
+References: <20211215153121.30010-1-arnaud.pouliquen@foss.st.com>
+TO: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Jiri Slaby <jirislaby@kernel.org>
+CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+CC: Mathieu Poirier <mathieu.poirier@linaro.org>
+CC: linux-remoteproc(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Rob Clark <robdclark@gmail.com>
+CC: linux-stm32(a)st-md-mailman.stormreply.com
+CC: arnaud.pouliquen(a)foss.st.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   278218f6778bc7d6f8b67199446c56cec7ebb841
-commit: b3ed524f84f573ece1aa2f26e9db3c34a593e0d1 drm/msm: allow compile_tes=
-t on !ARM
-date:   3 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20211230 (https://download.01.org/0day-ci/arc=
-hive/20220103/202201030024.YFWNNqQy-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b=
-7ac0615afc6e0f1a30da2777e361de27a3)
+Hi Arnaud,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on linux/master linus/master v5.16-rc7 next-202112=
+24]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Arnaud-Pouliquen/tty-rpmsg=
+-Fix-race-condition-releasing-tty-port/20211215-235006
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+:::::: branch date: 3 weeks ago
+:::::: commit date: 3 weeks ago
+config: riscv-randconfig-c006-20211226 (https://download.01.org/0day-ci/arc=
+hive/20220102/202201022353.FgGnJg5A-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project a9e8b1=
+ee7fd44b53c555a7823ae8fd1a8209c520)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db3ed524f84f573ece1aa2f26e9db3c34a593e0d1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b3ed524f84f573ece1aa2f26e9db3c34a593e0d1
+        # https://github.com/0day-ci/linux/commit/827a192629877cd67f12b906f=
+b467d46f3526db5
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Arnaud-Pouliquen/tty-rpmsg-Fix-rac=
+e-condition-releasing-tty-port/20211215-235006
+        git checkout 827a192629877cd67f12b906fb467d46f3526db5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -53,804 +70,271 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 clang-analyzer warnings: (new ones prefixed by >>)
            ^
-   include/linux/pgtable.h:978:36: note: expanded from macro 'arch_leave_la=
-zy_mmu_mode'
-   #define arch_leave_lazy_mmu_mode()      do {} while (0)
-                                           ^
-   mm/memory.c:2542:6: note: Assuming the condition is true
-           if (mm !=3D &init_mm)
-               ^~~~~~~~~~~~~~
-   mm/memory.c:2542:2: note: Taking true branch
-           if (mm !=3D &init_mm)
+   drivers/misc/fastrpc.c:459:6: note: Assuming field 'nscalars' is not equ=
+al to 0
+           if (ctx->nscalars) {
+               ^~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:459:2: note: Taking true branch
+           if (ctx->nscalars) {
            ^
-   mm/memory.c:2543:3: note: 1st function call argument is an uninitialized=
- value
-                   pte_unmap_unlock(mapped_pte, ptl);
+   drivers/misc/fastrpc.c:460:15: note: Calling 'kcalloc'
+                   ctx->maps =3D kcalloc(ctx->nscalars,
+                               ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:661:9: note: Calling 'kmalloc_array'
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:626:2: note: Taking false branch
+           if (unlikely(check_mul_overflow(n, size, &bytes)))
+           ^
+   include/linux/slab.h:628:30: note: Left side of '&&' is false
+           if (__builtin_constant_p(n) && __builtin_constant_p(size))
+                                       ^
+   include/linux/slab.h:630:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(bytes, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:661:9: note: Returning from 'kmalloc_array'
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:661:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:460:15: note: Returning from 'kcalloc'
+                   ctx->maps =3D kcalloc(ctx->nscalars,
+                               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:462:7: note: Assuming field 'maps' is non-null
+                   if (!ctx->maps) {
+                       ^~~~~~~~~~
+   drivers/misc/fastrpc.c:462:3: note: Taking false branch
+                   if (!ctx->maps) {
                    ^
-   include/linux/mm.h:2274:2: note: expanded from macro 'pte_unmap_unlock'
-           spin_unlock(ptl);                               \
-           ^           ~~~
-   Suppressed 8 warnings (8 in non-user code).
+   drivers/misc/fastrpc.c:466:16: note: Calling 'kcalloc'
+                   ctx->olaps =3D kcalloc(ctx->nscalars,
+                                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:661:9: note: Calling 'kmalloc_array'
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:626:2: note: Taking false branch
+           if (unlikely(check_mul_overflow(n, size, &bytes)))
+           ^
+   include/linux/slab.h:628:30: note: Left side of '&&' is false
+           if (__builtin_constant_p(n) && __builtin_constant_p(size))
+                                       ^
+   include/linux/slab.h:630:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(bytes, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:661:9: note: Returning from 'kmalloc_array'
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:661:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc_array(n, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:466:16: note: Returning from 'kcalloc'
+                   ctx->olaps =3D kcalloc(ctx->nscalars,
+                                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:468:7: note: Assuming field 'olaps' is non-null
+                   if (!ctx->olaps) {
+                       ^~~~~~~~~~~
+   drivers/misc/fastrpc.c:468:3: note: Taking false branch
+                   if (!ctx->olaps) {
+                   ^
+   drivers/misc/fastrpc.c:473:3: note: Null pointer value stored to field '=
+args'
+                   ctx->args =3D args;
+                   ^~~~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:474:3: note: Calling 'fastrpc_get_buff_overlaps'
+                   fastrpc_get_buff_overlaps(ctx);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:409:14: note: Assuming 'i' is < field 'nbufs'
+           for (i =3D 0; i < ctx->nbufs; ++i) {
+                       ^~~~~~~~~~~~~~
+   drivers/misc/fastrpc.c:409:2: note: Loop condition is true.  Entering lo=
+op body
+           for (i =3D 0; i < ctx->nbufs; ++i) {
+           ^
+   drivers/misc/fastrpc.c:410:25: note: Dereference of null pointer
+                   ctx->olaps[i].start =3D ctx->args[i].ptr;
+                                         ^~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
    Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
    Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/tty/rpmsg_tty.c:53:19: warning: Value stored to 'port' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct tty_port *port =3D tty->port;
+                            ^~~~   ~~~~~~~~~
+   drivers/tty/rpmsg_tty.c:53:19: note: Value stored to 'port' during its i=
+nitialization is never read
+           struct tty_port *port =3D tty->port;
+                            ^~~~   ~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    8 warnings generated.
-   fs/isofs/inode.c:1388:3: warning: Value stored to 'ret' is never read [c=
-lang-analyzer-deadcode.DeadStores]
-                   ret =3D -EIO;
-                   ^     ~~~~
-   fs/isofs/inode.c:1388:3: note: Value stored to 'ret' is never read
-                   ret =3D -EIO;
-                   ^     ~~~~
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
    Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/isofs/util.c:40:14: warning: The result of the left shift is undefine=
-d because the left operand is negative [clang-analyzer-core.UndefinedBinary=
-OperatorResult]
-                           tz |=3D (-1 << 8);
-                                  ~~ ^
-   fs/isofs/util.c:30:6: note: Assuming 'flag' is equal to 0
-           if (flag =3D=3D 0) tz =3D p[6]; /* High sierra has no time zone =
-*/
-               ^~~~~~~~~
-   fs/isofs/util.c:30:2: note: Taking true branch
-           if (flag =3D=3D 0) tz =3D p[6]; /* High sierra has no time zone =
-*/
-           ^
-   fs/isofs/util.c:33:6: note: 'year' is >=3D 0
-           if (year < 0) {
-               ^~~~
-   fs/isofs/util.c:33:2: note: Taking false branch
-           if (year < 0) {
-           ^
-   fs/isofs/util.c:39:7: note: Assuming the condition is true
-                   if (tz & 0x80)
-                       ^~~~~~~~~
-   fs/isofs/util.c:39:3: note: Taking true branch
-                   if (tz & 0x80)
-                   ^
-   fs/isofs/util.c:40:14: note: The result of the left shift is undefined b=
-ecause the left operand is negative
-                           tz |=3D (-1 << 8);
-                                  ~~ ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
    5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/gpu/drm/msm/dp/dp_aux.c:149:2: warning: Value stored to 'data' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           data =3D dp_catalog_aux_read_data(aux->catalog);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_aux.c:149:2: note: Value stored to 'data' is n=
-ever read
-           data =3D dp_catalog_aux_read_data(aux->catalog);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/gpu/drm/msm/dp/dp_catalog.c:447:34: warning: Division by zero [c=
-lang-analyzer-core.DivideZero]
-           dispcc_input_rate =3D (rate * 10) / pixel_div;
-                               ~~~~~~~~~~~~^~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_catalog.c:429:18: note: 'pixel_div' initialize=
-d to 0
-           u32 mvid, nvid, pixel_div =3D 0, dispcc_input_rate;
-                           ^~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_catalog.c:435:39: note: Left side of '&&' is f=
-alse
-           struct dp_catalog_private *catalog =3D container_of(dp_catalog,
-                                                ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/drm/msm/dp/dp_catalog.c:435:39: note: Taking false branch
-           struct dp_catalog_private *catalog =3D container_of(dp_catalog,
-                                                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   9 warnings generated.
+   drivers/firewire/core-cdev.c:611:2: warning: 7th function call argument =
+is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           fw_send_request(client->device->card, &e->r.transaction,
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/drm/msm/dp/dp_catalog.c:435:39: note: Loop condition is fals=
-e.  Exiting loop
-           struct dp_catalog_private *catalog =3D container_of(dp_catalog,
-                                                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/drm/msm/dp/dp_catalog.c:438:6: note: Assuming 'rate' is not =
-equal to 'link_rate_hbr3'
-           if (rate =3D=3D link_rate_hbr3)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_catalog.c:438:2: note: Taking false branch
-           if (rate =3D=3D link_rate_hbr3)
-           ^
-   drivers/gpu/drm/msm/dp/dp_catalog.c:440:11: note: Assuming 'rate' is not=
- equal to 1620000
-           else if (rate =3D=3D 1620000 || rate =3D=3D 270000)
-                    ^~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_catalog.c:440:11: note: Left side of '||' is f=
-alse
-   drivers/gpu/drm/msm/dp/dp_catalog.c:440:30: note: Assuming 'rate' is not=
- equal to 270000
-           else if (rate =3D=3D 1620000 || rate =3D=3D 270000)
-                                       ^~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_catalog.c:440:7: note: Taking false branch
-           else if (rate =3D=3D 1620000 || rate =3D=3D 270000)
-                ^
-   drivers/gpu/drm/msm/dp/dp_catalog.c:442:11: note: Assuming 'rate' is not=
- equal to 'link_rate_hbr2'
-           else if (rate =3D=3D link_rate_hbr2)
-                    ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_catalog.c:442:7: note: Taking false branch
-           else if (rate =3D=3D link_rate_hbr2)
-                ^
-   drivers/gpu/drm/msm/dp/dp_catalog.c:447:34: note: Division by zero
-           dispcc_input_rate =3D (rate * 10) / pixel_div;
-                               ~~~~~~~~~~~~^~~~~~~~~~~
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   fs/ksmbd/vfs.c:448:2: warning: Null pointer passed as 1st argument to me=
-mory copy function [clang-analyzer-unix.cstring.NullArg]
-           memcpy(&stream_buf[*pos], buf, count);
-           ^
-   fs/ksmbd/vfs.c:487:6: note: Assuming field 'connection_type' is 0
-           if (sess->conn->connection_type) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ksmbd/vfs.c:487:2: note: Taking false branch
-           if (sess->conn->connection_type) {
-           ^
-   fs/ksmbd/vfs.c:498:2: note: Taking true branch
-           if (ksmbd_stream_fd(fp)) {
-           ^
-   fs/ksmbd/vfs.c:499:9: note: Calling 'ksmbd_vfs_stream_write'
-                   err =3D ksmbd_vfs_stream_write(fp, buf, pos, count);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ksmbd/vfs.c:415:2: note: Assuming the condition is false
---
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:648:6: note: Assuming 'nr_entries' is equa=
-l to RECS_PER_LEAF
-           if (nr_entries =3D=3D RECS_PER_LEAF)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_iext_tree.c:648:2: note: Taking true branch
-           if (nr_entries =3D=3D RECS_PER_LEAF)
-           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:655:19: note: 'new' is equal to field 'lea=
-f'
-           if (cur->leaf !=3D new && cur->pos =3D=3D 0 && nr_entries > 0) {
-                            ^~~
-   fs/xfs/libxfs/xfs_iext_tree.c:655:23: note: Left side of '&&' is false
-           if (cur->leaf !=3D new && cur->pos =3D=3D 0 && nr_entries > 0) {
-                                ^
-   fs/xfs/libxfs/xfs_iext_tree.c:660:2: note: Loop condition is false. Exec=
-ution continues on line 662
-           for (i =3D nr_entries; i > cur->pos; i--)
-           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:667:6: note: 'new' is non-null
-           if (new)
-               ^~~
-   fs/xfs/libxfs/xfs_iext_tree.c:667:2: note: Taking true branch
-           if (new)
-           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:668:3: note: Calling 'xfs_iext_insert_node'
-                   xfs_iext_insert_node(ifp, xfs_iext_leaf_key(new, 0), new=
-, 2);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/xfs/libxfs/xfs_iext_tree.c:503:6: note: Assuming 'level' is <=3D fiel=
-d 'if_height'
-           if (ifp->if_height < level)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_iext_tree.c:503:2: note: Taking false branch
-           if (ifp->if_height < level)
-           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:507:2: note: Value assigned to 'node'
-           node =3D xfs_iext_find_level(ifp, offset, level);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_iext_tree.c:511:9: note: Assuming 'pos' is >=3D 'nr_en=
-tries'
-           ASSERT(pos >=3D nr_entries || xfs_iext_key_cmp(node, pos, offset=
-) !=3D 0);
-                  ^
-   fs/xfs/xfs_linux.h:214:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-                   ^~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   fs/xfs/libxfs/xfs_iext_tree.c:511:27: note: Left side of '||' is true
-           ASSERT(pos >=3D nr_entries || xfs_iext_key_cmp(node, pos, offset=
-) !=3D 0);
-                                    ^
-   fs/xfs/libxfs/xfs_iext_tree.c:511:2: note: '?' condition is true
-           ASSERT(pos >=3D nr_entries || xfs_iext_key_cmp(node, pos, offset=
-) !=3D 0);
-           ^
-   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:512:9: note: Assuming 'nr_entries' is <=3D=
- KEYS_PER_NODE
-           ASSERT(nr_entries <=3D KEYS_PER_NODE);
-                  ^
-   fs/xfs/xfs_linux.h:214:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-                   ^~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   fs/xfs/libxfs/xfs_iext_tree.c:512:2: note: '?' condition is true
-           ASSERT(nr_entries <=3D KEYS_PER_NODE);
-           ^
-   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:514:6: note: Assuming 'nr_entries' is not =
-equal to KEYS_PER_NODE
-           if (nr_entries =3D=3D KEYS_PER_NODE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_iext_tree.c:514:2: note: Taking false branch
-           if (nr_entries =3D=3D KEYS_PER_NODE)
-           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:521:6: note: Assuming 'node' is equal to '=
-new'
-           if (node !=3D new && pos =3D=3D 0 && nr_entries > 0)
-               ^~~~~~~~~~~
-   fs/xfs/libxfs/xfs_iext_tree.c:521:18: note: Left side of '&&' is false
-           if (node !=3D new && pos =3D=3D 0 && nr_entries > 0)
-                           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:524:23: note: 'i' is <=3D 'pos'
-           for (i =3D nr_entries; i > pos; i--) {
-                                ^
-   fs/xfs/libxfs/xfs_iext_tree.c:524:2: note: Loop condition is false. Exec=
-ution continues on line 528
-           for (i =3D nr_entries; i > pos; i--) {
-           ^
-   fs/xfs/libxfs/xfs_iext_tree.c:528:18: note: Array access (via field 'key=
-s') results in a null pointer dereference
-           node->keys[pos] =3D offset;
-                 ~~~~      ^
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/gpu/drm/msm/dp/dp_ctrl.c:968:8: warning: Assigned value is garba=
-ge or undefined [clang-analyzer-core.uninitialized.Assign]
-           dp_tu |=3D tu_calc_table.tu_size_minus1;
-                 ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1590:6: note: Assuming 'dp_ctrl' is non=
--null
-           if (!dp_ctrl) {
-               ^~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1590:2: note: Taking false branch
-           if (!dp_ctrl) {
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1595:9: note: Left side of '&&' is false
-           ctrl =3D container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-                  ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1595:9: note: Taking false branch
-           ctrl =3D container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-                  ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1595:9: note: Loop condition is false. =
- Exiting loop
-           ctrl =3D container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-                  ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1598:6: note: Assuming the condition is=
- true
-           if (sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1598:2: note: Taking true branch
-           if (sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1600:7: note: Calling 'dp_ctrl_process_=
-phy_test_request'
-                   if (dp_ctrl_process_phy_test_request(ctrl)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1508:6: note: Assuming field 'phy_test_=
-pattern_sel' is not equal to 0
-           if (!ctrl->link->phy_params.phy_test_pattern_sel) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1508:2: note: Taking false branch
-           if (!ctrl->link->phy_params.phy_test_pattern_sel) {
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1519:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1519:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1525:7: note: 'ret' is 0
-           if (!ret)
-                ^~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1525:2: note: Taking true branch
-           if (!ret)
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1526:9: note: Calling 'dp_ctrl_on_strea=
-m'
-                   ret =3D dp_ctrl_on_stream(&ctrl->dp_ctrl);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1786:7: note: 'dp_ctrl' is non-null
-           if (!dp_ctrl)
-                ^~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1786:2: note: Taking false branch
-           if (!dp_ctrl)
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1789:9: note: Left side of '&&' is false
-           ctrl =3D container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-                  ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1789:9: note: Taking false branch
-           ctrl =3D container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-                  ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1789:9: note: Loop condition is false. =
- Exiting loop
-           ctrl =3D container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
-                  ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1797:6: note: Assuming the condition is=
- false
-           if (!dp_power_clk_status(ctrl->power, DP_CTRL_PM)) { /* link clk=
- is off */
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1797:2: note: Taking false branch
-           if (!dp_power_clk_status(ctrl->power, DP_CTRL_PM)) { /* link clk=
- is off */
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1805:6: note: Assuming the condition is=
- false
-           if (!dp_ctrl_channel_eq_ok(ctrl))
+   drivers/firewire/core-cdev.c:1481:6: note: Assuming field 'speed' is <=
+=3D field 'link_speed'
+           if (a->speed > client->device->card->link_speed ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/firewire/core-cdev.c:1481:6: note: Left side of '||' is false
+   drivers/firewire/core-cdev.c:1482:6: note: Assuming the condition is fal=
+se
+               a->length > 1024 << a->speed)
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1805:2: note: Taking false branch
-           if (!dp_ctrl_channel_eq_ok(ctrl))
+   drivers/firewire/core-cdev.c:1481:2: note: Taking false branch
+           if (a->speed > client->device->card->link_speed ||
            ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1812:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1812:2: note: Taking false branch
-           if (ret) {
+   drivers/firewire/core-cdev.c:1485:6: note: Assuming field 'tag' is <=3D 3
+           if (a->tag > 3 || a->channel > 63 || a->sy > 15)
+               ^~~~~~~~~~
+   drivers/firewire/core-cdev.c:1485:6: note: Left side of '||' is false
+   drivers/firewire/core-cdev.c:1485:20: note: Assuming field 'channel' is =
+<=3D 63
+           if (a->tag > 3 || a->channel > 63 || a->sy > 15)
+                             ^~~~~~~~~~~~~~~
+   drivers/firewire/core-cdev.c:1485:6: note: Left side of '||' is false
+           if (a->tag > 3 || a->channel > 63 || a->sy > 15)
+               ^
+   drivers/firewire/core-cdev.c:1485:39: note: Assuming field 'sy' is <=3D =
+15
+           if (a->tag > 3 || a->channel > 63 || a->sy > 15)
+                                                ^~~~~~~~~~
+   drivers/firewire/core-cdev.c:1485:2: note: Taking false branch
+           if (a->tag > 3 || a->channel > 63 || a->sy > 15)
            ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1817:2: note: Taking false branch
-           if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN) {
+   drivers/firewire/core-cdev.c:1495:9: note: Calling 'init_request'
+           return init_request(client, &request, dest, a->speed);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/firewire/core-cdev.c:583:15: note: Field 'tcode' is equal to TCO=
+DE_STREAM_DATA
+           if (request->tcode !=3D TCODE_STREAM_DATA &&
+                        ^
+   drivers/firewire/core-cdev.c:583:42: note: Left side of '&&' is false
+           if (request->tcode !=3D TCODE_STREAM_DATA &&
+                                                   ^
+   drivers/firewire/core-cdev.c:587:15: note: Field 'tcode' is not equal to=
+ TCODE_WRITE_QUADLET_REQUEST
+           if (request->tcode =3D=3D TCODE_WRITE_QUADLET_REQUEST &&
+                        ^
+   drivers/firewire/core-cdev.c:587:52: note: Left side of '&&' is false
+           if (request->tcode =3D=3D TCODE_WRITE_QUADLET_REQUEST &&
+                                                             ^
+   drivers/firewire/core-cdev.c:592:6: note: Assuming 'e' is not equal to N=
+ULL
+           if (e =3D=3D NULL)
+               ^~~~~~~~~
+   drivers/firewire/core-cdev.c:592:2: note: Taking false branch
+           if (e =3D=3D NULL)
            ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1834:2: note: Calling 'dp_ctrl_setup_tr=
-_unit'
-           dp_ctrl_setup_tr_unit(ctrl);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:966:2: note: Calling 'dp_ctrl_calc_tu_p=
-arameters'
-           dp_ctrl_calc_tu_parameters(ctrl, &tu_calc_table);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:956:2: note: Calling '_dp_ctrl_calc_tu'
-           _dp_ctrl_calc_tu(&in, tu_table);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:624:6: note: Assuming 'tu' is null
-           if (!tu)
-               ^~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:624:2: note: Taking true branch
-           if (!tu)
-           ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:625:3: note: Returning without writing =
-to 'tu_table->tu_size_minus1'
-                   return;
-                   ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:956:2: note: Returning from '_dp_ctrl_c=
-alc_tu'
-           _dp_ctrl_calc_tu(&in, tu_table);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:957:1: note: Returning without writing =
-to 'tu_table->tu_size_minus1'
-   }
-   ^
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:966:2: note: Returning from 'dp_ctrl_ca=
-lc_tu_parameters'
-           dp_ctrl_calc_tu_parameters(ctrl, &tu_calc_table);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:968:8: note: Assigned value is garbage =
-or undefined
-           dp_tu |=3D tu_calc_table.tu_size_minus1;
-                 ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/msm/dp/dp_ctrl.c:1096:2: warning: Value stored to 'tries=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           tries =3D 0;
-           ^       ~
-   drivers/gpu/drm/msm/dp/dp_ctrl.c:1096:2: note: Value stored to 'tries' i=
-s never read
-           tries =3D 0;
-           ^       ~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/regulator/mt6359-regulator.c:281:9: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           regval >>=3D ffs(info->modeset_mask) - 1;
-                  ^
-   drivers/regulator/mt6359-regulator.c:306:14: note: Calling 'mt6359_regul=
-ator_get_mode'
-           curr_mode =3D mt6359_regulator_get_mode(rdev);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:274:6: note: Assuming 'ret' is equa=
-l to 0
-           if (ret !=3D 0) {
-               ^~~~~~~~
-   drivers/regulator/mt6359-regulator.c:274:2: note: Taking false branch
-           if (ret !=3D 0) {
-           ^
-   drivers/regulator/mt6359-regulator.c:281:9: note: Assigned value is garb=
-age or undefined
-           regval >>=3D ffs(info->modeset_mask) - 1;
-                  ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:310:7: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   val <<=3D ffs(info->modeset_mask) - 1;
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:307:2: note: Control jumps to 'case=
- 1:'  at line 308
-           switch (mode) {
-           ^
-   drivers/regulator/mt6359-regulator.c:310:7: note: Assigned value is garb=
-age or undefined
-                   val <<=3D ffs(info->modeset_mask) - 1;
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:319:8: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                           val <<=3D ffs(info->modeset_mask) - 1;
-                               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:307:2: note: Control jumps to 'case=
- 2:'  at line 316
-           switch (mode) {
-           ^
-   drivers/regulator/mt6359-regulator.c:317:7: note: Assuming 'curr_mode' i=
-s equal to REGULATOR_MODE_FAST
-                   if (curr_mode =3D=3D REGULATOR_MODE_FAST) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:317:3: note: Taking true branch
-                   if (curr_mode =3D=3D REGULATOR_MODE_FAST) {
-                   ^
-   drivers/regulator/mt6359-regulator.c:319:8: note: Assigned value is garb=
-age or undefined
-                           val <<=3D ffs(info->modeset_mask) - 1;
-                               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:326:8: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                           val <<=3D ffs(info->lp_mode_mask) - 1;
-                               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:307:2: note: Control jumps to 'case=
- 2:'  at line 316
-           switch (mode) {
-           ^
-   drivers/regulator/mt6359-regulator.c:317:7: note: Assuming 'curr_mode' i=
-s not equal to REGULATOR_MODE_FAST
-                   if (curr_mode =3D=3D REGULATOR_MODE_FAST) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:317:3: note: Taking false branch
-                   if (curr_mode =3D=3D REGULATOR_MODE_FAST) {
-                   ^
-   drivers/regulator/mt6359-regulator.c:324:14: note: Assuming 'curr_mode' =
-is equal to REGULATOR_MODE_IDLE
-                   } else if (curr_mode =3D=3D REGULATOR_MODE_IDLE) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:324:10: note: Taking true branch
-                   } else if (curr_mode =3D=3D REGULATOR_MODE_IDLE) {
-                          ^
-   drivers/regulator/mt6359-regulator.c:326:8: note: Assigned value is garb=
-age or undefined
-                           val <<=3D ffs(info->lp_mode_mask) - 1;
-                               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:336:7: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   val <<=3D ffs(info->lp_mode_mask) - 1;
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:307:2: note: Control jumps to 'case=
- 4:'  at line 334
-           switch (mode) {
-           ^
-   drivers/regulator/mt6359-regulator.c:336:7: note: Assigned value is garb=
-age or undefined
-                   val <<=3D ffs(info->lp_mode_mask) - 1;
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:421:6: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           val >>=3D ffs(info->desc.vsel_mask) - 1;
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6359-regulator.c:401:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/regulator/mt6359-regulator.c:401:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/regulator/mt6359-regulator.c:403:2: note: Control jumps to 'case=
- 1:'  at line 409
-           switch (val) {
-           ^
-   drivers/regulator/mt6359-regulator.c:413:3: note:  Execution continues o=
-n line 417
-                   break;
-                   ^
-   drivers/regulator/mt6359-regulator.c:417:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/regulator/mt6359-regulator.c:417:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/regulator/mt6359-regulator.c:421:6: note: Assigned value is garb=
-age or undefined
-           val >>=3D ffs(info->desc.vsel_mask) - 1;
 
-vim +/data +149 drivers/gpu/drm/msm/dp/dp_aux.c
+vim +/port +53 drivers/tty/rpmsg_tty.c
 
-c943b4948b5848 Chandan Uddaraju 2020-08-27  129  =
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  49  =
 
-e305f678e98799 Stephen Boyd     2021-05-07  130  static ssize_t dp_aux_cmd_=
-fifo_rx(struct dp_aux_private *aux,
-c943b4948b5848 Chandan Uddaraju 2020-08-27  131  		struct drm_dp_aux_msg *m=
-sg)
-c943b4948b5848 Chandan Uddaraju 2020-08-27  132  {
-c943b4948b5848 Chandan Uddaraju 2020-08-27  133  	u32 data;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  134  	u8 *dp;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  135  	u32 i, actual_i;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  136  	u32 len =3D msg->size;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  137  =
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  50  static int rpmsg_tty_instal=
+l(struct tty_driver *driver, struct tty_struct *tty)
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  51  {
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  52  	struct rpmsg_tty_port *cpo=
+rt =3D idr_find(&tty_idr, tty->index);
+827a192629877c Arnaud Pouliquen 2021-12-15 @53  	struct tty_port *port =3D =
+tty->port;
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  54  =
 
-c943b4948b5848 Chandan Uddaraju 2020-08-27  138  	dp_catalog_aux_clear_tran=
-s(aux->catalog, true);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  139  =
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  55  	tty->driver_data =3D cport;
+7c0408d8057971 Arnaud Pouliquen 2021-10-15  56  =
 
-c943b4948b5848 Chandan Uddaraju 2020-08-27  140  	data =3D DP_AUX_DATA_INDE=
-X_WRITE; /* INDEX_WRITE */
-c943b4948b5848 Chandan Uddaraju 2020-08-27  141  	data |=3D DP_AUX_DATA_REA=
-D;  /* read */
-c943b4948b5848 Chandan Uddaraju 2020-08-27  142  =
+827a192629877c Arnaud Pouliquen 2021-12-15  57  	port =3D tty_port_get(&cpo=
+rt->port);
+827a192629877c Arnaud Pouliquen 2021-12-15  58  	return tty_port_install(po=
+rt, driver, tty);
+827a192629877c Arnaud Pouliquen 2021-12-15  59  }
+827a192629877c Arnaud Pouliquen 2021-12-15  60  =
 
-c943b4948b5848 Chandan Uddaraju 2020-08-27  143  	aux->catalog->aux_data =
-=3D data;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  144  	dp_catalog_aux_write_data=
-(aux->catalog);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  145  =
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  146  	dp =3D msg->buffer;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  147  =
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  148  	/* discard first byte */
-c943b4948b5848 Chandan Uddaraju 2020-08-27 @149  	data =3D dp_catalog_aux_r=
-ead_data(aux->catalog);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  150  =
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  151  	for (i =3D 0; i < len; i+=
-+) {
-c943b4948b5848 Chandan Uddaraju 2020-08-27  152  		data =3D dp_catalog_aux_=
-read_data(aux->catalog);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  153  		*dp++ =3D (u8)((data >> =
-DP_AUX_DATA_OFFSET) & 0xff);
-c943b4948b5848 Chandan Uddaraju 2020-08-27  154  =
-
-c943b4948b5848 Chandan Uddaraju 2020-08-27  155  		actual_i =3D (data >> DP=
-_AUX_DATA_INDEX_OFFSET) & 0xFF;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  156  		if (i !=3D actual_i)
-e305f678e98799 Stephen Boyd     2021-05-07  157  			break;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  158  	}
-e305f678e98799 Stephen Boyd     2021-05-07  159  =
-
-e305f678e98799 Stephen Boyd     2021-05-07  160  	return i;
-c943b4948b5848 Chandan Uddaraju 2020-08-27  161  }
-c943b4948b5848 Chandan Uddaraju 2020-08-27  162  =
-
-
-:::::: The code at line 149 was first introduced by commit
-:::::: c943b4948b5848fc0e07f875edbd35a973879e22 drm/msm/dp: add displayPort=
- driver support
-
-:::::: TO: Chandan Uddaraju <chandanu@codeaurora.org>
-:::::: CC: Rob Clark <robdclark@chromium.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3902538634150626051==--
+--===============8106543406251813189==--
 
