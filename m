@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1624533673913992556=="
+Content-Type: multipart/mixed; boundary="===============2642328200568330587=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 02 Jan 2022 23:30:20 +0800
-Message-ID: <202201022342.d4nclP1q-lkp@intel.com>
+Subject: drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sun, 02 Jan 2022 23:09:53 +0800
+Message-ID: <202201022245.dCg0sgVX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1624533673913992556==
+--===============2642328200568330587==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,24 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Robert Foss <robert.foss@linaro.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Andrey Konovalov <andrey.konovalov@linaro.org>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   278218f6778bc7d6f8b67199446c56cec7ebb841
-commit: eebe6d00e9bf1216fb381b64146e1b7e50d90b3f media: camss: Add support =
-for CSID hardware version Titan 170
-date:   10 months ago
+commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
+ndexing support
+date:   6 months ago
 :::::: branch date: 21 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-c006-20211227 (https://download.01.org/0day-ci/arc=
-hive/20220102/202201022342.d4nclP1q-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 511726=
-c64d3b6cca66f7c54d457d586aa3129f67)
+:::::: commit date: 6 months ago
+config: riscv-randconfig-c006-20211229 (https://download.01.org/0day-ci/arc=
+hive/20220102/202201022245.dCg0sgVX-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b=
+7ac0615afc6e0f1a30da2777e361de27a3)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -40,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Deebe6d00e9bf1216fb381b64146e1b7e50d90b3f
+t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout eebe6d00e9bf1216fb381b64146e1b7e50d90b3f
+        git checkout 337015573718b161891a3473d25f59273f2e626b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -55,596 +52,395 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   handle_rx, =
-
-   rx_fifo, =
-
-   private_data, =
-
-   se, =
-
-   uport, =
-
-   tx_fifo_depth, =
-
-   tx_fifo_width, =
-
-   rx_fifo_depth, =
-
-   baud, =
-
-   loopback, =
-
-   tx_remaining, =
-
-   wakeup_irq, =
-
-   setup, =
-
-   brk, =
-
-   rx_tx_swap, =
-
-   cts_rts_swap, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct qcom_geni_serial_port {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/qcom_geni_serial.c:120:8: note: Excessive padding in =
-'struct qcom_geni_serial_port' (16 padding bytes, where 0 is optimal). Opti=
-mal fields order: name, handle_rx, rx_fifo, private_data, se, uport, tx_fif=
-o_depth, tx_fifo_width, rx_fifo_depth, baud, loopback, tx_remaining, wakeup=
-_irq, setup, brk, rx_tx_swap, cts_rts_swap, consider reordering the fields =
-or adding explicit padding members
-   struct qcom_geni_serial_port {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/media/v4l2-core/videobuf-core.c:712:10: warning: Access to field=
- 'state' results in a dereference of a null pointer (loaded from variable '=
-buf') [clang-analyzer-core.NullDereference]
-           switch (buf->state) {
-                   ^~~
-   drivers/media/v4l2-core/videobuf-core.c:698:2: note: 'buf' initialized t=
-o a null pointer value
-           struct videobuf_buffer *buf =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Assuming field 'mag=
-ic' is equal to 304484355
-           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:27:16: note: expanded from macro=
- 'MAGIC_CHECK'
-                   if (unlikely((is) !=3D (should))) {                     =
-  \
-                       ~~~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Taking false branch
-           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:27:3: note: expanded from macro =
-'MAGIC_CHECK'
-                   if (unlikely((is) !=3D (should))) {                     =
-  \
-                   ^
-   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Loop condition is f=
-alse.  Exiting loop
-           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:26:2: note: expanded from macro =
-'MAGIC_CHECK'
-           do {                                                            \
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:706:11: note: Calling 'stream_ne=
-xt_buffer'
-           retval =3D stream_next_buffer(q, &buf, nonblocking);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:682:6: note: Assuming 'retval' i=
-s not equal to 0
-           if (retval)
-               ^~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:682:2: note: Taking true branch
-           if (retval)
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:683:3: note: Control jumps to li=
-ne 692
-                   goto done;
-                   ^
-   drivers/media/v4l2-core/videobuf-core.c:692:2: note: Returning without w=
-riting to '*vb'
-           return retval;
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:706:11: note: Returning from 'st=
-ream_next_buffer'
-           retval =3D stream_next_buffer(q, &buf, nonblocking);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:707:6: note: Assuming 'retval' i=
-s >=3D 0
-           if (retval < 0) {
-               ^~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:707:2: note: Taking false branch
-           if (retval < 0) {
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:712:10: note: Access to field 's=
-tate' results in a dereference of a null pointer (loaded from variable 'buf=
-')
-           switch (buf->state) {
-                   ^~~
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
->> drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: warning: Value=
- stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
-                   val =3D 0;
-                   ^     ~
-   drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: note: Value st=
-ored to 'val' is never read
-                   val =3D 0;
-                   ^     ~
->> drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: warning: Value=
- stored to 'hw_gen' is never read [clang-analyzer-deadcode.DeadStores]
-           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: note: Value st=
-ored to 'hw_gen' is never read
-           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: warning: Value=
- stored to 'hw_rev' is never read [clang-analyzer-deadcode.DeadStores]
-           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: note: Value st=
-ored to 'hw_rev' is never read
-           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: warning: Value=
- stored to 'hw_step' is never read [clang-analyzer-deadcode.DeadStores]
-           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: note: Value st=
-ored to 'hw_step' is never read
-           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: warning: =
-Value stored to 'hw_version' during its initialization is never read [clang=
--analyzer-deadcode.DeadStores]
-           u8 hw_version =3D readl_relaxed(csiphy->base +
-              ^~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: note: Val=
-ue stored to 'hw_version' during its initialization is never read
-           u8 hw_version =3D readl_relaxed(csiphy->base +
-              ^~~~~~~~~~
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (11 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   drivers/hwmon/lm75.h:30:29: warning: The result of the left shift is und=
-efined because the left operand is negative [clang-analyzer-core.UndefinedB=
-inaryOperatorResult]
-           return (u16)((ntemp / 500) << 7);
-                                      ^
-   drivers/hwmon/w83781d.c:391:1: note: Left side of '&&' is false
-   store_temp_reg(HYST, max_hyst);
-   ^
-   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
-g'
-           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
- \
-                                                  ^
-   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
-ev_attr'
-           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/char/hw_random/ixp4xx-rng.c:44:17: warning: Value stored to 'dev=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct device *dev =3D &pdev->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/char/hw_random/ixp4xx-rng.c:44:17: note: Value stored to 'dev' d=
+uring its initialization is never read
+           struct device *dev =3D &pdev->dev;
+                          ^~~   ~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/gpu/drm/radeon/radeon_drv.c:467:2: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D radeon_resume_kms(drm_dev, false, false);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_drv.c:467:2: note: Value stored to 'ret' i=
+s never read
+           ret =3D radeon_resume_kms(drm_dev, false, false);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   58 warnings generated.
+>> drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: warning: Dereference of=
+ null pointer [clang-analyzer-core.NullDereference]
+                           rdev->pm.power_state[rdev->pm.default_power_stat=
+e_index].clock_info[0].voltage.voltage;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2765:6: note: Assuming the cond=
+ition is true
+           if (atom_parse_data_header(mode_info->atom_context, index, NULL,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2765:2: note: Taking true branch
+           if (atom_parse_data_header(mode_info->atom_context, index, NULL,
            ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/hwmon/w83781d.c:391:1: note: Taking false branch
-   store_temp_reg(HYST, max_hyst);
-   ^
-   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
-g'
-           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
- \
-                                                  ^
-   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
-ev_attr'
-           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
-           ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   drivers/gpu/drm/radeon/radeon_atombios.c:2767:3: note: Control jumps to =
+'case 5:'  at line 2774
+                   switch (frev) {
                    ^
-   drivers/hwmon/w83781d.c:391:1: note: Loop condition is false.  Exiting l=
-oop
-   store_temp_reg(HYST, max_hyst);
-   ^
-   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
-g'
-           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
- \
-                                                  ^
-   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
-ev_attr'
-           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+   drivers/gpu/drm/radeon/radeon_atombios.c:2776:4: note:  Execution contin=
+ues on line 2785
+                           break;
+                           ^
+   drivers/gpu/drm/radeon/radeon_atombios.c:2785:6: note: 'state_index' is =
+equal to 0
+           if (state_index =3D=3D 0) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2785:2: note: Taking true branch
+           if (state_index =3D=3D 0) {
            ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Calling 'kzalloc'
+                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
+wer_state), GFP_KERNEL);
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:579:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/slab.h:596:2: note: Returning pointer
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:2: note: Returning pointer
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Returning from '=
+kzalloc'
+                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
+wer_state), GFP_KERNEL);
+                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2786:3: note: Value assigned to=
+ field 'power_state'
+                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
+wer_state), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2787:7: note: Assuming field 'p=
+ower_state' is null
+                   if (rdev->pm.power_state) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2787:3: note: Taking false bran=
+ch
+                   if (rdev->pm.power_state) {
+                   ^
+   drivers/gpu/drm/radeon/radeon_atombios.c:2814:6: note: Assuming field 'd=
+efault_power_state_index' is >=3D 0
+           if (rdev->pm.default_power_state_index >=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_atombios.c:2814:2: note: Taking true branch
+           if (rdev->pm.default_power_state_index >=3D 0)
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: note: Dereference of nu=
+ll pointer
+                           rdev->pm.power_state[rdev->pm.default_power_stat=
+e_index].clock_info[0].voltage.voltage;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~
+   Suppressed 57 warnings (8 in non-user code, 49 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/tty/serial/fsl_lpuart.c:1230:33: warning: The result of the left=
+ shift is undefined because the right operand is negative [clang-analyzer-c=
+ore.UndefinedBinaryOperatorResult]
+           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
+en) - 1));
+                                          ^
+   drivers/tty/serial/fsl_lpuart.c:2803:6: note: Assuming field 'suspended'=
+ is 0
+           if (sport->port.suspended && !irq_wake)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2803:28: note: Left side of '&&' is false
+           if (sport->port.suspended && !irq_wake)
+                                     ^
+   drivers/tty/serial/fsl_lpuart.c:2806:2: note: Taking true branch
+           if (lpuart_is_32(sport))
            ^
+   drivers/tty/serial/fsl_lpuart.c:2811:6: note: Assuming field 'lpuart_dma=
+_rx_use' is true
+           if (sport->lpuart_dma_rx_use) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2811:2: note: Taking true branch
+           if (sport->lpuart_dma_rx_use) {
+           ^
+   drivers/tty/serial/fsl_lpuart.c:2812:7: note: Assuming 'irq_wake' is true
+                   if (irq_wake) {
 
-vim +/val +398 drivers/media/platform/qcom/camss/camss-csid-170.c
+vim +2816 drivers/gpu/drm/radeon/radeon_atombios.c
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  328  =
+b0e664140a1703 Alex Deucher     2010-11-22  2754  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  329  static void csid_configure_stre=
-am(struct csid_device *csid, u8 enable)
-eebe6d00e9bf12 Robert Foss 2021-03-16  330  {
-eebe6d00e9bf12 Robert Foss 2021-03-16  331  	struct csid_testgen_config *tg=
- =3D &csid->testgen;
-eebe6d00e9bf12 Robert Foss 2021-03-16  332  	u32 val;
-eebe6d00e9bf12 Robert Foss 2021-03-16  333  	u32 phy_sel =3D 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  334  	u8 lane_cnt =3D csid->phy.lane=
-_cnt;
-eebe6d00e9bf12 Robert Foss 2021-03-16  335  	struct v4l2_mbus_framefmt *inp=
-ut_format =3D &csid->fmt[MSM_CSID_PAD_SRC];
-eebe6d00e9bf12 Robert Foss 2021-03-16  336  	const struct csid_format *form=
-at =3D csid_get_fmt_entry(csid->formats, csid->nformats,
-eebe6d00e9bf12 Robert Foss 2021-03-16  337  							      input_format->code=
-);
-eebe6d00e9bf12 Robert Foss 2021-03-16  338  =
+560154e9a27f2f Alex Deucher     2010-11-22  2755  void radeon_atombios_get_=
+power_modes(struct radeon_device *rdev)
+560154e9a27f2f Alex Deucher     2010-11-22  2756  {
+560154e9a27f2f Alex Deucher     2010-11-22  2757  	struct radeon_mode_info =
+*mode_info =3D &rdev->mode_info;
+560154e9a27f2f Alex Deucher     2010-11-22  2758  	int index =3D GetIndexIn=
+toMasterTable(DATA, PowerPlayInfo);
+560154e9a27f2f Alex Deucher     2010-11-22  2759  	u16 data_offset;
+560154e9a27f2f Alex Deucher     2010-11-22  2760  	u8 frev, crev;
+560154e9a27f2f Alex Deucher     2010-11-22  2761  	int state_index =3D 0;
+560154e9a27f2f Alex Deucher     2010-11-22  2762  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  339  	if (!lane_cnt)
-eebe6d00e9bf12 Robert Foss 2021-03-16  340  		lane_cnt =3D 4;
-eebe6d00e9bf12 Robert Foss 2021-03-16  341  =
+560154e9a27f2f Alex Deucher     2010-11-22  2763  	rdev->pm.default_power_s=
+tate_index =3D -1;
+560154e9a27f2f Alex Deucher     2010-11-22  2764  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  342  	if (!tg->enabled)
-eebe6d00e9bf12 Robert Foss 2021-03-16  343  		phy_sel =3D csid->phy.csiphy_=
-id;
-eebe6d00e9bf12 Robert Foss 2021-03-16  344  =
+560154e9a27f2f Alex Deucher     2010-11-22  2765  	if (atom_parse_data_head=
+er(mode_info->atom_context, index, NULL,
+560154e9a27f2f Alex Deucher     2010-11-22  2766  				   &frev, &crev, &dat=
+a_offset)) {
+560154e9a27f2f Alex Deucher     2010-11-22  2767  		switch (frev) {
+560154e9a27f2f Alex Deucher     2010-11-22  2768  		case 1:
+560154e9a27f2f Alex Deucher     2010-11-22  2769  		case 2:
+560154e9a27f2f Alex Deucher     2010-11-22  2770  		case 3:
+560154e9a27f2f Alex Deucher     2010-11-22  2771  			state_index =3D radeon=
+_atombios_parse_power_table_1_3(rdev);
+560154e9a27f2f Alex Deucher     2010-11-22  2772  			break;
+560154e9a27f2f Alex Deucher     2010-11-22  2773  		case 4:
+560154e9a27f2f Alex Deucher     2010-11-22  2774  		case 5:
+560154e9a27f2f Alex Deucher     2010-11-22  2775  			state_index =3D radeon=
+_atombios_parse_power_table_4_5(rdev);
+560154e9a27f2f Alex Deucher     2010-11-22  2776  			break;
+b0e664140a1703 Alex Deucher     2010-11-22  2777  		case 6:
+b0e664140a1703 Alex Deucher     2010-11-22  2778  			state_index =3D radeon=
+_atombios_parse_power_table_6(rdev);
+b0e664140a1703 Alex Deucher     2010-11-22  2779  			break;
+560154e9a27f2f Alex Deucher     2010-11-22  2780  		default:
+560154e9a27f2f Alex Deucher     2010-11-22  2781  			break;
+56278a8edacee9 Alex Deucher     2009-12-28  2782  		}
+f8e6bfc2ce1628 Alex Deucher     2013-04-25  2783  	}
+f8e6bfc2ce1628 Alex Deucher     2013-04-25  2784  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  345  	if (enable) {
-eebe6d00e9bf12 Robert Foss 2021-03-16  346  		u8 vc =3D 0; /* Virtual Chann=
-el 0 */
-eebe6d00e9bf12 Robert Foss 2021-03-16  347  		u8 dt_id =3D vc * 4;
-eebe6d00e9bf12 Robert Foss 2021-03-16  348  =
+f8e6bfc2ce1628 Alex Deucher     2013-04-25  2785  	if (state_index =3D=3D 0=
+) {
+0975b16274bad1 Alex Deucher     2011-02-02  2786  		rdev->pm.power_state =
+=3D kzalloc(sizeof(struct radeon_power_state), GFP_KERNEL);
+0975b16274bad1 Alex Deucher     2011-02-02  2787  		if (rdev->pm.power_stat=
+e) {
+8f3f1c9a22a642 Alex Deucher     2011-11-04  2788  			rdev->pm.power_state[0=
+].clock_info =3D
+6396bb221514d2 Kees Cook        2018-06-12  2789  				kcalloc(1,
+6396bb221514d2 Kees Cook        2018-06-12  2790  				        sizeof(struct=
+ radeon_pm_clock_info),
+6396bb221514d2 Kees Cook        2018-06-12  2791  				        GFP_KERNEL);
+8f3f1c9a22a642 Alex Deucher     2011-11-04  2792  			if (rdev->pm.power_sta=
+te[0].clock_info) {
+56278a8edacee9 Alex Deucher     2009-12-28  2793  				/* add the default mo=
+de */
+0ec0e74f784ca0 Alex Deucher     2009-12-23  2794  				rdev->pm.power_state[=
+state_index].type =3D
+0ec0e74f784ca0 Alex Deucher     2009-12-23  2795  					POWER_STATE_TYPE_DEF=
+AULT;
+56278a8edacee9 Alex Deucher     2009-12-28  2796  				rdev->pm.power_state[=
+state_index].num_clock_modes =3D 1;
+56278a8edacee9 Alex Deucher     2009-12-28  2797  				rdev->pm.power_state[=
+state_index].clock_info[0].mclk =3D rdev->clock.default_mclk;
+56278a8edacee9 Alex Deucher     2009-12-28  2798  				rdev->pm.power_state[=
+state_index].clock_info[0].sclk =3D rdev->clock.default_sclk;
+56278a8edacee9 Alex Deucher     2009-12-28  2799  				rdev->pm.power_state[=
+state_index].default_clock_mode =3D
+56278a8edacee9 Alex Deucher     2009-12-28  2800  					&rdev->pm.power_stat=
+e[state_index].clock_info[0];
+56278a8edacee9 Alex Deucher     2009-12-28  2801  				rdev->pm.power_state[=
+state_index].clock_info[0].voltage.type =3D VOLTAGE_NONE;
+79daedc942813c Alex Deucher     2010-04-22  2802  				rdev->pm.power_state[=
+state_index].pcie_lanes =3D 16;
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2803  				rdev->pm.default_powe=
+r_state_index =3D state_index;
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2804  				rdev->pm.power_state[=
+state_index].flags =3D 0;
+56278a8edacee9 Alex Deucher     2009-12-28  2805  				state_index++;
+56278a8edacee9 Alex Deucher     2009-12-28  2806  			}
+0975b16274bad1 Alex Deucher     2011-02-02  2807  		}
+8f3f1c9a22a642 Alex Deucher     2011-11-04  2808  	}
+02b17cc05372ab Alex Deucher     2010-04-22  2809  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  349  		if (tg->enabled) {
-eebe6d00e9bf12 Robert Foss 2021-03-16  350  			/* Config Test Generator */
-eebe6d00e9bf12 Robert Foss 2021-03-16  351  			vc =3D 0xa;
-eebe6d00e9bf12 Robert Foss 2021-03-16  352  =
+56278a8edacee9 Alex Deucher     2009-12-28  2810  	rdev->pm.num_power_state=
+s =3D state_index;
+771fe6b912fca5 Jerome Glisse    2009-06-05  2811  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  353  			/* configure one DT, infinit=
-e frames */
-eebe6d00e9bf12 Robert Foss 2021-03-16  354  			val =3D vc << TPG_VC_CFG0_VC=
-_NUM;
-eebe6d00e9bf12 Robert Foss 2021-03-16  355  			val |=3D INTELEAVING_MODE_ON=
-E_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
-eebe6d00e9bf12 Robert Foss 2021-03-16  356  			val |=3D 0 << TPG_VC_CFG0_NU=
-M_FRAMES;
-eebe6d00e9bf12 Robert Foss 2021-03-16  357  			writel_relaxed(val, csid->ba=
-se + CSID_TPG_VC_CFG0);
-eebe6d00e9bf12 Robert Foss 2021-03-16  358  =
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2812  	rdev->pm.current_power_s=
+tate_index =3D rdev->pm.default_power_state_index;
+a48b9b4edb8bb8 Alex Deucher     2010-04-22  2813  	rdev->pm.current_clock_m=
+ode_index =3D 0;
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2814  	if (rdev->pm.defaul=
+t_power_state_index >=3D 0)
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2815  		rdev->pm.current_v=
+ddc =3D
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30 @2816  			rdev->pm.power_st=
+ate[rdev->pm.default_power_state_index].clock_info[0].voltage.voltage;
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2817  	else
+4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2818  		rdev->pm.current_v=
+ddc =3D 0;
+56278a8edacee9 Alex Deucher     2009-12-28  2819  }
+56278a8edacee9 Alex Deucher     2009-12-28  2820  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  359  			val =3D 0x740 << TPG_VC_CFG1=
-_H_BLANKING_COUNT;
-eebe6d00e9bf12 Robert Foss 2021-03-16  360  			val |=3D 0x3ff << TPG_VC_CFG=
-1_V_BLANKING_COUNT;
-eebe6d00e9bf12 Robert Foss 2021-03-16  361  			writel_relaxed(val, csid->ba=
-se + CSID_TPG_VC_CFG1);
-eebe6d00e9bf12 Robert Foss 2021-03-16  362  =
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  363  			writel_relaxed(0x12345678, c=
-sid->base + CSID_TPG_LFSR_SEED);
-eebe6d00e9bf12 Robert Foss 2021-03-16  364  =
+:::::: The code at line 2816 was first introduced by commit
+:::::: 4376eee92e5a8332b470040e672ea99cd44c826a drm/radeon/kms/atom: fix po=
+ssible segfault in pm setup
 
-eebe6d00e9bf12 Robert Foss 2021-03-16  365  			val =3D input_format->height=
- & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
-eebe6d00e9bf12 Robert Foss 2021-03-16  366  			val |=3D input_format->width=
- & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
-eebe6d00e9bf12 Robert Foss 2021-03-16  367  			writel_relaxed(val, csid->ba=
-se + CSID_TPG_DT_n_CFG_0(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  368  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  369  			val =3D DATA_TYPE_RAW_10BIT =
-<< TPG_DT_n_CFG_1_DATA_TYPE;
-eebe6d00e9bf12 Robert Foss 2021-03-16  370  			writel_relaxed(val, csid->ba=
-se + CSID_TPG_DT_n_CFG_1(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  371  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  372  			val =3D tg->mode << TPG_DT_n=
-_CFG_2_PAYLOAD_MODE;
-eebe6d00e9bf12 Robert Foss 2021-03-16  373  			val |=3D 0xBE << TPG_DT_n_CF=
-G_2_USER_SPECIFIED_PAYLOAD;
-eebe6d00e9bf12 Robert Foss 2021-03-16  374  			val |=3D format->decode_form=
-at << TPG_DT_n_CFG_2_ENCODE_FORMAT;
-eebe6d00e9bf12 Robert Foss 2021-03-16  375  			writel_relaxed(val, csid->ba=
-se + CSID_TPG_DT_n_CFG_2(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  376  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  377  			writel_relaxed(0, csid->base=
- + CSID_TPG_COLOR_BARS_CFG);
-eebe6d00e9bf12 Robert Foss 2021-03-16  378  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  379  			writel_relaxed(0, csid->base=
- + CSID_TPG_COLOR_BOX_CFG);
-eebe6d00e9bf12 Robert Foss 2021-03-16  380  		}
-eebe6d00e9bf12 Robert Foss 2021-03-16  381  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  382  		val =3D 1 << RDI_CFG0_BYTE_CN=
-TR_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  383  		val |=3D 1 << RDI_CFG0_FORMAT=
-_MEASURE_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  384  		val |=3D 1 << RDI_CFG0_TIMEST=
-AMP_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  385  		val |=3D DECODE_FORMAT_PAYLOA=
-D_ONLY << RDI_CFG0_DECODE_FORMAT;
-eebe6d00e9bf12 Robert Foss 2021-03-16  386  		val |=3D DATA_TYPE_RAW_10BIT =
-<< RDI_CFG0_DATA_TYPE;
-eebe6d00e9bf12 Robert Foss 2021-03-16  387  		val |=3D vc << RDI_CFG0_VIRTU=
-AL_CHANNEL;
-eebe6d00e9bf12 Robert Foss 2021-03-16  388  		val |=3D dt_id << RDI_CFG0_DT=
-_ID;
-eebe6d00e9bf12 Robert Foss 2021-03-16  389  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_CFG0(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  390  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  391  		/* CSID_TIMESTAMP_STB_POST_IR=
-Q */
-eebe6d00e9bf12 Robert Foss 2021-03-16  392  		val =3D 2 << RDI_CFG1_TIMESTA=
-MP_STB_SEL;
-eebe6d00e9bf12 Robert Foss 2021-03-16  393  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_CFG1(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  394  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  395  		val =3D 1;
-eebe6d00e9bf12 Robert Foss 2021-03-16  396  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_FRM_DROP_PERIOD(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  397  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16 @398  		val =3D 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  399  		writel_relaxed(0, csid->base =
-+ CSID_RDI_FRM_DROP_PATTERN(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  400  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  401  		val =3D 1;
-eebe6d00e9bf12 Robert Foss 2021-03-16  402  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  403  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  404  		val =3D 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  405  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  406  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  407  		val =3D 1;
-eebe6d00e9bf12 Robert Foss 2021-03-16  408  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_RPP_PIX_DROP_PERIOD(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  409  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  410  		val =3D 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  411  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_RPP_PIX_DROP_PATTERN(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  412  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  413  		val =3D 1;
-eebe6d00e9bf12 Robert Foss 2021-03-16  414  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_RPP_LINE_DROP_PERIOD(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  415  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  416  		val =3D 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  417  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_RPP_LINE_DROP_PATTERN(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  418  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  419  		val =3D 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  420  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_CTRL(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  421  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  422  		val =3D readl_relaxed(csid->b=
-ase + CSID_RDI_CFG0(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  423  		val |=3D  1 << RDI_CFG0_ENABL=
-E;
-eebe6d00e9bf12 Robert Foss 2021-03-16  424  		writel_relaxed(val, csid->bas=
-e + CSID_RDI_CFG0(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  425  	}
-eebe6d00e9bf12 Robert Foss 2021-03-16  426  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  427  	if (tg->enabled) {
-eebe6d00e9bf12 Robert Foss 2021-03-16  428  		val =3D enable << TPG_CTRL_TE=
-ST_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  429  		val |=3D 1 << TPG_CTRL_FS_PKT=
-_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  430  		val |=3D 1 << TPG_CTRL_FE_PKT=
-_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  431  		val |=3D (lane_cnt - 1) << TP=
-G_CTRL_NUM_ACTIVE_LANES;
-eebe6d00e9bf12 Robert Foss 2021-03-16  432  		val |=3D 0x64 << TPG_CTRL_CYC=
-LES_BETWEEN_PKTS;
-eebe6d00e9bf12 Robert Foss 2021-03-16  433  		val |=3D 0xA << TPG_CTRL_NUM_=
-TRAIL_BYTES;
-eebe6d00e9bf12 Robert Foss 2021-03-16  434  		writel_relaxed(val, csid->bas=
-e + CSID_TPG_CTRL);
-eebe6d00e9bf12 Robert Foss 2021-03-16  435  	}
-eebe6d00e9bf12 Robert Foss 2021-03-16  436  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  437  	val =3D (lane_cnt - 1) << CSI2=
-_RX_CFG0_NUM_ACTIVE_LANES;
-eebe6d00e9bf12 Robert Foss 2021-03-16  438  	val |=3D csid->phy.lane_assign=
- << CSI2_RX_CFG0_DL0_INPUT_SEL;
-eebe6d00e9bf12 Robert Foss 2021-03-16  439  	val |=3D phy_sel << CSI2_RX_CF=
-G0_PHY_NUM_SEL;
-eebe6d00e9bf12 Robert Foss 2021-03-16  440  	writel_relaxed(val, csid->base=
- + CSID_CSI2_RX_CFG0);
-eebe6d00e9bf12 Robert Foss 2021-03-16  441  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  442  	val =3D 1 << CSI2_RX_CFG1_PACK=
-ET_ECC_CORRECTION_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  443  	val |=3D 1 << CSI2_RX_CFG1_MIS=
-R_EN;
-eebe6d00e9bf12 Robert Foss 2021-03-16  444  	writel_relaxed(val, csid->base=
- + CSID_CSI2_RX_CFG1); // csi2_vc_mode_shift_val ?
-eebe6d00e9bf12 Robert Foss 2021-03-16  445  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  446  	/* error irqs start at BIT(11)=
- */
-eebe6d00e9bf12 Robert Foss 2021-03-16  447  	writel_relaxed(~0u, csid->base=
- + CSID_CSI2_RX_IRQ_MASK);
-eebe6d00e9bf12 Robert Foss 2021-03-16  448  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  449  	/* RDI irq */
-eebe6d00e9bf12 Robert Foss 2021-03-16  450  	writel_relaxed(~0u, csid->base=
- + CSID_TOP_IRQ_MASK);
-eebe6d00e9bf12 Robert Foss 2021-03-16  451  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  452  	val =3D 1 << RDI_CTRL_HALT_CMD;
-eebe6d00e9bf12 Robert Foss 2021-03-16  453  	writel_relaxed(val, csid->base=
- + CSID_RDI_CTRL(0));
-eebe6d00e9bf12 Robert Foss 2021-03-16  454  }
-eebe6d00e9bf12 Robert Foss 2021-03-16  455  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  456  static int csid_configure_testg=
-en_pattern(struct csid_device *csid, s32 val)
-eebe6d00e9bf12 Robert Foss 2021-03-16  457  {
-eebe6d00e9bf12 Robert Foss 2021-03-16  458  	if (val > 0 && val <=3D csid->=
-testgen.nmodes)
-eebe6d00e9bf12 Robert Foss 2021-03-16  459  		csid->testgen.mode =3D val;
-eebe6d00e9bf12 Robert Foss 2021-03-16  460  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  461  	return 0;
-eebe6d00e9bf12 Robert Foss 2021-03-16  462  }
-eebe6d00e9bf12 Robert Foss 2021-03-16  463  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  464  /*
-eebe6d00e9bf12 Robert Foss 2021-03-16  465   * csid_hw_version - CSID hardw=
-are version query
-eebe6d00e9bf12 Robert Foss 2021-03-16  466   * @csid: CSID device
-eebe6d00e9bf12 Robert Foss 2021-03-16  467   *
-eebe6d00e9bf12 Robert Foss 2021-03-16  468   * Return HW version or error
-eebe6d00e9bf12 Robert Foss 2021-03-16  469   */
-eebe6d00e9bf12 Robert Foss 2021-03-16  470  static u32 csid_hw_version(stru=
-ct csid_device *csid)
-eebe6d00e9bf12 Robert Foss 2021-03-16  471  {
-eebe6d00e9bf12 Robert Foss 2021-03-16  472  	u32 hw_version;
-eebe6d00e9bf12 Robert Foss 2021-03-16  473  	u32 hw_gen;
-eebe6d00e9bf12 Robert Foss 2021-03-16  474  	u32 hw_rev;
-eebe6d00e9bf12 Robert Foss 2021-03-16  475  	u32 hw_step;
-eebe6d00e9bf12 Robert Foss 2021-03-16  476  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  477  	hw_version =3D readl_relaxed(c=
-sid->base + CSID_HW_VERSION);
-eebe6d00e9bf12 Robert Foss 2021-03-16 @478  	hw_gen =3D (hw_version >> HW_V=
-ERSION_GENERATION) & 0xF;
-eebe6d00e9bf12 Robert Foss 2021-03-16 @479  	hw_rev =3D (hw_version >> HW_V=
-ERSION_REVISION) & 0xFFF;
-eebe6d00e9bf12 Robert Foss 2021-03-16 @480  	hw_step =3D (hw_version >> HW_=
-VERSION_STEPPING) & 0xFFFF;
-eebe6d00e9bf12 Robert Foss 2021-03-16  481  	dev_dbg(csid->camss->dev, "CSI=
-D HW Version =3D %u.%u.%u\n",
-eebe6d00e9bf12 Robert Foss 2021-03-16  482  		hw_gen, hw_rev, hw_step);
-eebe6d00e9bf12 Robert Foss 2021-03-16  483  =
-
-eebe6d00e9bf12 Robert Foss 2021-03-16  484  	return hw_version;
-eebe6d00e9bf12 Robert Foss 2021-03-16  485  }
-eebe6d00e9bf12 Robert Foss 2021-03-16  486  =
-
+:::::: TO: Alexander M=C3=BCller <serveralex@gmail.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1624533673913992556==--
+--===============2642328200568330587==--
 
