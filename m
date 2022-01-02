@@ -1,48 +1,61 @@
-Content-Type: multipart/mixed; boundary="===============0955991234538112711=="
+Content-Type: multipart/mixed; boundary="===============2519159904863693645=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/mach-ep93xx/clock.c:154:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Sun, 02 Jan 2022 09:50:18 +0800
-Message-ID: <202201020954.6w3vdd8s-lkp@intel.com>
+Subject: Re: [PATCH] drm/virtio: Fix NULL vs IS_ERR checking in virtio_gpu_object_shmem_init
+Date: Sun, 02 Jan 2022 08:59:41 +0800
+Message-ID: <202201020823.RqskJWLZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0955991234538112711==
+--===============2519159904863693645==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20211222072649.18169-1-linmq006@gmail.com>
+References: <20211222072649.18169-1-linmq006@gmail.com>
+TO: Miaoqian Lin <linmq006@gmail.com>
+CC: linmq006(a)gmail.com
+CC: David Airlie <airlied@linux.ie>
 CC: linux-kernel(a)vger.kernel.org
-TO: Nikita Shubin <nikita.shubin@maquefel.me>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+CC: dri-devel(a)lists.freedesktop.org
+CC: Gurchetan Singh <gurchetansingh@chromium.org>
+CC: Gerd Hoffmann <kraxel@redhat.com>
+CC: virtualization(a)lists.linux-foundation.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   278218f6778bc7d6f8b67199446c56cec7ebb841
-commit: 9645ccc7bd7a16cd73c3be9dee70cd702b03be37 ep93xx: clock: convert in-=
-place to COMMON_CLK
-date:   2 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 2 months ago
-config: arm-randconfig-c002-20220101 (https://download.01.org/0day-ci/archi=
-ve/20220102/202201020954.6w3vdd8s-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c05440=
-2170cd8466683a20385befc0523aba3359)
+Hi Miaoqian,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on v5.16-rc6]
+[cannot apply to drm/drm-next next-20211224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Miaoqian-Lin/drm-virtio-Fi=
+x-NULL-vs-IS_ERR-checking-in-virtio_gpu_object_shmem_init/20211222-152857
+base:    a7904a538933c525096ca2ccde1e60d0ee62c08e
+:::::: branch date: 11 days ago
+:::::: commit date: 11 days ago
+config: arm-randconfig-c002-20211228 (https://download.01.org/0day-ci/archi=
+ve/20220102/202201020823.RqskJWLZ-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b=
+7ac0615afc6e0f1a30da2777e361de27a3)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9645ccc7bd7a16cd73c3be9dee70cd702b03be37
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9645ccc7bd7a16cd73c3be9dee70cd702b03be37
+        # https://github.com/0day-ci/linux/commit/fa5dcbfe5084bcdae76ccb313=
+f3099bf06063c57
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Miaoqian-Lin/drm-virtio-Fix-NULL-v=
+s-IS_ERR-checking-in-virtio_gpu_object_shmem_init/20211222-152857
+        git checkout fa5dcbfe5084bcdae76ccb313f3099bf06063c57
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -53,546 +66,320 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/dma/ti/omap-dma.c:1521:3: note: Memory is released
-                   kfree(c);
-                   ^~~~~~~~
-   drivers/dma/ti/omap-dma.c:1515:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (!list_empty(&od->ddev.channels)) {
-           ^
-   drivers/dma/ti/omap-dma.c:1516:25: note: Left side of '&&' is false
-                   struct omap_chan *c =3D list_first_entry(&od->ddev.chann=
-els,
-                                         ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/dma/ti/omap-dma.c:1516:25: note: Taking false branch
-                   struct omap_chan *c =3D list_first_entry(&od->ddev.chann=
-els,
-                                         ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+           if (error || !*bpp || !tp)
+               ^~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:380:6: note: Left side of '||' is false
+   fs/xfs/libxfs/xfs_da_btree.c:380:21: note: Left side of '||' is true
+           if (error || !*bpp || !tp)
+                              ^
+   fs/xfs/libxfs/xfs_da_btree.c:381:3: note: Returning zero (loaded from 'e=
+rror'), which participates in a condition later
+                   return error;
+                   ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:1604:11: note: Returning from 'xfs_da3_node=
+_read'
+                   error =3D xfs_da3_node_read(args->trans, args->dp, blkno,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:1606:7: note: 'error' is 0
+                   if (error) {
+                       ^~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:1606:3: note: Taking false branch
+                   if (error) {
                    ^
-   drivers/dma/ti/omap-dma.c:1516:25: note: Loop condition is false.  Exiti=
-ng loop
-                   struct omap_chan *c =3D list_first_entry(&od->ddev.chann=
-els,
-                                         ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   fs/xfs/libxfs/xfs_da_btree.c:1611:10: note: Access to field 'b_addr' res=
+ults in a dereference of a null pointer (loaded from field 'bp')
+                   curr =3D blk->bp->b_addr;
+                          ^    ~~
+   fs/xfs/libxfs/xfs_da_btree.c:2203:22: warning: Dereference of null point=
+er [clang-analyzer-core.NullDereference]
+           if (got !=3D count || mapp[0].br_startoff !=3D *bno ||
+                               ^~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2153:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2153:2: note: Taking false branch
+           if (error)
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   fs/xfs/libxfs/xfs_da_btree.c:2163:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2163:2: note: Taking false branch
+           if (error)
            ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   fs/xfs/libxfs/xfs_da_btree.c:2166:9: note: Assuming 'nmap' is <=3D 1
+           ASSERT(nmap <=3D 1);
+                  ^
+   fs/xfs/xfs_linux.h:207:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+                   ^~~~
+   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   fs/xfs/libxfs/xfs_da_btree.c:2166:9: note: 'nmap' is <=3D 1
+           ASSERT(nmap <=3D 1);
+                  ^
+   fs/xfs/xfs_linux.h:207:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+                   ^~~~
+   include/linux/compiler.h:45:66: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                                                                        ^
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2166:2: note: '?' condition is true
+           ASSERT(nmap <=3D 1);
            ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   fs/xfs/xfs_linux.h:207:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                           ^
+   fs/xfs/libxfs/xfs_da_btree.c:2167:6: note: Assuming 'nmap' is not equal =
+to 1
+           if (nmap =3D=3D 1) {
+               ^~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2167:2: note: Taking false branch
+           if (nmap =3D=3D 1) {
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   fs/xfs/libxfs/xfs_da_btree.c:2170:13: note: Assuming 'nmap' is not equal=
+ to 0
+           } else if (nmap =3D=3D 0 && count > 1) {
+                      ^~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2170:23: note: Left side of '&&' is false
+           } else if (nmap =3D=3D 0 && count > 1) {
+                                ^
+   fs/xfs/libxfs/xfs_da_btree.c:2195:3: note: Null pointer value stored to =
+'mapp'
+                   mapp =3D NULL;
+                   ^~~~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2201:2: note: Loop condition is false. Exec=
+ution continues on line 2203
+           for (i =3D 0, got =3D 0; i < mapi; i++)
            ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/dma/ti/omap-dma.c:1519:3: note: Calling 'list_del'
-                   list_del(&c->vc.chan.device_node);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:147:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 9 warnings (9 in non-user code).
+   fs/xfs/libxfs/xfs_da_btree.c:2203:6: note: Assuming 'got' is equal to 'c=
+ount'
+           if (got !=3D count || mapp[0].br_startoff !=3D *bno ||
+               ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_da_btree.c:2203:6: note: Left side of '||' is false
+   fs/xfs/libxfs/xfs_da_btree.c:2203:22: note: Dereference of null pointer
+           if (got !=3D count || mapp[0].br_startoff !=3D *bno ||
+                               ^~~~~~~~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> arch/arm/mach-ep93xx/clock.c:154:2: warning: Use of memory after it is f=
-reed [clang-analyzer-unix.Malloc]
-           return &psc->hw;
+   19 warnings generated.
+>> drivers/gpu/drm/virtio/virtgpu_object.c:253:3: warning: Use of memory af=
+ter it is freed [clang-analyzer-unix.Malloc]
+                   return ret;
+                   ^      ~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:227:2: note: Taking false branch
+           if (IS_ERR(shmem_obj))
            ^
-   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-           ^
-   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:579:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-           ^
-   arch/arm/mach-ep93xx/clock.c:627:6: note: Assuming the condition is false
-           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:627:2: note: Taking false branch
-           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
-           ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: Left side of '&&' is true
-           pr_info("PLL1 running at %ld MHz, PLL2 at %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                       ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: Taking true branch
-           pr_info("PLL1 running at %ld MHz, PLL2 at %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: '?' condition is true
-           pr_info("PLL1 running at %ld MHz, PLL2 at %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: '?' condition is true
-           pr_info("PLL1 running at %ld MHz, PLL2 at %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: Loop condition is false.  Exit=
-ing loop
-           pr_info("PLL1 running at %ld MHz, PLL2@%ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: Left side of '&&' is true
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
---
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: Left side of '&&' is true
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                       ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: Taking true branch
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: '?' condition is true
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: '?' condition is true
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: Loop condition is false.  Exit=
-ing loop
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   arch/arm/mach-ep93xx/clock.c:645:7: note: Calling 'clk_hw_register_div'
-           hw =3D clk_hw_register_div("ep93xx-adc",
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:434:6: note: Assuming 'psc' is non-null
-           if (!psc)
-               ^~~~
-   arch/arm/mach-ep93xx/clock.c:434:2: note: Taking false branch
-           if (!psc)
-           ^
-   arch/arm/mach-ep93xx/clock.c:440:23: note: 'parent_name' is non-null
-           init.parent_names =3D (parent_name ? &parent_name : NULL);
-                                ^~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:440:23: note: '?' condition is true
-   arch/arm/mach-ep93xx/clock.c:453:2: note: Taking true branch
-           if (IS_ERR(clk))
-           ^
-   arch/arm/mach-ep93xx/clock.c:454:3: note: Memory is released
-                   kfree(psc);
-                   ^~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:456:2: note: Use of memory after it is freed
-           return &psc->hw;
-           ^      ~~~~~~~~
->> arch/arm/mach-ep93xx/clock.c:484:2: warning: Value stored to 'hw' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           hw =3D clk_hw_register_fixed_factor(NULL, "uart", "xtali", 0, 1,=
- clk_uart_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:484:2: note: Value stored to 'hw' is never =
-read
-           hw =3D clk_hw_register_fixed_factor(NULL, "uart", "xtali", 0, 1,=
- clk_uart_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:612:2: warning: Value stored to 'hw' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           hw =3D clk_hw_register_fixed_factor(NULL, "usb_clk", "pll2", 0, =
-1, clk_usb_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:612:2: note: Value stored to 'hw' is never =
-read
-           hw =3D clk_hw_register_fixed_factor(NULL, "usb_clk", "pll2", 0, =
-1, clk_usb_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/pwm/core.c:427:20: warning: Value stored to 'last' during its in=
-itialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct pwm_state *last =3D &pwm->last;
-                             ^~~~   ~~~~~~~~~~
-   drivers/pwm/core.c:427:20: note: Value stored to 'last' during its initi=
-alization is never read
-           struct pwm_state *last =3D &pwm->last;
-                             ^~~~   ~~~~~~~~~~
-   drivers/pwm/core.c:428:19: warning: Value stored to 'chip' during its in=
-itialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct pwm_chip *chip =3D pwm->chip;
-                            ^~~~   ~~~~~~~~~
-   drivers/pwm/core.c:428:19: note: Value stored to 'chip' during its initi=
-alization is never read
-           struct pwm_chip *chip =3D pwm->chip;
-                            ^~~~   ~~~~~~~~~
-   drivers/pwm/core.c:816:13: warning: Access to field 'name' results in a =
-dereference of a null pointer (loaded from variable 'np') [clang-analyzer-c=
-ore.NullDereference]
-                           con_id =3D np->name;
-                                    ^
-   drivers/pwm/core.c:1148:6: note: Assuming the condition is true
-           if (is_of_node(fwnode))
-               ^~~~~~~~~~~~~~~~~~
-   drivers/pwm/core.c:1148:2: note: Taking true branch
-           if (is_of_node(fwnode))
-           ^
-   drivers/pwm/core.c:1149:25: note: Assuming the condition is false
-                   pwm =3D of_pwm_get(dev, to_of_node(fwnode), con_id);
-                                         ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/core.c:1149:25: note: '?' condition is false
-                   pwm =3D of_pwm_get(dev, to_of_node(fwnode), con_id);
-                                         ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
-                   ^
-   drivers/pwm/core.c:1149:25: note: Passing null pointer value via 2nd par=
-ameter 'np'
-                   pwm =3D of_pwm_get(dev, to_of_node(fwnode), con_id);
-                                         ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/core.c:1149:9: note: Calling 'of_pwm_get'
-                   pwm =3D of_pwm_get(dev, to_of_node(fwnode), con_id);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/core.c:773:6: note: Assuming 'con_id' is null
-           if (con_id) {
-               ^~~~~~
-   drivers/pwm/core.c:773:2: note: Taking false branch
-           if (con_id) {
-           ^
-   drivers/pwm/core.c:781:6: note: Assuming 'err' is 0
-           if (err) {
+   drivers/gpu/drm/virtio/virtgpu_object.c:232:6: note: 'ret' is >=3D 0
+           if (ret < 0)
                ^~~
-   drivers/pwm/core.c:781:2: note: Taking false branch
-           if (err) {
+   drivers/gpu/drm/virtio/virtgpu_object.c:232:2: note: Taking false branch
+           if (ret < 0)
            ^
-   drivers/pwm/core.c:786:25: note: Assuming '__of_fwnode_handle_node' is n=
-ull
-           pc =3D fwnode_to_pwmchip(of_fwnode_handle(args.np));
-                                  ^
-   include/linux/of.h:174:3: note: expanded from macro 'of_fwnode_handle'
-                   __of_fwnode_handle_node ?                               \
-                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pwm/core.c:786:25: note: '?' condition is false
-           pc =3D fwnode_to_pwmchip(of_fwnode_handle(args.np));
-                                  ^
-   include/linux/of.h:174:3: note: expanded from macro 'of_fwnode_handle'
-                   __of_fwnode_handle_node ?                               \
+   drivers/gpu/drm/virtio/virtgpu_object.c:237:6: note: Assuming 'fence' is=
+ null
+           if (fence) {
+               ^~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:237:2: note: Taking false branch
+           if (fence) {
+           ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:250:6: note: Assuming 'ret' is n=
+ot equal to 0
+           if (ret !=3D 0) {
+               ^~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:250:2: note: Taking true branch
+           if (ret !=3D 0) {
+           ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:252:3: note: Calling 'virtio_gpu=
+_free_object'
+                   virtio_gpu_free_object(&shmem_obj->base);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:106:6: note: Assuming field 'cre=
+ated' is false
+           if (bo->created) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:106:2: note: Taking false branch
+           if (bo->created) {
+           ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:112:2: note: Calling 'virtio_gpu=
+_cleanup_object'
+           virtio_gpu_cleanup_object(bo);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:69:6: note: Assuming the conditi=
+on is true
+           if (virtio_gpu_is_shmem(bo)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:69:2: note: Taking true branch
+           if (virtio_gpu_is_shmem(bo)) {
+           ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:72:14: note: Field 'pages' is no=
+n-null
+                   if (shmem->pages) {
+                              ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:72:3: note: Taking true branch
+                   if (shmem->pages) {
                    ^
-   drivers/pwm/core.c:787:6: note: Calling 'IS_ERR'
-           if (IS_ERR(pc)) {
+   drivers/gpu/drm/virtio/virtgpu_object.c:73:8: note: Assuming field 'mapp=
+ed' is 0
+                           if (shmem->mapped) {
+                               ^~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:73:4: note: Taking false branch
+                           if (shmem->mapped) {
+                           ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:80:4: note: Memory is released
+                           kfree(shmem->pages);
+                           ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:112:2: note: Returning; memory w=
+as released
+           virtio_gpu_cleanup_object(bo);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:252:3: note: Returning; memory w=
+as released
+                   virtio_gpu_free_object(&shmem_obj->base);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:253:3: note: Use of memory after=
+ it is freed
+                   return ret;
+                   ^      ~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:260:3: warning: 4th function cal=
+l argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+                   virtio_gpu_cmd_resource_create_blob(vgdev, bo, params,
+                   ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:219:2: note: 'ents' declared wit=
+hout an initial value
+           struct virtio_gpu_mem_entry *ents;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:227:6: note: Calling 'IS_ERR'
+           if (IS_ERR(shmem_obj))
+               ^~~~~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:227:6: note: Returning from 'IS_=
+ERR'
+           if (IS_ERR(shmem_obj))
+               ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:227:2: note: Taking false branch
+           if (IS_ERR(shmem_obj))
+           ^
+   drivers/gpu/drm/virtio/virtgpu_object.c:232:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   drivers/gpu/drm/virtio/virtgpu_object.c:232:2: note: Taking false branch
+           if (ret < 0)
 
-vim +154 arch/arm/mach-ep93xx/clock.c
+vim +253 drivers/gpu/drm/virtio/virtgpu_object.c
 
-ff05c0330b9880 Hartley Sweeten 2009-05-07  125  =
+2f2aa13724d568 Gerd Hoffmann  2020-02-07  210  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  126  static struct clk_hw *ep93x=
-x_clk_register_gate(const char *name,
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  127  				    const char *parent_=
-name,
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  128  				    void __iomem *reg,
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  129  				    u8 bit_idx)
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  130  {
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  131  	struct clk_init_data init;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  132  	struct clk_psc *psc;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  133  	struct clk *clk;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  134  =
+dc5698e80cf724 Dave Airlie    2013-09-09  211  int virtio_gpu_object_create=
+(struct virtio_gpu_device *vgdev,
+4441235f9566e6 Gerd Hoffmann  2019-03-18  212  			     struct virtio_gpu_ob=
+ject_params *params,
+530b28426a94b8 Gerd Hoffmann  2019-03-18  213  			     struct virtio_gpu_ob=
+ject **bo_ptr,
+530b28426a94b8 Gerd Hoffmann  2019-03-18  214  			     struct virtio_gpu_fe=
+nce *fence)
+dc5698e80cf724 Dave Airlie    2013-09-09  215  {
+e2324300f427ff Gerd Hoffmann  2019-08-29  216  	struct virtio_gpu_object_ar=
+ray *objs =3D NULL;
+c66df701e783bc Gerd Hoffmann  2019-08-29  217  	struct drm_gem_shmem_object=
+ *shmem_obj;
+dc5698e80cf724 Dave Airlie    2013-09-09  218  	struct virtio_gpu_object *b=
+o;
+2f2aa13724d568 Gerd Hoffmann  2020-02-07  219  	struct virtio_gpu_mem_entry=
+ *ents;
+2f2aa13724d568 Gerd Hoffmann  2020-02-07  220  	unsigned int nents;
+dc5698e80cf724 Dave Airlie    2013-09-09  221  	int ret;
+dc5698e80cf724 Dave Airlie    2013-09-09  222  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  135  	psc =3D kzalloc(sizeof(*ps=
-c), GFP_KERNEL);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  136  	if (!psc)
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  137  		return ERR_PTR(-ENOMEM);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  138  =
+dc5698e80cf724 Dave Airlie    2013-09-09  223  	*bo_ptr =3D NULL;
+dc5698e80cf724 Dave Airlie    2013-09-09  224  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  139  	init.name =3D name;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  140  	init.ops =3D &clk_ep93xx_g=
-ate_ops;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  141  	init.flags =3D CLK_SET_RAT=
-E_PARENT;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  142  	init.parent_names =3D (par=
-ent_name ? &parent_name : NULL);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  143  	init.num_parents =3D (pare=
-nt_name ? 1 : 0);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  144  =
+c66df701e783bc Gerd Hoffmann  2019-08-29  225  	params->size =3D roundup(pa=
+rams->size, PAGE_SIZE);
+c66df701e783bc Gerd Hoffmann  2019-08-29  226  	shmem_obj =3D drm_gem_shmem=
+_create(vgdev->ddev, params->size);
+c66df701e783bc Gerd Hoffmann  2019-08-29  227  	if (IS_ERR(shmem_obj))
+c66df701e783bc Gerd Hoffmann  2019-08-29  228  		return PTR_ERR(shmem_obj);
+c66df701e783bc Gerd Hoffmann  2019-08-29  229  	bo =3D gem_to_virtio_gpu_ob=
+j(&shmem_obj->base);
+dc5698e80cf724 Dave Airlie    2013-09-09  230  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  145  	psc->reg =3D reg;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  146  	psc->bit_idx =3D bit_idx;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  147  	psc->hw.init =3D &init;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  148  	psc->lock =3D &clk_lock;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  149  =
+556c62e85f9b97 Matthew Wilcox 2018-10-30  231  	ret =3D virtio_gpu_resource=
+_id_get(vgdev, &bo->hw_res_handle);
+e2324300f427ff Gerd Hoffmann  2019-08-29  232  	if (ret < 0)
+e2324300f427ff Gerd Hoffmann  2019-08-29  233  		goto err_free_gem;
+e2324300f427ff Gerd Hoffmann  2019-08-29  234  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  150  	clk =3D clk_register(NULL,=
- &psc->hw);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  151  	if (IS_ERR(clk))
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  152  		kfree(psc);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  153  =
+530b28426a94b8 Gerd Hoffmann  2019-03-18  235  	bo->dumb =3D params->dumb;
+530b28426a94b8 Gerd Hoffmann  2019-03-18  236  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18 @154  	return &psc->hw;
-ff05c0330b9880 Hartley Sweeten 2009-05-07  155  }
-ff05c0330b9880 Hartley Sweeten 2009-05-07  156  =
+e2324300f427ff Gerd Hoffmann  2019-08-29  237  	if (fence) {
+e2324300f427ff Gerd Hoffmann  2019-08-29  238  		ret =3D -ENOMEM;
+e2324300f427ff Gerd Hoffmann  2019-08-29  239  		objs =3D virtio_gpu_array_=
+alloc(1);
+e2324300f427ff Gerd Hoffmann  2019-08-29  240  		if (!objs)
+e2324300f427ff Gerd Hoffmann  2019-08-29  241  			goto err_put_id;
+c66df701e783bc Gerd Hoffmann  2019-08-29  242  		virtio_gpu_array_add_obj(o=
+bjs, &bo->base.base);
+e2324300f427ff Gerd Hoffmann  2019-08-29  243  =
 
+e2324300f427ff Gerd Hoffmann  2019-08-29  244  		ret =3D virtio_gpu_array_l=
+ock_resv(objs);
+e2324300f427ff Gerd Hoffmann  2019-08-29  245  		if (ret !=3D 0)
+e2324300f427ff Gerd Hoffmann  2019-08-29  246  			goto err_put_objs;
+e2324300f427ff Gerd Hoffmann  2019-08-29  247  	}
+e2324300f427ff Gerd Hoffmann  2019-08-29  248  =
+
+2f2aa13724d568 Gerd Hoffmann  2020-02-07  249  	ret =3D virtio_gpu_object_s=
+hmem_init(vgdev, bo, &ents, &nents);
+2f2aa13724d568 Gerd Hoffmann  2020-02-07  250  	if (ret !=3D 0) {
+377f8331d0565e xndcn          2021-03-05  251  		virtio_gpu_array_put_free(=
+objs);
+2f2aa13724d568 Gerd Hoffmann  2020-02-07  252  		virtio_gpu_free_object(&sh=
+mem_obj->base);
+2f2aa13724d568 Gerd Hoffmann  2020-02-07 @253  		return ret;
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0955991234538112711==--
+--===============2519159904863693645==--
 
