@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3681460749336192726=="
+Content-Type: multipart/mixed; boundary="===============1624533673913992556=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/i40e/i40e_main.c:4643:2: warning: Value stored to 'pf_q' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 10 Jan 2022 12:44:36 +0800
-Message-ID: <202201101200.Zy2802DX-lkp@intel.com>
+Subject: drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 02 Jan 2022 23:30:20 +0800
+Message-ID: <202201022342.d4nclP1q-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3681460749336192726==
+--===============1624533673913992556==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+TO: Robert Foss <robert.foss@linaro.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Andrey Konovalov <andrey.konovalov@linaro.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   df0cc57e057f18e44dac8e6c18aba47ab53202f9
-commit: 65662a8dcdd01342b71ee44234bcfd0162e195af i40e: Fix logic of disabli=
-ng queues
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: x86_64-randconfig-c007-20220101 (https://download.01.org/0day-ci/ar=
-chive/20220110/202201101200.Zy2802DX-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c05440=
-2170cd8466683a20385befc0523aba3359)
+head:   278218f6778bc7d6f8b67199446c56cec7ebb841
+commit: eebe6d00e9bf1216fb381b64146e1b7e50d90b3f media: camss: Add support =
+for CSID hardware version Titan 170
+date:   10 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-c006-20211227 (https://download.01.org/0day-ci/arc=
+hive/20220102/202201022342.d4nclP1q-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 511726=
+c64d3b6cca66f7c54d457d586aa3129f67)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D65662a8dcdd01342b71ee44234bcfd0162e195af
+t/commit/?id=3Deebe6d00e9bf1216fb381b64146e1b7e50d90b3f
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 65662a8dcdd01342b71ee44234bcfd0162e195af
+        git checkout eebe6d00e9bf1216fb381b64146e1b7e50d90b3f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,381 +55,596 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   net/nfc/nci/hci.c:620:6: note: Assuming 'conn_info' is non-null
-           if (!conn_info)
+   handle_rx, =
+
+   rx_fifo, =
+
+   private_data, =
+
+   se, =
+
+   uport, =
+
+   tx_fifo_depth, =
+
+   tx_fifo_width, =
+
+   rx_fifo_depth, =
+
+   baud, =
+
+   loopback, =
+
+   tx_remaining, =
+
+   wakeup_irq, =
+
+   setup, =
+
+   brk, =
+
+   rx_tx_swap, =
+
+   cts_rts_swap, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct qcom_geni_serial_port {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/qcom_geni_serial.c:120:8: note: Excessive padding in =
+'struct qcom_geni_serial_port' (16 padding bytes, where 0 is optimal). Opti=
+mal fields order: name, handle_rx, rx_fifo, private_data, se, uport, tx_fif=
+o_depth, tx_fifo_width, rx_fifo_depth, baud, loopback, tx_remaining, wakeup=
+_irq, setup, brk, rx_tx_swap, cts_rts_swap, consider reordering the fields =
+or adding explicit padding members
+   struct qcom_geni_serial_port {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/media/v4l2-core/videobuf-core.c:712:10: warning: Access to field=
+ 'state' results in a dereference of a null pointer (loaded from variable '=
+buf') [clang-analyzer-core.NullDereference]
+           switch (buf->state) {
+                   ^~~
+   drivers/media/v4l2-core/videobuf-core.c:698:2: note: 'buf' initialized t=
+o a null pointer value
+           struct videobuf_buffer *buf =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Assuming field 'mag=
+ic' is equal to 304484355
+           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
+           ^
+   drivers/media/v4l2-core/videobuf-core.c:27:16: note: expanded from macro=
+ 'MAGIC_CHECK'
+                   if (unlikely((is) !=3D (should))) {                     =
+  \
+                       ~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Taking false branch
+           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
+           ^
+   drivers/media/v4l2-core/videobuf-core.c:27:3: note: expanded from macro =
+'MAGIC_CHECK'
+                   if (unlikely((is) !=3D (should))) {                     =
+  \
+                   ^
+   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Loop condition is f=
+alse.  Exiting loop
+           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
+           ^
+   drivers/media/v4l2-core/videobuf-core.c:26:2: note: expanded from macro =
+'MAGIC_CHECK'
+           do {                                                            \
+           ^
+   drivers/media/v4l2-core/videobuf-core.c:706:11: note: Calling 'stream_ne=
+xt_buffer'
+           retval =3D stream_next_buffer(q, &buf, nonblocking);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/videobuf-core.c:682:6: note: Assuming 'retval' i=
+s not equal to 0
+           if (retval)
+               ^~~~~~
+   drivers/media/v4l2-core/videobuf-core.c:682:2: note: Taking true branch
+           if (retval)
+           ^
+   drivers/media/v4l2-core/videobuf-core.c:683:3: note: Control jumps to li=
+ne 692
+                   goto done;
+                   ^
+   drivers/media/v4l2-core/videobuf-core.c:692:2: note: Returning without w=
+riting to '*vb'
+           return retval;
+           ^
+   drivers/media/v4l2-core/videobuf-core.c:706:11: note: Returning from 'st=
+ream_next_buffer'
+           retval =3D stream_next_buffer(q, &buf, nonblocking);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/videobuf-core.c:707:6: note: Assuming 'retval' i=
+s >=3D 0
+           if (retval < 0) {
                ^~~~~~~~~~
-   net/nfc/nci/hci.c:620:2: note: Taking false branch
-           if (!conn_info)
+   drivers/media/v4l2-core/videobuf-core.c:707:2: note: Taking false branch
+           if (retval < 0) {
            ^
-   net/nfc/nci/hci.c:633:6: note: Assuming 'r' is not equal to NCI_STATUS_OK
-           if (r =3D=3D NCI_STATUS_OK) {
-               ^~~~~~~~~~~~~~~~~~
-   net/nfc/nci/hci.c:633:2: note: Taking false branch
-           if (r =3D=3D NCI_STATUS_OK) {
-           ^
-   net/nfc/nci/hci.c:643:2: note: Returning without writing to '*'
-           return r;
-           ^
-   net/nfc/nci/hci.c:743:6: note: Returning from 'nci_hci_get_param'
-           r =3D nci_hci_get_param(ndev, NCI_HCI_ADMIN_GATE,
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/nci/hci.c:745:6: note: Assuming 'r' is >=3D 0
-           if (r < 0)
-               ^~~~~
-   net/nfc/nci/hci.c:745:2: note: Taking false branch
-           if (r < 0)
-           ^
-   net/nfc/nci/hci.c:748:6: note: Access to field 'len' results in a derefe=
-rence of an undefined pointer value (loaded from variable 'skb')
-           if (skb->len &&
-               ^~~
-   Suppressed 8 warnings (8 in non-user code).
+   drivers/media/v4l2-core/videobuf-core.c:712:10: note: Access to field 's=
+tate' results in a dereference of a null pointer (loaded from variable 'buf=
+')
+           switch (buf->state) {
+                   ^~~
+   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   11 warnings generated.
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: warning: Value=
+ stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
+                   val =3D 0;
+                   ^     ~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: note: Value st=
+ored to 'val' is never read
+                   val =3D 0;
+                   ^     ~
+>> drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: warning: Value=
+ stored to 'hw_gen' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: note: Value st=
+ored to 'hw_gen' is never read
+           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: warning: Value=
+ stored to 'hw_rev' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: note: Value st=
+ored to 'hw_rev' is never read
+           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: warning: Value=
+ stored to 'hw_step' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: note: Value st=
+ored to 'hw_step' is never read
+           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: warning: =
+Value stored to 'hw_version' during its initialization is never read [clang=
+-analyzer-deadcode.DeadStores]
+           u8 hw_version =3D readl_relaxed(csiphy->base +
+              ^~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: note: Val=
+ue stored to 'hw_version' during its initialization is never read
+           u8 hw_version =3D readl_relaxed(csiphy->base +
+              ^~~~~~~~~~
+   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (11 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   sound/soc/codecs/cs35l33.c:1161:3: warning: Value stored to 'pdata' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                   pdata =3D &cs35l33->pdata;
-                   ^       ~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs35l33.c:1161:3: note: Value stored to 'pdata' is neve=
-r read
-                   pdata =3D &cs35l33->pdata;
-                   ^       ~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   sound/soc/codecs/cs42l42.c:581:8: warning: Excessive padding in 'struct =
-cs42l42_pll_params' (4 padding bytes, where 0 is optimal). =
+   drivers/hwmon/lm75.h:30:29: warning: The result of the left shift is und=
+efined because the left operand is negative [clang-analyzer-core.UndefinedB=
+inaryOperatorResult]
+           return (u16)((ntemp / 500) << 7);
+                                      ^
+   drivers/hwmon/w83781d.c:391:1: note: Left side of '&&' is false
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
+g'
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
+ \
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/hwmon/w83781d.c:391:1: note: Taking false branch
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
+g'
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
+ \
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/hwmon/w83781d.c:391:1: note: Loop condition is false.  Exiting l=
+oop
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
+g'
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
+ \
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
 
-   Optimal fields order: =
+vim +/val +398 drivers/media/platform/qcom/camss/camss-csid-170.c
 
-   sclk, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  328  =
 
-   pll_div_frac, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  329  static void csid_configure_stre=
+am(struct csid_device *csid, u8 enable)
+eebe6d00e9bf12 Robert Foss 2021-03-16  330  {
+eebe6d00e9bf12 Robert Foss 2021-03-16  331  	struct csid_testgen_config *tg=
+ =3D &csid->testgen;
+eebe6d00e9bf12 Robert Foss 2021-03-16  332  	u32 val;
+eebe6d00e9bf12 Robert Foss 2021-03-16  333  	u32 phy_sel =3D 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  334  	u8 lane_cnt =3D csid->phy.lane=
+_cnt;
+eebe6d00e9bf12 Robert Foss 2021-03-16  335  	struct v4l2_mbus_framefmt *inp=
+ut_format =3D &csid->fmt[MSM_CSID_PAD_SRC];
+eebe6d00e9bf12 Robert Foss 2021-03-16  336  	const struct csid_format *form=
+at =3D csid_get_fmt_entry(csid->formats, csid->nformats,
+eebe6d00e9bf12 Robert Foss 2021-03-16  337  							      input_format->code=
+);
+eebe6d00e9bf12 Robert Foss 2021-03-16  338  =
 
-   mclk_int, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  339  	if (!lane_cnt)
+eebe6d00e9bf12 Robert Foss 2021-03-16  340  		lane_cnt =3D 4;
+eebe6d00e9bf12 Robert Foss 2021-03-16  341  =
 
-   mclk_div, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  342  	if (!tg->enabled)
+eebe6d00e9bf12 Robert Foss 2021-03-16  343  		phy_sel =3D csid->phy.csiphy_=
+id;
+eebe6d00e9bf12 Robert Foss 2021-03-16  344  =
 
-   mclk_src_sel, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  345  	if (enable) {
+eebe6d00e9bf12 Robert Foss 2021-03-16  346  		u8 vc =3D 0; /* Virtual Chann=
+el 0 */
+eebe6d00e9bf12 Robert Foss 2021-03-16  347  		u8 dt_id =3D vc * 4;
+eebe6d00e9bf12 Robert Foss 2021-03-16  348  =
 
-   sclk_prediv, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  349  		if (tg->enabled) {
+eebe6d00e9bf12 Robert Foss 2021-03-16  350  			/* Config Test Generator */
+eebe6d00e9bf12 Robert Foss 2021-03-16  351  			vc =3D 0xa;
+eebe6d00e9bf12 Robert Foss 2021-03-16  352  =
 
-   pll_div_int, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  353  			/* configure one DT, infinit=
+e frames */
+eebe6d00e9bf12 Robert Foss 2021-03-16  354  			val =3D vc << TPG_VC_CFG0_VC=
+_NUM;
+eebe6d00e9bf12 Robert Foss 2021-03-16  355  			val |=3D INTELEAVING_MODE_ON=
+E_SHOT << TPG_VC_CFG0_LINE_INTERLEAVING_MODE;
+eebe6d00e9bf12 Robert Foss 2021-03-16  356  			val |=3D 0 << TPG_VC_CFG0_NU=
+M_FRAMES;
+eebe6d00e9bf12 Robert Foss 2021-03-16  357  			writel_relaxed(val, csid->ba=
+se + CSID_TPG_VC_CFG0);
+eebe6d00e9bf12 Robert Foss 2021-03-16  358  =
 
-   pll_mode, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  359  			val =3D 0x740 << TPG_VC_CFG1=
+_H_BLANKING_COUNT;
+eebe6d00e9bf12 Robert Foss 2021-03-16  360  			val |=3D 0x3ff << TPG_VC_CFG=
+1_V_BLANKING_COUNT;
+eebe6d00e9bf12 Robert Foss 2021-03-16  361  			writel_relaxed(val, csid->ba=
+se + CSID_TPG_VC_CFG1);
+eebe6d00e9bf12 Robert Foss 2021-03-16  362  =
 
-   pll_divout, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  363  			writel_relaxed(0x12345678, c=
+sid->base + CSID_TPG_LFSR_SEED);
+eebe6d00e9bf12 Robert Foss 2021-03-16  364  =
 
-   pll_cal_ratio, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  365  			val =3D input_format->height=
+ & 0x1fff << TPG_DT_n_CFG_0_FRAME_HEIGHT;
+eebe6d00e9bf12 Robert Foss 2021-03-16  366  			val |=3D input_format->width=
+ & 0x1fff << TPG_DT_n_CFG_0_FRAME_WIDTH;
+eebe6d00e9bf12 Robert Foss 2021-03-16  367  			writel_relaxed(val, csid->ba=
+se + CSID_TPG_DT_n_CFG_0(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  368  =
 
-   n, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  369  			val =3D DATA_TYPE_RAW_10BIT =
+<< TPG_DT_n_CFG_1_DATA_TYPE;
+eebe6d00e9bf12 Robert Foss 2021-03-16  370  			writel_relaxed(val, csid->ba=
+se + CSID_TPG_DT_n_CFG_1(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  371  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct cs42l42_pll_params {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l42.c:581:8: note: Excessive padding in 'struct cs4=
-2l42_pll_params' (4 padding bytes, where 0 is optimal). Optimal fields orde=
-r: sclk, pll_div_frac, mclk_int, mclk_div, mclk_src_sel, sclk_prediv, pll_d=
-iv_int, pll_mode, pll_divout, pll_cal_ratio, n, consider reordering the fie=
-lds or adding explicit padding members
-   struct cs42l42_pll_params {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l42.c:1404:28: warning: Value stored to 'component'=
- during its initialization is never read [clang-analyzer-deadcode.DeadStore=
-s]
-           struct snd_soc_component *component =3D cs42l42->component;
-                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l42.c:1404:28: note: Value stored to 'component' du=
-ring its initialization is never read
-           struct snd_soc_component *component =3D cs42l42->component;
-                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   26 warnings generated.
->> drivers/net/ethernet/intel/i40e/i40e_main.c:4643:2: warning: Value store=
-d to 'pf_q' is never read [clang-analyzer-deadcode.DeadStores]
-           pf_q =3D vsi->base_queue;
-           ^      ~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:4643:2: note: Value stored t=
-o 'pf_q' is never read
-           pf_q =3D vsi->base_queue;
-           ^      ~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:7949:3: warning: Value store=
-d to 'need_reset' is never read [clang-analyzer-deadcode.DeadStores]
-                   need_reset =3D false;
-                   ^            ~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:7949:3: note: Value stored t=
-o 'need_reset' is never read
-                   need_reset =3D false;
-                   ^            ~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9179:6: warning: Value store=
-d to 'queue' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-           u32 queue =3D le32_to_cpu(data->prtdcb_rupto);
-               ^~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9179:6: note: Value stored t=
-o 'queue' during its initialization is never read
-           u32 queue =3D le32_to_cpu(data->prtdcb_rupto);
-               ^~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9828:4: warning: Value store=
-d to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D i40e_vc_process_vf_msg(pf,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9828:4: note: Value stored t=
-o 'ret' is never read
-                           ret =3D i40e_vc_process_vf_msg(pf,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:10707:3: warning: Value stor=
-ed to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D i40e_setup_misc_vector(pf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:10707:3: note: Value stored =
-to 'ret' is never read
-                   ret =3D i40e_setup_misc_vector(pf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:14131:3: warning: Value stor=
-ed to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D i40e_vsi_config_rss(vsi);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:14131:3: note: Value stored =
-to 'ret' is never read
-                   ret =3D i40e_vsi_config_rss(vsi);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 20 warnings (20 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:2716:4: warning: Value st=
-ored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D i40e_led_get_phy(hw, &temp_status,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:2716:4: note: Value store=
-d to 'ret' is never read
-                           ret =3D i40e_led_get_phy(hw, &temp_status,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:1019:3: warning: Call to fun=
-ction 'strcpy' is insecure as it does not provide bounding of the memory bu=
-ffer. Replace unbounded copy functions with analogous functions that suppor=
-t length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.inse=
-cureAPI.strcpy]
-                   strcpy(dump_buf, str);
-                   ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:1019:3: note: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119
-                   strcpy(dump_buf, str);
-                   ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2428:4: warning: Call to fun=
-ction 'strcpy' is insecure as it does not provide bounding of the memory bu=
-ffer. Replace unbounded copy functions with analogous functions that suppor=
-t length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.inse=
-cureAPI.strcpy]
-                           strcpy(buf + strlen(buf), name);
-                           ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2428:4: note: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119
-                           strcpy(buf + strlen(buf), name);
-                           ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2430:4: warning: Call to fun=
-ction 'strcpy' is insecure as it does not provide bounding of the memory bu=
-ffer. Replace unbounded copy functions with analogous functions that suppor=
-t length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.inse=
-cureAPI.strcpy]
-                           strcpy(buf, name);
-                           ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2430:4: note: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119
-                           strcpy(buf, name);
-                           ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2460:3: warning: Call to fun=
-ction 'strcpy' is insecure as it does not provide bounding of the memory bu=
-ffer. Replace unbounded copy functions with analogous functions that suppor=
-t length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.inse=
-cureAPI.strcpy]
-                   strcpy(buf + strlen(buf), mem_group);
-                   ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2460:3: note: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119
-                   strcpy(buf + strlen(buf), mem_group);
-                   ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2462:3: warning: Call to fun=
-ction 'strcpy' is insecure as it does not provide bounding of the memory bu=
-ffer. Replace unbounded copy functions with analogous functions that suppor=
-t length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.inse=
-cureAPI.strcpy]
-                   strcpy(buf, mem_group);
-                   ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:2462:3: note: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119
-                   strcpy(buf, mem_group);
-                   ^~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:4087:2: warning: Value store=
-d to 'byte_buf' is never read [clang-analyzer-deadcode.DeadStores]
-           byte_buf +=3D sizeof(signature);
-           ^           ~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:4087:2: note: Value stored t=
-o 'byte_buf' is never read
-           byte_buf +=3D sizeof(signature);
-           ^           ~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:5527:8: warning: Excessive p=
-adding in 'struct igu_fifo_addr_data' (8 padding bytes, where 0 is optimal)=
-. =
+eebe6d00e9bf12 Robert Foss 2021-03-16  372  			val =3D tg->mode << TPG_DT_n=
+_CFG_2_PAYLOAD_MODE;
+eebe6d00e9bf12 Robert Foss 2021-03-16  373  			val |=3D 0xBE << TPG_DT_n_CF=
+G_2_USER_SPECIFIED_PAYLOAD;
+eebe6d00e9bf12 Robert Foss 2021-03-16  374  			val |=3D format->decode_form=
+at << TPG_DT_n_CFG_2_ENCODE_FORMAT;
+eebe6d00e9bf12 Robert Foss 2021-03-16  375  			writel_relaxed(val, csid->ba=
+se + CSID_TPG_DT_n_CFG_2(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  376  =
 
-   Optimal fields order: =
+eebe6d00e9bf12 Robert Foss 2021-03-16  377  			writel_relaxed(0, csid->base=
+ + CSID_TPG_COLOR_BARS_CFG);
+eebe6d00e9bf12 Robert Foss 2021-03-16  378  =
 
-   desc, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  379  			writel_relaxed(0, csid->base=
+ + CSID_TPG_COLOR_BOX_CFG);
+eebe6d00e9bf12 Robert Foss 2021-03-16  380  		}
+eebe6d00e9bf12 Robert Foss 2021-03-16  381  =
 
-   vf_desc, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  382  		val =3D 1 << RDI_CFG0_BYTE_CN=
+TR_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  383  		val |=3D 1 << RDI_CFG0_FORMAT=
+_MEASURE_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  384  		val |=3D 1 << RDI_CFG0_TIMEST=
+AMP_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  385  		val |=3D DECODE_FORMAT_PAYLOA=
+D_ONLY << RDI_CFG0_DECODE_FORMAT;
+eebe6d00e9bf12 Robert Foss 2021-03-16  386  		val |=3D DATA_TYPE_RAW_10BIT =
+<< RDI_CFG0_DATA_TYPE;
+eebe6d00e9bf12 Robert Foss 2021-03-16  387  		val |=3D vc << RDI_CFG0_VIRTU=
+AL_CHANNEL;
+eebe6d00e9bf12 Robert Foss 2021-03-16  388  		val |=3D dt_id << RDI_CFG0_DT=
+_ID;
+eebe6d00e9bf12 Robert Foss 2021-03-16  389  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_CFG0(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  390  =
 
-   type, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  391  		/* CSID_TIMESTAMP_STB_POST_IR=
+Q */
+eebe6d00e9bf12 Robert Foss 2021-03-16  392  		val =3D 2 << RDI_CFG1_TIMESTA=
+MP_STB_SEL;
+eebe6d00e9bf12 Robert Foss 2021-03-16  393  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_CFG1(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  394  =
 
-   start_addr, =
+eebe6d00e9bf12 Robert Foss 2021-03-16  395  		val =3D 1;
+eebe6d00e9bf12 Robert Foss 2021-03-16  396  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_FRM_DROP_PERIOD(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  397  =
 
-   end_addr, =
+eebe6d00e9bf12 Robert Foss 2021-03-16 @398  		val =3D 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  399  		writel_relaxed(0, csid->base =
++ CSID_RDI_FRM_DROP_PATTERN(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  400  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct igu_fifo_addr_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:5527:8: note: Excessive padd=
-ing in 'struct igu_fifo_addr_data' (8 padding bytes, where 0 is optimal). O=
-ptimal fields order: desc, vf_desc, type, start_addr, end_addr, consider re=
-ordering the fields or adding explicit padding members
-   struct igu_fifo_addr_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:8012:3: warning: Value store=
-d to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-                   offset +=3D (feature_size + REGDUMP_HEADER_SIZE);
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/qlogic/qed/qed_debug.c:8012:3: note: Value stored t=
-o 'offset' is never read
+eebe6d00e9bf12 Robert Foss 2021-03-16  401  		val =3D 1;
+eebe6d00e9bf12 Robert Foss 2021-03-16  402  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_IRQ_SUBSAMPLE_PERIOD(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  403  =
 
-vim +/pf_q +4643 drivers/net/ethernet/intel/i40e/i40e_main.c
+eebe6d00e9bf12 Robert Foss 2021-03-16  404  		val =3D 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  405  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_IRQ_SUBSAMPLE_PATTERN(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  406  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4616  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  407  		val =3D 1;
+eebe6d00e9bf12 Robert Foss 2021-03-16  408  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_RPP_PIX_DROP_PERIOD(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  409  =
 
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4617  /**
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4618   * i40e_vsi_stop_ring=
-s - Stop a VSI's rings
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4619   * @vsi: the VSI bein=
-g configured
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4620   **/
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4621  void i40e_vsi_stop_ri=
-ngs(struct i40e_vsi *vsi)
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4622  {
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4623  	struct i40e_pf *pf =
-=3D vsi->back;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4624  	int pf_q, err, q_end;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4625  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  410  		val =3D 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  411  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_RPP_PIX_DROP_PATTERN(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  412  =
 
-3480756f2cb93c Jacob Keller         2017-04-13  4626  	/* When port TX is s=
-uspended, don't wait */
-0da36b9774cc24 Jacob Keller         2017-04-19  4627  	if (test_bit(__I40E_=
-PORT_SUSPENDED, vsi->back->state))
-3480756f2cb93c Jacob Keller         2017-04-13  4628  		return i40e_vsi_sto=
-p_rings_no_wait(vsi);
-3480756f2cb93c Jacob Keller         2017-04-13  4629  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  413  		val =3D 1;
+eebe6d00e9bf12 Robert Foss 2021-03-16  414  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_RPP_LINE_DROP_PERIOD(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  415  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4630  	q_end =3D vsi->base_=
-queue + vsi->num_queue_pairs;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4631  	for (pf_q =3D vsi->b=
-ase_queue; pf_q < q_end; pf_q++)
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4632  		i40e_pre_tx_queue_c=
-fg(&pf->hw, (u32)pf_q, false);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4633  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  416  		val =3D 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  417  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_RPP_LINE_DROP_PATTERN(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  418  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4634  	for (pf_q =3D vsi->b=
-ase_queue; pf_q < q_end; pf_q++) {
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4635  		err =3D i40e_contro=
-l_wait_rx_q(pf, pf_q, false);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4636  		if (err)
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4637  			dev_info(&pf->pdev=
-->dev,
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4638  				 "VSI seid %d Rx =
-ring %d dissable timeout\n",
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4639  				 vsi->seid, pf_q);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4640  	}
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4641  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  419  		val =3D 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  420  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_CTRL(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  421  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4642  	msleep(I40E_DISABLE_=
-TX_GAP_MSEC);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29 @4643  	pf_q =3D vsi->base_q=
-ueue;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4644  	for (pf_q =3D vsi->b=
-ase_queue; pf_q < q_end; pf_q++)
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4645  		wr32(&pf->hw, I40E_=
-QTX_ENA(pf_q), 0);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4646  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  422  		val =3D readl_relaxed(csid->b=
+ase + CSID_RDI_CFG0(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  423  		val |=3D  1 << RDI_CFG0_ENABL=
+E;
+eebe6d00e9bf12 Robert Foss 2021-03-16  424  		writel_relaxed(val, csid->bas=
+e + CSID_RDI_CFG0(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  425  	}
+eebe6d00e9bf12 Robert Foss 2021-03-16  426  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4647  	i40e_vsi_wait_queues=
-_disabled(vsi);
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4648  }
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4649  =
+eebe6d00e9bf12 Robert Foss 2021-03-16  427  	if (tg->enabled) {
+eebe6d00e9bf12 Robert Foss 2021-03-16  428  		val =3D enable << TPG_CTRL_TE=
+ST_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  429  		val |=3D 1 << TPG_CTRL_FS_PKT=
+_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  430  		val |=3D 1 << TPG_CTRL_FE_PKT=
+_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  431  		val |=3D (lane_cnt - 1) << TP=
+G_CTRL_NUM_ACTIVE_LANES;
+eebe6d00e9bf12 Robert Foss 2021-03-16  432  		val |=3D 0x64 << TPG_CTRL_CYC=
+LES_BETWEEN_PKTS;
+eebe6d00e9bf12 Robert Foss 2021-03-16  433  		val |=3D 0xA << TPG_CTRL_NUM_=
+TRAIL_BYTES;
+eebe6d00e9bf12 Robert Foss 2021-03-16  434  		writel_relaxed(val, csid->bas=
+e + CSID_TPG_CTRL);
+eebe6d00e9bf12 Robert Foss 2021-03-16  435  	}
+eebe6d00e9bf12 Robert Foss 2021-03-16  436  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  437  	val =3D (lane_cnt - 1) << CSI2=
+_RX_CFG0_NUM_ACTIVE_LANES;
+eebe6d00e9bf12 Robert Foss 2021-03-16  438  	val |=3D csid->phy.lane_assign=
+ << CSI2_RX_CFG0_DL0_INPUT_SEL;
+eebe6d00e9bf12 Robert Foss 2021-03-16  439  	val |=3D phy_sel << CSI2_RX_CF=
+G0_PHY_NUM_SEL;
+eebe6d00e9bf12 Robert Foss 2021-03-16  440  	writel_relaxed(val, csid->base=
+ + CSID_CSI2_RX_CFG0);
+eebe6d00e9bf12 Robert Foss 2021-03-16  441  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  442  	val =3D 1 << CSI2_RX_CFG1_PACK=
+ET_ECC_CORRECTION_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  443  	val |=3D 1 << CSI2_RX_CFG1_MIS=
+R_EN;
+eebe6d00e9bf12 Robert Foss 2021-03-16  444  	writel_relaxed(val, csid->base=
+ + CSID_CSI2_RX_CFG1); // csi2_vc_mode_shift_val ?
+eebe6d00e9bf12 Robert Foss 2021-03-16  445  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  446  	/* error irqs start at BIT(11)=
+ */
+eebe6d00e9bf12 Robert Foss 2021-03-16  447  	writel_relaxed(~0u, csid->base=
+ + CSID_CSI2_RX_IRQ_MASK);
+eebe6d00e9bf12 Robert Foss 2021-03-16  448  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  449  	/* RDI irq */
+eebe6d00e9bf12 Robert Foss 2021-03-16  450  	writel_relaxed(~0u, csid->base=
+ + CSID_TOP_IRQ_MASK);
+eebe6d00e9bf12 Robert Foss 2021-03-16  451  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  452  	val =3D 1 << RDI_CTRL_HALT_CMD;
+eebe6d00e9bf12 Robert Foss 2021-03-16  453  	writel_relaxed(val, csid->base=
+ + CSID_RDI_CTRL(0));
+eebe6d00e9bf12 Robert Foss 2021-03-16  454  }
+eebe6d00e9bf12 Robert Foss 2021-03-16  455  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  456  static int csid_configure_testg=
+en_pattern(struct csid_device *csid, s32 val)
+eebe6d00e9bf12 Robert Foss 2021-03-16  457  {
+eebe6d00e9bf12 Robert Foss 2021-03-16  458  	if (val > 0 && val <=3D csid->=
+testgen.nmodes)
+eebe6d00e9bf12 Robert Foss 2021-03-16  459  		csid->testgen.mode =3D val;
+eebe6d00e9bf12 Robert Foss 2021-03-16  460  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  461  	return 0;
+eebe6d00e9bf12 Robert Foss 2021-03-16  462  }
+eebe6d00e9bf12 Robert Foss 2021-03-16  463  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  464  /*
+eebe6d00e9bf12 Robert Foss 2021-03-16  465   * csid_hw_version - CSID hardw=
+are version query
+eebe6d00e9bf12 Robert Foss 2021-03-16  466   * @csid: CSID device
+eebe6d00e9bf12 Robert Foss 2021-03-16  467   *
+eebe6d00e9bf12 Robert Foss 2021-03-16  468   * Return HW version or error
+eebe6d00e9bf12 Robert Foss 2021-03-16  469   */
+eebe6d00e9bf12 Robert Foss 2021-03-16  470  static u32 csid_hw_version(stru=
+ct csid_device *csid)
+eebe6d00e9bf12 Robert Foss 2021-03-16  471  {
+eebe6d00e9bf12 Robert Foss 2021-03-16  472  	u32 hw_version;
+eebe6d00e9bf12 Robert Foss 2021-03-16  473  	u32 hw_gen;
+eebe6d00e9bf12 Robert Foss 2021-03-16  474  	u32 hw_rev;
+eebe6d00e9bf12 Robert Foss 2021-03-16  475  	u32 hw_step;
+eebe6d00e9bf12 Robert Foss 2021-03-16  476  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  477  	hw_version =3D readl_relaxed(c=
+sid->base + CSID_HW_VERSION);
+eebe6d00e9bf12 Robert Foss 2021-03-16 @478  	hw_gen =3D (hw_version >> HW_V=
+ERSION_GENERATION) & 0xF;
+eebe6d00e9bf12 Robert Foss 2021-03-16 @479  	hw_rev =3D (hw_version >> HW_V=
+ERSION_REVISION) & 0xFFF;
+eebe6d00e9bf12 Robert Foss 2021-03-16 @480  	hw_step =3D (hw_version >> HW_=
+VERSION_STEPPING) & 0xFFFF;
+eebe6d00e9bf12 Robert Foss 2021-03-16  481  	dev_dbg(csid->camss->dev, "CSI=
+D HW Version =3D %u.%u.%u\n",
+eebe6d00e9bf12 Robert Foss 2021-03-16  482  		hw_gen, hw_rev, hw_step);
+eebe6d00e9bf12 Robert Foss 2021-03-16  483  =
+
+eebe6d00e9bf12 Robert Foss 2021-03-16  484  	return hw_version;
+eebe6d00e9bf12 Robert Foss 2021-03-16  485  }
+eebe6d00e9bf12 Robert Foss 2021-03-16  486  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3681460749336192726==--
+--===============1624533673913992556==--
 
