@@ -1,63 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============4191563714259385129=="
+Content-Type: multipart/mixed; boundary="===============8259697991741812427=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 3/9] mm: remove set_page_count() from page_frag_alloc_align
-Date: Sun, 02 Jan 2022 20:18:02 +0800
-Message-ID: <202201022054.ufnNk7Fu-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/i40e/i40e_xsk.c:274:6: warning: Value stored to 'cleaned_count' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 02 Jan 2022 15:45:32 +0800
+Message-ID: <202201021531.WqxLNEDn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4191563714259385129==
+--===============8259697991741812427==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211221150140.988298-4-pasha.tatashin@soleen.com>
-References: <20211221150140.988298-4-pasha.tatashin@soleen.com>
-TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-TO: pasha.tatashin(a)soleen.com
-TO: linux-kernel(a)vger.kernel.org
-TO: linux-mm(a)kvack.org
-TO: linux-m68k(a)lists.linux-m68k.org
-TO: anshuman.khandual(a)arm.com
-TO: willy(a)infradead.org
-TO: akpm(a)linux-foundation.org
-TO: william.kucharski(a)oracle.com
-TO: mike.kravetz(a)oracle.com
-TO: vbabka(a)suse.cz
+CC: linux-kernel(a)vger.kernel.org
+TO: Cristian Dumitrescu <cristian.dumitrescu@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
-Hi Pasha,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on hnaz-mm/master]
-[also build test WARNING on rostedt-trace/for-next geert-m68k/for-next linu=
-x/master linus/master v5.16-rc7 next-20211224]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Pasha-Tatashin/Hardening-p=
-age-_refcount/20211221-230439
-base:   https://github.com/hnaz/linux-mm master
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
-config: x86_64-randconfig-c007-20211231 (https://download.01.org/0day-ci/ar=
-chive/20220102/202201022054.ufnNk7Fu-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7cd109=
-b92c72855937273a6c8ab19016fbe27d33)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   278218f6778bc7d6f8b67199446c56cec7ebb841
+commit: f12738b6ec063b1b63ff2232fd203d13a6ec2468 i40e: remove unnecessary c=
+leaned_count updates
+date:   11 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 11 months ago
+config: x86_64-randconfig-c007-20220101 (https://download.01.org/0day-ci/ar=
+chive/20220102/202201021531.WqxLNEDn-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c05440=
+2170cd8466683a20385befc0523aba3359)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/2add304c6e5eb6206507d871c=
-cfd11349cc32586
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Pasha-Tatashin/Hardening-page-_ref=
-count/20211221-230439
-        git checkout 2add304c6e5eb6206507d871ccfd11349cc32586
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df12738b6ec063b1b63ff2232fd203d13a6ec2468
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f12738b6ec063b1b63ff2232fd203d13a6ec2468
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -68,354 +50,483 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:5287:3: note: Taking false branch
-                   if (unlikely(!page)) {
-                   ^
-   mm/page_alloc.c:5296:7: note: Assuming 'page_list' is null
-                   if (page_list)
-                       ^~~~~~~~~
-   mm/page_alloc.c:5296:3: note: Taking false branch
-                   if (page_list)
-                   ^
-   mm/page_alloc.c:5299:29: note: Array access (from variable 'page_array')=
- results in a null pointer dereference
-                           page_array[nr_populated] =3D page;
-                           ~~~~~~~~~~               ^
-   mm/page_alloc.c:5320:29: warning: Array access (from variable 'page_arra=
-y') results in a null pointer dereference [clang-analyzer-core.NullDerefere=
-nce]
-                           page_array[nr_populated] =3D page;
-                           ~~~~~~~~~~               ^
-   mm/page_alloc.c:5205:9: note: Assuming 'page_array' is null
-           while (page_array && nr_populated < nr_pages && page_array[nr_po=
-pulated])
-                  ^~~~~~~~~~
-   mm/page_alloc.c:5205:20: note: Left side of '&&' is false
-           while (page_array && nr_populated < nr_pages && page_array[nr_po=
-pulated])
-                             ^
-   mm/page_alloc.c:5209:15: note: Assuming 'nr_pages' is > 0
-           if (unlikely(nr_pages <=3D 0))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/page_alloc.c:5209:2: note: Taking false branch
-           if (unlikely(nr_pages <=3D 0))
            ^
-   mm/page_alloc.c:5213:15: note: 'page_array' is null
-           if (unlikely(page_array && nr_pages - nr_populated =3D=3D 0))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/page_alloc.c:5213:26: note: Left side of '&&' is false
-           if (unlikely(page_array && nr_pages - nr_populated =3D=3D 0))
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/btrfs/tree-log.c:4204:8: note: 'ret' is 0
+                   if (!ret)
+                        ^~~
+   fs/btrfs/tree-log.c:4204:3: note: Taking true branch
+                   if (!ret)
+                   ^
+   fs/btrfs/tree-log.c:4207:3: note: Memory is released
+                   kfree(sums);
+                   ^~~~~~~~~~~
+   fs/btrfs/tree-log.c:4200:2: note: Loop condition is true.  Entering loop=
+ body
+           while (!list_empty(&ordered_sums)) {
+           ^
+   fs/btrfs/tree-log.c:4201:36: note: Left side of '&&' is false
+                   struct btrfs_ordered_sum *sums =3D list_entry(ordered_su=
+ms.next,
+                                                    ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:694:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   fs/btrfs/tree-log.c:4201:36: note: Taking false branch
+                   struct btrfs_ordered_sum *sums =3D list_entry(ordered_su=
+ms.next,
+                                                    ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   fs/btrfs/tree-log.c:4201:36: note: Loop condition is false.  Exiting loop
+                   struct btrfs_ordered_sum *sums =3D list_entry(ordered_su=
+ms.next,
+                                                    ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/btrfs/tree-log.c:4204:7: note: Assuming 'ret' is not equal to 0
+                   if (!ret)
+                       ^~~~
+   fs/btrfs/tree-log.c:4204:3: note: Taking false branch
+                   if (!ret)
+                   ^
+   fs/btrfs/tree-log.c:4206:3: note: Calling 'list_del'
+                   list_del(&sums->list);
+                   ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:147:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:3781:3: warning: Valu=
+e stored to 'aq_ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   aq_ret =3D I40E_ERR_PARAM;
+                   ^        ~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:3781:3: note: Value s=
+tored to 'aq_ret' is never read
+                   aq_ret =3D I40E_ERR_PARAM;
+                   ^        ~~~~~~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+>> drivers/net/ethernet/intel/i40e/i40e_xsk.c:274:6: warning: Value stored =
+to 'cleaned_count' during its initialization is never read [clang-analyzer-=
+deadcode.DeadStores]
+           u16 cleaned_count =3D I40E_DESC_UNUSED(rx_ring);
+               ^~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_xsk.c:274:6: note: Value stored to =
+'cleaned_count' during its initialization is never read
+           u16 cleaned_count =3D I40E_DESC_UNUSED(rx_ring);
+               ^~~~~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:10755:3: warning: Value st=
+ored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D 0;
+                   ^     ~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:10755:3: note: Value store=
+d to 'err' is never read
+                   err =3D 0;
+                   ^     ~
+   include/linux/page-flags.h:184:23: warning: Dereference of null pointer =
+[clang-analyzer-core.NullDereference]
+           unsigned long head =3D READ_ONCE(page->compound_head);
+                                ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3146:5: note: Left side of=
+ '&&' is false
+                                   container_of(napi, struct ixgbe_q_vector=
+, napi);
                                    ^
-   mm/page_alloc.c:5213:2: note: Taking false branch
-           if (unlikely(page_array && nr_pages - nr_populated =3D=3D 0))
-           ^
-   mm/page_alloc.c:5217:6: note: Calling 'memcg_kmem_enabled'
-           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
-               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/memcontrol.h:1714:9: note: Left side of '&&' is false
-           return static_branch_likely(&memcg_kmem_enabled_key);
-                  ^
-   include/linux/jump_label.h:507:49: note: expanded from macro 'static_bra=
-nch_likely'
-   #define static_branch_likely(x)         likely_notrace(static_key_enable=
-d(&(x)->key))
-                                                          ^
-   include/linux/jump_label.h:416:67: note: expanded from macro 'static_key=
-_enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
-                                                                           =
- ^
-   include/linux/memcontrol.h:1714:9: note: Assuming the condition is true
-           return static_branch_likely(&memcg_kmem_enabled_key);
-                  ^
-   include/linux/jump_label.h:507:49: note: expanded from macro 'static_bra=
-nch_likely'
-   #define static_branch_likely(x)         likely_notrace(static_key_enable=
-d(&(x)->key))
-                                           ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   include/linux/jump_label.h:420:2: note: expanded from macro 'static_key_=
-enabled'
-           static_key_count((struct static_key *)x) > 0;                   =
-        \
-           ^
-   include/linux/compiler.h:79:35: note: expanded from macro 'likely_notrac=
-e'
-   # define likely_notrace(x)      likely(x)
-                                   ~~~~~~~^~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   include/linux/memcontrol.h:1714:2: note: Returning the value 1, which pa=
-rticipates in a condition later
-           return static_branch_likely(&memcg_kmem_enabled_key);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:5217:6: note: Returning from 'memcg_kmem_enabled'
-           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
-               ^~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:5217:6: note: Left side of '&&' is true
-   mm/page_alloc.c:5217:31: note: Assuming the condition is true
-           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
-                                        ^~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:5217:2: note: Taking true branch
-           if (memcg_kmem_enabled() && (gfp & __GFP_ACCOUNT))
-           ^
-   mm/page_alloc.c:5218:3: note: Control jumps to line 5315
-                   goto failed;
-                   ^
-   mm/page_alloc.c:5316:6: note: Assuming 'page' is non-null
-           if (page) {
-               ^~~~
-   mm/page_alloc.c:5316:2: note: Taking true branch
-           if (page) {
-           ^
-   mm/page_alloc.c:5317:7: note: Assuming 'page_list' is null
-                   if (page_list)
-                       ^~~~~~~~~
-   mm/page_alloc.c:5317:3: note: Taking false branch
-                   if (page_list)
-                   ^
-   mm/page_alloc.c:5320:29: note: Array access (from variable 'page_array')=
- results in a null pointer dereference
-                           page_array[nr_populated] =3D page;
-                           ~~~~~~~~~~               ^
->> mm/page_alloc.c:5559:3: warning: Value stored to 'refcnt' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   refcnt =3D page_ref_add_return(page, PAGE_FRAG_CACHE_MAX=
-_SIZE + 1);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   mm/page_alloc.c:5559:3: note: Value stored to 'refcnt' is never read
-                   refcnt =3D page_ref_add_return(page, PAGE_FRAG_CACHE_MAX=
-_SIZE + 1);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   mm/page_alloc.c:8380:3: warning: Division by zero [clang-analyzer-core.D=
-ivideZero]
-                   do_div(tmp, lowmem_pages);
-                   ^
-   include/asm-generic/div64.h:48:26: note: expanded from macro 'do_div'
-           __rem =3D ((uint64_t)(n)) % __base;                       \
+   include/linux/kernel.h:694:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3146:5: note: Taking false=
+ branch
+                                   container_of(napi, struct ixgbe_q_vector=
+, napi);
                                    ^
-   mm/page_alloc.c:8533:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   mm/page_alloc.c:8533:2: note: Taking false branch
-           if (rc)
+   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   mm/page_alloc.c:8536:6: note: Assuming 'write' is not equal to 0
-           if (write)
-               ^~~~~
-   mm/page_alloc.c:8536:2: note: Taking true branch
-           if (write)
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   mm/page_alloc.c:8537:3: note: Calling 'setup_per_zone_wmarks'
-                   setup_per_zone_wmarks();
-                   ^~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:8437:2: note: Calling '__setup_per_zone_wmarks'
-           __setup_per_zone_wmarks();
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:8365:2: note: 'lowmem_pages' initialized to 0
-           unsigned long lowmem_pages =3D 0;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/page_alloc.c:8370:2: note: Loop condition is false. Execution continu=
-es on line 8375
-           for_each_zone(zone) {
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/mmzone.h:1122:2: note: expanded from macro 'for_each_zone'
-           for (zone =3D (first_online_pgdat())->node_zones; \
-           ^
-   mm/page_alloc.c:8375:2: note: Loop condition is true.  Entering loop body
-           for_each_zone(zone) {
-           ^
-   include/linux/mmzone.h:1122:2: note: expanded from macro 'for_each_zone'
-           for (zone =3D (first_online_pgdat())->node_zones; \
-           ^
-   mm/page_alloc.c:8378:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&zone->lock, flags);
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   include/linux/spinlock.h:397:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3146:5: note: Loop conditi=
+on is false.  Exiting loop
+                                   container_of(napi, struct ixgbe_q_vector=
+, napi);
+                                   ^
+   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/spinlock.h:253:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   mm/page_alloc.c:8378:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&zone->lock, flags);
-                   ^
-   include/linux/spinlock.h:395:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   mm/page_alloc.c:8380:3: note: '__base' initialized to 0
-                   do_div(tmp, lowmem_pages);
-                   ^
-   include/asm-generic/div64.h:46:2: note: expanded from macro 'do_div'
-           uint32_t __base =3D (base);                               \
-           ^~~~~~~~~~~~~~~
-   mm/page_alloc.c:8380:3: note: Division by zero
-                   do_div(tmp, lowmem_pages);
-                   ^
-   include/asm-generic/div64.h:48:26: note: expanded from macro 'do_div'
-           __rem =3D ((uint64_t)(n)) % __base;                       \
-                   ~~~~~~~~~~~~~~~~^~~~~~~~
-   Suppressed 12 warnings (11 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1489:2: warning: Value stored to '=
-r' is never read [clang-analyzer-deadcode.DeadStores]
-           r =3D amdgpu_atomfirmware_get_vram_info(adev,
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1489:2: note: Value stored to 'r' =
-is never read
-           r =3D amdgpu_atomfirmware_get_vram_info(adev,
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c:852:3: warning: Value stored to '=
-r' is never read [clang-analyzer-deadcode.DeadStores]
-                   r =3D amdgpu_atomfirmware_get_vram_info(adev,
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c:852:3: note: Value stored to 'r' =
-is never read
-                   r =3D amdgpu_atomfirmware_get_vram_info(adev,
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3157:22: note: Assuming 'r=
+ing' is equal to null
+           ixgbe_for_each_ring(ring, q_vector->tx) {
+                               ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe.h:437:26: note: expanded from mac=
+ro 'ixgbe_for_each_ring'
+           for (pos =3D (head).ring; pos !=3D NULL; pos =3D pos->next)
+                                   ^~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3157:2: note: Loop conditi=
+on is false. Execution continues on line 3167
+           ixgbe_for_each_ring(ring, q_vector->tx) {
+           ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe.h:437:2: note: expanded from macr=
+o 'ixgbe_for_each_ring'
+           for (pos =3D (head).ring; pos !=3D NULL; pos =3D pos->next)
+           ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3167:6: note: Assuming 'bu=
+dget' is > 0
+           if (budget <=3D 0)
+               ^~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3167:2: note: Taking false=
+ branch
+           if (budget <=3D 0)
+           ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3172:6: note: Assuming fie=
+ld 'count' is <=3D 1
+           if (q_vector->rx.count > 1)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3172:2: note: Taking false=
+ branch
+           if (q_vector->rx.count > 1)
+           ^
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c:3177:22: note: Assuming 'r=
+ing' is not equal to null
+           ixgbe_for_each_ring(ring, q_vector->rx) {
 
-vim +/refcnt +5559 mm/page_alloc.c
+vim +/cleaned_count +274 drivers/net/ethernet/intel/i40e/i40e_xsk.c
 
-44fdffd70504c1 Alexander Duyck 2016-12-14  5511  =
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  263  =
 
-b358e2122b9d7a Kevin Hao       2021-02-04  5512  void *page_frag_alloc_alig=
-n(struct page_frag_cache *nc,
-b358e2122b9d7a Kevin Hao       2021-02-04  5513  		      unsigned int frags=
-z, gfp_t gfp_mask,
-b358e2122b9d7a Kevin Hao       2021-02-04  5514  		      unsigned int align=
-_mask)
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5515  {
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5516  	unsigned int size =3D PAG=
-E_SIZE;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5517  	struct page *page;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5518  	int offset;
-2add304c6e5eb6 Pasha Tatashin  2021-12-21  5519  	int refcnt;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5520  =
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  264  /**
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  265   * i40e_clean=
+_rx_irq_zc - Consumes Rx packets from the hardware ring
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  266   * @rx_ring: =
+Rx ring
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  267   * @budget: N=
+API budget
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  268   *
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  269   * Returns am=
+ount of work completed
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  270   **/
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  271  int i40e_clea=
+n_rx_irq_zc(struct i40e_ring *rx_ring, int budget)
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  272  {
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  273  	unsigned int=
+ total_rx_bytes =3D 0, total_rx_packets =3D 0;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28 @274  	u16 cleaned_=
+count =3D I40E_DESC_UNUSED(rx_ring);
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  275  	u16 next_to_clean =3D =
+rx_ring->next_to_clean;
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  276  	u16 count_mask =3D rx_=
+ring->count - 1;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  277  	unsigned int=
+ xdp_res, xdp_xmit =3D 0;
+1773482fd8cecd Dan Carpenter       2020-09-16  278  	bool failure =3D false;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  279  	struct sk_bu=
+ff *skb;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  280  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5521  	if (unlikely(!nc->va)) {
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5522  refill:
-2976db8018532b Alexander Duyck 2017-01-10  5523  		page =3D __page_frag_cac=
-he_refill(nc, gfp_mask);
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5524  		if (!page)
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5525  			return NULL;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5526  =
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  281  	while (likel=
+y(total_rx_packets < (unsigned int)budget)) {
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  282  		union i40e_=
+rx_desc *rx_desc;
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  283  		struct xdp_=
+buff **bi;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  284  		unsigned in=
+t size;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  285  		u64 qword;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  286  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5527  #if (PAGE_SIZE < PAGE_FRAG=
-_CACHE_MAX_SIZE)
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5528  		/* if size can vary use =
-size else just use PAGE_SIZE */
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5529  		size =3D nc->size;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5530  #endif
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5531  		/* Even if we own the pa=
-ge, we do not use atomic_set().
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5532  		 * This would break get_=
-page_unless_zero() users.
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5533  		 */
-8644772637deb1 Alexander Duyck 2019-02-15  5534  		page_ref_add(page, PAGE_=
-FRAG_CACHE_MAX_SIZE);
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5535  =
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  287  		rx_desc =3D I40E_RX_D=
+ESC(rx_ring, next_to_clean);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  288  		qword =3D l=
+e64_to_cpu(rx_desc->wb.qword1.status_error_len);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  289  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5536  		/* reset page count bias=
- and offset to start of new frag */
-2f064f3485cd29 Michal Hocko    2015-08-21  5537  		nc->pfmemalloc =3D page_=
-is_pfmemalloc(page);
-8644772637deb1 Alexander Duyck 2019-02-15  5538  		nc->pagecnt_bias =3D PAG=
-E_FRAG_CACHE_MAX_SIZE + 1;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5539  		nc->offset =3D size;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5540  	}
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5541  =
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  290  		/* This mem=
+ory barrier is needed to keep us from reading
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  291  		 * any othe=
+r fields out of the rx_desc until we have
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  292  		 * verified=
+ the descriptor has been written back.
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  293  		 */
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  294  		dma_rmb();
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  295  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5542  	offset =3D nc->offset - f=
-ragsz;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5543  	if (unlikely(offset < 0))=
- {
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5544  		page =3D virt_to_page(nc=
-->va);
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5545  =
+be1222b585fdc4 Bj=C3=B6rn T=C3=B6pel         2020-05-20  296  		if (i40e_rx=
+_is_programming_status(qword)) {
+be1222b585fdc4 Bj=C3=B6rn T=C3=B6pel         2020-05-20  297  			i40e_clean=
+_programming_status(rx_ring,
+be1222b585fdc4 Bj=C3=B6rn T=C3=B6pel         2020-05-20  298  						      r=
+x_desc->raw.qword[0],
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  299  						      q=
+word);
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  300  			bi =3D i40e_rx_bi(rx=
+_ring, next_to_clean);
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  301  			xsk_buff_f=
+ree(*bi);
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  302  			*bi =3D NU=
+LL;
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  303  			next_to_clean =3D (n=
+ext_to_clean + 1) & count_mask;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  304  			continue;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  305  		}
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  306  =
 
-fe896d1878949e Joonsoo Kim     2016-03-17  5546  		if (!page_ref_sub_and_te=
-st(page, nc->pagecnt_bias))
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5547  			goto refill;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5548  =
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  307  		size =3D (q=
+word & I40E_RXD_QW1_LENGTH_PBUF_MASK) >>
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  308  		       I40E=
+_RXD_QW1_LENGTH_PBUF_SHIFT;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  309  		if (!size)
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  310  			break;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  311  =
 
-d8c19014bba8f5 Dongli Zhang    2020-11-15  5549  		if (unlikely(nc->pfmemal=
-loc)) {
-d8c19014bba8f5 Dongli Zhang    2020-11-15  5550  			free_the_page(page, com=
-pound_order(page));
-d8c19014bba8f5 Dongli Zhang    2020-11-15  5551  			goto refill;
-d8c19014bba8f5 Dongli Zhang    2020-11-15  5552  		}
-d8c19014bba8f5 Dongli Zhang    2020-11-15  5553  =
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  312  		bi =3D i40e_rx_bi(rx_=
+ring, next_to_clean);
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  313  		(*bi)->data=
+_end =3D (*bi)->data + size;
+9647c57b11e563 Magnus Karlsson     2020-08-28  314  		xsk_buff_dma_sync_for=
+_cpu(*bi, rx_ring->xsk_pool);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  315  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5554  #if (PAGE_SIZE < PAGE_FRAG=
-_CACHE_MAX_SIZE)
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5555  		/* if size can vary use =
-size else just use PAGE_SIZE */
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5556  		size =3D nc->size;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5557  #endif
-2add304c6e5eb6 Pasha Tatashin  2021-12-21  5558  		/* page count is 0, set =
-it to PAGE_FRAG_CACHE_MAX_SIZE + 1 */
-2add304c6e5eb6 Pasha Tatashin  2021-12-21 @5559  		refcnt =3D page_ref_add_=
-return(page, PAGE_FRAG_CACHE_MAX_SIZE + 1);
-2add304c6e5eb6 Pasha Tatashin  2021-12-21  5560  		VM_BUG_ON_PAGE(refcnt !=
-=3D PAGE_FRAG_CACHE_MAX_SIZE + 1, page);
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5561  =
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  316  		xdp_res =3D=
+ i40e_run_xdp_zc(rx_ring, *bi);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  317  		if (xdp_res=
+) {
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  318  			if (xdp_re=
+s & (I40E_XDP_TX | I40E_XDP_REDIR))
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  319  				xdp_xmit =
+|=3D xdp_res;
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  320  			else
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  321  				xsk_buff_=
+free(*bi);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  322  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5562  		/* reset page count bias=
- and offset to start of new frag */
-8644772637deb1 Alexander Duyck 2019-02-15  5563  		nc->pagecnt_bias =3D PAG=
-E_FRAG_CACHE_MAX_SIZE + 1;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5564  		offset =3D size - fragsz;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5565  	}
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5566  =
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  323  			*bi =3D NU=
+LL;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  324  			total_rx_b=
+ytes +=3D size;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  325  			total_rx_p=
+ackets++;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  326  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5567  	nc->pagecnt_bias--;
-b358e2122b9d7a Kevin Hao       2021-02-04  5568  	offset &=3D align_mask;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5569  	nc->offset =3D offset;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5570  =
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  327  			next_to_clean =3D (n=
+ext_to_clean + 1) & count_mask;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  328  			continue;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  329  		}
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  330  =
 
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5571  	return nc->va + offset;
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5572  }
-b358e2122b9d7a Kevin Hao       2021-02-04  5573  EXPORT_SYMBOL(page_frag_al=
-loc_align);
-b63ae8ca096dfd Alexander Duyck 2015-05-06  5574  =
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  331  		/* XDP_PASS=
+ path */
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  332  =
 
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  333  		/* NB! We a=
+re not checking for errors using
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  334  		 * i40e_tes=
+t_staterr with
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  335  		 * BIT(I40E=
+_RXD_QW1_ERROR_SHIFT). This is due to that
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  336  		 * SBP is *=
+not* set in PRT_SBPVSI (default not set).
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  337  		 */
+3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  338  		skb =3D i40=
+e_construct_skb_zc(rx_ring, *bi);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  339  		if (!skb) {
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  340  			rx_ring->r=
+x_stats.alloc_buff_failed++;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  341  			break;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  342  		}
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  343  =
+
+7128c834d30e6b Cristian Dumitrescu 2021-01-11  344  		*bi =3D NULL;
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  345  		next_to_clean =3D (ne=
+xt_to_clean + 1) & count_mask;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  346  =
+
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  347  		if (eth_skb=
+_pad(skb))
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  348  			continue;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  349  =
+
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  350  		total_rx_by=
+tes +=3D skb->len;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  351  		total_rx_pa=
+ckets++;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  352  =
+
+800b8f637d07cc Micha=C5=82 Miros=C5=82aw     2018-12-04  353  		i40e_proces=
+s_skb_fields(rx_ring, rx_desc, skb);
+2a508c64ad278d Micha=C5=82 Miros=C5=82aw     2018-12-04  354  		napi_gro_re=
+ceive(&rx_ring->q_vector->napi, skb);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  355  	}
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  356  =
+
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  357  	rx_ring->next_to_clean=
+ =3D next_to_clean;
+f12738b6ec063b Cristian Dumitrescu 2021-01-14  358  	cleaned_count =3D (nex=
+t_to_clean - rx_ring->next_to_use - 1) & count_mask;
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  359  =
+
+8cbf7414990338 Bj=C3=B6rn T=C3=B6pel         2020-08-25  360  	if (cleaned_=
+count >=3D I40E_RX_BUFFER_WRITE)
+8cbf7414990338 Bj=C3=B6rn T=C3=B6pel         2020-08-25  361  		failure =3D=
+ !i40e_alloc_rx_buffers_zc(rx_ring, cleaned_count);
+8cbf7414990338 Bj=C3=B6rn T=C3=B6pel         2020-08-25  362  =
+
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  363  	i40e_finaliz=
+e_xdp_rx(rx_ring, xdp_xmit);
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  364  	i40e_update_=
+rx_stats(rx_ring, total_rx_bytes, total_rx_packets);
+3d0c5f1cd268fd Magnus Karlsson     2019-08-14  365  =
+
+c4655761d3cf62 Magnus Karlsson     2020-08-28  366  	if (xsk_uses_need_wake=
+up(rx_ring->xsk_pool)) {
+c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  367  		if (failure || next_t=
+o_clean =3D=3D rx_ring->next_to_use)
+c4655761d3cf62 Magnus Karlsson     2020-08-28  368  			xsk_set_rx_need_wake=
+up(rx_ring->xsk_pool);
+3d0c5f1cd268fd Magnus Karlsson     2019-08-14  369  		else
+c4655761d3cf62 Magnus Karlsson     2020-08-28  370  			xsk_clear_rx_need_wa=
+keup(rx_ring->xsk_pool);
+3d0c5f1cd268fd Magnus Karlsson     2019-08-14  371  =
+
+3d0c5f1cd268fd Magnus Karlsson     2019-08-14  372  		return (int)total_rx_=
+packets;
+3d0c5f1cd268fd Magnus Karlsson     2019-08-14  373  	}
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  374  	return failu=
+re ? budget : (int)total_rx_packets;
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  375  }
+0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  376  =
+
+
+:::::: The code at line 274 was first introduced by commit
+:::::: 0a714186d3c0f7c563a03537f98716457c1f5ae0 i40e: add AF_XDP zero-copy =
+Rx support
+
+:::::: TO: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@intel.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4191563714259385129==--
+--===============8259697991741812427==--
 
