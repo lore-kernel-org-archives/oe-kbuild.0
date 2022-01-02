@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1500634207171301277=="
+Content-Type: multipart/mixed; boundary="===============0339787500777765993=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/i40e/i40e_xsk.c:274:6: warning: Value stored to 'cleaned_count' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 02 Jan 2022 10:11:07 +0800
-Message-ID: <202201021017.Lq16vkl4-lkp@intel.com>
+Subject: drivers/media/platform/imx-jpeg/mxc-jpeg.c:1177:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sun, 02 Jan 2022 10:00:50 +0800
+Message-ID: <202201021017.mFSR8hf6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1500634207171301277==
+--===============0339787500777765993==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Cristian Dumitrescu <cristian.dumitrescu@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+TO: Mirela Rabulea <mirela.rabulea@nxp.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   278218f6778bc7d6f8b67199446c56cec7ebb841
-commit: f12738b6ec063b1b63ff2232fd203d13a6ec2468 i40e: remove unnecessary c=
-leaned_count updates
-date:   11 months ago
+commit: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 =
+driver for i.MX8 JPEG Encoder/Decoder
+date:   10 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-c001-20211215 (https://download.01.org/0day-ci/arch=
-ive/20220102/202201021017.Lq16vkl4-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
+:::::: commit date: 10 months ago
+config: riscv-randconfig-c006-20211213 (https://download.01.org/0day-ci/arc=
+hive/20220102/202201021017.mFSR8hf6-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2dd=
+b6c8ac29412b1361810972e15221fa021c)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df12738b6ec063b1b63ff2232fd203d13a6ec2468
+t/commit/?id=3D2db16c6ed72ce644d5639b3ed15e5817442db4ba
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout f12738b6ec063b1b63ff2232fd203d13a6ec2468
+        git checkout 2db16c6ed72ce644d5639b3ed15e5817442db4ba
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,459 +54,434 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:907:6: note: Left side of '||=
+' is false
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:907:18: note: Assuming 'dst_b=
+uf' is non-null
+           if (!src_buf || !dst_buf) {
+                           ^~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:907:2: note: Taking false bra=
+nch
+           if (!src_buf || !dst_buf) {
            ^
-   net/sched/sch_fq.c:314:7: note: Assuming 'sk' is equal to field 'sk'
-                   if (f->sk =3D=3D sk) {
-                       ^~~~~~~~~~~
-   net/sched/sch_fq.c:314:3: note: Taking true branch
-                   if (f->sk =3D=3D sk) {
-                   ^
-   net/sched/sch_fq.c:320:17: note: Assuming 'sk' is equal to field 'sk'
-                           if (unlikely(skb->sk =3D=3D sk &&
-                                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/sch_fq.c:320:17: note: Left side of '&&' is true
-                           if (unlikely(skb->sk =3D=3D sk &&
-                                        ^
-   net/sched/sch_fq.c:321:28: note: Dereference of null pointer
-                                        f->socket_hash !=3D sk->sk_hash)) {
-                                                          ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/sch_fq.c:349:20: warning: Dereference of null pointer [clang-a=
-nalyzer-core.NullDereference]
-                   f->socket_hash =3D sk->sk_hash;
-                                    ^
-   net/sched/sch_fq.c:448:15: note: Assuming field 'qlen' is < field 'limit'
-           if (unlikely(sch->q.qlen >=3D sch->limit))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/sch_fq.c:448:2: note: Taking false branch
-           if (unlikely(sch->q.qlen >=3D sch->limit))
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:913:7: note: 'q_data_cap' is =
+non-null
+           if (!q_data_cap)
+                ^~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:913:2: note: Taking false bra=
+nch
+           if (!q_data_cap)
            ^
-   net/sched/sch_fq.c:451:6: note: Assuming field 'tstamp' is 0
-           if (!skb->tstamp) {
-               ^~~~~~~~~~~~
-   net/sched/sch_fq.c:451:2: note: Taking true branch
-           if (!skb->tstamp) {
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:916:7: note: 'q_data_out' is =
+non-null
+           if (!q_data_out)
+                ^~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:916:2: note: Taking false bra=
+nch
+           if (!q_data_out)
            ^
-   net/sched/sch_fq.c:473:6: note: Calling 'fq_classify'
-           f =3D fq_classify(skb, q);
-               ^~~~~~~~~~~~~~~~~~~
-   net/sched/sch_fq.c:269:15: note: Assuming the condition is false
-           if (unlikely((skb->priority & TC_PRIO_MAX) =3D=3D TC_PRIO_CONTRO=
-L))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/sch_fq.c:269:2: note: Taking false branch
-           if (unlikely((skb->priority & TC_PRIO_MAX) =3D=3D TC_PRIO_CONTRO=
-L))
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:924:6: note: Assuming field '=
+jpeg_parse_error' is false
+           if (jpeg_src_buf->jpeg_parse_error) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:924:2: note: Taking false bra=
+nch
+           if (jpeg_src_buf->jpeg_parse_error) {
            ^
-   net/sched/sch_fq.c:281:6: note: Assuming 'sk' is null
-           if (!sk || sk_listener(sk)) {
-               ^~~
-   net/sched/sch_fq.c:281:10: note: Left side of '||' is true
-           if (!sk || sk_listener(sk)) {
-                   ^
-   net/sched/sch_fq.c:287:3: note: Value assigned to 'sk'
-                   sk =3D (struct sock *)((hash << 1) | 1UL);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/sch_fq.c:304:6: note: Assuming the condition is false
-           if (q->flows >=3D (2U << q->fq_trees_log) &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/sch_fq.c:304:42: note: Left side of '&&' is false
-           if (q->flows >=3D (2U << q->fq_trees_log) &&
-                                                   ^
-   net/sched/sch_fq.c:310:2: note: Loop condition is false. Execution conti=
-nues on line 339
-           while (*p) {
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:945:11: note: Field 'slot' is=
+ < MXC_MAX_SLOTS
+           if (ctx->slot >=3D MXC_MAX_SLOTS) {
+                    ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:945:2: note: Taking false bra=
+nch
+           if (ctx->slot >=3D MXC_MAX_SLOTS) {
            ^
-   net/sched/sch_fq.c:340:15: note: Assuming 'f' is non-null
-           if (unlikely(!f)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/sch_fq.c:340:2: note: Taking false branch
-           if (unlikely(!f)) {
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:949:2: note: Taking false bra=
+nch
+           if (!mxc_jpeg_alloc_slot_data(jpeg, ctx->slot)) {
            ^
-   net/sched/sch_fq.c:348:6: note: Assuming 'sk' is equal to field 'sk'
-           if (skb->sk =3D=3D sk) {
-               ^~~~~~~~~~~~~
-   net/sched/sch_fq.c:348:2: note: Taking true branch
-           if (skb->sk =3D=3D sk) {
-           ^
-   net/sched/sch_fq.c:349:20: note: Dereference of null pointer
-                   f->socket_hash =3D sk->sk_hash;
-                                    ^~~~~~~~~~~
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:3781:3: warning: Valu=
-e stored to 'aq_ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   aq_ret =3D I40E_ERR_PARAM;
-                   ^        ~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.c:3781:3: note: Value s=
-tored to 'aq_ret' is never read
-                   aq_ret =3D I40E_ERR_PARAM;
-                   ^        ~~~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
->> drivers/net/ethernet/intel/i40e/i40e_xsk.c:274:6: warning: Value stored =
-to 'cleaned_count' during its initialization is never read [clang-analyzer-=
-deadcode.DeadStores]
-           u16 cleaned_count =3D I40E_DESC_UNUSED(rx_ring);
-               ^~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_xsk.c:274:6: note: Value stored to =
-'cleaned_count' during its initialization is never read
-           u16 cleaned_count =3D I40E_DESC_UNUSED(rx_ring);
-               ^~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:41:2: warning: Value st=
-ored to 'val64' is never read [clang-analyzer-deadcode.DeadStores]
-           val64 =3D readq(&vp_reg->rxmac_vcfg0);
-           ^
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:41:2: note: Value store=
-d to 'val64' is never read
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2158:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D vxge_hw_ring_rxd_reserve(ring, &rxd);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2158:3: note: Value sto=
-red to 'status' is never read
-                   status =3D vxge_hw_ring_rxd_reserve(ring, &rxd);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2620:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_FAIL;
-                   ^        ~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2620:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_FAIL;
-                   ^        ~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2626:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2626:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2651:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2651:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2661:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2661:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2672:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2672:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2682:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2682:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2697:3: warning: Value =
-stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/neterion/vxge/vxge-config.c:2697:3: note: Value sto=
-red to 'status' is never read
-                   status =3D VXGE_HW_ERR_OUT_OF_MEMORY;
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/hid/hid-core.c:1332:24: warning: The result of the left shift is=
- undefined due to shifting by '4294967295', which is greater or equal to th=
-e width of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   return value < 0 ? 1 << (n - 1) : (1 << (n - 1)) - 1;
-                                        ^
-   drivers/hid/hid-core.c:1714:6: note: Assuming 'buf' is non-null
-           if (!buf)
-               ^~~~
-   drivers/hid/hid-core.c:1714:2: note: Taking false branch
-           if (!buf)
-           ^
-   drivers/hid/hid-core.c:1719:6: note: Assuming 'reqtype' is equal to HID_=
-REQ_SET_REPORT
-           if (reqtype =3D=3D HID_REQ_SET_REPORT)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:957:6: note: Assuming field '=
+mode' is equal to MXC_JPEG_ENCODE
+           if (jpeg->mode =3D=3D MXC_JPEG_ENCODE) {
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1719:2: note: Taking true branch
-           if (reqtype =3D=3D HID_REQ_SET_REPORT)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:957:2: note: Taking true bran=
+ch
+           if (jpeg->mode =3D=3D MXC_JPEG_ENCODE) {
            ^
-   drivers/hid/hid-core.c:1720:3: note: Calling 'hid_output_report'
-                   hid_output_report(report, buf);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1627:14: note: Field 'id' is <=3D 0
-           if (report->id > 0)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:958:3: note: Taking false bra=
+nch
+                   dev_dbg(dev, "Encoding on slot %d\n", ctx->slot);
+                   ^
+   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:161:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:147:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:128:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:958:3: note: Loop condition i=
+s false.  Exiting loop
+                   dev_dbg(dev, "Encoding on slot %d\n", ctx->slot);
+                   ^
+   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:161:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:147:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:126:49: note: expanded from macro '__dynam=
+ic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:960:3: note: Calling 'mxc_jpe=
+g_config_enc_desc'
+                   mxc_jpeg_config_enc_desc(&dst_buf->vb2_buf, ctx,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:876:12: note: Calling 'mxc_jp=
+eg_fourcc_to_imgfmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:387:2: note: Control jumps to=
+ the 'default' case at line 400
+           switch (fourcc) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:401:3: note: Returning the va=
+lue -1
+                   return MXC_JPEG_INVALID;
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:876:12: note: Returning from =
+'mxc_jpeg_fourcc_to_imgfmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:876:2: note: The value -1 is =
+assigned to 'img_fmt'
+           img_fmt =3D mxc_jpeg_fourcc_to_imgfmt(q_data->fmt->fourcc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:877:6: note: 'img_fmt' is equ=
+al to MXC_JPEG_INVALID
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
+               ^~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:877:2: note: Taking true bran=
+ch
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:880:5: note: The result of th=
+e left shift is undefined because the left operand is negative
+                            STM_CTRL_IMAGE_FORMAT(img_fmt);
+                            ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h:84:52: note: expanded from=
+ macro 'STM_CTRL_IMAGE_FORMAT'
+   #define STM_CTRL_IMAGE_FORMAT(img_fmt)          ((img_fmt) << 3)
+                                                    ~~~~~~~~~ ^
+>> drivers/media/platform/imx-jpeg/mxc-jpeg.c:1177:7: warning: Branch condi=
+tion evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (!q->sizeimage[0])
                        ^
-   drivers/hid/hid-core.c:1627:2: note: Taking false branch
-           if (report->id > 0)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1752:8: note: Calling 'mxc_jp=
+eg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1649:16: note: Assuming field=
+ 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1649:15: note: '?' condition =
+is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:7: note: Assuming field =
+'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:7: note: Left side of '|=
+|' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:7: note: Assuming field =
+'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:2: note: Taking false br=
+anch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
            ^
-   drivers/hid/hid-core.c:1631:14: note: Assuming 'n' is < field 'maxfield'
-           for (n =3D 0; n < report->maxfield; n++)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:7: note: 'fmt' is non-nu=
+ll
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:6: note: Left side of '|=
+|' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:14: note: Assuming 'q_ty=
+pe' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
                        ^~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1631:2: note: Loop condition is true.  Entering l=
-oop body
-           for (n =3D 0; n < report->maxfield; n++)
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:2: note: Taking false br=
+anch
+           if (!fmt || fmt->flags !=3D q_type) {
            ^
-   drivers/hid/hid-core.c:1632:3: note: Calling 'hid_output_field'
-                   hid_output_field(report->device, report->field[n], data);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1597:14: note: Assuming 'n' is < 'count'
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1668:9: note: Calling 'mxc_jp=
+eg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1544:11: note: Assuming field=
+ 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1544:10: note: '?' condition =
+is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1546:11: note: Assuming field=
+ 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1546:10: note: '?' condition =
+is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1577:14: note: Assuming 'i' i=
+s >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1577:2: note: Loop condition =
+is false. Execution continues on line 1584
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1584:2: note: Calling 'mxc_jp=
+eg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1153:6: note: Assuming the co=
+ndition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1153:2: note: Taking true bra=
+nch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1584:2: note: Returning from =
+'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1585:2: note: Calling 'mxc_jp=
+eg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1175:2: note: Taking true bra=
+nch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1177:7: note: Branch conditio=
+n evaluates to a garbage value
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+>> drivers/media/platform/imx-jpeg/mxc-jpeg.c:1591:22: warning: Assigned va=
+lue is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   pfmt->bytesperline =3D tmp_q.bytesperline[i];
+                                      ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1752:8: note: Calling 'mxc_jp=
+eg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1649:16: note: Assuming field=
+ 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1649:15: note: '?' condition =
+is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:7: note: Assuming field =
+'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:7: note: Left side of '|=
+|' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:7: note: Assuming field =
+'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1652:2: note: Taking false br=
+anch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:7: note: 'fmt' is non-nu=
+ll
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:6: note: Left side of '|=
+|' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:14: note: Assuming 'q_ty=
+pe' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1658:2: note: Taking false br=
+anch
+           if (!fmt || fmt->flags !=3D q_type) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1668:9: note: Calling 'mxc_jp=
+eg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1544:11: note: Assuming field=
+ 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1544:10: note: '?' condition =
+is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1546:11: note: Assuming field=
+ 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1546:10: note: '?' condition =
+is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1577:14: note: Assuming 'i' i=
+s < field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1577:2: note: Loop condition =
+is true.  Entering loop body
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1577:14: note: Assuming 'i' i=
+s >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1577:2: note: Loop condition =
+is false. Execution continues on line 1584
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1584:2: note: Calling 'mxc_jp=
+eg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1153:6: note: Assuming the co=
+ndition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1153:2: note: Taking true bra=
+nch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1584:2: note: Returning from =
+'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1585:2: note: Calling 'mxc_jp=
+eg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1175:2: note: Taking true bra=
+nch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1177:7: note: Assuming the co=
+ndition is false
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1177:3: note: Taking false br=
+anch
+                   if (!q->sizeimage[0])
+                   ^
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1181:7: note: Assuming the co=
+ndition is false
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-jpeg/mxc-jpeg.c:1181:3: note: Taking false br=
+anch
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
 
-vim +/cleaned_count +274 drivers/net/ethernet/intel/i40e/i40e_xsk.c
+vim +1177 drivers/media/platform/imx-jpeg/mxc-jpeg.c
 
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  263  =
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1172  =
 
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  264  /**
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  265   * i40e_clean=
-_rx_irq_zc - Consumes Rx packets from the hardware ring
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  266   * @rx_ring: =
-Rx ring
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  267   * @budget: N=
-API budget
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  268   *
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  269   * Returns am=
-ount of work completed
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  270   **/
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  271  int i40e_clea=
-n_rx_irq_zc(struct i40e_ring *rx_ring, int budget)
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  272  {
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  273  	unsigned int=
- total_rx_bytes =3D 0, total_rx_packets =3D 0;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28 @274  	u16 cleaned_=
-count =3D I40E_DESC_UNUSED(rx_ring);
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  275  	u16 next_to_clean =3D =
-rx_ring->next_to_clean;
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  276  	u16 count_mask =3D rx_=
-ring->count - 1;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  277  	unsigned int=
- xdp_res, xdp_xmit =3D 0;
-1773482fd8cecd Dan Carpenter       2020-09-16  278  	bool failure =3D false;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  279  	struct sk_bu=
-ff *skb;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  280  =
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1173  static void mxc_jpeg_sizeim=
+age(struct mxc_jpeg_q_data *q)
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1174  {
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1175  	if (q->fmt->fourcc =3D=3D =
+V4L2_PIX_FMT_JPEG) {
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1176  		/* if no sizeimage from u=
+ser, assume worst jpeg compression */
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11 @1177  		if (!q->sizeimage[0])
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1178  			q->sizeimage[0] =3D 6 * =
+q->w * q->h;
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1179  		q->sizeimage[1] =3D 0;
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1180  =
 
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  281  	while (likel=
-y(total_rx_packets < (unsigned int)budget)) {
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  282  		union i40e_=
-rx_desc *rx_desc;
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  283  		struct xdp_=
-buff **bi;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  284  		unsigned in=
-t size;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  285  		u64 qword;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  286  =
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1181  		if (q->sizeimage[0] > MXC=
+_JPEG_MAX_SIZEIMAGE)
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1182  			q->sizeimage[0] =3D MXC_=
+JPEG_MAX_SIZEIMAGE;
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1183  =
 
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  287  		rx_desc =3D I40E_RX_D=
-ESC(rx_ring, next_to_clean);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  288  		qword =3D l=
-e64_to_cpu(rx_desc->wb.qword1.status_error_len);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  289  =
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1184  		/* jpeg stream size must =
+be multiple of 1K */
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1185  		q->sizeimage[0] =3D ALIGN=
+(q->sizeimage[0], 1024);
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1186  	} else {
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1187  		q->sizeimage[0] =3D q->by=
+tesperline[0] * q->h;
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1188  		q->sizeimage[1] =3D 0;
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1189  		if (q->fmt->fourcc =3D=3D=
+ V4L2_PIX_FMT_NV12)
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1190  			q->sizeimage[1] =3D q->s=
+izeimage[0] / 2;
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1191  	}
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1192  }
+2db16c6ed72ce6 Mirela Rabulea 2021-03-11  1193  =
 
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  290  		/* This mem=
-ory barrier is needed to keep us from reading
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  291  		 * any othe=
-r fields out of the rx_desc until we have
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  292  		 * verified=
- the descriptor has been written back.
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  293  		 */
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  294  		dma_rmb();
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  295  =
-
-be1222b585fdc4 Bj=C3=B6rn T=C3=B6pel         2020-05-20  296  		if (i40e_rx=
-_is_programming_status(qword)) {
-be1222b585fdc4 Bj=C3=B6rn T=C3=B6pel         2020-05-20  297  			i40e_clean=
-_programming_status(rx_ring,
-be1222b585fdc4 Bj=C3=B6rn T=C3=B6pel         2020-05-20  298  						      r=
-x_desc->raw.qword[0],
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  299  						      q=
-word);
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  300  			bi =3D i40e_rx_bi(rx=
-_ring, next_to_clean);
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  301  			xsk_buff_f=
-ree(*bi);
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  302  			*bi =3D NU=
-LL;
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  303  			next_to_clean =3D (n=
-ext_to_clean + 1) & count_mask;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  304  			continue;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  305  		}
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  306  =
-
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  307  		size =3D (q=
-word & I40E_RXD_QW1_LENGTH_PBUF_MASK) >>
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  308  		       I40E=
-_RXD_QW1_LENGTH_PBUF_SHIFT;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  309  		if (!size)
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  310  			break;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  311  =
-
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  312  		bi =3D i40e_rx_bi(rx_=
-ring, next_to_clean);
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  313  		(*bi)->data=
-_end =3D (*bi)->data + size;
-9647c57b11e563 Magnus Karlsson     2020-08-28  314  		xsk_buff_dma_sync_for=
-_cpu(*bi, rx_ring->xsk_pool);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  315  =
-
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  316  		xdp_res =3D=
- i40e_run_xdp_zc(rx_ring, *bi);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  317  		if (xdp_res=
-) {
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  318  			if (xdp_re=
-s & (I40E_XDP_TX | I40E_XDP_REDIR))
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  319  				xdp_xmit =
-|=3D xdp_res;
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  320  			else
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  321  				xsk_buff_=
-free(*bi);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  322  =
-
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  323  			*bi =3D NU=
-LL;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  324  			total_rx_b=
-ytes +=3D size;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  325  			total_rx_p=
-ackets++;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  326  =
-
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  327  			next_to_clean =3D (n=
-ext_to_clean + 1) & count_mask;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  328  			continue;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  329  		}
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  330  =
-
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  331  		/* XDP_PASS=
- path */
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  332  =
-
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  333  		/* NB! We a=
-re not checking for errors using
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  334  		 * i40e_tes=
-t_staterr with
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  335  		 * BIT(I40E=
-_RXD_QW1_ERROR_SHIFT). This is due to that
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  336  		 * SBP is *=
-not* set in PRT_SBPVSI (default not set).
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  337  		 */
-3b4f0b66c2b3dc Bj=C3=B6rn T=C3=B6pel         2020-05-20  338  		skb =3D i40=
-e_construct_skb_zc(rx_ring, *bi);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  339  		if (!skb) {
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  340  			rx_ring->r=
-x_stats.alloc_buff_failed++;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  341  			break;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  342  		}
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  343  =
-
-7128c834d30e6b Cristian Dumitrescu 2021-01-11  344  		*bi =3D NULL;
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  345  		next_to_clean =3D (ne=
-xt_to_clean + 1) & count_mask;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  346  =
-
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  347  		if (eth_skb=
-_pad(skb))
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  348  			continue;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  349  =
-
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  350  		total_rx_by=
-tes +=3D skb->len;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  351  		total_rx_pa=
-ckets++;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  352  =
-
-800b8f637d07cc Micha=C5=82 Miros=C5=82aw     2018-12-04  353  		i40e_proces=
-s_skb_fields(rx_ring, rx_desc, skb);
-2a508c64ad278d Micha=C5=82 Miros=C5=82aw     2018-12-04  354  		napi_gro_re=
-ceive(&rx_ring->q_vector->napi, skb);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  355  	}
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  356  =
-
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  357  	rx_ring->next_to_clean=
- =3D next_to_clean;
-f12738b6ec063b Cristian Dumitrescu 2021-01-14  358  	cleaned_count =3D (nex=
-t_to_clean - rx_ring->next_to_use - 1) & count_mask;
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  359  =
-
-8cbf7414990338 Bj=C3=B6rn T=C3=B6pel         2020-08-25  360  	if (cleaned_=
-count >=3D I40E_RX_BUFFER_WRITE)
-8cbf7414990338 Bj=C3=B6rn T=C3=B6pel         2020-08-25  361  		failure =3D=
- !i40e_alloc_rx_buffers_zc(rx_ring, cleaned_count);
-8cbf7414990338 Bj=C3=B6rn T=C3=B6pel         2020-08-25  362  =
-
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  363  	i40e_finaliz=
-e_xdp_rx(rx_ring, xdp_xmit);
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  364  	i40e_update_=
-rx_stats(rx_ring, total_rx_bytes, total_rx_packets);
-3d0c5f1cd268fd Magnus Karlsson     2019-08-14  365  =
-
-c4655761d3cf62 Magnus Karlsson     2020-08-28  366  	if (xsk_uses_need_wake=
-up(rx_ring->xsk_pool)) {
-c8a8ca3408dcd2 Cristian Dumitrescu 2021-01-14  367  		if (failure || next_t=
-o_clean =3D=3D rx_ring->next_to_use)
-c4655761d3cf62 Magnus Karlsson     2020-08-28  368  			xsk_set_rx_need_wake=
-up(rx_ring->xsk_pool);
-3d0c5f1cd268fd Magnus Karlsson     2019-08-14  369  		else
-c4655761d3cf62 Magnus Karlsson     2020-08-28  370  			xsk_clear_rx_need_wa=
-keup(rx_ring->xsk_pool);
-3d0c5f1cd268fd Magnus Karlsson     2019-08-14  371  =
-
-3d0c5f1cd268fd Magnus Karlsson     2019-08-14  372  		return (int)total_rx_=
-packets;
-3d0c5f1cd268fd Magnus Karlsson     2019-08-14  373  	}
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  374  	return failu=
-re ? budget : (int)total_rx_packets;
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  375  }
-0a714186d3c0f7 Bj=C3=B6rn T=C3=B6pel         2018-08-28  376  =
-
-
-:::::: The code at line 274 was first introduced by commit
-:::::: 0a714186d3c0f7c563a03537f98716457c1f5ae0 i40e: add AF_XDP zero-copy =
-Rx support
-
-:::::: TO: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@intel.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1500634207171301277==--
+--===============0339787500777765993==--
 
