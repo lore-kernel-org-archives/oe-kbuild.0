@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1946101013303060310=="
+Content-Type: multipart/mixed; boundary="===============4606028260304067050=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointed to by '_x' [clang-analyzer-unix.Malloc]
-Date: Mon, 10 Jan 2022 13:05:01 +0800
-Message-ID: <202201101240.MNWOO5Wg-lkp@intel.com>
+Subject: [avpatel:riscv_kvm_aia_v1 30/42] drivers/irqchip/irq-riscv-imsic.c:148:2: warning: Value stored to 'global' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 03 Jan 2022 22:06:01 +0800
+Message-ID: <202201032119.l8gVu4RU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1946101013303060310==
+--===============4606028260304067050==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,33 +15,29 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexandre Ghiti <alex@ghiti.fr>
-CC: Palmer Dabbelt <palmerdabbelt@google.com>
+TO: Anup Patel <anup.patel@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   df0cc57e057f18e44dac8e6c18aba47ab53202f9
-commit: 0aba691a7443a7541c1dc56423e0c92cc6ea7164 riscv: Introduce va_kernel=
-_pa_offset for 32-bit kernel
-date:   5 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 5 months ago
-config: riscv-randconfig-c006-20220109 (https://download.01.org/0day-ci/arc=
-hive/20220110/202201101240.MNWOO5Wg-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f3a344=
-d2125fa37e59bae1b0874442c650a19607)
+tree:   https://github.com/avpatel/linux.git riscv_kvm_aia_v1
+head:   6fa93cde61f5f84422bd3f97b9db6e2406a344dd
+commit: 608f1fa0b6d8185a467e90300c3279f63214e7b7 [30/42] irqchip: Add RISC-=
+V incoming MSI controller driver
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-c006-20211231 (https://download.01.org/0day-ci/arc=
+hive/20220103/202201032119.l8gVu4RU-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b50fea=
+47b6c454581fce89af359f3afe5154986c)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D0aba691a7443a7541c1dc56423e0c92cc6ea7164
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 0aba691a7443a7541c1dc56423e0c92cc6ea7164
+        # https://github.com/avpatel/linux/commit/608f1fa0b6d8185a467e90300=
+c3279f63214e7b7
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_kvm_aia_v1
+        git checkout 608f1fa0b6d8185a467e90300c3279f63214e7b7
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -52,131 +48,90 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/hwmon/pmbus/zl6100.c:118:2: note: '?' condition is false
-           if (negative)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                         ^
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                               ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/hwmon/pmbus/zl6100.c:118:2: note: Taking false branch
-           if (negative)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/hwmon/pmbus/zl6100.c:122:41: note: The result of the left shift =
-is undefined because the left operand is negative
-           return (mantissa & 0x7ff) | ((exponent << 11) & 0xf800);
-                                         ~~~~~~~~ ^
-   Suppressed 3 warnings (3 in non-user code).
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   drivers/video/backlight/pwm_bl.c:206:12: note: Division by zero
+                   min((int)DIV_ROUND_UP(period, fls(period)), 4096);
+                            ^
+   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
+   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+                        ^
+   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
+V_ROUND_UP'
+   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                                        ^
+   include/linux/minmax.h:45:33: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
-   drivers/target/target_core_xcopy.c:124:2: warning: Value stored to 'ript=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           ript =3D get_unaligned_be16(&desc[2]);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_xcopy.c:124:2: note: Value stored to 'ript' i=
-s never read
-           ript =3D get_unaligned_be16(&desc[2]);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_xcopy.c:302:6: warning: Value stored to 'dc' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           int dc =3D (desc[1] & 0x02);
-               ^~   ~~~~~~~~~~~~~~~~
-   drivers/target/target_core_xcopy.c:302:6: note: Value stored to 'dc' dur=
-ing its initialization is never read
-           int dc =3D (desc[1] & 0x02);
-               ^~   ~~~~~~~~~~~~~~~~
-   drivers/target/target_core_xcopy.c:418:23: warning: Value stored to 'xpt=
-_cmd' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           struct xcopy_pt_cmd *xpt_cmd =3D container_of(se_cmd,
-                                ^~~~~~~
-   drivers/target/target_core_xcopy.c:418:23: note: Value stored to 'xpt_cm=
-d' during its initialization is never read
-           struct xcopy_pt_cmd *xpt_cmd =3D container_of(se_cmd,
-                                ^~~~~~~
-   drivers/target/target_core_xcopy.c:800:2: warning: Value stored to 'list=
-_id' is never read [clang-analyzer-deadcode.DeadStores]
-           list_id =3D p[0];
-           ^         ~~~~
-   drivers/target/target_core_xcopy.c:800:2: note: Value stored to 'list_id=
-' is never read
-           list_id =3D p[0];
-           ^         ~~~~
-   drivers/target/target_core_xcopy.c:801:2: warning: Value stored to 'list=
-_id_usage' is never read [clang-analyzer-deadcode.DeadStores]
-           list_id_usage =3D (p[1] & 0x18) >> 3;
-           ^               ~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_xcopy.c:801:2: note: Value stored to 'list_id=
-_usage' is never read
-           list_id_usage =3D (p[1] & 0x18) >> 3;
-           ^               ~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/clk/clk-max9485.c:199:9: warning: Access to field 'out' results =
+in a dereference of a null pointer (loaded from variable 'prev') [clang-ana=
+lyzer-core.NullDereference]
+           return prev->out;
+                  ^~~~
+   drivers/clk/clk-max9485.c:165:36: note: 'prev' initialized to a null poi=
+nter value
+           const struct max9485_rate *curr, *prev =3D NULL;
+                                             ^~~~
+   drivers/clk/clk-max9485.c:167:29: note: Assuming field 'out' is equal to=
+ 0
+           for (curr =3D max9485_rates; curr->out !=3D 0; curr++) {
+                                      ^~~~~~~~~~~~~~
+   drivers/clk/clk-max9485.c:167:2: note: Loop condition is false. Executio=
+n continues on line 199
+           for (curr =3D max9485_rates; curr->out !=3D 0; curr++) {
+           ^
+   drivers/clk/clk-max9485.c:199:9: note: Access to field 'out' results in =
+a dereference of a null pointer (loaded from variable 'prev')
+           return prev->out;
+                  ^~~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/target/target_core_file.c:144:3: warning: Value stored to 'dev_s=
-ize' is never read [clang-analyzer-deadcode.DeadStores]
-                   dev_size =3D (i_size_read(file->f_mapping->host) -
-                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_file.c:144:3: note: Value stored to 'dev_size=
-' is never read
-                   dev_size =3D (i_size_read(file->f_mapping->host) -
-                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
@@ -184,504 +139,194 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
->> drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointe=
-d to by '_x' [clang-analyzer-unix.Malloc]
-                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
-);
-                           ^
-   drivers/nvme/host/core.c:845:10: note: Calling 'kzalloc'
-           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Memory is allocated
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:845:10: note: Returned allocated memory
-           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:846:6: note: Assuming 'range' is non-null
-           if (!range) {
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> drivers/irqchip/irq-riscv-imsic.c:148:2: warning: Value stored to 'globa=
+l' is never read [clang-analyzer-deadcode.DeadStores]
+           global =3D &handler->priv->global;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:148:2: note: Value stored to 'global' =
+is never read
+           global =3D &handler->priv->global;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:285:16: warning: The result of the lef=
+t shift is undefined due to shifting by '32', which is greater or equal to =
+the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOpera=
+torResult]
+               (max_id < BIT(order)))
+                         ^
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+   #define BIT(nr)                 (UL(1) << (nr))
+                                          ^
+   drivers/irqchip/irq-riscv-imsic.c:578:8: note: Calling 'imsic_get_cpu'
+           err =3D imsic_get_cpu(priv, &priv->lmask, false, &cpu);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:162:6: note: 'force' is false
+           if (force)
+               ^~~~~
+   drivers/irqchip/irq-riscv-imsic.c:162:2: note: Taking false branch
+           if (force)
+           ^
+   drivers/irqchip/irq-riscv-imsic.c:167:6: note: Assuming 'cpu' is < 'nr_c=
+pu_ids'
+           if (cpu >=3D nr_cpu_ids)
+               ^~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:167:2: note: Taking false branch
+           if (cpu >=3D nr_cpu_ids)
+           ^
+   drivers/irqchip/irq-riscv-imsic.c:170:6: note: 'out_target_cpu' is non-n=
+ull
+           if (out_target_cpu)
+               ^~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:170:2: note: Taking true branch
+           if (out_target_cpu)
+           ^
+   drivers/irqchip/irq-riscv-imsic.c:173:2: note: Returning zero, which par=
+ticipates in a condition later
+           return 0;
+           ^~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:578:8: note: Returning from 'imsic_get=
+_cpu'
+           err =3D imsic_get_cpu(priv, &priv->lmask, false, &cpu);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:579:6: note: 'err' is 0
+           if (err)
+               ^~~
+   drivers/irqchip/irq-riscv-imsic.c:579:2: note: Taking false branch
+           if (err)
+           ^
+   drivers/irqchip/irq-riscv-imsic.c:582:8: note: Calling 'imsic_cpu_page_p=
+hys'
+           err =3D imsic_cpu_page_phys(cpu, 0, &msi_addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:119:34: note: Loop condition is false.=
+  Exiting loop
+           struct imsic_handler *handler =3D per_cpu_ptr(&imsic_handlers, c=
+pu);
+                                           ^
+   include/linux/percpu-defs.h:235:2: note: expanded from macro 'per_cpu_pt=
+r'
+           __verify_pcpu_ptr(ptr);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   drivers/irqchip/irq-riscv-imsic.c:123:6: note: Assuming 'handler' is non=
+-null
+           if (!handler || !handler->priv)
+               ^~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:123:6: note: Left side of '||' is false
+   drivers/irqchip/irq-riscv-imsic.c:123:18: note: Assuming field 'priv' is=
+ non-null
+           if (!handler || !handler->priv)
+                           ^~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:123:2: note: Taking false branch
+           if (!handler || !handler->priv)
+           ^
+   drivers/irqchip/irq-riscv-imsic.c:128:6: note: Assuming the condition is=
+ false
+           if (BIT(global->guest_index_bits) <=3D guest_index)
                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/nvme/host/core.c:846:2: note: '?' condition is false
-           if (!range) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:846:7: note: 'range' is non-null
-           if (!range) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/nvme/host/core.c:846:2: note: '?' condition is false
-           if (!range) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/nvme/host/core.c:846:2: note: Taking false branch
-           if (!range) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/nvme/host/core.c:858:2: note: Assuming field 'bio' is null
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
-io'
-           if ((rq->bio))                  \
-           ^~~~~~~~~~~~~~
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/nvme/host/core.c:858:2: note: '?' condition is false
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
-io'
-           if ((rq->bio))                  \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:858:2: note: Field 'bio' is null
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:11: note: expanded from macro '__rq_for_each_=
-bio'
-           if ((rq->bio))                  \
-                    ^
-   drivers/nvme/host/core.c:858:2: note: '?' condition is false
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
-io'
-           if ((rq->bio))                  \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
---
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:871:7: note: '_x' is >=3D -1073741824
-                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
-                       ^
-   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
-_page'
-   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
-                                                ^
-   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
-_pfn'
-   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
-                                                ^
-   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
-   #define __pa(x)         __virt_to_phys((unsigned long)(x))
-                           ^
-   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/nvme/host/core.c:871:7: note: Left side of '&&' is true
-                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
-                       ^
-   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
-_page'
-   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
-                                                ^
-   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
-_pfn'
-   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
-                                                ^
-   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
-   #define __pa(x)         __virt_to_phys((unsigned long)(x))
-                           ^
-   arch/riscv/include/asm/page.h:138:27: note: expanded from macro '__virt_=
-to_phys'
-   #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
+   include/vdso/bits.h:7:19: note: expanded from macro 'BIT'
+   #define BIT(nr)                 (UL(1) << (nr))
                                    ^
-   arch/riscv/include/asm/page.h:130:2: note: expanded from macro '__va_to_=
-pa_nodebug'
-           is_linear_mapping(_x) ?                                         =
-        \
+   drivers/irqchip/irq-riscv-imsic.c:128:2: note: Taking false branch
+           if (BIT(global->guest_index_bits) <=3D guest_index)
            ^
-   arch/riscv/include/asm/page.h:109:3: note: expanded from macro 'is_linea=
-r_mapping'
-           ((x) >=3D PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < ker=
-nel_map.virt_addr))
-            ^
-   drivers/nvme/host/core.c:871:7: note: Left side of '||' is true
-                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
-                       ^
-   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
-_page'
-   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
-                                                ^
-   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
-_pfn'
-   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
-                                                ^
-   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
-   #define __pa(x)         __virt_to_phys((unsigned long)(x))
-                           ^
-   arch/riscv/include/asm/page.h:138:27: note: expanded from macro '__virt_=
-to_phys'
-   #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
-                                   ^
-   arch/riscv/include/asm/page.h:130:2: note: expanded from macro '__va_to_=
-pa_nodebug'
-           is_linear_mapping(_x) ?                                         =
-        \
+   drivers/irqchip/irq-riscv-imsic.c:131:6: note: 'out_msi_pa' is non-null
+           if (out_msi_pa)
+               ^~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:131:2: note: Taking true branch
+           if (out_msi_pa)
            ^
-   arch/riscv/include/asm/page.h:109:52: note: expanded from macro 'is_line=
-ar_mapping'
-           ((x) >=3D PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < ker=
-nel_map.virt_addr))
-                                                             ^
-   drivers/nvme/host/core.c:871:3: note: Assuming the condition is true
-                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
-                   ^
-   include/linux/compiler.h:56:44: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/nvme/host/core.c:871:3: note: '?' condition is true
-                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/irqchip/irq-riscv-imsic.c:135:2: note: Returning zero, which par=
+ticipates in a condition later
+           return 0;
+           ^~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:582:8: note: Returning from 'imsic_cpu=
+_page_phys'
+           err =3D imsic_cpu_page_phys(cpu, 0, &msi_addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-riscv-imsic.c:583:6: note: 'err' is 0
+           if (err)
+               ^~~
+   drivers/irqchip/irq-riscv-imsic.c:583:2: note: Taking false branch
+           if (err)
            ^
-   drivers/nvme/host/core.c:871:3: note: Taking true branch
-                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/nvme/host/core.c:872:4: note: Potential leak of memory pointed t=
-o by '_x'
-                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
-);
-                           ^
->> drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointe=
-d to by '_y' [clang-analyzer-unix.Malloc]
-                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
-);
-                           ^
-   drivers/nvme/host/core.c:845:10: note: Calling 'kzalloc'
-           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Memory is allocated
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:845:10: note: Returned allocated memory
-           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:846:6: note: Assuming 'range' is non-null
-           if (!range) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/nvme/host/core.c:846:2: note: '?' condition is false
-           if (!range) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:846:7: note: 'range' is non-null
-           if (!range) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/nvme/host/core.c:846:2: note: '?' condition is false
-           if (!range) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/nvme/host/core.c:846:2: note: Taking false branch
-           if (!range) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/nvme/host/core.c:858:2: note: Assuming field 'bio' is null
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
-io'
-           if ((rq->bio))                  \
-           ^~~~~~~~~~~~~~
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/nvme/host/core.c:858:2: note: '?' condition is false
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
-io'
-           if ((rq->bio))                  \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:858:2: note: Field 'bio' is null
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:11: note: expanded from macro '__rq_for_each_=
-bio'
-           if ((rq->bio))                  \
-                    ^
-   drivers/nvme/host/core.c:858:2: note: '?' condition is false
-           __rq_for_each_bio(bio, req) {
-           ^
-   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
-io'
-           if ((rq->bio))                  \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+   drivers/irqchip/irq-riscv-imsic.c:587:5: note: Calling 'get_count_order'
+                                   get_count_order(nr_irqs));
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:195:6: note: Assuming 'count' is not equal to 0
+           if (count =3D=3D 0)
+               ^~~~~~~~~~
+   include/linux/bitops.h:195:2: note: Taking false branch
 
-vim +/_x +872 drivers/nvme/host/core.c
+vim +/global +148 drivers/irqchip/irq-riscv-imsic.c
 
-8093f7ca73c163 Ming Lin             2016-04-12  830  =
+608f1fa0b6d818 Anup Patel 2021-04-26  137  =
 
-fc17b6534eb839 Christoph Hellwig    2017-06-03  831  static blk_status_t nv=
-me_setup_discard(struct nvme_ns *ns, struct request *req,
-8093f7ca73c163 Ming Lin             2016-04-12  832  		struct nvme_command =
-*cmnd)
-8093f7ca73c163 Ming Lin             2016-04-12  833  {
-b35ba01ea69791 Christoph Hellwig    2017-02-08  834  	unsigned short segmen=
-ts =3D blk_rq_nr_discard_segments(req), n =3D 0;
-8093f7ca73c163 Ming Lin             2016-04-12  835  	struct nvme_dsm_range=
- *range;
-b35ba01ea69791 Christoph Hellwig    2017-02-08  836  	struct bio *bio;
-8093f7ca73c163 Ming Lin             2016-04-12  837  =
+608f1fa0b6d818 Anup Patel 2021-04-26  138  static void __iomem *imsic_cpu_p=
+age_virt(unsigned int cpu,
+608f1fa0b6d818 Anup Patel 2021-04-26  139  					 unsigned int guest_index)
+608f1fa0b6d818 Anup Patel 2021-04-26  140  {
+608f1fa0b6d818 Anup Patel 2021-04-26  141  	struct imsic_handler *handler =
+=3D per_cpu_ptr(&imsic_handlers, cpu);
+608f1fa0b6d818 Anup Patel 2021-04-26  142  	struct imsic_global_config *glo=
+bal;
+608f1fa0b6d818 Anup Patel 2021-04-26  143  	struct imsic_local_config *loca=
+l;
+608f1fa0b6d818 Anup Patel 2021-04-26  144  =
 
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  838  	/*
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  839  	 * Some devices do no=
-t consider the DSM 'Number of Ranges' field when
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  840  	 * determining how mu=
-ch data to DMA. Always allocate memory for maximum
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  841  	 * number of segments=
- to prevent device reading beyond end of buffer.
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  842  	 */
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  843  	static const size_t a=
-lloc_size =3D sizeof(*range) * NVME_DSM_MAX_RANGES;
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  844  =
+608f1fa0b6d818 Anup Patel 2021-04-26  145  	if (!handler || !handler->priv)
+608f1fa0b6d818 Anup Patel 2021-04-26  146  		return NULL;
+608f1fa0b6d818 Anup Patel 2021-04-26  147  	local =3D &handler->local;
+608f1fa0b6d818 Anup Patel 2021-04-26 @148  	global =3D &handler->priv->glob=
+al;
+608f1fa0b6d818 Anup Patel 2021-04-26  149  =
 
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  845  	range =3D kzalloc(all=
-oc_size, GFP_ATOMIC | __GFP_NOWARN);
-cb5b7262b011cf Jens Axboe           2018-12-12  846  	if (!range) {
-cb5b7262b011cf Jens Axboe           2018-12-12  847  		/*
-cb5b7262b011cf Jens Axboe           2018-12-12  848  		 * If we fail alloca=
-tion our range, fallback to the controller
-cb5b7262b011cf Jens Axboe           2018-12-12  849  		 * discard page. If =
-that's also busy, it's safe to return
-cb5b7262b011cf Jens Axboe           2018-12-12  850  		 * busy, as we know =
-we can make progress once that's freed.
-cb5b7262b011cf Jens Axboe           2018-12-12  851  		 */
-cb5b7262b011cf Jens Axboe           2018-12-12  852  		if (test_and_set_bit=
-_lock(0, &ns->ctrl->discard_page_busy))
-fc17b6534eb839 Christoph Hellwig    2017-06-03  853  			return BLK_STS_RESO=
-URCE;
-8093f7ca73c163 Ming Lin             2016-04-12  854  =
+608f1fa0b6d818 Anup Patel 2021-04-26  150  	return local->msi_va + (guest_i=
+ndex * IMSIC_MMIO_PAGE_SZ);
+608f1fa0b6d818 Anup Patel 2021-04-26  151  }
+608f1fa0b6d818 Anup Patel 2021-04-26  152  =
 
-cb5b7262b011cf Jens Axboe           2018-12-12  855  		range =3D page_addre=
-ss(ns->ctrl->discard_page);
-cb5b7262b011cf Jens Axboe           2018-12-12  856  	}
-cb5b7262b011cf Jens Axboe           2018-12-12  857  =
-
-b35ba01ea69791 Christoph Hellwig    2017-02-08  858  	__rq_for_each_bio(bio=
-, req) {
-314d48dd224897 Damien Le Moal       2019-10-21  859  		u64 slba =3D nvme_se=
-ct_to_lba(ns, bio->bi_iter.bi_sector);
-b35ba01ea69791 Christoph Hellwig    2017-02-08  860  		u32 nlb =3D bio->bi_=
-iter.bi_size >> ns->lba_shift;
-b35ba01ea69791 Christoph Hellwig    2017-02-08  861  =
-
-8cb6af7b3a6d47 Keith Busch          2018-01-31  862  		if (n < segments) {
-b35ba01ea69791 Christoph Hellwig    2017-02-08  863  			range[n].cattr =3D =
-cpu_to_le32(0);
-b35ba01ea69791 Christoph Hellwig    2017-02-08  864  			range[n].nlb =3D cp=
-u_to_le32(nlb);
-b35ba01ea69791 Christoph Hellwig    2017-02-08  865  			range[n].slba =3D c=
-pu_to_le64(slba);
-8cb6af7b3a6d47 Keith Busch          2018-01-31  866  		}
-b35ba01ea69791 Christoph Hellwig    2017-02-08  867  		n++;
-b35ba01ea69791 Christoph Hellwig    2017-02-08  868  	}
-b35ba01ea69791 Christoph Hellwig    2017-02-08  869  =
-
-b35ba01ea69791 Christoph Hellwig    2017-02-08  870  	if (WARN_ON_ONCE(n !=
-=3D segments)) {
-cb5b7262b011cf Jens Axboe           2018-12-12 @871  		if (virt_to_page(ran=
-ge) =3D=3D ns->ctrl->discard_page)
-cb5b7262b011cf Jens Axboe           2018-12-12 @872  			clear_bit_unlock(0,=
- &ns->ctrl->discard_page_busy);
-cb5b7262b011cf Jens Axboe           2018-12-12  873  		else
-b35ba01ea69791 Christoph Hellwig    2017-02-08  874  			kfree(range);
-fc17b6534eb839 Christoph Hellwig    2017-06-03  875  		return BLK_STS_IOERR;
-b35ba01ea69791 Christoph Hellwig    2017-02-08  876  	}
-8093f7ca73c163 Ming Lin             2016-04-12  877  =
-
-8093f7ca73c163 Ming Lin             2016-04-12  878  	cmnd->dsm.opcode =3D =
-nvme_cmd_dsm;
-ed754e5deeb17f Christoph Hellwig    2017-11-09  879  	cmnd->dsm.nsid =3D cp=
-u_to_le32(ns->head->ns_id);
-f1dd03a84dbf3e Christoph Hellwig    2017-03-31  880  	cmnd->dsm.nr =3D cpu_=
-to_le32(segments - 1);
-8093f7ca73c163 Ming Lin             2016-04-12  881  	cmnd->dsm.attributes =
-=3D cpu_to_le32(NVME_DSMGMT_AD);
-8093f7ca73c163 Ming Lin             2016-04-12  882  =
-
-f9d03f96b98800 Christoph Hellwig    2016-12-08  883  	req->special_vec.bv_p=
-age =3D virt_to_page(range);
-f9d03f96b98800 Christoph Hellwig    2016-12-08  884  	req->special_vec.bv_o=
-ffset =3D offset_in_page(range);
-530436c45ef2e4 Eduard Hasenleithner 2019-11-12  885  	req->special_vec.bv_l=
-en =3D alloc_size;
-f9d03f96b98800 Christoph Hellwig    2016-12-08  886  	req->rq_flags |=3D RQ=
-F_SPECIAL_PAYLOAD;
-8093f7ca73c163 Ming Lin             2016-04-12  887  =
-
-fc17b6534eb839 Christoph Hellwig    2017-06-03  888  	return BLK_STS_OK;
-8093f7ca73c163 Ming Lin             2016-04-12  889  }
-8093f7ca73c163 Ming Lin             2016-04-12  890  =
-
-
-:::::: The code at line 872 was first introduced by commit
-:::::: cb5b7262b011cfb793519bf97e54dff5282da23c nvme: provide fallback for =
-discard alloc failure
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Christoph Hellwig <hch@lst.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1946101013303060310==--
+--===============4606028260304067050==--
 
