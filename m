@@ -1,194 +1,372 @@
-Content-Type: multipart/mixed; boundary="===============2329696499600701689=="
+Content-Type: multipart/mixed; boundary="===============1625193837000131412=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/3] iio:frequency:admv1014: add support for ADMV1014
-Date: Wed, 05 Jan 2022 14:39:34 +0800
-Message-ID: <202201051411.AbahQe1q-lkp@intel.com>
+Subject: [melver:kcsan/new-refcount-merge-resolution 4/8] fs/btrfs/disk-io.h:102:3: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Wed, 05 Jan 2022 06:31:31 +0800
+Message-ID: <202201050658.KkBMVYk1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2329696499600701689==
+--===============1625193837000131412==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220103092201.21576-2-antoniu.miclaus@analog.com>
-References: <20220103092201.21576-2-antoniu.miclaus@analog.com>
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-TO: jic23(a)kernel.org
-TO: robh+dt(a)kernel.org
-TO: linux-iio(a)vger.kernel.org
-TO: devicetree(a)vger.kernel.org
-TO: linux-kernel(a)vger.kernel.org
-CC: Antoniu Miclaus <antoniu.miclaus@analog.com>
+TO: elver(a)google.com
 
-Hi Antoniu,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on v5.16-rc8]
-[cannot apply to jic23-iio/togreg next-20220104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Antoniu-Miclaus/iio-freque=
-ncy-admv1014-add-support-for-ADMV1014/20220103-182231
-base:    c9e6606c7fe92b50a02ce51dda82586ebdf99b48
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-s032-20220105 (https://download.01.org/0day-ci/ar=
-chive/20220105/202201051411.AbahQe1q-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/dc8d9031c5310585cbd4c4d89=
-5609e505d5e81e6
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Antoniu-Miclaus/iio-frequency-admv=
-1014-add-support-for-ADMV1014/20220103-182231
-        git checkout dc8d9031c5310585cbd4c4d895609e505d5e81e6
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git kc=
+san/new-refcount-merge-resolution
+head:   cd086bd94b45dddeec54376aa1bfc45541ccedc5
+commit: 43394e65056eeacbadab724997e3087d81014a2f [4/8] refcount: Use atomic=
+_*_overflow()
+:::::: branch date: 3 weeks ago
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-c002-20211228 (https://download.01.org/0day-ci/archi=
+ve/20220105/202201050658.KkBMVYk1-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7171af=
+744543433ac75b232eb7dfdaef7efd4d7a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git/=
+commit/?id=3D43394e65056eeacbadab724997e3087d81014a2f
+        git remote add melver https://git.kernel.org/pub/scm/linux/kernel/g=
+it/melver/linux.git
+        git fetch --no-tags melver kcsan/new-refcount-merge-resolution
+        git checkout 43394e65056eeacbadab724997e3087d81014a2f
         # save the config file to linux build tree
-        mkdir build_dir
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/iio/frequency/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/frequency/admv1014.c:613:22: sparse: sparse: dubious: x & !y
+clang-analyzer warnings: (new ones prefixed by >>)
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:1424:2: warning: Value stored to 'id'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+           id =3D sun4i_tcon_of_get_id_from_port(port);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:1424:2: note: Value stored to 'id' is=
+ never read
+           id =3D sun4i_tcon_of_get_id_from_port(port);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/gpu/drm/sun4i/sun4i_tv.c:491:3: warning: Call to function 'strcp=
+y' is insecure as it does not provide bounding of the memory buffer. Replac=
+e unbounded copy functions with analogous functions that support length arg=
+uments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strc=
+py]
+                   strcpy(mode->name, tv_mode->name);
+                   ^~~~~~
+   drivers/gpu/drm/sun4i/sun4i_tv.c:491:3: note: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119
+                   strcpy(mode->name, tv_mode->name);
+                   ^~~~~~
+   Suppressed 16 warnings (15 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/usb/misc/usbsevseg.c:255:4: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(buf, " [");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:255:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, " [");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:256:4: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(buf, display_textmodes[i]);
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:256:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, display_textmodes[i]);
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:257:4: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(buf, "] ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:257:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, "] ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:259:4: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(buf, " ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:259:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, " ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:260:4: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(buf, display_textmodes[i]);
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:260:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, display_textmodes[i]);
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:261:4: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(buf, " ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:261:4: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+                           strcat(buf, " ");
+                           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:264:2: warning: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(buf, "\n");
+           ^~~~~~
+   drivers/usb/misc/usbsevseg.c:264:2: note: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119
+           strcat(buf, "\n");
+           ^~~~~~
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   fs/btrfs/disk-io.c:3327:3: warning: Value stored to 'features' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   features |=3D BTRFS_FEATURE_INCOMPAT_BIG_METADATA;
+                   ^
+   fs/btrfs/disk-io.c:3327:3: note: Value stored to 'features' is never read
+>> fs/btrfs/disk-io.h:102:3: warning: Use of memory after it is freed [clan=
+g-analyzer-unix.Malloc]
+                   return root;
+                   ^
+   fs/btrfs/disk-io.c:4332:2: note: '?' condition is true
+           set_bit(BTRFS_FS_CLOSING_START, &fs_info->flags);
+           ^
+   arch/arm/include/asm/bitops.h:189:25: note: expanded from macro 'set_bit'
+   #define set_bit(nr,p)                   ATOMIC_BITOP(set_bit,nr,p)
+                                           ^
+   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
+ITOP'
+           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
+r,p))
+            ^
+   fs/btrfs/disk-io.c:4357:2: note: Loop condition is false.  Exiting loop
+           wait_event(fs_info->transaction_wait,
+           ^
+   include/linux/wait.h:342:2: note: expanded from macro 'wait_event'
+           might_sleep();                                                  =
+        \
+           ^
+   include/linux/kernel.h:171:29: note: expanded from macro 'might_sleep'
+   # define might_sleep() do { might_resched(); } while (0)
+                               ^
+   include/linux/kernel.h:106:26: note: expanded from macro 'might_resched'
+   # define might_resched() do { } while (0)
+                            ^
+   fs/btrfs/disk-io.c:4357:2: note: Loop condition is false.  Exiting loop
+           wait_event(fs_info->transaction_wait,
+           ^
+   include/linux/wait.h:342:2: note: expanded from macro 'wait_event'
+           might_sleep();                                                  =
+        \
+           ^
+   include/linux/kernel.h:171:24: note: expanded from macro 'might_sleep'
+   # define might_sleep() do { might_resched(); } while (0)
+                          ^
+   fs/btrfs/disk-io.c:4358:7: note: Assuming the condition is true
+                      (atomic_read(&fs_info->defrag_running) =3D=3D 0));
+                       ^
+   include/linux/wait.h:343:6: note: expanded from macro 'wait_event'
+           if (condition)                                                  =
+        \
+               ^~~~~~~~~
+   fs/btrfs/disk-io.c:4357:2: note: Taking true branch
+           wait_event(fs_info->transaction_wait,
+           ^
+   include/linux/wait.h:343:2: note: expanded from macro 'wait_event'
+           if (condition)                                                  =
+        \
+           ^
+   fs/btrfs/disk-io.c:4357:2: note:  Execution continues on line 4361
+           wait_event(fs_info->transaction_wait,
+           ^
+   include/linux/wait.h:344:3: note: expanded from macro 'wait_event'
+                   break;                                                  =
+        \
+                   ^
+   fs/btrfs/disk-io.c:4372:6: note: Assuming the condition is false
+           if (!sb_rdonly(fs_info->sb)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/disk-io.c:4372:2: note: Taking false branch
+           if (!sb_rdonly(fs_info->sb)) {
+           ^
+   fs/btrfs/disk-io.c:4397:6: note: Assuming the condition is false
+           if (BTRFS_FS_ERROR(fs_info))
+               ^
+   fs/btrfs/ctree.h:3616:34: note: expanded from macro 'BTRFS_FS_ERROR'
+   #define BTRFS_FS_ERROR(fs_info) (unlikely(test_bit(BTRFS_FS_STATE_ERROR,=
+ \
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   fs/btrfs/disk-io.c:4397:2: note: Taking true branch
+           if (BTRFS_FS_ERROR(fs_info))
+           ^
+   fs/btrfs/disk-io.c:4398:3: note: Calling 'btrfs_error_commit_super'
+                   btrfs_error_commit_super(fs_info);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/disk-io.c:4560:2: note: Calling 'btrfs_cleanup_transaction'
+           btrfs_cleanup_transaction(fs_info);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/disk-io.c:4952:2: note: Loop condition is false. Execution cont=
+inues on line 4987
+           while (!list_empty(&fs_info->trans_list)) {
+           ^
+   fs/btrfs/disk-io.c:4991:2: note: Calling 'btrfs_destroy_all_delalloc_ino=
+des'
+           btrfs_destroy_all_delalloc_inodes(fs_info);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/disk-io.c:4767:2: note: Loop condition is true.  Entering loop =
+body
+           while (!list_empty(&splice)) {
+           ^
+   fs/btrfs/disk-io.c:4770:10: note: Calling 'btrfs_grab_root'
+                   root =3D btrfs_grab_root(root);
+                          ^~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/disk-io.h:99:6: note: Assuming 'root' is non-null
+           if (!root)
+               ^~~~~
+   fs/btrfs/disk-io.h:99:2: note: Taking false branch
+           if (!root)
+           ^
+   fs/btrfs/disk-io.h:101:6: note: Assuming the condition is true
+           if (refcount_inc_not_zero(&root->refs))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/disk-io.h:101:2: note: Taking true branch
+           if (refcount_inc_not_zero(&root->refs))
 
-vim +613 drivers/iio/frequency/admv1014.c
+vim +102 fs/btrfs/disk-io.h
 
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  546  =
+06ea65a398a250 Josef Bacik     2013-09-19   89  =
 
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  547  static int admv1014_init(s=
-truct admv1014_state *st)
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  548  {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  549  	int ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  550  	unsigned int chip_id, ena=
-ble_reg, enable_reg_msk;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  551  	struct spi_device *spi =
-=3D st->spi;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  552  =
+b0feb9d96e71a8 Miao Xie        2013-05-15   90  /*
+b0feb9d96e71a8 Miao Xie        2013-05-15   91   * This function is used to=
+ grab the root, and avoid it is freed when we
+b0feb9d96e71a8 Miao Xie        2013-05-15   92   * access it. But it doesn'=
+t ensure that the tree is not dropped.
+b0feb9d96e71a8 Miao Xie        2013-05-15   93   *
+b0feb9d96e71a8 Miao Xie        2013-05-15   94   * If you want to ensure th=
+e whole tree is safe, you should use
+b0feb9d96e71a8 Miao Xie        2013-05-15   95   * 	fs_info->subvol_srcu
+b0feb9d96e71a8 Miao Xie        2013-05-15   96   */
+0024652895e347 Josef Bacik     2020-01-24   97  static inline struct btrfs_=
+root *btrfs_grab_root(struct btrfs_root *root)
+b0feb9d96e71a8 Miao Xie        2013-05-15   98  {
+4cdfd93002cb84 Josef Bacik     2020-01-24   99  	if (!root)
+4cdfd93002cb84 Josef Bacik     2020-01-24  100  		return NULL;
+0700cea7c8b387 Elena Reshetova 2017-03-03  101  	if (refcount_inc_not_zero(=
+&root->refs))
+b0feb9d96e71a8 Miao Xie        2013-05-15 @102  		return root;
+b0feb9d96e71a8 Miao Xie        2013-05-15  103  	return NULL;
+b0feb9d96e71a8 Miao Xie        2013-05-15  104  }
+b0feb9d96e71a8 Miao Xie        2013-05-15  105  =
 
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  553  	/* Perform a software res=
-et */
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  554  	ret =3D __admv1014_spi_up=
-date_bits(st, ADMV1014_REG_SPI_CONTROL,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  555  					 ADMV1014_SPI_SOFT_RE=
-SET_MSK,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  556  					 FIELD_PREP(ADMV1014_=
-SPI_SOFT_RESET_MSK, 1));
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  557  	if (ret) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  558  		dev_err(&spi->dev, "ADMV=
-1014 SPI software reset failed.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  559  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  560  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  561  =
 
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  562  	ret =3D __admv1014_spi_up=
-date_bits(st, ADMV1014_REG_SPI_CONTROL,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  563  					 ADMV1014_SPI_SOFT_RE=
-SET_MSK,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  564  					 FIELD_PREP(ADMV1014_=
-SPI_SOFT_RESET_MSK, 0));
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  565  	if (ret) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  566  		dev_err(&spi->dev, "ADMV=
-1014 SPI software reset disable failed.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  567  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  568  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  569  =
+:::::: The code at line 102 was first introduced by commit
+:::::: b0feb9d96e71a88d7eec56f41b8f23e92af889b0 Btrfs: introduce grab/put f=
+unctions for the root of the fs/file tree
 
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  570  	ret =3D admv1014_spi_writ=
-e(st, ADMV1014_REG_VVA_TEMP_COMP, 0x727C);
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  571  	if (ret) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  572  		dev_err(&spi->dev, "Writ=
-ing default Temperature Compensation value failed.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  573  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  574  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  575  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  576  	ret =3D admv1014_spi_read=
-(st, ADMV1014_REG_SPI_CONTROL, &chip_id);
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  577  	if (ret)
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  578  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  579  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  580  	chip_id =3D (chip_id & AD=
-MV1014_CHIP_ID_MSK) >> 4;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  581  	if (chip_id !=3D ADMV1014=
-_CHIP_ID) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  582  		dev_err(&spi->dev, "Inva=
-lid Chip ID.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  583  		return -EINVAL;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  584  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  585  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  586  	ret =3D __admv1014_spi_up=
-date_bits(st, ADMV1014_REG_QUAD,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  587  					 ADMV1014_QUAD_SE_MOD=
-E_MSK,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  588  					 FIELD_PREP(ADMV1014_=
-QUAD_SE_MODE_MSK,
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  589  						    st->quad_se_mode=
-));
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  590  	if (ret) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  591  		dev_err(&spi->dev, "Writ=
-ing Quad SE Mode failed.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  592  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  593  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  594  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  595  	ret =3D admv1014_update_q=
-uad_filters(st);
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  596  	if (ret) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  597  		dev_err(&spi->dev, "Upda=
-te Quad Filters failed.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  598  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  599  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  600  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  601  	ret =3D admv1014_update_v=
-cm_settings(st);
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  602  	if (ret) {
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  603  		dev_err(&spi->dev, "Upda=
-te VCM Settings failed.\n");
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  604  		return ret;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  605  	}
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  606  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  607  	enable_reg_msk =3D ADMV10=
-14_P1DB_COMPENSATION_MSK |
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  608  			 ADMV1014_IF_AMP_PD_MSK=
- |
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  609  			 ADMV1014_BB_AMP_PD_MSK=
- |
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  610  			 ADMV1014_DET_EN_MSK;
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  611  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  612  	enable_reg =3D FIELD_PREP=
-(ADMV1014_P1DB_COMPENSATION_MSK, st->p1db_comp) |
-dc8d9031c531058 Antoniu Miclaus 2022-01-03 @613  		     FIELD_PREP(ADMV1014=
-_IF_AMP_PD_MSK, !(st->input_mode)) |
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  614  		     FIELD_PREP(ADMV1014=
-_BB_AMP_PD_MSK, st->input_mode) |
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  615  		     FIELD_PREP(ADMV1014=
-_DET_EN_MSK, st->det_en);
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  616  =
-
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  617  	return __admv1014_spi_upd=
-ate_bits(st, ADMV1014_REG_ENABLE, enable_reg_msk, enable_reg);
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  618  }
-dc8d9031c531058 Antoniu Miclaus 2022-01-03  619  =
-
+:::::: TO: Miao Xie <miaox@cn.fujitsu.com>
+:::::: CC: Josef Bacik <jbacik@fusionio.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2329696499600701689==--
+--===============1625193837000131412==--
 
