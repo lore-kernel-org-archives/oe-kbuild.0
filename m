@@ -1,311 +1,403 @@
-Content-Type: multipart/mixed; boundary="===============0656680421738574543=="
+Content-Type: multipart/mixed; boundary="===============3877036359172854170=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/amt.c:580:3: warning: Non-boolean value returned from function returning bool [returnNonBoolInBooleanFunction]
-Date: Tue, 04 Jan 2022 17:08:27 +0800
-Message-ID: <202201041659.XKg3OOUG-lkp@intel.com>
+Subject: Re: [RFC PATCH v2 2/2] kernfs: Reduce contention around global per-fs kernfs_rwsem.
+Date: Tue, 04 Jan 2022 15:20:58 +0800
+Message-ID: <202201041512.lFBs9kxK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0656680421738574543==
+--===============3877036359172854170==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Taehee Yoo <ap420073@gmail.com>
+In-Reply-To: <20220103084544.1109829-3-imran.f.khan@oracle.com>
+References: <20220103084544.1109829-3-imran.f.khan@oracle.com>
+TO: Imran Khan <imran.f.khan@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c9e6606c7fe92b50a02ce51dda82586ebdf99b48
-commit: cbc21dc1cfe949e37b2a54c71511579f1899e8d4 amt: add data plane of amt=
- interface
-date:   9 weeks ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 9 weeks ago
-compiler: arceb-elf-gcc (GCC) 11.2.0
+Hi Imran,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on ea586a076e8aa606c59b66d86660590f18354b11]
+
+url:    https://github.com/0day-ci/linux/commits/Imran-Khan/kernfs-use-kern=
+fs_node-specific-mutex-and-spinlock/20220103-164752
+base:   ea586a076e8aa606c59b66d86660590f18354b11
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: arm-randconfig-c002-20220102 (https://download.01.org/0day-ci/archi=
+ve/20220104/202201041512.lFBs9kxK-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b50fea=
+47b6c454581fce89af359f3afe5154986c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/0day-ci/linux/commit/3dd2a5f81a41be1f22391cc8e=
+f0ac78293de0141
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Imran-Khan/kernfs-use-kernfs_node-=
+specific-mutex-and-spinlock/20220103-164752
+        git checkout 3dd2a5f81a41be1f22391cc8ef0ac78293de0141
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/drm_ioctl.c:390:7: note: Assuming field 'drm_di_major' i=
+s equal to DRM_IF_MAJOR
+                   if (sv->drm_di_major !=3D DRM_IF_MAJOR ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:390:7: note: Left side of '||' is false
+   drivers/gpu/drm/drm_ioctl.c:391:7: note: Assuming field 'drm_di_minor' i=
+s >=3D 0
+                       sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MI=
+NOR) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:390:7: note: Left side of '||' is false
+                   if (sv->drm_di_major !=3D DRM_IF_MAJOR ||
+                       ^
+   drivers/gpu/drm/drm_ioctl.c:391:31: note: Assuming field 'drm_di_minor' =
+is <=3D DRM_IF_MINOR
+                       sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MI=
+NOR) {
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/drm_ioctl.c:390:3: note: Taking false branch
+                   if (sv->drm_di_major !=3D DRM_IF_MAJOR ||
+                   ^
+   drivers/gpu/drm/drm_ioctl.c:397:21: note: Assuming '__UNIQUE_ID___x289' =
+is <=3D '__UNIQUE_ID___y290'
+                   dev->if_version =3D max(if_version, dev->if_version);
+                                     ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:397:21: note: '?' condition is false
+                   dev->if_version =3D max(if_version, dev->if_version);
+                                     ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/gpu/drm/drm_ioctl.c:398:7: note: Assuming field 'drm_di_minor' i=
+s >=3D 1
+                   if (sv->drm_di_minor >=3D 1) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:398:3: note: Taking true branch
+                   if (sv->drm_di_minor >=3D 1) {
+                   ^
+   drivers/gpu/drm/drm_ioctl.c:403:14: note: Calling 'drm_set_busid'
+                           retcode =3D drm_set_busid(dev, file_priv);
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:150:6: note: Assuming field 'unique' is equa=
+l to NULL
+           if (master->unique !=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:150:2: note: Taking false branch
+           if (master->unique !=3D NULL)
+           ^
+   drivers/gpu/drm/drm_ioctl.c:153:6: note: Assuming field 'dev' is null
+           if (dev->dev && dev_is_pci(dev->dev)) {
+               ^~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:153:15: note: Left side of '&&' is false
+           if (dev->dev && dev_is_pci(dev->dev)) {
+                        ^
+   drivers/gpu/drm/drm_ioctl.c:160:11: note: Assuming field 'unique' is null
+                   WARN_ON(!dev->unique);
+                           ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:162:7: note: Assuming field 'unique' is non-=
+null
+                   if (master->unique)
+                       ^~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_ioctl.c:162:3: note: Taking true branch
+                   if (master->unique)
+                   ^
+   drivers/gpu/drm/drm_ioctl.c:163:25: note: Null pointer passed as 1st arg=
+ument to string length function
+                           master->unique_len =3D strlen(dev->unique);
+                                                ^      ~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> fs/kernfs/inode.c:102:22: warning: Value stored to 'root' during its ini=
+tialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct kernfs_root *root =3D kernfs_root(kn);
+                               ^~~~   ~~~~~~~~~~~~~~~
+   fs/kernfs/inode.c:102:22: note: Value stored to 'root' during its initia=
+lization is never read
+           struct kernfs_root *root =3D kernfs_root(kn);
+                               ^~~~   ~~~~~~~~~~~~~~~
+>> fs/kernfs/inode.c:123:2: warning: Value stored to 'root' is never read [=
+clang-analyzer-deadcode.DeadStores]
+           root =3D kernfs_root(kn);
+           ^      ~~~~~~~~~~~~~~~
+   fs/kernfs/inode.c:123:2: note: Value stored to 'root' is never read
+           root =3D kernfs_root(kn);
+           ^      ~~~~~~~~~~~~~~~
+   fs/kernfs/inode.c:194:22: warning: Value stored to 'root' during its ini=
+tialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct kernfs_root *root =3D kernfs_root(kn);
+                               ^~~~   ~~~~~~~~~~~~~~~
+   fs/kernfs/inode.c:194:22: note: Value stored to 'root' during its initia=
+lization is never read
+           struct kernfs_root *root =3D kernfs_root(kn);
+                               ^~~~   ~~~~~~~~~~~~~~~
+   fs/kernfs/inode.c:295:2: warning: Value stored to 'root' is never read [=
+clang-analyzer-deadcode.DeadStores]
+           root =3D kernfs_root(kn);
+           ^      ~~~~~~~~~~~~~~~
+   fs/kernfs/inode.c:295:2: note: Value stored to 'root' is never read
+           root =3D kernfs_root(kn);
+           ^      ~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (7 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   arch/arm/mach-pxa/pcm990-baseboard.c:344:3: warning: Value stored to 'va=
+l' is never read [clang-analyzer-deadcode.DeadStores]
+                   val |=3D PCM990_CTRL_MMC2PWR;
+                   ^
+   arch/arm/mach-pxa/pcm990-baseboard.c:344:3: note: Value stored to 'val' =
+is never read
+   arch/arm/mach-pxa/pcm990-baseboard.c:346:3: warning: Value stored to 'va=
+l' is never read [clang-analyzer-deadcode.DeadStores]
+                   val &=3D ~PCM990_CTRL_MMC2PWR;
+                   ^      ~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-pxa/pcm990-baseboard.c:346:3: note: Value stored to 'val' =
+is never read
+                   val &=3D ~PCM990_CTRL_MMC2PWR;
+                   ^      ~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   ipc/sem.c:688:29: warning: Access to field 'sem_num' results in a derefe=
+rence of a null pointer (loaded from variable 'sop') [clang-analyzer-core.N=
+ullDereference]
+                   ipc_update_pid(&sma->sems[sop->sem_num].sempid, pid);
+                                             ^
+   ipc/sem.c:2344:6: note: Assuming 'ulp' is non-null
 
->> drivers/net/amt.c:580:3: warning: Non-boolean value returned from functi=
-on returning bool [returnNonBoolInBooleanFunction]
-     return -1;
-     ^
->> drivers/net/amt.c:443:16: warning: Variable 'iph' is not assigned a valu=
-e. [unassignedVariable]
-    struct iphdr *iph;
-                  ^
-   drivers/net/amt.c:503:16: warning: Variable 'iph' is not assigned a valu=
-e. [unassignedVariable]
-    struct iphdr *iph;
-                  ^
+vim +/root +102 fs/kernfs/inode.c
 
-vim +580 drivers/net/amt.c
+ffed24e22845a3 Tejun Heo         2013-11-28   91  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  436  =
+ffed24e22845a3 Tejun Heo         2013-11-28   92  /**
+ffed24e22845a3 Tejun Heo         2013-11-28   93   * kernfs_setattr - set i=
+attr on a node
+324a56e16e44ba Tejun Heo         2013-12-11   94   * @kn: target node
+ffed24e22845a3 Tejun Heo         2013-11-28   95   * @iattr: iattr to set
+ffed24e22845a3 Tejun Heo         2013-11-28   96   *
+ffed24e22845a3 Tejun Heo         2013-11-28   97   * Returns 0 on success, =
+-errno on failure.
+ffed24e22845a3 Tejun Heo         2013-11-28   98   */
+324a56e16e44ba Tejun Heo         2013-12-11   99  int kernfs_setattr(struct=
+ kernfs_node *kn, const struct iattr *iattr)
+ffed24e22845a3 Tejun Heo         2013-11-28  100  {
+ffed24e22845a3 Tejun Heo         2013-11-28  101  	int ret;
+393c3714081a53 Minchan Kim       2021-11-18 @102  	struct kernfs_root *root=
+ =3D kernfs_root(kn);
+ffed24e22845a3 Tejun Heo         2013-11-28  103  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  437  static bool amt_send_membership_=
-update(struct amt_dev *amt,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  438  				       struct sk_buff *skb,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  439  				       bool v6)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  440  {
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  441  	struct amt_header_membership_up=
-date *amtmu;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  442  	struct socket *sock;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31 @443  	struct iphdr *iph;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  444  	struct flowi4 fl4;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  445  	struct rtable *rt;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  446  	int err;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  447  =
+3dd2a5f81a41be Imran Khan        2022-01-03  104  	kernfs_get(kn);
+3dd2a5f81a41be Imran Khan        2022-01-03  105  	down_write(&kn->kernfs_i=
+op_rwsem);
+324a56e16e44ba Tejun Heo         2013-12-11  106  	ret =3D __kernfs_setattr=
+(kn, iattr);
+3dd2a5f81a41be Imran Khan        2022-01-03  107  	up_write(&kn->kernfs_iop=
+_rwsem);
+3dd2a5f81a41be Imran Khan        2022-01-03  108  	kernfs_put(kn);
+ffed24e22845a3 Tejun Heo         2013-11-28  109  	return ret;
+ffed24e22845a3 Tejun Heo         2013-11-28  110  }
+ffed24e22845a3 Tejun Heo         2013-11-28  111  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  448  	sock =3D rcu_dereference_bh(amt=
-->sock);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  449  	if (!sock)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  450  		return true;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  451  =
+549c7297717c32 Christian Brauner 2021-01-21  112  int kernfs_iop_setattr(st=
+ruct user_namespace *mnt_userns, struct dentry *dentry,
+549c7297717c32 Christian Brauner 2021-01-21  113  		       struct iattr *ia=
+ttr)
+ffed24e22845a3 Tejun Heo         2013-11-28  114  {
+2b0143b5c986be David Howells     2015-03-17  115  	struct inode *inode =3D =
+d_inode(dentry);
+319ba91d352a74 Shaohua Li        2017-07-12  116  	struct kernfs_node *kn =
+=3D inode->i_private;
+393c3714081a53 Minchan Kim       2021-11-18  117  	struct kernfs_root *root;
+ffed24e22845a3 Tejun Heo         2013-11-28  118  	int error;
+ffed24e22845a3 Tejun Heo         2013-11-28  119  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  452  	err =3D skb_cow_head(skb, LL_RE=
-SERVED_SPACE(amt->dev) + sizeof(*amtmu) +
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  453  			   sizeof(*iph) + sizeof(stru=
-ct udphdr));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  454  	if (err)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  455  		return true;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  456  =
+324a56e16e44ba Tejun Heo         2013-12-11  120  	if (!kn)
+ffed24e22845a3 Tejun Heo         2013-11-28  121  		return -EINVAL;
+ffed24e22845a3 Tejun Heo         2013-11-28  122  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  457  	skb_reset_inner_headers(skb);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  458  	memset(&fl4, 0, sizeof(struct f=
-lowi4));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  459  	fl4.flowi4_oif         =3D amt-=
->stream_dev->ifindex;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  460  	fl4.daddr              =3D amt-=
->remote_ip;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  461  	fl4.saddr              =3D amt-=
->local_ip;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  462  	fl4.flowi4_tos         =3D AMT_=
-TOS;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  463  	fl4.flowi4_proto       =3D IPPR=
-OTO_UDP;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  464  	rt =3D ip_route_output_key(amt-=
->net, &fl4);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  465  	if (IS_ERR(rt)) {
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  466  		netdev_dbg(amt->dev, "no route=
- to %pI4\n", &amt->remote_ip);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  467  		return true;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  468  	}
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  469  =
+393c3714081a53 Minchan Kim       2021-11-18 @123  	root =3D kernfs_root(kn);
+3dd2a5f81a41be Imran Khan        2022-01-03  124  	kernfs_get(kn);
+3dd2a5f81a41be Imran Khan        2022-01-03  125  	down_write(&kn->kernfs_i=
+op_rwsem);
+2f221d6f7b881d Christian Brauner 2021-01-21  126  	error =3D setattr_prepar=
+e(&init_user_ns, dentry, iattr);
+ffed24e22845a3 Tejun Heo         2013-11-28  127  	if (error)
+ffed24e22845a3 Tejun Heo         2013-11-28  128  		goto out;
+ffed24e22845a3 Tejun Heo         2013-11-28  129  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  470  	amtmu			=3D skb_push(skb, sizeo=
-f(*amtmu));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  471  	amtmu->version		=3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  472  	amtmu->type		=3D AMT_MSG_MEMBER=
-SHIP_UPDATE;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  473  	amtmu->reserved		=3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  474  	amtmu->nonce		=3D amt->nonce;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  475  	amtmu->response_mac	=3D amt->ma=
-c;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  476  =
+324a56e16e44ba Tejun Heo         2013-12-11  130  	error =3D __kernfs_setat=
+tr(kn, iattr);
+ffed24e22845a3 Tejun Heo         2013-11-28  131  	if (error)
+ffed24e22845a3 Tejun Heo         2013-11-28  132  		goto out;
+ffed24e22845a3 Tejun Heo         2013-11-28  133  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  477  	if (!v6)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  478  		skb_set_inner_protocol(skb, ht=
-ons(ETH_P_IP));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  479  	else
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  480  		skb_set_inner_protocol(skb, ht=
-ons(ETH_P_IPV6));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  481  	udp_tunnel_xmit_skb(rt, sock->s=
-k, skb,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  482  			    fl4.saddr,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  483  			    fl4.daddr,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  484  			    AMT_TOS,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  485  			    ip4_dst_hoplimit(&rt->dst=
-),
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  486  			    0,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  487  			    amt->gw_port,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  488  			    amt->relay_port,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  489  			    false,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  490  			    false);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  491  	amt_update_gw_status(amt, AMT_S=
-TATUS_SENT_UPDATE, true);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  492  	return false;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  493  }
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  494  =
+ffed24e22845a3 Tejun Heo         2013-11-28  134  	/* this ignores size cha=
+nges */
+2f221d6f7b881d Christian Brauner 2021-01-21  135  	setattr_copy(&init_user_=
+ns, inode, iattr);
+ffed24e22845a3 Tejun Heo         2013-11-28  136  =
 
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  495  static void amt_send_multicast_d=
-ata(struct amt_dev *amt,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  496  				    const struct sk_buff *os=
-kb,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  497  				    struct amt_tunnel_list *=
-tunnel,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  498  				    bool v6)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  499  {
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  500  	struct amt_header_mcast_data *a=
-mtmd;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  501  	struct socket *sock;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  502  	struct sk_buff *skb;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  503  	struct iphdr *iph;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  504  	struct flowi4 fl4;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  505  	struct rtable *rt;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  506  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  507  	sock =3D rcu_dereference_bh(amt=
-->sock);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  508  	if (!sock)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  509  		return;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  510  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  511  	skb =3D skb_copy_expand(oskb, s=
-izeof(*amtmd) + sizeof(*iph) +
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  512  			      sizeof(struct udphdr), =
-0, GFP_ATOMIC);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  513  	if (!skb)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  514  		return;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  515  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  516  	skb_reset_inner_headers(skb);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  517  	memset(&fl4, 0, sizeof(struct f=
-lowi4));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  518  	fl4.flowi4_oif         =3D amt-=
->stream_dev->ifindex;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  519  	fl4.daddr              =3D tunn=
-el->ip4;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  520  	fl4.saddr              =3D amt-=
->local_ip;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  521  	fl4.flowi4_proto       =3D IPPR=
-OTO_UDP;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  522  	rt =3D ip_route_output_key(amt-=
->net, &fl4);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  523  	if (IS_ERR(rt)) {
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  524  		netdev_dbg(amt->dev, "no route=
- to %pI4\n", &tunnel->ip4);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  525  		kfree_skb(skb);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  526  		return;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  527  	}
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  528  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  529  	amtmd =3D skb_push(skb, sizeof(=
-*amtmd));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  530  	amtmd->version =3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  531  	amtmd->reserved =3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  532  	amtmd->type =3D AMT_MSG_MULTICA=
-ST_DATA;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  533  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  534  	if (!v6)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  535  		skb_set_inner_protocol(skb, ht=
-ons(ETH_P_IP));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  536  	else
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  537  		skb_set_inner_protocol(skb, ht=
-ons(ETH_P_IPV6));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  538  	udp_tunnel_xmit_skb(rt, sock->s=
-k, skb,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  539  			    fl4.saddr,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  540  			    fl4.daddr,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  541  			    AMT_TOS,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  542  			    ip4_dst_hoplimit(&rt->dst=
-),
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  543  			    0,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  544  			    amt->relay_port,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  545  			    tunnel->source_port,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  546  			    false,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  547  			    false);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  548  }
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  549  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  550  static bool amt_send_membership_=
-query(struct amt_dev *amt,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  551  				      struct sk_buff *skb,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  552  				      struct amt_tunnel_list=
- *tunnel,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  553  				      bool v6)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  554  {
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  555  	struct amt_header_membership_qu=
-ery *amtmq;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  556  	struct socket *sock;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  557  	struct rtable *rt;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  558  	struct flowi4 fl4;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  559  	int err;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  560  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  561  	sock =3D rcu_dereference_bh(amt=
-->sock);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  562  	if (!sock)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  563  		return true;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  564  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  565  	err =3D skb_cow_head(skb, LL_RE=
-SERVED_SPACE(amt->dev) + sizeof(*amtmq) +
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  566  			   sizeof(struct iphdr) + siz=
-eof(struct udphdr));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  567  	if (err)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  568  		return true;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  569  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  570  	skb_reset_inner_headers(skb);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  571  	memset(&fl4, 0, sizeof(struct f=
-lowi4));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  572  	fl4.flowi4_oif         =3D amt-=
->stream_dev->ifindex;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  573  	fl4.daddr              =3D tunn=
-el->ip4;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  574  	fl4.saddr              =3D amt-=
->local_ip;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  575  	fl4.flowi4_tos         =3D AMT_=
-TOS;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  576  	fl4.flowi4_proto       =3D IPPR=
-OTO_UDP;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  577  	rt =3D ip_route_output_key(amt-=
->net, &fl4);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  578  	if (IS_ERR(rt)) {
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  579  		netdev_dbg(amt->dev, "no route=
- to %pI4\n", &tunnel->ip4);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31 @580  		return -1;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  581  	}
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  582  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  583  	amtmq		=3D skb_push(skb, sizeof=
-(*amtmq));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  584  	amtmq->version	=3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  585  	amtmq->type	=3D AMT_MSG_MEMBERS=
-HIP_QUERY;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  586  	amtmq->reserved =3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  587  	amtmq->l	=3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  588  	amtmq->g	=3D 0;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  589  	amtmq->nonce	=3D tunnel->nonce;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  590  	amtmq->response_mac =3D tunnel-=
->mac;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  591  =
-
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  592  	if (!v6)
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  593  		skb_set_inner_protocol(skb, ht=
-ons(ETH_P_IP));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  594  	else
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  595  		skb_set_inner_protocol(skb, ht=
-ons(ETH_P_IPV6));
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  596  	udp_tunnel_xmit_skb(rt, sock->s=
-k, skb,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  597  			    fl4.saddr,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  598  			    fl4.daddr,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  599  			    AMT_TOS,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  600  			    ip4_dst_hoplimit(&rt->dst=
-),
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  601  			    0,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  602  			    amt->relay_port,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  603  			    tunnel->source_port,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  604  			    false,
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  605  			    false);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  606  	amt_update_relay_status(tunnel,=
- AMT_STATUS_SENT_QUERY, true);
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  607  	return false;
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  608  }
-cbc21dc1cfe949 Taehee Yoo 2021-10-31  609  =
+ffed24e22845a3 Tejun Heo         2013-11-28  137  out:
+3dd2a5f81a41be Imran Khan        2022-01-03  138  	up_write(&kn->kernfs_iop=
+_rwsem);
+3dd2a5f81a41be Imran Khan        2022-01-03  139  	kernfs_put(kn);
+ffed24e22845a3 Tejun Heo         2013-11-28  140  	return error;
+ffed24e22845a3 Tejun Heo         2013-11-28  141  }
+ffed24e22845a3 Tejun Heo         2013-11-28  142  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0656680421738574543==--
+--===============3877036359172854170==--
 
