@@ -1,231 +1,149 @@
-Content-Type: multipart/mixed; boundary="===============6328513500374052530=="
+Content-Type: multipart/mixed; boundary="===============6451299157848244272=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] media: st-delta: Fix PM disable depth imbalance in delta_probe
-Date: Thu, 06 Jan 2022 07:08:12 +0800
-Message-ID: <202201060724.NNqAORgm-lkp@intel.com>
+Subject: drivers/platform/surface/surface_aggregator_cdev.c:557 ssam_cdev_read() error: uninitialized symbol 'copied'.
+Date: Thu, 06 Jan 2022 03:32:45 +0800
+Message-ID: <202201060313.HEOxjoNk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6328513500374052530==
+--===============6451299157848244272==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220105115515.12196-1-linmq006@gmail.com>
-References: <20220105115515.12196-1-linmq006@gmail.com>
-TO: Miaoqian Lin <linmq006@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Maximilian Luz <luzmaximilian@gmail.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
-Hi Miaoqian,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on v5.16-rc8 next-20220105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Miaoqian-Lin/media-st-delt=
-a-Fix-PM-disable-depth-imbalance-in-delta_probe/20220105-195600
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: mips-randconfig-s032-20220105 (https://download.01.org/0day-ci/arch=
-ive/20220106/202201060724.NNqAORgm-lkp(a)intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/df377b6adc1cca5963348f9ac=
-16f033e5da299cb
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Miaoqian-Lin/media-st-delta-Fix-PM=
--disable-depth-imbalance-in-delta_probe/20220105-195600
-        git checkout df377b6adc1cca5963348f9ac16f033e5da299cb
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-ips SHELL=3D/bin/bash drivers/media/platform/sti/delta/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c9e6606c7fe92b50a02ce51dda82586ebdf99b48
+commit: 776c53c6a448905d8b9b161805b67f82301bfe91 platform/surface: aggregat=
+or_cdev: Add support for forwarding events to user-space
+date:   7 months ago
+:::::: branch date: 3 days ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-m001-20220105 (https://download.01.org/0day-ci/ar=
+chive/20220106/202201060313.HEOxjoNk-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/platform/surface/surface_aggregator_cdev.c:557 ssam_cdev_read() err=
+or: uninitialized symbol 'copied'.
 
-sparse warnings: (new ones prefixed by >>)
-   command-line: note: in included file:
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQUIRE redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_SEQ_CST redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQ_REL redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_RELEASE redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
->> drivers/media/platform/sti/delta/delta-v4l2.c:1901:1: sparse: sparse: un=
-used label 'disable_pm_runtime'
+vim +/copied +557 drivers/platform/surface/surface_aggregator_cdev.c
 
-vim +/disable_pm_runtime +1901 drivers/media/platform/sti/delta/delta-v4l2.c
+776c53c6a44890 Maximilian Luz 2021-06-04  500  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1812  =
+776c53c6a44890 Maximilian Luz 2021-06-04  501  static ssize_t ssam_cdev_rea=
+d(struct file *file, char __user *buf, size_t count, loff_t *offs)
+776c53c6a44890 Maximilian Luz 2021-06-04  502  {
+776c53c6a44890 Maximilian Luz 2021-06-04  503  	struct ssam_cdev_client *cl=
+ient =3D file->private_data;
+776c53c6a44890 Maximilian Luz 2021-06-04  504  	struct ssam_cdev *cdev =3D =
+client->cdev;
+776c53c6a44890 Maximilian Luz 2021-06-04  505  	unsigned int copied;
+776c53c6a44890 Maximilian Luz 2021-06-04  506  	int status =3D 0;
+776c53c6a44890 Maximilian Luz 2021-06-04  507  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1813  static int delta_probe(str=
-uct platform_device *pdev)
-f386509e4959459 Hugues Fruchet 2017-02-02  1814  {
-f386509e4959459 Hugues Fruchet 2017-02-02  1815  	struct delta_dev *delta;
-f386509e4959459 Hugues Fruchet 2017-02-02  1816  	struct device *dev =3D &p=
-dev->dev;
-f386509e4959459 Hugues Fruchet 2017-02-02  1817  	int ret;
-f386509e4959459 Hugues Fruchet 2017-02-02  1818  =
+178f6ab77e617c Maximilian Luz 2020-12-21  508  	if (down_read_killable(&cde=
+v->lock))
+178f6ab77e617c Maximilian Luz 2020-12-21  509  		return -ERESTARTSYS;
+178f6ab77e617c Maximilian Luz 2020-12-21  510  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1819  	delta =3D devm_kzalloc(de=
-v, sizeof(*delta), GFP_KERNEL);
-f386509e4959459 Hugues Fruchet 2017-02-02  1820  	if (!delta) {
-f386509e4959459 Hugues Fruchet 2017-02-02  1821  		ret =3D -ENOMEM;
-f386509e4959459 Hugues Fruchet 2017-02-02  1822  		goto err;
-f386509e4959459 Hugues Fruchet 2017-02-02  1823  	}
-f386509e4959459 Hugues Fruchet 2017-02-02  1824  =
+776c53c6a44890 Maximilian Luz 2021-06-04  511  	/* Make sure we're not shut=
+ down. */
+776c53c6a44890 Maximilian Luz 2021-06-04  512  	if (test_bit(SSAM_CDEV_DEVI=
+CE_SHUTDOWN_BIT, &cdev->flags)) {
+178f6ab77e617c Maximilian Luz 2020-12-21  513  		up_read(&cdev->lock);
+178f6ab77e617c Maximilian Luz 2020-12-21  514  		return -ENODEV;
+178f6ab77e617c Maximilian Luz 2020-12-21  515  	}
+178f6ab77e617c Maximilian Luz 2020-12-21  516  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1825  	delta->dev =3D dev;
-f386509e4959459 Hugues Fruchet 2017-02-02  1826  	delta->pdev =3D pdev;
-f386509e4959459 Hugues Fruchet 2017-02-02  1827  	platform_set_drvdata(pdev=
-, delta);
-f386509e4959459 Hugues Fruchet 2017-02-02  1828  =
+776c53c6a44890 Maximilian Luz 2021-06-04  517  	do {
+776c53c6a44890 Maximilian Luz 2021-06-04  518  		/* Check availability, wai=
+t if necessary. */
+776c53c6a44890 Maximilian Luz 2021-06-04  519  		if (kfifo_is_empty(&client=
+->buffer)) {
+776c53c6a44890 Maximilian Luz 2021-06-04  520  			up_read(&cdev->lock);
+776c53c6a44890 Maximilian Luz 2021-06-04  521  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1829  	mutex_init(&delta->lock);
-f386509e4959459 Hugues Fruchet 2017-02-02  1830  =
+776c53c6a44890 Maximilian Luz 2021-06-04  522  			if (file->f_flags & O_NON=
+BLOCK)
+776c53c6a44890 Maximilian Luz 2021-06-04  523  				return -EAGAIN;
+178f6ab77e617c Maximilian Luz 2020-12-21  524  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1831  	/* get clock resources */
-f386509e4959459 Hugues Fruchet 2017-02-02  1832  	delta->clk_delta =3D devm=
-_clk_get(dev, "delta");
-f386509e4959459 Hugues Fruchet 2017-02-02  1833  	if (IS_ERR(delta->clk_del=
-ta)) {
-f386509e4959459 Hugues Fruchet 2017-02-02  1834  		dev_dbg(dev, "%s can't g=
-et delta clock\n", DELTA_PREFIX);
-f386509e4959459 Hugues Fruchet 2017-02-02  1835  		delta->clk_delta =3D NUL=
-L;
-f386509e4959459 Hugues Fruchet 2017-02-02  1836  	}
-f386509e4959459 Hugues Fruchet 2017-02-02  1837  =
+776c53c6a44890 Maximilian Luz 2021-06-04  525  			status =3D wait_event_int=
+erruptible(client->waitq,
+776c53c6a44890 Maximilian Luz 2021-06-04  526  							  !kfifo_is_empty(&cl=
+ient->buffer) ||
+776c53c6a44890 Maximilian Luz 2021-06-04  527  							  test_bit(SSAM_CDEV_=
+DEVICE_SHUTDOWN_BIT,
+776c53c6a44890 Maximilian Luz 2021-06-04  528  								   &cdev->flags));
+776c53c6a44890 Maximilian Luz 2021-06-04  529  			if (status < 0)
+776c53c6a44890 Maximilian Luz 2021-06-04  530  				return status;
+776c53c6a44890 Maximilian Luz 2021-06-04  531  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1838  	delta->clk_st231 =3D devm=
-_clk_get(dev, "delta-st231");
-f386509e4959459 Hugues Fruchet 2017-02-02  1839  	if (IS_ERR(delta->clk_st2=
-31)) {
-f386509e4959459 Hugues Fruchet 2017-02-02  1840  		dev_dbg(dev, "%s can't g=
-et delta-st231 clock\n", DELTA_PREFIX);
-f386509e4959459 Hugues Fruchet 2017-02-02  1841  		delta->clk_st231 =3D NUL=
-L;
-f386509e4959459 Hugues Fruchet 2017-02-02  1842  	}
-f386509e4959459 Hugues Fruchet 2017-02-02  1843  =
+776c53c6a44890 Maximilian Luz 2021-06-04  532  			if (down_read_killable(&c=
+dev->lock))
+776c53c6a44890 Maximilian Luz 2021-06-04  533  				return -ERESTARTSYS;
+776c53c6a44890 Maximilian Luz 2021-06-04  534  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1844  	delta->clk_flash_promip =
-=3D devm_clk_get(dev, "delta-flash-promip");
-f386509e4959459 Hugues Fruchet 2017-02-02  1845  	if (IS_ERR(delta->clk_fla=
-sh_promip)) {
-f386509e4959459 Hugues Fruchet 2017-02-02  1846  		dev_dbg(dev, "%s can't g=
-et delta-flash-promip clock\n",
-f386509e4959459 Hugues Fruchet 2017-02-02  1847  			DELTA_PREFIX);
-f386509e4959459 Hugues Fruchet 2017-02-02  1848  		delta->clk_flash_promip =
-=3D NULL;
-f386509e4959459 Hugues Fruchet 2017-02-02  1849  	}
-f386509e4959459 Hugues Fruchet 2017-02-02  1850  =
+776c53c6a44890 Maximilian Luz 2021-06-04  535  			/* Need to check that we'=
+re not shut down again. */
+776c53c6a44890 Maximilian Luz 2021-06-04  536  			if (test_bit(SSAM_CDEV_DE=
+VICE_SHUTDOWN_BIT, &cdev->flags)) {
+776c53c6a44890 Maximilian Luz 2021-06-04  537  				up_read(&cdev->lock);
+776c53c6a44890 Maximilian Luz 2021-06-04  538  				return -ENODEV;
+776c53c6a44890 Maximilian Luz 2021-06-04  539  			}
+776c53c6a44890 Maximilian Luz 2021-06-04  540  		}
+776c53c6a44890 Maximilian Luz 2021-06-04  541  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1851  	/* init pm_runtime used f=
-or power management */
-f386509e4959459 Hugues Fruchet 2017-02-02  1852  	pm_runtime_set_autosuspen=
-d_delay(dev, DELTA_HW_AUTOSUSPEND_DELAY_MS);
-f386509e4959459 Hugues Fruchet 2017-02-02  1853  	pm_runtime_use_autosuspen=
-d(dev);
-f386509e4959459 Hugues Fruchet 2017-02-02  1854  	pm_runtime_set_suspended(=
-dev);
-f386509e4959459 Hugues Fruchet 2017-02-02  1855  	pm_runtime_enable(dev);
-f386509e4959459 Hugues Fruchet 2017-02-02  1856  =
+776c53c6a44890 Maximilian Luz 2021-06-04  542  		/* Try to read from FIFO. =
+*/
+776c53c6a44890 Maximilian Luz 2021-06-04  543  		if (mutex_lock_interruptib=
+le(&client->read_lock)) {
+776c53c6a44890 Maximilian Luz 2021-06-04  544  			up_read(&cdev->lock);
+776c53c6a44890 Maximilian Luz 2021-06-04  545  			return -ERESTARTSYS;
+776c53c6a44890 Maximilian Luz 2021-06-04  546  		}
+776c53c6a44890 Maximilian Luz 2021-06-04  547  =
 
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1857  	/* init firmware ipc chan=
-nel */
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1858  	ret =3D delta_ipc_init(de=
-lta);
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1859  	if (ret) {
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1860  		dev_err(delta->dev, "%s =
-failed to initialize firmware ipc channel\n",
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1861  			DELTA_PREFIX);
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1862  		goto err;
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1863  	}
-91c83f395fbe7c8 Hugues Fruchet 2017-02-02  1864  =
+776c53c6a44890 Maximilian Luz 2021-06-04  548  		status =3D kfifo_to_user(&=
+client->buffer, buf, count, &copied);
+776c53c6a44890 Maximilian Luz 2021-06-04  549  		mutex_unlock(&client->read=
+_lock);
+776c53c6a44890 Maximilian Luz 2021-06-04  550  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1865  	/* register all available=
- decoders */
-f386509e4959459 Hugues Fruchet 2017-02-02  1866  	register_decoders(delta);
-f386509e4959459 Hugues Fruchet 2017-02-02  1867  =
+776c53c6a44890 Maximilian Luz 2021-06-04  551  		if (status < 0) {
+178f6ab77e617c Maximilian Luz 2020-12-21  552  			up_read(&cdev->lock);
+178f6ab77e617c Maximilian Luz 2020-12-21  553  			return status;
+178f6ab77e617c Maximilian Luz 2020-12-21  554  		}
+178f6ab77e617c Maximilian Luz 2020-12-21  555  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1868  	/* register all supported=
- formats */
-f386509e4959459 Hugues Fruchet 2017-02-02  1869  	register_formats(delta);
-f386509e4959459 Hugues Fruchet 2017-02-02  1870  =
+776c53c6a44890 Maximilian Luz 2021-06-04  556  		/* We might not have gotte=
+n anything, check this here. */
+776c53c6a44890 Maximilian Luz 2021-06-04 @557  		if (copied =3D=3D 0 && (fi=
+le->f_flags & O_NONBLOCK)) {
+776c53c6a44890 Maximilian Luz 2021-06-04  558  			up_read(&cdev->lock);
+776c53c6a44890 Maximilian Luz 2021-06-04  559  			return -EAGAIN;
+776c53c6a44890 Maximilian Luz 2021-06-04  560  		}
+776c53c6a44890 Maximilian Luz 2021-06-04  561  	} while (copied =3D=3D 0);
+776c53c6a44890 Maximilian Luz 2021-06-04  562  =
 
-f386509e4959459 Hugues Fruchet 2017-02-02  1871  	/* register on V4L2 */
-f386509e4959459 Hugues Fruchet 2017-02-02  1872  	ret =3D v4l2_device_regis=
-ter(dev, &delta->v4l2_dev);
-f386509e4959459 Hugues Fruchet 2017-02-02  1873  	if (ret) {
-f386509e4959459 Hugues Fruchet 2017-02-02  1874  		dev_err(delta->dev, "%s =
-failed to register V4L2 device\n",
-f386509e4959459 Hugues Fruchet 2017-02-02  1875  			DELTA_PREFIX);
-f386509e4959459 Hugues Fruchet 2017-02-02  1876  		goto err;
-f386509e4959459 Hugues Fruchet 2017-02-02  1877  	}
-f386509e4959459 Hugues Fruchet 2017-02-02  1878  =
-
-f386509e4959459 Hugues Fruchet 2017-02-02  1879  	delta->work_queue =3D cre=
-ate_workqueue(DELTA_NAME);
-f386509e4959459 Hugues Fruchet 2017-02-02  1880  	if (!delta->work_queue) {
-f386509e4959459 Hugues Fruchet 2017-02-02  1881  		dev_err(delta->dev, "%s =
-failed to allocate work queue\n",
-f386509e4959459 Hugues Fruchet 2017-02-02  1882  			DELTA_PREFIX);
-f386509e4959459 Hugues Fruchet 2017-02-02  1883  		ret =3D -ENOMEM;
-f386509e4959459 Hugues Fruchet 2017-02-02  1884  		goto err_v4l2;
-f386509e4959459 Hugues Fruchet 2017-02-02  1885  	}
-f386509e4959459 Hugues Fruchet 2017-02-02  1886  =
-
-f386509e4959459 Hugues Fruchet 2017-02-02  1887  	/* register device */
-f386509e4959459 Hugues Fruchet 2017-02-02  1888  	ret =3D delta_register_de=
-vice(delta);
-f386509e4959459 Hugues Fruchet 2017-02-02  1889  	if (ret)
-f386509e4959459 Hugues Fruchet 2017-02-02  1890  		goto err_work_queue;
-f386509e4959459 Hugues Fruchet 2017-02-02  1891  =
-
-f386509e4959459 Hugues Fruchet 2017-02-02  1892  	dev_info(dev, "%s %s regi=
-stered as /dev/video%d\n",
-f386509e4959459 Hugues Fruchet 2017-02-02  1893  		 DELTA_PREFIX, delta->vd=
-ev->name, delta->vdev->num);
-f386509e4959459 Hugues Fruchet 2017-02-02  1894  =
-
-f386509e4959459 Hugues Fruchet 2017-02-02  1895  	return 0;
-f386509e4959459 Hugues Fruchet 2017-02-02  1896  =
-
-f386509e4959459 Hugues Fruchet 2017-02-02  1897  err_work_queue:
-f386509e4959459 Hugues Fruchet 2017-02-02  1898  	destroy_workqueue(delta->=
-work_queue);
-f386509e4959459 Hugues Fruchet 2017-02-02  1899  err_v4l2:
-f386509e4959459 Hugues Fruchet 2017-02-02  1900  	v4l2_device_unregister(&d=
-elta->v4l2_dev);
-df377b6adc1cca5 Miaoqian Lin   2022-01-05 @1901  disable_pm_runtime:
-df377b6adc1cca5 Miaoqian Lin   2022-01-05  1902  	pm_runtime_disable(dev);
-f386509e4959459 Hugues Fruchet 2017-02-02  1903  err:
-f386509e4959459 Hugues Fruchet 2017-02-02  1904  	return ret;
-f386509e4959459 Hugues Fruchet 2017-02-02  1905  }
-f386509e4959459 Hugues Fruchet 2017-02-02  1906  =
+776c53c6a44890 Maximilian Luz 2021-06-04  563  	up_read(&cdev->lock);
+776c53c6a44890 Maximilian Luz 2021-06-04  564  	return copied;
+776c53c6a44890 Maximilian Luz 2021-06-04  565  }
+776c53c6a44890 Maximilian Luz 2021-06-04  566  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6328513500374052530==--
+--===============6451299157848244272==--
 
