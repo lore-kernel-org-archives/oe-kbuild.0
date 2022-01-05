@@ -1,157 +1,184 @@
-Content-Type: multipart/mixed; boundary="===============2398252752054012525=="
+Content-Type: multipart/mixed; boundary="===============2721800470272365231=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/2] gnss: add USB support
-Date: Thu, 06 Jan 2022 01:20:13 +0800
-Message-ID: <202201060110.w9bLWwnW-lkp@intel.com>
+Subject: [linux-next:master 7722/10864] drivers/net/ethernet/intel/iavf/iavf_main.c:1891:6-8: WARNING: possible condition with no effect (if == else)
+Date: Wed, 05 Jan 2022 23:27:51 +0800
+Message-ID: <202201052357.4Vvbm3Tc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2398252752054012525==
+--===============2721800470272365231==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211220111901.23206-2-johan@kernel.org>
-References: <20211220111901.23206-2-johan@kernel.org>
-TO: Johan Hovold <johan@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Brett Creeley <brett.creeley@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
-Hi Johan,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on johan-usb-serial/usb-next]
-[also build test WARNING on usb/usb-testing linus/master balbi-usb/testing/=
-next peter-chen-usb/for-usb-next v5.16-rc8]
-[cannot apply to next-20220105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Johan-Hovold/gnss-add-USB-=
-support/20211220-192005
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.gi=
-t usb-next
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: parisc-randconfig-m031-20220105 (https://download.01.org/0day-ci/ar=
-chive/20220106/202201060110.w9bLWwnW-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   7a769a3922d81cfc74ab4d90a9cc69485f260976
+commit: 8afadd1cd8ba1df757011eb58c471eca0ac81872 [7722/10864] iavf: Add sup=
+port for VIRTCHNL_VF_OFFLOAD_VLAN_V2 offload enable/disable
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-c024-20220105 (https://download.01.org/0day-ci/arch=
+ive/20220105/202201052357.4Vvbm3Tc-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-smatch warnings:
-drivers/gnss/usb.c:155 gnss_usb_probe() warn: missing error code 'ret'
 
-vim +/ret +155 drivers/gnss/usb.c
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/iavf/iavf_main.c:1891:6-8: WARNING: possible =
+condition with no effect (if =3D=3D else)
 
-8b66a253fbf538 Johan Hovold 2021-12-20  116  =
+vim +1891 drivers/net/ethernet/intel/iavf/iavf_main.c
 
-8b66a253fbf538 Johan Hovold 2021-12-20  117  static int gnss_usb_probe(stru=
-ct usb_interface *intf, const struct usb_device_id *id)
-8b66a253fbf538 Johan Hovold 2021-12-20  118  {
-8b66a253fbf538 Johan Hovold 2021-12-20  119  	struct usb_device *udev =3D i=
-nterface_to_usbdev(intf);
-8b66a253fbf538 Johan Hovold 2021-12-20  120  	struct usb_endpoint_descripto=
-r *in, *out;
-8b66a253fbf538 Johan Hovold 2021-12-20  121  	struct gnss_device *gdev;
-8b66a253fbf538 Johan Hovold 2021-12-20  122  	struct gnss_usb *gusb;
-8b66a253fbf538 Johan Hovold 2021-12-20  123  	struct urb *urb;
-8b66a253fbf538 Johan Hovold 2021-12-20  124  	size_t buf_len;
-8b66a253fbf538 Johan Hovold 2021-12-20  125  	void *buf;
-8b66a253fbf538 Johan Hovold 2021-12-20  126  	int ret;
-8b66a253fbf538 Johan Hovold 2021-12-20  127  =
+b476b0030e612e Jakub Pawlak  2019-05-14  1858  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  128  	ret =3D usb_find_common_endpo=
-ints(intf->cur_altsetting, &in, &out, NULL,
-8b66a253fbf538 Johan Hovold 2021-12-20  129  			NULL);
-8b66a253fbf538 Johan Hovold 2021-12-20  130  	if (ret)
-8b66a253fbf538 Johan Hovold 2021-12-20  131  		return ret;
-8b66a253fbf538 Johan Hovold 2021-12-20  132  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1859  /**
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1860   * iavf_set_vlan_offload_fea=
+tures - set VLAN offload configuration
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1861   * @adapter: board private s=
+tructure
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1862   * @prev_features: previous =
+features used for comparison
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1863   * @features: updated featur=
+es used for configuration
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1864   *
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1865   * Set the aq_required bit(s=
+) based on the requested features passed in to
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1866   * configure VLAN stripping =
+and/or VLAN insertion if supported. Also, schedule
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1867   * the watchdog if any chang=
+es are requested to expedite the request via
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1868   * virtchnl.
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1869   **/
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1870  void
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1871  iavf_set_vlan_offload_featur=
+es(struct iavf_adapter *adapter,
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1872  			       netdev_features_t =
+prev_features,
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1873  			       netdev_features_t =
+features)
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1874  {
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1875  	bool enable_stripping =3D t=
+rue, enable_insertion =3D true;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1876  	u16 vlan_ethertype =3D 0;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1877  	u64 aq_required =3D 0;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1878  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  133  	gusb =3D kzalloc(sizeof(*gusb=
-), GFP_KERNEL);
-8b66a253fbf538 Johan Hovold 2021-12-20  134  	if (!gusb)
-8b66a253fbf538 Johan Hovold 2021-12-20  135  		return -ENOMEM;
-8b66a253fbf538 Johan Hovold 2021-12-20  136  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1879  	/* keep cases separate beca=
+use one ethertype for offloads can be
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1880  	 * disabled at the same tim=
+e as another is disabled, so check for an
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1881  	 * enabled ethertype first,=
+ then check for disabled. Default to
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1882  	 * ETH_P_8021Q so an ethert=
+ype is specified if disabling insertion and
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1883  	 * stripping.
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1884  	 */
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1885  	if (features & (NETIF_F_HW_=
+VLAN_STAG_RX | NETIF_F_HW_VLAN_STAG_TX))
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1886  		vlan_ethertype =3D ETH_P_8=
+021AD;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1887  	else if (features & (NETIF_=
+F_HW_VLAN_CTAG_RX | NETIF_F_HW_VLAN_CTAG_TX))
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1888  		vlan_ethertype =3D ETH_P_8=
+021Q;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1889  	else if (prev_features & (N=
+ETIF_F_HW_VLAN_STAG_RX | NETIF_F_HW_VLAN_STAG_TX))
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1890  		vlan_ethertype =3D ETH_P_8=
+021AD;
+8afadd1cd8ba1d Brett Creeley 2021-11-29 @1891  	else if (prev_features & (N=
+ETIF_F_HW_VLAN_CTAG_RX | NETIF_F_HW_VLAN_CTAG_TX))
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1892  		vlan_ethertype =3D ETH_P_8=
+021Q;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1893  	else
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1894  		vlan_ethertype =3D ETH_P_8=
+021Q;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1895  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  137  	gdev =3D gnss_allocate_device=
-(&intf->dev);
-8b66a253fbf538 Johan Hovold 2021-12-20  138  	if (!gdev) {
-8b66a253fbf538 Johan Hovold 2021-12-20  139  		ret =3D -ENOMEM;
-8b66a253fbf538 Johan Hovold 2021-12-20  140  		goto err_free_gusb;
-8b66a253fbf538 Johan Hovold 2021-12-20  141  	}
-8b66a253fbf538 Johan Hovold 2021-12-20  142  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1896  	if (!(features & (NETIF_F_H=
+W_VLAN_STAG_RX | NETIF_F_HW_VLAN_CTAG_RX)))
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1897  		enable_stripping =3D false;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1898  	if (!(features & (NETIF_F_H=
+W_VLAN_STAG_TX | NETIF_F_HW_VLAN_CTAG_TX)))
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1899  		enable_insertion =3D false;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1900  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  143  	gdev->ops =3D &gnss_usb_gnss_=
-ops;
-8b66a253fbf538 Johan Hovold 2021-12-20  144  	gdev->type =3D GNSS_TYPE_NMEA;
-8b66a253fbf538 Johan Hovold 2021-12-20  145  	gnss_set_drvdata(gdev, gusb);
-8b66a253fbf538 Johan Hovold 2021-12-20  146  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1901  	if (VLAN_ALLOWED(adapter)) {
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1902  		/* VIRTCHNL_VF_OFFLOAD_VLA=
+N only has support for toggling VLAN
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1903  		 * stripping via virtchnl.=
+ VLAN insertion can be toggled on the
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1904  		 * netdev, but it doesn't =
+require a virtchnl message
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1905  		 */
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1906  		if (enable_stripping)
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1907  			aq_required |=3D IAVF_FLA=
+G_AQ_ENABLE_VLAN_STRIPPING;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1908  		else
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1909  			aq_required |=3D IAVF_FLA=
+G_AQ_DISABLE_VLAN_STRIPPING;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1910  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  147  	urb =3D usb_alloc_urb(0, GFP_=
-KERNEL);
-8b66a253fbf538 Johan Hovold 2021-12-20  148  	if (!urb)
-8b66a253fbf538 Johan Hovold 2021-12-20  149  		goto err_put_gdev;
-8b66a253fbf538 Johan Hovold 2021-12-20  150  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1911  	} else if (VLAN_V2_ALLOWED(=
+adapter)) {
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1912  		switch (vlan_ethertype) {
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1913  		case ETH_P_8021Q:
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1914  			if (enable_stripping)
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1915  				aq_required |=3D IAVF_FL=
+AG_AQ_ENABLE_CTAG_VLAN_STRIPPING;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1916  			else
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1917  				aq_required |=3D IAVF_FL=
+AG_AQ_DISABLE_CTAG_VLAN_STRIPPING;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1918  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  151  	buf_len =3D max(usb_endpoint_=
-maxp(in), GNSS_USB_READ_BUF_LEN);
-8b66a253fbf538 Johan Hovold 2021-12-20  152  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1919  			if (enable_insertion)
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1920  				aq_required |=3D IAVF_FL=
+AG_AQ_ENABLE_CTAG_VLAN_INSERTION;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1921  			else
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1922  				aq_required |=3D IAVF_FL=
+AG_AQ_DISABLE_CTAG_VLAN_INSERTION;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1923  			break;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1924  		case ETH_P_8021AD:
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1925  			if (enable_stripping)
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1926  				aq_required |=3D IAVF_FL=
+AG_AQ_ENABLE_STAG_VLAN_STRIPPING;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1927  			else
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1928  				aq_required |=3D IAVF_FL=
+AG_AQ_DISABLE_STAG_VLAN_STRIPPING;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1929  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  153  	buf =3D kzalloc(buf_len, GFP_=
-KERNEL);
-8b66a253fbf538 Johan Hovold 2021-12-20  154  	if (!buf)
-8b66a253fbf538 Johan Hovold 2021-12-20 @155  		goto err_free_urb;
-8b66a253fbf538 Johan Hovold 2021-12-20  156  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1930  			if (enable_insertion)
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1931  				aq_required |=3D IAVF_FL=
+AG_AQ_ENABLE_STAG_VLAN_INSERTION;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1932  			else
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1933  				aq_required |=3D IAVF_FL=
+AG_AQ_DISABLE_STAG_VLAN_INSERTION;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1934  			break;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1935  		}
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1936  	}
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1937  =
 
-8b66a253fbf538 Johan Hovold 2021-12-20  157  	usb_fill_bulk_urb(urb, udev,
-8b66a253fbf538 Johan Hovold 2021-12-20  158  			usb_rcvbulkpipe(udev, usb_e=
-ndpoint_num(in)),
-8b66a253fbf538 Johan Hovold 2021-12-20  159  			buf, buf_len, gnss_usb_rx_c=
-omplete, gusb);
-8b66a253fbf538 Johan Hovold 2021-12-20  160  =
-
-8b66a253fbf538 Johan Hovold 2021-12-20  161  	gusb->intf =3D intf;
-8b66a253fbf538 Johan Hovold 2021-12-20  162  	gusb->udev =3D udev;
-8b66a253fbf538 Johan Hovold 2021-12-20  163  	gusb->gdev =3D gdev;
-8b66a253fbf538 Johan Hovold 2021-12-20  164  	gusb->read_urb =3D urb;
-8b66a253fbf538 Johan Hovold 2021-12-20  165  	gusb->write_pipe =3D usb_sndb=
-ulkpipe(udev, usb_endpoint_num(out));
-8b66a253fbf538 Johan Hovold 2021-12-20  166  =
-
-8b66a253fbf538 Johan Hovold 2021-12-20  167  	ret =3D gnss_register_device(=
-gdev);
-8b66a253fbf538 Johan Hovold 2021-12-20  168  	if (ret)
-8b66a253fbf538 Johan Hovold 2021-12-20  169  		goto err_free_buf;
-8b66a253fbf538 Johan Hovold 2021-12-20  170  =
-
-8b66a253fbf538 Johan Hovold 2021-12-20  171  	usb_set_intfdata(intf, gusb);
-8b66a253fbf538 Johan Hovold 2021-12-20  172  =
-
-8b66a253fbf538 Johan Hovold 2021-12-20  173  	return 0;
-8b66a253fbf538 Johan Hovold 2021-12-20  174  =
-
-8b66a253fbf538 Johan Hovold 2021-12-20  175  err_free_buf:
-8b66a253fbf538 Johan Hovold 2021-12-20  176  	kfree(buf);
-8b66a253fbf538 Johan Hovold 2021-12-20  177  err_free_urb:
-8b66a253fbf538 Johan Hovold 2021-12-20  178  	usb_free_urb(urb);
-8b66a253fbf538 Johan Hovold 2021-12-20  179  err_put_gdev:
-8b66a253fbf538 Johan Hovold 2021-12-20  180  	gnss_put_device(gdev);
-8b66a253fbf538 Johan Hovold 2021-12-20  181  err_free_gusb:
-8b66a253fbf538 Johan Hovold 2021-12-20  182  	kfree(gusb);
-8b66a253fbf538 Johan Hovold 2021-12-20  183  =
-
-8b66a253fbf538 Johan Hovold 2021-12-20  184  	return ret;
-8b66a253fbf538 Johan Hovold 2021-12-20  185  }
-8b66a253fbf538 Johan Hovold 2021-12-20  186  =
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1938  	if (aq_required) {
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1939  		adapter->aq_required |=3D =
+aq_required;
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1940  		mod_delayed_work(iavf_wq, =
+&adapter->watchdog_task, 0);
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1941  	}
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1942  }
+8afadd1cd8ba1d Brett Creeley 2021-11-29  1943  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2398252752054012525==--
+--===============2721800470272365231==--
 
