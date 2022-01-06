@@ -1,294 +1,441 @@
-Content-Type: multipart/mixed; boundary="===============1628015690353399613=="
+Content-Type: multipart/mixed; boundary="===============3295605951895323070=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c:424 ixgbe_fcoe_ddp() warn: potential spectre issue 'fcoe->ddp' [r] (local cap)
-Date: Fri, 07 Jan 2022 06:53:09 +0800
-Message-ID: <202201070658.LRl1HssZ-lkp@intel.com>
+Subject: [linux-next:master 2212/11234] drivers/net/ethernet/atheros/alx/main.c:261:17: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Fri, 07 Jan 2022 05:31:36 +0800
+Message-ID: <202201070529.pcCG92SX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1628015690353399613==
+--===============3295605951895323070==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kees Cook <keescook@chromium.org>
+CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   75acfdb6fd922598a408a0d864486aeb167c1a97
-commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
-.h: sparse can do constant folding of __builtin_bswap*()
-date:   8 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-m021-20220105 (https://download.01.org/0day-ci/arch=
-ive/20220107/202201070658.LRl1HssZ-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   3770333b3f8cb7c9110889853afaa49777c26ea7
+commit: 03f61041c17914355dde7261be9ccdc821ddd454 [2212/11234] skbuff: Switc=
+h structure bounds to struct_group()
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20220105 (https://download.01.org/0day-ci/archi=
+ve/20220107/202201070529.pcCG92SX-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d5b6e3=
+0ed3acad794dd0aec400e617daffc6cc3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D03f61041c17914355dde7261be9ccdc821ddd454
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 03f61041c17914355dde7261be9ccdc821ddd454
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c:424 ixgbe_fcoe_ddp() warn: po=
-tential spectre issue 'fcoe->ddp' [r] (local cap)
-
-vim +424 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c
-
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  370  =
-
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  371  /**
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  372   * ixgbe_fcoe_ddp - check ddp status and mark it done
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  373   * @adapter: ixgbe adapter
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  374   * @rx_desc: advanced rx descriptor
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  375   * @skb: the skb holding the received data
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  376   *
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  377   * This checks ddp status.
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  378   *
-3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-06-08  379   * Returns : < 0 indicates an error or not a FCiE ddp, 0=
- indicates
-3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-06-08  380   * not passing the skb to ULD, > 0 indicates is the leng=
-th of data
-3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-06-08  381   * being ddped.
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  382   */
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  383  int ixgbe_fcoe_ddp(struct ixgbe_adapter *adapter,
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  384  		   union ixgbe_adv_rx_desc *rx_desc,
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  385  		   struct sk_buff *skb)
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  386  {
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  387  	int rc =3D -EINVAL;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  388  	struct ixgbe_fcoe *fcoe;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  389  	struct ixgbe_fcoe_ddp *ddp;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  390  	struct fc_frame_header *fh;
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  391  	struct fcoe_crc_eof *crc;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  392  	__le32 fcerr =3D ixgbe_test_staterr(rx_desc, IXGBE_RXDA=
-DV_ERR_FCERR);
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  393  	__le32 ddp_err;
-ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
-  2015-04-09  394  	int ddp_max;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  395  	u32 fctl;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  396  	u16 xid;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  397  =
-
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  398  	if (fcerr =3D=3D cpu_to_le32(IXGBE_FCERR_BADCRC))
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  399  		skb->ip_summed =3D CHECKSUM_NONE;
-bc8acf2c8c3e43 drivers/net/ixgbe/ixgbe_fcoe.c                Eric Dumazet  =
-  2010-09-02  400  	else
-bc8acf2c8c3e43 drivers/net/ixgbe/ixgbe_fcoe.c                Eric Dumazet  =
-  2010-09-02  401  		skb->ip_summed =3D CHECKSUM_UNNECESSARY;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  402  =
-
-be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2010-05-18  403  	if (eth_hdr(skb)->h_proto =3D=3D htons(ETH_P_8021Q))
-be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2010-05-18  404  		fh =3D (struct fc_frame_header *)(skb->data +
-be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2010-05-18  405  			sizeof(struct vlan_hdr) + sizeof(struct fcoe_hdr));
-be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2010-05-18  406  	else
-be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2010-05-18  407  		fh =3D (struct fc_frame_header *)(skb->data +
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  408  			sizeof(struct fcoe_hdr));
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  409  =
-
-d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-09-03  410  	fctl =3D ntoh24(fh->fh_f_ctl);
-d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-09-03  411  	if (fctl & FC_FC_EX_CTX)
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  412  		xid =3D  be16_to_cpu(fh->fh_ox_id);
-d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-09-03  413  	else
-d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-09-03  414  		xid =3D  be16_to_cpu(fh->fh_rx_id);
-d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-09-03  415  =
-
-ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
-  2015-04-09  416  	ddp_max =3D IXGBE_FCOE_DDP_MAX;
-ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
-  2015-04-09  417  	/* X550 has different DDP Max limit */
-ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
-  2015-04-09  418  	if (adapter->hw.mac.type =3D=3D ixgbe_mac_X550)
-ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
-  2015-04-09  419  		ddp_max =3D IXGBE_FCOE_DDP_MAX_X550;
-ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
-  2015-04-09  420  	if (xid >=3D ddp_max)
-e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
-  2014-07-22  421  		return -EINVAL;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  422  =
-
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  423  	fcoe =3D &adapter->fcoe;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13 @424  	ddp =3D &fcoe->ddp[xid];
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  425  	if (!ddp->udl)
-e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
-  2014-07-22  426  		return -EINVAL;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  427  =
-
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  428  	ddp_err =3D ixgbe_test_staterr(rx_desc, IXGBE_RXDADV_ER=
-R_FCEOFE |
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  429  					      IXGBE_RXDADV_ERR_FCERR);
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  430  	if (ddp_err)
-e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
-  2014-07-22  431  		return -EINVAL;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  432  =
-
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  433  	switch (ixgbe_test_staterr(rx_desc, IXGBE_RXDADV_STAT_F=
-CSTAT)) {
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  434  	/* return 0 to bypass going to ULD for DDPed data */
-a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
-  2014-03-13  435  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_DDP):
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  436  		/* update length of DDPed data */
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  437  		ddp->len =3D le32_to_cpu(rx_desc->wb.lower.hi_dword.rs=
-s);
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  438  		rc =3D 0;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  439  		break;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  440  	/* unmap the sg list when FCPRSP is received */
-a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
-  2014-03-13  441  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_FCPRSP):
-1bf91cdc1bba94 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-05-05  442  		dma_unmap_sg(&adapter->pdev->dev, ddp->sgl,
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  443  			     ddp->sgc, DMA_FROM_DEVICE);
-9cfbfa701b5586 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Cathy Zhou    =
-  2018-04-13  444  		ddp->err =3D (__force u32)ddp_err;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  445  		ddp->sgl =3D NULL;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  446  		ddp->sgc =3D 0;
-5463fce643e8d0 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Jeff Kirsher  =
-  2020-06-03  447  		fallthrough;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  448  	/* if DDP length is present pass it through to ULD */
-a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
-  2014-03-13  449  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_NODDP):
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  450  		/* update length of DDPed data */
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  451  		ddp->len =3D le32_to_cpu(rx_desc->wb.lower.hi_dword.rs=
-s);
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  452  		if (ddp->len)
-3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-06-08  453  			rc =3D ddp->len;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  454  		break;
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  455  	/* no match will return as an error */
-a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
-  2014-03-13  456  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_NOMTCH):
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  457  	default:
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  458  		break;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  459  	}
-f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
-k 2012-01-31  460  =
-
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  461  	/* In target mode, check the last data frame of the seq=
-uence.
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  462  	 * For DDP in target mode, data is already DDPed but th=
-e header
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  463  	 * indication of the last data frame ould allow is to t=
-ell if we
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  464  	 * got all the data and the ULP can send FCP_RSP back, =
-as this is
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  465  	 * not a full fcoe frame, we fill the trailer here so i=
-t won't be
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  466  	 * dropped by the ULP stack.
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  467  	 */
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  468  	if ((fh->fh_r_ctl =3D=3D FC_RCTL_DD_SOL_DATA) &&
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  469  	    (fctl & FC_FC_END_SEQ)) {
-441e1719f21356 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Yi Zou        =
-  2012-04-20  470  		skb_linearize(skb);
-4df864c1d9afb4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Johannes Berg =
-  2017-06-16  471  		crc =3D skb_put(skb, sizeof(*crc));
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  472  		crc->fcoe_eof =3D FC_EOF_T;
-68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2011-02-01  473  	}
-e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
-  2014-07-22  474  =
-
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  475  	return rc;
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  476  }
-d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
-  2009-05-13  477  =
 
 
-:::::: The code at line 424 was first introduced by commit
-:::::: d0ed89373f2da1a0d83697d87441e519caf18cf7 ixgbe: Add infrastructure c=
-ode for FCoE large receive offload to 82599
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/block/nbd.c:278:6: note: Assuming the condition is false
+           if (test_bit(NBD_DESTROY_ON_DISCONNECT, &nbd->flags))
+               ^
+   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
+o 'test_bit'
+   #define test_bit arch_test_bit
+                    ^
+   drivers/block/nbd.c:278:2: note: Taking false branch
+           if (test_bit(NBD_DESTROY_ON_DISCONNECT, &nbd->flags))
+           ^
+   drivers/block/nbd.c:281:3: note: Calling 'nbd_dev_remove'
+                   nbd_dev_remove(nbd);
+                   ^~~~~~~~~~~~~~~~~~~
+   drivers/block/nbd.c:264:2: note: Memory is released
+           kfree(nbd);
+           ^~~~~~~~~~
+   drivers/block/nbd.c:281:3: note: Returning; memory was released
+                   nbd_dev_remove(nbd);
+                   ^~~~~~~~~~~~~~~~~~~
+   drivers/block/nbd.c:2543:3: note: Returning; memory was released
+                   nbd_put(nbd);
+                   ^~~~~~~~~~~~
+   drivers/block/nbd.c:2538:2: note: Loop condition is true.  Entering loop=
+ body
+           while (!list_empty(&del_list)) {
+           ^
+   drivers/block/nbd.c:2540:3: note: Calling 'list_del_init'
+                   list_del_init(&nbd->list);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:206:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/tty/serial/mxs-auart.c:1134:3: warning: Value stored to 'istat' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   istat &=3D ~AUART_INTR_TXIS;
+                   ^        ~~~~~~~~~~~~~~~~
+   drivers/tty/serial/mxs-auart.c:1134:3: note: Value stored to 'istat' is =
+never read
+                   istat &=3D ~AUART_INTR_TXIS;
+                   ^        ~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/tty/serial/fsl_lpuart.c:1276:33: warning: The result of the left=
+ shift is undefined because the right operand is negative [clang-analyzer-c=
+ore.UndefinedBinaryOperatorResult]
+           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
+en) - 1));
+                                          ^
+   drivers/tty/serial/fsl_lpuart.c:2859:6: note: Assuming field 'suspended'=
+ is 0
+           if (sport->port.suspended && !irq_wake)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2859:28: note: Left side of '&&' is false
+           if (sport->port.suspended && !irq_wake)
+                                     ^
+   drivers/tty/serial/fsl_lpuart.c:2862:2: note: Taking false branch
+           if (lpuart_is_32(sport))
+           ^
+   drivers/tty/serial/fsl_lpuart.c:2867:6: note: Assuming field 'lpuart_dma=
+_rx_use' is true
+           if (sport->lpuart_dma_rx_use) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2867:2: note: Taking true branch
+           if (sport->lpuart_dma_rx_use) {
+           ^
+   drivers/tty/serial/fsl_lpuart.c:2868:7: note: Assuming 'irq_wake' is true
+                   if (irq_wake) {
+                       ^~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2868:3: note: Taking true branch
+                   if (irq_wake) {
+                   ^
+   drivers/tty/serial/fsl_lpuart.c:2869:9: note: Calling 'lpuart_start_rx_d=
+ma'
+                           if (!lpuart_start_rx_dma(sport))
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:1267:9: note: Assuming the condition is =
+false
+           bits =3D (termios->c_cflag & CSIZE) =3D=3D CS7 ? 9 : 10;
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:1267:9: note: '?' condition is false
+   drivers/tty/serial/fsl_lpuart.c:1268:6: note: Assuming the condition is =
+false
+           if (termios->c_cflag & PARENB)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:1268:2: note: Taking false branch
+           if (termios->c_cflag & PARENB)
+           ^
+   drivers/tty/serial/fsl_lpuart.c:1276:33: note: The result of the left sh=
+ift is undefined because the right operand is negative
+           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
+en) - 1));
+                                          ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/net/ethernet/atheros/alx/main.c:261:17: warning: Dereference of =
+null pointer [clang-analyzer-core.NullDereference]
+                   skb->protocol =3D eth_type_trans(skb, rxq->netdev);
+                                 ^
+   drivers/net/ethernet/atheros/alx/main.c:306:6: note: Assuming field 'txq=
+' is null
+           if (np->txq)
+               ^~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:306:2: note: Taking false branch
+           if (np->txq)
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:308:6: note: Assuming field 'rxq=
+' is non-null
+           if (np->rxq)
+               ^~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:308:2: note: Taking true branch
+           if (np->rxq)
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:309:10: note: Calling 'alx_clean=
+_rx_irq'
+                   work =3D alx_clean_rx_irq(np->rxq, budget);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:228:9: note: Assuming 'work' is =
+< 'budget'
+           while (work < budget) {
+                  ^~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:228:2: note: Loop condition is t=
+rue.  Entering loop body
+           while (work < budget) {
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:230:7: note: Assuming the condit=
+ion is false
+                   if (!(rrd->word3 & cpu_to_le32(1 << RRD_UPDATED_SHIFT)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:230:3: note: Taking false branch
+                   if (!(rrd->word3 & cpu_to_le32(1 << RRD_UPDATED_SHIFT)))
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:234:7: note: Assuming the condit=
+ion is false
+                   if (ALX_GET_FIELD(le32_to_cpu(rrd->word0),
+                       ^
+   drivers/net/ethernet/atheros/alx/hw.h:457:2: note: expanded from macro '=
+ALX_GET_FIELD'
+           (((_data) >> _field ## _SHIFT) & _field ## _MASK)
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:234:7: note: Left side of '||' i=
+s false
+                   if (ALX_GET_FIELD(le32_to_cpu(rrd->word0),
+                       ^
+   drivers/net/ethernet/atheros/alx/hw.h:457:2: note: expanded from macro '=
+ALX_GET_FIELD'
+           (((_data) >> _field ## _SHIFT) & _field ## _MASK)
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:236:7: note: Assuming the condit=
+ion is false
+                       ALX_GET_FIELD(le32_to_cpu(rrd->word0),
+                       ^
+   drivers/net/ethernet/atheros/alx/hw.h:457:2: note: expanded from macro '=
+ALX_GET_FIELD'
+           (((_data) >> _field ## _SHIFT) & _field ## _MASK)
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:234:3: note: Taking false branch
+                   if (ALX_GET_FIELD(le32_to_cpu(rrd->word0),
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:251:7: note: Assuming the condit=
+ion is false
+                   if (rrd->word3 & cpu_to_le32(1 << RRD_ERR_RES_SHIFT) ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:251:7: note: Left side of '||' i=
+s false
+   drivers/net/ethernet/atheros/alx/main.c:252:7: note: Assuming the condit=
+ion is true
+                       rrd->word3 & cpu_to_le32(1 << RRD_ERR_LEN_SHIFT)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:251:3: note: Taking true branch
+                   if (rrd->word3 & cpu_to_le32(1 << RRD_ERR_RES_SHIFT) ||
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:255:4: note: Control jumps to li=
+ne 282
+                           goto next_pkt;
+                           ^
+   drivers/net/ethernet/atheros/alx/main.c:282:7: note: Assuming the condit=
+ion is true
+                   if (++rxq->read_idx =3D=3D rxq->count)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:282:3: note: Taking true branch
+                   if (++rxq->read_idx =3D=3D rxq->count)
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:284:7: note: Assuming the condit=
+ion is false
+                   if (++rxq->rrd_read_idx =3D=3D rxq->count)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:284:3: note: Taking false branch
+                   if (++rxq->rrd_read_idx =3D=3D rxq->count)
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:287:3: note: Taking false branch
+                   if (++rfd_cleaned > ALX_RX_ALLOC_THRESH)
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:228:9: note: 'work' is < 'budget'
+           while (work < budget) {
+                  ^~~~
+   drivers/net/ethernet/atheros/alx/main.c:228:2: note: Loop condition is t=
+rue.  Entering loop body
+           while (work < budget) {
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:230:7: note: Assuming the condit=
+ion is false
+                   if (!(rrd->word3 & cpu_to_le32(1 << RRD_UPDATED_SHIFT)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/atheros/alx/main.c:230:3: note: Taking false branch
+                   if (!(rrd->word3 & cpu_to_le32(1 << RRD_UPDATED_SHIFT)))
+                   ^
+   drivers/net/ethernet/atheros/alx/main.c:234:7: note: Assuming the condit=
+ion is false
+                   if (ALX_GET_FIELD(le32_to_cpu(rrd->word0),
+                       ^
+   drivers/net/ethernet/atheros/alx/hw.h:457:2: note: expanded from macro '=
+ALX_GET_FIELD'
+           (((_data) >> _field ## _SHIFT) & _field ## _MASK)
+           ^
+   drivers/net/ethernet/atheros/alx/main.c:234:7: note: Left side of '||' i=
+s false
+                   if (ALX_GET_FIELD(le32_to_cpu(rrd->word0),
+                       ^
+   drivers/net/ethernet/atheros/alx/hw.h:457:2: note: expanded from macro '=
+ALX_GET_FIELD'
 
-:::::: TO: Yi Zou <yi.zou@intel.com>
+vim +261 drivers/net/ethernet/atheros/alx/main.c
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  216  =
+
+702e84185f47245 Tobias Regnery 2016-11-15  217  static int alx_clean_rx_irq=
+(struct alx_rx_queue *rxq, int budget)
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  218  {
+702e84185f47245 Tobias Regnery 2016-11-15  219  	struct alx_priv *alx;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  220  	struct alx_rrd *rrd;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  221  	struct alx_buffer *rxb;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  222  	struct sk_buff *skb;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  223  	u16 length, rfd_cleaned =
+=3D 0;
+7a05dc64e2e4c61 Eric Dumazet   2015-01-11  224  	int work =3D 0;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  225  =
+
+702e84185f47245 Tobias Regnery 2016-11-15  226  	alx =3D netdev_priv(rxq->n=
+etdev);
+702e84185f47245 Tobias Regnery 2016-11-15  227  =
+
+7a05dc64e2e4c61 Eric Dumazet   2015-01-11  228  	while (work < budget) {
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  229  		rrd =3D &rxq->rrd[rxq->rr=
+d_read_idx];
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  230  		if (!(rrd->word3 & cpu_to=
+_le32(1 << RRD_UPDATED_SHIFT)))
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  231  			break;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  232  		rrd->word3 &=3D ~cpu_to_l=
+e32(1 << RRD_UPDATED_SHIFT);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  233  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  234  		if (ALX_GET_FIELD(le32_to=
+_cpu(rrd->word0),
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  235  				  RRD_SI) !=3D rxq->rea=
+d_idx ||
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  236  		    ALX_GET_FIELD(le32_to=
+_cpu(rrd->word0),
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  237  				  RRD_NOR) !=3D 1) {
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  238  			alx_schedule_reset(alx);
+7a05dc64e2e4c61 Eric Dumazet   2015-01-11  239  			return work;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  240  		}
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  241  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  242  		rxb =3D &rxq->bufs[rxq->r=
+ead_idx];
+702e84185f47245 Tobias Regnery 2016-11-15  243  		dma_unmap_single(rxq->dev,
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  244  				 dma_unmap_addr(rxb, dm=
+a),
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  245  				 dma_unmap_len(rxb, siz=
+e),
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  246  				 DMA_FROM_DEVICE);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  247  		dma_unmap_len_set(rxb, si=
+ze, 0);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  248  		skb =3D rxb->skb;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  249  		rxb->skb =3D NULL;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  250  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  251  		if (rrd->word3 & cpu_to_l=
+e32(1 << RRD_ERR_RES_SHIFT) ||
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  252  		    rrd->word3 & cpu_to_l=
+e32(1 << RRD_ERR_LEN_SHIFT)) {
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  253  			rrd->word3 =3D 0;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  254  			dev_kfree_skb_any(skb);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  255  			goto next_pkt;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  256  		}
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  257  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  258  		length =3D ALX_GET_FIELD(=
+le32_to_cpu(rrd->word3),
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  259  				       RRD_PKTLEN) - ET=
+H_FCS_LEN;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  260  		skb_put(skb, length);
+702e84185f47245 Tobias Regnery 2016-11-15 @261  		skb->protocol =3D eth_typ=
+e_trans(skb, rxq->netdev);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  262  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  263  		skb_checksum_none_assert(=
+skb);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  264  		if (alx->dev->features & =
+NETIF_F_RXCSUM &&
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  265  		    !(rrd->word3 & (cpu_t=
+o_le32(1 << RRD_ERR_L4_SHIFT) |
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  266  				    cpu_to_le32(1 << RR=
+D_ERR_IPV4_SHIFT)))) {
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  267  			switch (ALX_GET_FIELD(le=
+32_to_cpu(rrd->word2),
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  268  					      RRD_PID)) {
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  269  			case RRD_PID_IPV6UDP:
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  270  			case RRD_PID_IPV4UDP:
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  271  			case RRD_PID_IPV4TCP:
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  272  			case RRD_PID_IPV6TCP:
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  273  				skb->ip_summed =3D CHEC=
+KSUM_UNNECESSARY;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  274  				break;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  275  			}
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  276  		}
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  277  =
+
+702e84185f47245 Tobias Regnery 2016-11-15  278  		napi_gro_receive(&rxq->np=
+->napi, skb);
+7a05dc64e2e4c61 Eric Dumazet   2015-01-11  279  		work++;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  280  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  281  next_pkt:
+702e84185f47245 Tobias Regnery 2016-11-15  282  		if (++rxq->read_idx =3D=
+=3D rxq->count)
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  283  			rxq->read_idx =3D 0;
+702e84185f47245 Tobias Regnery 2016-11-15  284  		if (++rxq->rrd_read_idx =
+=3D=3D rxq->count)
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  285  			rxq->rrd_read_idx =3D 0;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  286  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  287  		if (++rfd_cleaned > ALX_R=
+X_ALLOC_THRESH)
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  288  			rfd_cleaned -=3D alx_ref=
+ill_rx_ring(alx, GFP_ATOMIC);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  289  	}
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  290  =
+
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  291  	if (rfd_cleaned)
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  292  		alx_refill_rx_ring(alx, G=
+FP_ATOMIC);
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  293  =
+
+7a05dc64e2e4c61 Eric Dumazet   2015-01-11  294  	return work;
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  295  }
+ab69bde6b2e9c37 Johannes Berg  2013-06-17  296  =
+
+
+:::::: The code at line 261 was first introduced by commit
+:::::: 702e84185f472457912c641d8c0cc0cc786310eb alx: switch to per queue da=
+ta structures
+
+:::::: TO: Tobias Regnery <tobias.regnery@gmail.com>
 :::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1628015690353399613==--
+--===============3295605951895323070==--
 
