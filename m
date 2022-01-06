@@ -1,317 +1,294 @@
-Content-Type: multipart/mixed; boundary="===============5884254207938123068=="
+Content-Type: multipart/mixed; boundary="===============1628015690353399613=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [goldwynr:iomap 10/33] include/linux/pagemap.h:691:18: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Fri, 07 Jan 2022 07:23:58 +0800
-Message-ID: <202201070729.yc8unxUd-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c:424 ixgbe_fcoe_ddp() warn: potential spectre issue 'fcoe->ddp' [r] (local cap)
+Date: Fri, 07 Jan 2022 06:53:09 +0800
+Message-ID: <202201070658.LRl1HssZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5884254207938123068==
+--===============1628015690353399613==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Goldwyn Rodrigues <rgoldwyn@suse.com>
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/goldwynr/linux iomap
-head:   fd871fa60e5495543660657e665f1a6c13d0af97
-commit: 9b0be4cce9f84675546603825aa366923670b7bf [10/33] btrfs: Don't proce=
-ss pages if locked_page is NULL
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-c007-20220102 (https://download.01.org/0day-ci/ar=
-chive/20220107/202201070729.yc8unxUd-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b50fea=
-47b6c454581fce89af359f3afe5154986c)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/goldwynr/linux/commit/9b0be4cce9f8467554660382=
-5aa366923670b7bf
-        git remote add goldwynr https://github.com/goldwynr/linux
-        git fetch --no-tags goldwynr iomap
-        git checkout 9b0be4cce9f84675546603825aa366923670b7bf
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   75acfdb6fd922598a408a0d864486aeb167c1a97
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   8 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 8 months ago
+config: i386-randconfig-m021-20220105 (https://download.01.org/0day-ci/arch=
+ive/20220107/202201070658.LRl1HssZ-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c:424 ixgbe_fcoe_ddp() warn: po=
+tential spectre issue 'fcoe->ddp' [r] (local cap)
+
+vim +424 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c
+
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  370  =
+
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  371  /**
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  372   * ixgbe_fcoe_ddp - check ddp status and mark it done
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  373   * @adapter: ixgbe adapter
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  374   * @rx_desc: advanced rx descriptor
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  375   * @skb: the skb holding the received data
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  376   *
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  377   * This checks ddp status.
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  378   *
+3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-06-08  379   * Returns : < 0 indicates an error or not a FCiE ddp, 0=
+ indicates
+3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-06-08  380   * not passing the skb to ULD, > 0 indicates is the leng=
+th of data
+3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-06-08  381   * being ddped.
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  382   */
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  383  int ixgbe_fcoe_ddp(struct ixgbe_adapter *adapter,
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  384  		   union ixgbe_adv_rx_desc *rx_desc,
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  385  		   struct sk_buff *skb)
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  386  {
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  387  	int rc =3D -EINVAL;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  388  	struct ixgbe_fcoe *fcoe;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  389  	struct ixgbe_fcoe_ddp *ddp;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  390  	struct fc_frame_header *fh;
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  391  	struct fcoe_crc_eof *crc;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  392  	__le32 fcerr =3D ixgbe_test_staterr(rx_desc, IXGBE_RXDA=
+DV_ERR_FCERR);
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  393  	__le32 ddp_err;
+ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
+  2015-04-09  394  	int ddp_max;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  395  	u32 fctl;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  396  	u16 xid;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  397  =
+
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  398  	if (fcerr =3D=3D cpu_to_le32(IXGBE_FCERR_BADCRC))
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  399  		skb->ip_summed =3D CHECKSUM_NONE;
+bc8acf2c8c3e43 drivers/net/ixgbe/ixgbe_fcoe.c                Eric Dumazet  =
+  2010-09-02  400  	else
+bc8acf2c8c3e43 drivers/net/ixgbe/ixgbe_fcoe.c                Eric Dumazet  =
+  2010-09-02  401  		skb->ip_summed =3D CHECKSUM_UNNECESSARY;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  402  =
+
+be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2010-05-18  403  	if (eth_hdr(skb)->h_proto =3D=3D htons(ETH_P_8021Q))
+be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2010-05-18  404  		fh =3D (struct fc_frame_header *)(skb->data +
+be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2010-05-18  405  			sizeof(struct vlan_hdr) + sizeof(struct fcoe_hdr));
+be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2010-05-18  406  	else
+be5d507d9af23c drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2010-05-18  407  		fh =3D (struct fc_frame_header *)(skb->data +
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  408  			sizeof(struct fcoe_hdr));
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  409  =
+
+d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-09-03  410  	fctl =3D ntoh24(fh->fh_f_ctl);
+d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-09-03  411  	if (fctl & FC_FC_EX_CTX)
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  412  		xid =3D  be16_to_cpu(fh->fh_ox_id);
+d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-09-03  413  	else
+d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-09-03  414  		xid =3D  be16_to_cpu(fh->fh_rx_id);
+d4ab88194e982a drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-09-03  415  =
+
+ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
+  2015-04-09  416  	ddp_max =3D IXGBE_FCOE_DDP_MAX;
+ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
+  2015-04-09  417  	/* X550 has different DDP Max limit */
+ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
+  2015-04-09  418  	if (adapter->hw.mac.type =3D=3D ixgbe_mac_X550)
+ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
+  2015-04-09  419  		ddp_max =3D IXGBE_FCOE_DDP_MAX_X550;
+ea412015a2e72f drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Vasu Dev      =
+  2015-04-09  420  	if (xid >=3D ddp_max)
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
+  2014-07-22  421  		return -EINVAL;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  422  =
+
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  423  	fcoe =3D &adapter->fcoe;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13 @424  	ddp =3D &fcoe->ddp[xid];
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  425  	if (!ddp->udl)
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
+  2014-07-22  426  		return -EINVAL;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  427  =
+
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  428  	ddp_err =3D ixgbe_test_staterr(rx_desc, IXGBE_RXDADV_ER=
+R_FCEOFE |
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  429  					      IXGBE_RXDADV_ERR_FCERR);
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  430  	if (ddp_err)
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
+  2014-07-22  431  		return -EINVAL;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  432  =
+
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  433  	switch (ixgbe_test_staterr(rx_desc, IXGBE_RXDADV_STAT_F=
+CSTAT)) {
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  434  	/* return 0 to bypass going to ULD for DDPed data */
+a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
+  2014-03-13  435  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_DDP):
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  436  		/* update length of DDPed data */
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  437  		ddp->len =3D le32_to_cpu(rx_desc->wb.lower.hi_dword.rs=
+s);
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  438  		rc =3D 0;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  439  		break;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  440  	/* unmap the sg list when FCPRSP is received */
+a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
+  2014-03-13  441  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_FCPRSP):
+1bf91cdc1bba94 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-05-05  442  		dma_unmap_sg(&adapter->pdev->dev, ddp->sgl,
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  443  			     ddp->sgc, DMA_FROM_DEVICE);
+9cfbfa701b5586 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Cathy Zhou    =
+  2018-04-13  444  		ddp->err =3D (__force u32)ddp_err;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  445  		ddp->sgl =3D NULL;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  446  		ddp->sgc =3D 0;
+5463fce643e8d0 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Jeff Kirsher  =
+  2020-06-03  447  		fallthrough;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  448  	/* if DDP length is present pass it through to ULD */
+a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
+  2014-03-13  449  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_NODDP):
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  450  		/* update length of DDPed data */
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  451  		ddp->len =3D le32_to_cpu(rx_desc->wb.lower.hi_dword.rs=
+s);
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  452  		if (ddp->len)
+3d8fd385677292 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-06-08  453  			rc =3D ddp->len;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  454  		break;
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  455  	/* no match will return as an error */
+a1108ffd18c6e4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Joe Perches   =
+  2014-03-13  456  	case cpu_to_le32(IXGBE_RXDADV_STAT_FCSTAT_NOMTCH):
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  457  	default:
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  458  		break;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  459  	}
+f56e0cb1fea6aa drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Alexander Duyc=
+k 2012-01-31  460  =
+
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  461  	/* In target mode, check the last data frame of the seq=
+uence.
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  462  	 * For DDP in target mode, data is already DDPed but th=
+e header
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  463  	 * indication of the last data frame ould allow is to t=
+ell if we
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  464  	 * got all the data and the ULP can send FCP_RSP back, =
+as this is
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  465  	 * not a full fcoe frame, we fill the trailer here so i=
+t won't be
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  466  	 * dropped by the ULP stack.
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  467  	 */
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  468  	if ((fh->fh_r_ctl =3D=3D FC_RCTL_DD_SOL_DATA) &&
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  469  	    (fctl & FC_FC_END_SEQ)) {
+441e1719f21356 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Yi Zou        =
+  2012-04-20  470  		skb_linearize(skb);
+4df864c1d9afb4 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Johannes Berg =
+  2017-06-16  471  		crc =3D skb_put(skb, sizeof(*crc));
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  472  		crc->fcoe_eof =3D FC_EOF_T;
+68a683cf6a5ff0 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2011-02-01  473  	}
+e90dd264566405 drivers/net/ethernet/intel/ixgbe/ixgbe_fcoe.c Mark Rustad   =
+  2014-07-22  474  =
+
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  475  	return rc;
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  476  }
+d0ed89373f2da1 drivers/net/ixgbe/ixgbe_fcoe.c                Yi Zou        =
+  2009-05-13  477  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   fs/btrfs/inode.c:938:6: note: Assuming field 'locked_page' is null
-           if (async_chunk->locked_page) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:938:2: note: Taking false branch
-           if (async_chunk->locked_page) {
-           ^
-   fs/btrfs/inode.c:948:6: note: Assuming field 'pages' is non-null
-           if (!async_extent->pages)
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:948:2: note: Taking false branch
-           if (!async_extent->pages)
-           ^
-   fs/btrfs/inode.c:955:6: note: Assuming 'ret' is not equal to 0
-           if (ret) {
-               ^~~
-   fs/btrfs/inode.c:955:2: note: Taking true branch
-           if (ret) {
-           ^
-   fs/btrfs/inode.c:964:3: note: Control jumps to line 1023
-                   goto out_free;
-                   ^
-   fs/btrfs/inode.c:1030:2: note: Memory is released
-           kfree(async_extent);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1057:9: note: Returning; memory was released
-                   ret =3D submit_one_async_extent(inode, async_chunk, asyn=
-c_extent,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   fs/btrfs/inode.c:1047:2: note: Loop condition is true.  Entering loop bo=
-dy
-           while (!list_empty(&async_chunk->extents)) {
-           ^
-   fs/btrfs/inode.c:1053:3: note: Calling 'list_del'
-                   list_del(&async_extent->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:148:2: note: Calling '__list_del_entry'
-           __list_del_entry(entry);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:6: note: Assuming the condition is false
-           if (!__list_del_entry_valid(entry))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:2: note: Taking false branch
-           if (!__list_del_entry_valid(entry))
-           ^
-   include/linux/list.h:137:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
-   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           entry->next =3D LIST_POISON1;
-                       ^
-   fs/btrfs/inode.c:1368:6: note: Assuming field 'inode' is non-null
-           if (async_chunk->inode)
-               ^~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1368:2: note: Taking true branch
-           if (async_chunk->inode)
-           ^
-   fs/btrfs/inode.c:1369:3: note: Calling 'submit_compressed_extents'
-                   submit_compressed_extents(async_chunk);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1047:2: note: Loop condition is true.  Entering loop bo=
-dy
-           while (!list_empty(&async_chunk->extents)) {
-           ^
-   fs/btrfs/inode.c:1057:9: note: Calling 'submit_one_async_extent'
-                   ret =3D submit_one_async_extent(inode, async_chunk, asyn=
-c_extent,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   fs/btrfs/inode.c:938:6: note: Assuming field 'locked_page' is null
-           if (async_chunk->locked_page) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:938:2: note: Taking false branch
-           if (async_chunk->locked_page) {
-           ^
-   fs/btrfs/inode.c:948:6: note: Assuming field 'pages' is non-null
-           if (!async_extent->pages)
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:948:2: note: Taking false branch
-           if (!async_extent->pages)
-           ^
-   fs/btrfs/inode.c:955:6: note: Assuming 'ret' is not equal to 0
-           if (ret) {
-               ^~~
-   fs/btrfs/inode.c:955:2: note: Taking true branch
-           if (ret) {
-           ^
-   fs/btrfs/inode.c:964:3: note: Control jumps to line 1023
-                   goto out_free;
-                   ^
-   fs/btrfs/inode.c:1030:2: note: Memory is released
-           kfree(async_extent);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1057:9: note: Returning; memory was released
-                   ret =3D submit_one_async_extent(inode, async_chunk, asyn=
-c_extent,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   fs/btrfs/inode.c:1047:2: note: Loop condition is true.  Entering loop bo=
-dy
-           while (!list_empty(&async_chunk->extents)) {
-           ^
-   fs/btrfs/inode.c:1053:3: note: Calling 'list_del'
-                   list_del(&async_extent->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
->> include/linux/pagemap.h:691:18: warning: Dereference of null pointer [cl=
-ang-analyzer-core.NullDereference]
-           return ((loff_t)page->index) << PAGE_SHIFT;
-                           ^
-   fs/btrfs/inode.c:2003:6: note: Assuming 'locked_page' is null
-           if (locked_page)
-               ^~~~~~~~~~~
-   fs/btrfs/inode.c:2003:2: note: Taking false branch
-           if (locked_page)
-           ^
-   fs/btrfs/inode.c:2007:6: note: Calling 'should_nocow'
-           if (should_nocow(inode, start, end)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1978:6: note: Assuming the condition is true
-           if (inode->flags & (BTRFS_INODE_NODATACOW | BTRFS_INODE_PREALLOC=
-)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1978:2: note: Taking true branch
-           if (inode->flags & (BTRFS_INODE_NODATACOW | BTRFS_INODE_PREALLOC=
-)) {
-           ^
-   fs/btrfs/inode.c:1979:7: note: Assuming field 'defrag_bytes' is 0
-                   if (inode->defrag_bytes &&
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:1979:27: note: Left side of '&&' is false
-                   if (inode->defrag_bytes &&
-                                           ^
-   fs/btrfs/inode.c:1983:3: note: Returning the value 1, which participates=
- in a condition later
-                   return true;
-                   ^~~~~~~~~~~
-   fs/btrfs/inode.c:2007:6: note: Returning from 'should_nocow'
-           if (should_nocow(inode, start, end)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:2007:2: note: Taking true branch
-           if (should_nocow(inode, start, end)) {
-           ^
-   fs/btrfs/inode.c:2015:11: note: 'zoned' is false
-                   ASSERT(!zoned ||
-                           ^
-   fs/btrfs/ctree.h:3526:29: note: expanded from macro 'ASSERT'
-   #define ASSERT(expr)    (void)(expr)
-                                  ^~~~
-   fs/btrfs/inode.c:2015:17: note: Left side of '||' is true
-                   ASSERT(!zoned ||
-                                 ^
-   fs/btrfs/inode.c:2032:9: note: Assuming 'ret' is > 0
-           ASSERT(ret <=3D 0);
-                  ^
-   fs/btrfs/ctree.h:3526:29: note: expanded from macro 'ASSERT'
-   #define ASSERT(expr)    (void)(expr)
-                                  ^~~~
-   fs/btrfs/inode.c:2033:6: note: 'ret' is not equal to 0
-           if (ret)
-               ^~~
-   fs/btrfs/inode.c:2033:2: note: Taking true branch
-           if (ret)
-           ^
-   fs/btrfs/inode.c:2034:40: note: Passing null pointer value via 2nd param=
-eter 'locked_page'
-                   btrfs_cleanup_ordered_extents(inode, locked_page, start,
-                                                        ^~~~~~~~~~~
-   fs/btrfs/inode.c:2034:3: note: Calling 'btrfs_cleanup_ordered_extents'
-                   btrfs_cleanup_ordered_extents(inode, locked_page, start,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/inode.c:164:31: note: Passing null pointer value via 1st parame=
-ter 'page'
-           u64 page_start =3D page_offset(locked_page);
-                                        ^~~~~~~~~~~
-   fs/btrfs/inode.c:164:19: note: Calling 'page_offset'
-           u64 page_start =3D page_offset(locked_page);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pagemap.h:691:18: note: Dereference of null pointer
-           return ((loff_t)page->index) << PAGE_SHIFT;
-                           ^~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/crypto/ccree/cc_cipher.c:777:17: warning: Value stored to 'dev' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D drvdata_to_dev(ctx_p->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_cipher.c:777:17: note: Value stored to 'dev' dur=
-ing its initialization is never read
-           struct device *dev =3D drvdata_to_dev(ctx_p->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_cipher.c:804:17: warning: Value stored to 'dev' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D drvdata_to_dev(ctx_p->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_cipher.c:804:17: note: Value stored to 'dev' dur=
-ing its initialization is never read
-           struct device *dev =3D drvdata_to_dev(ctx_p->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/crypto/ccree/cc_hash.c:83:8: warning: Excessive padding in 'stru=
-ct cc_hash_ctx' (95 padding bytes, where 31 is optimal). =
+:::::: The code at line 424 was first introduced by commit
+:::::: d0ed89373f2da1a0d83697d87441e519caf18cf7 ixgbe: Add infrastructure c=
+ode for FCoE large receive offload to 82599
 
-   Optimal fields order: =
-
-   opad_tmp_keys_dma_addr, =
-
-   drvdata, =
-
-   digest_buff_dma_addr, =
-
-   key_params, =
-
-   setkey_comp, =
-
-   hash_mode, =
-
-   hw_mode, =
-
-   inter_digestsize, =
-
-   hash_len, =
-
-   is_hmac, =
-
-   digest_buff, =
-
-   opad_tmp_keys_buff, =
-
-
-vim +691 include/linux/pagemap.h
-
-5cbc198ae08d84 Kirill A. Shutemov 2016-11-30  685  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  686  /*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  687   * Return byte-offset in=
-to filesystem object for page.
-^1da177e4c3f41 Linus Torvalds     2005-04-16  688   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  689  static inline loff_t pag=
-e_offset(struct page *page)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  690  {
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01 @691  	return ((loff_t)page->i=
-ndex) << PAGE_SHIFT;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  692  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  693  =
-
-
-:::::: The code@line 691 was first introduced by commit
-:::::: 09cbfeaf1a5a67bfb3201e0c83c810cecb2efa5a mm, fs: get rid of PAGE_CAC=
-HE_* and page_cache_{get,release} macros
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Yi Zou <yi.zou@intel.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5884254207938123068==--
+--===============1628015690353399613==--
 
