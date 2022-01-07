@@ -1,117 +1,111 @@
-Content-Type: multipart/mixed; boundary="===============0331280907763112506=="
+Content-Type: multipart/mixed; boundary="===============3293290140511357469=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/surface/surface_hotplug.c:163 shps_setup_irq() warn: should '(((1))) << dsm' be a 64 bit type?
-Date: Sat, 08 Jan 2022 04:49:27 +0800
-Message-ID: <202201080424.TOthMkUn-lkp@intel.com>
+Subject: Re: [PATCH 6/7] iio: adc: sc27xx: add support for PMIC ump9620
+Date: Sat, 08 Jan 2022 03:17:50 +0800
+Message-ID: <202201080313.70ZrhufR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0331280907763112506==
+--===============3293290140511357469==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Maximilian Luz <luzmaximilian@gmail.com>
-CC: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20220106125947.139523-7-gengcixi@gmail.com>
+References: <20220106125947.139523-7-gengcixi@gmail.com>
+TO: Cixi Geng <gengcixi@gmail.com>
+TO: orsonzhai(a)gmail.com
+TO: baolin.wang7(a)gmail.com
+TO: zhang.lyra(a)gmail.com
+TO: jic23(a)kernel.org
+TO: lars(a)metafoo.de
+TO: robh+dt(a)kernel.org
+TO: lgirdwood(a)gmail.com
+TO: broonie(a)kernel.org
+CC: yuming.zhu1(a)unisoc.com
+CC: linux-iio(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ddec8ed2d4905d0967ce2ec432e440e582aa52c6
-commit: bd69bcce4aa089435e2891222236b1cb20395bec platform/surface: Add Surf=
-ace Hot-Plug driver
-date:   11 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-m021-20220107 (https://download.01.org/0day-ci/arch=
-ive/20220108/202201080424.TOthMkUn-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+Hi Cixi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on v5.16-rc8 next-20220106]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Cixi-Geng/iio-adc-sc27xx-a=
+djust-structure-and-add-PMIC-s-support/20220106-210151
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
+config: openrisc-randconfig-m031-20220106 (https://download.01.org/0day-ci/=
+archive/20220108/202201080313.70ZrhufR-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/surface/surface_hotplug.c:163 shps_setup_irq() warn: shoul=
-d '(((1))) << dsm' be a 64 bit type?
+New smatch warnings:
+drivers/iio/adc/sc27xx_adc.c:196 adc_nvmem_cell_calib_data() warn: passing =
+zero to 'PTR_ERR'
 
-vim +163 drivers/platform/surface/surface_hotplug.c
+Old smatch warnings:
+drivers/iio/adc/sc27xx_adc.c:201 adc_nvmem_cell_calib_data() warn: passing =
+zero to 'PTR_ERR'
+drivers/iio/adc/sc27xx_adc.c:706 sc27xx_adc_read() error: uninitialized sym=
+bol 'value'.
+drivers/iio/adc/sc27xx_adc.c:1123 sc27xx_adc_probe() warn: passing zero to =
+'PTR_ERR'
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  147  =
+vim +/PTR_ERR +196 drivers/iio/adc/sc27xx_adc.c
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  148  static int shps_setup_irq(st=
-ruct platform_device *pdev, enum shps_irq_type type)
-bd69bcce4aa089 Maximilian Luz 2021-02-05  149  {
-bd69bcce4aa089 Maximilian Luz 2021-02-05  150  	unsigned long flags =3D IRQ=
-F_ONESHOT | IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  151  	struct shps_device *sdev =
-=3D platform_get_drvdata(pdev);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  152  	struct gpio_desc *gpiod;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  153  	acpi_handle handle =3D ACPI=
-_HANDLE(&pdev->dev);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  154  	const char *irq_name;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  155  	const int dsm =3D shps_dsm_=
-fn_for_irq(type);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  156  	int status, irq;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  157  =
+8ba0dbfd07a358 Baolin Wang 2018-08-29  183  =
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  158  	/*
-bd69bcce4aa089 Maximilian Luz 2021-02-05  159  	 * Only set up interrupts t=
-hat we actually need: The Surface Book 3
-bd69bcce4aa089 Maximilian Luz 2021-02-05  160  	 * does not have a DSM for =
-base presence, so don't set up an interrupt
-bd69bcce4aa089 Maximilian Luz 2021-02-05  161  	 * for that.
-bd69bcce4aa089 Maximilian Luz 2021-02-05  162  	 */
-bd69bcce4aa089 Maximilian Luz 2021-02-05 @163  	if (!acpi_check_dsm(handle,=
- &shps_dsm_guid, SHPS_DSM_REVISION, BIT(dsm))) {
-bd69bcce4aa089 Maximilian Luz 2021-02-05  164  		dev_dbg(&pdev->dev, "IRQ n=
-otification via DSM not present (irq=3D%d)\n", type);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  165  		return 0;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  166  	}
-bd69bcce4aa089 Maximilian Luz 2021-02-05  167  =
+87da8dcc76b4aa Cixi Geng   2022-01-06  184  static int adc_nvmem_cell_calib=
+_data(struct sc27xx_adc_data *data, const char *cell_name)
+87da8dcc76b4aa Cixi Geng   2022-01-06  185  {
+87da8dcc76b4aa Cixi Geng   2022-01-06  186  	struct nvmem_cell *cell;
+87da8dcc76b4aa Cixi Geng   2022-01-06  187  	void *buf;
+87da8dcc76b4aa Cixi Geng   2022-01-06  188  	u32 calib_data =3D 0;
+87da8dcc76b4aa Cixi Geng   2022-01-06  189  	size_t len =3D 0;
+87da8dcc76b4aa Cixi Geng   2022-01-06  190  =
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  168  	gpiod =3D devm_gpiod_get(&p=
-dev->dev, shps_gpio_names[type], GPIOD_ASIS);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  169  	if (IS_ERR(gpiod))
-bd69bcce4aa089 Maximilian Luz 2021-02-05  170  		return PTR_ERR(gpiod);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  171  =
+87da8dcc76b4aa Cixi Geng   2022-01-06  191  	if (!data)
+87da8dcc76b4aa Cixi Geng   2022-01-06  192  		return -EINVAL;
+87da8dcc76b4aa Cixi Geng   2022-01-06  193  =
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  172  	irq =3D gpiod_to_irq(gpiod);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  173  	if (irq < 0)
-bd69bcce4aa089 Maximilian Luz 2021-02-05  174  		return irq;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  175  =
+87da8dcc76b4aa Cixi Geng   2022-01-06  194  	cell =3D nvmem_cell_get(data->=
+dev, cell_name);
+87da8dcc76b4aa Cixi Geng   2022-01-06  195  	if (IS_ERR_OR_NULL(cell))
+87da8dcc76b4aa Cixi Geng   2022-01-06 @196  		return PTR_ERR(cell);
+87da8dcc76b4aa Cixi Geng   2022-01-06  197  =
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  176  	irq_name =3D devm_kasprintf=
-(&pdev->dev, GFP_KERNEL, "shps-irq-%d", type);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  177  	if (!irq_name)
-bd69bcce4aa089 Maximilian Luz 2021-02-05  178  		return -ENOMEM;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  179  =
+87da8dcc76b4aa Cixi Geng   2022-01-06  198  	buf =3D nvmem_cell_read(cell, =
+&len);
+87da8dcc76b4aa Cixi Geng   2022-01-06  199  	if (IS_ERR_OR_NULL(buf)) {
+87da8dcc76b4aa Cixi Geng   2022-01-06  200  		nvmem_cell_put(cell);
+87da8dcc76b4aa Cixi Geng   2022-01-06  201  		return PTR_ERR(buf);
+87da8dcc76b4aa Cixi Geng   2022-01-06  202  	}
+87da8dcc76b4aa Cixi Geng   2022-01-06  203  =
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  180  	status =3D devm_request_thr=
-eaded_irq(&pdev->dev, irq, NULL, shps_handle_irq,
-bd69bcce4aa089 Maximilian Luz 2021-02-05  181  					   flags, irq_name, pde=
-v);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  182  	if (status)
-bd69bcce4aa089 Maximilian Luz 2021-02-05  183  		return status;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  184  =
+87da8dcc76b4aa Cixi Geng   2022-01-06  204  	memcpy(&calib_data, buf, min(l=
+en, sizeof(u32)));
+87da8dcc76b4aa Cixi Geng   2022-01-06  205  =
 
-bd69bcce4aa089 Maximilian Luz 2021-02-05  185  	dev_dbg(&pdev->dev, "set up=
- irq %d as type %d\n", irq, type);
-bd69bcce4aa089 Maximilian Luz 2021-02-05  186  =
-
-bd69bcce4aa089 Maximilian Luz 2021-02-05  187  	sdev->gpio[type] =3D gpiod;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  188  	sdev->irq[type] =3D irq;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  189  =
-
-bd69bcce4aa089 Maximilian Luz 2021-02-05  190  	return 0;
-bd69bcce4aa089 Maximilian Luz 2021-02-05  191  }
-bd69bcce4aa089 Maximilian Luz 2021-02-05  192  =
+87da8dcc76b4aa Cixi Geng   2022-01-06  206  	kfree(buf);
+87da8dcc76b4aa Cixi Geng   2022-01-06  207  	nvmem_cell_put(cell);
+87da8dcc76b4aa Cixi Geng   2022-01-06  208  	return calib_data;
+87da8dcc76b4aa Cixi Geng   2022-01-06  209  }
+87da8dcc76b4aa Cixi Geng   2022-01-06  210  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0331280907763112506==--
+--===============3293290140511357469==--
 
