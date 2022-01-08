@@ -1,403 +1,243 @@
-Content-Type: multipart/mixed; boundary="===============2580650430695536935=="
+Content-Type: multipart/mixed; boundary="===============8720267918206789902=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpio/gpio-rockchip.c:201:53: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Sun, 09 Jan 2022 08:45:42 +0800
-Message-ID: <202201090830.dSQuR0Hf-lkp@intel.com>
+Subject: Re: [PATCH 2/2] platform/chrome: reserve only the I/O ports required for the MEC EC
+Date: Sun, 09 Jan 2022 07:03:20 +0800
+Message-ID: <202201090725.PnArnVcv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2580650430695536935==
+--===============8720267918206789902==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jianqun Xu <jay.xu@rock-chips.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
+In-Reply-To: <20220105031242.287751-3-dustin@howett.net>
+References: <20220105031242.287751-3-dustin@howett.net>
+TO: "Dustin L. Howett" <dustin@howett.net>
+TO: linux-kernel(a)vger.kernel.org
+CC: Benson Leung <bleung@chromium.org>
+CC: Guenter Roeck <groeck@chromium.org>
+CC: "Dustin L. Howett" <dustin@howett.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d1587f7bfe9a0f97a75d42ac1489aeda551106bc
-commit: 3bcbd1a85b68e5f864029fd6f0bb0bcc8e2f1082 gpio/rockchip: support nex=
-t version gpio controller
-date:   5 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 5 months ago
-config: mips-randconfig-c004-20220107 (https://download.01.org/0day-ci/arch=
-ive/20220109/202201090830.dSQuR0Hf-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 32167b=
-fe64a4c5dd4eb3f7a58e24f4cba76f5ac2)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D3bcbd1a85b68e5f864029fd6f0bb0bcc8e2f1082
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3bcbd1a85b68e5f864029fd6f0bb0bcc8e2f1082
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+Hi "Dustin,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on chrome-platform/for-next]
+[also build test WARNING on linux/master linus/master v5.16-rc8 next-202201=
+07]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Dustin-L-Howett/platform-c=
+hrome-Add-support-for-the-Framework-Laptop/20220105-111340
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
+ux.git for-next
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021-20220107 (https://download.01.org/0day-ci/arch=
+ive/20220109/202201090725.PnArnVcv-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
+r using resource_size() here
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/firewire/core-topology.c:328:15: note: Assuming 'i' is >=3D fiel=
-d 'port_count'
-                   for (i =3D 0; i < node->port_count; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:328:3: note: Loop condition is false. E=
-xecution continues on line 340
-                   for (i =3D 0; i < node->port_count; i++) {
-                   ^
-   drivers/firewire/core-topology.c:340:3: note: Calling 'report_lost_node'
-                   callback(card, node, parent);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:351:2: note: Calling 'fw_node_put'
-           fw_node_put(node);
-           ^~~~~~~~~~~~~~~~~
-   drivers/firewire/core.h:206:2: note: Taking true branch
-           if (refcount_dec_and_test(&node->ref_count))
-           ^
-   drivers/firewire/core.h:207:3: note: Memory is released
-                   kfree(node);
-                   ^~~~~~~~~~~
-   drivers/firewire/core-topology.c:351:2: note: Returning; memory was rele=
-ased
-           fw_node_put(node);
-           ^~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:340:3: note: Returning; memory was rele=
-ased
-                   callback(card, node, parent);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:325:2: note: Use of memory after it is =
-freed
-           list_for_each_entry(node, &list, link) {
-           ^
-   include/linux/list.h:630:13: note: expanded from macro 'list_for_each_en=
-try'
-                pos =3D list_next_entry(pos, member))
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:494:25: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   drivers/firewire/core-topology.c:494:20: warning: Access to field 'node_=
-id' results in a dereference of a null pointer (loaded from field 'root_nod=
-e') [clang-analyzer-core.NullDereference]
-           int node_count =3D (card->root_node->node_id & 0x3f) + 1;
-                             ^
-   drivers/firewire/core-topology.c:518:56: note: Left side of '&&' is false
-           if (!is_next_generation(generation, card->generation) &&
-                                                                 ^
-   drivers/firewire/core-topology.c:524:2: note: Loop condition is false.  =
-Exiting loop
-           spin_lock_irqsave(&card->lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/firewire/core-topology.c:524:2: note: Loop condition is false.  =
-Exiting loop
-           spin_lock_irqsave(&card->lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/firewire/core-topology.c:539:15: note: Calling 'build_tree'
-           local_node =3D build_tree(card, self_ids, self_id_count);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:182:2: note: Null pointer value stored =
-to 'node'
-           node =3D NULL;
-           ^~~~~~~~~~~
-   drivers/firewire/core-topology.c:191:2: note: Loop condition is false. E=
-xecution continues on line 301
-           while (sid < end) {
-           ^
-   drivers/firewire/core-topology.c:301:2: note: Null pointer value stored =
-to field 'root_node'
-           card->root_node =3D node;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:539:15: note: Returning from 'build_tre=
-e'
-           local_node =3D build_tree(card, self_ids, self_id_count);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:541:2: note: Calling 'update_topology_m=
-ap'
-           update_topology_map(card, self_ids, self_id_count);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firewire/core-topology.c:494:20: note: Access to field 'node_id'=
- results in a dereference of a null pointer (loaded from field 'root_node')
-           int node_count =3D (card->root_node->node_id & 0x3f) + 1;
-                             ^     ~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/gpio/gpio-pcf857x.c:237:23: warning: Value stored to 'np' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-pcf857x.c:237:23: note: Value stored to 'np' during it=
-s initialization is never read
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/gpio/gpio-rockchip.c:201:53: warning: Division by zero [clang-an=
-alyzer-core.DivideZero]
-                   max_debounce =3D (GENMASK(23, 0) + 1) * 2 * 1000000 / fr=
-eq;
-                                                                     ^
-   drivers/gpio/gpio-rockchip.c:272:2: note: Control jumps to 'case PIN_CON=
-FIG_INPUT_DEBOUNCE:'  at line 273
-           switch (param) {
-           ^
-   drivers/gpio/gpio-rockchip.c:274:3: note: Calling 'rockchip_gpio_set_deb=
-ounce'
-                   rockchip_gpio_set_debounce(gc, offset, true);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rockchip.c:198:7: note: Calling 'IS_ERR'
-           if (!IS_ERR(bank->db_clk)) {
-                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rockchip.c:198:7: note: Returning from 'IS_ERR'
-           if (!IS_ERR(bank->db_clk)) {
-                ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rockchip.c:198:2: note: Taking true branch
-           if (!IS_ERR(bank->db_clk)) {
-           ^
-   drivers/gpio/gpio-rockchip.c:200:10: note: Calling 'clk_get_rate'
-                   freq =3D clk_get_rate(bank->db_clk);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:882:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/gpio/gpio-rockchip.c:200:10: note: Returning from 'clk_get_rate'
-                   freq =3D clk_get_rate(bank->db_clk);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rockchip.c:200:3: note: The value 0 is assigned to 'fr=
-eq'
-                   freq =3D clk_get_rate(bank->db_clk);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rockchip.c:201:53: note: Division by zero
-                   max_debounce =3D (GENMASK(23, 0) + 1) * 2 * 1000000 / fr=
-eq;
-                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   fs/io_uring.c:1293:10: warning: Access to field 'io_wq' results in a der=
-eference of a null pointer (loaded from variable 'tctx') [clang-analyzer-co=
-re.NullDereference]
-           BUG_ON(!tctx->io_wq);
-                   ^
-   fs/io_uring.c:8869:2: note: Calling 'io_ring_ctx_wait_and_kill'
-           io_ring_ctx_wait_and_kill(ctx);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:8842:6: note: Assuming field 'rings' is null
-           if (ctx->rings)
-               ^~~~~~~~~~
-   fs/io_uring.c:8842:2: note: Taking false branch
-           if (ctx->rings)
-           ^
-   fs/io_uring.c:8844:2: note: Loop condition is false. Execution continues=
- on line 8846
-           xa_for_each(&ctx->personalities, index, creds)
-           ^
-   include/linux/xarray.h:499:2: note: expanded from macro 'xa_for_each'
-           xa_for_each_start(xa, index, entry, 0)
-           ^
-   include/linux/xarray.h:475:2: note: expanded from macro 'xa_for_each_sta=
-rt'
-           xa_for_each_range(xa, index, entry, start, ULONG_MAX)
-           ^
-   include/linux/xarray.h:446:2: note: expanded from macro 'xa_for_each_ran=
-ge'
-           for (index =3D start,                                           =
-  \
-           ^
-   fs/io_uring.c:8852:2: note: Calling 'io_iopoll_try_reap_events'
-           io_iopoll_try_reap_events(ctx);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:2301:6: note: Assuming the condition is false
-           if (!(ctx->flags & IORING_SETUP_IOPOLL))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:2301:2: note: Taking false branch
-           if (!(ctx->flags & IORING_SETUP_IOPOLL))
-           ^
-   fs/io_uring.c:2305:2: note: Loop condition is true.  Entering loop body
-           while (!list_empty(&ctx->iopoll_list)) {
-           ^
-   fs/io_uring.c:2308:3: note: Calling 'io_do_iopoll'
-                   io_do_iopoll(ctx, &nr_events, 0);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:2258:9: note: Assuming field 'poll_multi_queue' is false
-           spin =3D !ctx->poll_multi_queue && *nr_events < min;
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:2258:9: note: Left side of '&&' is true
-   fs/io_uring.c:2261:2: note: Left side of '&&' is false
-           list_for_each_entry_safe(req, tmp, &ctx->iopoll_list, inflight_e=
-ntry) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+vim +382 drivers/platform/chrome/cros_ec_lpc.c
 
-vim +201 drivers/gpio/gpio-rockchip.c
+a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
 
-936ee2675eee1f Jianqun Xu 2021-08-16  186  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
+pc_probe(struct platform_device *pdev)
+ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
+=3D &pdev->dev;
+a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
+*adev;
+a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
+ce *ec_dev;
+bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
+da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  187  static int rockchip_gpio_set_deb=
-ounce(struct gpio_chip *gc,
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  188  				      unsigned int offset,
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  189  				      unsigned int debounce)
-936ee2675eee1f Jianqun Xu 2021-08-16  190  {
-936ee2675eee1f Jianqun Xu 2021-08-16  191  	struct rockchip_pin_bank *bank =
-=3D gpiochip_get_data(gc);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  192  	const struct rockchip_gpio_regs=
-	*reg =3D bank->gpio_regs;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  193  	unsigned long flags, div_reg, f=
-req, max_debounce;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  194  	bool div_debounce_support;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  195  	unsigned int cur_div_reg;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  196  	u64 div;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  197  =
+268c7bd0087331 Dustin L. Howett       2022-01-04  344  	/*
+268c7bd0087331 Dustin L. Howett       2022-01-04  345  	 * The Framework La=
+ptop (and possibly other non-ChromeOS devices)
+268c7bd0087331 Dustin L. Howett       2022-01-04  346  	 * only exposes the=
+ eight I/O ports that are required for the Microchip EC.
+268c7bd0087331 Dustin L. Howett       2022-01-04  347  	 * Requesting a lar=
+ger reservation will fail.
+268c7bd0087331 Dustin L. Howett       2022-01-04  348  	 */
+268c7bd0087331 Dustin L. Howett       2022-01-04  349  	if (!devm_request_r=
+egion(dev, EC_HOST_CMD_REGION0,
+268c7bd0087331 Dustin L. Howett       2022-01-04  350  				 EC_HOST_CMD_MEC=
+_REGION_SIZE, dev_name(dev))) {
+268c7bd0087331 Dustin L. Howett       2022-01-04  351  		dev_err(dev, "coul=
+dn't reserve MEC region\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  198  	if (!IS_ERR(bank->db_clk)) {
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  199  		div_debounce_support =3D true;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  200  		freq =3D clk_get_rate(bank->db=
-_clk);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16 @201  		max_debounce =3D (GENMASK(23, =
-0) + 1) * 2 * 1000000 / freq;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  202  		if (debounce > max_debounce)
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  203  			return -EINVAL;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  204  =
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
+ID twice, the first one is assuming the
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
+p Embedded Controller (MEC) variant, if the
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
+fallback to the non MEC variant and try to
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
+D.
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
+d =3D cros_ec_lpc_mec_read_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
+te =3D cros_ec_lpc_mec_write_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
+d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
+ || buf[1] !=3D 'C') {
+268c7bd0087331 Dustin L. Howett       2022-01-04  365  		if (!devm_request_=
+region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
+268c7bd0087331 Dustin L. Howett       2022-01-04  366  					 dev_name(dev))=
+) {
+268c7bd0087331 Dustin L. Howett       2022-01-04  367  			dev_err(dev, "cou=
+ldn't reserve memmap region\n");
+268c7bd0087331 Dustin L. Howett       2022-01-04  368  			return -EBUSY;
+268c7bd0087331 Dustin L. Howett       2022-01-04  369  		}
+268c7bd0087331 Dustin L. Howett       2022-01-04  370  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  205  		div =3D debounce * freq;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  206  		div_reg =3D DIV_ROUND_CLOSEST_=
-ULL(div, 2 * USEC_PER_SEC) - 1;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  207  	} else {
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  208  		div_debounce_support =3D false;
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  209  	}
-936ee2675eee1f Jianqun Xu 2021-08-16  210  =
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
+write operations for the non MEC variant */
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
+ad =3D cros_ec_lpc_read_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
+ite =3D cros_ec_lpc_write_bytes;
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
+ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
+22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
+bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
+' || buf[1] !=3D 'C') {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
+ID not detected\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
 
-936ee2675eee1f Jianqun Xu 2021-08-16  211  	raw_spin_lock_irqsave(&bank->sl=
-ock, flags);
-936ee2675eee1f Jianqun Xu 2021-08-16  212  =
+268c7bd0087331 Dustin L. Howett       2022-01-04  381  		/* Reserve the rem=
+aining I/O ports required by the non-MEC protocol. */
+268c7bd0087331 Dustin L. Howett       2022-01-04 @382  		if (!devm_request_=
+region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
+268c7bd0087331 Dustin L. Howett       2022-01-04  383  					 EC_HOST_CMD_RE=
+GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
+268c7bd0087331 Dustin L. Howett       2022-01-04  384  					 dev_name(dev))=
+) {
+268c7bd0087331 Dustin L. Howett       2022-01-04  385  			dev_err(dev, "cou=
+ldn't reserve remainder of region0\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
+region(dev, EC_HOST_CMD_REGION1,
+ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
+GION_SIZE, dev_name(dev))) {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
+ldn't reserve region1\n");
+ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
+268c7bd0087331 Dustin L. Howett       2022-01-04  393  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  213  	/* Only the v1 needs to configu=
-re div_en and div_con for dbclk */
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  214  	if (debounce) {
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  215  		if (div_debounce_support) {
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  216  			/* Configure the max debounce=
- from consumers */
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  217  			cur_div_reg =3D readl(bank->r=
-eg_base +
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  218  					    reg->dbclk_div_con);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  219  			if (cur_div_reg < div_reg)
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  220  				writel(div_reg, bank->reg_ba=
-se +
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  221  				       reg->dbclk_div_con);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  222  			rockchip_gpio_writel_bit(bank=
-, offset, 1,
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  223  						 reg->dbclk_div_en);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  224  		}
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  225  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
+lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
+ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  226  		rockchip_gpio_writel_bit(bank,=
- offset, 1, reg->debounce);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  227  	} else {
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  228  		if (div_debounce_support)
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  229  			rockchip_gpio_writel_bit(bank=
-, offset, 0,
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  230  						 reg->dbclk_div_en);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  231  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
+a(pdev, ec_dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
+=3D dev_name(dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
+=3D cros_ec_cmd_xfer_lpc;
+d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
+=3D cros_ec_pkt_xfer_lpc;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
+ =3D cros_ec_lpc_readmem;
+2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
+=3D sizeof(struct ec_host_response) +
+2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
+ec_response_get_protocol_info);
+2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
+=3D sizeof(struct ec_host_request);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  232  		rockchip_gpio_writel_bit(bank,=
- offset, 0, reg->debounce);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  233  	}
-936ee2675eee1f Jianqun Xu 2021-08-16  234  =
+da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
+da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
+ot have an IRQ allotted for cros_ec_lpc,
+da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
+O an expected (and safe) scenario.
+da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
+a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
+t_irq_optional(pdev, 0);
+da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
+da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
+q;
+da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
+ENXIO) {
+da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
+dn't retrieve IRQ number (%d)\n", irq);
+da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
+da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
+da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
 
-936ee2675eee1f Jianqun Xu 2021-08-16  235  	raw_spin_unlock_irqrestore(&ban=
-k->slock, flags);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  236  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
+ister(ec_dev);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
+ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
+dn't register ec_dev (%d)\n", ret);
+ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
+ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  237  	/* Enable or disable dbclk at l=
-ast */
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  238  	if (div_debounce_support) {
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  239  		if (debounce)
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  240  			clk_prepare_enable(bank->db_c=
-lk);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  241  		else
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  242  			clk_disable_unprepare(bank->d=
-b_clk);
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  243  	}
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  244  =
+a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
+a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
+ handler to process MKBP messages if we have a
+a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
+evice.
+a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
+a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
+NION(dev);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
+a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
+stall_notify_handler(adev->handle,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
+NOTIFY,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
+pc_acpi_notify,
+a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
+tatus))
+a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
+iled to register notifier %08x\n",
+a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
+a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
+a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
 
-3bcbd1a85b68e5 Jianqun Xu 2021-08-16  245  	return 0;
-936ee2675eee1f Jianqun Xu 2021-08-16  246  }
-936ee2675eee1f Jianqun Xu 2021-08-16  247  =
+ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
+ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
+ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2580650430695536935==--
+--===============8720267918206789902==--
 
