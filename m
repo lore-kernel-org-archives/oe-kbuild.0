@@ -1,195 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============0892978895420754843=="
+Content-Type: multipart/mixed; boundary="===============2216567791550426676=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6 6/7] usb: gadget: uvc: add VIDIOC function
-Date: Sun, 09 Jan 2022 02:23:26 +0800
-Message-ID: <202201090204.9HpxUP5B-lkp@intel.com>
+Subject: [linux-next:master 10650/11475] drivers/net/can/janz-ican3.c:1303 ican3_get_echo_skb() error: uninitialized symbol 'dlc'.
+Date: Sun, 09 Jan 2022 01:42:38 +0800
+Message-ID: <202201090148.AauXMQpd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0892978895420754843==
+--===============2216567791550426676==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220105115527.3592860-7-m.grzeschik@pengutronix.de>
-References: <20220105115527.3592860-7-m.grzeschik@pengutronix.de>
-TO: Michael Grzeschik <m.grzeschik@pengutronix.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
 
-Hi Michael,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on usb/usb-testing peter-chen-usb/for-usb-next v5.=
-16-rc8 next-20220107]
-[cannot apply to balbi-usb/testing/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Michael-Grzeschik/usb-gadg=
-et-uvc-use-configfs-entries-for-negotiation-and-v4l2-VIDIOCS/20220105-195807
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b8170452cd5121b11a5726e3ea8dbdfc2d74e771
+commit: cc4b08c31b5c51352f258032cc65e884b3e61e6a [10650/11475] can: do not =
+increase tx_bytes statistics for RTR frames
+:::::: branch date: 26 hours ago
 :::::: commit date: 3 days ago
 config: i386-randconfig-m021-20220107 (https://download.01.org/0day-ci/arch=
-ive/20220109/202201090204.9HpxUP5B-lkp(a)intel.com/config)
+ive/20220109/202201090148.AauXMQpd-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/usb/gadget/function/f_uvc.c:983 uvc_alloc() warn: inconsistent retu=
-rns '&opts->lock'.
+New smatch warnings:
+drivers/net/can/janz-ican3.c:1303 ican3_get_echo_skb() error: uninitialized=
+ symbol 'dlc'.
 
-vim +983 drivers/usb/gadget/function/f_uvc.c
+Old smatch warnings:
+drivers/net/can/janz-ican3.c:1311 ican3_get_echo_skb() error: uninitialized=
+ symbol 'dlc'.
 
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  909  =
+vim +/dlc +1303 drivers/net/can/janz-ican3.c
 
-4a6698b80cfe36 Fengguang Wu          2014-09-16  910  static struct usb_fun=
-ction *uvc_alloc(struct usb_function_instance *fi)
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  911  {
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  912  	struct uvc_device *u=
-vc;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  913  	struct f_uvc_opts *o=
-pts;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  914  	struct uvc_descripto=
-r_header **strm_cls;
-90866d89b13da2 Michael Grzeschik     2022-01-05  915  	struct config_item *=
-streaming, *header, *h;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  916  =
+83702f69272e45 Ira W. Snyder   2012-07-19  1283  =
 
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  917  	uvc =3D kzalloc(size=
-of(*uvc), GFP_KERNEL);
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  918  	if (uvc =3D=3D NULL)
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  919  		return ERR_PTR(-ENO=
-MEM);
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  920  =
+83702f69272e45 Ira W. Snyder   2012-07-19  1284  static unsigned int ican3_=
+get_echo_skb(struct ican3_dev *mod)
+83702f69272e45 Ira W. Snyder   2012-07-19  1285  {
+83702f69272e45 Ira W. Snyder   2012-07-19  1286  	struct sk_buff *skb =3D s=
+kb_dequeue(&mod->echoq);
+83702f69272e45 Ira W. Snyder   2012-07-19  1287  	struct can_frame *cf;
+83702f69272e45 Ira W. Snyder   2012-07-19  1288  	u8 dlc;
+83702f69272e45 Ira W. Snyder   2012-07-19  1289  =
 
-d8e96c4bf6e3cd Hans Verkuil          2015-02-17  921  	mutex_init(&uvc->vid=
-eo.mutex);
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  922  	uvc->state =3D UVC_S=
-TATE_DISCONNECTED;
-bbea6de1bd12dd Andrzej Pietrasiewicz 2014-12-10  923  	opts =3D fi_to_f_uvc=
-_opts(fi);
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  924  =
+83702f69272e45 Ira W. Snyder   2012-07-19  1290  	/* this should never trig=
+ger unless there is a driver bug */
+83702f69272e45 Ira W. Snyder   2012-07-19  1291  	if (!skb) {
+83702f69272e45 Ira W. Snyder   2012-07-19  1292  		netdev_err(mod->ndev, "B=
+UG: echo skb not occupied\n");
+83702f69272e45 Ira W. Snyder   2012-07-19  1293  		return 0;
+83702f69272e45 Ira W. Snyder   2012-07-19  1294  	}
+83702f69272e45 Ira W. Snyder   2012-07-19  1295  =
 
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  925  	mutex_lock(&opts->lo=
-ck);
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  926  	if (opts->uvc_fs_str=
-eaming_cls) {
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  927  		strm_cls =3D opts->=
-uvc_fs_streaming_cls;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  928  		opts->fs_streaming =
-=3D
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  929  			(const struct uvc_=
-descriptor_header * const *)strm_cls;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  930  	}
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  931  	if (opts->uvc_hs_str=
-eaming_cls) {
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  932  		strm_cls =3D opts->=
-uvc_hs_streaming_cls;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  933  		opts->hs_streaming =
-=3D
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  934  			(const struct uvc_=
-descriptor_header * const *)strm_cls;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  935  	}
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  936  	if (opts->uvc_ss_str=
-eaming_cls) {
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  937  		strm_cls =3D opts->=
-uvc_ss_streaming_cls;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  938  		opts->ss_streaming =
-=3D
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  939  			(const struct uvc_=
-descriptor_header * const *)strm_cls;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  940  	}
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  941  =
+83702f69272e45 Ira W. Snyder   2012-07-19  1296  	cf =3D (struct can_frame =
+*)skb->data;
+cc4b08c31b5c51 Vincent Mailhol 2021-12-07  1297  	if (!(cf->can_id & CAN_RT=
+R_FLAG))
+c7b74967799b1a Oliver Hartkopp 2020-11-20  1298  		dlc =3D cf->len;
+83702f69272e45 Ira W. Snyder   2012-07-19  1299  =
 
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  942  	uvc->desc.fs_control=
- =3D opts->fs_control;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  943  	uvc->desc.ss_control=
- =3D opts->ss_control;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  944  	uvc->desc.fs_streami=
-ng =3D opts->fs_streaming;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  945  	uvc->desc.hs_streami=
-ng =3D opts->hs_streaming;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  946  	uvc->desc.ss_streami=
-ng =3D opts->ss_streaming;
-90866d89b13da2 Michael Grzeschik     2022-01-05  947  =
+83702f69272e45 Ira W. Snyder   2012-07-19  1300  	/* check flag whether thi=
+s packet has to be looped back */
+83702f69272e45 Ira W. Snyder   2012-07-19  1301  	if (skb->pkt_type !=3D PA=
+CKET_LOOPBACK) {
+83702f69272e45 Ira W. Snyder   2012-07-19  1302  		kfree_skb(skb);
+83702f69272e45 Ira W. Snyder   2012-07-19 @1303  		return dlc;
+83702f69272e45 Ira W. Snyder   2012-07-19  1304  	}
+83702f69272e45 Ira W. Snyder   2012-07-19  1305  =
 
-90866d89b13da2 Michael Grzeschik     2022-01-05  948  	streaming =3D config=
-_group_find_item(&opts->func_inst.group, "streaming");
-90866d89b13da2 Michael Grzeschik     2022-01-05  949  	if (!streaming) {
-90866d89b13da2 Michael Grzeschik     2022-01-05  950  		config_item_put(str=
-eaming);
-90866d89b13da2 Michael Grzeschik     2022-01-05  951  		return ERR_PTR(-ENO=
-MEM);
-90866d89b13da2 Michael Grzeschik     2022-01-05  952  	}
-90866d89b13da2 Michael Grzeschik     2022-01-05  953  	header =3D config_gr=
-oup_find_item(to_config_group(streaming), "header");
-90866d89b13da2 Michael Grzeschik     2022-01-05  954  	config_item_put(stre=
-aming);
-90866d89b13da2 Michael Grzeschik     2022-01-05  955  	if (!header) {
-90866d89b13da2 Michael Grzeschik     2022-01-05  956  		config_item_put(hea=
-der);
-90866d89b13da2 Michael Grzeschik     2022-01-05  957  		return ERR_PTR(-ENO=
-MEM);
-90866d89b13da2 Michael Grzeschik     2022-01-05  958  	}
-90866d89b13da2 Michael Grzeschik     2022-01-05  959  	h =3D config_group_f=
-ind_item(to_config_group(header), "h");
-90866d89b13da2 Michael Grzeschik     2022-01-05  960  	config_item_put(head=
-er);
-90866d89b13da2 Michael Grzeschik     2022-01-05  961  	if (!h) {
-90866d89b13da2 Michael Grzeschik     2022-01-05  962  		config_item_put(h);
-90866d89b13da2 Michael Grzeschik     2022-01-05  963  		return ERR_PTR(-ENO=
-MEM);
-90866d89b13da2 Michael Grzeschik     2022-01-05  964  	}
-90866d89b13da2 Michael Grzeschik     2022-01-05  965  	uvc->header =3D to_u=
-vcg_streaming_header(h);
-90866d89b13da2 Michael Grzeschik     2022-01-05  966  	if (!uvc->header->li=
-nked)
-90866d89b13da2 Michael Grzeschik     2022-01-05  967  		return ERR_PTR(-EBU=
-SY);
-90866d89b13da2 Michael Grzeschik     2022-01-05  968  =
+83702f69272e45 Ira W. Snyder   2012-07-19  1306  	skb->protocol =3D htons(E=
+TH_P_CAN);
+83702f69272e45 Ira W. Snyder   2012-07-19  1307  	skb->pkt_type =3D PACKET_=
+BROADCAST;
+83702f69272e45 Ira W. Snyder   2012-07-19  1308  	skb->ip_summed =3D CHECKS=
+UM_UNNECESSARY;
+83702f69272e45 Ira W. Snyder   2012-07-19  1309  	skb->dev =3D mod->ndev;
+83702f69272e45 Ira W. Snyder   2012-07-19  1310  	netif_receive_skb(skb);
+83702f69272e45 Ira W. Snyder   2012-07-19  1311  	return dlc;
+83702f69272e45 Ira W. Snyder   2012-07-19  1312  }
+83702f69272e45 Ira W. Snyder   2012-07-19  1313  =
 
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  969  	++opts->refcnt;
-46919a23ee87bb Andrzej Pietrasiewicz 2014-12-10  970  	mutex_unlock(&opts->=
-lock);
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  971  =
 
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  972  	/* Register the func=
-tion. */
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  973  	uvc->func.name =3D "=
-uvc";
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  974  	uvc->func.bind =3D u=
-vc_function_bind;
-e6bab2b66329b4 Michael Tretter       2021-10-17  975  	uvc->func.unbind =3D=
- uvc_function_unbind;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  976  	uvc->func.get_alt =
-=3D uvc_function_get_alt;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  977  	uvc->func.set_alt =
-=3D uvc_function_set_alt;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  978  	uvc->func.disable =
-=3D uvc_function_disable;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  979  	uvc->func.setup =3D =
-uvc_function_setup;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  980  	uvc->func.free_func =
-=3D uvc_free;
-f277bf27cf5cd5 Robert Baldyga        2015-05-04  981  	uvc->func.bind_deact=
-ivated =3D true;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  982  =
+:::::: The code at line 1303 was first introduced by commit
+:::::: 83702f69272e4591a91a27eb58eade1bcd361dae can: janz-ican3: fix suppor=
+t for CAN_RAW_RECV_OWN_MSGS
 
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09 @983  	return &uvc->func;
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  984  }
-6d11ed76c45dd7 Andrzej Pietrasiewicz 2014-09-09  985  =
-
+:::::: TO: Ira W. Snyder <iws@ovro.caltech.edu>
+:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0892978895420754843==--
+--===============2216567791550426676==--
 
