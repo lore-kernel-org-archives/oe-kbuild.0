@@ -1,105 +1,102 @@
-Content-Type: multipart/mixed; boundary="===============1367495690251723768=="
+Content-Type: multipart/mixed; boundary="===============7552421096975411870=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 10650/11475] drivers/net/can/janz-ican3.c:1303 ican3_get_echo_skb() error: uninitialized symbol 'dlc'.
-Date: Sat, 08 Jan 2022 20:05:00 +0800
-Message-ID: <202201081910.06vbmqbD-lkp@intel.com>
+Subject: [linux-next:master 10692/11475] drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c:199:6: sparse: void extern [addressable] [toplevel] hclge_comm_get_rss_indir_tbl( ... )
+Date: Sat, 08 Jan 2022 18:02:37 +0800
+Message-ID: <202201081802.5beayd26-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1367495690251723768==
+--===============7552421096975411870==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
+TO: Jie Wang <wangjie125@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   b8170452cd5121b11a5726e3ea8dbdfc2d74e771
-commit: cc4b08c31b5c51352f258032cc65e884b3e61e6a [10650/11475] can: do not =
-increase tx_bytes statistics for RTR frames
-:::::: branch date: 20 hours ago
+commit: 6de06004286798ac4b4b10c8c74a6eb03c5035f2 [10692/11475] net: hns3: c=
+reate new set of common rss set APIs for PF and VF module
+:::::: branch date: 18 hours ago
 :::::: commit date: 3 days ago
-config: i386-randconfig-m021-20220107 (https://download.01.org/0day-ci/arch=
-ive/20220108/202201081910.06vbmqbD-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20220=
+108/202201081802.5beayd26-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D6de06004286798ac4b4b10c8c74a6eb03c5035f2
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 6de06004286798ac4b4b10c8c74a6eb03c5035f2
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
+owerpc SHELL=3D/bin/bash drivers/net/ethernet/hisilicon/hns3/ drivers/vdpa/=
+mlx5/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/net/can/janz-ican3.c:1303 ican3_get_echo_skb() error: uninitialized=
- symbol 'dlc'.
-
-Old smatch warnings:
-drivers/net/can/janz-ican3.c:1311 ican3_get_echo_skb() error: uninitialized=
- symbol 'dlc'.
-
-vim +/dlc +1303 drivers/net/can/janz-ican3.c
-
-83702f69272e45 Ira W. Snyder   2012-07-19  1283  =
-
-83702f69272e45 Ira W. Snyder   2012-07-19  1284  static unsigned int ican3_=
-get_echo_skb(struct ican3_dev *mod)
-83702f69272e45 Ira W. Snyder   2012-07-19  1285  {
-83702f69272e45 Ira W. Snyder   2012-07-19  1286  	struct sk_buff *skb =3D s=
-kb_dequeue(&mod->echoq);
-83702f69272e45 Ira W. Snyder   2012-07-19  1287  	struct can_frame *cf;
-83702f69272e45 Ira W. Snyder   2012-07-19  1288  	u8 dlc;
-83702f69272e45 Ira W. Snyder   2012-07-19  1289  =
-
-83702f69272e45 Ira W. Snyder   2012-07-19  1290  	/* this should never trig=
-ger unless there is a driver bug */
-83702f69272e45 Ira W. Snyder   2012-07-19  1291  	if (!skb) {
-83702f69272e45 Ira W. Snyder   2012-07-19  1292  		netdev_err(mod->ndev, "B=
-UG: echo skb not occupied\n");
-83702f69272e45 Ira W. Snyder   2012-07-19  1293  		return 0;
-83702f69272e45 Ira W. Snyder   2012-07-19  1294  	}
-83702f69272e45 Ira W. Snyder   2012-07-19  1295  =
-
-83702f69272e45 Ira W. Snyder   2012-07-19  1296  	cf =3D (struct can_frame =
-*)skb->data;
-cc4b08c31b5c51 Vincent Mailhol 2021-12-07  1297  	if (!(cf->can_id & CAN_RT=
-R_FLAG))
-c7b74967799b1a Oliver Hartkopp 2020-11-20  1298  		dlc =3D cf->len;
-83702f69272e45 Ira W. Snyder   2012-07-19  1299  =
-
-83702f69272e45 Ira W. Snyder   2012-07-19  1300  	/* check flag whether thi=
-s packet has to be looped back */
-83702f69272e45 Ira W. Snyder   2012-07-19  1301  	if (skb->pkt_type !=3D PA=
-CKET_LOOPBACK) {
-83702f69272e45 Ira W. Snyder   2012-07-19  1302  		kfree_skb(skb);
-83702f69272e45 Ira W. Snyder   2012-07-19 @1303  		return dlc;
-83702f69272e45 Ira W. Snyder   2012-07-19  1304  	}
-83702f69272e45 Ira W. Snyder   2012-07-19  1305  =
-
-83702f69272e45 Ira W. Snyder   2012-07-19  1306  	skb->protocol =3D htons(E=
-TH_P_CAN);
-83702f69272e45 Ira W. Snyder   2012-07-19  1307  	skb->pkt_type =3D PACKET_=
-BROADCAST;
-83702f69272e45 Ira W. Snyder   2012-07-19  1308  	skb->ip_summed =3D CHECKS=
-UM_UNNECESSARY;
-83702f69272e45 Ira W. Snyder   2012-07-19  1309  	skb->dev =3D mod->ndev;
-83702f69272e45 Ira W. Snyder   2012-07-19  1310  	netif_receive_skb(skb);
-83702f69272e45 Ira W. Snyder   2012-07-19  1311  	return dlc;
-83702f69272e45 Ira W. Snyder   2012-07-19  1312  }
-83702f69272e45 Ira W. Snyder   2012-07-19  1313  =
 
 
-:::::: The code at line 1303 was first introduced by commit
-:::::: 83702f69272e4591a91a27eb58eade1bcd361dae can: janz-ican3: fix suppor=
-t for CAN_RAW_RECV_OWN_MSGS
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c:199:6: =
+sparse: sparse: symbol 'hclge_comm_get_rss_indir_tbl' redeclared with diffe=
+rent type (incompatible argument 3 (different base types)):
+>> drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c:199:6: =
+sparse:    void extern [addressable] [toplevel] hclge_comm_get_rss_indir_tb=
+l( ... )
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c: note: =
+in included file:
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.h:94:6: s=
+parse: note: previously declared as:
+>> drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.h:94:6: s=
+parse:    void extern [addressable] [toplevel] hclge_comm_get_rss_indir_tbl=
+( ... )
 
-:::::: TO: Ira W. Snyder <iws@ovro.caltech.edu>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+vim +199 drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c
+
+1bfd6682e9b5d4 Jie Wang 2022-01-05  198  =
+
+1bfd6682e9b5d4 Jie Wang 2022-01-05 @199  void hclge_comm_get_rss_indir_tbl(=
+struct hclge_comm_rss_cfg *rss_cfg,
+1bfd6682e9b5d4 Jie Wang 2022-01-05  200  				  u32 *indir, u16 rss_ind_tbl_=
+size)
+1bfd6682e9b5d4 Jie Wang 2022-01-05  201  {
+1bfd6682e9b5d4 Jie Wang 2022-01-05  202  	u16 i;
+1bfd6682e9b5d4 Jie Wang 2022-01-05  203  =
+
+1bfd6682e9b5d4 Jie Wang 2022-01-05  204  	if (!indir)
+1bfd6682e9b5d4 Jie Wang 2022-01-05  205  		return;
+1bfd6682e9b5d4 Jie Wang 2022-01-05  206  =
+
+1bfd6682e9b5d4 Jie Wang 2022-01-05  207  	for (i =3D 0; i < rss_ind_tbl_siz=
+e; i++)
+1bfd6682e9b5d4 Jie Wang 2022-01-05  208  		indir[i] =3D rss_cfg->rss_indire=
+ction_tbl[i];
+1bfd6682e9b5d4 Jie Wang 2022-01-05  209  }
+1bfd6682e9b5d4 Jie Wang 2022-01-05  210  =
+
+
+:::::: The code at line 199 was first introduced by commit
+:::::: 1bfd6682e9b5d42d07fa986709c9df88b18f9bc3 net: hns3: create new set o=
+f common rss get APIs for PF and VF rss module
+
+:::::: TO: Jie Wang <wangjie125@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1367495690251723768==--
+--===============7552421096975411870==--
 
