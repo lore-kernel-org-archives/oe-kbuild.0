@@ -1,243 +1,370 @@
-Content-Type: multipart/mixed; boundary="===============8720267918206789902=="
+Content-Type: multipart/mixed; boundary="===============8629862188502694229=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/2] platform/chrome: reserve only the I/O ports required for the MEC EC
-Date: Sun, 09 Jan 2022 07:03:20 +0800
-Message-ID: <202201090725.PnArnVcv-lkp@intel.com>
+Subject: Re: [PATCH RFC V1 net-next 2/4] net: Expose available time stamping layers to user space.
+Date: Sun, 09 Jan 2022 05:19:27 +0800
+Message-ID: <202201090507.DjVyQPOP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8720267918206789902==
+--===============8629862188502694229==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220105031242.287751-3-dustin@howett.net>
-References: <20220105031242.287751-3-dustin@howett.net>
-TO: "Dustin L. Howett" <dustin@howett.net>
-TO: linux-kernel(a)vger.kernel.org
-CC: Benson Leung <bleung@chromium.org>
-CC: Guenter Roeck <groeck@chromium.org>
-CC: "Dustin L. Howett" <dustin@howett.net>
+In-Reply-To: <20220103232555.19791-3-richardcochran@gmail.com>
+References: <20220103232555.19791-3-richardcochran@gmail.com>
+TO: Richard Cochran <richardcochran@gmail.com>
 
-Hi "Dustin,
+Hi Richard,
 
-Thank you for the patch! Perhaps something to improve:
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on net-next/master]
 
-[auto build test WARNING on chrome-platform/for-next]
-[also build test WARNING on linux/master linus/master v5.16-rc8 next-202201=
-07]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+url:    https://github.com/0day-ci/linux/commits/Richard-Cochran/Make-MAC-P=
+HY-time-stamping-selectable/20220104-072717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+3d694552fd8fe502e7ffd22ffa0e085bfd73b19a
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-c007-20220105 (https://download.01.org/0day-ci/ar=
+chive/20220109/202201090507.DjVyQPOP-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d5b6e3=
+0ed3acad794dd0aec400e617daffc6cc3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/c7ffd872b92c08c5ffdb864da=
+31410adb78f6a17
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Richard-Cochran/Make-MAC-PHY-time-=
+stamping-selectable/20220104-072717
+        git checkout c7ffd872b92c08c5ffdb864da31410adb78f6a17
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
 
-url:    https://github.com/0day-ci/linux/commits/Dustin-L-Howett/platform-c=
-hrome-Add-support-for-the-Framework-Laptop/20220105-111340
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/lin=
-ux.git for-next
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-m021-20220107 (https://download.01.org/0day-ci/arch=
-ive/20220109/202201090725.PnArnVcv-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/chrome/cros_ec_lpc.c:382 cros_ec_lpc_probe() warn: conside=
-r using resource_size() here
 
-vim +382 drivers/platform/chrome/cros_ec_lpc.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   sound/soc/sof/pcm.c:505:2: warning: Value stored to 'dai' is never read =
+[clang-analyzer-deadcode.DeadStores]
+           dai =3D bytes_to_frames(substream->runtime,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/pcm.c:505:2: note: Value stored to 'dai' is never read
+           dai =3D bytes_to_frames(substream->runtime,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:263:31: warning: The left operand o=
+f '+' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   prtd->dma_addr_next =3D val_1 + val_2;
+                                         ~~~~~ ^
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:234:59: note: 'val_1' declared with=
+out an initial value
+           unsigned int availdepth, ifflevel, offlevel, int_status, val_1, =
+val_2;
+                                                                    ^~~~~
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:249:2: note: Assuming the condition=
+ is false
+           if (int_status & I2S_RX_DESC_OFF_INTR_EN_MSK) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:249:2: note: '?' condition is false
+           if (int_status & I2S_RX_DESC_OFF_INTR_EN_MSK) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:249:2: note: '?' condition is true
+           if (int_status & I2S_RX_DESC_OFF_INTR_EN_MSK) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:249:2: note: Taking true branch
+           if (int_status & I2S_RX_DESC_OFF_INTR_EN_MSK) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:258:3: note: Loop condition is fals=
+e. Execution continues on line 263
+                   while (offlevel) {
+                   ^
+   sound/soc/bcm/bcm63xx-pcm-whistler.c:263:31: note: The left operand of '=
++' is a garbage value
+                   prtd->dma_addr_next =3D val_1 + val_2;
+                                         ~~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+>> net/core/net-sysfs.c:632:2: warning: Value stored to 'ops' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:632:2: note: Value stored to 'ops' is never read
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+>> net/core/net-sysfs.c:642:3: warning: Value stored to 'buf' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   buf +=3D 4;
+                   ^      ~
+   net/core/net-sysfs.c:642:3: note: Value stored to 'buf' is never read
+                   buf +=3D 4;
+                   ^      ~
+   net/core/net-sysfs.c:662:2: warning: Value stored to 'ops' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:662:2: note: Value stored to 'ops' is never read
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:1829:2: warning: Value stored to 'txq' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           txq =3D real_tx;
+           ^     ~~~~~~~
+   net/core/net-sysfs.c:1829:2: note: Value stored to 'txq' is never read
+           txq =3D real_tx;
+           ^     ~~~~~~~
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   57 warnings generated.
+   Suppressed 57 warnings (57 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   net/core/drop_monitor.c:870:2: warning: 1st function call argument is an=
+ uninitialized value [clang-analyzer-core.CallAndMessage]
+           kfree(hw_metadata->fa_cookie);
+           ^
+   net/core/drop_monitor.c:941:6: note: Assuming field 'trap_type' is not e=
+qual to DEVLINK_TRAP_TYPE_CONTROL
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/drop_monitor.c:941:2: note: '?' condition is false
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/drop_monitor.c:941:16: note: Field 'trap_type' is not equal to =
+DEVLINK_TRAP_TYPE_CONTROL
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+                         ^
+   net/core/drop_monitor.c:941:2: note: '?' condition is false
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/drop_monitor.c:941:2: note: Taking false branch
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/drop_monitor.c:944:2: note: '?' condition is false
+           if (!skb_mac_header_was_set(skb))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/drop_monitor.c:944:2: note: '?' condition is false
+           if (!skb_mac_header_was_set(skb))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/drop_monitor.c:944:2: note: Taking false branch
+           if (!skb_mac_header_was_set(skb))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/drop_monitor.c:948:6: note: Assuming 'nskb' is non-null
+           if (!nskb)
 
-a6df7798d03b29 Gwendal Grignou        2017-05-16  334  =
+vim +/ops +632 net/core/net-sysfs.c
 
-ec2f33ab582bf6 Bill Richardson        2015-02-02  335  static int cros_ec_l=
-pc_probe(struct platform_device *pdev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  336  {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  337  	struct device *dev =
-=3D &pdev->dev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  338  	struct acpi_device =
-*adev;
-a6df7798d03b29 Gwendal Grignou        2017-05-16  339  	acpi_status status;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  340  	struct cros_ec_devi=
-ce *ec_dev;
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  341  	u8 buf[2];
-da1cf5a1cf124f Enrico Granata         2018-10-09  342  	int irq, ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  343  =
+5fdd2f0e5c6484 Wei Wang        2021-02-08  620  =
 
-268c7bd0087331 Dustin L. Howett       2022-01-04  344  	/*
-268c7bd0087331 Dustin L. Howett       2022-01-04  345  	 * The Framework La=
-ptop (and possibly other non-ChromeOS devices)
-268c7bd0087331 Dustin L. Howett       2022-01-04  346  	 * only exposes the=
- eight I/O ports that are required for the Microchip EC.
-268c7bd0087331 Dustin L. Howett       2022-01-04  347  	 * Requesting a lar=
-ger reservation will fail.
-268c7bd0087331 Dustin L. Howett       2022-01-04  348  	 */
-268c7bd0087331 Dustin L. Howett       2022-01-04  349  	if (!devm_request_r=
-egion(dev, EC_HOST_CMD_REGION0,
-268c7bd0087331 Dustin L. Howett       2022-01-04  350  				 EC_HOST_CMD_MEC=
-_REGION_SIZE, dev_name(dev))) {
-268c7bd0087331 Dustin L. Howett       2022-01-04  351  		dev_err(dev, "coul=
-dn't reserve MEC region\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  352  		return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  353  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  354  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  621  static ssize_t available_ti=
+mestamping_providers_show(struct device *dev,
+c7ffd872b92c08 Richard Cochran 2022-01-03  622  						     struct device_at=
+tribute *attr,
+c7ffd872b92c08 Richard Cochran 2022-01-03  623  						     char *buf)
+c7ffd872b92c08 Richard Cochran 2022-01-03  624  {
+c7ffd872b92c08 Richard Cochran 2022-01-03  625  	const struct ethtool_ops *=
+ops;
+c7ffd872b92c08 Richard Cochran 2022-01-03  626  	struct net_device *netdev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  627  	struct phy_device *phydev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  628  	int ret =3D 0;
+c7ffd872b92c08 Richard Cochran 2022-01-03  629  =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  355  	/*
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  356  	 * Read the mapped =
-ID twice, the first one is assuming the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  357  	 * EC is a Microchi=
-p Embedded Controller (MEC) variant, if the
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  358  	 * protocol fails, =
-fallback to the non MEC variant and try to
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  359  	 * read again the I=
-D.
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  360  	 */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  361  	cros_ec_lpc_ops.rea=
-d =3D cros_ec_lpc_mec_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  362  	cros_ec_lpc_ops.wri=
-te =3D cros_ec_lpc_mec_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  363  	cros_ec_lpc_ops.rea=
-d(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2, buf);
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  364  	if (buf[0] !=3D 'E'=
- || buf[1] !=3D 'C') {
-268c7bd0087331 Dustin L. Howett       2022-01-04  365  		if (!devm_request_=
-region(dev, EC_LPC_ADDR_MEMMAP, EC_MEMMAP_SIZE,
-268c7bd0087331 Dustin L. Howett       2022-01-04  366  					 dev_name(dev))=
+c7ffd872b92c08 Richard Cochran 2022-01-03  630  	netdev =3D to_net_dev(dev);
+c7ffd872b92c08 Richard Cochran 2022-01-03  631  	phydev =3D netdev->phydev;
+c7ffd872b92c08 Richard Cochran 2022-01-03 @632  	ops =3D netdev->ethtool_op=
+s;
+c7ffd872b92c08 Richard Cochran 2022-01-03  633  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  634  	if (!rtnl_trylock())
+c7ffd872b92c08 Richard Cochran 2022-01-03  635  		return restart_syscall();
+c7ffd872b92c08 Richard Cochran 2022-01-03  636  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  637  	ret +=3D sprintf(buf, "%s\=
+n", "mac");
+c7ffd872b92c08 Richard Cochran 2022-01-03  638  	buf +=3D 4;
+c7ffd872b92c08 Richard Cochran 2022-01-03  639  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  640  	if (phy_has_tsinfo(phydev)=
 ) {
-268c7bd0087331 Dustin L. Howett       2022-01-04  367  			dev_err(dev, "cou=
-ldn't reserve memmap region\n");
-268c7bd0087331 Dustin L. Howett       2022-01-04  368  			return -EBUSY;
-268c7bd0087331 Dustin L. Howett       2022-01-04  369  		}
-268c7bd0087331 Dustin L. Howett       2022-01-04  370  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  641  		ret +=3D sprintf(buf, "%s=
+\n", "phy");
+c7ffd872b92c08 Richard Cochran 2022-01-03 @642  		buf +=3D 4;
+c7ffd872b92c08 Richard Cochran 2022-01-03  643  	}
+c7ffd872b92c08 Richard Cochran 2022-01-03  644  =
 
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  371  		/* Re-assign read/=
-write operations for the non MEC variant */
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  372  		cros_ec_lpc_ops.re=
-ad =3D cros_ec_lpc_read_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  373  		cros_ec_lpc_ops.wr=
-ite =3D cros_ec_lpc_write_bytes;
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  374  		cros_ec_lpc_ops.re=
-ad(EC_LPC_ADDR_MEMMAP + EC_MEMMAP_ID, 2,
-22c040fa21b604 Enric Balletbo i Serra 2019-06-14  375  				     buf);
-bce70fef727924 Shawn Nematbakhsh      2017-05-16  376  		if (buf[0] !=3D 'E=
-' || buf[1] !=3D 'C') {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  377  			dev_err(dev, "EC =
-ID not detected\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  378  			return -ENODEV;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  379  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  380  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  645  	rtnl_unlock();
+c7ffd872b92c08 Richard Cochran 2022-01-03  646  =
 
-268c7bd0087331 Dustin L. Howett       2022-01-04  381  		/* Reserve the rem=
-aining I/O ports required by the non-MEC protocol. */
-268c7bd0087331 Dustin L. Howett       2022-01-04 @382  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION0 + EC_HOST_CMD_MEC_REGION_SIZE,
-268c7bd0087331 Dustin L. Howett       2022-01-04  383  					 EC_HOST_CMD_RE=
-GION_SIZE - EC_HOST_CMD_MEC_REGION_SIZE,
-268c7bd0087331 Dustin L. Howett       2022-01-04  384  					 dev_name(dev))=
-) {
-268c7bd0087331 Dustin L. Howett       2022-01-04  385  			dev_err(dev, "cou=
-ldn't reserve remainder of region0\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  386  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  387  		}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  388  		if (!devm_request_=
-region(dev, EC_HOST_CMD_REGION1,
-ec2f33ab582bf6 Bill Richardson        2015-02-02  389  					 EC_HOST_CMD_RE=
-GION_SIZE, dev_name(dev))) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  390  			dev_err(dev, "cou=
-ldn't reserve region1\n");
-ec2f33ab582bf6 Bill Richardson        2015-02-02  391  			return -EBUSY;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  392  		}
-268c7bd0087331 Dustin L. Howett       2022-01-04  393  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  394  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  395  	ec_dev =3D devm_kza=
-lloc(dev, sizeof(*ec_dev), GFP_KERNEL);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  396  	if (!ec_dev)
-ec2f33ab582bf6 Bill Richardson        2015-02-02  397  		return -ENOMEM;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  398  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  399  	platform_set_drvdat=
-a(pdev, ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  400  	ec_dev->dev =3D dev;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  401  	ec_dev->phys_name =
-=3D dev_name(dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  402  	ec_dev->cmd_xfer =
-=3D cros_ec_cmd_xfer_lpc;
-d365407079d331 Stephen Barber         2015-06-09  403  	ec_dev->pkt_xfer =
-=3D cros_ec_pkt_xfer_lpc;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  404  	ec_dev->cmd_readmem=
- =3D cros_ec_lpc_readmem;
-2c7589af3c4dee Stephen Barber         2015-06-09  405  	ec_dev->din_size =
-=3D sizeof(struct ec_host_response) +
-2c7589af3c4dee Stephen Barber         2015-06-09  406  			   sizeof(struct =
-ec_response_get_protocol_info);
-2c7589af3c4dee Stephen Barber         2015-06-09  407  	ec_dev->dout_size =
-=3D sizeof(struct ec_host_request);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  408  =
-
-da1cf5a1cf124f Enrico Granata         2018-10-09  409  	/*
-da1cf5a1cf124f Enrico Granata         2018-10-09  410  	 * Some boards do n=
-ot have an IRQ allotted for cros_ec_lpc,
-da1cf5a1cf124f Enrico Granata         2018-10-09  411  	 * which makes ENXI=
-O an expected (and safe) scenario.
-da1cf5a1cf124f Enrico Granata         2018-10-09  412  	 */
-a69b4eebe513b8 Enric Balletbo i Serra 2019-11-29  413  	irq =3D platform_ge=
-t_irq_optional(pdev, 0);
-da1cf5a1cf124f Enrico Granata         2018-10-09  414  	if (irq > 0)
-da1cf5a1cf124f Enrico Granata         2018-10-09  415  		ec_dev->irq =3D ir=
-q;
-da1cf5a1cf124f Enrico Granata         2018-10-09  416  	else if (irq !=3D -=
-ENXIO) {
-da1cf5a1cf124f Enrico Granata         2018-10-09  417  		dev_err(dev, "coul=
-dn't retrieve IRQ number (%d)\n", irq);
-da1cf5a1cf124f Enrico Granata         2018-10-09  418  		return irq;
-da1cf5a1cf124f Enrico Granata         2018-10-09  419  	}
-da1cf5a1cf124f Enrico Granata         2018-10-09  420  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  421  	ret =3D cros_ec_reg=
-ister(ec_dev);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  422  	if (ret) {
-ec2f33ab582bf6 Bill Richardson        2015-02-02  423  		dev_err(dev, "coul=
-dn't register ec_dev (%d)\n", ret);
-ec2f33ab582bf6 Bill Richardson        2015-02-02  424  		return ret;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  425  	}
-ec2f33ab582bf6 Bill Richardson        2015-02-02  426  =
-
-a6df7798d03b29 Gwendal Grignou        2017-05-16  427  	/*
-a6df7798d03b29 Gwendal Grignou        2017-05-16  428  	 * Connect a notify=
- handler to process MKBP messages if we have a
-a6df7798d03b29 Gwendal Grignou        2017-05-16  429  	 * companion ACPI d=
-evice.
-a6df7798d03b29 Gwendal Grignou        2017-05-16  430  	 */
-a6df7798d03b29 Gwendal Grignou        2017-05-16  431  	adev =3D ACPI_COMPA=
-NION(dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  432  	if (adev) {
-a6df7798d03b29 Gwendal Grignou        2017-05-16  433  		status =3D acpi_in=
-stall_notify_handler(adev->handle,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  434  						     ACPI_ALL_=
-NOTIFY,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  435  						     cros_ec_l=
-pc_acpi_notify,
-a6df7798d03b29 Gwendal Grignou        2017-05-16  436  						     ec_dev);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  437  		if (ACPI_FAILURE(s=
-tatus))
-a6df7798d03b29 Gwendal Grignou        2017-05-16  438  			dev_warn(dev, "Fa=
-iled to register notifier %08x\n",
-a6df7798d03b29 Gwendal Grignou        2017-05-16  439  				 status);
-a6df7798d03b29 Gwendal Grignou        2017-05-16  440  	}
-a6df7798d03b29 Gwendal Grignou        2017-05-16  441  =
-
-ec2f33ab582bf6 Bill Richardson        2015-02-02  442  	return 0;
-ec2f33ab582bf6 Bill Richardson        2015-02-02  443  }
-ec2f33ab582bf6 Bill Richardson        2015-02-02  444  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  647  	return ret;
+c7ffd872b92c08 Richard Cochran 2022-01-03  648  }
+c7ffd872b92c08 Richard Cochran 2022-01-03  649  static DEVICE_ATTR_RO(avail=
+able_timestamping_providers);
+c7ffd872b92c08 Richard Cochran 2022-01-03  650  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8720267918206789902==--
+--===============8629862188502694229==--
 
