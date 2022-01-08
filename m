@@ -1,53 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============3176298903726358686=="
+Content-Type: multipart/mixed; boundary="===============3035383349623705585=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/infiniband/sw/siw/siw_cm.c:205:10: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Tue, 11 Jan 2022 00:37:30 +0800
-Message-ID: <202201110054.Upprtfhi-lkp@intel.com>
+Subject: Re: [PATCH 2/4] btrfs: introduce dedicated helper to scrub simple-mirror based range
+Date: Sun, 09 Jan 2022 02:44:05 +0800
+Message-ID: <202201090238.jMvq9rxL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3176298903726358686==
+--===============3035383349623705585==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20220107023430.28288-3-wqu@suse.com>
+References: <20220107023430.28288-3-wqu@suse.com>
+TO: Qu Wenruo <wqu@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   df0cc57e057f18e44dac8e6c18aba47ab53202f9
-commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
-ch to static_assert
-date:   9 weeks ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-c006-20211207 (https://download.01.org/0day-ci/arc=
-hive/20220111/202201110054.Upprtfhi-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+Hi Qu,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20220107]
+[cannot apply to v5.16-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Qu-Wenruo/btrfs-refactor-s=
+crub-entrances-for-each-profile/20220107-103545
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
+-next
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-c001-20220107 (https://download.01.org/0day-ci/arch=
+ive/20220109/202201090238.jMvq9rxL-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 32167b=
+fe64a4c5dd4eb3f7a58e24f4cba76f5ac2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
+        # https://github.com/0day-ci/linux/commit/f8636fcdd5f4ab273a4104075=
+6d783403a2eb055
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Qu-Wenruo/btrfs-refactor-scrub-ent=
+rances-for-each-profile/20220107-103545
+        git checkout f8636fcdd5f4ab273a41040756d783403a2eb055
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,299 +59,431 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   fs/btrfs/scrub.c:3741:4: note: Taking true branch
+                           if (flags & BTRFS_EXTENT_FLAG_DATA) {
+                           ^
+   fs/btrfs/scrub.c:3746:9: note: Assuming 'ret' is 0
+                                   if (ret)
+                                       ^~~
+   fs/btrfs/scrub.c:3746:5: note: Taking false branch
+                                   if (ret)
+                                   ^
+   fs/btrfs/scrub.c:3750:10: note: Calling 'scrub_extent'
+                           ret =3D scrub_extent(sctx, map, extent_logical, =
+extent_len,
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   fs/btrfs/scrub.c:2541:2: note: Taking true branch
+           if (flags & BTRFS_EXTENT_FLAG_DATA) {
            ^
-   include/linux/list.h:137:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
-   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           entry->next =3D LIST_POISON1;
-                       ^
-   sound/core/rawmidi.c:1854:9: note: Calling 'snd_rawmidi_free'
-           return snd_rawmidi_free(rmidi);
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/rawmidi.c:1832:6: note: Assuming 'rmidi' is non-null
-           if (!rmidi)
-               ^~~~~~
-   sound/core/rawmidi.c:1832:2: note: Taking false branch
-           if (!rmidi)
-           ^
-   sound/core/rawmidi.c:1838:6: note: Assuming field 'ops' is null
-           if (rmidi->ops && rmidi->ops->dev_unregister)
-               ^~~~~~~~~~
-   sound/core/rawmidi.c:1838:17: note: Left side of '&&' is false
-           if (rmidi->ops && rmidi->ops->dev_unregister)
-                          ^
-   sound/core/rawmidi.c:1842:2: note: Calling 'snd_rawmidi_free_substreams'
-           snd_rawmidi_free_substreams(&rmidi->streams[SNDRV_RAWMIDI_STREAM=
-_INPUT]);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   sound/core/rawmidi.c:1823:2: note: Loop condition is true.  Entering loo=
-p body
-           while (!list_empty(&stream->substreams)) {
-           ^
-   sound/core/rawmidi.c:1826:3: note: Memory is released
-                   kfree(substream);
-                   ^~~~~~~~~~~~~~~~
-   sound/core/rawmidi.c:1823:2: note: Loop condition is true.  Entering loo=
-p body
-           while (!list_empty(&stream->substreams)) {
-           ^
-   sound/core/rawmidi.c:1825:3: note: Calling 'list_del'
-                   list_del(&substream->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   sound/core/rawmidi.c:599:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(info->id, rmidi->id);
-           ^~~~~~
-   sound/core/rawmidi.c:599:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(info->id, rmidi->id);
-           ^~~~~~
-   sound/core/rawmidi.c:600:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(info->name, rmidi->name);
-           ^~~~~~
-   sound/core/rawmidi.c:600:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(info->name, rmidi->name);
-           ^~~~~~
-   sound/core/rawmidi.c:601:2: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(info->subname, substream->name);
-           ^~~~~~
-   sound/core/rawmidi.c:601:2: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-           strcpy(info->subname, substream->name);
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/infiniband/ulp/srpt/ib_srpt.c:3044:20: warning: Value stored to =
-'device' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct ib_device *device =3D sdev->device;
-                             ^~~~~~   ~~~~~~~~~~~~
-   drivers/infiniband/ulp/srpt/ib_srpt.c:3044:20: note: Value stored to 'de=
-vice' during its initialization is never read
-           struct ib_device *device =3D sdev->device;
-                             ^~~~~~   ~~~~~~~~~~~~
-   drivers/infiniband/ulp/srpt/ib_srpt.c:3090:20: warning: Value stored to =
-'device' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct ib_device *device =3D sdev->device;
-                             ^~~~~~   ~~~~~~~~~~~~
-   drivers/infiniband/ulp/srpt/ib_srpt.c:3090:20: note: Value stored to 'de=
-vice' during its initialization is never read
-           struct ib_device *device =3D sdev->device;
-                             ^~~~~~   ~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
->> drivers/infiniband/sw/siw/siw_cm.c:205:10: warning: Use of memory after =
-it is freed [clang-analyzer-unix.Malloc]
-                           kfree(cep->mpa_timer); /* not needed again */
-                                 ^
-   drivers/infiniband/sw/siw/siw_cm.c:1728:2: note: Calling 'siw_cancel_mpa=
-timer'
-           siw_cancel_mpatimer(cep);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:202:6: note: Assuming field 'mpa_time=
-r' is non-null
-           if (cep->mpa_timer) {
-               ^~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:202:2: note: Taking true branch
-           if (cep->mpa_timer) {
-           ^
-   drivers/infiniband/sw/siw/siw_cm.c:203:7: note: Assuming the condition i=
-s true
-                   if (cancel_delayed_work(&cep->mpa_timer->work)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:203:3: note: Taking true branch
-                   if (cancel_delayed_work(&cep->mpa_timer->work)) {
+   fs/btrfs/scrub.c:2542:3: note: Taking false branch
+                   if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK)
                    ^
-   drivers/infiniband/sw/siw/siw_cm.c:204:4: note: Calling 'siw_cep_put'
-                           siw_cep_put(cep);
-                           ^~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:441:10: note: Assuming the condition =
-is false
-           WARN_ON(kref_read(&cep->ref) < 1);
+   fs/btrfs/scrub.c:2564:2: note: Loop condition is true.  Entering loop bo=
+dy
+           while (len) {
+           ^
+   fs/btrfs/scrub.c:2565:11: note: Assuming '__UNIQUE_ID___x974' is >=3D '_=
+_UNIQUE_ID___y975'
+                   u32 l =3D min(len, blocksize);
+                           ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/btrfs/scrub.c:2565:11: note: '?' condition is false
+                   u32 l =3D min(len, blocksize);
+                           ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                    ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:442:2: note: Calling 'kref_put'
-           kref_put(&cep->ref, __siw_cep_dealloc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/btrfs/scrub.c:2568:3: note: Taking true branch
+                   if (flags & BTRFS_EXTENT_FLAG_DATA) {
+                   ^
+   fs/btrfs/scrub.c:2570:16: note: Calling 'scrub_find_csum'
+                           have_csum =3D scrub_find_csum(sctx, logical, csu=
+m);
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:2491:2: note: Loop condition is true.  Entering loop bo=
+dy
+           while (!list_empty(&sctx->csum_list)) {
            ^
-   include/linux/kref.h:65:3: note: Calling '__siw_cep_dealloc'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:255:2: note: Assuming field 'listen_c=
-ep' is non-null
-           WARN_ON(cep->listen_cep);
-           ^
-   include/asm-generic/bug.h:166:23: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                ^~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:260:6: note: Assuming the condition i=
-s false
-           if (!list_empty(&cep->work_freelist))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:260:2: note: Taking false branch
-           if (!list_empty(&cep->work_freelist))
-           ^
-   drivers/infiniband/sw/siw/siw_cm.c:264:2: note: Loop condition is false.=
-  Exiting loop
-           spin_lock_irqsave(&sdev->lock, flags);
-           ^
-   include/linux/spinlock.h:392:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:253:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/infiniband/sw/siw/siw_cm.c:264:2: note: Loop condition is false.=
-  Exiting loop
-           spin_lock_irqsave(&sdev->lock, flags);
-           ^
-   include/linux/spinlock.h:390:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/infiniband/sw/siw/siw_cm.c:269:2: note: Memory is released
-           kfree(cep);
+   fs/btrfs/scrub.c:2499:7: note: Assuming 'logical' is >=3D field 'bytenr'
+                   if (sum->bytenr > logical)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:2499:3: note: Taking false branch
+                   if (sum->bytenr > logical)
+                   ^
+   fs/btrfs/scrub.c:2508:7: note: Assuming the condition is true
+                   if (sum->bytenr + sum->len <=3D logical) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:2508:3: note: Taking true branch
+                   if (sum->bytenr + sum->len <=3D logical) {
+                   ^
+   fs/btrfs/scrub.c:2509:4: note: Calling 'drop_csum_range'
+                           drop_csum_range(sctx, sum);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:2473:2: note: Memory is released
+           kfree(sum);
            ^~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:442:2: note: Returning; memory was re=
-leased
-           kref_put(&cep->ref, __siw_cep_dealloc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:204:4: note: Returning; memory was re=
-leased via 1st parameter
-                           siw_cep_put(cep);
-                           ^~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:205:10: note: Use of memory after it =
-is freed
-                           kfree(cep->mpa_timer); /* not needed again */
-                                 ^~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:420:14: warning: Use of memory after =
-it is freed [clang-analyzer-unix.Malloc]
-                   cep->state =3D SIW_EPSTATE_CLOSED;
-                   ~~~~~~~~~~ ^
-   drivers/infiniband/sw/siw/siw_cm.c:379:6: note: Assuming field 'cep' is =
-non-null
-           if (!qp->cep)
-               ^~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:379:2: note: Taking false branch
-           if (!qp->cep)
+   fs/btrfs/scrub.c:2509:4: note: Returning; memory was released
+                           drop_csum_range(sctx, sum);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:2510:4: note:  Execution continues on line 2491
+                           continue;
+                           ^
+   fs/btrfs/scrub.c:2491:2: note: Loop condition is true.  Entering loop bo=
+dy
+           while (!list_empty(&sctx->csum_list)) {
            ^
-   drivers/infiniband/sw/siw/siw_cm.c:382:6: note: Assuming 'schedule' is 0
-           if (schedule) {
-               ^~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:382:2: note: Taking false branch
-           if (schedule) {
-           ^
-   drivers/infiniband/sw/siw/siw_cm.c:387:7: note: Assuming field 'state' i=
-s not equal to SIW_EPSTATE_CLOSED
-                   if (cep->state =3D=3D SIW_EPSTATE_CLOSED) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/infiniband/sw/siw/siw_cm.c:387:3: note: Taking false branch
-                   if (cep->state =3D=3D SIW_EPSTATE_CLOSED) {
+   fs/btrfs/scrub.c:2499:7: note: Use of memory after it is freed
+                   if (sum->bytenr > logical)
+                       ^~~~~~~~~~~
+   fs/btrfs/scrub.c:2754:3: warning: Value stored to 'stripe_nr' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   stripe_nr =3D div_u64_rem(stripe_nr, map->num_stripes, &=
+rot);
                    ^
-   drivers/infiniband/sw/siw/siw_cm.c:393:7: note: Assuming field 'valid' i=
-s 0
-                   if (qp->term_info.valid)
+   fs/btrfs/scrub.c:2754:3: note: Value stored to 'stripe_nr' is never read
+   fs/btrfs/scrub.c:3104:3: warning: Value stored to 'stop_loop' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   stop_loop =3D 0;
+                   ^           ~
+   fs/btrfs/scrub.c:3104:3: note: Value stored to 'stop_loop' is never read
+                   stop_loop =3D 0;
+                   ^           ~
+>> fs/btrfs/scrub.c:3439:2: warning: Undefined or garbage value returned to=
+ caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^
+   fs/btrfs/scrub.c:3488:6: note: Assuming the condition is false
+           if (map->type & BTRFS_BLOCK_GROUP_RAID0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:3488:2: note: Taking false branch
+           if (map->type & BTRFS_BLOCK_GROUP_RAID0) {
+           ^
+   fs/btrfs/scrub.c:3491:13: note: Assuming the condition is false
+           } else if (map->type & BTRFS_BLOCK_GROUP_RAID10) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:3491:9: note: Taking false branch
+           } else if (map->type & BTRFS_BLOCK_GROUP_RAID10) {
+                  ^
+   fs/btrfs/scrub.c:3496:13: note: Assuming the condition is false
+           } else if (map->type & BTRFS_BLOCK_GROUP_RAID1_MASK) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:3496:9: note: Taking false branch
+           } else if (map->type & BTRFS_BLOCK_GROUP_RAID1_MASK) {
+                  ^
+   fs/btrfs/scrub.c:3498:13: note: Assuming the condition is false
+           } else if (map->type & BTRFS_BLOCK_GROUP_DUP) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:3498:9: note: Taking false branch
+           } else if (map->type & BTRFS_BLOCK_GROUP_DUP) {
+                  ^
+   fs/btrfs/scrub.c:3500:13: note: Assuming the condition is false
+           } else if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/scrub.c:3500:9: note: Taking false branch
+           } else if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
+                  ^
+   fs/btrfs/scrub.c:3507:6: note: Assuming 'path' is non-null
+           if (!path)
+               ^~~~~
+   fs/btrfs/scrub.c:3507:2: note: Taking false branch
+           if (!path)
+           ^
+   fs/btrfs/scrub.c:3521:2: note: Taking false branch
+           if (map->type & BTRFS_BLOCK_GROUP_RAID56_MASK) {
+           ^
+   fs/btrfs/scrub.c:3528:2: note: Loop condition is false.  Exiting loop
+           wait_event(sctx->list_wait,
+           ^
+   include/linux/wait.h:342:2: note: expanded from macro 'wait_event'
+           might_sleep();                                                  =
+        \
+           ^
+   include/linux/kernel.h:129:2: note: expanded from macro 'might_sleep'
+           do { __might_sleep(__FILE__, __LINE__); might_resched(); } while=
+ (0)
+           ^
+   fs/btrfs/scrub.c:3529:6: note: Assuming the condition is false
+                      atomic_read(&sctx->bios_in_flight) =3D=3D 0);
+                      ^
+   include/linux/wait.h:343:6: note: expanded from macro 'wait_event'
+           if (condition)                                                  =
+        \
+               ^~~~~~~~~
+   fs/btrfs/scrub.c:3528:2: note: Taking false branch
+           wait_event(sctx->list_wait,
+           ^
+   include/linux/wait.h:343:2: note: expanded from macro 'wait_event'
+           if (condition)                                                  =
+        \
+           ^
+   fs/btrfs/scrub.c:3528:2: note: '?' condition is false
+           wait_event(sctx->list_wait,
+           ^
+   include/linux/wait.h:345:2: note: expanded from macro 'wait_event'
+           __wait_event(wq_head, condition);                               =
+        \
+           ^
+   include/linux/wait.h:325:64: note: expanded from macro '__wait_event'
+           (void)___wait_event(wq_head, condition, TASK_UNINTERRUPTIBLE, 0,=
+ 0,     \
+                                                                         ^
+   fs/btrfs/scrub.c:3528:2: note: Loop condition is true.  Entering loop bo=
+dy
+           wait_event(sctx->list_wait,
+           ^
+   include/linux/wait.h:345:2: note: expanded from macro 'wait_event'
+           __wait_event(wq_head, condition);                               =
+        \
+           ^
+   include/linux/wait.h:325:8: note: expanded from macro '__wait_event'
+           (void)___wait_event(wq_head, condition, TASK_UNINTERRUPTIBLE, 0,=
+ 0,     \
+                 ^
+   include/linux/wait.h:307:2: note: expanded from macro '___wait_event'
+           for (;;) {                                                      =
+        \
+           ^
+   fs/btrfs/scrub.c:3529:6: note: Assuming the condition is true
+                      atomic_read(&sctx->bios_in_flight) =3D=3D 0);
+                      ^
+   include/linux/wait.h:345:24: note: expanded from macro 'wait_event'
+           __wait_event(wq_head, condition);                               =
+        \
+                                 ^~~~~~~~~
+   include/linux/wait.h:325:31: note: expanded from macro '__wait_event'
+           (void)___wait_event(wq_head, condition, TASK_UNINTERRUPTIBLE, 0,=
+ 0,     \
+                                        ^~~~~~~~~
+   include/linux/wait.h:310:7: note: expanded from macro '___wait_event'
+                   if (condition)                                          =
+        \
+                       ^~~~~~~~~
+   fs/btrfs/scrub.c:3528:2: note: Taking true branch
+           wait_event(sctx->list_wait,
+           ^
+   include/linux/wait.h:345:2: note: expanded from macro 'wait_event'
+           __wait_event(wq_head, condition);                               =
+        \
 
-vim +205 drivers/infiniband/sw/siw/siw_cm.c
+vim +3439 fs/btrfs/scrub.c
 
-6c52fdc244b5cc Bernard Metzler 2019-06-20  198  =
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3304  =
 
-6c52fdc244b5cc Bernard Metzler 2019-06-20  199  static void siw_cancel_mpat=
-imer(struct siw_cep *cep)
-6c52fdc244b5cc Bernard Metzler 2019-06-20  200  {
-6c52fdc244b5cc Bernard Metzler 2019-06-20  201  	spin_lock_bh(&cep->lock);
-6c52fdc244b5cc Bernard Metzler 2019-06-20  202  	if (cep->mpa_timer) {
-6c52fdc244b5cc Bernard Metzler 2019-06-20  203  		if (cancel_delayed_work(&=
-cep->mpa_timer->work)) {
-6c52fdc244b5cc Bernard Metzler 2019-06-20  204  			siw_cep_put(cep);
-6c52fdc244b5cc Bernard Metzler 2019-06-20 @205  			kfree(cep->mpa_timer); /=
-* not needed again */
-6c52fdc244b5cc Bernard Metzler 2019-06-20  206  		}
-6c52fdc244b5cc Bernard Metzler 2019-06-20  207  		cep->mpa_timer =3D NULL;
-6c52fdc244b5cc Bernard Metzler 2019-06-20  208  	}
-6c52fdc244b5cc Bernard Metzler 2019-06-20  209  	spin_unlock_bh(&cep->lock);
-6c52fdc244b5cc Bernard Metzler 2019-06-20  210  }
-6c52fdc244b5cc Bernard Metzler 2019-06-20  211  =
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3305  /*
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3306   * Scrub one range which can onl=
+y has simple mirror based profile.
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3307   * (Including all range in SINGL=
+E/DUP/RAID1/RAID1C*, and each stripe in
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3308   *  RAID0/RAID10).
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3309   *
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3310   * Since we may need to handle a=
+ subset of block group, we need @logical_start
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3311   * and @logical_length parameter.
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3312   */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3313  static int scrub_simple_mirror(s=
+truct scrub_ctx *sctx,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3314  				struct btrfs_root *extent_ro=
+ot,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3315  				struct btrfs_root *csum_root,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3316  				struct btrfs_block_group *bg,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3317  				struct map_lookup *map,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3318  				u64 logical_start, u64 logic=
+al_length,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3319  				struct btrfs_device *device,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3320  				u64 physical, int mirror_num)
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3321  {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3322  	struct btrfs_fs_info *fs_info =
+=3D sctx->fs_info;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3323  	const u64 logical_end =3D logic=
+al_start + logical_length;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3324  	/* An artificial limit, inherit=
+ from old scrub behavior */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3325  	const u32 max_length =3D SZ_64K;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3326  	struct btrfs_path path =3D {};
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3327  	u64 cur_logical =3D logical_sta=
+rt;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3328  	int ret;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3329  =
 
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3330  	/* The range must be inside the=
+ bg */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3331  	ASSERT(logical_start >=3D bg->s=
+tart &&
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3332  	       logical_end <=3D bg->sta=
+rt + bg->length);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3333  =
 
-:::::: The code at line 205 was first introduced by commit
-:::::: 6c52fdc244b5ccc468006fd65a504d4ee33743c7 rdma/siw: connection manage=
-ment
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3334  	path.search_commit_root =3D 1;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3335  	path.skip_locking =3D 1;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3336  	/* Go through each */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3337  	while (cur_logical < logical_en=
+d) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3338  		int cur_mirror =3D mirror_num;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3339  		struct btrfs_device *target_de=
+v =3D device;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3340  		u64 extent_start;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3341  		u64 extent_len;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3342  		u64 extent_flags;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3343  		u64 extent_gen;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3344  		u64 scrub_len;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3345  		u64 cur_physical;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3346  =
 
-:::::: TO: Bernard Metzler <bmt@zurich.ibm.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3347  		/* Canceled ? */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3348  		if (atomic_read(&fs_info->scru=
+b_cancel_req) ||
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3349  		    atomic_read(&sctx->cancel_=
+req)) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3350  			ret =3D -ECANCELED;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3351  			break;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3352  		}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3353  		/* Paused ? */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3354  		if (atomic_read(&fs_info->scru=
+b_pause_req)) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3355  			/* Push queued extents */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3356  			sctx->flush_all_writes =3D tr=
+ue;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3357  			scrub_submit(sctx);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3358  			mutex_lock(&sctx->wr_lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3359  			scrub_wr_submit(sctx);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3360  			mutex_unlock(&sctx->wr_lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3361  			wait_event(sctx->list_wait,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3362  				   atomic_read(&sctx->bios_i=
+n_flight) =3D=3D 0);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3363  			sctx->flush_all_writes =3D fa=
+lse;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3364  			scrub_blocked_if_needed(fs_in=
+fo);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3365  		}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3366  		/* Block group removed? */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3367  		spin_lock(&bg->lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3368  		if (bg->removed) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3369  			spin_unlock(&bg->lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3370  			ret =3D 0;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3371  			break;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3372  		}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3373  		spin_unlock(&bg->lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3374  =
+
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3375  		ret =3D find_first_extent_item=
+(extent_root, &path, cur_logical,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3376  					     logical_end - cur_logi=
+cal);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3377  		if (ret > 0) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3378  			/* No more extent, just updat=
+e the accounting */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3379  			sctx->stat.last_physical =3D =
+physical + logical_length;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3380  			ret =3D 0;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3381  			break;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3382  		}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3383  		if (ret < 0)
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3384  			break;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3385  		get_extent_info(&path, &extent=
+_start, &extent_len,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3386  				&extent_flags, &extent_gen);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3387  		/* Skip hole range which doesn=
+'t have any extent */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3388  		cur_logical =3D max(extent_sta=
+rt, cur_logical);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3389  =
+
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3390  		/*
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3391  		 * Scrub len has three limits:
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3392  		 * - Extent size limit
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3393  		 * - Scrub range limit
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3394  		 *   This is especially impora=
+tant for RAID0/RAID10 to reuse
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3395  		 *   this function
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3396  		 * - Max scrub size limit
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3397  		 */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3398  		scrub_len =3D min(min(extent_s=
+tart + extent_len,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3399  				    logical_end), cur_logica=
+l + max_length) -
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3400  			    cur_logical;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3401  		cur_physical =3D cur_logical -=
+ logical_start + physical;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3402  =
+
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3403  		if (sctx->is_dev_replace)
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3404  			scrub_remap_extent(fs_info, c=
+ur_logical, scrub_len,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3405  					   &cur_physical, &target_d=
+ev, &cur_mirror);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3406  		if (extent_flags & BTRFS_EXTEN=
+T_FLAG_DATA) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3407  			ret =3D btrfs_lookup_csums_ra=
+nge(csum_root, cur_logical,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3408  					cur_logical + scrub_len - 1,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3409  					&sctx->csum_list, 1);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3410  			if (ret)
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3411  				break;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3412  		}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3413  		if ((extent_flags & BTRFS_EXTE=
+NT_FLAG_TREE_BLOCK) &&
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3414  		    does_range_cross_boundary(=
+extent_start, extent_len,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3415  			    		      logical_start, lo=
+gical_length)) {
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3416  			btrfs_err(fs_info,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3417  "scrub: tree block %llu spanning=
+ boundaries, ignored. boundary=3D[%llu, %llu)",
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3418  				  extent_start, logical_star=
+t, logical_end);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3419  			spin_lock(&sctx->stat_lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3420  			sctx->stat.uncorrectable_erro=
+rs++;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3421  			spin_unlock(&sctx->stat_lock);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3422  			cur_logical +=3D scrub_len;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3423  			continue;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3424  		}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3425  		ret =3D scrub_extent(sctx, map=
+, cur_logical, scrub_len, cur_physical,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3426  				   target_dev, extent_flags,=
+ extent_gen,
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3427  				   cur_mirror, cur_logical -=
+ logical_start +
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3428  				   physical);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3429  		scrub_free_csums(sctx);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3430  		if (ret)
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3431  			break;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3432  		if (sctx->is_dev_replace)
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3433  			sync_replace_for_zoned(sctx);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3434  		cur_logical +=3D scrub_len;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3435  		/* Don't hold CPU for too long=
+ time */
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3436  		cond_resched();
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3437  	}
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3438  	btrfs_release_path(&path);
+f8636fcdd5f4ab Qu Wenruo 2022-01-07 @3439  	return ret;
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3440  }
+f8636fcdd5f4ab Qu Wenruo 2022-01-07  3441  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3176298903726358686==--
+--===============3035383349623705585==--
 
