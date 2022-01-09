@@ -1,62 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============8988010779920863789=="
+Content-Type: multipart/mixed; boundary="===============4429675951276478901=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] regmap: debugfs: Free the previous allocated debugfs_name buffer
-Date: Sun, 09 Jan 2022 15:51:27 +0800
-Message-ID: <202201091558.ITRbIvGW-lkp@intel.com>
+Subject: arch/x86/kvm/mmu/mmu.c:3336:3: warning: Value stored to 'r' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 09 Jan 2022 15:41:11 +0800
+Message-ID: <202201091550.h0I2DQ8I-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8988010779920863789==
+--===============4429675951276478901==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220106171537.3091643-1-festevam@gmail.com>
-References: <20220106171537.3091643-1-festevam@gmail.com>
-TO: Fabio Estevam <festevam@gmail.com>
-TO: broonie(a)kernel.org
-CC: matthias.schiffer(a)ew.tq-group.com
 CC: linux-kernel(a)vger.kernel.org
-CC: Fabio Estevam <festevam@gmail.com>
+TO: Paolo Bonzini <pbonzini@redhat.com>
 
-Hi Fabio,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on broonie-regmap/for-next]
-[also build test WARNING on v5.16-rc8 next-20220107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Fabio-Estevam/regmap-debug=
-fs-Free-the-previous-allocated-debugfs_name-buffer/20220107-011724
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git =
-for-next
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-randconfig-c002-20220107 (https://download.01.org/0day-ci/archi=
-ve/20220109/202201091558.ITRbIvGW-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 32167b=
-fe64a4c5dd4eb3f7a58e24f4cba76f5ac2)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4634129ad9fdc89d10b597fc6f8f4336fb61e105
+commit: 4a38162ee9f10f5f67c36f4f5aa4f6be2657efd5 KVM: MMU: load PDPTRs outs=
+ide mmu_lock
+date:   9 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-c007-20220108 (https://download.01.org/0day-ci/ar=
+chive/20220109/202201091550.h0I2DQ8I-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f3a344=
+d2125fa37e59bae1b0874442c650a19607)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/7de11921ba557466d696129b8=
-cdc0a6176e763f1
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Fabio-Estevam/regmap-debugfs-Free-=
-the-previous-allocated-debugfs_name-buffer/20220107-011724
-        git checkout 7de11921ba557466d696129b8cdc0a6176e763f1
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D4a38162ee9f10f5f67c36f4f5aa4f6be2657efd5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4a38162ee9f10f5f67c36f4f5aa4f6be2657efd5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -65,384 +50,468 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 clang-analyzer warnings: (new ones prefixed by >>)
            ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   arch/x86/kvm/mmu/mmu.c:2967:16: note: Assuming the condition is false
+           if (unlikely(((error_code & (PFERR_FETCH_MASK | PFERR_PRESENT_MA=
+SK))
+                         ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   arch/x86/kvm/mmu/mmu.c:2967:2: note: Taking false branch
+           if (unlikely(((error_code & (PFERR_FETCH_MASK | PFERR_PRESENT_MA=
+SK))
            ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   arch/x86/kvm/mmu/mmu.c:2985:9: note: Assuming 'shadow_acc_track_mask' is=
+ not equal to 0
+           return shadow_acc_track_mask !=3D 0 ||
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:2985:36: note: Left side of '||' is true
+           return shadow_acc_track_mask !=3D 0 ||
+                                             ^
+   arch/x86/kvm/mmu/mmu.c:2985:2: note: Returning the value 1, which partic=
+ipates in a condition later
+           return shadow_acc_track_mask !=3D 0 ||
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:3053:7: note: Returning from 'page_fault_can_be_f=
+ast'
+           if (!page_fault_can_be_fast(error_code))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:3053:2: note: Taking false branch
+           if (!page_fault_can_be_fast(error_code))
            ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/net/wireguard/device.c:145:15: note: Assuming 'family' is equal =
-to 2
-           if (unlikely(family !=3D AF_INET && family !=3D AF_INET6)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/wireguard/device.c:145:33: note: Left side of '&&' is false
-           if (unlikely(family !=3D AF_INET && family !=3D AF_INET6)) {
-                                          ^
-   drivers/net/wireguard/device.c:145:2: note: Taking false branch
-           if (unlikely(family !=3D AF_INET && family !=3D AF_INET6)) {
-           ^
-   drivers/net/wireguard/device.c:152:8: note: Assuming the condition is fa=
-lse
-           mtu =3D skb_dst(skb) ? dst_mtu(skb_dst(skb)) : dev->mtu;
-                 ^~~~~~~~~~~~
-   drivers/net/wireguard/device.c:152:8: note: '?' condition is false
-   drivers/net/wireguard/device.c:154:2: note: Calling '__skb_queue_head_in=
-it'
-           __skb_queue_head_init(&packets);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireguard/device.c:154:2: note: Returning from '__skb_queue_=
-head_init'
-           __skb_queue_head_init(&packets);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireguard/device.c:155:6: note: Assuming the condition is tr=
-ue
-           if (!skb_is_gso(skb)) {
-               ^~~~~~~~~~~~~~~~
-   drivers/net/wireguard/device.c:155:2: note: Taking true branch
-           if (!skb_is_gso(skb)) {
-           ^
-   drivers/net/wireguard/device.c:168:26: note: 'skb' is non-null
-           skb_list_walk_safe(skb, skb, next) {
-                                   ^
-   include/linux/skbuff.h:1559:38: note: expanded from macro 'skb_list_walk=
-_safe'
-           for ((skb) =3D (first), (next_skb) =3D (skb) ? (skb)->next : NUL=
-L; (skb);  \
-                                               ^~~
-   drivers/net/wireguard/device.c:168:2: note: '?' condition is true
-           skb_list_walk_safe(skb, skb, next) {
-           ^
-   include/linux/skbuff.h:1559:37: note: expanded from macro 'skb_list_walk=
-_safe'
-           for ((skb) =3D (first), (next_skb) =3D (skb) ? (skb)->next : NUL=
-L; (skb);  \
-                                              ^
-   drivers/net/wireguard/device.c:168:2: note: Loop condition is true.  Ent=
-ering loop body
-           skb_list_walk_safe(skb, skb, next) {
-           ^
-   include/linux/skbuff.h:1559:2: note: expanded from macro 'skb_list_walk_=
-safe'
-           for ((skb) =3D (first), (next_skb) =3D (skb) ? (skb)->next : NUL=
-L; (skb);  \
-           ^
-   drivers/net/wireguard/device.c:172:17: note: 'skb' is non-null
-                   if (unlikely(!skb))
-                                 ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/wireguard/device.c:172:3: note: Taking false branch
-                   if (unlikely(!skb))
+   arch/x86/kvm/mmu/mmu.c:3061:3: note: Calling 'shadow_walk_init'
+                   for_each_shadow_entry_lockless(vcpu, cr2_or_gpa, iterato=
+r, spte)
                    ^
-   drivers/net/wireguard/device.c:182:3: note: Calling '__skb_queue_tail'
-                   __skb_queue_tail(&packets, skb);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2118:2: note: Calling '__skb_queue_before'
-           __skb_queue_before(list, (struct sk_buff *)list, newsk);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2085:2: note: 2nd function call argument is an un=
+   arch/x86/kvm/mmu/mmu.c:166:7: note: expanded from macro 'for_each_shadow=
+_entry_lockless'
+           for (shadow_walk_init(&(_walker), _vcpu, _addr);                \
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:2111:2: note: Calling 'shadow_walk_init_using_roo=
+t'
+           shadow_walk_init_using_root(iterator, vcpu, vcpu->arch.mmu->root=
+_hpa,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   arch/x86/kvm/mmu/mmu.c:2087:6: note: Assuming field 'level' is not equal=
+ to PT64_ROOT_4LEVEL
+           if (iterator->level =3D=3D PT64_ROOT_4LEVEL &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:2087:42: note: Left side of '&&' is false
+           if (iterator->level =3D=3D PT64_ROOT_4LEVEL &&
+                                                   ^
+   arch/x86/kvm/mmu/mmu.c:2092:6: note: Assuming field 'level' is not equal=
+ to PT32E_ROOT_LEVEL
+           if (iterator->level =3D=3D PT32E_ROOT_LEVEL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:2092:2: note: Taking false branch
+           if (iterator->level =3D=3D PT32E_ROOT_LEVEL) {
+           ^
+   arch/x86/kvm/mmu/mmu.c:2106:1: note: Returning without writing to 'itera=
+tor->sptep'
+   }
+   ^
+   arch/x86/kvm/mmu/mmu.c:2111:2: note: Returning from 'shadow_walk_init_us=
+ing_root'
+           shadow_walk_init_using_root(iterator, vcpu, vcpu->arch.mmu->root=
+_hpa,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   arch/x86/kvm/mmu/mmu.c:2113:1: note: Returning without writing to 'itera=
+tor->sptep'
+   }
+   ^
+   arch/x86/kvm/mmu/mmu.c:3061:3: note: Returning from 'shadow_walk_init'
+                   for_each_shadow_entry_lockless(vcpu, cr2_or_gpa, iterato=
+r, spte)
+                   ^
+   arch/x86/kvm/mmu/mmu.c:166:7: note: expanded from macro 'for_each_shadow=
+_entry_lockless'
+           for (shadow_walk_init(&(_walker), _vcpu, _addr);                \
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:3061:3: note: Calling 'shadow_walk_okay'
+                   for_each_shadow_entry_lockless(vcpu, cr2_or_gpa, iterato=
+r, spte)
+                   ^
+   arch/x86/kvm/mmu/mmu.c:167:7: note: expanded from macro 'for_each_shadow=
+_entry_lockless'
+                shadow_walk_okay(&(_walker)) &&                            \
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:2117:6: note: Assuming field 'level' is < PG_LEVE=
+L_4K
+           if (iterator->level < PG_LEVEL_4K)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:2117:2: note: Taking true branch
+           if (iterator->level < PG_LEVEL_4K)
+           ^
+   arch/x86/kvm/mmu/mmu.c:2118:3: note: Returning without writing to 'itera=
+tor->sptep'
+                   return false;
+                   ^
+   arch/x86/kvm/mmu/mmu.c:3061:3: note: Returning from 'shadow_walk_okay'
+                   for_each_shadow_entry_lockless(vcpu, cr2_or_gpa, iterato=
+r, spte)
+                   ^
+   arch/x86/kvm/mmu/mmu.c:167:7: note: expanded from macro 'for_each_shadow=
+_entry_lockless'
+                shadow_walk_okay(&(_walker)) &&                            \
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/mmu/mmu.c:3061:3: note: Left side of '&&' is false
+                   for_each_shadow_entry_lockless(vcpu, cr2_or_gpa, iterato=
+r, spte)
+                   ^
+   arch/x86/kvm/mmu/mmu.c:167:36: note: expanded from macro 'for_each_shado=
+w_entry_lockless'
+                shadow_walk_okay(&(_walker)) &&                            \
+                                             ^
+   arch/x86/kvm/mmu/mmu.c:3065:3: note: Taking true branch
+                   if (!is_shadow_present_pte(spte))
+                   ^
+   arch/x86/kvm/mmu/mmu.c:3066:4: note:  Execution continues on line 3140
+                           break;
+                           ^
+   arch/x86/kvm/mmu/mmu.c:3140:2: note: 4th function call argument is an un=
 initialized value
-           __skb_insert(newsk, next->prev, next, list);
-           ^                   ~~~~~~~~~~
-   1 warning generated.
-   drivers/base/regmap/regcache.c:137:7: warning: Dereference of null point=
-er [clang-analyzer-core.NullDereference]
-                   if (config->reg_defaults[i].reg % map->reg_stride)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regcache.c:121:6: note: Assuming field 'cache_type' =
-is not equal to REGCACHE_NONE
-           if (map->cache_type =3D=3D REGCACHE_NONE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regcache.c:121:2: note: Taking false branch
-           if (map->cache_type =3D=3D REGCACHE_NONE) {
-           ^
-   drivers/base/regmap/regcache.c:130:6: note: Assuming field 'reg_defaults=
-' is null
-           if (config->reg_defaults && !config->num_reg_defaults) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regcache.c:130:27: note: Left side of '&&' is false
-           if (config->reg_defaults && !config->num_reg_defaults) {
-                                    ^
-   drivers/base/regmap/regcache.c:136:14: note: Assuming 'i' is < field 'nu=
-m_reg_defaults'
-           for (i =3D 0; i < config->num_reg_defaults; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regcache.c:136:2: note: Loop condition is true.  Ent=
-ering loop body
-           for (i =3D 0; i < config->num_reg_defaults; i++)
-           ^
-   drivers/base/regmap/regcache.c:137:7: note: Dereference of null pointer
-                   if (config->reg_defaults[i].reg % map->reg_stride)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+           trace_fast_page_fault(vcpu, cr2_or_gpa, error_code, iterator.spt=
+ep,
+           ^                                                   ~~~~~~~~~~~~=
+~~
+>> arch/x86/kvm/mmu/mmu.c:3336:3: warning: Value stored to 'r' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                   r =3D -EIO;
+                   ^   ~~~~
+   arch/x86/kvm/mmu/mmu.c:3336:3: note: Value stored to 'r' is never read
+                   r =3D -EIO;
+                   ^   ~~~~
+   arch/x86/kvm/mmu/mmu.c:3350:4: warning: Value stored to 'r' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           r =3D -EIO;
+                           ^   ~~~~
+   arch/x86/kvm/mmu/mmu.c:3350:4: note: Value stored to 'r' is never read
+                           r =3D -EIO;
+                           ^   ~~~~
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    3 warnings generated.
->> drivers/base/regmap/regmap-debugfs.c:597:7: warning: Use of memory after=
- it is freed [clang-analyzer-unix.Malloc]
-           if (!strcmp(name, "dummy")) {
-                ^
-   drivers/base/regmap/regmap-debugfs.c:688:2: note: Loop condition is true=
-.  Entering loop body
-           list_for_each_entry_safe(node, tmp, &regmap_debugfs_early_list, =
-link) {
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/mtd/ftl.c:177:26: warning: The left operand of '!=3D' is a garba=
+ge value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+       if (header.BlockSize !=3D 9 ||
+                            ^
+   drivers/mtd/ftl.c:1012:6: note: Assuming 'partition' is non-null
+           if (!partition) {
+               ^~~~~~~~~~
+   drivers/mtd/ftl.c:1012:2: note: Taking false branch
+           if (!partition) {
            ^
-   include/linux/list.h:717:2: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-           ^
-   drivers/base/regmap/regmap-debugfs.c:689:3: note: Calling 'regmap_debugf=
-s_init'
-                   regmap_debugfs_init(node->map);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:560:6: note: Assuming field 'debugf=
-s_disable' is false
-           if (map->debugfs_disable) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:560:2: note: Taking false branch
-           if (map->debugfs_disable) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:566:6: note: Assuming 'regmap_debug=
-fs_root' is non-null
-           if (!regmap_debugfs_root) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:566:2: note: Taking false branch
-           if (!regmap_debugfs_root) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:579:2: note: Loop condition is fals=
-e.  Exiting loop
-           mutex_init(&map->cache_lock);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/base/regmap/regmap-debugfs.c:581:6: note: Assuming field 'dev' i=
-s null
-           if (map->dev)
-               ^~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:581:2: note: Taking false branch
-           if (map->dev)
-           ^
-   drivers/base/regmap/regmap-debugfs.c:584:6: note: Assuming 'name' is non=
--null
-           if (name) {
-               ^~~~
-   drivers/base/regmap/regmap-debugfs.c:584:2: note: Taking true branch
-           if (name) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:585:7: note: Assuming field 'debugf=
-s_name' is non-null
-                   if (!map->debugfs_name) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:585:3: note: Taking false branch
-                   if (!map->debugfs_name) {
-                   ^
-   drivers/base/regmap/regmap-debugfs.c:592:3: note: Memory is released
-                   kfree(map->debugfs_name);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:597:7: note: Use of memory after it=
- is freed
-           if (!strcmp(name, "dummy")) {
-                ^      ~~~~
-   drivers/base/regmap/regmap-debugfs.c:608:17: warning: Use of memory afte=
-r it is freed [clang-analyzer-unix.Malloc]
-           map->debugfs =3D debugfs_create_dir(name, regmap_debugfs_root);
-                          ^
-   drivers/base/regmap/regmap-debugfs.c:688:2: note: Loop condition is true=
-.  Entering loop body
-           list_for_each_entry_safe(node, tmp, &regmap_debugfs_early_list, =
-link) {
-           ^
-   include/linux/list.h:717:2: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-           ^
-   drivers/base/regmap/regmap-debugfs.c:689:3: note: Calling 'regmap_debugf=
-s_init'
-                   regmap_debugfs_init(node->map);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:560:6: note: Assuming field 'debugf=
-s_disable' is false
-           if (map->debugfs_disable) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:560:2: note: Taking false branch
-           if (map->debugfs_disable) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:566:6: note: Assuming 'regmap_debug=
-fs_root' is non-null
-           if (!regmap_debugfs_root) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:566:2: note: Taking false branch
-           if (!regmap_debugfs_root) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:579:2: note: Loop condition is fals=
-e.  Exiting loop
-           mutex_init(&map->cache_lock);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/base/regmap/regmap-debugfs.c:581:6: note: Assuming field 'dev' i=
-s null
-           if (map->dev)
-               ^~~~~~~~
-   drivers/base/regmap/regmap-debugfs.c:581:2: note: Taking false branch
-           if (map->dev)
-           ^
-   drivers/base/regmap/regmap-debugfs.c:584:6: note: Assuming 'name' is null
-           if (name) {
-               ^~~~
-   drivers/base/regmap/regmap-debugfs.c:584:2: note: Taking false branch
-           if (name) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:597:2: note: Taking true branch
-           if (!strcmp(name, "dummy")) {
-           ^
-   drivers/base/regmap/regmap-debugfs.c:601:7: note: Assuming field 'debugf=
-s_name' is non-null
-                   if (!map->debugfs_name)
+   drivers/mtd/ftl.c:1020:7: note: Calling 'scan_header'
+           if ((scan_header(partition) =3D=3D 0) &&
+                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ftl.c:158:19: note: Assuming 1048576 is >=3D field 'size'
+       max_offset =3D (0x100000<part->mbd.mtd->size)?0x100000:part->mbd.mtd=
+->size;
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ftl.c:158:18: note: '?' condition is false
+       max_offset =3D (0x100000<part->mbd.mtd->size)?0x100000:part->mbd.mtd=
+->size;
+                    ^
+   drivers/mtd/ftl.c:161:3: note: Assuming the condition is false
+            (offset + sizeof(header)) < max_offset;
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ftl.c:160:5: note: Loop condition is false. Execution contin=
+ues on line 173
+       for (offset =3D 0;
 
-vim +597 drivers/base/regmap/regmap-debugfs.c
+vim +/r +3336 arch/x86/kvm/mmu/mmu.c
 
-d3dc5430d68fb9 Richard Fitzgerald  2015-06-23  545  =
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3288  =
 
-94cc89eb8fa503 Charles Keepax      2020-09-17  546  void regmap_debugfs_ini=
-t(struct regmap *map)
-31244e396fa9e4 Mark Brown          2011-07-20  547  {
-4b020b3f9ba2af Mark Brown          2012-10-03  548  	struct rb_node *next;
-4b020b3f9ba2af Mark Brown          2012-10-03  549  	struct regmap_range_no=
-de *range_node;
-2c98e0c1cc6b8e Xiubo Li            2014-09-28  550  	const char *devname =
-=3D "dummy";
-94cc89eb8fa503 Charles Keepax      2020-09-17  551  	const char *name =3D m=
-ap->name;
-4b020b3f9ba2af Mark Brown          2012-10-03  552  =
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3289 =
+ static int mmu_alloc_shadow_roots(struct kvm_vcpu *vcpu)
+17ac10ad2bb7d8 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3290 =
+ {
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3291 =
+ 	struct kvm_mmu *mmu =3D vcpu->arch.mmu;
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3292 =
+ 	u64 pdptrs[4], pm_mask;
+be01e8e2c632c4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-03-20  3293 =
+ 	gfn_t root_gfn, root_pgd;
+8123f265248c85 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-04-27  3294 =
+ 	hpa_t root;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3295 =
+ 	unsigned i;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3296 =
+ 	int r;
+3bb65a22a45020 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3297  =
 
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  553  	/*
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  554  	 * Userspace can initi=
-ate reads from the hardware over debugfs.
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  555  	 * Normally internal r=
-egmap structures and buffers are protected with
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  556  	 * a mutex or a spinlo=
-ck, but if the regmap owner decided to disable
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  557  	 * all locking mechani=
-sms, this is no longer the case. For safety:
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  558  	 * don't create the de=
-bugfs entries if locking is disabled.
-078711d7f88d33 Bartosz Golaszewski 2017-12-22  559  	 */
-a5ba91c380b8bc Bartosz Golaszewski 2017-12-21  560  	if (map->debugfs_disab=
-le) {
-a5ba91c380b8bc Bartosz Golaszewski 2017-12-21  561  		dev_dbg(map->dev, "re=
-gmap locking disabled - not creating debugfs entries\n");
-72465736adf2aa Mark Brown          2017-12-12  562  		return;
-a5ba91c380b8bc Bartosz Golaszewski 2017-12-21  563  	}
-72465736adf2aa Mark Brown          2017-12-12  564  =
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3298 =
+ 	root_pgd =3D mmu->get_guest_pgd(vcpu);
+be01e8e2c632c4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-03-20  3299 =
+ 	root_gfn =3D root_pgd >> PAGE_SHIFT;
+17ac10ad2bb7d8 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3300  =
 
-a52eaeb1898bc0 Tero Kristo         2013-10-24  565  	/* If we don't have th=
-e debugfs root yet, postpone init */
-a52eaeb1898bc0 Tero Kristo         2013-10-24  566  	if (!regmap_debugfs_ro=
-ot) {
-a52eaeb1898bc0 Tero Kristo         2013-10-24  567  		struct regmap_debugfs=
-_node *node;
-a52eaeb1898bc0 Tero Kristo         2013-10-24  568  		node =3D kzalloc(size=
-of(*node), GFP_KERNEL);
-a52eaeb1898bc0 Tero Kristo         2013-10-24  569  		if (!node)
-a52eaeb1898bc0 Tero Kristo         2013-10-24  570  			return;
-a52eaeb1898bc0 Tero Kristo         2013-10-24  571  		node->map =3D map;
-a52eaeb1898bc0 Tero Kristo         2013-10-24  572  		mutex_lock(&regmap_de=
-bugfs_early_lock);
-a52eaeb1898bc0 Tero Kristo         2013-10-24  573  		list_add(&node->link,=
- &regmap_debugfs_early_list);
-a52eaeb1898bc0 Tero Kristo         2013-10-24  574  		mutex_unlock(&regmap_=
-debugfs_early_lock);
-a52eaeb1898bc0 Tero Kristo         2013-10-24  575  		return;
-a52eaeb1898bc0 Tero Kristo         2013-10-24  576  	}
-a52eaeb1898bc0 Tero Kristo         2013-10-24  577  =
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3301 =
+ 	if (mmu_check_root(vcpu, root_gfn))
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3302 =
+ 		return 1;
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3303  =
 
-5166b7c006eeb4 Mark Brown          2012-12-11  578  	INIT_LIST_HEAD(&map->d=
-ebugfs_off_cache);
-065b4c587557dc Dimitris Papastamos 2013-02-20  579  	mutex_init(&map->cache=
-_lock);
-5166b7c006eeb4 Mark Brown          2012-12-11  580  =
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3304 =
+ 	/*
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3305 =
+ 	 * On SVM, reading PDPTRs might access guest memory, which might fault
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3306 =
+ 	 * and thus might sleep.  Grab the PDPTRs before acquiring mmu_lock.
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3307 =
+ 	 */
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3308 =
+ 	if (mmu->root_level =3D=3D PT32E_ROOT_LEVEL) {
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3309 =
+ 		for (i =3D 0; i < 4; ++i) {
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3310 =
+ 			pdptrs[i] =3D mmu->get_pdptr(vcpu, i);
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3311 =
+ 			if (!(pdptrs[i] & PT_PRESENT_MASK))
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3312 =
+ 				continue;
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3313  =
 
-2c98e0c1cc6b8e Xiubo Li            2014-09-28  581  	if (map->dev)
-2c98e0c1cc6b8e Xiubo Li            2014-09-28  582  		devname =3D dev_name(=
-map->dev);
-2c98e0c1cc6b8e Xiubo Li            2014-09-28  583  =
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3314 =
+ 			if (mmu_check_root(vcpu, pdptrs[i] >> PAGE_SHIFT))
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3315 =
+ 				return 1;
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3316 =
+ 		}
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3317 =
+ 	}
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3318  =
 
-d3c242e1f22f5d Stephen Warren      2012-04-04  584  	if (name) {
-cffa4b2122f5f3 Xiaolei Wang        2020-12-29  585  		if (!map->debugfs_nam=
-e) {
-d3c242e1f22f5d Stephen Warren      2012-04-04  586  			map->debugfs_name =
-=3D kasprintf(GFP_KERNEL, "%s-%s",
-2c98e0c1cc6b8e Xiubo Li            2014-09-28  587  					      devname, nam=
-e);
-cffa4b2122f5f3 Xiaolei Wang        2020-12-29  588  			if (!map->debugfs_na=
-me)
-cffa4b2122f5f3 Xiaolei Wang        2020-12-29  589  				return;
-cffa4b2122f5f3 Xiaolei Wang        2020-12-29  590  		}
-d3c242e1f22f5d Stephen Warren      2012-04-04  591  		name =3D map->debugfs=
-_name;
-7de11921ba5574 Fabio Estevam       2022-01-06  592  		kfree(map->debugfs_na=
-me);
-d3c242e1f22f5d Stephen Warren      2012-04-04  593  	} else {
-2c98e0c1cc6b8e Xiubo Li            2014-09-28  594  		name =3D devname;
-d3c242e1f22f5d Stephen Warren      2012-04-04  595  	}
-d3c242e1f22f5d Stephen Warren      2012-04-04  596  =
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3319 =
+ 	write_lock(&vcpu->kvm->mmu_lock);
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3320 =
+ 	r =3D make_mmu_pages_available(vcpu);
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3321 =
+ 	if (r < 0)
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3322 =
+ 		goto out_unlock;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3323  =
 
-a430ab205d29e7 Fabio Estevam       2018-03-05 @597  	if (!strcmp(name, "dum=
-my")) {
-2899872b627e99 Daniel Baluta       2019-05-17  598  		kfree(map->debugfs_na=
-me);
-46589e9c753b7c Mark Brown          2018-03-05  599  		map->debugfs_name =3D=
- kasprintf(GFP_KERNEL, "dummy%d",
-46589e9c753b7c Mark Brown          2018-03-05  600  						dummy_index);
-cffa4b2122f5f3 Xiaolei Wang        2020-12-29  601  		if (!map->debugfs_nam=
-e)
-cffa4b2122f5f3 Xiaolei Wang        2020-12-29  602  				return;
-46589e9c753b7c Mark Brown          2018-03-05  603  		name =3D map->debugfs=
-_name;
-7de11921ba5574 Fabio Estevam       2022-01-06  604  		kfree(map->debugfs_na=
-me);
-a430ab205d29e7 Fabio Estevam       2018-03-05  605  		dummy_index++;
-a430ab205d29e7 Fabio Estevam       2018-03-05  606  	}
-a430ab205d29e7 Fabio Estevam       2018-03-05  607  =
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3324 =
+ 	/*
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3325 =
+ 	 * Do we shadow a long mode page table? If so we need to
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3326 =
+ 	 * write-protect the guests page table root.
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3327 =
+ 	 */
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3328 =
+ 	if (mmu->root_level >=3D PT64_ROOT_4LEVEL) {
+8123f265248c85 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-04-27  3329 =
+ 		root =3D mmu_alloc_root(vcpu, root_gfn, 0,
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3330 =
+ 				      mmu->shadow_root_level, false);
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3331 =
+ 		mmu->root_hpa =3D root;
+be01e8e2c632c4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-03-20  3332 =
+ 		goto set_root_pgd;
+17ac10ad2bb7d8 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3333 =
+ 	}
+f87f928882d080 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-02  3334  =
 
-d3c242e1f22f5d Stephen Warren      2012-04-04  608  	map->debugfs =3D debug=
-fs_create_dir(name, regmap_debugfs_root);
-31244e396fa9e4 Mark Brown          2011-07-20  609  =
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3335 =
+ 	if (WARN_ON_ONCE(!mmu->pae_root)) {
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08 @3336 =
+ 		r =3D -EIO;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3337 =
+ 		goto out_unlock;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3338 =
+ 	}
+73ad160693dc3b arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3339  =
 
-f0c2319f9f1967 Dimitris Papastamos 2012-02-22  610  	debugfs_create_file("n=
-ame", 0400, map->debugfs,
-f0c2319f9f1967 Dimitris Papastamos 2012-02-22  611  			    map, &regmap_nam=
-e_fops);
-f0c2319f9f1967 Dimitris Papastamos 2012-02-22  612  =
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3340 =
+ 	/*
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3341 =
+ 	 * We shadow a 32 bit page table. This may be a legacy 2-level
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3342 =
+ 	 * or a PAE 3-level page table. In either case we need to be aware that
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3343 =
+ 	 * the shadow page table may be a PAE or a long mode page table.
+651dd37a9ce6fd arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3344 =
+ 	 */
+17e368d94af77c arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3345 =
+ 	pm_mask =3D PT_PRESENT_MASK | shadow_me_mask;
+748e52b9b73680 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3346 =
+ 	if (mmu->shadow_root_level =3D=3D PT64_ROOT_4LEVEL) {
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3347 =
+ 		pm_mask |=3D PT_ACCESSED_MASK | PT_WRITABLE_MASK | PT_USER_MASK;
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3348  =
 
-065b4c587557dc Dimitris Papastamos 2013-02-20  613  	debugfs_create_file("r=
-ange", 0400, map->debugfs,
-065b4c587557dc Dimitris Papastamos 2013-02-20  614  			    map, &regmap_reg=
-_ranges_fops);
-065b4c587557dc Dimitris Papastamos 2013-02-20  615  =
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3349 =
+ 		if (WARN_ON_ONCE(!mmu->lm_root)) {
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3350 =
+ 			r =3D -EIO;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3351 =
+ 			goto out_unlock;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3352 =
+ 		}
+73ad160693dc3b arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3353  =
 
-676970da5cf6fe Pawel Moll          2014-01-30  616  	if (map->max_register =
-|| regmap_readable(map, 0)) {
-ffff7a12ace24c Markus Pargmann     2014-09-08  617  		umode_t registers_mod=
-e;
-ffff7a12ace24c Markus Pargmann     2014-09-08  618  =
+748e52b9b73680 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3354 =
+ 		mmu->lm_root[0] =3D __pa(mmu->pae_root) | pm_mask;
+04d45551a1eefb arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3355 =
+ 	}
+04d45551a1eefb arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3356  =
+
+17ac10ad2bb7d8 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3357 =
+ 	for (i =3D 0; i < 4; ++i) {
+c834e5e44fc15a arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-09  3358 =
+ 		WARN_ON_ONCE(IS_VALID_PAE_ROOT(mmu->pae_root[i]));
+6e6ec58485746e arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3359  =
+
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3360 =
+ 		if (mmu->root_level =3D=3D PT32E_ROOT_LEVEL) {
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3361 =
+ 			if (!(pdptrs[i] & PT_PRESENT_MASK)) {
+c834e5e44fc15a arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-09  3362 =
+ 				mmu->pae_root[i] =3D INVALID_PAE_ROOT;
+417726a3fbecb2 drivers/kvm/mmu.c      Avi Kivity          2007-04-12  3363 =
+ 				continue;
+417726a3fbecb2 drivers/kvm/mmu.c      Avi Kivity          2007-04-12  3364 =
+ 			}
+6e0918aec49a5f arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3365 =
+ 			root_gfn =3D pdptrs[i] >> PAGE_SHIFT;
+5a7388c2d2faa2 arch/x86/kvm/mmu.c     Eric Northup        2010-04-26  3366 =
+ 		}
+8facbbff071ff2 arch/x86/kvm/mmu.c     Avi Kivity          2010-05-04  3367  =
+
+8123f265248c85 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-04-27  3368 =
+ 		root =3D mmu_alloc_root(vcpu, root_gfn, i << 30,
+8123f265248c85 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-04-27  3369 =
+ 				      PT32_ROOT_LEVEL, false);
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3370 =
+ 		mmu->pae_root[i] =3D root | pm_mask;
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3371 =
+ 	}
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3372  =
+
+ba0a194ffbfb41 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3373 =
+ 	if (mmu->shadow_root_level =3D=3D PT64_ROOT_4LEVEL)
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3374 =
+ 		mmu->root_hpa =3D __pa(mmu->lm_root);
+ba0a194ffbfb41 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3375 =
+ 	else
+ba0a194ffbfb41 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3376 =
+ 		mmu->root_hpa =3D __pa(mmu->pae_root);
+81407ca553c0c8 arch/x86/kvm/mmu.c     Joerg Roedel        2010-09-10  3377  =
+
+be01e8e2c632c4 arch/x86/kvm/mmu/mmu.c Sean Christopherson 2020-03-20  3378 =
+ set_root_pgd:
+b37233c911cbec arch/x86/kvm/mmu/mmu.c Sean Christopherson 2021-03-04  3379 =
+ 	mmu->root_pgd =3D root_pgd;
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3380 =
+ out_unlock:
+4a38162ee9f10f arch/x86/kvm/mmu/mmu.c Paolo Bonzini       2021-04-08  3381 =
+ 	write_unlock(&vcpu->kvm->mmu_lock);
+ad7dc69aeb2313 arch/x86/kvm/mmu.c     Vitaly Kuznetsov    2019-02-22  3382  =
+
+8986ecc0ef58c9 arch/x86/kvm/mmu.c     Marcelo Tosatti     2009-05-12  3383 =
+ 	return 0;
+17ac10ad2bb7d8 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3384 =
+ }
+17ac10ad2bb7d8 drivers/kvm/mmu.c      Avi Kivity          2007-01-05  3385  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8988010779920863789==--
+--===============4429675951276478901==--
 
