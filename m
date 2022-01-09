@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6253756429155111292=="
+Content-Type: multipart/mixed; boundary="===============4803005575043393073=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/md/bcache/sysfs.c:1102:4: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Sat, 01 Jan 2022 16:22:41 +0800
-Message-ID: <202201011649.USOVbPWp-lkp@intel.com>
+Subject: arch/x86/kvm/lapic.c:957:9: warning: Array access results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Mon, 10 Jan 2022 04:11:46 +0800
+Message-ID: <202201100458.JjselEzw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6253756429155111292==
+--===============4803005575043393073==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,33 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Sean Christopherson <seanjc@google.com>
+CC: Paolo Bonzini <pbonzini@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   8008293888188c3923f5bd8a69370dae25ed14e5
-commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
-e Clang support
-date:   3 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-c001-20211115 (https://download.01.org/0day-ci/arch=
-ive/20220101/202201011649.USOVbPWp-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project fbe72e=
-41b99dc7994daac300d208a955be3e4a0a)
+head:   4634129ad9fdc89d10b597fc6f8f4336fb61e105
+commit: c2f79a65b4b66681894ef7d7e3912ba55acc20d5 KVM: x86: WARN if the APIC=
+ map is dirty without an in-kernel local APIC
+date:   5 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-c007-20220108 (https://download.01.org/0day-ci/ar=
+chive/20220110/202201100458.JjselEzw-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f3a344=
+d2125fa37e59bae1b0874442c650a19607)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
+t/commit/?id=3Dc2f79a65b4b66681894ef7d7e3912ba55acc20d5
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
+        git checkout c2f79a65b4b66681894ef7d7e3912ba55acc20d5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,463 +50,400 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:740:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(btree_cache_size,          bch_cache_size(c));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:740:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           sysfs_hprint(btree_cache_size,          bch_cache_size(c));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:751:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(average_key_size,  bch_average_key_size(c));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:751:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           sysfs_hprint(average_key_size,  bch_average_key_size(c));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:778:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(congested,
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:778:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           sysfs_hprint(congested,
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1037:2: warning: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(bucket_size,       bucket_bytes(ca));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1037:2: note: Call to function 'strcat' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcat'. CWE-119
-           sysfs_hprint(bucket_size,       bucket_bytes(ca));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1038:2: warning: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(block_size,        block_bytes(ca));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1038:2: note: Call to function 'strcat' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcat'. CWE-119
-           sysfs_hprint(block_size,        block_bytes(ca));
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1041:2: warning: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(written, atomic_long_read(&ca->sectors_written) << =
-9);
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1041:2: note: Call to function 'strcat' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcat'. CWE-119
-           sysfs_hprint(written, atomic_long_read(&ca->sectors_written) << =
-9);
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1042:2: warning: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(btree_written,
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1042:2: note: Call to function 'strcat' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcat'. CWE-119
-           sysfs_hprint(btree_written,
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1044:2: warning: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(metadata_written,
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:1044:2: note: Call to function 'strcat' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcat'. CWE-119
-           sysfs_hprint(metadata_written,
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
->> drivers/md/bcache/sysfs.c:1102:4: warning: Division by zero [clang-analy=
-zer-core.DivideZero]
-                           do_div(sum, n);
+                   page =3D alloc_pages_node(nid, gfp_mask, 0);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/sparse-vmemmap.c:339:7: note: Assuming 'page' is null
+                   if (!page)
+                       ^~~~~
+   mm/sparse-vmemmap.c:339:3: note: Taking true branch
+                   if (!page)
+                   ^
+   mm/sparse-vmemmap.c:340:4: note: Control jumps to line 346
+                           goto out;
                            ^
-   arch/x86/include/asm/div64.h:33:21: note: expanded from macro 'do_div'
-                           __upper =3D __high % (__base);            \
-                                     ~~~~~~~^~~~~~~~~~
-   drivers/md/bcache/sysfs.c:1035:21: note: Left side of '&&' is false
-           struct cache *ca =3D container_of(kobj, struct cache, kobj);
-                              ^
+   mm/sparse-vmemmap.c:346:2: note: Left side of '&&' is false
+           list_for_each_entry_safe(page, next, list, lru)
+           ^
+   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
+try_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
    include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
            BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
                                                                       ^
-   drivers/md/bcache/sysfs.c:1035:21: note: '?' condition is true
-           struct cache *ca =3D container_of(kobj, struct cache, kobj);
-                              ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   mm/sparse-vmemmap.c:346:2: note: Taking false branch
+           list_for_each_entry_safe(page, next, list, lru)
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
+try_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
 =3D0 to see all)
-   include/linux/compiler_types.h:297:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/md/bcache/sysfs.c:1035:21: note: Left side of '&&' is false
-           struct cache *ca =3D container_of(kobj, struct cache, kobj);
-                              ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/md/bcache/sysfs.c:1035:21: note: Taking false branch
-           struct cache *ca =3D container_of(kobj, struct cache, kobj);
-                              ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:305:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:297:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/md/bcache/sysfs.c:1035:21: note: Loop condition is false.  Exiti=
-ng loop
-           struct cache *ca =3D container_of(kobj, struct cache, kobj);
-                              ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   mm/sparse-vmemmap.c:346:2: note: Loop condition is false.  Exiting loop
+           list_for_each_entry_safe(page, next, list, lru)
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
+   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
+try_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:305:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:295:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   drivers/md/bcache/sysfs.c:1037:2: note: '?' condition is false
-           sysfs_hprint(bucket_size,       bucket_bytes(ca));
+   mm/sparse-vmemmap.c:346:2: note: Assigned value is garbage or undefined
+           list_for_each_entry_safe(page, next, list, lru)
            ^
-   drivers/md/bcache/sysfs.h:65:2: note: expanded from macro 'sysfs_hprint'
-           if (attr =3D=3D &sysfs_ ## file) {                              =
-    \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/md/bcache/sysfs.c:1037:2: note: Assuming the condition is false
-           sysfs_hprint(bucket_size,       bucket_bytes(ca));
-           ^
-   drivers/md/bcache/sysfs.h:65:2: note: expanded from macro 'sysfs_hprint'
-           if (attr =3D=3D &sysfs_ ## file) {                              =
-    \
+   include/linux/list.h:716:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:494:2: note: expanded from macro 'container_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^              ~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   arch/x86/kvm/i8259.c:255:4: warning: Value stored to 'irq' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                           irq =3D irq2 + 8;
+                           ^     ~~~~~~~~
+   arch/x86/kvm/i8259.c:255:4: note: Value stored to 'irq' is never read
+                           irq =3D irq2 + 8;
+                           ^     ~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> arch/x86/kvm/lapic.c:957:9: warning: Array access results in a null poin=
+ter dereference [clang-analyzer-core.NullDereference]
+                           if (!(*dst)[i])
+                                ^
+   arch/x86/kvm/lapic.c:1171:2: note: 'dest_vcpu' initialized to a null poi=
+nter value
+           struct kvm_lapic **dest_vcpu =3D NULL;
            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:44: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
+   arch/x86/kvm/lapic.c:1180:8: note: Left side of '||' is false
+           map =3D rcu_dereference(kvm->arch.apic_map);
+                 ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/x86/kvm/lapic.c:1180:8: note: Left side of '||' is false
+           map =3D rcu_dereference(kvm->arch.apic_map);
+                 ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/x86/kvm/lapic.c:1180:8: note: Left side of '||' is false
+           map =3D rcu_dereference(kvm->arch.apic_map);
+                 ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/x86/kvm/lapic.c:1180:8: note: Left side of '||' is true
+           map =3D rcu_dereference(kvm->arch.apic_map);
+                 ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                                               ^
+   arch/x86/kvm/lapic.c:1180:8: note: Taking false branch
+           map =3D rcu_dereference(kvm->arch.apic_map);
+                 ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
 
-vim +1102 drivers/md/bcache/sysfs.c
+vim +957 arch/x86/kvm/lapic.c
 
-58f913dce2814a Peter Foley     2017-10-13  1032  =
+1e08ec4a130e27 Gleb Natapov  2012-09-13  910  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1033  SHOW(__bch_cache)
-cafe563591446c Kent Overstreet 2013-03-23  1034  {
-cafe563591446c Kent Overstreet 2013-03-23  1035  	struct cache *ca =3D cont=
-ainer_of(kobj, struct cache, kobj);
-cafe563591446c Kent Overstreet 2013-03-23  1036  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  911  /* Return true=
+ if the interrupt can be handled by using *bitmap as index mask
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  912   * for valid d=
+estinations in *dst array.
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  913   * Return fals=
+e if kvm_apic_map_get_dest_lapic did nothing useful.
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  914   * Note: we ma=
+y have zero kvm_lapic destinations when we return true, which
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  915   * means that =
+the interrupt should be dropped.  In this case, *bitmap would be
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  916   * zero and *d=
+st undefined.
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  917   */
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  918  static inline =
+bool kvm_apic_map_get_dest_lapic(struct kvm *kvm,
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  919  		struct kvm_l=
+apic **src, struct kvm_lapic_irq *irq,
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  920  		struct kvm_a=
+pic_map *map, struct kvm_lapic ***dst,
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  921  		unsigned lon=
+g *bitmap)
+1e08ec4a130e27 Gleb Natapov  2012-09-13  922  {
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  923  	int i, lowest;
+9ea369b032d87b Radim Kr=C4=8Dm=C3=A1=C5=99  2015-02-12  924  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1037  	sysfs_hprint(bucket_size,=
-	bucket_bytes(ca));
-cafe563591446c Kent Overstreet 2013-03-23  1038  	sysfs_hprint(block_size,	=
-block_bytes(ca));
-cafe563591446c Kent Overstreet 2013-03-23  1039  	sysfs_print(nbuckets,		ca=
-->sb.nbuckets);
-cafe563591446c Kent Overstreet 2013-03-23  1040  	sysfs_print(discard,		ca-=
->discard);
-cafe563591446c Kent Overstreet 2013-03-23  1041  	sysfs_hprint(written, ato=
-mic_long_read(&ca->sectors_written) << 9);
-cafe563591446c Kent Overstreet 2013-03-23  1042  	sysfs_hprint(btree_writte=
-n,
-cafe563591446c Kent Overstreet 2013-03-23  1043  		     atomic_long_read(&c=
-a->btree_sectors_written) << 9);
-cafe563591446c Kent Overstreet 2013-03-23 @1044  	sysfs_hprint(metadata_wri=
-tten,
-cafe563591446c Kent Overstreet 2013-03-23  1045  		     (atomic_long_read(&=
-ca->meta_sectors_written) +
-cafe563591446c Kent Overstreet 2013-03-23  1046  		      atomic_long_read(&=
-ca->btree_sectors_written)) << 9);
-cafe563591446c Kent Overstreet 2013-03-23  1047  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  925  	if (irq->shor=
+thand =3D=3D APIC_DEST_SELF && src) {
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  926  		*dst =3D src;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  927  		*bitmap =3D =
+1;
+1e08ec4a130e27 Gleb Natapov  2012-09-13  928  		return true;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  929  	} else if (ir=
+q->shorthand)
+1e08ec4a130e27 Gleb Natapov  2012-09-13  930  		return false;
+1e08ec4a130e27 Gleb Natapov  2012-09-13  931  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1048  	sysfs_print(io_errors,
-cafe563591446c Kent Overstreet 2013-03-23  1049  		    atomic_read(&ca->io_=
-errors) >> IO_ERROR_SHIFT);
-cafe563591446c Kent Overstreet 2013-03-23  1050  =
+c519265f2aa348 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  932  	if (!map || k=
+vm_apic_is_broadcast_dest(kvm, src, irq, map))
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  933  		return false;
+698f9755d9c061 Radim Kr=C4=8Dm=C3=A1=C5=99  2014-11-27  934  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1051  	if (attr =3D=3D &sysfs_ca=
-che_replacement_policy)
-169ef1cf6171d3 Kent Overstreet 2013-03-28  1052  		return bch_snprint_strin=
-g_list(buf, PAGE_SIZE,
-cafe563591446c Kent Overstreet 2013-03-23  1053  					       cache_replacem=
-ent_policies,
-cafe563591446c Kent Overstreet 2013-03-23  1054  					       CACHE_REPLACEM=
-ENT(&ca->sb));
-cafe563591446c Kent Overstreet 2013-03-23  1055  =
+3697f302ab3700 Radim Kr=C4=8Dm=C3=A1=C5=99  2015-01-29  935  	if (irq->dest=
+_mode =3D=3D APIC_DEST_PHYSICAL) {
+0ca52e7b81a372 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  936  		if (irq->des=
+t_id > map->max_apic_id) {
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  937  			*bitmap =3D=
+ 0;
+1e08ec4a130e27 Gleb Natapov  2012-09-13  938  		} else {
+1d487e9bf8ba66 Paolo Bonzini 2019-04-11  939  			u32 dest_id =3D array_inde=
+x_nospec(irq->dest_id, map->max_apic_id + 1);
+1d487e9bf8ba66 Paolo Bonzini 2019-04-11  940  			*dst =3D &map->phys_map[de=
+st_id];
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  941  			*bitmap =3D=
+ 1;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  942  		}
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  943  		return true;
+3548a259f6990d Radim Kr=C4=8Dm=C3=A1=C5=99  2015-02-12  944  	}
+3548a259f6990d Radim Kr=C4=8Dm=C3=A1=C5=99  2015-02-12  945  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1056  	if (attr =3D=3D &sysfs_pr=
-iority_stats) {
-15754020524a56 Kent Overstreet 2014-02-25  1057  		struct bucket *b;
-15754020524a56 Kent Overstreet 2014-02-25  1058  		size_t n =3D ca->sb.nbuc=
-kets, i;
-15754020524a56 Kent Overstreet 2014-02-25  1059  		size_t unused =3D 0, ava=
-ilable =3D 0, dirty =3D 0, meta =3D 0;
-cafe563591446c Kent Overstreet 2013-03-23  1060  		uint64_t sum =3D 0;
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1061  		/* Compute 31 quantiles =
-*/
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1062  		uint16_t q[31], *p, *cac=
-hed;
-cafe563591446c Kent Overstreet 2013-03-23  1063  		ssize_t ret;
-cafe563591446c Kent Overstreet 2013-03-23  1064  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  946  	*bitmap =3D 0;
+e45115b62f9abb Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  947  	if (!kvm_apic=
+_map_get_logical_dest(map, irq->dest_id, dst,
+e45115b62f9abb Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  948  				(u16 *)bit=
+map))
+e45115b62f9abb Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  949  		return false;
+1e08ec4a130e27 Gleb Natapov  2012-09-13  950  =
 
-42bc47b35320e0 Kees Cook       2018-06-12  1065  		cached =3D p =3D vmalloc=
-(array_size(sizeof(uint16_t),
-42bc47b35320e0 Kees Cook       2018-06-12  1066  						ca->sb.nbuckets));
-cafe563591446c Kent Overstreet 2013-03-23  1067  		if (!p)
-cafe563591446c Kent Overstreet 2013-03-23  1068  			return -ENOMEM;
-cafe563591446c Kent Overstreet 2013-03-23  1069  =
+520040146a0af3 Feng Wu       2016-01-25  951  	if (!kvm_lowest_prio_deliver=
+y(irq))
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  952  		return true;
+520040146a0af3 Feng Wu       2016-01-25  953  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1070  		mutex_lock(&ca->set->buc=
-ket_lock);
-15754020524a56 Kent Overstreet 2014-02-25  1071  		for_each_bucket(b, ca) {
-15754020524a56 Kent Overstreet 2014-02-25  1072  			if (!GC_SECTORS_USED(b))
-15754020524a56 Kent Overstreet 2014-02-25  1073  				unused++;
-15754020524a56 Kent Overstreet 2014-02-25  1074  			if (GC_MARK(b) =3D=3D G=
-C_MARK_RECLAIMABLE)
-15754020524a56 Kent Overstreet 2014-02-25  1075  				available++;
-15754020524a56 Kent Overstreet 2014-02-25  1076  			if (GC_MARK(b) =3D=3D G=
-C_MARK_DIRTY)
-15754020524a56 Kent Overstreet 2014-02-25  1077  				dirty++;
-15754020524a56 Kent Overstreet 2014-02-25  1078  			if (GC_MARK(b) =3D=3D G=
-C_MARK_METADATA)
-15754020524a56 Kent Overstreet 2014-02-25  1079  				meta++;
-15754020524a56 Kent Overstreet 2014-02-25  1080  		}
-15754020524a56 Kent Overstreet 2014-02-25  1081  =
+520040146a0af3 Feng Wu       2016-01-25  954  	if (!kvm_vector_hashing_enab=
+led()) {
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  955  		lowest =3D -=
+1;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  956  		for_each_set=
+_bit(i, bitmap, 16) {
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12 @957  			if (!(*dst)=
+[i])
+1e08ec4a130e27 Gleb Natapov  2012-09-13  958  				continue;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  959  			if (lowest =
+< 0)
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  960  				lowest =3D=
+ i;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  961  			else if (kv=
+m_apic_compare_prio((*dst)[i]->vcpu,
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  962  						(*dst)[l=
+owest]->vcpu) < 0)
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  963  				lowest =3D=
+ i;
+1e08ec4a130e27 Gleb Natapov  2012-09-13  964  		}
+520040146a0af3 Feng Wu       2016-01-25  965  	} else {
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  966  		if (!*bitmap)
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  967  			return true;
+520040146a0af3 Feng Wu       2016-01-25  968  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1082  		for (i =3D ca->sb.first_=
-bucket; i < n; i++)
-cafe563591446c Kent Overstreet 2013-03-23  1083  			p[i] =3D ca->buckets[i]=
-.prio;
-cafe563591446c Kent Overstreet 2013-03-23  1084  		mutex_unlock(&ca->set->b=
-ucket_lock);
-cafe563591446c Kent Overstreet 2013-03-23  1085  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  969  		lowest =3D k=
+vm_vector_to_index(irq->vector, hweight16(*bitmap),
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  970  				bitmap, 16=
+);
+520040146a0af3 Feng Wu       2016-01-25  971  =
 
-58f913dce2814a Peter Foley     2017-10-13  1086  		sort(p, n, sizeof(uint16=
-_t), __bch_cache_cmp, NULL);
-cafe563591446c Kent Overstreet 2013-03-23  1087  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  972  		if (!(*dst)[=
+lowest]) {
+4efd805fca5590 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-02-12  973  			kvm_apic_di=
+sabled_lapic_found(kvm);
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  974  			*bitmap =3D=
+ 0;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  975  			return true;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  976  		}
+520040146a0af3 Feng Wu       2016-01-25  977  	}
+520040146a0af3 Feng Wu       2016-01-25  978  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1088  		while (n &&
-cafe563591446c Kent Overstreet 2013-03-23  1089  		       !cached[n - 1])
-cafe563591446c Kent Overstreet 2013-03-23  1090  			--n;
-cafe563591446c Kent Overstreet 2013-03-23  1091  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  979  	*bitmap =3D (=
+lowest >=3D 0) ? 1 << lowest : 0;
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  980  =
 
-cafe563591446c Kent Overstreet 2013-03-23  1092  		while (cached < p + n &&
-6751c1e3cff3aa Joe Perches     2021-02-10  1093  		       *cached =3D=3D BT=
-REE_PRIO) {
-6751c1e3cff3aa Joe Perches     2021-02-10  1094  			cached++;
-6751c1e3cff3aa Joe Perches     2021-02-10  1095  			n--;
-6751c1e3cff3aa Joe Perches     2021-02-10  1096  		}
-cafe563591446c Kent Overstreet 2013-03-23  1097  =
-
-cafe563591446c Kent Overstreet 2013-03-23  1098  		for (i =3D 0; i < n; i++)
-cafe563591446c Kent Overstreet 2013-03-23  1099  			sum +=3D INITIAL_PRIO -=
- cached[i];
-cafe563591446c Kent Overstreet 2013-03-23  1100  =
-
-cafe563591446c Kent Overstreet 2013-03-23  1101  		if (n)
-cafe563591446c Kent Overstreet 2013-03-23 @1102  			do_div(sum, n);
-cafe563591446c Kent Overstreet 2013-03-23  1103  =
-
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1104  		for (i =3D 0; i < ARRAY_=
-SIZE(q); i++)
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1105  			q[i] =3D INITIAL_PRIO -=
- cached[n * (i + 1) /
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1106  				(ARRAY_SIZE(q) + 1)];
-cafe563591446c Kent Overstreet 2013-03-23  1107  =
-
-cafe563591446c Kent Overstreet 2013-03-23  1108  		vfree(p);
-cafe563591446c Kent Overstreet 2013-03-23  1109  =
-
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1110  		ret =3D scnprintf(buf, P=
-AGE_SIZE,
-cafe563591446c Kent Overstreet 2013-03-23  1111  				"Unused:		%zu%%\n"
-15754020524a56 Kent Overstreet 2014-02-25  1112  				"Clean:		%zu%%\n"
-15754020524a56 Kent Overstreet 2014-02-25  1113  				"Dirty:		%zu%%\n"
-cafe563591446c Kent Overstreet 2013-03-23  1114  				"Metadata:	%zu%%\n"
-cafe563591446c Kent Overstreet 2013-03-23  1115  				"Average:	%llu\n"
-cafe563591446c Kent Overstreet 2013-03-23  1116  				"Sectors per Q:	%zu\n"
-cafe563591446c Kent Overstreet 2013-03-23  1117  				"Quantiles:	[",
-cafe563591446c Kent Overstreet 2013-03-23  1118  				unused * 100 / (size_t=
-) ca->sb.nbuckets,
-15754020524a56 Kent Overstreet 2014-02-25  1119  				available * 100 / (siz=
-e_t) ca->sb.nbuckets,
-15754020524a56 Kent Overstreet 2014-02-25  1120  				dirty * 100 / (size_t)=
- ca->sb.nbuckets,
-15754020524a56 Kent Overstreet 2014-02-25  1121  				meta * 100 / (size_t) =
-ca->sb.nbuckets, sum,
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1122  				n * ca->sb.bucket_size=
- / (ARRAY_SIZE(q) + 1));
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1123  =
-
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1124  		for (i =3D 0; i < ARRAY_=
-SIZE(q); i++)
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1125  			ret +=3D scnprintf(buf =
-+ ret, PAGE_SIZE - ret,
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1126  					 "%u ", q[i]);
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1127  		ret--;
-cafe563591446c Kent Overstreet 2013-03-23  1128  =
-
-bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1129  		ret +=3D scnprintf(buf +=
- ret, PAGE_SIZE - ret, "]\n");
-cafe563591446c Kent Overstreet 2013-03-23  1130  =
-
-cafe563591446c Kent Overstreet 2013-03-23  1131  		return ret;
-cafe563591446c Kent Overstreet 2013-03-23  1132  	}
-cafe563591446c Kent Overstreet 2013-03-23  1133  =
-
-cafe563591446c Kent Overstreet 2013-03-23  1134  	return 0;
-cafe563591446c Kent Overstreet 2013-03-23  1135  }
-cafe563591446c Kent Overstreet 2013-03-23  1136  SHOW_LOCKED(bch_cache)
-cafe563591446c Kent Overstreet 2013-03-23  1137  =
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  981  	return true;
+1e08ec4a130e27 Gleb Natapov  2012-09-13  982  }
+64aa47bfc45323 Radim Kr=C4=8Dm=C3=A1=C5=99  2016-07-12  983  =
 
 
-:::::: The code@line 1102 was first introduced by commit
-:::::: cafe563591446cf80bfbc2fe3bc72a2e36cf1060 bcache: A block layer cache
+:::::: The code@line 957 was first introduced by commit
+:::::: 64aa47bfc45323040d5db8f30cbd6851f2606c7d KVM: x86: add kvm_apic_map_=
+get_dest_lapic
 
-:::::: TO: Kent Overstreet <koverstreet@google.com>
-:::::: CC: Kent Overstreet <koverstreet@google.com>
+:::::: TO: Radim Kr=C4=8Dm=C3=A1=C5=99 <rkrcmar@redhat.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6253756429155111292==--
+--===============4803005575043393073==--
 
