@@ -1,56 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============7518649884644443459=="
+Content-Type: multipart/mixed; boundary="===============2310862353575446187=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 4/5] erofs: use meta buffers for xattr operations
-Date: Tue, 11 Jan 2022 08:26:38 +0800
-Message-ID: <202201110814.WDpkZzWX-lkp@intel.com>
+Subject: [goldwynr:iomap 11/33] fs/btrfs/inode.c:1519:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Tue, 11 Jan 2022 07:35:34 +0800
+Message-ID: <202201110733.tCpbUHCk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7518649884644443459==
+--===============2310862353575446187==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220102040017.51352-5-hsiangkao@linux.alibaba.com>
-References: <20220102040017.51352-5-hsiangkao@linux.alibaba.com>
-TO: Gao Xiang <hsiangkao@linux.alibaba.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Goldwyn Rodrigues <rgoldwyn@suse.com>
 
-Hi Gao,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on xiang-erofs/dev-test]
-[cannot apply to v5.16 next-20220110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Gao-Xiang/erofs-get-rid-of=
--erofs_get_meta_page/20220102-120057
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev=
--test
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: i386-randconfig-c001-20220105 (https://download.01.org/0day-ci/arch=
-ive/20220111/202201110814.WDpkZzWX-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d5b6e3=
-0ed3acad794dd0aec400e617daffc6cc3d)
+tree:   https://github.com/goldwynr/linux iomap
+head:   fd871fa60e5495543660657e665f1a6c13d0af97
+commit: 4af4ae51ffeb69c9bc3e55b05ed9f51c4fe07e44 [11/33] btrfs: Add btrfs_m=
+ap_blocks to for iomap_writeback_ops
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: x86_64-randconfig-c007-20220102 (https://download.01.org/0day-ci/ar=
+chive/20220111/202201110733.tCpbUHCk-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b50fea=
+47b6c454581fce89af359f3afe5154986c)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/d7c5cceeea80de5a2a1b177d4=
-952b9802a97edc0
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Gao-Xiang/erofs-get-rid-of-erofs_g=
-et_meta_page/20220102-120057
-        git checkout d7c5cceeea80de5a2a1b177d4952b9802a97edc0
+        # https://github.com/goldwynr/linux/commit/4af4ae51ffeb69c9bc3e55b0=
+5ed9f51c4fe07e44
+        git remote add goldwynr https://github.com/goldwynr/linux
+        git fetch --no-tags goldwynr iomap
+        git checkout 4af4ae51ffeb69c9bc3e55b05ed9f51c4fe07e44
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -58,470 +46,279 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   fs/btrfs/inode.c:2003:2: note: Taking false branch
+           if (locked_page)
            ^
-   mm/page_alloc.c:8373:2: note: Loop condition is true.  Entering loop body
-           for_each_zone(zone) {
+   fs/btrfs/inode.c:2007:6: note: Calling 'should_nocow'
+           if (should_nocow(inode, start, end)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:1978:6: note: Assuming the condition is false
+           if (inode->flags & (BTRFS_INODE_NODATACOW | BTRFS_INODE_PREALLOC=
+)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:1978:2: note: Taking false branch
+           if (inode->flags & (BTRFS_INODE_NODATACOW | BTRFS_INODE_PREALLOC=
+)) {
            ^
-   include/linux/mmzone.h:1122:2: note: expanded from macro 'for_each_zone'
-           for (zone =3D (first_online_pgdat())->node_zones; \
-           ^
-   mm/page_alloc.c:8376:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&zone->lock, flags);
-                   ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   mm/page_alloc.c:8376:3: note: Loop condition is false.  Exiting loop
-                   spin_lock_irqsave(&zone->lock, flags);
-                   ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   mm/page_alloc.c:8378:3: note: The value 0 is assigned to '__base'
-                   do_div(tmp, lowmem_pages);
-                   ^
-   arch/x86/include/asm/div64.h:25:2: note: expanded from macro 'do_div'
-           __base =3D (base);                                        \
-           ^~~~~~~~~~~~~~~
-   mm/page_alloc.c:8378:3: note: Left side of '&&' is false
-                   do_div(tmp, lowmem_pages);
-                   ^
-   arch/x86/include/asm/div64.h:26:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) && is_power_of_2(__base)) { \
-                                            ^
-   mm/page_alloc.c:8378:3: note: Assuming '__high' is not equal to 0
-                   do_div(tmp, lowmem_pages);
-                   ^
-   arch/x86/include/asm/div64.h:32:7: note: expanded from macro 'do_div'
-                   if (__high) {                                   \
-                       ^~~~~~
-   mm/page_alloc.c:8378:3: note: Taking true branch
-                   do_div(tmp, lowmem_pages);
-                   ^
-   arch/x86/include/asm/div64.h:32:3: note: expanded from macro 'do_div'
-                   if (__high) {                                   \
-                   ^
-   mm/page_alloc.c:8378:3: note: Division by zero
-                   do_div(tmp, lowmem_pages);
-                   ^
-   arch/x86/include/asm/div64.h:33:21: note: expanded from macro 'do_div'
-                           __upper =3D __high % (__base);            \
-                                     ~~~~~~~^~~~~~~~~~
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> fs/erofs/xattr.c:204:10: warning: Dereference of null pointer [clang-ana=
-lyzer-core.NullDereference]
-           entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
-                   ^
-   fs/erofs/xattr.c:628:6: note: Assuming 'rcu' is false
-           if (rcu)
-               ^~~
-   fs/erofs/xattr.c:628:2: note: Taking false branch
-           if (rcu)
-           ^
-   fs/erofs/xattr.c:631:2: note: Control jumps to 'case 16384:'  at line 635
-           switch (type) {
-           ^
-   fs/erofs/xattr.c:637:3: note:  Execution continues on line 642
-                   break;
-                   ^
-   fs/erofs/xattr.c:642:7: note: Calling 'erofs_getxattr'
-           rc =3D erofs_getxattr(inode, prefix, "", NULL, 0);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:399:7: note: 'name' is non-null
-           if (!name)
-                ^~~~
-   fs/erofs/xattr.c:399:2: note: Taking false branch
-           if (!name)
-           ^
-   fs/erofs/xattr.c:403:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   fs/erofs/xattr.c:403:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/erofs/xattr.c:408:14: note: Field 'len' is <=3D EROFS_NAME_LEN
-           if (it.name.len > EROFS_NAME_LEN)
-                       ^
-   fs/erofs/xattr.c:408:2: note: Taking false branch
-           if (it.name.len > EROFS_NAME_LEN)
-           ^
-   fs/erofs/xattr.c:418:8: note: Calling 'inline_getxattr'
-           ret =3D inline_getxattr(inode, &it);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:343:8: note: Calling 'inline_xattr_iter_begin'
-           ret =3D inline_xattr_iter_begin(&it->it, inode);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:165:6: note: Assuming 'xattr_header_sz' is < field 'xat=
-tr_isize'
-           if (xattr_header_sz >=3D vi->xattr_isize) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:165:2: note: Taking false branch
-           if (xattr_header_sz >=3D vi->xattr_isize) {
-           ^
-   fs/erofs/xattr.c:177:2: note: Taking false branch
-           if (IS_ERR(it->kaddr))
-           ^
-   fs/erofs/xattr.c:343:8: note: Returning from 'inline_xattr_iter_begin'
-           ret =3D inline_xattr_iter_begin(&it->it, inode);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:344:6: note: 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~
-   fs/erofs/xattr.c:344:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   fs/erofs/xattr.c:348:2: note: Loop condition is true.  Entering loop body
-           while (remaining) {
-           ^
-   fs/erofs/xattr.c:349:9: note: Calling 'xattr_foreach'
-                   ret =3D xattr_foreach(&it->it, &find_xattr_handlers, &re=
-maining);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   fs/erofs/xattr.c:195:8: note: Calling 'xattr_iter_fixup'
-           err =3D xattr_iter_fixup(it);
-                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:145:6: note: Assuming the condition is false
-           if (it->ofs < EROFS_BLKSIZ)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:145:2: note: Taking false branch
-           if (it->ofs < EROFS_BLKSIZ)
-           ^
-   fs/erofs/xattr.c:149:2: note: Value assigned to 'it.it.kaddr'
-           it->kaddr =3D erofs_read_metabuf(&it->buf, it->sb, it->blkaddr,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:151:6: note: Assuming the condition is true
-           if (IS_ERR(it->kaddr))
-               ^~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:151:2: note: Taking true branch
-           if (IS_ERR(it->kaddr))
-           ^
-   fs/erofs/xattr.c:152:3: note: Returning value, which participates in a c=
+   fs/btrfs/inode.c:1985:2: note: Returning zero, which participates in a c=
 ondition later
-                   return PTR_ERR(it->kaddr);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:195:8: note: Returning from 'xattr_iter_fixup'
-           err =3D xattr_iter_fixup(it);
-                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:196:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   fs/erofs/xattr.c:196:2: note: Taking false branch
-           if (err)
+           return false;
+           ^~~~~~~~~~~~
+   fs/btrfs/inode.c:2007:6: note: Returning from 'should_nocow'
+           if (should_nocow(inode, start, end)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:2007:2: note: Taking false branch
+           if (should_nocow(inode, start, end)) {
            ^
-   fs/erofs/xattr.c:204:10: note: Dereference of null pointer
-           entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   fs/btrfs/inode.c:2019:14: note: Calling 'inode_can_compress'
+           } else if (!inode_can_compress(inode) ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:492:6: note: Assuming the condition is false
+           if (inode->flags & BTRFS_INODE_NODATACOW ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:492:6: note: Left side of '||' is false
+   fs/btrfs/inode.c:493:6: note: Assuming the condition is false
+               inode->flags & BTRFS_INODE_NODATASUM)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:492:2: note: Taking false branch
+           if (inode->flags & BTRFS_INODE_NODATACOW ||
+           ^
+   fs/btrfs/inode.c:495:2: note: Returning the value 1, which participates =
+in a condition later
+           return true;
+           ^~~~~~~~~~~
+   fs/btrfs/inode.c:2019:14: note: Returning from 'inode_can_compress'
+           } else if (!inode_can_compress(inode) ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:2019:13: note: Left side of '||' is false
+           } else if (!inode_can_compress(inode) ||
+                      ^
+   fs/btrfs/inode.c:2020:7: note: Calling 'inode_need_compress'
+                      !inode_need_compress(inode, start, end)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:507:7: note: Calling 'inode_can_compress'
+           if (!inode_can_compress(inode)) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:492:6: note: Left side of '||' is false
+           if (inode->flags & BTRFS_INODE_NODATACOW ||
+               ^
+   fs/btrfs/inode.c:492:2: note: Taking false branch
+           if (inode->flags & BTRFS_INODE_NODATACOW ||
+           ^
+   fs/btrfs/inode.c:495:2: note: Returning the value 1, which participates =
+in a condition later
+           return true;
+           ^~~~~~~~~~~
+   fs/btrfs/inode.c:507:7: note: Returning from 'inode_can_compress'
+           if (!inode_can_compress(inode)) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:507:2: note: Taking false branch
+           if (!inode_can_compress(inode)) {
+           ^
+   fs/btrfs/inode.c:539:6: note: Assuming the condition is false
+           if (fs_info->sectorsize < PAGE_SIZE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:539:2: note: Taking false branch
+           if (fs_info->sectorsize < PAGE_SIZE) {
+           ^
+   fs/btrfs/inode.c:546:6: note: Assuming the condition is true
+           if (btrfs_test_opt(fs_info, FORCE_COMPRESS))
+               ^
+   fs/btrfs/ctree.h:1445:39: note: expanded from macro 'btrfs_test_opt'
+   #define btrfs_test_opt(fs_info, opt)    ((fs_info)->mount_opt & \
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:546:2: note: Taking true branch
+           if (btrfs_test_opt(fs_info, FORCE_COMPRESS))
+           ^
+   fs/btrfs/inode.c:547:3: note: Returning the value 1, which participates =
+in a condition later
+                   return 1;
+                   ^~~~~~~~
+   fs/btrfs/inode.c:2020:7: note: Returning from 'inode_need_compress'
+                      !inode_need_compress(inode, start, end)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:2019:9: note: Taking false branch
+           } else if (!inode_can_compress(inode) ||
+                  ^
+   fs/btrfs/inode.c:2029:37: note: Passing null pointer value via 2nd param=
+eter 'wbc'
+                   ret =3D cow_file_range_async(inode, wbc, locked_page, st=
+art, end,
+                                                     ^~~
+   fs/btrfs/inode.c:2029:9: note: Calling 'cow_file_range_async'
+                   ret =3D cow_file_range_async(inode, wbc, locked_page, st=
+art, end,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   fs/btrfs/inode.c:1400:42: note: Access to field 'wb' results in a derefe=
+rence of a null pointer (loaded from variable 'wbc')
+           struct cgroup_subsys_state *blkcg_css =3D wbc_blkcg_css(wbc);
+                                                   ^
+   include/linux/writeback.h:113:3: note: expanded from macro 'wbc_blkcg_cs=
+s'
+           ((wbc)->wb ? (wbc)->wb->blkcg_css : blkcg_root_css)
+            ^~~~
+>> fs/btrfs/inode.c:1519:6: warning: Branch condition evaluates to a garbag=
+e value [clang-analyzer-core.uninitialized.Branch]
+           if (*page_started)
+               ^
+   fs/btrfs/inode.c:8454:2: note: 'page_started' declared without an initia=
+l value
+           int page_started; /* unused */
+           ^~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:8460:6: note: Assuming 'offset' is < field 'offset'
+           if (offset >=3D wpc->iomap.offset &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:8460:34: note: Left side of '&&' is false
+           if (offset >=3D wpc->iomap.offset &&
+                                           ^
+   fs/btrfs/inode.c:8465:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   fs/btrfs/inode.c:8465:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   fs/btrfs/inode.c:8468:8: note: Calling 'btrfs_run_delalloc_range'
+           ret =3D btrfs_run_delalloc_range(BTRFS_I(inode), NULL,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:2003:6: note: 'locked_page' is null
+           if (locked_page)
+               ^~~~~~~~~~~
+   fs/btrfs/inode.c:2003:2: note: Taking false branch
+           if (locked_page)
+           ^
+   fs/btrfs/inode.c:2007:2: note: Taking false branch
+           if (should_nocow(inode, start, end)) {
+           ^
+   fs/btrfs/inode.c:2019:13: note: Left side of '||' is false
+           } else if (!inode_can_compress(inode) ||
+                      ^
+   fs/btrfs/inode.c:2019:9: note: Taking true branch
+           } else if (!inode_can_compress(inode) ||
+                  ^
+   fs/btrfs/inode.c:2021:7: note: 'zoned' is true
+                   if (zoned)
+                       ^~~~~
+   fs/btrfs/inode.c:2021:3: note: Taking true branch
+                   if (zoned)
+                   ^
+   fs/btrfs/inode.c:2022:10: note: Calling 'run_delalloc_zoned'
+                           ret =3D run_delalloc_zoned(inode, locked_page, s=
+tart, end,
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   fs/btrfs/inode.c:1514:8: note: Calling 'cow_file_range'
+           ret =3D cow_file_range(inode, locked_page, start, end, page_star=
+ted,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/btrfs/inode.c:1131:2: note: Taking false branch
+           if (btrfs_is_free_space_inode(inode)) {
+           ^
+   fs/btrfs/inode.c:1138:14: note: Assuming '__UNIQUE_ID___x2020' is > '__U=
+NIQUE_ID___y2021'
+           num_bytes =3D max(blocksize,  num_bytes);
+                       ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/btrfs/inode.c:1138:14: note: '?' condition is true
+           num_bytes =3D max(blocksize,  num_bytes);
+                       ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/btrfs/inode.c:1139:9: note: Assuming the condition is true
+           ASSERT(num_bytes <=3D btrfs_super_total_bytes(fs_info->super_cop=
+y));
+                  ^
+   fs/btrfs/ctree.h:3526:29: note: expanded from macro 'ASSERT'
+   #define ASSERT(expr)    (void)(expr)
+                                  ^~~~
+   fs/btrfs/inode.c:1153:6: note: 'start' is not equal to 0
+           if (start =3D=3D 0 && fs_info->sectorsize =3D=3D PAGE_SIZE) {
+               ^~~~~
+   fs/btrfs/inode.c:1153:17: note: Left side of '&&' is false
+           if (start =3D=3D 0 && fs_info->sectorsize =3D=3D PAGE_SIZE) {
+                          ^
+   fs/btrfs/inode.c:1206:2: note: Taking true branch
+           if (btrfs_is_data_reloc_root(root))
+           ^
+   fs/btrfs/inode.c:1211:9: note: Assuming 'num_bytes' is <=3D 0
+           while (num_bytes > 0) {
+                  ^~~~~~~~~~~~~
+   fs/btrfs/inode.c:1211:2: note: Loop condition is false. Execution contin=
+ues on line 1295
+           while (num_bytes > 0) {
 
-vim +204 fs/erofs/xattr.c
+vim +1519 fs/btrfs/inode.c
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-81  =
+be20aa9dbadc8c Chris Mason  2007-12-17  1506  =
 
-bdf30cef10558d drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  1=
-82  /*
-bdf30cef10558d drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  1=
-83   * Regardless of success or failure, `xattr_foreach' will end up with
-bdf30cef10558d drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  1=
-84   * `ofs' pointing to the next xattr item rather than an arbitrary posit=
-ion.
-bdf30cef10558d drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  1=
-85   */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-86  static int xattr_foreach(struct xattr_iter *it,
-447a3621b3835b drivers/staging/erofs/xattr.c Julian Merida    2019-03-18  1=
-87  			 const struct xattr_iter_handlers *op,
-447a3621b3835b drivers/staging/erofs/xattr.c Julian Merida    2019-03-18  1=
-88  			 unsigned int *tlimit)
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-89  {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-90  	struct erofs_xattr_entry entry;
-7dd68b147d60e5 drivers/staging/erofs/xattr.c Thomas Wei=C3=9Fschuh 2018-09-=
-10  191  	unsigned int value_sz, processed, slice;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-92  	int err;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-93  =
+42c01100096344 Naohiro Aota 2021-02-04  1507  static noinline int run_delal=
+loc_zoned(struct btrfs_inode *inode,
+42c01100096344 Naohiro Aota 2021-02-04  1508  				       struct page *locke=
+d_page, u64 start,
+42c01100096344 Naohiro Aota 2021-02-04  1509  				       u64 end, int *page=
+_started,
+42c01100096344 Naohiro Aota 2021-02-04  1510  				       unsigned long *nr_=
+written)
+42c01100096344 Naohiro Aota 2021-02-04  1511  {
+42c01100096344 Naohiro Aota 2021-02-04  1512  	int ret;
+42c01100096344 Naohiro Aota 2021-02-04  1513  =
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-94  	/* 0. fixup blkaddr, ofs, ipage */
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  1=
-95  	err =3D xattr_iter_fixup(it);
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  1=
-96  	if (err)
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  1=
-97  		return err;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-98  =
+42c01100096344 Naohiro Aota 2021-02-04  1514  	ret =3D cow_file_range(inode=
+, locked_page, start, end, page_started,
+42c01100096344 Naohiro Aota 2021-02-04  1515  			     nr_written, 0);
+42c01100096344 Naohiro Aota 2021-02-04  1516  	if (ret)
+42c01100096344 Naohiro Aota 2021-02-04  1517  		return ret;
+42c01100096344 Naohiro Aota 2021-02-04  1518  =
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  1=
-99  	/*
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-00  	 * 1. read xattr entry to the memory,
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-01  	 *    since we do EROFS_XATTR_ALIGN
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-02  	 *    therefore entry should be in the page
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-03  	 */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26 @2=
-04  	entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
-561fb35a9d04ca drivers/staging/erofs/xattr.c Bhanusree Pola   2019-03-22  2=
-05  	if (tlimit) {
-b6796abd3cc155 fs/erofs/xattr.c              Gao Xiang        2019-09-04  2=
-06  		unsigned int entry_sz =3D erofs_xattr_entry_size(&entry);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-07  =
+42c01100096344 Naohiro Aota 2021-02-04 @1519  	if (*page_started)
+42c01100096344 Naohiro Aota 2021-02-04  1520  		return 0;
+42c01100096344 Naohiro Aota 2021-02-04  1521  =
 
-9ddc7004f6aae6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  2=
-08  		/* xattr on-disk corruption: xattr entry beyond xattr_isize */
-8d8a09b093d707 fs/erofs/xattr.c              Gao Xiang        2019-08-30  2=
-09  		if (*tlimit < entry_sz) {
-9ddc7004f6aae6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  2=
-10  			DBG_BUGON(1);
-a6b9b1d5eae61a drivers/staging/erofs/xattr.c Gao Xiang        2019-08-14  2=
-11  			return -EFSCORRUPTED;
-9ddc7004f6aae6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  2=
-12  		}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-13  		*tlimit -=3D entry_sz;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-14  	}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-15  =
+42c01100096344 Naohiro Aota 2021-02-04  1522  	__set_page_dirty_nobuffers(l=
+ocked_page);
+42c01100096344 Naohiro Aota 2021-02-04  1523  	account_page_redirty(locked_=
+page);
+2bd0fc9349b636 Qu Wenruo    2021-09-27  1524  	extent_write_locked_range(&i=
+node->vfs_inode, start, end);
+42c01100096344 Naohiro Aota 2021-02-04  1525  	*page_started =3D 1;
+42c01100096344 Naohiro Aota 2021-02-04  1526  =
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-16  	it->ofs +=3D sizeof(struct erofs_xattr_entry);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-17  	value_sz =3D le16_to_cpu(entry.e_value_size);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-18  =
+42c01100096344 Naohiro Aota 2021-02-04  1527  	return 0;
+42c01100096344 Naohiro Aota 2021-02-04  1528  }
+42c01100096344 Naohiro Aota 2021-02-04  1529  =
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-19  	/* handle entry */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-20  	err =3D op->entry(it, &entry);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-21  	if (err) {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-22  		it->ofs +=3D entry.e_name_len + value_sz;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-23  		goto out;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-24  	}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-25  =
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-26  	/* 2. handle xattr name (ofs will finally be at the end of name) */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-27  	processed =3D 0;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-28  =
+:::::: The code at line 1519 was first introduced by commit
+:::::: 42c011000963442ce533d92a492c4a057b2f5a46 btrfs: zoned: introduce ded=
+icated data write path for zoned filesystems
 
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-29  	while (processed < entry.e_name_len) {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-30  		if (it->ofs >=3D EROFS_BLKSIZ) {
-9ddc7004f6aae6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  2=
-31  			DBG_BUGON(it->ofs > EROFS_BLKSIZ);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-32  =
-
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-33  			err =3D xattr_iter_fixup(it);
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-34  			if (err)
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-35  				goto out;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-36  			it->ofs =3D 0;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-37  		}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-38  =
-
-d7c5cceeea80de fs/erofs/xattr.c              Gao Xiang        2022-01-02  2=
-39  		slice =3D min_t(unsigned int, EROFS_BLKSIZ - it->ofs,
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-40  			      entry.e_name_len - processed);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-41  =
-
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-42  		/* handle name */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-43  		err =3D op->name(it, processed, it->kaddr + it->ofs, slice);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-44  		if (err) {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-45  			it->ofs +=3D entry.e_name_len - processed + value_sz;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-46  			goto out;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-47  		}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-48  =
-
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-49  		it->ofs +=3D slice;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-50  		processed +=3D slice;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-51  	}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-52  =
-
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-53  	/* 3. handle xattr value */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-54  	processed =3D 0;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-55  =
-
-561fb35a9d04ca drivers/staging/erofs/xattr.c Bhanusree Pola   2019-03-22  2=
-56  	if (op->alloc_buffer) {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-57  		err =3D op->alloc_buffer(it, value_sz);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-58  		if (err) {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-59  			it->ofs +=3D value_sz;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-60  			goto out;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-61  		}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-62  	}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-63  =
-
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-64  	while (processed < value_sz) {
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-65  		if (it->ofs >=3D EROFS_BLKSIZ) {
-9ddc7004f6aae6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  2=
-66  			DBG_BUGON(it->ofs > EROFS_BLKSIZ);
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-67  =
-
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-68  			err =3D xattr_iter_fixup(it);
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-69  			if (err)
-cadf1ccf1b0021 drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  2=
-70  				goto out;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-71  			it->ofs =3D 0;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-72  		}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-73  =
-
-d7c5cceeea80de fs/erofs/xattr.c              Gao Xiang        2022-01-02  2=
-74  		slice =3D min_t(unsigned int, EROFS_BLKSIZ - it->ofs,
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-75  			      value_sz - processed);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-76  		op->value(it, processed, it->kaddr + it->ofs, slice);
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-77  		it->ofs +=3D slice;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-78  		processed +=3D slice;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-79  	}
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-80  =
-
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-81  out:
-bdf30cef10558d drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  2=
-82  	/* xattrs should be 4-byte aligned (on-disk constraint) */
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-83  	it->ofs =3D EROFS_XATTR_ALIGN(it->ofs);
-6614f76530c102 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  2=
-84  	return err < 0 ? err : 0;
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-85  }
-b17500a0fdbae1 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  2=
-86  =
-
+:::::: TO: Naohiro Aota <naohiro.aota@wdc.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7518649884644443459==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2310862353575446187==--
 
