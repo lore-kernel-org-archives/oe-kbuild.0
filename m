@@ -1,49 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============7575970759985046400=="
+Content-Type: multipart/mixed; boundary="===============2658415452392324401=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/sysctl_net.c:146:4: warning: Value stored to 'where' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 08 Jan 2022 23:50:18 +0800
-Message-ID: <202201082339.qplFN6G1-lkp@intel.com>
+Subject: Re: [PATCH RFC V1 net-next 3/4] net: Let the active time stamping layer be selectable.
+Date: Mon, 10 Jan 2022 23:46:35 +0800
+Message-ID: <202201102352.6hOYMc7y-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7575970759985046400==
+--===============2658415452392324401==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jonathon Reinhart <jonathon.reinhart@gmail.com>
+In-Reply-To: <20220103232555.19791-4-richardcochran@gmail.com>
+References: <20220103232555.19791-4-richardcochran@gmail.com>
+TO: Richard Cochran <richardcochran@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d1587f7bfe9a0f97a75d42ac1489aeda551106bc
-commit: 31c4d2f160eb7b17cbead24dc6efed06505a3fee net: Ensure net namespace =
-isolation of sysctls
-date:   9 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 9 months ago
-config: riscv-randconfig-c006-20211207 (https://download.01.org/0day-ci/arc=
-hive/20220108/202201082339.qplFN6G1-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+Hi Richard,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/Richard-Cochran/Make-MAC-P=
+HY-time-stamping-selectable/20220104-072717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+3d694552fd8fe502e7ffd22ffa0e085bfd73b19a
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: x86_64-randconfig-c007-20220105 (https://download.01.org/0day-ci/ar=
+chive/20220110/202201102352.6hOYMc7y-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d5b6e3=
+0ed3acad794dd0aec400e617daffc6cc3d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D31c4d2f160eb7b17cbead24dc6efed06505a3fee
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 31c4d2f160eb7b17cbead24dc6efed06505a3fee
+        # https://github.com/0day-ci/linux/commit/33070417b78b3844a2b2f55f9=
+4313072859da977
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Richard-Cochran/Make-MAC-PHY-time-=
+stamping-selectable/20220104-072717
+        git checkout 33070417b78b3844a2b2f55f94313072859da977
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,343 +53,356 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+                              ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/infiniband/core/addr.c:508:28: note: Left side of '||' is false
+           struct net_device *ndev =3D READ_ONCE(dst->dev);
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/infiniband/core/addr.c:508:28: note: Left side of '||' is false
+           struct net_device *ndev =3D READ_ONCE(dst->dev);
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/infiniband/core/addr.c:508:28: note: Left side of '||' is true
+           struct net_device *ndev =3D READ_ONCE(dst->dev);
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                                               ^
+   drivers/infiniband/core/addr.c:508:28: note: Taking false branch
+           struct net_device *ndev =3D READ_ONCE(dst->dev);
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   kernel/events/core.c:10082:2: note: Loop condition is false.  Exiting lo=
-op
-           list_for_each_entry(filter, &ifh->list, entry) {
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/infiniband/core/addr.c:508:28: note: Loop condition is false.  E=
+xiting loop
+           struct net_device *ndev =3D READ_ONCE(dst->dev);
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   kernel/events/core.c:10082:2: note: Loop condition is true.  Entering lo=
-op body
-           list_for_each_entry(filter, &ifh->list, entry) {
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   kernel/events/core.c:10083:7: note: Assuming field 'dentry' is non-null
-                   if (filter->path.dentry) {
-                       ^~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:10083:3: note: Taking true branch
-                   if (filter->path.dentry) {
-                   ^
-   kernel/events/core.c:10091:35: note: Passing null pointer value via 2nd =
-parameter 'mm'
-                           perf_addr_filter_apply(filter, mm, &event->addr_=
-filter_ranges[count]);
-                                                          ^~
-   kernel/events/core.c:10091:4: note: Calling 'perf_addr_filter_apply'
-                           perf_addr_filter_apply(filter, mm, &event->addr_=
-filter_ranges[count]);
+   drivers/infiniband/core/addr.c:508:28: note: Dereference of null pointer
+           struct net_device *ndev =3D READ_ONCE(dst->dev);
+                                     ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:10044:13: note: Dereference of null pointer
-           for (vma =3D mm->mmap; vma; vma =3D vma->vm_next) {
-                      ^~~~~~~~
-   kernel/events/core.c:11837:2: warning: Value stored to 'err' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-           err =3D 0;
-           ^     ~
-   kernel/events/core.c:11837:2: note: Value stored to 'err' is never read
-           err =3D 0;
-           ^     ~
-   Suppressed 8 warnings (6 in non-user code, 2 with check filters).
+~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   16 warnings generated.
+   net/core/net-sysfs.c:632:2: warning: Value stored to 'ops' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:632:2: note: Value stored to 'ops' is never read
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:642:3: warning: Value stored to 'buf' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   buf +=3D 4;
+                   ^      ~
+   net/core/net-sysfs.c:642:3: note: Value stored to 'buf' is never read
+                   buf +=3D 4;
+                   ^      ~
+>> net/core/net-sysfs.c:661:2: warning: Value stored to 'phydev' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+           phydev =3D netdev->phydev;
+           ^        ~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:661:2: note: Value stored to 'phydev' is never read
+           phydev =3D netdev->phydev;
+           ^        ~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:662:2: warning: Value stored to 'ops' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:662:2: note: Value stored to 'ops' is never read
+           ops =3D netdev->ethtool_ops;
+           ^     ~~~~~~~~~~~~~~~~~~~
+   net/core/net-sysfs.c:1871:2: warning: Value stored to 'txq' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           txq =3D real_tx;
+           ^     ~~~~~~~
+   net/core/net-sysfs.c:1871:2: note: Value stored to 'txq' is never read
+           txq =3D real_tx;
+           ^     ~~~~~~~
+   Suppressed 11 warnings (8 in non-user code, 3 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   57 warnings generated.
+   Suppressed 57 warnings (57 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> net/sysctl_net.c:146:4: warning: Value stored to 'where' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                           where =3D "module";
-                           ^       ~~~~~~~~
-   net/sysctl_net.c:146:4: note: Value stored to 'where' is never read
-                           where =3D "module";
-                           ^       ~~~~~~~~
-   net/sysctl_net.c:148:4: warning: Value stored to 'where' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                           where =3D "kernel";
-                           ^       ~~~~~~~~
-   net/sysctl_net.c:148:4: note: Value stored to 'where' is never read
-                           where =3D "kernel";
-                           ^       ~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/input/serio/apbps2.c:114:3: warning: Value stored to 'tmp' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   tmp =3D ioread32be(&priv->regs->data);
-                   ^
-   drivers/input/serio/apbps2.c:114:3: note: Value stored to 'tmp' is never=
- read
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/input/mouse/cyapa_gen5.c:1856:16: warning: The result of the lef=
-t shift is undefined because the left operand is negative [clang-analyzer-c=
-ore.UndefinedBinaryOperatorResult]
-                   value |=3D  -1 << num_bits;
-                                ^
-   drivers/input/mouse/cyapa_gen5.c:2318:6: note: Assuming the condition is=
- false
-           if (!cyapa_is_pip_app_mode(cyapa))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:2318:2: note: Taking false branch
-           if (!cyapa_is_pip_app_mode(cyapa))
+   9 warnings generated.
+   net/core/drop_monitor.c:870:2: warning: 1st function call argument is an=
+ uninitialized value [clang-analyzer-core.CallAndMessage]
+           kfree(hw_metadata->fa_cookie);
            ^
-   drivers/input/mouse/cyapa_gen5.c:2323:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   drivers/input/mouse/cyapa_gen5.c:2323:2: note: Taking false branch
-           if (error)
-           ^
-   drivers/input/mouse/cyapa_gen5.c:2328:10: note: Calling 'cyapa_gen5_read=
-_mutual_idac_data'
-           error =3D cyapa_gen5_read_mutual_idac_data(cyapa,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:2133:10: note: Calling 'cyapa_gen5_read=
-_idac_data'
-           error =3D cyapa_gen5_read_idac_data(cyapa,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1952:6: note: 'cmd_code' is equal to PI=
-P_RETRIEVE_DATA_STRUCTURE
-           if (cmd_code !=3D PIP_RETRIEVE_DATA_STRUCTURE ||
-               ^~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1952:6: note: Left side of '||' is false
-   drivers/input/mouse/cyapa_gen5.c:1953:4: note: 'idac_data_type' is equal=
- to GEN5_RETRIEVE_MUTUAL_PWC_DATA
-                   (idac_data_type !=3D GEN5_RETRIEVE_MUTUAL_PWC_DATA &&
-                    ^~~~~~~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1953:52: note: Left side of '&&' is fal=
-se
-                   (idac_data_type !=3D GEN5_RETRIEVE_MUTUAL_PWC_DATA &&
-                                                                    ^
-   drivers/input/mouse/cyapa_gen5.c:1955:4: note: 'data_size' is non-null
-                   !data_size || !idac_max || !idac_min || !idac_ave)
-                    ^~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1952:6: note: Left side of '||' is false
-           if (cmd_code !=3D PIP_RETRIEVE_DATA_STRUCTURE ||
+   net/core/drop_monitor.c:941:6: note: Assuming field 'trap_type' is not e=
+qual to DEVLINK_TRAP_TYPE_CONTROL
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
                ^
-   drivers/input/mouse/cyapa_gen5.c:1955:18: note: 'idac_max' is non-null
-                   !data_size || !idac_max || !idac_min || !idac_ave)
-                                  ^~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1952:6: note: Left side of '||' is false
-           if (cmd_code !=3D PIP_RETRIEVE_DATA_STRUCTURE ||
-               ^
-   drivers/input/mouse/cyapa_gen5.c:1955:31: note: 'idac_min' is non-null
-                   !data_size || !idac_max || !idac_min || !idac_ave)
-                                               ^~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1952:6: note: Left side of '||' is false
-           if (cmd_code !=3D PIP_RETRIEVE_DATA_STRUCTURE ||
-               ^
-   drivers/input/mouse/cyapa_gen5.c:1955:44: note: 'idac_ave' is non-null
-                   !data_size || !idac_max || !idac_min || !idac_ave)
-                                                            ^~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1952:2: note: Taking false branch
-           if (cmd_code !=3D PIP_RETRIEVE_DATA_STRUCTURE ||
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/drop_monitor.c:941:2: note: '?' condition is false
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
            ^
-   drivers/input/mouse/cyapa_gen5.c:1962:2: note: Taking true branch
-           if (*data_size =3D=3D 0) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/drop_monitor.c:941:16: note: Field 'trap_type' is not equal to =
+DEVLINK_TRAP_TYPE_CONTROL
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+                         ^
+   net/core/drop_monitor.c:941:2: note: '?' condition is false
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
            ^
-   drivers/input/mouse/cyapa_gen5.c:1974:7: note: 'idac_data_type' is equal=
- to GEN5_RETRIEVE_MUTUAL_PWC_DATA
-                   if (idac_data_type =3D=3D GEN5_RETRIEVE_MUTUAL_PWC_DATA)=
- {
-                       ^~~~~~~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1974:3: note: Taking true branch
-                   if (idac_data_type =3D=3D GEN5_RETRIEVE_MUTUAL_PWC_DATA)=
- {
-                   ^
-   drivers/input/mouse/cyapa_gen5.c:1975:8: note: Assuming field 'aligned_e=
-lectrodes_rx' is not equal to 0
-                           if (cyapa->aligned_electrodes_rx =3D=3D 0) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/mouse/cyapa_gen5.c:1975:4: note: Taking false branch
-                           if (cyapa->aligned_electrodes_rx =3D=3D 0) {
-                           ^
-   drivers/input/mouse/cyapa_gen5.c:2016:19: note: Assuming '__UNIQUE_ID___=
-x219' is >=3D '__UNIQUE_ID___y220'
-                   read_elements =3D min(read_elements, max_element_cnt - c=
-ount);
-                                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/drop_monitor.c:941:2: note: Taking false branch
+           if (metadata->trap_type =3D=3D DEVLINK_TRAP_TYPE_CONTROL)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/drop_monitor.c:944:2: note: '?' condition is false
+           if (!skb_mac_header_was_set(skb))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/drop_monitor.c:944:2: note: '?' condition is false
+           if (!skb_mac_header_was_set(skb))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/drop_monitor.c:944:2: note: Taking false branch
+           if (!skb_mac_header_was_set(skb))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/drop_monitor.c:948:6: note: Assuming 'nskb' is non-null
+           if (!nskb)
 
-vim +/where +146 net/sysctl_net.c
+vim +/phydev +661 net/core/net-sysfs.c
 
-95bdfccb2bf4ea Eric W. Biederman 2007-11-30  117  =
+5fdd2f0e5c6484 Wei Wang        2021-02-08  620  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  118  /* Verify that sysctls fo=
-r non-init netns are safe by either:
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  119   * 1) being read-only, or
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  120   * 2) having a data point=
-er which points outside of the global kernel/module
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  121   *    data segment, and r=
-ather into the heap where a per-net object was
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  122   *    allocated.
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  123   */
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  124  static void ensure_safe_n=
-et_sysctl(struct net *net, const char *path,
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  125  				   struct ctl_table *=
-table)
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  126  {
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  127  	struct ctl_table *ent;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  128  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  621  static ssize_t available_ti=
+mestamping_providers_show(struct device *dev,
+c7ffd872b92c08 Richard Cochran 2022-01-03  622  						     struct device_at=
+tribute *attr,
+c7ffd872b92c08 Richard Cochran 2022-01-03  623  						     char *buf)
+c7ffd872b92c08 Richard Cochran 2022-01-03  624  {
+c7ffd872b92c08 Richard Cochran 2022-01-03  625  	const struct ethtool_ops *=
+ops;
+c7ffd872b92c08 Richard Cochran 2022-01-03  626  	struct net_device *netdev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  627  	struct phy_device *phydev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  628  	int ret =3D 0;
+c7ffd872b92c08 Richard Cochran 2022-01-03  629  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  129  	pr_debug("Registering ne=
-t sysctl (net %p): %s\n", net, path);
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  130  	for (ent =3D table; ent-=
->procname; ent++) {
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  131  		unsigned long addr;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  132  		const char *where;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  133  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  630  	netdev =3D to_net_dev(dev);
+c7ffd872b92c08 Richard Cochran 2022-01-03  631  	phydev =3D netdev->phydev;
+c7ffd872b92c08 Richard Cochran 2022-01-03 @632  	ops =3D netdev->ethtool_op=
+s;
+c7ffd872b92c08 Richard Cochran 2022-01-03  633  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  134  		pr_debug("  procname=3D=
-%s mode=3D%o proc_handler=3D%ps data=3D%p\n",
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  135  			 ent->procname, ent->m=
-ode, ent->proc_handler, ent->data);
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  136  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  634  	if (!rtnl_trylock())
+c7ffd872b92c08 Richard Cochran 2022-01-03  635  		return restart_syscall();
+c7ffd872b92c08 Richard Cochran 2022-01-03  636  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  137  		/* If it's not writable=
- inside the netns, then it can't hurt. */
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  138  		if ((ent->mode & 0222) =
-=3D=3D 0) {
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  139  			pr_debug("    Not writ=
-able by anyone\n");
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  140  			continue;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  141  		}
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  142  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  637  	ret +=3D sprintf(buf, "%s\=
+n", "mac");
+c7ffd872b92c08 Richard Cochran 2022-01-03  638  	buf +=3D 4;
+c7ffd872b92c08 Richard Cochran 2022-01-03  639  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  143  		/* Where does data poin=
-t? */
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  144  		addr =3D (unsigned long=
-)ent->data;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  145  		if (is_module_address(a=
-ddr))
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12 @146  			where =3D "module";
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  147  		else if (core_kernel_da=
-ta(addr))
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  148  			where =3D "kernel";
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  149  		else
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  150  			continue;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  151  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  640  	if (phy_has_tsinfo(phydev)=
+) {
+c7ffd872b92c08 Richard Cochran 2022-01-03  641  		ret +=3D sprintf(buf, "%s=
+\n", "phy");
+c7ffd872b92c08 Richard Cochran 2022-01-03  642  		buf +=3D 4;
+c7ffd872b92c08 Richard Cochran 2022-01-03  643  	}
+c7ffd872b92c08 Richard Cochran 2022-01-03  644  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  152  		/* If it is writable an=
-d points to kernel/module global
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  153  		 * data, then it's prob=
-ably a netns leak.
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  154  		 */
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  155  		WARN(1, "sysctl %s/%s: =
-data points to %s global data: %ps\n",
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  156  		     path, ent->procnam=
-e, where, ent->data);
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  157  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  645  	rtnl_unlock();
+c7ffd872b92c08 Richard Cochran 2022-01-03  646  =
 
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  158  		/* Make it "safe" by dr=
-opping writable perms */
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  159  		ent->mode &=3D ~0222;
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  160  	}
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  161  }
-31c4d2f160eb7b Jonathon Reinhart 2021-04-12  162  =
+c7ffd872b92c08 Richard Cochran 2022-01-03  647  	return ret;
+c7ffd872b92c08 Richard Cochran 2022-01-03  648  }
+c7ffd872b92c08 Richard Cochran 2022-01-03  649  static DEVICE_ATTR_RO(avail=
+able_timestamping_providers);
+c7ffd872b92c08 Richard Cochran 2022-01-03  650  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  651  static ssize_t current_time=
+stamping_provider_show(struct device *dev,
+c7ffd872b92c08 Richard Cochran 2022-01-03  652  						  struct device_attri=
+bute *attr,
+c7ffd872b92c08 Richard Cochran 2022-01-03  653  						  char *buf)
+c7ffd872b92c08 Richard Cochran 2022-01-03  654  {
+c7ffd872b92c08 Richard Cochran 2022-01-03  655  	const struct ethtool_ops *=
+ops;
+c7ffd872b92c08 Richard Cochran 2022-01-03  656  	struct net_device *netdev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  657  	struct phy_device *phydev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  658  	int ret;
+c7ffd872b92c08 Richard Cochran 2022-01-03  659  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  660  	netdev =3D to_net_dev(dev);
+c7ffd872b92c08 Richard Cochran 2022-01-03 @661  	phydev =3D netdev->phydev;
+c7ffd872b92c08 Richard Cochran 2022-01-03  662  	ops =3D netdev->ethtool_op=
+s;
+c7ffd872b92c08 Richard Cochran 2022-01-03  663  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  664  	if (!rtnl_trylock())
+c7ffd872b92c08 Richard Cochran 2022-01-03  665  		return restart_syscall();
+c7ffd872b92c08 Richard Cochran 2022-01-03  666  =
+
+33070417b78b38 Richard Cochran 2022-01-03  667  	switch (netdev->selected_t=
+imestamping_layer) {
+33070417b78b38 Richard Cochran 2022-01-03  668  	case MAC_TIMESTAMPING:
+c7ffd872b92c08 Richard Cochran 2022-01-03  669  		ret =3D sprintf(buf, "%s\=
+n", "mac");
+33070417b78b38 Richard Cochran 2022-01-03  670  		break;
+33070417b78b38 Richard Cochran 2022-01-03  671  	case PHY_TIMESTAMPING:
+33070417b78b38 Richard Cochran 2022-01-03  672  		ret =3D sprintf(buf, "%s\=
+n", "phy");
+33070417b78b38 Richard Cochran 2022-01-03  673  		break;
+c7ffd872b92c08 Richard Cochran 2022-01-03  674  	}
+c7ffd872b92c08 Richard Cochran 2022-01-03  675  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  676  	rtnl_unlock();
+c7ffd872b92c08 Richard Cochran 2022-01-03  677  =
+
+c7ffd872b92c08 Richard Cochran 2022-01-03  678  	return ret;
+c7ffd872b92c08 Richard Cochran 2022-01-03  679  }
+33070417b78b38 Richard Cochran 2022-01-03  680  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7575970759985046400==--
+--===============2658415452392324401==--
 
