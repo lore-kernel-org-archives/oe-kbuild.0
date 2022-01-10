@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8353458450870873858=="
+Content-Type: multipart/mixed; boundary="===============1946101013303060310=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/i40e/i40e_main.c:4643:2: warning: Value stored to 'pf_q' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 04 Jan 2022 02:08:43 +0800
-Message-ID: <202201040200.QGI49OIz-lkp@intel.com>
+Subject: drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointed to by '_x' [clang-analyzer-unix.Malloc]
+Date: Mon, 10 Jan 2022 13:05:01 +0800
+Message-ID: <202201101240.MNWOO5Wg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8353458450870873858==
+--===============1946101013303060310==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+TO: Alexandre Ghiti <alex@ghiti.fr>
+CC: Palmer Dabbelt <palmerdabbelt@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   c9e6606c7fe92b50a02ce51dda82586ebdf99b48
-commit: 65662a8dcdd01342b71ee44234bcfd0162e195af i40e: Fix logic of disabli=
-ng queues
+head:   df0cc57e057f18e44dac8e6c18aba47ab53202f9
+commit: 0aba691a7443a7541c1dc56423e0c92cc6ea7164 riscv: Introduce va_kernel=
+_pa_offset for 32-bit kernel
 date:   5 months ago
-:::::: branch date: 20 hours ago
+:::::: branch date: 6 hours ago
 :::::: commit date: 5 months ago
-config: x86_64-randconfig-c007-20220101 (https://download.01.org/0day-ci/ar=
-chive/20220104/202201040200.QGI49OIz-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c05440=
-2170cd8466683a20385befc0523aba3359)
+config: riscv-randconfig-c006-20220109 (https://download.01.org/0day-ci/arc=
+hive/20220110/202201101240.MNWOO5Wg-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f3a344=
+d2125fa37e59bae1b0874442c650a19607)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D65662a8dcdd01342b71ee44234bcfd0162e195af
+t/commit/?id=3D0aba691a7443a7541c1dc56423e0c92cc6ea7164
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 65662a8dcdd01342b71ee44234bcfd0162e195af
+        git checkout 0aba691a7443a7541c1dc56423e0c92cc6ea7164
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,223 +52,131 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:899:8: note: 'plltype' is equal to SSB_PLLTYPE_1
-                   if ((plltype =3D=3D SSB_PLLTYPE_1) ||
-                        ^~~~~~~
-   drivers/ssb/main.c:899:34: note: Left side of '||' is true
-                   if ((plltype =3D=3D SSB_PLLTYPE_1) ||
-                                                  ^
-   drivers/ssb/main.c:904:8: note: Calling 'clkfactor_f6_resolve'
-                   m3 =3D clkfactor_f6_resolve(m3);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:828:2: note: 'Default' branch taken. Execution contin=
-ues on line 842
-           switch (v) {
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/hwmon/pmbus/zl6100.c:118:2: note: '?' condition is false
+           if (negative)
            ^
-   drivers/ssb/main.c:842:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/ssb/main.c:904:8: note: Returning from 'clkfactor_f6_resolve'
-                   m3 =3D clkfactor_f6_resolve(m3);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:904:3: note: The value 0 is assigned to 'm3'
-                   m3 =3D clkfactor_f6_resolve(m3);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:906:3: note: Control jumps to 'case 1:'  at line 913
-                   switch (mc) {
-                   ^
-   drivers/ssb/main.c:914:18: note: Division by zero
-                           return (clock / (m1 * m2 * m3));
-                                   ~~~~~~^~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:916:18: warning: Division by zero [clang-analyzer-cor=
-e.DivideZero]
-                           return (clock / (m1 * m3));
-                                   ~~~~~~^~~~~~~~~~~
-   drivers/ssb/main.c:853:2: note: Control jumps to 'case 65536:'  at line =
-858
-           switch (plltype) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/ssb/main.c:864:3: note:  Execution continues on line 877
-                   break;
-                   ^
-   drivers/ssb/main.c:877:2: note: Control jumps to the 'default' case at l=
-ine 882
-           switch (plltype) {
+   drivers/hwmon/pmbus/zl6100.c:118:2: note: Taking false branch
+           if (negative)
            ^
-   drivers/ssb/main.c:885:6: note: Assuming 'clock' is not equal to 0
-           if (!clock)
-               ^~~~~~
-   drivers/ssb/main.c:885:2: note: Taking false branch
-           if (!clock)
-           ^
-   drivers/ssb/main.c:893:2: note: Control jumps to 'case 65536:'  at line =
-894
-           switch (plltype) {
-           ^
-   drivers/ssb/main.c:898:8: note: Calling 'clkfactor_f6_resolve'
-                   m1 =3D clkfactor_f6_resolve(m1);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:828:2: note: 'Default' branch taken. Execution contin=
-ues on line 842
-           switch (v) {
-           ^
-   drivers/ssb/main.c:842:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/ssb/main.c:898:8: note: Returning from 'clkfactor_f6_resolve'
-                   m1 =3D clkfactor_f6_resolve(m1);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:898:3: note: The value 0 is assigned to 'm1'
-                   m1 =3D clkfactor_f6_resolve(m1);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:899:8: note: 'plltype' is equal to SSB_PLLTYPE_1
-                   if ((plltype =3D=3D SSB_PLLTYPE_1) ||
-                        ^~~~~~~
-   drivers/ssb/main.c:899:34: note: Left side of '||' is true
-                   if ((plltype =3D=3D SSB_PLLTYPE_1) ||
-                                                  ^
-   drivers/ssb/main.c:904:8: note: Calling 'clkfactor_f6_resolve'
-                   m3 =3D clkfactor_f6_resolve(m3);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:828:2: note: 'Default' branch taken. Execution contin=
-ues on line 842
-           switch (v) {
-           ^
-   drivers/ssb/main.c:842:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/ssb/main.c:904:8: note: Returning from 'clkfactor_f6_resolve'
-                   m3 =3D clkfactor_f6_resolve(m3);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:904:3: note: The value 0 is assigned to 'm3'
-                   m3 =3D clkfactor_f6_resolve(m3);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ssb/main.c:906:3: note: Control jumps to 'case 17:'  at line 915
-                   switch (mc) {
-                   ^
-   drivers/ssb/main.c:916:18: note: Division by zero
-                           return (clock / (m1 * m3));
-                                   ~~~~~~^~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/hwmon/pmbus/zl6100.c:122:41: note: The result of the left shift =
+is undefined because the left operand is negative
+           return (mantissa & 0x7ff) | ((exponent << 11) & 0xf800);
+                                         ~~~~~~~~ ^
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   7 warnings generated.
+   drivers/target/target_core_xcopy.c:124:2: warning: Value stored to 'ript=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           ript =3D get_unaligned_be16(&desc[2]);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_xcopy.c:124:2: note: Value stored to 'ript' i=
+s never read
+           ript =3D get_unaligned_be16(&desc[2]);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_xcopy.c:302:6: warning: Value stored to 'dc' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           int dc =3D (desc[1] & 0x02);
+               ^~   ~~~~~~~~~~~~~~~~
+   drivers/target/target_core_xcopy.c:302:6: note: Value stored to 'dc' dur=
+ing its initialization is never read
+           int dc =3D (desc[1] & 0x02);
+               ^~   ~~~~~~~~~~~~~~~~
+   drivers/target/target_core_xcopy.c:418:23: warning: Value stored to 'xpt=
+_cmd' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct xcopy_pt_cmd *xpt_cmd =3D container_of(se_cmd,
+                                ^~~~~~~
+   drivers/target/target_core_xcopy.c:418:23: note: Value stored to 'xpt_cm=
+d' during its initialization is never read
+           struct xcopy_pt_cmd *xpt_cmd =3D container_of(se_cmd,
+                                ^~~~~~~
+   drivers/target/target_core_xcopy.c:800:2: warning: Value stored to 'list=
+_id' is never read [clang-analyzer-deadcode.DeadStores]
+           list_id =3D p[0];
+           ^         ~~~~
+   drivers/target/target_core_xcopy.c:800:2: note: Value stored to 'list_id=
+' is never read
+           list_id =3D p[0];
+           ^         ~~~~
+   drivers/target/target_core_xcopy.c:801:2: warning: Value stored to 'list=
+_id_usage' is never read [clang-analyzer-deadcode.DeadStores]
+           list_id_usage =3D (p[1] & 0x18) >> 3;
+           ^               ~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_xcopy.c:801:2: note: Value stored to 'list_id=
+_usage' is never read
+           list_id_usage =3D (p[1] & 0x18) >> 3;
+           ^               ~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   26 warnings generated.
->> drivers/net/ethernet/intel/i40e/i40e_main.c:4643:2: warning: Value store=
-d to 'pf_q' is never read [clang-analyzer-deadcode.DeadStores]
-           pf_q =3D vsi->base_queue;
-           ^      ~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:4643:2: note: Value stored t=
-o 'pf_q' is never read
-           pf_q =3D vsi->base_queue;
-           ^      ~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:7949:3: warning: Value store=
-d to 'need_reset' is never read [clang-analyzer-deadcode.DeadStores]
-                   need_reset =3D false;
-                   ^            ~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:7949:3: note: Value stored t=
-o 'need_reset' is never read
-                   need_reset =3D false;
-                   ^            ~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9179:6: warning: Value store=
-d to 'queue' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-           u32 queue =3D le32_to_cpu(data->prtdcb_rupto);
-               ^~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9179:6: note: Value stored t=
-o 'queue' during its initialization is never read
-           u32 queue =3D le32_to_cpu(data->prtdcb_rupto);
-               ^~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9828:4: warning: Value store=
-d to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D i40e_vc_process_vf_msg(pf,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:9828:4: note: Value stored t=
-o 'ret' is never read
-                           ret =3D i40e_vc_process_vf_msg(pf,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:10707:3: warning: Value stor=
-ed to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D i40e_setup_misc_vector(pf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:10707:3: note: Value stored =
-to 'ret' is never read
-                   ret =3D i40e_setup_misc_vector(pf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:14131:3: warning: Value stor=
-ed to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D i40e_vsi_config_rss(vsi);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_main.c:14131:3: note: Value stored =
-to 'ret' is never read
-                   ret =3D i40e_vsi_config_rss(vsi);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 20 warnings (20 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:2716:4: warning: Value st=
-ored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D i40e_led_get_phy(hw, &temp_status,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/i40e/i40e_ethtool.c:2716:4: note: Value store=
-d to 'ret' is never read
-                           ret =3D i40e_led_get_phy(hw, &temp_status,
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 14 warnings (14 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   sound/soc/intel/atom/sst/sst_acpi.c:315:2: warning: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.s=
-trcpy]
-           strcpy(ctx->firmware_name, mach->fw_filename);
-           ^~~~~~
-   sound/soc/intel/atom/sst/sst_acpi.c:315:2: note: Call to function 'strcp=
-y' is insecure as it does not provide bounding of the memory buffer. Replac=
-e unbounded copy functions with analogous functions that support length arg=
-uments such as 'strlcpy'. CWE-119
-           strcpy(ctx->firmware_name, mach->fw_filename);
-           ^~~~~~
+   drivers/target/target_core_file.c:144:3: warning: Value stored to 'dev_s=
+ize' is never read [clang-analyzer-deadcode.DeadStores]
+                   dev_size =3D (i_size_read(file->f_mapping->host) -
+                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_file.c:144:3: note: Value stored to 'dev_size=
+' is never read
+                   dev_size =3D (i_size_read(file->f_mapping->host) -
+                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
@@ -275,99 +184,504 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   include/linux/list.h:135:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   sound/virtio/virtio_ctl_msg.c:238:2: note: Loop condition is false.  Exi=
-ting loop
-           spin_lock_irqsave(&queue->lock, flags);
+>> drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointe=
+d to by '_x' [clang-analyzer-unix.Malloc]
+                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
+);
+                           ^
+   drivers/nvme/host/core.c:845:10: note: Calling 'kzalloc'
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Memory is allocated
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:845:10: note: Returned allocated memory
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:846:6: note: Assuming 'range' is non-null
+           if (!range) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
            ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:846:7: note: 'range' is non-null
+           if (!range) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
            ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   sound/virtio/virtio_ctl_msg.c:238:2: note: Loop condition is false.  Exi=
-ting loop
-           spin_lock_irqsave(&queue->lock, flags);
+   drivers/nvme/host/core.c:846:2: note: Taking false branch
+           if (!range) {
            ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   sound/virtio/virtio_ctl_msg.c:239:2: note: Loop condition is true.  Ente=
-ring loop body
-           while (!list_empty(&snd->ctl_msgs)) {
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/core.c:858:2: note: Assuming field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:858:2: note: Field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:11: note: expanded from macro '__rq_for_each_=
+bio'
+           if ((rq->bio))                  \
+                    ^
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+--
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:871:7: note: '_x' is >=3D -1073741824
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                       ^
+   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
+_page'
+   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
+_pfn'
+   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
+   #define __pa(x)         __virt_to_phys((unsigned long)(x))
+                           ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:871:7: note: Left side of '&&' is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                       ^
+   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
+_page'
+   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
+_pfn'
+   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
+   #define __pa(x)         __virt_to_phys((unsigned long)(x))
+                           ^
+   arch/riscv/include/asm/page.h:138:27: note: expanded from macro '__virt_=
+to_phys'
+   #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:130:2: note: expanded from macro '__va_to_=
+pa_nodebug'
+           is_linear_mapping(_x) ?                                         =
+        \
+           ^
+   arch/riscv/include/asm/page.h:109:3: note: expanded from macro 'is_linea=
+r_mapping'
+           ((x) >=3D PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < ker=
+nel_map.virt_addr))
+            ^
+   drivers/nvme/host/core.c:871:7: note: Left side of '||' is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                       ^
+   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
+_page'
+   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
+_pfn'
+   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
+   #define __pa(x)         __virt_to_phys((unsigned long)(x))
+                           ^
+   arch/riscv/include/asm/page.h:138:27: note: expanded from macro '__virt_=
+to_phys'
+   #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:130:2: note: expanded from macro '__va_to_=
+pa_nodebug'
+           is_linear_mapping(_x) ?                                         =
+        \
+           ^
+   arch/riscv/include/asm/page.h:109:52: note: expanded from macro 'is_line=
+ar_mapping'
+           ((x) >=3D PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < ker=
+nel_map.virt_addr))
+                                                             ^
+   drivers/nvme/host/core.c:871:3: note: Assuming the condition is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                   ^
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:871:3: note: '?' condition is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/core.c:871:3: note: Taking true branch
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/core.c:872:4: note: Potential leak of memory pointed t=
+o by '_x'
+                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
+);
+                           ^
+>> drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointe=
+d to by '_y' [clang-analyzer-unix.Malloc]
+                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
+);
+                           ^
+   drivers/nvme/host/core.c:845:10: note: Calling 'kzalloc'
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Memory is allocated
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:845:10: note: Returned allocated memory
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:846:6: note: Assuming 'range' is non-null
+           if (!range) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:846:7: note: 'range' is non-null
+           if (!range) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/core.c:846:2: note: Taking false branch
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/core.c:858:2: note: Assuming field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:858:2: note: Field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:11: note: expanded from macro '__rq_for_each_=
+bio'
+           if ((rq->bio))                  \
+                    ^
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
 
-vim +/pf_q +4643 drivers/net/ethernet/intel/i40e/i40e_main.c
+vim +/_x +872 drivers/nvme/host/core.c
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4616  =
+8093f7ca73c163 Ming Lin             2016-04-12  830  =
 
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4617  /**
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4618   * i40e_vsi_stop_ring=
-s - Stop a VSI's rings
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4619   * @vsi: the VSI bein=
-g configured
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4620   **/
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4621  void i40e_vsi_stop_ri=
-ngs(struct i40e_vsi *vsi)
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4622  {
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4623  	struct i40e_pf *pf =
-=3D vsi->back;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4624  	int pf_q, err, q_end;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4625  =
+fc17b6534eb839 Christoph Hellwig    2017-06-03  831  static blk_status_t nv=
+me_setup_discard(struct nvme_ns *ns, struct request *req,
+8093f7ca73c163 Ming Lin             2016-04-12  832  		struct nvme_command =
+*cmnd)
+8093f7ca73c163 Ming Lin             2016-04-12  833  {
+b35ba01ea69791 Christoph Hellwig    2017-02-08  834  	unsigned short segmen=
+ts =3D blk_rq_nr_discard_segments(req), n =3D 0;
+8093f7ca73c163 Ming Lin             2016-04-12  835  	struct nvme_dsm_range=
+ *range;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  836  	struct bio *bio;
+8093f7ca73c163 Ming Lin             2016-04-12  837  =
 
-3480756f2cb93c Jacob Keller         2017-04-13  4626  	/* When port TX is s=
-uspended, don't wait */
-0da36b9774cc24 Jacob Keller         2017-04-19  4627  	if (test_bit(__I40E_=
-PORT_SUSPENDED, vsi->back->state))
-3480756f2cb93c Jacob Keller         2017-04-13  4628  		return i40e_vsi_sto=
-p_rings_no_wait(vsi);
-3480756f2cb93c Jacob Keller         2017-04-13  4629  =
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  838  	/*
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  839  	 * Some devices do no=
+t consider the DSM 'Number of Ranges' field when
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  840  	 * determining how mu=
+ch data to DMA. Always allocate memory for maximum
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  841  	 * number of segments=
+ to prevent device reading beyond end of buffer.
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  842  	 */
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  843  	static const size_t a=
+lloc_size =3D sizeof(*range) * NVME_DSM_MAX_RANGES;
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  844  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4630  	q_end =3D vsi->base_=
-queue + vsi->num_queue_pairs;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4631  	for (pf_q =3D vsi->b=
-ase_queue; pf_q < q_end; pf_q++)
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4632  		i40e_pre_tx_queue_c=
-fg(&pf->hw, (u32)pf_q, false);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4633  =
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  845  	range =3D kzalloc(all=
+oc_size, GFP_ATOMIC | __GFP_NOWARN);
+cb5b7262b011cf Jens Axboe           2018-12-12  846  	if (!range) {
+cb5b7262b011cf Jens Axboe           2018-12-12  847  		/*
+cb5b7262b011cf Jens Axboe           2018-12-12  848  		 * If we fail alloca=
+tion our range, fallback to the controller
+cb5b7262b011cf Jens Axboe           2018-12-12  849  		 * discard page. If =
+that's also busy, it's safe to return
+cb5b7262b011cf Jens Axboe           2018-12-12  850  		 * busy, as we know =
+we can make progress once that's freed.
+cb5b7262b011cf Jens Axboe           2018-12-12  851  		 */
+cb5b7262b011cf Jens Axboe           2018-12-12  852  		if (test_and_set_bit=
+_lock(0, &ns->ctrl->discard_page_busy))
+fc17b6534eb839 Christoph Hellwig    2017-06-03  853  			return BLK_STS_RESO=
+URCE;
+8093f7ca73c163 Ming Lin             2016-04-12  854  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4634  	for (pf_q =3D vsi->b=
-ase_queue; pf_q < q_end; pf_q++) {
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4635  		err =3D i40e_contro=
-l_wait_rx_q(pf, pf_q, false);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4636  		if (err)
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4637  			dev_info(&pf->pdev=
-->dev,
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4638  				 "VSI seid %d Rx =
-ring %d dissable timeout\n",
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4639  				 vsi->seid, pf_q);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4640  	}
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4641  =
+cb5b7262b011cf Jens Axboe           2018-12-12  855  		range =3D page_addre=
+ss(ns->ctrl->discard_page);
+cb5b7262b011cf Jens Axboe           2018-12-12  856  	}
+cb5b7262b011cf Jens Axboe           2018-12-12  857  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4642  	msleep(I40E_DISABLE_=
-TX_GAP_MSEC);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29 @4643  	pf_q =3D vsi->base_q=
-ueue;
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4644  	for (pf_q =3D vsi->b=
-ase_queue; pf_q < q_end; pf_q++)
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4645  		wr32(&pf->hw, I40E_=
-QTX_ENA(pf_q), 0);
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4646  =
+b35ba01ea69791 Christoph Hellwig    2017-02-08  858  	__rq_for_each_bio(bio=
+, req) {
+314d48dd224897 Damien Le Moal       2019-10-21  859  		u64 slba =3D nvme_se=
+ct_to_lba(ns, bio->bi_iter.bi_sector);
+b35ba01ea69791 Christoph Hellwig    2017-02-08  860  		u32 nlb =3D bio->bi_=
+iter.bi_size >> ns->lba_shift;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  861  =
 
-65662a8dcdd013 Arkadiusz Kubalewski 2021-04-29  4647  	i40e_vsi_wait_queues=
-_disabled(vsi);
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4648  }
-3aa7b74dbeedfb Filip Sadowski       2016-10-11  4649  =
+8cb6af7b3a6d47 Keith Busch          2018-01-31  862  		if (n < segments) {
+b35ba01ea69791 Christoph Hellwig    2017-02-08  863  			range[n].cattr =3D =
+cpu_to_le32(0);
+b35ba01ea69791 Christoph Hellwig    2017-02-08  864  			range[n].nlb =3D cp=
+u_to_le32(nlb);
+b35ba01ea69791 Christoph Hellwig    2017-02-08  865  			range[n].slba =3D c=
+pu_to_le64(slba);
+8cb6af7b3a6d47 Keith Busch          2018-01-31  866  		}
+b35ba01ea69791 Christoph Hellwig    2017-02-08  867  		n++;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  868  	}
+b35ba01ea69791 Christoph Hellwig    2017-02-08  869  =
 
+b35ba01ea69791 Christoph Hellwig    2017-02-08  870  	if (WARN_ON_ONCE(n !=
+=3D segments)) {
+cb5b7262b011cf Jens Axboe           2018-12-12 @871  		if (virt_to_page(ran=
+ge) =3D=3D ns->ctrl->discard_page)
+cb5b7262b011cf Jens Axboe           2018-12-12 @872  			clear_bit_unlock(0,=
+ &ns->ctrl->discard_page_busy);
+cb5b7262b011cf Jens Axboe           2018-12-12  873  		else
+b35ba01ea69791 Christoph Hellwig    2017-02-08  874  			kfree(range);
+fc17b6534eb839 Christoph Hellwig    2017-06-03  875  		return BLK_STS_IOERR;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  876  	}
+8093f7ca73c163 Ming Lin             2016-04-12  877  =
+
+8093f7ca73c163 Ming Lin             2016-04-12  878  	cmnd->dsm.opcode =3D =
+nvme_cmd_dsm;
+ed754e5deeb17f Christoph Hellwig    2017-11-09  879  	cmnd->dsm.nsid =3D cp=
+u_to_le32(ns->head->ns_id);
+f1dd03a84dbf3e Christoph Hellwig    2017-03-31  880  	cmnd->dsm.nr =3D cpu_=
+to_le32(segments - 1);
+8093f7ca73c163 Ming Lin             2016-04-12  881  	cmnd->dsm.attributes =
+=3D cpu_to_le32(NVME_DSMGMT_AD);
+8093f7ca73c163 Ming Lin             2016-04-12  882  =
+
+f9d03f96b98800 Christoph Hellwig    2016-12-08  883  	req->special_vec.bv_p=
+age =3D virt_to_page(range);
+f9d03f96b98800 Christoph Hellwig    2016-12-08  884  	req->special_vec.bv_o=
+ffset =3D offset_in_page(range);
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  885  	req->special_vec.bv_l=
+en =3D alloc_size;
+f9d03f96b98800 Christoph Hellwig    2016-12-08  886  	req->rq_flags |=3D RQ=
+F_SPECIAL_PAYLOAD;
+8093f7ca73c163 Ming Lin             2016-04-12  887  =
+
+fc17b6534eb839 Christoph Hellwig    2017-06-03  888  	return BLK_STS_OK;
+8093f7ca73c163 Ming Lin             2016-04-12  889  }
+8093f7ca73c163 Ming Lin             2016-04-12  890  =
+
+
+:::::: The code at line 872 was first introduced by commit
+:::::: cb5b7262b011cfb793519bf97e54dff5282da23c nvme: provide fallback for =
+discard alloc failure
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8353458450870873858==--
+--===============1946101013303060310==--
 
