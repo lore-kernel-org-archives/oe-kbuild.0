@@ -1,49 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============3877036359172854170=="
+Content-Type: multipart/mixed; boundary="===============6623931794926551622=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH v2 2/2] kernfs: Reduce contention around global per-fs kernfs_rwsem.
-Date: Tue, 04 Jan 2022 15:20:58 +0800
-Message-ID: <202201041512.lFBs9kxK-lkp@intel.com>
+Subject: Re: [PATCH RFC bpf-next v1 5/8] bpf: Introduce a new program type bpf_view.
+Date: Mon, 10 Jan 2022 15:06:47 +0800
+Message-ID: <202201101429.2XquVD3A-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3877036359172854170==
+--===============6623931794926551622==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220103084544.1109829-3-imran.f.khan@oracle.com>
-References: <20220103084544.1109829-3-imran.f.khan@oracle.com>
-TO: Imran Khan <imran.f.khan@oracle.com>
+In-Reply-To: <20220106215059.2308931-6-haoluo@google.com>
+References: <20220106215059.2308931-6-haoluo@google.com>
+TO: Hao Luo <haoluo@google.com>
 
-Hi Imran,
+Hi Hao,
 
 [FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on ea586a076e8aa606c59b66d86660590f18354b11]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/0day-ci/linux/commits/Imran-Khan/kernfs-use-kern=
-fs_node-specific-mutex-and-spinlock/20220103-164752
-base:   ea586a076e8aa606c59b66d86660590f18354b11
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: arm-randconfig-c002-20220102 (https://download.01.org/0day-ci/archi=
-ve/20220104/202201041512.lFBs9kxK-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b50fea=
-47b6c454581fce89af359f3afe5154986c)
+url:    https://github.com/0day-ci/linux/commits/Hao-Luo/Pinning-bpf-object=
+s-outside-bpffs/20220107-055252
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
+ster
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-c002-20220107 (https://download.01.org/0day-ci/archi=
+ve/20220110/202201101429.2XquVD3A-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 32167b=
+fe64a4c5dd4eb3f7a58e24f4cba76f5ac2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/3dd2a5f81a41be1f22391cc8e=
-f0ac78293de0141
+        # https://github.com/0day-ci/linux/commit/f3a5b66e45ed0d7bdc610cce2=
+e0b6a3c606dbb95
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Imran-Khan/kernfs-use-kernfs_node-=
-specific-mutex-and-spinlock/20220103-164752
-        git checkout 3dd2a5f81a41be1f22391cc8ef0ac78293de0141
+        git fetch --no-tags linux-review Hao-Luo/Pinning-bpf-objects-outsid=
+e-bpffs/20220107-055252
+        git checkout f3a5b66e45ed0d7bdc610cce2e0b6a3c606dbb95
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -54,350 +55,289 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/drm_ioctl.c:390:7: note: Assuming field 'drm_di_major' i=
-s equal to DRM_IF_MAJOR
-                   if (sv->drm_di_major !=3D DRM_IF_MAJOR ||
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:390:7: note: Left side of '||' is false
-   drivers/gpu/drm/drm_ioctl.c:391:7: note: Assuming field 'drm_di_minor' i=
-s >=3D 0
-                       sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MI=
-NOR) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:390:7: note: Left side of '||' is false
-                   if (sv->drm_di_major !=3D DRM_IF_MAJOR ||
-                       ^
-   drivers/gpu/drm/drm_ioctl.c:391:31: note: Assuming field 'drm_di_minor' =
-is <=3D DRM_IF_MINOR
-                       sv->drm_di_minor < 0 || sv->drm_di_minor > DRM_IF_MI=
-NOR) {
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/drm_ioctl.c:390:3: note: Taking false branch
-                   if (sv->drm_di_major !=3D DRM_IF_MAJOR ||
-                   ^
-   drivers/gpu/drm/drm_ioctl.c:397:21: note: Assuming '__UNIQUE_ID___x289' =
-is <=3D '__UNIQUE_ID___y290'
-                   dev->if_version =3D max(if_version, dev->if_version);
-                                     ^
-   include/linux/minmax.h:52:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(x, y, >)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:397:21: note: '?' condition is false
-                   dev->if_version =3D max(if_version, dev->if_version);
-                                     ^
-   include/linux/minmax.h:52:19: note: expanded from macro 'max'
-   #define max(x, y)       __careful_cmp(x, y, >)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/gpu/drm/drm_ioctl.c:398:7: note: Assuming field 'drm_di_minor' i=
-s >=3D 1
-                   if (sv->drm_di_minor >=3D 1) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:398:3: note: Taking true branch
-                   if (sv->drm_di_minor >=3D 1) {
-                   ^
-   drivers/gpu/drm/drm_ioctl.c:403:14: note: Calling 'drm_set_busid'
-                           retcode =3D drm_set_busid(dev, file_priv);
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:150:6: note: Assuming field 'unique' is equa=
-l to NULL
-           if (master->unique !=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:150:2: note: Taking false branch
-           if (master->unique !=3D NULL)
-           ^
-   drivers/gpu/drm/drm_ioctl.c:153:6: note: Assuming field 'dev' is null
-           if (dev->dev && dev_is_pci(dev->dev)) {
-               ^~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:153:15: note: Left side of '&&' is false
-           if (dev->dev && dev_is_pci(dev->dev)) {
-                        ^
-   drivers/gpu/drm/drm_ioctl.c:160:11: note: Assuming field 'unique' is null
-                   WARN_ON(!dev->unique);
-                           ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:162:7: note: Assuming field 'unique' is non-=
-null
-                   if (master->unique)
-                       ^~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_ioctl.c:162:3: note: Taking true branch
-                   if (master->unique)
-                   ^
-   drivers/gpu/drm/drm_ioctl.c:163:25: note: Null pointer passed as 1st arg=
-ument to string length function
-                           master->unique_len =3D strlen(dev->unique);
-                                                ^      ~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
->> fs/kernfs/inode.c:102:22: warning: Value stored to 'root' during its ini=
-tialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct kernfs_root *root =3D kernfs_root(kn);
-                               ^~~~   ~~~~~~~~~~~~~~~
-   fs/kernfs/inode.c:102:22: note: Value stored to 'root' during its initia=
-lization is never read
-           struct kernfs_root *root =3D kernfs_root(kn);
-                               ^~~~   ~~~~~~~~~~~~~~~
->> fs/kernfs/inode.c:123:2: warning: Value stored to 'root' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           root =3D kernfs_root(kn);
-           ^      ~~~~~~~~~~~~~~~
-   fs/kernfs/inode.c:123:2: note: Value stored to 'root' is never read
-           root =3D kernfs_root(kn);
-           ^      ~~~~~~~~~~~~~~~
-   fs/kernfs/inode.c:194:22: warning: Value stored to 'root' during its ini=
-tialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct kernfs_root *root =3D kernfs_root(kn);
-                               ^~~~   ~~~~~~~~~~~~~~~
-   fs/kernfs/inode.c:194:22: note: Value stored to 'root' during its initia=
-lization is never read
-           struct kernfs_root *root =3D kernfs_root(kn);
-                               ^~~~   ~~~~~~~~~~~~~~~
-   fs/kernfs/inode.c:295:2: warning: Value stored to 'root' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           root =3D kernfs_root(kn);
-           ^      ~~~~~~~~~~~~~~~
-   fs/kernfs/inode.c:295:2: note: Value stored to 'root' is never read
-           root =3D kernfs_root(kn);
-           ^      ~~~~~~~~~~~~~~~
-   Suppressed 11 warnings (7 in non-user code, 4 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   arch/arm/mach-pxa/pcm990-baseboard.c:344:3: warning: Value stored to 'va=
-l' is never read [clang-analyzer-deadcode.DeadStores]
-                   val |=3D PCM990_CTRL_MMC2PWR;
-                   ^
-   arch/arm/mach-pxa/pcm990-baseboard.c:344:3: note: Value stored to 'val' =
-is never read
-   arch/arm/mach-pxa/pcm990-baseboard.c:346:3: warning: Value stored to 'va=
-l' is never read [clang-analyzer-deadcode.DeadStores]
-                   val &=3D ~PCM990_CTRL_MMC2PWR;
-                   ^      ~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-pxa/pcm990-baseboard.c:346:3: note: Value stored to 'val' =
-is never read
-                   val &=3D ~PCM990_CTRL_MMC2PWR;
-                   ^      ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   fs/ext4/mballoc.c:5817:3: note: Value stored to 'err' is never read
+                   err =3D PTR_ERR(bitmap_bh);
+                   ^     ~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    1 warning generated.
    Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   2 warnings generated.
+   fs/xfs/libxfs/xfs_attr.c:1243:2: warning: Value stored to 'error' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           error =3D xfs_attr_node_removename(args, state);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr.c:1243:2: note: Value stored to 'error' is never =
+read
+           error =3D xfs_attr_node_removename(args, state);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   3 warnings generated.
+   fs/xfs/libxfs/xfs_attr_leaf.c:2243:29: warning: Value stored to 'drop_le=
+af' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct xfs_attr_leafblock *drop_leaf =3D drop_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr_leaf.c:2243:29: note: Value stored to 'drop_leaf'=
+ during its initialization is never read
+           struct xfs_attr_leafblock *drop_leaf =3D drop_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr_leaf.c:2244:29: warning: Value stored to 'save_le=
+af' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct xfs_attr_leafblock *save_leaf =3D save_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr_leaf.c:2244:29: note: Value stored to 'save_leaf'=
+ during its initialization is never read
+           struct xfs_attr_leafblock *save_leaf =3D save_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   4 warnings generated.
+   fs/xfs/xfs_reflink.c:1151:3: warning: Value stored to 'qdelta' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   qdelta +=3D dmap->br_blockcount;
+                   ^         ~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_reflink.c:1151:3: note: Value stored to 'qdelta' is never read
+                   qdelta +=3D dmap->br_blockcount;
+                   ^         ~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_reflink.c:1326:2: warning: Value stored to 'ret' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           ret =3D -EINVAL;
+           ^     ~~~~~~~
+   fs/xfs/xfs_reflink.c:1326:2: note: Value stored to 'ret' is never read
+           ret =3D -EINVAL;
+           ^     ~~~~~~~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   1 warning generated.
+   drivers/clk/clk-max9485.c:199:9: warning: Access to field 'out' results =
+in a dereference of a null pointer (loaded from variable 'prev') [clang-ana=
+lyzer-core.NullDereference]
+           return prev->out;
+                  ^~~~
+   drivers/clk/clk-max9485.c:165:36: note: 'prev' initialized to a null poi=
+nter value
+           const struct max9485_rate *curr, *prev =3D NULL;
+                                             ^~~~
+   drivers/clk/clk-max9485.c:167:29: note: Assuming field 'out' is equal to=
+ 0
+           for (curr =3D max9485_rates; curr->out !=3D 0; curr++) {
+                                      ^~~~~~~~~~~~~~
+   drivers/clk/clk-max9485.c:167:2: note: Loop condition is false. Executio=
+n continues on line 199
+           for (curr =3D max9485_rates; curr->out !=3D 0; curr++) {
+           ^
+   drivers/clk/clk-max9485.c:199:9: note: Access to field 'out' results in =
+a dereference of a null pointer (loaded from variable 'prev')
+           return prev->out;
+                  ^~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   ipc/sem.c:688:29: warning: Access to field 'sem_num' results in a derefe=
-rence of a null pointer (loaded from variable 'sop') [clang-analyzer-core.N=
-ullDereference]
-                   ipc_update_pid(&sma->sems[sop->sem_num].sempid, pid);
-                                             ^
-   ipc/sem.c:2344:6: note: Assuming 'ulp' is non-null
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+>> kernel/bpf/bpf_view.c:151:36: warning: Array subscript is undefined [cla=
+ng-analyzer-core.uninitialized.ArraySubscript]
+                   target->ctx_arg_info[i].btf_id =3D bpf_view_btf_ids[idx[=
+i]];
+                                                    ^
+   kernel/bpf/bpf_view.c:174:2: note: Calling 'register_bpf_view_target'
+           register_bpf_view_target(&cgroup_view_tinfo, cgroup_view_idx);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/bpf_view.c:150:14: note: Assuming 'i' is < field 'ctx_arg_inf=
+o_size'
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/bpf_view.c:150:2: note: Loop condition is true.  Entering loo=
+p body
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+           ^
+   kernel/bpf/bpf_view.c:150:14: note: Assuming 'i' is < field 'ctx_arg_inf=
+o_size'
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/bpf_view.c:150:2: note: Loop condition is true.  Entering loo=
+p body
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+           ^
+   kernel/bpf/bpf_view.c:150:45: note: The value 2 is assigned to 'i'
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+                                                      ^~~
+   kernel/bpf/bpf_view.c:150:14: note: Assuming 'i' is < field 'ctx_arg_inf=
+o_size'
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/bpf_view.c:150:2: note: Loop condition is true.  Entering loo=
+p body
+           for (i =3D 0; i < target->ctx_arg_info_size; ++i)
+           ^
+   kernel/bpf/bpf_view.c:151:36: note: Array subscript is undefined
+                   target->ctx_arg_info[i].btf_id =3D bpf_view_btf_ids[idx[=
+i]];
+                                                    ^                ~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   mm/slab.c:1645:2: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]
+           list_for_each_entry_safe(page, n, list, slab_list) {
+           ^
+   include/linux/list.h:718:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^
+   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
+of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^
+   mm/slab.c:4135:6: note: Assuming 'count' is <=3D MAX_SLABINFO_WRITE
+           if (count > MAX_SLABINFO_WRITE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab.c:4135:2: note: Taking false branch
+           if (count > MAX_SLABINFO_WRITE)
+           ^
+   mm/slab.c:4137:2: note: Taking false branch
+           if (copy_from_user(&kbuf, buffer, count))
+           ^
+   mm/slab.c:4142:6: note: Assuming 'tmp' is non-null
+           if (!tmp)
+               ^~~~
+   mm/slab.c:4142:2: note: Taking false branch
+           if (!tmp)
+           ^
+   mm/slab.c:4146:6: note: Assuming the condition is false
+           if (sscanf(tmp, " %d %d %d", &limit, &batchcount, &shared) !=3D =
+3)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab.c:4146:2: note: Taking false branch
+           if (sscanf(tmp, " %d %d %d", &limit, &batchcount, &shared) !=3D =
+3)
+           ^
+   mm/slab.c:4152:2: note: Loop condition is true.  Entering loop body
+           list_for_each_entry(cachep, &slab_caches, list) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   mm/slab.c:4153:7: note: Assuming the condition is true
+                   if (!strcmp(cachep->name, kbuf)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slab.c:4153:3: note: Taking true branch
+                   if (!strcmp(cachep->name, kbuf)) {
+                   ^
+   mm/slab.c:4154:8: note: Assuming 'limit' is >=3D 1
+                           if (limit < 1 || batchcount < 1 ||
+                               ^~~~~~~~~
+   mm/slab.c:4154:8: note: Left side of '||' is false
+   mm/slab.c:4154:21: note: Assuming 'batchcount' is >=3D 1
+                           if (limit < 1 || batchcount < 1 ||
+                                            ^~~~~~~~~~~~~~
+   mm/slab.c:4154:8: note: Left side of '||' is false
+                           if (limit < 1 || batchcount < 1 ||
+                               ^
+   mm/slab.c:4155:6: note: Assuming 'batchcount' is <=3D 'limit'
+                                           batchcount > limit || shared < 0=
+) {
+                                           ^~~~~~~~~~~~~~~~~~
+   mm/slab.c:4154:8: note: Left side of '||' is false
 
-vim +/root +102 fs/kernfs/inode.c
+vim +151 kernel/bpf/bpf_view.c
 
-ffed24e22845a3 Tejun Heo         2013-11-28   91  =
+f3a5b66e45ed0d Hao Luo 2022-01-06  144  =
 
-ffed24e22845a3 Tejun Heo         2013-11-28   92  /**
-ffed24e22845a3 Tejun Heo         2013-11-28   93   * kernfs_setattr - set i=
-attr on a node
-324a56e16e44ba Tejun Heo         2013-12-11   94   * @kn: target node
-ffed24e22845a3 Tejun Heo         2013-11-28   95   * @iattr: iattr to set
-ffed24e22845a3 Tejun Heo         2013-11-28   96   *
-ffed24e22845a3 Tejun Heo         2013-11-28   97   * Returns 0 on success, =
--errno on failure.
-ffed24e22845a3 Tejun Heo         2013-11-28   98   */
-324a56e16e44ba Tejun Heo         2013-12-11   99  int kernfs_setattr(struct=
- kernfs_node *kn, const struct iattr *iattr)
-ffed24e22845a3 Tejun Heo         2013-11-28  100  {
-ffed24e22845a3 Tejun Heo         2013-11-28  101  	int ret;
-393c3714081a53 Minchan Kim       2021-11-18 @102  	struct kernfs_root *root=
- =3D kernfs_root(kn);
-ffed24e22845a3 Tejun Heo         2013-11-28  103  =
+f3a5b66e45ed0d Hao Luo 2022-01-06  145  static void register_bpf_view_targe=
+t(struct bpf_view_target_info *target,
+f3a5b66e45ed0d Hao Luo 2022-01-06  146  				     int idx[BPF_VIEW_CTX_ARG_M=
+AX])
+f3a5b66e45ed0d Hao Luo 2022-01-06  147  {
+f3a5b66e45ed0d Hao Luo 2022-01-06  148  	int i;
+f3a5b66e45ed0d Hao Luo 2022-01-06  149  =
 
-3dd2a5f81a41be Imran Khan        2022-01-03  104  	kernfs_get(kn);
-3dd2a5f81a41be Imran Khan        2022-01-03  105  	down_write(&kn->kernfs_i=
-op_rwsem);
-324a56e16e44ba Tejun Heo         2013-12-11  106  	ret =3D __kernfs_setattr=
-(kn, iattr);
-3dd2a5f81a41be Imran Khan        2022-01-03  107  	up_write(&kn->kernfs_iop=
-_rwsem);
-3dd2a5f81a41be Imran Khan        2022-01-03  108  	kernfs_put(kn);
-ffed24e22845a3 Tejun Heo         2013-11-28  109  	return ret;
-ffed24e22845a3 Tejun Heo         2013-11-28  110  }
-ffed24e22845a3 Tejun Heo         2013-11-28  111  =
+f3a5b66e45ed0d Hao Luo 2022-01-06  150  	for (i =3D 0; i < target->ctx_arg_=
+info_size; ++i)
+f3a5b66e45ed0d Hao Luo 2022-01-06 @151  		target->ctx_arg_info[i].btf_id =
+=3D bpf_view_btf_ids[idx[i]];
+f3a5b66e45ed0d Hao Luo 2022-01-06  152  =
 
-549c7297717c32 Christian Brauner 2021-01-21  112  int kernfs_iop_setattr(st=
-ruct user_namespace *mnt_userns, struct dentry *dentry,
-549c7297717c32 Christian Brauner 2021-01-21  113  		       struct iattr *ia=
-ttr)
-ffed24e22845a3 Tejun Heo         2013-11-28  114  {
-2b0143b5c986be David Howells     2015-03-17  115  	struct inode *inode =3D =
-d_inode(dentry);
-319ba91d352a74 Shaohua Li        2017-07-12  116  	struct kernfs_node *kn =
-=3D inode->i_private;
-393c3714081a53 Minchan Kim       2021-11-18  117  	struct kernfs_root *root;
-ffed24e22845a3 Tejun Heo         2013-11-28  118  	int error;
-ffed24e22845a3 Tejun Heo         2013-11-28  119  =
-
-324a56e16e44ba Tejun Heo         2013-12-11  120  	if (!kn)
-ffed24e22845a3 Tejun Heo         2013-11-28  121  		return -EINVAL;
-ffed24e22845a3 Tejun Heo         2013-11-28  122  =
-
-393c3714081a53 Minchan Kim       2021-11-18 @123  	root =3D kernfs_root(kn);
-3dd2a5f81a41be Imran Khan        2022-01-03  124  	kernfs_get(kn);
-3dd2a5f81a41be Imran Khan        2022-01-03  125  	down_write(&kn->kernfs_i=
-op_rwsem);
-2f221d6f7b881d Christian Brauner 2021-01-21  126  	error =3D setattr_prepar=
-e(&init_user_ns, dentry, iattr);
-ffed24e22845a3 Tejun Heo         2013-11-28  127  	if (error)
-ffed24e22845a3 Tejun Heo         2013-11-28  128  		goto out;
-ffed24e22845a3 Tejun Heo         2013-11-28  129  =
-
-324a56e16e44ba Tejun Heo         2013-12-11  130  	error =3D __kernfs_setat=
-tr(kn, iattr);
-ffed24e22845a3 Tejun Heo         2013-11-28  131  	if (error)
-ffed24e22845a3 Tejun Heo         2013-11-28  132  		goto out;
-ffed24e22845a3 Tejun Heo         2013-11-28  133  =
-
-ffed24e22845a3 Tejun Heo         2013-11-28  134  	/* this ignores size cha=
-nges */
-2f221d6f7b881d Christian Brauner 2021-01-21  135  	setattr_copy(&init_user_=
-ns, inode, iattr);
-ffed24e22845a3 Tejun Heo         2013-11-28  136  =
-
-ffed24e22845a3 Tejun Heo         2013-11-28  137  out:
-3dd2a5f81a41be Imran Khan        2022-01-03  138  	up_write(&kn->kernfs_iop=
-_rwsem);
-3dd2a5f81a41be Imran Khan        2022-01-03  139  	kernfs_put(kn);
-ffed24e22845a3 Tejun Heo         2013-11-28  140  	return error;
-ffed24e22845a3 Tejun Heo         2013-11-28  141  }
-ffed24e22845a3 Tejun Heo         2013-11-28  142  =
+f3a5b66e45ed0d Hao Luo 2022-01-06  153  	INIT_LIST_HEAD(&target->list);
+f3a5b66e45ed0d Hao Luo 2022-01-06  154  	list_add(&target->list, &targets);
+f3a5b66e45ed0d Hao Luo 2022-01-06  155  }
+f3a5b66e45ed0d Hao Luo 2022-01-06  156  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3877036359172854170==--
+--===============6623931794926551622==--
 
