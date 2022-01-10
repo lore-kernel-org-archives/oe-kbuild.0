@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0456185222228359571=="
+Content-Type: multipart/mixed; boundary="===============2126199908166144428=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/intel/iwlegacy/common.c:1434:39: warning: Value stored to 'scan_notif' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 03 Jan 2022 10:47:02 +0800
-Message-ID: <202201031008.of9ldCoK-lkp@intel.com>
+Subject: drivers/hv/channel.c:875:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 10 Jan 2022 12:44:39 +0800
+Message-ID: <202201101236.11p9o4ph-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0456185222228359571==
+--===============2126199908166144428==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Kalle Valo <kvalo@codeaurora.org>
+TO: Tianyu Lan <Tianyu.Lan@microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Michael Kelley <mikelley@microsoft.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   c9e6606c7fe92b50a02ce51dda82586ebdf99b48
-commit: fa9f5d0e0b45a06802f7cb3afed237be6066821e iwlegacy: avoid -Wempty-bo=
-dy warning
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-c001-20211215 (https://download.01.org/0day-ci/arch=
-ive/20220103/202201031008.of9ldCoK-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
+head:   df0cc57e057f18e44dac8e6c18aba47ab53202f9
+commit: d4dccf353db80e209f262e3973c834e6e48ba9a9 Drivers: hv: vmbus: Mark v=
+mbus ring buffer visible to host in Isolation VM
+date:   2 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 2 months ago
+config: x86_64-randconfig-c007-20220108 (https://download.01.org/0day-ci/ar=
+chive/20220110/202201101236.11p9o4ph-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f3a344=
+d2125fa37e59bae1b0874442c650a19607)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfa9f5d0e0b45a06802f7cb3afed237be6066821e
+t/commit/?id=3Dd4dccf353db80e209f262e3973c834e6e48ba9a9
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout fa9f5d0e0b45a06802f7cb3afed237be6066821e
+        git checkout d4dccf353db80e209f262e3973c834e6e48ba9a9
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,108 +51,262 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^     ~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (15 in non-user code, 2 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   16 warnings generated.
-   drivers/video/fbdev/aty/atyfb_base.c:167:10: warning: 1st function call =
-argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   return aty_ld_le32(lt_lcd_regs[index], par);
-                          ^
-   drivers/video/fbdev/aty/atyfb_base.c:2220:32: note: Passing the value 20=
- via 1st parameter 'index'
-           unsigned int reg =3D aty_ld_lcd(LCD_MISC_CNTL, par);
-                                         ^
-   include/video/mach64.h:1273:24: note: expanded from macro 'LCD_MISC_CNTL'
-   #define LCD_MISC_CNTL           0x14
-                                   ^~~~
-   drivers/video/fbdev/aty/atyfb_base.c:2220:21: note: Calling 'aty_ld_lcd'
-           unsigned int reg =3D aty_ld_lcd(LCD_MISC_CNTL, par);
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/aty/atyfb_base.c:166:6: note: Assuming the condition=
- is true
-           if (M64_HAS(LT_LCD_REGS)) {
-               ^
-   drivers/video/fbdev/aty/atyfb.h:197:27: note: expanded from macro 'M64_H=
-AS'
-   #define M64_HAS(feature)        ((par)->features & (M64F_##feature))
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/aty/atyfb_base.c:166:2: note: Taking true branch
-           if (M64_HAS(LT_LCD_REGS)) {
-           ^
-   drivers/video/fbdev/aty/atyfb_base.c:167:10: note: 1st function call arg=
-ument is an uninitialized value
-                   return aty_ld_le32(lt_lcd_regs[index], par);
-                          ^           ~~~~~~~~~~~~~~~~~~
-   Suppressed 14 warnings (14 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/mtd/nand/raw/nand_bbt.c:550:3: warning: Value stored to 'bbtbloc=
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/ata/libata-eh.c:3231:19: warning: Value stored to 'ap' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ata_port *ap =3D ata_is_host_link(link) ? link->ap : NULL;
+                            ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3231:19: note: Value stored to 'ap' during its i=
+nitialization is never read
+           struct ata_port *ap =3D ata_is_host_link(link) ? link->ap : NULL;
+                            ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3232:25: warning: Value stored to 'ehc' during i=
+ts initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ata_eh_context *ehc =3D &link->eh_context;
+                                  ^~~   ~~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3232:25: note: Value stored to 'ehc' during its =
+initialization is never read
+           struct ata_eh_context *ehc =3D &link->eh_context;
+                                  ^~~   ~~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3234:22: warning: Value stored to 'old_policy' d=
+uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           enum ata_lpm_policy old_policy =3D link->lpm_policy;
+                               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3234:22: note: Value stored to 'old_policy' duri=
+ng its initialization is never read
+           enum ata_lpm_policy old_policy =3D link->lpm_policy;
+                               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3235:7: warning: Value stored to 'no_dipm' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           bool no_dipm =3D link->ap->flags & ATA_FLAG_NO_DIPM;
+                ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/libata-eh.c:3235:7: note: Value stored to 'no_dipm' during i=
+ts initialization is never read
+           bool no_dipm =3D link->ap->flags & ATA_FLAG_NO_DIPM;
+                ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/mtd/mtdcore.c:660:3: warning: Value stored to 'error' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   error =3D 0;
+                   ^       ~
+   drivers/mtd/mtdcore.c:660:3: note: Value stored to 'error' is never read
+                   error =3D 0;
+                   ^       ~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> drivers/hv/channel.c:875:3: warning: Value stored to 'ret' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   drivers/hv/channel.c:875:3: note: Value stored to 'ret' is never read
+                   ret =3D 0;
+                   ^     ~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/media/dvb-core/dvb_frontend.c:1582:3: warning: Value stored to '=
+len' is never read [clang-analyzer-deadcode.DeadStores]
+                   len =3D 1;
+                   ^     ~
+   drivers/media/dvb-core/dvb_frontend.c:1582:3: note: Value stored to 'len=
+' is never read
+                   len =3D 1;
+                   ^     ~
+   Suppressed 8 warnings (3 in non-user code, 5 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/mtd/nand/raw/nand_bbt.c:579:3: warning: Value stored to 'bbtbloc=
 ks' is never read [clang-analyzer-deadcode.DeadStores]
                    bbtblocks =3D mtd->size >> this->bbt_erase_shift;
                    ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/nand_bbt.c:550:3: note: Value stored to 'bbtblocks'=
+   drivers/mtd/nand/raw/nand_bbt.c:579:3: note: Value stored to 'bbtblocks'=
  is never read
                    bbtblocks =3D mtd->size >> this->bbt_erase_shift;
                    ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
@@ -162,453 +317,181 @@ se -system-headers to display errors from system headers as well.
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
->> drivers/net/wireless/intel/iwlegacy/common.c:1434:39: warning: Value sto=
-red to 'scan_notif' during its initialization is never read [clang-analyzer=
--deadcode.DeadStores]
-           struct il_scancomplete_notification *scan_notif =3D (void *)pkt-=
->u.raw;
-                                                ^~~~~~~~~~   ~~~~~~~~~~~~~~=
-~~~~
-   drivers/net/wireless/intel/iwlegacy/common.c:1434:39: note: Value stored=
- to 'scan_notif' during its initialization is never read
-           struct il_scancomplete_notification *scan_notif =3D (void *)pkt-=
->u.raw;
-                                                ^~~~~~~~~~   ~~~~~~~~~~~~~~=
-~~~~
-   drivers/net/wireless/intel/iwlegacy/common.c:5491:2: warning: Value stor=
-ed to 'inta_mask' is never read [clang-analyzer-deadcode.DeadStores]
-           inta_mask =3D _il_rd(il, CSR_INT_MASK);   /* just for debug */
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/common.c:5491:2: note: Value stored =
-to 'inta_mask' is never read
-           inta_mask =3D _il_rd(il, CSR_INT_MASK);   /* just for debug */
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:254:3: warning: Use of me=
-mory after it is freed [clang-analyzer-unix.Malloc]
-                   list_del(element);
-                   ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2826:2: note: Taking fals=
-e branch
-           D_MAC80211("enter\n");
-           ^
-   drivers/net/wireless/intel/iwlegacy/common.h:3025:29: note: expanded fro=
-m macro 'D_MAC80211'
-   #define D_MAC80211(f, a...)     IL_DBG(IL_DL_MAC80211, f, ## a)
-                                   ^
-   drivers/net/wireless/intel/iwlegacy/common.h:2940:37: note: expanded fro=
-m macro 'IL_DBG'
-   #define IL_DBG(level, fmt, args...) no_printk(fmt, ##args)
-                                       ^
-   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2828:6: note: Assuming fi=
-eld 'is_open' is not equal to 0
-           if (!il->is_open) {
-               ^~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2828:2: note: Taking fals=
-e branch
-           if (!il->is_open) {
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2835:2: note: Calling 'il=
-3945_down'
-           il3945_down(il);
-           ^~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2312:2: note: Calling '__=
-il3945_down'
-           __il3945_down(il);
-           ^~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2227:2: note: Taking fals=
-e branch
-           D_INFO(DRV_NAME " is going down\n");
-           ^
-   drivers/net/wireless/intel/iwlegacy/common.h:3024:26: note: expanded fro=
-m macro 'D_INFO'
-   #define D_INFO(f, a...)         IL_DBG(IL_DL_INFO, f, ## a)
-                                   ^
-   drivers/net/wireless/intel/iwlegacy/common.h:2940:37: note: expanded fro=
-m macro 'IL_DBG'
-   #define IL_DBG(level, fmt, args...) no_printk(fmt, ##args)
-                                       ^
-   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2247:6: note: Assuming 'e=
-xit_pending' is not equal to 0
-           if (!exit_pending)
-               ^~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2247:2: note: Taking fals=
-e branch
-           if (!exit_pending)
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2254:2: note: Loop condit=
-ion is false.  Exiting loop
-           spin_lock_irqsave(&il->lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2254:2: note: Loop condit=
-ion is false.  Exiting loop
-           spin_lock_irqsave(&il->lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2259:6: note: Assuming fi=
-eld 'mac80211_registered' is 0
-           if (il->mac80211_registered)
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2259:2: note: Taking fals=
-e branch
-           if (il->mac80211_registered)
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2264:6: note: Assuming th=
-e condition is true
-           if (!il_is_init(il)) {
-               ^~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2264:2: note: Taking true=
- branch
-           if (!il_is_init(il)) {
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2269:3: note: Control jum=
-ps to line 2300
-                   goto exit;
-                   ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:2305:2: note: Calling 'il=
-3945_clear_free_frames'
-           il3945_clear_free_frames(il);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:250:2: note: Taking false=
- branch
-           D_INFO("%d frames on pre-allocated heap on clear.\n", il->frames=
-_count);
-           ^
-   drivers/net/wireless/intel/iwlegacy/common.h:3024:26: note: expanded fro=
-m macro 'D_INFO'
-   #define D_INFO(f, a...)         IL_DBG(IL_DL_INFO, f, ## a)
-                                   ^
-   drivers/net/wireless/intel/iwlegacy/common.h:2940:37: note: expanded fro=
-m macro 'IL_DBG'
-   #define IL_DBG(level, fmt, args...) no_printk(fmt, ##args)
-                                       ^
-   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:252:2: note: Loop conditi=
-on is true.  Entering loop body
-           while (!list_empty(&il->free_frames)) {
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:255:9: note: Left side of=
- '&&' is false
-                   kfree(list_entry(element, struct il3945_frame, list));
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:255:9: note: Taking false=
- branch
-                   kfree(list_entry(element, struct il3945_frame, list));
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:255:9: note: Loop conditi=
-on is false.  Exiting loop
-                   kfree(list_entry(element, struct il3945_frame, list));
-                         ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:255:3: note: Memory is re=
-leased
-                   kfree(list_entry(element, struct il3945_frame, list));
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:252:2: note: Loop conditi=
-on is true.  Entering loop body
-           while (!list_empty(&il->free_frames)) {
-           ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:254:3: note: Use of memor=
-y after it is freed
-                   list_del(element);
-                   ^        ~~~~~~~
->> drivers/net/wireless/intel/iwlegacy/3945-mac.c:754:20: warning: Value st=
-ored to 'pkt' during its initialization is never read [clang-analyzer-deadc=
-ode.DeadStores]
-           struct il_rx_pkt *pkt =3D rxb_addr(rxb);
-                             ^~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:754:20: note: Value store=
-d to 'pkt' during its initialization is never read
-           struct il_rx_pkt *pkt =3D rxb_addr(rxb);
-                             ^~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:1222:3: warning: Value st=
-ored to 'len' is never read [clang-analyzer-deadcode.DeadStores]
-                   len +=3D sizeof(u32);     /* account for status word */
-                   ^      ~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:1222:3: note: Value store=
-d to 'len' is never read
-                   len +=3D sizeof(u32);     /* account for status word */
-                   ^      ~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:1429:3: warning: Value st=
-ored to 'handled' is never read [clang-analyzer-deadcode.DeadStores]
-                   handled |=3D CSR_INT_BIT_HW_ERR;
-                   ^
-   drivers/net/wireless/intel/iwlegacy/3945-mac.c:1429:3: note: Value store=
-d to 'handled' is never read
-   Suppressed 17 warnings (16 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   drivers/net/wireless/broadcom/b43legacy/main.c:746:3: warning: Value sto=
-red to 'dummy' is never read [clang-analyzer-deadcode.DeadStores]
-                   dummy =3D b43legacy_read32(dev, B43legacy_MMIO_XMITSTAT_=
-1);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:746:3: note: Value stored=
- to 'dummy' is never read
-                   dummy =3D b43legacy_read32(dev, B43legacy_MMIO_XMITSTAT_=
-1);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:807:35: warning: The left=
- operand of '=3D=3D' is a garbage value [clang-analyzer-core.UndefinedBinar=
-yOperatorResult]
-           if (noise[0] =3D=3D 0x7F || noise[1] =3D=3D 0x7F ||
-                                   ~~~~~~~~ ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:803:20: note: Assuming fi=
-eld 'calculation_running' is true
-           B43legacy_WARN_ON(!dev->noisecalc.calculation_running);
-                             ^
-   drivers/net/wireless/broadcom/b43legacy/b43legacy.h:348:69: note: expand=
-ed from macro 'B43legacy_WARN_ON'
-   # define B43legacy_WARN_ON(x)   __b43legacy_warn_on_dummy(unlikely(!!(x)=
-))
-                                                                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:804:6: note: Assuming fie=
-ld 'channel_at_start' is equal to field 'channel'
-           if (dev->noisecalc.channel_at_start !=3D phy->channel)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:804:2: note: Taking false=
- branch
-           if (dev->noisecalc.channel_at_start !=3D phy->channel)
-           ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:807:6: note: Assuming the=
- condition is false
-           if (noise[0] =3D=3D 0x7F || noise[1] =3D=3D 0x7F ||
-               ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:807:6: note: Left side of=
- '||' is false
-   drivers/net/wireless/broadcom/b43legacy/main.c:807:35: note: The left op=
-erand of '=3D=3D' is a garbage value
-           if (noise[0] =3D=3D 0x7F || noise[1] =3D=3D 0x7F ||
-                                   ~~~~~~~~ ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:1423:13: warning: Access =
-to field 'wl' results in a dereference of a null pointer (loaded from varia=
-ble 'dev') [clang-analyzer-core.NullDereference]
-           spin_lock(&dev->wl->irq_lock);
-                      ^~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:1418:2: note: 'dev' initi=
-alized here
-           struct b43legacy_wldev *dev =3D dev_id;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:1421:20: note: Assuming '=
-dev' is null
-           B43legacy_WARN_ON(!dev);
-                             ^
-   drivers/net/wireless/broadcom/b43legacy/b43legacy.h:348:69: note: expand=
-ed from macro 'B43legacy_WARN_ON'
-   # define B43legacy_WARN_ON(x)   __b43legacy_warn_on_dummy(unlikely(!!(x)=
-))
-                                                                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:1423:13: note: Access to =
-field 'wl' results in a dereference of a null pointer (loaded from variable=
- 'dev')
-           spin_lock(&dev->wl->irq_lock);
-                      ^~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:1643:2: warning: Value st=
-ored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-           err =3D -ENODEV;
-           ^     ~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:1643:2: note: Value store=
-d to 'err' is never read
-           err =3D -ENODEV;
-           ^     ~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:3777:28: warning: Access =
-to field 'hw' results in a dereference of a null pointer (loaded from varia=
-ble 'wl') [clang-analyzer-core.NullDereference]
-           struct ieee80211_hw *hw =3D wl->hw;
-                                     ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:3850:7: note: Calling 'ss=
-b_get_devtypedata'
-           wl =3D ssb_get_devtypedata(dev);
-                ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ssb/ssb.h:312:2: note: Returning without writing to 'dev->=
-devtypedata', which participates in a condition later
-           return dev->devtypedata;
-           ^
-   include/linux/ssb/ssb.h:312:2: note: Returning without writing to 'dev->=
-devtypedata'
-   include/linux/ssb/ssb.h:312:2: note: Returning pointer, which participat=
-es in a condition later
-           return dev->devtypedata;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:3850:7: note: Returning f=
-rom 'ssb_get_devtypedata'
-           wl =3D ssb_get_devtypedata(dev);
-                ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:3851:6: note: Assuming 'w=
-l' is null
-           if (!wl) {
-               ^~~
-   drivers/net/wireless/broadcom/b43legacy/main.c:3851:2: note: Taking true=
- branch
-           if (!wl) {
-           ^
-   drivers/net/wireless/broadcom/b43legacy/main.c:3854:9: note: Value assig=
-ned to field 'devtypedata'
-                   err =3D b43legacy_wireless_init(dev);
 
-vim +/scan_notif +1434 drivers/net/wireless/intel/iwlegacy/common.c
+vim +/ret +875 drivers/hv/channel.c
 
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1432  =
+edd9bbc1d934c2 drivers/hv/channel.c         Boqun Feng               2020-0=
+9-16  823  =
 
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1433  	struct il_rx_pkt *pkt =3D rxb_addr(rxb);
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15 @1434  	struct il_scancomplete_notification *scan_notif =3D (=
-void *)pkt->u.raw;
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1435  =
+3e189519557978 drivers/staging/hv/Channel.c Hank Janssen             2010-0=
+3-04  824  /*
+fff41b2e30c54c drivers/staging/hv/channel.c Haiyang Zhang            2010-1=
+0-07  825   * vmbus_teardown_gpadl -Teardown the specified GPADL handle
+f4266e342527b4 drivers/staging/hv/Channel.c Greg Kroah-Hartman       2009-0=
+9-01  826   */
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  827  int vmbus_teardown_gpadl(struct vmbus_channel *channel, struct v=
+mbus_gpadl *gpadl)
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  828  {
+82250213d08689 drivers/staging/hv/Channel.c Greg Kroah-Hartman       2009-0=
+8-26  829  	struct vmbus_channel_gpadl_teardown *msg;
+aded7165f262e0 drivers/staging/hv/Channel.c Greg Kroah-Hartman       2009-0=
+8-18  830  	struct vmbus_channel_msginfo *info;
+dd0813b6f51b33 drivers/staging/hv/Channel.c Greg Kroah-Hartman       2009-0=
+7-15  831  	unsigned long flags;
+66be6530830573 drivers/hv/channel.c         K. Y. Srinivasan         2014-0=
+8-27  832  	int ret;
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  833  =
 
-e7392364fcd100 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1436  	D_SCAN("Scan complete: %d channels (TSF 0x%08X:%08X) =
-- %d\n",
-e7392364fcd100 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1437  	       scan_notif->scanned_channels, scan_notif->tsf_=
-low,
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1438  	       scan_notif->tsf_high, scan_notif->status);
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1439  =
+e99c4afbee07e9 drivers/hv/channel.c         Andrea Parri (Microsoft  2020-1=
+2-09  834) 	info =3D kzalloc(sizeof(*info) +
+f4266e342527b4 drivers/staging/hv/Channel.c Greg Kroah-Hartman       2009-0=
+9-01  835  		       sizeof(struct vmbus_channel_gpadl_teardown), GFP_KERNEL=
+);
+c3bf2e26b30f4e drivers/staging/hv/Channel.c Bill Pemberton           2010-0=
+5-05  836  	if (!info)
+c3bf2e26b30f4e drivers/staging/hv/Channel.c Bill Pemberton           2010-0=
+5-05  837  		return -ENOMEM;
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  838  =
 
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1440  	/* The HW is no longer scanning */
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1441  	clear_bit(S_SCAN_HW, &il->status);
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1442  =
+9568a1931cd206 drivers/staging/hv/channel.c K. Y. Srinivasan         2011-0=
+5-10  839  	init_completion(&info->waitevent);
+ccb61f8a99e6c2 drivers/hv/channel.c         K. Y. Srinivasan         2016-1=
+2-22  840  	info->waiting_channel =3D channel;
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  841  =
 
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1443  	D_SCAN("Scan on %sGHz took %dms\n",
-57fbcce37be7c1 drivers/net/wireless/intel/iwlegacy/common.c Johannes Berg  =
-   2016-04-12  1444  	       (il->scan_band =3D=3D NL80211_BAND_2GHZ) ? "2.=
-4" : "5.2",
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1445  	       jiffies_to_msecs(jiffies - il->scan_start));
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1446  =
+c50f7fb28400bc drivers/staging/hv/channel.c Haiyang Zhang            2010-1=
+1-08  842  	msg =3D (struct vmbus_channel_gpadl_teardown *)info->msg;
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  843  =
 
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1447  	queue_work(il->workqueue, &il->scan_completed);
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1448  }
-0cdc21363cc279 drivers/net/wireless/iwlegacy/common.c       Stanislaw Grusz=
-ka 2011-11-15  1449  =
+c50f7fb28400bc drivers/staging/hv/channel.c Haiyang Zhang            2010-1=
+1-08  844  	msg->header.msgtype =3D CHANNELMSG_GPADL_TEARDOWN;
+c50f7fb28400bc drivers/staging/hv/channel.c Haiyang Zhang            2010-1=
+1-08  845  	msg->child_relid =3D channel->offermsg.child_relid;
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  846  	msg->gpadl =3D gpadl->gpadl_handle;
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  847  =
+
+15b2f6479b5c52 drivers/staging/hv/channel.c Haiyang Zhang            2011-0=
+1-26  848  	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
+c50f7fb28400bc drivers/staging/hv/channel.c Haiyang Zhang            2010-1=
+1-08  849  	list_add_tail(&info->msglistentry,
+da9fcb7260af0c drivers/staging/hv/channel.c Haiyang Zhang            2011-0=
+1-26  850  		      &vmbus_connection.chn_msg_list);
+15b2f6479b5c52 drivers/staging/hv/channel.c Haiyang Zhang            2011-0=
+1-26  851  	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags=
+);
+6f3d791f300618 drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+8-11  852  =
+
+6f3d791f300618 drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+8-11  853  	if (channel->rescind)
+6f3d791f300618 drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+8-11  854  		goto post_msg_err;
+6f3d791f300618 drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+8-11  855  =
+
+c0bb03924f1a80 drivers/hv/channel.c         Vitaly Kuznetsov         2016-1=
+2-07  856  	ret =3D vmbus_post_msg(msg, sizeof(struct vmbus_channel_gpadl_t=
+eardown),
+c0bb03924f1a80 drivers/hv/channel.c         Vitaly Kuznetsov         2016-1=
+2-07  857  			     true);
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  858  =
+
+09cdf8f87c15db drivers/hv/channel.c         Vitaly Kuznetsov         2017-1=
+0-29  859  	trace_vmbus_teardown_gpadl(msg, ret);
+09cdf8f87c15db drivers/hv/channel.c         Vitaly Kuznetsov         2017-1=
+0-29  860  =
+
+66be6530830573 drivers/hv/channel.c         K. Y. Srinivasan         2014-0=
+8-27  861  	if (ret)
+66be6530830573 drivers/hv/channel.c         K. Y. Srinivasan         2014-0=
+8-27  862  		goto post_msg_err;
+66be6530830573 drivers/hv/channel.c         K. Y. Srinivasan         2014-0=
+8-27  863  =
+
+66be6530830573 drivers/hv/channel.c         K. Y. Srinivasan         2014-0=
+8-27  864  	wait_for_completion(&info->waitevent);
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  865  =
+
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  866  	gpadl->gpadl_handle =3D 0;
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  867  =
+
+66be6530830573 drivers/hv/channel.c         K. Y. Srinivasan         2014-0=
+8-27  868  post_msg_err:
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  869  	/*
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  870  	 * If the channel has been rescinded;
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  871  	 * we will be awakened by the rescind
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  872  	 * handler; set the error code to zero so we don't leak memory.
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  873  	 */
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  874  	if (channel->rescind)
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12 @875  		ret =3D 0;
+5e030d5ce9d99a drivers/hv/channel.c         K. Y. Srinivasan         2017-0=
+3-12  876  =
+
+15b2f6479b5c52 drivers/staging/hv/channel.c Haiyang Zhang            2011-0=
+1-26  877  	spin_lock_irqsave(&vmbus_connection.channelmsg_lock, flags);
+c50f7fb28400bc drivers/staging/hv/channel.c Haiyang Zhang            2010-1=
+1-08  878  	list_del(&info->msglistentry);
+15b2f6479b5c52 drivers/staging/hv/channel.c Haiyang Zhang            2011-0=
+1-26  879  	spin_unlock_irqrestore(&vmbus_connection.channelmsg_lock, flags=
+);
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  880  =
+
+8c69f52ab3d918 drivers/staging/hv/Channel.c Greg Kroah-Hartman       2009-0=
+7-15  881  	kfree(info);
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  882  =
+
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  883  	ret =3D set_memory_encrypted((unsigned long)gpadl->buffer,
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  884  				   PFN_UP(gpadl->size));
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  885  	if (ret)
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  886  		pr_warn("Fail to set mem host visibility in GPADL teardown %d.=
+\n", ret);
+d4dccf353db80e drivers/hv/channel.c         Tianyu Lan               2021-1=
+0-25  887  =
+
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  888  	return ret;
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  889  }
+18726d7a60fdce drivers/staging/hv/channel.c Greg Kroah-Hartman       2010-1=
+0-21  890  EXPORT_SYMBOL_GPL(vmbus_teardown_gpadl);
+3e7ee4902fe699 drivers/staging/hv/Channel.c Hank Janssen             2009-0=
+7-13  891  =
 
 
-:::::: The code at line 1434 was first introduced by commit
-:::::: 0cdc21363cc27989fe9aa1cde614ef4c0429d62f iwlegacy: merge common .c f=
-iles
+:::::: The code at line 875 was first introduced by commit
+:::::: 5e030d5ce9d99a899b648413139ff65bab12b038 Drivers: hv: vmbus: Don't l=
+eak memory when a channel is rescinded
 
-:::::: TO: Stanislaw Gruszka <sgruszka@redhat.com>
-:::::: CC: Stanislaw Gruszka <sgruszka@redhat.com>
+:::::: TO: K. Y. Srinivasan <kys@microsoft.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0456185222228359571==--
+--===============2126199908166144428==--
 
