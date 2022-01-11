@@ -1,48 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============4655240367069058240=="
+Content-Type: multipart/mixed; boundary="===============4284232015611759548=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: lib/bch.c:842:7-8: WARNING opportunity for swap()
-Date: Fri, 21 Jan 2022 00:24:20 +0800
-Message-ID: <202201210033.mi7OVtMx-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH bpf-next] Fix incorrect integer literal used for marking scratched registers in verifier logs
+Date: Tue, 11 Jan 2022 12:48:35 +0300
+Message-ID: <20220111094835.GJ1978@kadam>
+In-Reply-To: <CAPqJDZqf8-4DCe9J1jr7KekxqfBac3JBc+hx7a6qW4hoF6xPUQ@mail.gmail.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4655240367069058240==
+--===============4284232015611759548==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Denis Efremov <efremov@linux.com>
-CC: Julia Lawall <Julia.Lawall@inria.fr>
+On Mon, Jan 10, 2022 at 02:12:58PM -0800, Christy Lee wrote:
+> On Mon, Jan 10, 2022 at 1:52 PM Song Liu <song@kernel.org> wrote:
+> >
+> > On Fri, Jan 7, 2022 at 4:59 PM Christy Lee <christylee@fb.com> wrote:
+> > >
+> > > env->scratched_stack_slots is a 64-bit value, we should use ULL
+> > > instead of UL literal values.
+> > >
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > > Signed-off-by: Christy Lee <christylee@fb.com>
+> >
+> > The fix looks good to me. Thus:
+> >
+> > Acked-by: Song Liu <songliubraving@fb.com>
+> >
+> > However, the patch looks corrupted. Also, the subject is probably too
+> > long (./scripts/checkpatch.pl should complain about it).
+> >
+> =
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   64f29d8856a9e0d1fcdc5344f76e70c364b941cb
-commit: 7845daa8bd72efa8bbc1de122edfce6e058bbe41 coccinelle: misc: add swap=
- script
-date:   9 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-c022-20220117 (https://download.01.org/0day-ci/ar=
-chive/20220121/202201210033.mi7OVtMx-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+> I just checked that even with an absurdly long subject (more than 200
+> characters), ./scripts/checkpatch.pl doesn't complain. It only complains
+> when the commit message body has longer than 75 characters but not the
+> subject line.  What's the maximum subject line length?
+> =
 
 
-cocci warnings: (new ones prefixed by >>)
->> lib/bch.c:842:7-8: WARNING opportunity for swap()
-   lib/bch.c:849:7-8: WARNING opportunity for swap()
-   lib/bch.c:518:22-23: WARNING opportunity for swap()
+People say 50 characters but that just seems more aspirational than
+realistic.  This patch needs a subsystem prefix as well.
 
-Please review and possibly fold the followup patch.
+regards,
+dan carpenter
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4655240367069058240==--
+--===============4284232015611759548==--
 
