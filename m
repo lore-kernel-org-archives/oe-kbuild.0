@@ -1,713 +1,242 @@
-Content-Type: multipart/mixed; boundary="===============6925572591880599349=="
+Content-Type: multipart/mixed; boundary="===============8384528108373100859=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/smartpqi/smartpqi_init.c:1160:4: warning: Potential leak of memory pointed to by 'rpl_header' [clang-analyzer-unix.Malloc]
-Date: Wed, 12 Jan 2022 08:45:38 +0800
-Message-ID: <202201120811.CbLBhV0g-lkp@intel.com>
+Subject: scripts/kconfig/confdata.c:1091:10: warning: leak of FILE 'file' [CWE-775]
+Date: Wed, 12 Jan 2022 01:39:45 +0800
+Message-ID: <202201120132.hz0HwEsQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6925572591880599349==
+--===============8384528108373100859==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mike McGowen <Mike.McGowen@microchip.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Scott Benesh <scott.benesh@microchip.com>
-CC: Scott Teel <scott.teel@microchip.com>
-CC: Don Brace <don.brace@microchip.com>
+TO: Masahiro Yamada <masahiroy@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   fe8152b38d3a994c4c6fdbc0cd6551d569a5715a
-commit: 28ca6d876c5a375094847606046e0bf5d044d9b4 scsi: smartpqi: Add extend=
-ed report physical LUNs
+commit: 57ddd07c456053dfdabebc6a2d030c57cd3fb75b kconfig: refactor conf_wri=
+te_autoconf()
 date:   3 months ago
-:::::: branch date: 20 hours ago
+:::::: branch date: 13 hours ago
 :::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20220111 (https://download.01.org/0day-ci/arc=
-hive/20220112/202201120811.CbLBhV0g-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
-913a43a200f5a6544d424cdc37b771028b)
+config: arm-randconfig-c002-20220111 (https://download.01.org/0day-ci/archi=
+ve/20220112/202201120132.hz0HwEsQ-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D28ca6d876c5a375094847606046e0bf5d044d9b4
+t/commit/?id=3D57ddd07c456053dfdabebc6a2d030c57cd3fb75b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 28ca6d876c5a375094847606046e0bf5d044d9b4
+        git checkout 57ddd07c456053dfdabebc6a2d030c57cd3fb75b
         # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/fat/dir.c:1333:2: note: '?' condition is false
-           if (free_slots) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/fat/dir.c:1333:2: note: Taking false branch
-           if (free_slots) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/fat/dir.c:1368:2: note: Assuming 'nr_slots' is 0
-           if (nr_slots) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/fat/dir.c:1368:2: note: '?' condition is false
-           if (nr_slots) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/fat/dir.c:1368:6: note: 'nr_slots' is 0
-           if (nr_slots) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/fat/dir.c:1368:2: note: '?' condition is false
-           if (nr_slots) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/fat/dir.c:1368:2: note: Taking false branch
-           if (nr_slots) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/fat/dir.c:1396:12: note: Assigned value is garbage or undefined
-           sinfo->de =3D de;
-                     ^ ~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> drivers/scsi/smartpqi/smartpqi_init.c:1160:4: warning: Potential leak of=
- memory pointed to by 'rpl_header' [clang-analyzer-unix.Malloc]
-                           dev_err(&ctrl_info->pci_dev->dev,
-                           ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:392:47: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:2329:7: note: Calling 'pqi_get_dev=
-ice_lists'
-           rc =3D pqi_get_device_lists(ctrl_info, &physdev_list, &logdev_li=
-st);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1215:7: note: Calling 'pqi_report_=
-phys_luns'
-           rc =3D pqi_report_phys_luns(ctrl_info, (void **)physdev_list);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1149:7: note: Calling 'pqi_report_=
-phys_logical_luns'
-           rc =3D pqi_report_phys_logical_luns(ctrl_info, CISS_REPORT_PHYS,=
- &rpl_list);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:6: note: Assuming 'report_lun=
-_header' is non-null
-           if (!report_lun_header) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
-se
-           if (!report_lun_header) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:7: note: 'report_lun_header' =
-is non-null
-           if (!report_lun_header) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
-se
-           if (!report_lun_header) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: Taking false branch
-           if (!report_lun_header) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: Assuming 'rc' is 0
-           if (rc)
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: '?' condition is fal=
-se
-           if (rc)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:6: note: 'rc' is 0
-           if (rc)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
---
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1156:7: note: 'rpl_response_format=
-' is not equal to 4
-                   if (rpl_response_format =3D=3D CISS_REPORT_PHYS_FLAG_EXT=
-ENDED_FORMAT_4) {
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1156:3: note: '?' condition is fal=
-se
-                   if (rpl_response_format =3D=3D CISS_REPORT_PHYS_FLAG_EXT=
-ENDED_FORMAT_4) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1156:3: note: Taking false branch
-                   if (rpl_response_format =3D=3D CISS_REPORT_PHYS_FLAG_EXT=
-ENDED_FORMAT_4) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1159:14: note: Assuming 'rpl_respo=
-nse_format' is not equal to 2
-                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
-G_EXTENDED_FORMAT_2) {
-                              ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1159:10: note: '?' condition is fa=
-lse
-                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
-G_EXTENDED_FORMAT_2) {
-                          ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1159:14: note: 'rpl_response_forma=
-t' is not equal to 2
-                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
-G_EXTENDED_FORMAT_2) {
-                              ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1159:10: note: '?' condition is tr=
-ue
-                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
-G_EXTENDED_FORMAT_2) {
-                          ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1159:10: note: Taking true branch
-                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
-G_EXTENDED_FORMAT_2) {
-                          ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1160:4: note: Potential leak of me=
-mory pointed to by 'rpl_header'
-                           dev_err(&ctrl_info->pci_dev->dev,
-                           ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:392:47: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                                 ^
->> drivers/scsi/smartpqi/smartpqi_init.c:1176:11: warning: Potential leak o=
-f memory pointed to by 'rpl_8byte_wwid_list' [clang-analyzer-unix.Malloc]
-                   return -ENOMEM;
-                           ^
-   include/uapi/asm-generic/errno-base.h:16:17: note: expanded from macro '=
-ENOMEM'
-   #define ENOMEM          12      /* Out of memory */
-                           ^
-   drivers/scsi/smartpqi/smartpqi_init.c:2329:7: note: Calling 'pqi_get_dev=
-ice_lists'
-           rc =3D pqi_get_device_lists(ctrl_info, &physdev_list, &logdev_li=
-st);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1215:7: note: Calling 'pqi_report_=
-phys_luns'
-           rc =3D pqi_report_phys_luns(ctrl_info, (void **)physdev_list);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1149:7: note: Calling 'pqi_report_=
-phys_logical_luns'
-           rc =3D pqi_report_phys_logical_luns(ctrl_info, CISS_REPORT_PHYS,=
- &rpl_list);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:6: note: Assuming 'report_lun=
-_header' is non-null
-           if (!report_lun_header) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
-se
-           if (!report_lun_header) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:7: note: 'report_lun_header' =
-is non-null
-           if (!report_lun_header) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
-se
-           if (!report_lun_header) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: Taking false branch
-           if (!report_lun_header) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: Assuming 'rc' is 0
-           if (rc)
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: '?' condition is fal=
-se
-           if (rc)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:6: note: 'rc' is 0
-           if (rc)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: '?' condition is fal=
-se
-           if (rc)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+gcc-analyzer warnings: (new ones prefixed by >>)
+   In function '__conf_write_autoconf':
+>> scripts/kconfig/confdata.c:1091:10: warning: leak of FILE 'file' [CWE-77=
+5] [-Wanalyzer-file-leak]
+    1091 |   return -1;
+         |          ^
+     'conf_write_autoconf': events 1-2
+       |
+       | 1103 | int conf_write_autoconf(int overwrite)
+       |      |     ^~~~~~~~~~~~~~~~~~~
+       |      |     |
+       |      |     (1) entry to 'conf_write_autoconf'
+       |......
+       | 1106 |  const char *autoconf_name =3D conf_get_autoconfig_name();
+       |      |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (2) calling 'conf_get_autoconf=
+ig_name' from 'conf_write_autoconf'
+       |
+       +--> 'conf_get_autoconfig_name': events 3-5
+              |
+              |  219 | static const char *conf_get_autoconfig_name(void)
+              |      |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                    |
+              |      |                    (3) entry to 'conf_get_autoconfig=
+_name'
+              |......
+              |  223 |  return name ? name : "include/config/auto.conf";
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |                     |
+              |      |                     (4) following 'true' branch (whe=
+n 'name' is non-NULL)...
+              |      |                     (5) ...to here
+              |
+       <------+
+       |
+     'conf_write_autoconf': events 6-7
+       |
+       | 1106 |  const char *autoconf_name =3D conf_get_autoconfig_name();
+       |      |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
+       |      |                              |
+       |      |                              (6) returning to 'conf_write_a=
+utoconf' from 'conf_get_autoconfig_name'
+       |......
+       | 1114 |  if (conf_touch_deps())
+       |      |      ~~~~~~~~~~~~~~~~~        =
 
-vim +/rpl_header +1160 drivers/scsi/smartpqi/smartpqi_init.c
+       |      |      |
+       |      |      (7) calling 'conf_touch_deps' from 'conf_write_autocon=
+f'
+       |
+       +--> 'conf_touch_deps': events 8-9
+              |
+              |  989 | static int conf_touch_deps(void)
+              |      |            ^~~~~~~~~~~~~~~
+              |      |            |
+              |      |            (8) entry to 'conf_touch_deps'
+              |......
+              |  998 |  name =3D conf_get_autoconfig_name();
+              |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (9) calling 'conf_get_autoconfig_name' from =
+'conf_touch_deps'
+              |
+              +--> 'conf_get_autoconfig_name': events 10-12
+                     |
+                     |  219 | static const char *conf_get_autoconfig_name(v=
+oid)
+                     |      |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |                    |
+                     |      |                    (10) entry to 'conf_get_au=
+toconfig_name'
+                     |......
+                     |  223 |  return name ? name : "include/config/auto.co=
+nf";
+                     |      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+                     |      |                     |
+                     |      |                     (11) following 'true' bra=
+nch (when 'name' is non-NULL)...
+                     |      |                     (12) ...to here
+                     |
+              <------+
+              |
+            'conf_touch_deps': events 13-14
+              |
+              |  998 |  name =3D conf_get_autoconfig_name();
+              |      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |         |
+              |      |         (13) returning to 'conf_touch_deps' from 'co=
+nf_get_autoconfig_name'
+              |  999 |  conf_read_simple(name, S_DEF_AUTO);
+              |      |  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              |      |  |
+              |      |  (14) calling 'conf_read_simple' from 'conf_touch_de=
+ps'
+              |
+              +--> 'conf_read_simple': events 15-19
+                     |
+                     |  349 | int conf_read_simple(const char *name, int de=
+f)
+                     |      |     ^~~~~~~~~~~~~~~~
+                     |      |     |
+                     |      |     (15) entry to 'conf_read_simple'
+                     |......
+                     |  358 |  if (name) {
+                     |      |     ~
+                     |      |     |
+                     |      |     (16) following 'true' branch (when 'name'=
+ is non-NULL)...
+                     |  359 |   in =3D zconf_fopen(name);
+                     |      |        ~~~~~~~~~~~~~~~~~
+                     |      |        |
+                     |      |        (17) ...to here
+                     |......
+                     |  403 |  if (!in)
+                     |      |     ~
+                     |      |     |
+                     |      |     (18) following 'true' branch (when 'in' i=
+s NULL)...
+                     |  404 |   return 1;
 
-6c223761eb5482 Kevin Barnett 2016-06-27  1136  =
+vim +/file +1091 scripts/kconfig/confdata.c
 
-583891c9e50925 Kevin Barnett 2021-03-11  1137  static inline int pqi_report=
-_phys_luns(struct pqi_ctrl_info *ctrl_info, void **buffer)
-6c223761eb5482 Kevin Barnett 2016-06-27  1138  {
-28ca6d876c5a37 Mike McGowen  2021-09-28  1139  	int rc;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1140  	unsigned int i;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1141  	u8 rpl_response_format;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1142  	u32 num_physicals;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1143  	size_t rpl_16byte_wwid_list=
-_length;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1144  	void *rpl_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1145  	struct report_lun_header *r=
-pl_header;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1146  	struct report_phys_lun_8byt=
-e_wwid_list *rpl_8byte_wwid_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1147  	struct report_phys_lun_16by=
-te_wwid_list *rpl_16byte_wwid_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1148  =
+2e3646e51b2d641 Roman Zippel    2006-06-08  1060  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1149  	rc =3D pqi_report_phys_logi=
-cal_luns(ctrl_info, CISS_REPORT_PHYS, &rpl_list);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1150  	if (rc)
-28ca6d876c5a37 Mike McGowen  2021-09-28  1151  		return rc;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1152  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1061  static int __conf_write_a=
+utoconf(const char *filename,
+57ddd07c456053d Masahiro Yamada 2021-10-01  1062  				 void (*print_symbol)=
+(FILE *, struct symbol *),
+57ddd07c456053d Masahiro Yamada 2021-10-01  1063  				 const struct comment=
+_style *comment_style)
+57ddd07c456053d Masahiro Yamada 2021-10-01  1064  {
+57ddd07c456053d Masahiro Yamada 2021-10-01  1065  	char tmp[PATH_MAX];
+57ddd07c456053d Masahiro Yamada 2021-10-01  1066  	FILE *file;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1067  	struct symbol *sym;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1068  	int ret, i;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1069  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1153  	if (ctrl_info->rpl_extended=
-_format_4_5_supported) {
-28ca6d876c5a37 Mike McGowen  2021-09-28  1154  		rpl_header =3D rpl_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1155  		rpl_response_format =3D rp=
-l_header->flags & CISS_REPORT_PHYS_FLAG_EXTENDED_FORMAT_MASK;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1156  		if (rpl_response_format =
-=3D=3D CISS_REPORT_PHYS_FLAG_EXTENDED_FORMAT_4) {
-28ca6d876c5a37 Mike McGowen  2021-09-28  1157  			*buffer =3D rpl_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1158  			return 0;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1159  		} else if (rpl_response_fo=
-rmat !=3D CISS_REPORT_PHYS_FLAG_EXTENDED_FORMAT_2) {
-28ca6d876c5a37 Mike McGowen  2021-09-28 @1160  			dev_err(&ctrl_info->pci_d=
-ev->dev,
-28ca6d876c5a37 Mike McGowen  2021-09-28  1161  				"RPL returned unsupporte=
-d data format %u\n",
-28ca6d876c5a37 Mike McGowen  2021-09-28  1162  				rpl_response_format);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1163  			return -EINVAL;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1164  		} else {
-28ca6d876c5a37 Mike McGowen  2021-09-28  1165  			dev_warn(&ctrl_info->pci_=
-dev->dev,
-28ca6d876c5a37 Mike McGowen  2021-09-28  1166  				"RPL returned extended f=
-ormat 2 instead of 4\n");
-28ca6d876c5a37 Mike McGowen  2021-09-28  1167  		}
-28ca6d876c5a37 Mike McGowen  2021-09-28  1168  	}
-28ca6d876c5a37 Mike McGowen  2021-09-28  1169  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1070  	if (make_parent_dir(file=
+name))
+57ddd07c456053d Masahiro Yamada 2021-10-01  1071  		return -1;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1072  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1170  	rpl_8byte_wwid_list =3D rpl=
-_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1171  	num_physicals =3D get_unali=
-gned_be32(&rpl_8byte_wwid_list->header.list_length) / sizeof(rpl_8byte_wwid=
-_list->lun_entries[0]);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1172  	rpl_16byte_wwid_list_length=
- =3D sizeof(struct report_lun_header) + (num_physicals * sizeof(struct repo=
-rt_phys_lun_16byte_wwid));
-28ca6d876c5a37 Mike McGowen  2021-09-28  1173  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1073  	ret =3D snprintf(tmp, si=
+zeof(tmp), "%s.tmp", filename);
+57ddd07c456053d Masahiro Yamada 2021-10-01  1074  	if (ret >=3D sizeof(tmp)=
+) /* check truncation */
+57ddd07c456053d Masahiro Yamada 2021-10-01  1075  		return -1;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1076  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1174  	rpl_16byte_wwid_list =3D km=
-alloc(rpl_16byte_wwid_list_length, GFP_KERNEL);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1175  	if (!rpl_16byte_wwid_list)
-28ca6d876c5a37 Mike McGowen  2021-09-28 @1176  		return -ENOMEM;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1177  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1077  	file =3D fopen(tmp, "w");
+57ddd07c456053d Masahiro Yamada 2021-10-01  1078  	if (!file) {
+57ddd07c456053d Masahiro Yamada 2021-10-01  1079  		perror("fopen");
+57ddd07c456053d Masahiro Yamada 2021-10-01  1080  		return -1;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1081  	}
+57ddd07c456053d Masahiro Yamada 2021-10-01  1082  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1178  	put_unaligned_be32(num_phys=
-icals * sizeof(struct report_phys_lun_16byte_wwid),
-28ca6d876c5a37 Mike McGowen  2021-09-28  1179  		&rpl_16byte_wwid_list->hea=
-der.list_length);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1180  	rpl_16byte_wwid_list->heade=
-r.flags =3D rpl_8byte_wwid_list->header.flags;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1181  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1083  	conf_write_heading(file,=
+ comment_style);
+57ddd07c456053d Masahiro Yamada 2021-10-01  1084  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1182  	for (i =3D 0; i < num_physi=
-cals; i++) {
-28ca6d876c5a37 Mike McGowen  2021-09-28  1183  		memcpy(&rpl_16byte_wwid_li=
-st->lun_entries[i].lunid, &rpl_8byte_wwid_list->lun_entries[i].lunid, sizeo=
-f(rpl_8byte_wwid_list->lun_entries[i].lunid));
-28ca6d876c5a37 Mike McGowen  2021-09-28  1184  		memset(&rpl_16byte_wwid_li=
-st->lun_entries[i].wwid, 0, 8);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1185  		memcpy(&rpl_16byte_wwid_li=
-st->lun_entries[i].wwid[8], &rpl_8byte_wwid_list->lun_entries[i].wwid, size=
-of(rpl_8byte_wwid_list->lun_entries[i].wwid));
-28ca6d876c5a37 Mike McGowen  2021-09-28  1186  		rpl_16byte_wwid_list->lun_=
-entries[i].device_type =3D rpl_8byte_wwid_list->lun_entries[i].device_type;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1187  		rpl_16byte_wwid_list->lun_=
-entries[i].device_flags =3D rpl_8byte_wwid_list->lun_entries[i].device_flag=
-s;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1188  		rpl_16byte_wwid_list->lun_=
-entries[i].lun_count =3D rpl_8byte_wwid_list->lun_entries[i].lun_count;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1189  		rpl_16byte_wwid_list->lun_=
-entries[i].redundant_paths =3D rpl_8byte_wwid_list->lun_entries[i].redundan=
-t_paths;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1190  		rpl_16byte_wwid_list->lun_=
-entries[i].aio_handle =3D rpl_8byte_wwid_list->lun_entries[i].aio_handle;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1191  	}
-28ca6d876c5a37 Mike McGowen  2021-09-28  1192  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1085  	for_all_symbols(i, sym)
+57ddd07c456053d Masahiro Yamada 2021-10-01  1086  		if ((sym->flags & SYMBO=
+L_WRITE) && sym->name)
+57ddd07c456053d Masahiro Yamada 2021-10-01  1087  			print_symbol(file, sym=
+);
+57ddd07c456053d Masahiro Yamada 2021-10-01  1088  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1193  	kfree(rpl_8byte_wwid_list);
-28ca6d876c5a37 Mike McGowen  2021-09-28  1194  	*buffer =3D rpl_16byte_wwid=
-_list;
-28ca6d876c5a37 Mike McGowen  2021-09-28  1195  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1089  	/* check possible errors=
+ in conf_write_heading() and print_symbol() */
+57ddd07c456053d Masahiro Yamada 2021-10-01  1090  	if (ferror(file))
+57ddd07c456053d Masahiro Yamada 2021-10-01 @1091  		return -1;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1092  =
 
-28ca6d876c5a37 Mike McGowen  2021-09-28  1196  	return 0;
-6c223761eb5482 Kevin Barnett 2016-06-27  1197  }
-6c223761eb5482 Kevin Barnett 2016-06-27  1198  =
+57ddd07c456053d Masahiro Yamada 2021-10-01  1093  	fclose(file);
+57ddd07c456053d Masahiro Yamada 2021-10-01  1094  =
+
+57ddd07c456053d Masahiro Yamada 2021-10-01  1095  	if (rename(tmp, filename=
+)) {
+57ddd07c456053d Masahiro Yamada 2021-10-01  1096  		perror("rename");
+57ddd07c456053d Masahiro Yamada 2021-10-01  1097  		return -1;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1098  	}
+57ddd07c456053d Masahiro Yamada 2021-10-01  1099  =
+
+57ddd07c456053d Masahiro Yamada 2021-10-01  1100  	return 0;
+57ddd07c456053d Masahiro Yamada 2021-10-01  1101  }
+57ddd07c456053d Masahiro Yamada 2021-10-01  1102  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6925572591880599349==--
+--===============8384528108373100859==--
 
