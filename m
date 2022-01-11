@@ -1,168 +1,72 @@
-Content-Type: multipart/mixed; boundary="===============3653411570407736130=="
+Content-Type: multipart/mixed; boundary="===============5486790351881407699=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: scripts/kconfig/parser.tab.c:378:19: warning: 'free' of 'yyss1' which points to memory not on the heap [CWE-590]
-Date: Tue, 11 Jan 2022 22:06:16 +0800
-Message-ID: <202201112243.FQMOho9k-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [kvalo-ath:pending 52/56] drivers/net/wireless/ath/ath11k/wmi.c:5651 ath11k_wmi_tlv_fw_stats_data_parse() error: uninitialized symbol 'len'.
+Date: Tue, 11 Jan 2022 16:58:05 +0300
+Message-ID: <20220111135805.GL1978@kadam>
+In-Reply-To: <87czkyv1i9.fsf@kernel.org>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3653411570407736130==
+--===============5486790351881407699==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
+On Tue, Jan 11, 2022 at 03:35:26PM +0200, Kalle Valo wrote:
+> > bc5c448b70ff14 Wen Gong 2021-12-08 5629 static int
+> > ath11k_wmi_tlv_fw_stats_data_parse(struct ath11k_base *ab,
+> > bc5c448b70ff14 Wen Gong 2021-12-08 5630 struct wmi_tlv_fw_stats_parse
+> > *parse,
+> > bc5c448b70ff14 Wen Gong 2021-12-08 5631 const void *ptr)
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5632  {
+> > bc5c448b70ff14 Wen Gong 2021-12-08 5633 struct ath11k_fw_stats *stats
+> > =3D parse->stats;
+> > bc5c448b70ff14 Wen Gong 2021-12-08 5634 const struct wmi_stats_event
+> > *ev =3D parse->ev;
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5635  	int i;
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5636  	const void *data =3D ptr;
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5637  	u32 len;
+                                                        ^^^^^^^^
+"len" is a local variable, not a parameter.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   fe8152b38d3a994c4c6fdbc0cd6551d569a5715a
-commit: a77a05dc9cf24a8c88b9d9c70e8984f936d075f3 kconfig: split menu.c out =
-of parser.y
-date:   9 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220111 (https://download.01.org/0day-ci/archi=
-ve/20220111/202201112243.FQMOho9k-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da77a05dc9cf24a8c88b9d9c70e8984f936d075f3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a77a05dc9cf24a8c88b9d9c70e8984f936d075f3
-        # save the config file to linux build tree
-         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5638  =
 
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5639  	if (!ev) {
+> > bc5c448b70ff14 Wen Gong 2021-12-08 5640 ath11k_warn(ab, "failed to
+> > fetch update stats ev");
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5641  		return -EPROTO;
+> > bc5c448b70ff14 Wen Gong   2021-12-08  5642  	}
+> > d5c65159f28953 Kalle Valo 2019-11-23  5643  =
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> > d5c65159f28953 Kalle Valo 2019-11-23  5644  	stats->stats_id =3D 0;
+> > d5c65159f28953 Kalle Valo 2019-11-23  5645  =
 
+> > d5c65159f28953 Kalle Valo 2019-11-23 5646 for (i =3D 0; i <
+> > ev->num_pdev_stats; i++) {
+> > d5c65159f28953 Kalle Valo 2019-11-23 5647 const struct wmi_pdev_stats
+> > *src;
+> > d5c65159f28953 Kalle Valo 2019-11-23 5648 struct ath11k_fw_stats_pdev
+> > *dst;
+> > d5c65159f28953 Kalle Valo 2019-11-23  5649  =
 
-gcc-analyzer warnings: (new ones prefixed by >>)
-   scripts/kconfig/parser.tab.c: In function 'yyparse':
->> scripts/kconfig/parser.tab.c:378:19: warning: 'free' of 'yyss1' which po=
-ints to memory not on the heap [CWE-590] [-Wanalyzer-free-of-non-heap]
-     378 | #   define YYFREE free
-         |                   ^
-   scripts/kconfig/parser.tab.c:359:24: note: in expansion of macro 'YYFREE'
-     359 | #  define YYSTACK_FREE YYFREE
-         |                        ^~~~~~
-   scripts/kconfig/parser.tab.c:1352:11: note: in expansion of macro 'YYSTA=
-CK_FREE'
-    1352 |           YYSTACK_FREE (yyss1);
-         |           ^~~~~~~~~~~~
-     'yyparse': events 1-7
-       |
-       | 1307 |   if (yyss + yystacksize - 1 <=3D yyssp)
-       |      |      ^
-       |      |      |
-       |      |      (1) following 'true' branch...
-       |......
-       | 1313 |       YYSIZE_T yysize =3D (YYSIZE_T) (yyssp - yyss + 1);
-       |      |                                           ~
-       |      |                                           |
-       |      |                                           (2) ...to here
-       |......
-       | 1336 |       if (YYMAXDEPTH <=3D yystacksize)
-       |      |          ~
-       |      |          |
-       |      |          (3) following 'false' branch (when 'yystacksize <=
-=3D 9999')...
-       | 1337 |         goto yyexhaustedlab;
-       | 1338 |       yystacksize *=3D 2;
-       |      |       ~~~~~~~~~~~~~~~~
-       |      |                   |
-       |      |                   (4) ...to here
-       | 1339 |       if (YYMAXDEPTH < yystacksize)
-       |      |          ~
-       |      |          |
-       |      |          (5) following 'false' branch (when 'yystacksize <=
-=3D 10000')...
-       |......
-       | 1343 |         yytype_int16 *yyss1 =3D yyss;
-       |      |                       ~~~~~
-       |      |                       |
-       |      |                       (6) ...to here
-       |......
-       | 1346 |         if (! yyptr)
-       |      |            ~
-       |      |            |
-       |      |            (7) following 'false' branch (when 'yyptr' is no=
-n-NULL)...
-       |
-     'yyparse': event 8
-       |
-       |  433 |       __builtin_memcpy (Dst, Src, (Count) * sizeof (*(Src)))
-       |      |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       |      |       |
-       |      |       (8) ...to here
-   scripts/kconfig/parser.tab.c:418:9: note: in expansion of macro 'YYCOPY'
-       |  418 |         YYCOPY (&yyptr->Stack_alloc, Stack, yysize);       =
-             \
-       |      |         ^~~~~~
-   scripts/kconfig/parser.tab.c:1348:9: note: in expansion of macro 'YYSTAC=
-K_RELOCATE'
-       | 1348 |         YYSTACK_RELOCATE (yyss_alloc, yyss);
-       |      |         ^~~~~~~~~~~~~~~~
-       |
-     'yyparse': event 9
-       |
-       |  419 |         Stack =3D &yyptr->Stack_alloc;                     =
-               \
-       |      |               |
-       |      |               (9) pointer is from here
-       |......
-       | 1348 |         YYSTACK_RELOCATE (yyss_alloc, yyss);
-       |      |                                     =
+> > d5c65159f28953 Kalle Valo 2019-11-23  5650  		src =3D data;
+> > bc5c448b70ff14 Wen Gong   2021-12-08 @5651  		if (len < sizeof(*src))
+> >
+> > "len" is never initialized.
+> =
 
-   scripts/kconfig/parser.tab.c:1348:9: note: in expansion of macro 'YYSTAC=
-K_RELOCATE'
-       | 1348 |         YYSTACK_RELOCATE (yyss_alloc, yyss);
-       |      |         ^~~~~~~~~~~~~~~~
-       |
-     'yyparse': events 10-12
-       |
-       | 1351 |         if (yyss1 !=3D yyssa)
-       |      |            ^
-       |      |            |
-       |      |            (10) following 'false' branch...
-       |......
-       | 1356 |       yyssp =3D yyss + yysize - 1;
-       |      |                    ~
-       |      |                    |
-       |      |                    (11) ...to here
-       |......
-       | 1362 |       if (yyss + yystacksize - 1 <=3D yyssp)
-       |      |          ~  =
+> I only quickly looked at this, but AFAICS ath11k_wmi_tlv_iter() provides
+> len to ath11k_wmi_tlv_fw_stats_parse() which again provides len to
+> ath11k_wmi_tlv_fw_stats_data_parse(). I'm not seeing how this is
+> uninitalised, did I miss something?
 
-       |      |          |
-       |      |          (12) following 'false' branch...
-       |
-     'yyparse': event 13
-       |
-       |  798 |   if (yydebug)                                  \
-       |      |       ^~~~~~~
-       |      |       |
-       |      |       (13) ...to here
-   scripts/kconfig/parser.tab.c:1367:3: note: in expansion of macro 'YYDPRI=
-NTF'
-       | 1367 |   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-       |      |   ^~~~~~~~~
-       |
-     'yyparse': events 14-21
-       |
-       | 1369 |   if (yystate =3D=3D YYFINAL)
-       |      |      ^
+I think the bug was fixed and the tree was rebased?  I only look at the
+email and hit forward and the code in the email was clearly buggy but
+tree looks okay now as you say.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============3653411570407736130==--
+regards,
+dan carpenter
+
+--===============5486790351881407699==--
 
