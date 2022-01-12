@@ -1,457 +1,713 @@
-Content-Type: multipart/mixed; boundary="===============3116484211151833292=="
+Content-Type: multipart/mixed; boundary="===============6925572591880599349=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-block:bio_alloc-cleanup 5/13] drivers/block/drbd/drbd_receiver.c:1725:1: sparse: sparse: unused label 'fail'
-Date: Wed, 12 Jan 2022 20:33:41 +0800
-Message-ID: <202201122005.kVtxiFv4-lkp@intel.com>
+Subject: drivers/scsi/smartpqi/smartpqi_init.c:1160:4: warning: Potential leak of memory pointed to by 'rpl_header' [clang-analyzer-unix.Malloc]
+Date: Wed, 12 Jan 2022 08:45:38 +0800
+Message-ID: <202201120811.CbLBhV0g-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3116484211151833292==
+--===============6925572591880599349==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mike McGowen <Mike.McGowen@microchip.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Scott Benesh <scott.benesh@microchip.com>
+CC: Scott Teel <scott.teel@microchip.com>
+CC: Don Brace <don.brace@microchip.com>
 
-tree:   git://git.infradead.org/users/hch/block.git bio_alloc-cleanup
-head:   152c964c974a6e3bf0dd15a8d100c075087d5186
-commit: 192922838a1e77811c20c6b8973983a5939edee2 [5/13] drbd: bio_alloc can=
-'t fail if it is allow to sleep
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 hours ago
-config: mips-randconfig-s032-20220112 (https://download.01.org/0day-ci/arch=
-ive/20220112/202201122005.kVtxiFv4-lkp(a)intel.com/config)
-compiler: mips64-linux-gcc (GCC) 11.2.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   fe8152b38d3a994c4c6fdbc0cd6551d569a5715a
+commit: 28ca6d876c5a375094847606046e0bf5d044d9b4 scsi: smartpqi: Add extend=
+ed report physical LUNs
+date:   3 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 months ago
+config: riscv-randconfig-c006-20220111 (https://download.01.org/0day-ci/arc=
+hive/20220112/202201120811.CbLBhV0g-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
+913a43a200f5a6544d424cdc37b771028b)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        git remote add hch-block git://git.infradead.org/users/hch/block.git
-        git fetch --no-tags hch-block bio_alloc-cleanup
-        git checkout 192922838a1e77811c20c6b8973983a5939edee2
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D28ca6d876c5a375094847606046e0bf5d044d9b4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 28ca6d876c5a375094847606046e0bf5d044d9b4
         # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-ips SHELL=3D/bin/bash drivers/block/drbd/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   command-line: note: in included file:
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQUIRE redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_SEQ_CST redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_ACQ_REL redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
-   builtin:1:9: sparse: sparse: preprocessor token __ATOMIC_RELEASE redefin=
-ed
-   builtin:0:0: sparse: this was the original definition
->> drivers/block/drbd/drbd_receiver.c:1725:1: sparse: sparse: unused label =
-'fail'
-   drivers/block/drbd/drbd_receiver.c:5350:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:5351:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:5360:54: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:5417:14: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:5417:14: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:5417:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:273:14: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:273:14: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:273:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:529:29: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:529:29: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:529:29: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:601:14: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:601:14: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:601:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:705:14: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:705:14: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:705:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:774:14: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:774:14: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:774:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:1167:27: sparse: sparse: cast to rest=
-ricted __be16
-   drivers/block/drbd/drbd_receiver.c:1168:27: sparse: sparse: cast to rest=
-ricted __be16
-   drivers/block/drbd/drbd_receiver.c:1169:28: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:1173:27: sparse: sparse: cast to rest=
-ricted __be16
-   drivers/block/drbd/drbd_receiver.c:1174:28: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:1179:27: sparse: sparse: cast to rest=
-ricted __be16
-   drivers/block/drbd/drbd_receiver.c:1180:28: sparse: sparse: cast to rest=
-ricted __be16
-   drivers/block/drbd/drbd_receiver.c:822:14: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:822:14: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:822:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:877:14: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:877:14: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:877:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:1042:14: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:1042:14: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:1042:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:1433:14: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:1433:14: sparse:    struct disk_conf =
-[noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:1433:14: sparse:    struct disk_conf *
-   drivers/block/drbd/drbd_receiver.c:1587:14: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:1587:14: sparse:    struct disk_conf =
-[noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:1587:14: sparse:    struct disk_conf *
-   drivers/block/drbd/drbd_receiver.c:1888:22: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:1892:22: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:1904:22: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:2152:18: sparse: sparse: cast to rest=
-ricted __be64
-   drivers/block/drbd/drbd_receiver.c:2186:18: sparse: sparse: cast to rest=
-ricted __be64
-   drivers/block/drbd/drbd_receiver.c:2400:22: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:2400:22: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:2400:22: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:2410:27: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:2410:27: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:2410:27: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:2589:24: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:2617:18: sparse: sparse: cast to rest=
-ricted __be64
-   drivers/block/drbd/drbd_receiver.c:2628:20: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:2661:14: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:2661:14: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:2661:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:2793:22: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:2793:22: sparse:    struct disk_conf =
-[noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:2793:22: sparse:    struct disk_conf *
-   drivers/block/drbd/drbd_receiver.c:2849:18: sparse: sparse: cast to rest=
-ricted __be64
-   drivers/block/drbd/drbd_receiver.c:2850:18: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3061:23: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:3061:23: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:3061:23: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:3137:23: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:3137:23: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:3137:23: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:3194:23: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:3194:23: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:3194:23: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:3540:14: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:3540:14: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:3540:14: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:3672:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3673:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3674:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3675:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3676:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3677:27: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3698:22: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:3698:22: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:3698:22: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:3782:9: sparse: sparse: incompatible =
-types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:3782:9: sparse:    struct net_conf [n=
-oderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:3782:9: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:3940:46: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:3999:55: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:4000:57: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:4001:56: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:4002:53: sparse: sparse: cast to rest=
-ricted __be32
-   drivers/block/drbd/drbd_receiver.c:4036:25: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:4036:25: sparse:    struct net_conf [=
-noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:4036:25: sparse:    struct net_conf *
-   drivers/block/drbd/drbd_receiver.c:4041:17: sparse: sparse: incompatible=
- types in comparison expression (different address spaces):
-   drivers/block/drbd/drbd_receiver.c:4041:17: sparse:    struct disk_conf =
-[noderef] __rcu *
-   drivers/block/drbd/drbd_receiver.c:4041:17: sparse:    struct disk_conf *
+clang-analyzer warnings: (new ones prefixed by >>)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/fat/dir.c:1333:2: note: '?' condition is false
+           if (free_slots) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/fat/dir.c:1333:2: note: Taking false branch
+           if (free_slots) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/fat/dir.c:1368:2: note: Assuming 'nr_slots' is 0
+           if (nr_slots) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/fat/dir.c:1368:2: note: '?' condition is false
+           if (nr_slots) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/fat/dir.c:1368:6: note: 'nr_slots' is 0
+           if (nr_slots) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/fat/dir.c:1368:2: note: '?' condition is false
+           if (nr_slots) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/fat/dir.c:1368:2: note: Taking false branch
+           if (nr_slots) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/fat/dir.c:1396:12: note: Assigned value is garbage or undefined
+           sinfo->de =3D de;
+                     ^ ~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+>> drivers/scsi/smartpqi/smartpqi_init.c:1160:4: warning: Potential leak of=
+ memory pointed to by 'rpl_header' [clang-analyzer-unix.Malloc]
+                           dev_err(&ctrl_info->pci_dev->dev,
+                           ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:47: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:2329:7: note: Calling 'pqi_get_dev=
+ice_lists'
+           rc =3D pqi_get_device_lists(ctrl_info, &physdev_list, &logdev_li=
+st);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1215:7: note: Calling 'pqi_report_=
+phys_luns'
+           rc =3D pqi_report_phys_luns(ctrl_info, (void **)physdev_list);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1149:7: note: Calling 'pqi_report_=
+phys_logical_luns'
+           rc =3D pqi_report_phys_logical_luns(ctrl_info, CISS_REPORT_PHYS,=
+ &rpl_list);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:6: note: Assuming 'report_lun=
+_header' is non-null
+           if (!report_lun_header) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
+se
+           if (!report_lun_header) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:7: note: 'report_lun_header' =
+is non-null
+           if (!report_lun_header) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
+se
+           if (!report_lun_header) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: Taking false branch
+           if (!report_lun_header) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: Assuming 'rc' is 0
+           if (rc)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: '?' condition is fal=
+se
+           if (rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:6: note: 'rc' is 0
+           if (rc)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+--
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1156:7: note: 'rpl_response_format=
+' is not equal to 4
+                   if (rpl_response_format =3D=3D CISS_REPORT_PHYS_FLAG_EXT=
+ENDED_FORMAT_4) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1156:3: note: '?' condition is fal=
+se
+                   if (rpl_response_format =3D=3D CISS_REPORT_PHYS_FLAG_EXT=
+ENDED_FORMAT_4) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1156:3: note: Taking false branch
+                   if (rpl_response_format =3D=3D CISS_REPORT_PHYS_FLAG_EXT=
+ENDED_FORMAT_4) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1159:14: note: Assuming 'rpl_respo=
+nse_format' is not equal to 2
+                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
+G_EXTENDED_FORMAT_2) {
+                              ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1159:10: note: '?' condition is fa=
+lse
+                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
+G_EXTENDED_FORMAT_2) {
+                          ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1159:14: note: 'rpl_response_forma=
+t' is not equal to 2
+                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
+G_EXTENDED_FORMAT_2) {
+                              ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1159:10: note: '?' condition is tr=
+ue
+                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
+G_EXTENDED_FORMAT_2) {
+                          ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1159:10: note: Taking true branch
+                   } else if (rpl_response_format !=3D CISS_REPORT_PHYS_FLA=
+G_EXTENDED_FORMAT_2) {
+                          ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1160:4: note: Potential leak of me=
+mory pointed to by 'rpl_header'
+                           dev_err(&ctrl_info->pci_dev->dev,
+                           ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:47: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                                 ^
+>> drivers/scsi/smartpqi/smartpqi_init.c:1176:11: warning: Potential leak o=
+f memory pointed to by 'rpl_8byte_wwid_list' [clang-analyzer-unix.Malloc]
+                   return -ENOMEM;
+                           ^
+   include/uapi/asm-generic/errno-base.h:16:17: note: expanded from macro '=
+ENOMEM'
+   #define ENOMEM          12      /* Out of memory */
+                           ^
+   drivers/scsi/smartpqi/smartpqi_init.c:2329:7: note: Calling 'pqi_get_dev=
+ice_lists'
+           rc =3D pqi_get_device_lists(ctrl_info, &physdev_list, &logdev_li=
+st);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1215:7: note: Calling 'pqi_report_=
+phys_luns'
+           rc =3D pqi_report_phys_luns(ctrl_info, (void **)physdev_list);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1149:7: note: Calling 'pqi_report_=
+phys_logical_luns'
+           rc =3D pqi_report_phys_logical_luns(ctrl_info, CISS_REPORT_PHYS,=
+ &rpl_list);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:6: note: Assuming 'report_lun=
+_header' is non-null
+           if (!report_lun_header) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
+se
+           if (!report_lun_header) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:7: note: 'report_lun_header' =
+is non-null
+           if (!report_lun_header) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: '?' condition is fal=
+se
+           if (!report_lun_header) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1086:2: note: Taking false branch
+           if (!report_lun_header) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: Assuming 'rc' is 0
+           if (rc)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: '?' condition is fal=
+se
+           if (rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:6: note: 'rc' is 0
+           if (rc)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/scsi/smartpqi/smartpqi_init.c:1092:2: note: '?' condition is fal=
+se
+           if (rc)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
 
-vim +/fail +1725 drivers/block/drbd/drbd_receiver.c
+vim +/rpl_header +1160 drivers/scsi/smartpqi/smartpqi_init.c
 
-9104d31a759fbad Lars Ellenberg      2016-06-14  1618  =
+6c223761eb5482 Kevin Barnett 2016-06-27  1136  =
 
-9104d31a759fbad Lars Ellenberg      2016-06-14  1619  =
+583891c9e50925 Kevin Barnett 2021-03-11  1137  static inline int pqi_report=
+_phys_luns(struct pqi_ctrl_info *ctrl_info, void **buffer)
+6c223761eb5482 Kevin Barnett 2016-06-27  1138  {
+28ca6d876c5a37 Mike McGowen  2021-09-28  1139  	int rc;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1140  	unsigned int i;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1141  	u8 rpl_response_format;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1142  	u32 num_physicals;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1143  	size_t rpl_16byte_wwid_list=
+_length;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1144  	void *rpl_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1145  	struct report_lun_header *r=
+pl_header;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1146  	struct report_phys_lun_8byt=
+e_wwid_list *rpl_8byte_wwid_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1147  	struct report_phys_lun_16by=
+te_wwid_list *rpl_16byte_wwid_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1148  =
 
-6ec2a0f2bc07d42 Lee Jones           2021-03-12  1620  /*
-fbe29dec9862236 Andreas Gruenbacher 2011-02-17  1621   * drbd_submit_peer_r=
-equest()
-b30ab7913b0a7b1 Andreas Gruenbacher 2011-07-03  1622   * @device:	DRBD devi=
-ce.
-db830c464b69e26 Andreas Gruenbacher 2011-02-04  1623   * @peer_req:	peer re=
-quest
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1624   *
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1625   * May spread the pag=
-es to multiple bios,
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1626   * depending on bio_a=
-dd_page restrictions.
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1627   *
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1628   * Returns 0 if all b=
-ios have been submitted,
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1629   * -ENOMEM if we coul=
-d not allocate enough bios,
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1630   * -ENOSPC (any bette=
-r suggestion?) if we have not been able to bio_add_page a
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1631   *  single page to an=
- empty bio (which should never happen and likely indicates
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1632   *  that the lower le=
-vel IO stack is in some way broken). This has been observed
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1633   *  on certain Xen de=
-ployments.
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1634   */
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1635  /* TODO allocate from=
- our own bio_set. */
-b30ab7913b0a7b1 Andreas Gruenbacher 2011-07-03  1636  int drbd_submit_peer_=
-request(struct drbd_device *device,
-fbe29dec9862236 Andreas Gruenbacher 2011-02-17  1637  			     struct drbd_p=
-eer_request *peer_req,
-bb3cc85e16431bb Mike Christie       2016-06-05  1638  			     const unsigne=
-d op, const unsigned op_flags,
-bb3cc85e16431bb Mike Christie       2016-06-05  1639  			     const int fau=
-lt_type)
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1640  {
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1641  	struct bio *bios =3D=
- NULL;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1642  	struct bio *bio;
-db830c464b69e26 Andreas Gruenbacher 2011-02-04  1643  	struct page *page =
-=3D peer_req->pages;
-db830c464b69e26 Andreas Gruenbacher 2011-02-04  1644  	sector_t sector =3D =
-peer_req->i.sector;
-11f8b2b69d32d43 Andreas Gruenbacher 2014-09-11  1645  	unsigned data_size =
-=3D peer_req->i.size;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1646  	unsigned n_bios =3D =
-0;
-11f8b2b69d32d43 Andreas Gruenbacher 2014-09-11  1647  	unsigned nr_pages =
-=3D (data_size + PAGE_SIZE -1) >> PAGE_SHIFT;
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1648  	int err =3D -ENOMEM;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1649  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1149  	rc =3D pqi_report_phys_logi=
+cal_luns(ctrl_info, CISS_REPORT_PHYS, &rpl_list);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1150  	if (rc)
+28ca6d876c5a37 Mike McGowen  2021-09-28  1151  		return rc;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1152  =
 
-dd4f699da674010 Lars Ellenberg      2016-06-14  1650  	/* TRIM/DISCARD: for=
- now, always use the helper function
-dd4f699da674010 Lars Ellenberg      2016-06-14  1651  	 * blkdev_issue_zero=
-out(..., discard=3Dtrue).
-dd4f699da674010 Lars Ellenberg      2016-06-14  1652  	 * It's synchronous,=
- but it does the right thing wrt. bio splitting.
-dd4f699da674010 Lars Ellenberg      2016-06-14  1653  	 * Correctness first=
-, performance later.  Next step is to code an
-dd4f699da674010 Lars Ellenberg      2016-06-14  1654  	 * asynchronous vari=
-ant of the same.
-dd4f699da674010 Lars Ellenberg      2016-06-14  1655  	 */
-f31e583aa2c2089 Lars Ellenberg      2018-12-20  1656  	if (peer_req->flags =
-& (EE_TRIM|EE_WRITE_SAME|EE_ZEROOUT)) {
-a0fb3c47a1aae5d Lars Ellenberg      2014-04-28  1657  		/* wait for all pen=
-ding IO completions, before we start
-a0fb3c47a1aae5d Lars Ellenberg      2014-04-28  1658  		 * zeroing things o=
-ut. */
-5dd2ca1912714a0 Andreas Gruenbacher 2014-08-11  1659  		conn_wait_active_ee=
-_empty(peer_req->peer_device->connection);
-45d2933c921c51d Lars Ellenberg      2014-04-23  1660  		/* add it to the ac=
-tive list now,
-45d2933c921c51d Lars Ellenberg      2014-04-23  1661  		 * so we can find i=
-t to present it in debugfs */
-21ae5d7f95aa1a6 Lars Ellenberg      2014-05-05  1662  		peer_req->submit_ji=
-f =3D jiffies;
-21ae5d7f95aa1a6 Lars Ellenberg      2014-05-05  1663  		peer_req->flags |=
-=3D EE_SUBMITTED;
-700ca8c04a0f440 Philipp Reisner     2016-06-14  1664  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1153  	if (ctrl_info->rpl_extended=
+_format_4_5_supported) {
+28ca6d876c5a37 Mike McGowen  2021-09-28  1154  		rpl_header =3D rpl_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1155  		rpl_response_format =3D rp=
+l_header->flags & CISS_REPORT_PHYS_FLAG_EXTENDED_FORMAT_MASK;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1156  		if (rpl_response_format =
+=3D=3D CISS_REPORT_PHYS_FLAG_EXTENDED_FORMAT_4) {
+28ca6d876c5a37 Mike McGowen  2021-09-28  1157  			*buffer =3D rpl_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1158  			return 0;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1159  		} else if (rpl_response_fo=
+rmat !=3D CISS_REPORT_PHYS_FLAG_EXTENDED_FORMAT_2) {
+28ca6d876c5a37 Mike McGowen  2021-09-28 @1160  			dev_err(&ctrl_info->pci_d=
+ev->dev,
+28ca6d876c5a37 Mike McGowen  2021-09-28  1161  				"RPL returned unsupporte=
+d data format %u\n",
+28ca6d876c5a37 Mike McGowen  2021-09-28  1162  				rpl_response_format);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1163  			return -EINVAL;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1164  		} else {
+28ca6d876c5a37 Mike McGowen  2021-09-28  1165  			dev_warn(&ctrl_info->pci_=
+dev->dev,
+28ca6d876c5a37 Mike McGowen  2021-09-28  1166  				"RPL returned extended f=
+ormat 2 instead of 4\n");
+28ca6d876c5a37 Mike McGowen  2021-09-28  1167  		}
+28ca6d876c5a37 Mike McGowen  2021-09-28  1168  	}
+28ca6d876c5a37 Mike McGowen  2021-09-28  1169  =
 
-700ca8c04a0f440 Philipp Reisner     2016-06-14  1665  		/* If this was a re=
-sync request from receive_rs_deallocated(),
-700ca8c04a0f440 Philipp Reisner     2016-06-14  1666  		 * it is already on=
- the sync_ee list */
-700ca8c04a0f440 Philipp Reisner     2016-06-14  1667  		if (list_empty(&pee=
-r_req->w.list)) {
-45d2933c921c51d Lars Ellenberg      2014-04-23  1668  			spin_lock_irq(&dev=
-ice->resource->req_lock);
-45d2933c921c51d Lars Ellenberg      2014-04-23  1669  			list_add_tail(&pee=
-r_req->w.list, &device->active_ee);
-45d2933c921c51d Lars Ellenberg      2014-04-23  1670  			spin_unlock_irq(&d=
-evice->resource->req_lock);
-700ca8c04a0f440 Philipp Reisner     2016-06-14  1671  		}
-700ca8c04a0f440 Philipp Reisner     2016-06-14  1672  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1170  	rpl_8byte_wwid_list =3D rpl=
+_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1171  	num_physicals =3D get_unali=
+gned_be32(&rpl_8byte_wwid_list->header.list_length) / sizeof(rpl_8byte_wwid=
+_list->lun_entries[0]);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1172  	rpl_16byte_wwid_list_length=
+ =3D sizeof(struct report_lun_header) + (num_physicals * sizeof(struct repo=
+rt_phys_lun_16byte_wwid));
+28ca6d876c5a37 Mike McGowen  2021-09-28  1173  =
 
-f31e583aa2c2089 Lars Ellenberg      2018-12-20  1673  		if (peer_req->flags=
- & (EE_TRIM|EE_ZEROOUT))
-f31e583aa2c2089 Lars Ellenberg      2018-12-20  1674  			drbd_issue_peer_di=
-scard_or_zero_out(device, peer_req);
-9104d31a759fbad Lars Ellenberg      2016-06-14  1675  		else /* EE_WRITE_SA=
-ME */
-9104d31a759fbad Lars Ellenberg      2016-06-14  1676  			drbd_issue_peer_ws=
-ame(device, peer_req);
-a0fb3c47a1aae5d Lars Ellenberg      2014-04-28  1677  		return 0;
-a0fb3c47a1aae5d Lars Ellenberg      2014-04-28  1678  	}
-a0fb3c47a1aae5d Lars Ellenberg      2014-04-28  1679  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1174  	rpl_16byte_wwid_list =3D km=
+alloc(rpl_16byte_wwid_list_length, GFP_KERNEL);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1175  	if (!rpl_16byte_wwid_list)
+28ca6d876c5a37 Mike McGowen  2021-09-28 @1176  		return -ENOMEM;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1177  =
 
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1680  	/* In most cases, we=
- will only need one bio.  But in case the lower
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1681  	 * level restriction=
-s happen to be different at this offset on this
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1682  	 * side than those o=
-f the sending peer, we may need to submit the
-9476f39d66041ca Lars Ellenberg      2011-02-23  1683  	 * request in more t=
-han one bio.
-9476f39d66041ca Lars Ellenberg      2011-02-23  1684  	 *
-9476f39d66041ca Lars Ellenberg      2011-02-23  1685  	 * Plain bio_alloc i=
-s good enough here, this is no DRBD internally
-9476f39d66041ca Lars Ellenberg      2011-02-23  1686  	 * generated bio, bu=
-t a bio allocated on behalf of the peer.
-9476f39d66041ca Lars Ellenberg      2011-02-23  1687  	 */
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1688  next_bio:
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1689  	bio =3D bio_alloc(GF=
-P_NOIO, nr_pages);
-db830c464b69e26 Andreas Gruenbacher 2011-02-04  1690  	/* > peer_req->i.sec=
-tor, unless this is the first bio */
-4f024f3797c43cb Kent Overstreet     2013-10-11  1691  	bio->bi_iter.bi_sect=
-or =3D sector;
-74d46992e0d9dee Christoph Hellwig   2017-08-23  1692  	bio_set_dev(bio, dev=
-ice->ldev->backing_bdev);
-bb3cc85e16431bb Mike Christie       2016-06-05  1693  	bio_set_op_attrs(bio=
-, op, op_flags);
-db830c464b69e26 Andreas Gruenbacher 2011-02-04  1694  	bio->bi_private =3D =
-peer_req;
-fcefa62e4c26e70 Andreas Gruenbacher 2011-02-17  1695  	bio->bi_end_io =3D d=
-rbd_peer_request_endio;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1696  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1178  	put_unaligned_be32(num_phys=
+icals * sizeof(struct report_phys_lun_16byte_wwid),
+28ca6d876c5a37 Mike McGowen  2021-09-28  1179  		&rpl_16byte_wwid_list->hea=
+der.list_length);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1180  	rpl_16byte_wwid_list->heade=
+r.flags =3D rpl_8byte_wwid_list->header.flags;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1181  =
 
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1697  	bio->bi_next =3D bio=
+28ca6d876c5a37 Mike McGowen  2021-09-28  1182  	for (i =3D 0; i < num_physi=
+cals; i++) {
+28ca6d876c5a37 Mike McGowen  2021-09-28  1183  		memcpy(&rpl_16byte_wwid_li=
+st->lun_entries[i].lunid, &rpl_8byte_wwid_list->lun_entries[i].lunid, sizeo=
+f(rpl_8byte_wwid_list->lun_entries[i].lunid));
+28ca6d876c5a37 Mike McGowen  2021-09-28  1184  		memset(&rpl_16byte_wwid_li=
+st->lun_entries[i].wwid, 0, 8);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1185  		memcpy(&rpl_16byte_wwid_li=
+st->lun_entries[i].wwid[8], &rpl_8byte_wwid_list->lun_entries[i].wwid, size=
+of(rpl_8byte_wwid_list->lun_entries[i].wwid));
+28ca6d876c5a37 Mike McGowen  2021-09-28  1186  		rpl_16byte_wwid_list->lun_=
+entries[i].device_type =3D rpl_8byte_wwid_list->lun_entries[i].device_type;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1187  		rpl_16byte_wwid_list->lun_=
+entries[i].device_flags =3D rpl_8byte_wwid_list->lun_entries[i].device_flag=
 s;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1698  	bios =3D bio;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1699  	++n_bios;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1700  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1188  		rpl_16byte_wwid_list->lun_=
+entries[i].lun_count =3D rpl_8byte_wwid_list->lun_entries[i].lun_count;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1189  		rpl_16byte_wwid_list->lun_=
+entries[i].redundant_paths =3D rpl_8byte_wwid_list->lun_entries[i].redundan=
+t_paths;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1190  		rpl_16byte_wwid_list->lun_=
+entries[i].aio_handle =3D rpl_8byte_wwid_list->lun_entries[i].aio_handle;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1191  	}
+28ca6d876c5a37 Mike McGowen  2021-09-28  1192  =
 
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1701  	page_chain_for_each(=
-page) {
-11f8b2b69d32d43 Andreas Gruenbacher 2014-09-11  1702  		unsigned len =3D mi=
-n_t(unsigned, data_size, PAGE_SIZE);
-06efffda51d9785 Ming Lei            2016-11-11  1703  		if (!bio_add_page(b=
-io, page, len, 0))
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1704  			goto next_bio;
-11f8b2b69d32d43 Andreas Gruenbacher 2014-09-11  1705  		data_size -=3D len;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1706  		sector +=3D len >> =
-9;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1707  		--nr_pages;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1708  	}
-11f8b2b69d32d43 Andreas Gruenbacher 2014-09-11  1709  	D_ASSERT(device, dat=
-a_size =3D=3D 0);
-a0fb3c47a1aae5d Lars Ellenberg      2014-04-28  1710  	D_ASSERT(device, pag=
-e =3D=3D NULL);
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1711  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1193  	kfree(rpl_8byte_wwid_list);
+28ca6d876c5a37 Mike McGowen  2021-09-28  1194  	*buffer =3D rpl_16byte_wwid=
+_list;
+28ca6d876c5a37 Mike McGowen  2021-09-28  1195  =
 
-db830c464b69e26 Andreas Gruenbacher 2011-02-04  1712  	atomic_set(&peer_req=
-->pending_bios, n_bios);
-21ae5d7f95aa1a6 Lars Ellenberg      2014-05-05  1713  	/* for debugfs: upda=
-te timestamp, mark as submitted */
-21ae5d7f95aa1a6 Lars Ellenberg      2014-05-05  1714  	peer_req->submit_jif=
- =3D jiffies;
-21ae5d7f95aa1a6 Lars Ellenberg      2014-05-05  1715  	peer_req->flags |=3D=
- EE_SUBMITTED;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1716  	do {
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1717  		bio =3D bios;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1718  		bios =3D bios->bi_n=
-ext;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1719  		bio->bi_next =3D NU=
-LL;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1720  =
+28ca6d876c5a37 Mike McGowen  2021-09-28  1196  	return 0;
+6c223761eb5482 Kevin Barnett 2016-06-27  1197  }
+6c223761eb5482 Kevin Barnett 2016-06-27  1198  =
 
-ed00aabd5eb9fb4 Christoph Hellwig   2020-07-01  1721  		drbd_submit_bio_noa=
-cct(device, fault_type, bio);
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1722  	} while (bios);
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1723  	return 0;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1724  =
-
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14 @1725  fail:
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1726  	while (bios) {
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1727  		bio =3D bios;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1728  		bios =3D bios->bi_n=
-ext;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1729  		bio_put(bio);
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1730  	}
-10f6d9926cd17af Lars Ellenberg      2011-01-24  1731  	return err;
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1732  }
-45bb912bd5ea4d2 Lars Ellenberg      2010-05-14  1733  =
-
-
-:::::: The code at line 1725 was first introduced by commit
-:::::: 45bb912bd5ea4d2b3a270a93cbdf767a0e2df6f5 drbd: Allow drbd_epoch_entr=
-ies to use multiple bios. This should allow for better performance if the l=
-ower level IO stack of the peers differs in limits exposed either via the q=
-ueue, or via some merge_bvec_fn.
-
-:::::: TO: Lars Ellenberg <lars.ellenberg@linbit.com>
-:::::: CC: Philipp Reisner <philipp.reisner@linbit.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3116484211151833292==--
+--===============6925572591880599349==--
 
