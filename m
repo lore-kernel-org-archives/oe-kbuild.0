@@ -1,217 +1,400 @@
-Content-Type: multipart/mixed; boundary="===============4761972701916199096=="
+Content-Type: multipart/mixed; boundary="===============5822653426913988375=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [vishal-tiering:tiering-0.8 4/44] mm/memory.c:4397 do_numa_page() warn: bitwise AND condition is false here
-Date: Fri, 14 Jan 2022 19:15:32 +0800
-Message-ID: <202201141903.5izUcXf4-lkp@intel.com>
+Subject: [jpirko-mlxsw:jiri_devel_linecards 55/57] drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:984:3: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 14 Jan 2022 19:15:30 +0800
+Message-ID: <202201141905.bLha4kdv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4761972701916199096==
+--===============5822653426913988375==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Huang Ying <ying.huang@intel.com>
+TO: Vadim Pasternak <vadimp@nvidia.com>
+CC: Jiri Pirko <jiri@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/tiering.git =
-tiering-0.8
-head:   d58c7b0e1a99a2ec17f2910a310835bafc50b4d1
-commit: a5991df63566277963f7ea69181a8341412fcc7b [4/44] memory tiering: hot=
- page selection with hint page fault latency
-:::::: branch date: 2 days ago
-:::::: commit date: 10 weeks ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20114/202201141903.5izUcXf4-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://github.com/jpirko/linux_mlxsw jiri_devel_linecards
+head:   2f768899ec7db92c6c3bf9528b87a8e997159a6f
+commit: d8568c67d454465d37e13b0400c487138db6d8db [55/57] mlxsw: core_therma=
+l: Add interfaces for line card initialization and de-initialization
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+114/202201141905.bLha4kdv-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
+913a43a200f5a6544d424cdc37b771028b)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/jpirko/linux_mlxsw/commit/d8568c67d454465d37e1=
+3b0400c487138db6d8db
+        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
+        git fetch --no-tags jpirko-mlxsw jiri_devel_linecards
+        git checkout d8568c67d454465d37e13b0400c487138db6d8db
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/memory.c:4397 do_numa_page() warn: bitwise AND condition is false here
 
-vim +4397 mm/memory.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   lib/ts_fsm.c:155:32: note: expanded from macro 'end_of_data'
+   #define end_of_data() unlikely(block_idx >=3D block_len && !GET_NEXT_BLO=
+CK())
+                                  ^~~~~~~~~
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   lib/ts_fsm.c:219:8: note: Left side of '&&' is false
+                           if (end_of_data())
+                               ^
+   lib/ts_fsm.c:155:55: note: expanded from macro 'end_of_data'
+   #define end_of_data() unlikely(block_idx >=3D block_len && !GET_NEXT_BLO=
+CK())
+                                                         ^
+   lib/ts_fsm.c:219:8: note: 'block_idx' is < 'block_len'
+                           if (end_of_data())
+                               ^
+   lib/ts_fsm.c:155:32: note: expanded from macro 'end_of_data'
+   #define end_of_data() unlikely(block_idx >=3D block_len && !GET_NEXT_BLO=
+CK())
+                                  ^~~~~~~~~
+   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                                                        ^
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   lib/ts_fsm.c:219:8: note: Left side of '&&' is false
+                           if (end_of_data())
+                               ^
+   lib/ts_fsm.c:155:55: note: expanded from macro 'end_of_data'
+   #define end_of_data() unlikely(block_idx >=3D block_len && !GET_NEXT_BLO=
+CK())
+                                                         ^
+   lib/ts_fsm.c:219:4: note: '?' condition is false
+                           if (end_of_data())
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   lib/ts_fsm.c:219:4: note: Taking false branch
+                           if (end_of_data())
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   lib/ts_fsm.c:222:24: note: Passing null pointer value via 1st parameter =
+'t'
+                           while (!match_token(next, data[block_idx])) {
+                                               ^~~~
+   lib/ts_fsm.c:222:12: note: Calling 'match_token'
+                           while (!match_token(next, data[block_idx])) {
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/ts_fsm.c:128:2: note: Access to field 'type' results in a dereferenc=
+e of a null pointer (loaded from variable 't')
+           if (t->type)
+           ^
+   include/linux/compiler.h:56:46: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                ^~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   1 warning generated.
+   arch/x86/kernel/cpu/mce/core.c:315:4: warning: Value stored to 'apei_err=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                           apei_err =3D apei_write_mce(final);
+                           ^          ~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/cpu/mce/core.c:315:4: note: Value stored to 'apei_err' i=
+s never read
+                           apei_err =3D apei_write_mce(final);
+                           ^          ~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1126:2: warning: Va=
+lue stored to 'linecards' is never read [clang-analyzer-deadcode.DeadStores]
+           linecards =3D linecard->linecards;
+           ^           ~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c:1126:2: note: Value=
+ stored to 'linecards' is never read
+           linecards =3D linecard->linecards;
+           ^           ~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+>> drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:984:3: warning: Value=
+ stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D -ENOMEM;
+                   ^     ~~~~~~~
+   drivers/net/ethernet/mellanox/mlxsw/core_thermal.c:984:3: note: Value st=
+ored to 'err' is never read
+                   err =3D -ENOMEM;
+                   ^     ~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   kernel/bpf/syscall.c:4127:2: warning: Value stored to 'err' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   kernel/bpf/syscall.c:4127:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   kernel/bpf/verifier.c:1739:9: warning: 3rd function call argument is an =
+uninitialized value [clang-analyzer-core.CallAndMessage]
+           return bsearch(&desc, tab->descs, tab->nr_descs,
+                  ^
+   kernel/bpf/verifier.c:1848:6: note: Assuming 'tab' is null
+           if (!tab) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   kernel/bpf/verifier.c:1848:2: note: '?' condition is false
+           if (!tab) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   kernel/bpf/verifier.c:1848:7: note: 'tab' is null
+           if (!tab) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   kernel/bpf/verifier.c:1848:2: note: '?' condition is true
+           if (!tab) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   kernel/bpf/verifier.c:1848:2: note: Taking true branch
+           if (!tab) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/bpf/verifier.c:1849:7: note: Assuming 'btf_vmlinux' is non-null
+                   if (!btf_vmlinux) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   kernel/bpf/verifier.c:1849:3: note: '?' condition is false
+                   if (!btf_vmlinux) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   kernel/bpf/verifier.c:1849:8: note: 'btf_vmlinux' is non-null
+                   if (!btf_vmlinux) {
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
 
-9532fec118d485 Mel Gorman         2012-11-15  4338  =
+vim +/err +984 drivers/net/ethernet/mellanox/mlxsw/core_thermal.c
 
-2b7403035459c7 Souptick Joarder   2018-08-23  4339  static vm_fault_t do_nu=
-ma_page(struct vm_fault *vmf)
-d10e63f29488b0 Mel Gorman         2012-10-25  4340  {
-82b0f8c39a3869 Jan Kara           2016-12-14  4341  	struct vm_area_struct =
-*vma =3D vmf->vma;
-4daae3b4b9e49b Mel Gorman         2012-11-02  4342  	struct page *page =3D =
-NULL;
-98fa15f34cb379 Anshuman Khandual  2019-03-05  4343  	int page_nid =3D NUMA_=
-NO_NODE;
-90572890d20252 Peter Zijlstra     2013-10-07  4344  	int last_cpupid;
-cbee9f88ec1b8d Peter Zijlstra     2012-10-25  4345  	int target_nid;
-04a8645304500b Aneesh Kumar K.V   2019-03-05  4346  	pte_t pte, old_pte;
-288bc54949fc26 Aneesh Kumar K.V   2017-02-24  4347  	bool was_writable =3D =
-pte_savedwrite(vmf->orig_pte);
-6688cc05473b36 Peter Zijlstra     2013-10-07  4348  	int flags =3D 0;
-d10e63f29488b0 Mel Gorman         2012-10-25  4349  =
+f14f4e621b1b4a Vadim Pasternak 2019-06-24   952  =
 
-d10e63f29488b0 Mel Gorman         2012-10-25  4350  	/*
-d10e63f29488b0 Mel Gorman         2012-10-25  4351  	 * The "pte" at this p=
-oint cannot be used safely without
-d10e63f29488b0 Mel Gorman         2012-10-25  4352  	 * validation through =
-pte_unmap_same(). It's of NUMA type but
-d10e63f29488b0 Mel Gorman         2012-10-25  4353  	 * the pfn may be scre=
-wed if the read is non atomic.
-d10e63f29488b0 Mel Gorman         2012-10-25  4354  	 */
-82b0f8c39a3869 Jan Kara           2016-12-14  4355  	vmf->ptl =3D pte_lockp=
-tr(vma->vm_mm, vmf->pmd);
-82b0f8c39a3869 Jan Kara           2016-12-14  4356  	spin_lock(vmf->ptl);
-cee216a696b200 Aneesh Kumar K.V   2017-02-24  4357  	if (unlikely(!pte_same=
-(*vmf->pte, vmf->orig_pte))) {
-82b0f8c39a3869 Jan Kara           2016-12-14  4358  		pte_unmap_unlock(vmf-=
->pte, vmf->ptl);
-4daae3b4b9e49b Mel Gorman         2012-11-02  4359  		goto out;
-4daae3b4b9e49b Mel Gorman         2012-11-02  4360  	}
-4daae3b4b9e49b Mel Gorman         2012-11-02  4361  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   953  static void
+d8568c67d45446 Vadim Pasternak 2021-05-12   954  mlxsw_thermal_got_active(s=
+truct mlxsw_core *mlxsw_core, u8 slot_index,
+d8568c67d45446 Vadim Pasternak 2021-05-12   955  			 const struct mlxsw_lin=
+ecard *linecard, void *priv)
+d8568c67d45446 Vadim Pasternak 2021-05-12   956  {
+d8568c67d45446 Vadim Pasternak 2021-05-12   957  	struct mlxsw_env_gearbox_=
+sensors_map map;
+d8568c67d45446 Vadim Pasternak 2021-05-12   958  	struct mlxsw_thermal *the=
+rmal =3D priv;
+d8568c67d45446 Vadim Pasternak 2021-05-12   959  	struct mlxsw_thermal_area=
+ *lc;
+d8568c67d45446 Vadim Pasternak 2021-05-12   960  	int err;
+d8568c67d45446 Vadim Pasternak 2021-05-12   961  =
 
-b99a342d4f11a5 Huang Ying         2021-04-29  4362  	/* Get the normal PTE =
- */
-b99a342d4f11a5 Huang Ying         2021-04-29  4363  	old_pte =3D ptep_get(v=
-mf->pte);
-04a8645304500b Aneesh Kumar K.V   2019-03-05  4364  	pte =3D pte_modify(old=
-_pte, vma->vm_page_prot);
-d10e63f29488b0 Mel Gorman         2012-10-25  4365  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   962  	lc =3D kzalloc(sizeof(*lc=
+), GFP_KERNEL);
+d8568c67d45446 Vadim Pasternak 2021-05-12   963  	if (!lc)
+d8568c67d45446 Vadim Pasternak 2021-05-12   964  		return;
+d8568c67d45446 Vadim Pasternak 2021-05-12   965  =
 
-82b0f8c39a3869 Jan Kara           2016-12-14  4366  	page =3D vm_normal_pag=
-e(vma, vmf->address, pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4367  	if (!page)
-b99a342d4f11a5 Huang Ying         2021-04-29  4368  		goto out_map;
-d10e63f29488b0 Mel Gorman         2012-10-25  4369  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   966  	lc->slot_index =3D slot_i=
+ndex;
+d8568c67d45446 Vadim Pasternak 2021-05-12   967  	lc->parent =3D thermal;
+d8568c67d45446 Vadim Pasternak 2021-05-12   968  	thermal->linecards[slot_i=
+ndex - 1] =3D lc;
+d8568c67d45446 Vadim Pasternak 2021-05-12   969  	err =3D mlxsw_thermal_mod=
+ules_init(thermal->bus_info->dev, thermal->core,
+d8568c67d45446 Vadim Pasternak 2021-05-12   970  					 thermal, lc);
+d8568c67d45446 Vadim Pasternak 2021-05-12   971  	if (err)
+d8568c67d45446 Vadim Pasternak 2021-05-12   972  		goto err_thermal_linecar=
+d_modules_init;
+d8568c67d45446 Vadim Pasternak 2021-05-12   973  =
 
-e81c48024f43b4 Kirill A. Shutemov 2016-01-15  4370  	/* TODO: handle PTE-ma=
-pped THP */
-b99a342d4f11a5 Huang Ying         2021-04-29  4371  	if (PageCompound(page))
-b99a342d4f11a5 Huang Ying         2021-04-29  4372  		goto out_map;
-e81c48024f43b4 Kirill A. Shutemov 2016-01-15  4373  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   974  	err =3D mlxsw_env_sensor_=
+map_create(thermal->core, thermal->bus_info,
+d8568c67d45446 Vadim Pasternak 2021-05-12   975  					  linecard->slot_inde=
+x, &map);
+d8568c67d45446 Vadim Pasternak 2021-05-12   976  	if (err)
+d8568c67d45446 Vadim Pasternak 2021-05-12   977  		goto err_thermal_linecar=
+d_env_sensor_map_create;
+d8568c67d45446 Vadim Pasternak 2021-05-12   978  =
 
-6688cc05473b36 Peter Zijlstra     2013-10-07  4374  	/*
-bea66fbd11af1c Mel Gorman         2015-03-25  4375  	 * Avoid grouping on R=
-O pages in general. RO pages shouldn't hurt as
-bea66fbd11af1c Mel Gorman         2015-03-25  4376  	 * much anyway since t=
-hey can be in shared cache state. This misses
-bea66fbd11af1c Mel Gorman         2015-03-25  4377  	 * the case where a ma=
-pping is writable but the process never writes
-bea66fbd11af1c Mel Gorman         2015-03-25  4378  	 * to it but pte_write=
- gets cleared during protection updates and
-bea66fbd11af1c Mel Gorman         2015-03-25  4379  	 * pte_dirty has unpre=
-dictable behaviour between PTE scan updates,
-bea66fbd11af1c Mel Gorman         2015-03-25  4380  	 * background writebac=
-k, dirty balancing and application behaviour.
-bea66fbd11af1c Mel Gorman         2015-03-25  4381  	 */
-b99a342d4f11a5 Huang Ying         2021-04-29  4382  	if (!was_writable)
-6688cc05473b36 Peter Zijlstra     2013-10-07  4383  		flags |=3D TNF_NO_GRO=
-UP;
-6688cc05473b36 Peter Zijlstra     2013-10-07  4384  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   979  	lc->gearbox_sensor_map =
+=3D map.sensor_bit_map;
+d8568c67d45446 Vadim Pasternak 2021-05-12   980  	lc->tz_gearbox_num =3D ma=
+p.sensor_count;
+d8568c67d45446 Vadim Pasternak 2021-05-12   981  	lc->tz_gearbox_arr =3D kc=
+alloc(lc->tz_gearbox_num, sizeof(*lc->tz_gearbox_arr),
+d8568c67d45446 Vadim Pasternak 2021-05-12   982  				     GFP_KERNEL);
+d8568c67d45446 Vadim Pasternak 2021-05-12   983  	if (!lc->tz_gearbox_arr) {
+d8568c67d45446 Vadim Pasternak 2021-05-12  @984  		err =3D -ENOMEM;
+d8568c67d45446 Vadim Pasternak 2021-05-12   985  		goto err_tz_gearbox_arr_=
+alloc;
+d8568c67d45446 Vadim Pasternak 2021-05-12   986  	}
+d8568c67d45446 Vadim Pasternak 2021-05-12   987  =
 
-dabe1d992414a6 Rik van Riel       2013-10-07  4385  	/*
-dabe1d992414a6 Rik van Riel       2013-10-07  4386  	 * Flag if the page is=
- shared between multiple address spaces. This
-dabe1d992414a6 Rik van Riel       2013-10-07  4387  	 * is later used when =
-determining whether to group tasks together
-dabe1d992414a6 Rik van Riel       2013-10-07  4388  	 */
-dabe1d992414a6 Rik van Riel       2013-10-07  4389  	if (page_mapcount(page=
-) > 1 && (vma->vm_flags & VM_SHARED))
-dabe1d992414a6 Rik van Riel       2013-10-07  4390  		flags |=3D TNF_SHARED;
-dabe1d992414a6 Rik van Riel       2013-10-07  4391  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   988  	err =3D mlxsw_thermal_gea=
+rboxes_init(thermal->bus_info->dev, thermal->core,
+d8568c67d45446 Vadim Pasternak 2021-05-12   989  					   thermal, lc);
+d8568c67d45446 Vadim Pasternak 2021-05-12   990  	if (err)
+d8568c67d45446 Vadim Pasternak 2021-05-12   991  		goto err_thermal_linecar=
+d_gearboxes_init;
+d8568c67d45446 Vadim Pasternak 2021-05-12   992  =
 
-8191acbd30c73e Mel Gorman         2013-10-07  4392  	page_nid =3D page_to_n=
-id(page);
-a5991df6356627 Huang Ying         2020-06-11  4393  	/*
-a5991df6356627 Huang Ying         2020-06-11  4394  	 * In memory tiering m=
-ode, cpupid of slow memory page is used
-a5991df6356627 Huang Ying         2020-06-11  4395  	 * to record page acce=
-ss time.  So use default value.
-a5991df6356627 Huang Ying         2020-06-11  4396  	 */
-a5991df6356627 Huang Ying         2020-06-11 @4397  	if ((sysctl_numa_balan=
-cing_mode & NUMA_BALANCING_MEMORY_TIERING) &&
-a5991df6356627 Huang Ying         2020-06-11  4398  	    !node_is_toptier(p=
-age_nid))
-a5991df6356627 Huang Ying         2020-06-11  4399  		last_cpupid =3D (-1 &=
- LAST_CPUPID_MASK);
-a5991df6356627 Huang Ying         2020-06-11  4400  	else
-a5991df6356627 Huang Ying         2020-06-11  4401  		last_cpupid =3D page_=
-cpupid_last(page);
-82b0f8c39a3869 Jan Kara           2016-12-14  4402  	target_nid =3D numa_mi=
-grate_prep(page, vma, vmf->address, page_nid,
-bae473a423f65e Kirill A. Shutemov 2016-07-26  4403  			&flags);
-98fa15f34cb379 Anshuman Khandual  2019-03-05  4404  	if (target_nid =3D=3D =
-NUMA_NO_NODE) {
-4daae3b4b9e49b Mel Gorman         2012-11-02  4405  		put_page(page);
-b99a342d4f11a5 Huang Ying         2021-04-29  4406  		goto out_map;
-4daae3b4b9e49b Mel Gorman         2012-11-02  4407  	}
-b99a342d4f11a5 Huang Ying         2021-04-29  4408  	pte_unmap_unlock(vmf->=
-pte, vmf->ptl);
-4daae3b4b9e49b Mel Gorman         2012-11-02  4409  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   993  	return;
+d8568c67d45446 Vadim Pasternak 2021-05-12   994  =
 
-4daae3b4b9e49b Mel Gorman         2012-11-02  4410  	/* Migrate to the requ=
-ested node */
-bf90ac198e30d2 Wang Qing          2021-04-29  4411  	if (migrate_misplaced_=
-page(page, vma, target_nid)) {
-8191acbd30c73e Mel Gorman         2013-10-07  4412  		page_nid =3D target_n=
-id;
-6688cc05473b36 Peter Zijlstra     2013-10-07  4413  		flags |=3D TNF_MIGRAT=
-ED;
-b99a342d4f11a5 Huang Ying         2021-04-29  4414  	} else {
-074c238177a75f Mel Gorman         2015-03-25  4415  		flags |=3D TNF_MIGRAT=
-E_FAIL;
-b99a342d4f11a5 Huang Ying         2021-04-29  4416  		vmf->pte =3D pte_offs=
-et_map(vmf->pmd, vmf->address);
-b99a342d4f11a5 Huang Ying         2021-04-29  4417  		spin_lock(vmf->ptl);
-b99a342d4f11a5 Huang Ying         2021-04-29  4418  		if (unlikely(!pte_sam=
-e(*vmf->pte, vmf->orig_pte))) {
-b99a342d4f11a5 Huang Ying         2021-04-29  4419  			pte_unmap_unlock(vmf=
-->pte, vmf->ptl);
-b99a342d4f11a5 Huang Ying         2021-04-29  4420  			goto out;
-b99a342d4f11a5 Huang Ying         2021-04-29  4421  		}
-b99a342d4f11a5 Huang Ying         2021-04-29  4422  		goto out_map;
-b99a342d4f11a5 Huang Ying         2021-04-29  4423  	}
-4daae3b4b9e49b Mel Gorman         2012-11-02  4424  =
-
-4daae3b4b9e49b Mel Gorman         2012-11-02  4425  out:
-98fa15f34cb379 Anshuman Khandual  2019-03-05  4426  	if (page_nid !=3D NUMA=
-_NO_NODE)
-6688cc05473b36 Peter Zijlstra     2013-10-07  4427  		task_numa_fault(last_=
-cpupid, page_nid, 1, flags);
-d10e63f29488b0 Mel Gorman         2012-10-25  4428  	return 0;
-b99a342d4f11a5 Huang Ying         2021-04-29  4429  out_map:
-b99a342d4f11a5 Huang Ying         2021-04-29  4430  	/*
-b99a342d4f11a5 Huang Ying         2021-04-29  4431  	 * Make it present aga=
-in, depending on how arch implements
-b99a342d4f11a5 Huang Ying         2021-04-29  4432  	 * non-accessible ptes=
-, some can allow access by kernel mode.
-b99a342d4f11a5 Huang Ying         2021-04-29  4433  	 */
-b99a342d4f11a5 Huang Ying         2021-04-29  4434  	old_pte =3D ptep_modif=
-y_prot_start(vma, vmf->address, vmf->pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4435  	pte =3D pte_modify(old=
-_pte, vma->vm_page_prot);
-b99a342d4f11a5 Huang Ying         2021-04-29  4436  	pte =3D pte_mkyoung(pt=
-e);
-b99a342d4f11a5 Huang Ying         2021-04-29  4437  	if (was_writable)
-b99a342d4f11a5 Huang Ying         2021-04-29  4438  		pte =3D pte_mkwrite(p=
-te);
-b99a342d4f11a5 Huang Ying         2021-04-29  4439  	ptep_modify_prot_commi=
-t(vma, vmf->address, vmf->pte, old_pte, pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4440  	update_mmu_cache(vma, =
-vmf->address, vmf->pte);
-b99a342d4f11a5 Huang Ying         2021-04-29  4441  	pte_unmap_unlock(vmf->=
-pte, vmf->ptl);
-b99a342d4f11a5 Huang Ying         2021-04-29  4442  	goto out;
-d10e63f29488b0 Mel Gorman         2012-10-25  4443  }
-d10e63f29488b0 Mel Gorman         2012-10-25  4444  =
+d8568c67d45446 Vadim Pasternak 2021-05-12   995  err_thermal_linecard_gearb=
+oxes_init:
+d8568c67d45446 Vadim Pasternak 2021-05-12   996  	kfree(lc->tz_gearbox_arr);
+d8568c67d45446 Vadim Pasternak 2021-05-12   997  err_tz_gearbox_arr_alloc:
+d8568c67d45446 Vadim Pasternak 2021-05-12   998  	mlxsw_env_sensor_map_dest=
+roy(thermal->bus_info,
+d8568c67d45446 Vadim Pasternak 2021-05-12   999  				     lc->gearbox_senso=
+r_map);
+d8568c67d45446 Vadim Pasternak 2021-05-12  1000  err_thermal_linecard_env_s=
+ensor_map_create:
+d8568c67d45446 Vadim Pasternak 2021-05-12  1001  	mlxsw_thermal_modules_fin=
+i(thermal, lc);
+d8568c67d45446 Vadim Pasternak 2021-05-12  1002  err_thermal_linecard_modul=
+es_init:
+d8568c67d45446 Vadim Pasternak 2021-05-12  1003  	kfree(lc);
+d8568c67d45446 Vadim Pasternak 2021-05-12  1004  	thermal->linecards[slot_i=
+ndex - 1] =3D NULL;
+d8568c67d45446 Vadim Pasternak 2021-05-12  1005  }
+d8568c67d45446 Vadim Pasternak 2021-05-12  1006  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4761972701916199096==--
+--===============5822653426913988375==--
 
