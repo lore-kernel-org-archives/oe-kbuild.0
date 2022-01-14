@@ -1,376 +1,9524 @@
-Content-Type: multipart/mixed; boundary="===============7186700826931185374=="
+Content-Type: multipart/mixed; boundary="===============9141096263901435850=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/ast/ast_mode.c:1232:3: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Fri, 14 Jan 2022 14:12:05 +0800
-Message-ID: <202201141416.VfNXpsi5-lkp@intel.com>
+Subject: [linux-next:master 72/12117] include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved word 'for' as identifier
+Date: Fri, 14 Jan 2022 13:31:21 +0800
+Message-ID: <202201141336.VZ0MMmP0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7186700826931185374==
+--===============9141096263901435850==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Maxime Ripard <maxime@cerno.tech>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Greentime Hu <green.hu@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   fb3b0673b7d5b477ed104949450cd511337ba3c6
-commit: 55dc449a7c60d3df5a8f0b71bbae9d5173c864f5 drm/ast: Handle failed I2C=
- initialization gracefully
-date:   4 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 weeks ago
-config: riscv-randconfig-c006-20220113 (https://download.01.org/0day-ci/arc=
-hive/20220114/202201141416.VfNXpsi5-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d10219=
-78b8e7e35dcc30201ca1731d64b5a602a8)
-reproduce (this is a W=3D1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   27c9d5b3c24af29de643533984f1ba3e650c7c78
+commit: 36b9b19753937a6fe0e591b518d46a1f2efae679 [72/12117] nds32: add a Kc=
+onfig symbol for LOCKDEP_SUPPORT
+:::::: branch date: 25 hours ago
+:::::: commit date: 4 months ago
+config: nds32-allyesconfig (https://download.01.org/0day-ci/archive/2022011=
+4/202201141336.VZ0MMmP0-lkp(a)intel.com/config)
+compiler: nds32le-linux-gcc (GCC) 11.2.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D55dc449a7c60d3df5a8f0b71bbae9d5173c864f5
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 55dc449a7c60d3df5a8f0b71bbae9d5173c864f5
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D36b9b19753937a6fe0e591b518d46a1f2efae679
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 36b9b19753937a6fe0e591b518d46a1f2efae679
         # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dn=
+ds32 SHELL=3D/bin/bash arch/nds32/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   fs/overlayfs/export.c:654:34: note: '?' condition is false
-   fs/overlayfs/export.c:655:24: note: '?' condition is false
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-                                 ^
-   fs/overlayfs/export.c:655:34: note: '?' condition is false
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-                                           ^
-   fs/overlayfs/export.c:655:2: note: 'real' initialized to a null pointer =
-value
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:661:16: note: Passing null pointer value via 1st p=
-arameter 'dentry'
-           if (!d_is_dir(real))
-                         ^~~~
-   fs/overlayfs/export.c:661:7: note: Calling 'd_is_dir'
-           if (!d_is_dir(real))
-                ^~~~~~~~~~~~~~
-   include/linux/dcache.h:420:22: note: Passing null pointer value via 1st =
-parameter 'dentry'
-           return d_can_lookup(dentry) || d_is_autodir(dentry);
-                               ^~~~~~
-   include/linux/dcache.h:420:9: note: Calling 'd_can_lookup'
-           return d_can_lookup(dentry) || d_is_autodir(dentry);
-                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dcache.h:410:24: note: Passing null pointer value via 1st =
-parameter 'dentry'
-           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
-                                 ^~~~~~
-   include/linux/dcache.h:410:9: note: Calling '__d_entry_type'
-           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dcache.h:395:9: note: Access to field 'd_flags' results in=
- a dereference of a null pointer (loaded from variable 'dentry')
-           return dentry->d_flags & DCACHE_ENTRY_TYPE;
-                  ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/gpu/drm/ast/ast_mode.c:291:2: warning: Value stored to 'jreg' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:291:2: note: Value stored to 'jreg' is ne=
-ver read
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:300:2: warning: Value stored to 'jreg' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:300:2: note: Value stored to 'jreg' is ne=
-ver read
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/ast/ast_mode.c:1232:3: warning: Use of memory after it i=
-s freed [clang-analyzer-unix.Malloc]
-                   drm_connector_update_edid_property(&ast_connector->base,=
- edid);
-                   ^                                                       =
- ~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1217:6: note: Assuming field 'tx_chip_typ=
-e' is equal to AST_TX_DP501
-           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1217:2: note: Taking true branch
-           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
-           ^
-   drivers/gpu/drm/ast/ast_mode.c:1220:7: note: Assuming 'edid' is non-null
-                   if (!edid)
-                       ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1220:3: note: Taking false branch
-                   if (!edid)
-                   ^
-   drivers/gpu/drm/ast/ast_mode.c:1224:7: note: Assuming 'flags' is false
-                   if (flags)
-                       ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1224:3: note: Taking false branch
-                   if (flags)
-                   ^
-   drivers/gpu/drm/ast/ast_mode.c:1227:4: note: Memory is released
-                           kfree(edid);
-                           ^~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:7: note: 'flags' is false
-           if (!flags && ast_connector->i2c)
-                ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:6: note: Left side of '&&' is true
-           if (!flags && ast_connector->i2c)
-               ^
-   drivers/gpu/drm/ast/ast_mode.c:1229:16: note: Assuming field 'i2c' is nu=
-ll
-           if (!flags && ast_connector->i2c)
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:2: note: Taking false branch
-           if (!flags && ast_connector->i2c)
-           ^
-   drivers/gpu/drm/ast/ast_mode.c:1231:6: note: 'edid' is non-null
-           if (edid) {
-               ^~~~
-   drivers/gpu/drm/ast/ast_mode.c:1231:2: note: Taking true branch
-           if (edid) {
-           ^
-   drivers/gpu/drm/ast/ast_mode.c:1232:3: note: Use of memory after it is f=
-reed
-                   drm_connector_update_edid_property(&ast_connector->base,=
- edid);
-                   ^                                                       =
- ~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/ast/ast_dp501.c:227:20: warning: Access to field 'data' =
-results in a dereference of a null pointer (loaded from field 'dp501_fw') [=
-clang-analyzer-core.NullDereference]
-                           fw_addr =3D (u8 *)ast->dp501_fw->data;
-                                           ^
-   drivers/gpu/drm/ast/ast_dp501.c:498:6: note: Assuming field 'chip' is eq=
-ual to AST2300
-           if (ast->chip =3D=3D AST2300 || ast->chip =3D=3D AST2400) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:498:27: note: Left side of '||' is true
-           if (ast->chip =3D=3D AST2300 || ast->chip =3D=3D AST2400) {
-                                    ^
-   drivers/gpu/drm/ast/ast_dp501.c:500:3: note: Control jumps to 'case 8:' =
- at line 504
-                   switch (jreg & 0x0e) {
-                   ^
-   drivers/gpu/drm/ast/ast_dp501.c:505:4: note: Calling 'ast_launch_m68k'
-                           ast_launch_m68k(dev);
-                           ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:213:6: note: Assuming field 'config_mode=
-' is equal to ast_use_p2a
-           if (ast->config_mode !=3D ast_use_p2a)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:213:2: note: Taking false branch
-           if (ast->config_mode !=3D ast_use_p2a)
-           ^
-   drivers/gpu/drm/ast/ast_dp501.c:217:6: note: Assuming 'data' is 0
-           if (!data) {
-               ^~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:217:2: note: Taking true branch
-           if (!data) {
-           ^
-   drivers/gpu/drm/ast/ast_dp501.c:219:7: note: Assuming field 'dp501_fw_ad=
-dr' is null
-                   if (ast->dp501_fw_addr) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:219:3: note: Taking false branch
-                   if (ast->dp501_fw_addr) {
-                   ^
-   drivers/gpu/drm/ast/ast_dp501.c:223:8: note: Assuming field 'dp501_fw' i=
-s null
-                           if (!ast->dp501_fw &&
-                               ^~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:223:8: note: Left side of '&&' is true
-   drivers/gpu/drm/ast/ast_dp501.c:224:8: note: Calling 'ast_load_dp501_mic=
-rocode'
-                               ast_load_dp501_microcode(dev) < 0)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_dp501.c:25:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/ast/ast_dp501.c:25:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/ast/ast_dp501.c:28:9: note: Calling 'devm_add_action_or_=
-reset'
-           return devm_add_action_or_reset(dev->dev, ast_release_firmware, =
-ast);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   include/linux/device.h:254:6: note: Assuming 'ret' is not equal to 0
+sparse warnings: (new ones prefixed by >>)
+   arch/nds32/kernel/vdso/gettimeofday.c: note: in included file (through i=
+nclude/linux/lockdep.h, include/linux/rcupdate.h, include/linux/rbtree.h, .=
+..):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ; at the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/vdso/gettimeofday.c: note: in included file (through i=
+nclude/linux/rcupdate.h, include/linux/rbtree.h, include/linux/hrtimer.h):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   include/linux/lockdep.h:35:16: sparse: sparse: undefined identifier 'fro=
+m'
+--
+   arch/nds32/kernel/time.c: note: in included file (through include/linux/=
+lockdep.h, include/linux/spinlock.h, include/linux/debugobjects.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/time.c: note: in included file (through include/linux/=
+spinlock.h, include/linux/debugobjects.h, include/linux/timer.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   include/linux/lockdep.h:35:16: sparse: sparse: undefined identifier 'fro=
+m'
+--
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/l=
+ockdep.h, include/linux/mutex.h, include/linux/kernfs.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/m=
+utex.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/s=
+ched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/s=
+ched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/r=
+esource.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/s=
+ched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/s=
+ched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/s=
+ched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/irq.c: note: in included file (through include/linux/r=
+atelimit.h, include/linux/dev_printk.h, include/linux/device.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/spinlock.h, include/linux/mm_types.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/spinlock.h, include/linux/mm_types.h, include/linux/buildid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, =
+...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, =
+...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/resource.h, include/linux/sched.h, include/linux/sched/task_stack.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, =
+...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, =
+...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, =
+...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/module.c: note: in included file (through include/linu=
+x/sched/task_stack.h, arch/nds32/include/asm/fpu.h, arch/nds32/include/asm/=
+elf.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+lockdep.h, include/linux/spinlock.h, include/linux/debugobjects.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+spinlock.h, include/linux/debugobjects.h, include/linux/timer.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ..=
+.):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ..=
+.):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+resource.h, include/linux/sched.h, include/linux/sched/task_stack.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ..=
+.):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ..=
+.):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ..=
+.):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/vdso.c: note: in included file (through include/linux/=
+sched/task_stack.h, arch/nds32/include/asm/fpu.h, arch/nds32/include/asm/el=
+f.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/ptrace.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/ptrace.c: note: in included file (through include/linu=
+x/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/ptrace.c: note: in included file (through include/linu=
+x/sched.h, include/linux/ptrace.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/ptrace.c: note: in included file (through include/linu=
+x/sched.h, include/linux/ptrace.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/ptrace.c: note: in included file (through include/linu=
+x/nodemask.h, include/linux/sched.h, include/linux/ptrace.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/ptrace.c: note: in included file (through include/linu=
+x/sched.h, include/linux/ptrace.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/setup.c: note: in included file (through include/linux=
+/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/setup.c: note: in included file (through include/linux=
+/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/setup.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/setup.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/setup.c: note: in included file (through include/linux=
+/nodemask.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/setup.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/process.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/process.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/process.c: note: in included file (through include/lin=
+ux/sched.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/process.c: note: in included file (through include/lin=
+ux/sched.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/process.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/process.c: note: in included file (through include/lin=
+ux/sched.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/l=
+ockdep.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/s=
+pinlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/m=
+m.h):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/s=
+ched.h, include/linux/mm.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/s=
+ched.h, include/linux/mm.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/s=
+ched.h, include/linux/mm.h):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/s=
+ched.h, include/linux/mm.h):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/dma.c: note: in included file (through include/linux/m=
+m.h):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1520:1: sparse: sparse: got }
+   include/linux/sched.h:1526:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/fpu.c: note: in included file (through include/linux/l=
+ockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/fpu.c: note: in included file (through include/linux/r=
+cupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/fpu.c: note: in included file (through include/linux/s=
+ched.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/fpu.c: note: in included file (through include/linux/s=
+ched.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/fpu.c: note: in included file (through include/linux/n=
+odemask.h, include/linux/sched.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/fpu.c: note: in included file (through include/linux/s=
+ched.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/cacheinfo.c: note: in included file (through include/l=
+inux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/cacheinfo.c: note: in included file (through include/l=
+inux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/cacheinfo.c: note: in included file (through include/l=
+inux/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/cacheinfo.c: note: in included file (through include/l=
+inux/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/cacheinfo.c: note: in included file (through include/l=
+inux/nodemask.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/cacheinfo.c: note: in included file (through include/l=
+inux/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/stacktrace.c: note: in included file (through include/=
+linux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/stacktrace.c: note: in included file (through include/=
+linux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/stacktrace.c: note: in included file (through include/=
+linux/sched.h, include/linux/sched/task_stack.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/stacktrace.c: note: in included file (through include/=
+linux/sched.h, include/linux/sched/task_stack.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/stacktrace.c: note: in included file (through include/=
+linux/nodemask.h, include/linux/sched.h, include/linux/sched/task_stack.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/stacktrace.c: note: in included file (through include/=
+linux/sched.h, include/linux/sched/task_stack.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/lockdep.h, include/linux/spinlock.h, include/linux/wait.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/spinlock.h, include/linux/wait.h, include/linux/wait_bit.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/fs.h, include/uapi/linux/aio_abi.h, include/linux/syscalls.h):
+   include/linux/capability.h:256:49: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/capability.h:256:49: sparse: sparse: got $
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwsem.h,=
+ ...):
+   include/linux/signal.h:294:46: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/signal.h:294:46: sparse: sparse: got $
+   include/linux/signal.h:327:50: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/signal.h:327:50: sparse: sparse: got $
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/resource.h, include/linux/sched.h, include/linux/sched/signal.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/sys_nds32.c: note: in included file (through include/l=
+inux/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwsem.h,=
+ ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/lockdep.h, include/linux/spinlock.h, include/linux/mm_types.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/spinlock.h, include/linux/mm_types.h, include/linux/buildid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, .=
+..):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, .=
+..):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/resource.h, include/linux/sched.h, include/linux/sched/task_stack.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, .=
+..):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, .=
+..):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, .=
+..):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/traps.c: note: in included file (through include/linux=
+/sched/task_stack.h, arch/nds32/include/asm/fpu.h, arch/nds32/include/asm/e=
+lf.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/lockdep.h, include/linux/spinlock.h, include/linux/wait.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/spinlock.h, include/linux/wait.h, include/linux/wait_bit.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/fs.h, include/uapi/linux/aio_abi.h, include/linux/syscalls.h):
+   include/linux/capability.h:256:49: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/capability.h:256:49: sparse: sparse: got $
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwse=
+m.h, ...):
+   include/linux/signal.h:294:46: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/signal.h:294:46: sparse: sparse: got $
+   include/linux/signal.h:327:50: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/signal.h:327:50: sparse: sparse: got $
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ..=
+.):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ..=
+.):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/resource.h, include/linux/sched.h, include/linux/sched/signal.h, .=
+..):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ..=
+.):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ..=
+.):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ..=
+.):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/syscall_table.c: note: in included file (through inclu=
+de/linux/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwse=
+m.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/lockdep.h, include/linux/spinlock.h, include/linux/mm_types.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/spinlock.h, include/linux/mm_types.h, include/linux/buildid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fp=
+u.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fp=
+u.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/resource.h, include/linux/sched.h, include/linux/sched/task_stack.h,=
+ ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fp=
+u.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fp=
+u.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/sched.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fp=
+u.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/nds32_ksyms.c: note: in included file (through include=
+/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, arch/nds32/include=
+/asm/elf.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/lo=
+ckdep.h, include/linux/spinlock.h, include/linux/swap.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/sp=
+inlock.h, include/linux/swap.h, include/linux/suspend.h):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/sc=
+hed.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/sc=
+hed.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/re=
+source.h, include/linux/sched.h, include/linux/cgroup.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/sc=
+hed.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/sc=
+hed.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/sc=
+hed.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/pm.c: note: in included file (through include/linux/cg=
+roup.h, include/linux/memcontrol.h, include/linux/swap.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/lockdep.h, include/linux/mutex.h, include/linux/kernfs.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/mutex.h, include/linux/kernfs.h, include/linux/sysfs.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/resource.h, include/linux/sched.h, include/linux/ratelimit.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/sched.h, include/linux/ratelimit.h, include/linux/dev_printk.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/kernel/atl2c.c: note: in included file (through include/linux=
+/ratelimit.h, include/linux/dev_printk.h, include/linux/device.h, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/signal.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/signal.c: note: in included file (through include/linu=
+x/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/signal.c: note: in included file (through include/linu=
+x/sched.h, include/linux/ptrace.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/signal.c: note: in included file (through include/linu=
+x/sched.h, include/linux/ptrace.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/signal.c: note: in included file (through include/linu=
+x/nodemask.h, include/linux/sched.h, include/linux/ptrace.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/signal.c: note: in included file (through include/linu=
+x/sched.h, include/linux/ptrace.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/ftrace.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/hardirq.h, include/linux/interrupt.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/ftrace.c: note: in included file (through include/linu=
+x/hardirq.h, include/linux/interrupt.h, include/linux/trace_recursion.h, ..=
+.):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/ftrace.c: note: in included file (through include/linu=
+x/sched.h, include/linux/hardirq.h, include/linux/interrupt.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/ftrace.c: note: in included file (through include/linu=
+x/sched.h, include/linux/hardirq.h, include/linux/interrupt.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/ftrace.c: note: in included file (through include/linu=
+x/nodemask.h, include/linux/sched.h, include/linux/hardirq.h, ...):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/ftrace.c: note: in included file (through include/linu=
+x/sched.h, include/linux/hardirq.h, include/linux/interrupt.h, ...):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/kernel/perf_event_cpu.c: note: in included file (through incl=
+ude/linux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...=
+):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/kernel/perf_event_cpu.c: note: in included file (through incl=
+ude/linux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/kernel/perf_event_cpu.c: note: in included file (through incl=
+ude/linux/sched.h, include/linux/ptrace.h, include/uapi/asm-generic/bpf_per=
+f_event.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/kernel/perf_event_cpu.c: note: in included file (through incl=
+ude/linux/sched.h, include/linux/ptrace.h, include/uapi/asm-generic/bpf_per=
+f_event.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/kernel/perf_event_cpu.c: note: in included file (through incl=
+ude/linux/nodemask.h, include/linux/sched.h, include/linux/ptrace.h, ...):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/kernel/perf_event_cpu.c: note: in included file (through incl=
+ude/linux/sched.h, include/linux/ptrace.h, include/uapi/asm-generic/bpf_per=
+f_event.h, ...):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/extable.c: note: in included file (through include/linux/l=
+ockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/extable.c: note: in included file (through include/linux/r=
+cupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/extable.c: note: in included file (through include/linux/s=
+ched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/extable.c: note: in included file (through include/linux/s=
+ched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/extable.c: note: in included file (through include/linux/n=
+odemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/mm/extable.c: note: in included file (through include/linux/s=
+ched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/mmap.c: note: in included file (through include/linux/lock=
+dep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/mmap.c: note: in included file (through include/linux/rcup=
+date.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/mmap.c: note: in included file (through include/linux/sche=
+d.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/mmap.c: note: in included file (through include/linux/sche=
+d.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/mmap.c: note: in included file (through include/linux/node=
+mask.h, include/linux/sched.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/mm/mmap.c: note: in included file (through include/linux/sche=
+d.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/lockdep.h, include/linux/spinlock.h, include/linux/wait.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/spinlock.h, include/linux/wait.h, include/linux/wait_bit.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/fs.h, include/linux/proc_fs.h):
+   include/linux/capability.h:256:49: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/capability.h:256:49: sparse: sparse: got $
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwsem.h, ...=
+):
+   include/linux/signal.h:294:46: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/signal.h:294:46: sparse: sparse: got $
+   include/linux/signal.h:327:50: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/signal.h:327:50: sparse: sparse: got $
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/resource.h, include/linux/sched.h, include/linux/sched/signal.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/mm/alignment.c: note: in included file (through include/linux=
+/sched/signal.h, include/linux/rcuwait.h, include/linux/percpu-rwsem.h, ...=
+):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: too many errors
+--
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/lockd=
+ep.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/spinl=
+ock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/mm.h):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/sched=
+.h, include/linux/mm.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/sched=
+.h, include/linux/mm.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/sched=
+.h, include/linux/mm.h):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/sched=
+.h, include/linux/mm.h):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/mm/tlb.c: note: in included file (through include/linux/mm.h):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1520:1: sparse: sparse: got }
+   include/linux/sched.h:1526:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/mm-nds32.c: note: in included file (through include/linux/=
+lockdep.h, include/linux/rcupdate.h, include/linux/init_task.h):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/mm-nds32.c: note: in included file (through include/linux/=
+rcupdate.h, include/linux/init_task.h):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/mm-nds32.c: note: in included file (through include/linux/=
+sched.h, include/linux/utsname.h, include/linux/init_task.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/mm-nds32.c: note: in included file (through include/linux/=
+sched.h, include/linux/utsname.h, include/linux/init_task.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/mm-nds32.c: note: in included file (through include/linux/=
+nodemask.h, include/linux/sched.h, include/linux/utsname.h, ...):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/mm/mm-nds32.c: note: in included file (through include/linux/=
+sched.h, include/linux/utsname.h, include/linux/init_task.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/loc=
+kdep.h, include/linux/spinlock.h, include/linux/mm_types.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/spi=
+nlock.h, include/linux/mm_types.h, include/linux/buildid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/sch=
+ed.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/sch=
+ed.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/res=
+ource.h, include/linux/sched.h, include/linux/sched/task_stack.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/sch=
+ed.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/sch=
+ed.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/sch=
+ed.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/mm/fault.c: note: in included file (through include/linux/sch=
+ed/task_stack.h, arch/nds32/include/asm/fpu.h, arch/nds32/include/asm/elf.h=
+, ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/init.c: note: in included file (through include/linux/lock=
+dep.h, include/linux/spinlock.h, include/linux/swap.h):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/init.c: note: in included file (through include/linux/spin=
+lock.h, include/linux/swap.h):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/init.c: note: in included file (through include/linux/sche=
+d.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/init.c: note: in included file (through include/linux/sche=
+d.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/init.c: note: in included file (through include/linux/reso=
+urce.h, include/linux/sched.h, include/linux/cgroup.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/mm/init.c: note: in included file (through include/linux/sche=
+d.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/mm/init.c: note: in included file (through include/linux/sche=
+d.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/mm/init.c: note: in included file (through include/linux/sche=
+d.h, include/linux/cgroup.h, include/linux/memcontrol.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/mm/init.c: note: in included file (through include/linux/cgro=
+up.h, include/linux/memcontrol.h, include/linux/swap.h):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/lock=
+dep.h, include/linux/spinlock.h, include/linux/mm_types.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/spin=
+lock.h, include/linux/mm_types.h, include/linux/buildid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/sche=
+d.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/sche=
+d.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/reso=
+urce.h, include/linux/sched.h, include/linux/sched/task_stack.h, ...):
+   include/uapi/linux/resource.h:41:1: sparse: sparse: Expected ; at the en=
+d of type declaration
+   include/uapi/linux/resource.h:41:1: sparse: sparse: got }
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/sche=
+d.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/sche=
+d.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/sche=
+d.h, include/linux/sched/task_stack.h, arch/nds32/include/asm/fpu.h, ...):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/mm/proc.c: note: in included file (through include/linux/sche=
+d/task_stack.h, arch/nds32/include/asm/fpu.h, arch/nds32/include/asm/elf.h,=
+ ...):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: too many errors
+--
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/spinlock.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/mm.h):
+   include/linux/resource.h:11:36: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/resource.h:11:36: sparse: sparse: got $
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/sched.h, include/linux/mm.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/sched.h, include/linux/mm.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/sched.h, include/linux/mm.h):
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: Expected ) =
+in function declarator
+   include/linux/syscall_user_dispatch.h:34:81: sparse: sparse: got $
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/sched.h, include/linux/mm.h):
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: Expected ; at t=
+he end of type declaration
+   include/linux/task_io_accounting.h:46:1: sparse: sparse: got }
+   arch/nds32/mm/cacheflush.c: note: in included file (through include/linu=
+x/mm.h):
+   include/linux/sched.h:1438:53: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1438:53: sparse: sparse: got $
+   include/linux/sched.h:1441:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1441:1: sparse: sparse: got }
+   include/linux/sched.h:1446:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1446:1: sparse: sparse: got }
+   include/linux/sched.h:1451:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1451:1: sparse: sparse: got }
+   include/linux/sched.h:1457:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1457:1: sparse: sparse: got }
+   include/linux/sched.h:1472:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1472:1: sparse: sparse: got }
+   include/linux/sched.h:1477:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1477:1: sparse: sparse: got }
+   include/linux/sched.h:1482:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1482:1: sparse: sparse: got }
+   include/linux/sched.h:1488:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1488:1: sparse: sparse: got }
+   include/linux/sched.h:1493:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1493:1: sparse: sparse: got }
+   include/linux/sched.h:1498:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1498:1: sparse: sparse: got }
+   include/linux/sched.h:1503:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1503:1: sparse: sparse: got }
+   include/linux/sched.h:1510:22: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1510:22: sparse: sparse: got (
+   include/linux/sched.h:1510:9: sparse: sparse: Trying to use reserved wor=
+d 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got !
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in nested decl=
+arator
+   include/linux/sched.h:1511:39: sparse: sparse: got volatile
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'const' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'do' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1511:39: sparse: sparse: got {
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'if' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got "include/linux/sched.=
+h"
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got (
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'void' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/sched.h:1511:39: sparse: sparse: got *
+   include/linux/sched.h:1511:39: sparse: sparse: Trying to use reserved wo=
+rd 'typeof' as identifier
+   include/linux/sched.h:1511:39: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/sched.h:1511:39: sparse: sparse: got }
+   include/linux/sched.h:1514:9: sparse: sparse: Trying to use reserved wor=
+d 'return' as identifier
+   include/linux/sched.h:1514:16: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/sched.h:1514:16: sparse: sparse: got pid
+   include/linux/sched.h:1515:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1515:1: sparse: sparse: got }
+   include/linux/sched.h:1520:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/sched.h:1520:1: sparse: sparse: got }
+   include/linux/sched.h:1526:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fpuemu.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fpuemu.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fpuemu.c: note: in included file (through include/li=
+nux/sched.h, arch/nds32/include/asm/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fpuemu.c: note: in included file (through include/li=
+nux/sched.h, arch/nds32/include/asm/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fpuemu.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, arch/nds32/include/asm/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fpuemu.c: note: in included file (through include/li=
+nux/sched.h, arch/nds32/include/asm/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fsubd.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubd.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fsubd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubd.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fmuld.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuld.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuld.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fmuld.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuld.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuld.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fsqrtd.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrtd.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrtd.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fsqrtd.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrtd.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrtd.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fs2d.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2d.c: note: in included file (through include/linu=
+x/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2d.c: note: in included file (through include/linu=
+x/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fs2d.c: note: in included file (through include/linu=
+x/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2d.c: note: in included file (through include/linu=
+x/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2d.c: note: in included file (through include/linu=
+x/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/faddd.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/faddd.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/faddd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/faddd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/faddd.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/faddd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fdivd.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivd.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fdivd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivd.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fnegs.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegs.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fnegs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegs.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fd2siz.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2siz.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2siz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fd2siz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2siz.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2siz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fd2si.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2si.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2si.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fd2si.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2si.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2si.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fsi2d.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2d.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2d.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fsi2d.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2d.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2d.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fd2ui.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2ui.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2ui.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fd2ui.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2ui.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2ui.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fd2s.c: note: in included file (through include/linu=
+x/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2s.c: note: in included file (through include/linu=
+x/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2s.c: note: in included file (through include/linu=
+x/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fd2s.c: note: in included file (through include/linu=
+x/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2s.c: note: in included file (through include/linu=
+x/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2s.c: note: in included file (through include/linu=
+x/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fui2d.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2d.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2d.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fui2d.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2d.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2d.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fd2uiz.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2uiz.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2uiz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fd2uiz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2uiz.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fd2uiz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fsubs.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubs.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fsubs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubs.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsubs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fadds.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fadds.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fadds.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fadds.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fadds.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fadds.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fdivs.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivs.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fdivs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivs.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fdivs.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fs2si.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2si.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2si.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fs2si.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2si.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2si.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fs2ui.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2ui.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2ui.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fs2ui.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2ui.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2ui.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fs2uiz.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2uiz.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2uiz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fs2uiz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2uiz.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2uiz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fnegd.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegd.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fnegd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegd.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fnegd.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fsqrts.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrts.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrts.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fsqrts.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrts.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsqrts.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fui2s.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2s.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2s.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fui2s.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2s.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fui2s.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fmuls.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuls.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuls.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fmuls.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuls.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fmuls.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fsi2s.c: note: in included file (through include/lin=
+ux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2s.c: note: in included file (through include/lin=
+ux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2s.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fsi2s.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2s.c: note: in included file (through include/lin=
+ux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fsi2s.c: note: in included file (through include/lin=
+ux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
+--
+   arch/nds32/math-emu/fs2siz.c: note: in included file (through include/li=
+nux/lockdep.h, include/linux/rcupdate.h, include/linux/rculist.h, ...):
+   include/linux/stacktrace.h:89:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:89:54: sparse: sparse: got $
+   include/linux/stacktrace.h:91:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:62: sparse: sparse: got $
+   include/linux/stacktrace.h:101:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:101:69: sparse: sparse: got $
+   include/linux/stacktrace.h:106:1: sparse: sparse: Expected ;@the end =
+of type declaration
+   include/linux/stacktrace.h:106:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2siz.c: note: in included file (through include/li=
+nux/rcupdate.h, include/linux/rculist.h, include/linux/pid.h, ...):
+   include/linux/lockdep.h:44:16: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/lockdep.h:44:16: sparse: sparse: got =3D
+>> include/linux/lockdep.h:44:9: sparse: sparse: Trying to use reserved wor=
+d 'for' as identifier
+   include/linux/lockdep.h:44:23: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:23: sparse: sparse: got <
+   include/linux/lockdep.h:44:54: sparse: sparse: Expected ; at end of decl=
+aration
+   include/linux/lockdep.h:44:54: sparse: sparse: got ++
+   include/linux/lockdep.h:46:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:46:1: sparse: sparse: got }
+   include/linux/lockdep.h:68:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/lockdep.h:68:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2siz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/sem.h:16:72: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:16:72: sparse: sparse: got $
+   include/linux/sem.h:17:42: sparse: sparse: Expected ) in function declar=
+ator
+   include/linux/sem.h:17:42: sparse: sparse: got $
+   arch/nds32/math-emu/fs2siz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/seccomp.h:96:63: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/seccomp.h:96:63: sparse: sparse: got $
+   include/linux/seccomp.h:99:1: sparse: sparse: Expected ; at the end of t=
+ype declaration
+   include/linux/seccomp.h:99:1: sparse: sparse: got }
+   include/linux/seccomp.h:103:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:103:1: sparse: sparse: got }
+   include/linux/seccomp.h:116:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:116:1: sparse: sparse: got }
+   include/linux/seccomp.h:122:1: sparse: sparse: Expected ; at the end of =
+type declaration
+   include/linux/seccomp.h:122:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2siz.c: note: in included file (through include/li=
+nux/nodemask.h, include/linux/sched.h, include/linux/uaccess.h):
+   include/linux/numa.h:50:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:50:1: sparse: sparse: got }
+   include/linux/numa.h:54:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:54:1: sparse: sparse: got }
+   include/linux/numa.h:58:1: sparse: sparse: Expected ; at the end of type=
+ declaration
+   include/linux/numa.h:58:1: sparse: sparse: got }
+   arch/nds32/math-emu/fs2siz.c: note: in included file (through include/li=
+nux/sched.h, include/linux/uaccess.h):
+   include/linux/nodemask.h:98:54: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:98:54: sparse: sparse: got }
+   include/linux/nodemask.h:99:19: sparse: sparse: Expected ; at end of dec=
+laration
+   include/linux/nodemask.h:99:19: sparse: sparse: got _unused_nodemask_arg_
+   include/linux/nodemask.h:109:68: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:109:68: sparse: sparse: got *
+   include/linux/nodemask.h:112:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:112:1: sparse: sparse: got }
+   include/linux/nodemask.h:116:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:116:1: sparse: sparse: got }
+   include/linux/nodemask.h:131:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:131:1: sparse: sparse: got }
+   include/linux/nodemask.h:137:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:137:1: sparse: sparse: got }
+   include/linux/nodemask.h:143:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:143:1: sparse: sparse: got }
+   include/linux/nodemask.h:149:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:149:1: sparse: sparse: got }
+   include/linux/nodemask.h:159:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:159:1: sparse: sparse: got }
+   include/linux/nodemask.h:167:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:167:1: sparse: sparse: got }
+   include/linux/nodemask.h:175:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:175:1: sparse: sparse: got }
+   include/linux/nodemask.h:183:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:183:1: sparse: sparse: got }
+   include/linux/nodemask.h:191:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:191:1: sparse: sparse: got }
+   include/linux/nodemask.h:199:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:199:1: sparse: sparse: got }
+   include/linux/nodemask.h:207:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:207:1: sparse: sparse: got }
+   include/linux/nodemask.h:215:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:215:1: sparse: sparse: got }
+   include/linux/nodemask.h:223:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:223:1: sparse: sparse: got }
+   include/linux/nodemask.h:229:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:229:1: sparse: sparse: got }
+   include/linux/nodemask.h:235:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:235:1: sparse: sparse: got }
+   include/linux/nodemask.h:241:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:241:1: sparse: sparse: got }
+   include/linux/nodemask.h:249:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:249:1: sparse: sparse: got }
+   include/linux/nodemask.h:257:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:257:1: sparse: sparse: got }
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:265:16: sparse: sparse: got <
+   include/linux/nodemask.h:265:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:265:16: sparse: sparse: got }
+   include/linux/nodemask.h:266:1: sparse: sparse: Expected ; at the end of=
+ type declaration
+   include/linux/nodemask.h:266:1: sparse: sparse: got }
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ) in nested de=
+clarator
+   include/linux/nodemask.h:271:16: sparse: sparse: got <
+   include/linux/nodemask.h:271:16: sparse: sparse: Expected ; at the end o=
+f type declaration
+   include/linux/nodemask.h:271:16: sparse: sparse: got }
+   include/linux/nodemask.h:272:1: sparse: sparse: Expected ;@the end of=
+ type declaration
+   include/linux/nodemask.h:272:1: sparse: sparse: got }
+   include/linux/nodemask.h:281:53: sparse: sparse: Expected ) in function =
+declarator
+   include/linux/nodemask.h:281:53: sparse: sparse: got *
+   include/linux/nodemask.h:284:9: sparse: sparse: Expected ) in function d=
+eclarator
+   include/linux/nodemask.h:284:9: sparse: sparse: got (
+   include/linux/nodemask.h:285:1: sparse: sparse: too many errors
 
-vim +1232 drivers/gpu/drm/ast/ast_mode.c
+vim +/for +44 include/linux/lockdep.h
 
-312fec1405dd54 Dave Airlie       2012-02-29  1204  =
+fbb9ce9530fd9b Ingo Molnar    2006-07-03  29  =
 
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1205  /*
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1206   * Connector
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1207   */
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1208  =
+4d82a1debbffec Peter Zijlstra 2012-05-15  30  static inline void lockdep_co=
+py_map(struct lockdep_map *to,
+4d82a1debbffec Peter Zijlstra 2012-05-15  31  				    struct lockdep_map *f=
+rom)
+4d82a1debbffec Peter Zijlstra 2012-05-15  32  {
+4d82a1debbffec Peter Zijlstra 2012-05-15  33  	int i;
+4d82a1debbffec Peter Zijlstra 2012-05-15  34  =
 
-312fec1405dd54 Dave Airlie       2012-02-29  1209  static int ast_get_modes=
-(struct drm_connector *connector)
-312fec1405dd54 Dave Airlie       2012-02-29  1210  {
-312fec1405dd54 Dave Airlie       2012-02-29  1211  	struct ast_connector *a=
-st_connector =3D to_ast_connector(connector);
-fa7dbd7688849d Thomas Zimmermann 2020-06-17  1212  	struct ast_private *ast=
- =3D to_ast_private(connector->dev);
-55dc449a7c60d3 Thomas Zimmermann 2021-12-06  1213  	struct edid *edid =3D N=
-ULL;
-83c6620bae3f14 Dave Airlie       2014-03-28  1214  	bool flags =3D false;
-55dc449a7c60d3 Thomas Zimmermann 2021-12-06  1215  	int ret;
-6c9bd4432b2527 Gregory Williams  2021-07-30  1216  =
-
-83c6620bae3f14 Dave Airlie       2014-03-28  1217  	if (ast->tx_chip_type =
-=3D=3D AST_TX_DP501) {
-83c6620bae3f14 Dave Airlie       2014-03-28  1218  		ast->dp501_maxclk =3D =
-0xff;
-83c6620bae3f14 Dave Airlie       2014-03-28  1219  		edid =3D kmalloc(128, =
-GFP_KERNEL);
-83c6620bae3f14 Dave Airlie       2014-03-28  1220  		if (!edid)
-83c6620bae3f14 Dave Airlie       2014-03-28  1221  			return -ENOMEM;
-312fec1405dd54 Dave Airlie       2012-02-29  1222  =
-
-83c6620bae3f14 Dave Airlie       2014-03-28  1223  		flags =3D ast_dp501_re=
-ad_edid(connector->dev, (u8 *)edid);
-83c6620bae3f14 Dave Airlie       2014-03-28  1224  		if (flags)
-83c6620bae3f14 Dave Airlie       2014-03-28  1225  			ast->dp501_maxclk =3D=
- ast_get_dp501_max_clk(connector->dev);
-83c6620bae3f14 Dave Airlie       2014-03-28  1226  		else
-83c6620bae3f14 Dave Airlie       2014-03-28  1227  			kfree(edid);
-83c6620bae3f14 Dave Airlie       2014-03-28  1228  	}
-55dc449a7c60d3 Thomas Zimmermann 2021-12-06  1229  	if (!flags && ast_conne=
-ctor->i2c)
-312fec1405dd54 Dave Airlie       2012-02-29  1230  		edid =3D drm_get_edid(=
-connector, &ast_connector->i2c->adapter);
-312fec1405dd54 Dave Airlie       2012-02-29  1231  	if (edid) {
-c555f02371c338 Daniel Vetter     2018-07-09 @1232  		drm_connector_update_e=
-did_property(&ast_connector->base, edid);
-312fec1405dd54 Dave Airlie       2012-02-29  1233  		ret =3D drm_add_edid_m=
-odes(connector, edid);
-993dcb05e47e35 Jani Nikula       2012-08-15  1234  		kfree(edid);
-312fec1405dd54 Dave Airlie       2012-02-29  1235  		return ret;
-6c9bd4432b2527 Gregory Williams  2021-07-30  1236  	}
-c555f02371c338 Daniel Vetter     2018-07-09  1237  	drm_connector_update_ed=
-id_property(&ast_connector->base, NULL);
-312fec1405dd54 Dave Airlie       2012-02-29  1238  	return 0;
-312fec1405dd54 Dave Airlie       2012-02-29  1239  }
-312fec1405dd54 Dave Airlie       2012-02-29  1240  =
+4d82a1debbffec Peter Zijlstra 2012-05-15  35  	*to =3D *from;
+4d82a1debbffec Peter Zijlstra 2012-05-15  36  	/*
+4d82a1debbffec Peter Zijlstra 2012-05-15  37  	 * Since the class cache can=
+ be modified concurrently we could observe
+4d82a1debbffec Peter Zijlstra 2012-05-15  38  	 * half pointers (64bit arch=
+ using 32bit copy insns). Therefore clear
+4d82a1debbffec Peter Zijlstra 2012-05-15  39  	 * the caches and take the p=
+erformance hit.
+4d82a1debbffec Peter Zijlstra 2012-05-15  40  	 *
+4d82a1debbffec Peter Zijlstra 2012-05-15  41  	 * XXX it doesn't work well =
+with lockdep_set_class_and_subclass(), since
+4d82a1debbffec Peter Zijlstra 2012-05-15  42  	 *     that relies on cache =
+abuse.
+4d82a1debbffec Peter Zijlstra 2012-05-15  43  	 */
+4d82a1debbffec Peter Zijlstra 2012-05-15 @44  	for (i =3D 0; i < NR_LOCKDEP=
+_CACHING_CLASSES; i++)
+4d82a1debbffec Peter Zijlstra 2012-05-15  45  		to->class_cache[i] =3D NULL;
+4d82a1debbffec Peter Zijlstra 2012-05-15  46  }
+4d82a1debbffec Peter Zijlstra 2012-05-15  47  =
 
 
-:::::: The code at line 1232 was first introduced by commit
-:::::: c555f02371c338b06752577aebf738dbdb6907bd drm: drop _mode_ from updat=
-e_edit_property()
+:::::: The code at line 44 was first introduced by commit
+:::::: 4d82a1debbffec129cc387aafa8f40b7bbab3297 lockdep: fix oops in proces=
+sing workqueue
 
-:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7186700826931185374==--
+--===============9141096263901435850==--
 
