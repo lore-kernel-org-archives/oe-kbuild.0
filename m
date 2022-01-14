@@ -1,427 +1,286 @@
-Content-Type: multipart/mixed; boundary="===============4493310063739762106=="
+Content-Type: multipart/mixed; boundary="===============3329846394837591558=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 10999/12117] arch/x86/kernel/fpu/xstate.c:1785:3: warning: Value stored to 'guest' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 14 Jan 2022 12:30:17 +0800
-Message-ID: <202201141253.9sdc280i-lkp@intel.com>
+Subject: arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symbol 'addr'.
+Date: Fri, 14 Jan 2022 10:08:07 +0800
+Message-ID: <202201140946.9Nf2xrVz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4493310063739762106==
+--===============3329846394837591558==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Jing Liu <jing2.liu@intel.com>
-CC: Yang Zhong <yang.zhong@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   27c9d5b3c24af29de643533984f1ba3e650c7c78
-commit: 980fe2fddcff21937c93532b4597c8ea450346c1 [10999/12117] x86/fpu: Ext=
-end fpu_xstate_prctl() with guest permissions
-:::::: branch date: 24 hours ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-114/202201141253.9sdc280i-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
-913a43a200f5a6544d424cdc37b771028b)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D980fe2fddcff21937c93532b4597c8ea450346c1
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 980fe2fddcff21937c93532b4597c8ea450346c1
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   fb3b0673b7d5b477ed104949450cd511337ba3c6
+commit: 45deb5faeb9e02951361ceba5ffee721745661c3 MIPS: uaccess: Remove get_=
+fs/set_fs call sites
+date:   9 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 9 months ago
+config: mips-randconfig-m031-20220113 (https://download.01.org/0day-ci/arch=
+ive/20220114/202201140946.9Nf2xrVz-lkp(a)intel.com/config)
+compiler: mips64el-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symb=
+ol 'addr'.
+arch/mips/kernel/traps.c:195 show_stacktrace() error: uninitialized symbol =
+'stackdata'.
+arch/mips/kernel/traps.c:240 show_code() error: uninitialized symbol 'insn1=
+6'.
+arch/mips/kernel/traps.c:247 show_code() error: uninitialized symbol 'insn3=
+2'.
+arch/mips/kernel/traps.c:1054 do_bp() error: uninitialized symbol 'opcode'.
+arch/mips/kernel/traps.c:1132 do_tr() error: uninitialized symbol 'opcode'.
+
+Old smatch warnings:
+arch/mips/kernel/traps.c:1996 nmi_exception_handler() warn: ignoring unreac=
+hable code.
+
+vim +/addr +128 arch/mips/kernel/traps.c
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  112  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  113  static void show_raw_ba=
+cktrace(unsigned long reg29, const char *loglvl,
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  114  			       bool user)
+e889d78fd5775d Atsushi Nemoto      2006-07-25  115  {
+39b8d5254246ac Ralf Baechle        2008-04-28  116  	unsigned long *sp =3D =
+(unsigned long *)(reg29 & ~3);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  117  	unsigned long addr;
+e889d78fd5775d Atsushi Nemoto      2006-07-25  118  =
+
+96f0458a96892d Dmitry Safonov      2020-06-08  119  	printk("%sCall Trace:"=
+, loglvl);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  120  #ifdef CONFIG_KALLSYMS
+96f0458a96892d Dmitry Safonov      2020-06-08  121  	printk("%s\n", loglvl);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  122  #endif
+87151ae39bf555 Franck Bui-Huu      2006-08-03  123  	while (!kstack_end(sp)=
+) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  124  		if (__get_addr(&addr,=
+ sp++, user)) {
+96f0458a96892d Dmitry Safonov      2020-06-08  125  			printk("%s (Bad stac=
+k address)", loglvl);
+10220c884444a1 Thomas Bogendoerfer 2008-05-12  126  			break;
+10220c884444a1 Thomas Bogendoerfer 2008-05-12  127  		}
+87151ae39bf555 Franck Bui-Huu      2006-08-03 @128  		if (__kernel_text_add=
+ress(addr))
+96f0458a96892d Dmitry Safonov      2020-06-08  129  			print_ip_sym(loglvl,=
+ addr);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  130  	}
+96f0458a96892d Dmitry Safonov      2020-06-08  131  	printk("%s\n", loglvl);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  132  }
+e889d78fd5775d Atsushi Nemoto      2006-07-25  133  =
+
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  134  #ifdef CONFIG_KALLSYMS
+1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  135  int raw_show_trace;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  136  static int __init set_r=
+aw_show_trace(char *str)
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  137  {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  138  	raw_show_trace =3D 1;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  139  	return 1;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  140  }
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  141  __setup("raw_show_trace=
+", set_raw_show_trace);
+1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  142  #endif
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  143  =
+
+96f0458a96892d Dmitry Safonov      2020-06-08  144  static void show_backtr=
+ace(struct task_struct *task, const struct pt_regs *regs,
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  145  			   const char *loglv=
+l, bool user)
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  146  {
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  147  	unsigned long sp =3D r=
+egs->regs[29];
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  148  	unsigned long ra =3D r=
+egs->regs[31];
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  149  	unsigned long pc =3D r=
+egs->cp0_epc;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  150  =
+
+e909be825212da Vincent Wen         2012-07-19  151  	if (!task)
+e909be825212da Vincent Wen         2012-07-19  152  		task =3D current;
+e909be825212da Vincent Wen         2012-07-19  153  =
+
+81a76d7119f63c James Hogan         2015-12-04  154  	if (raw_show_trace || =
+user_mode(regs) || !__kernel_text_address(pc)) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  155  		show_raw_backtrace(sp=
+, loglvl, user);
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  156  		return;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  157  	}
+96f0458a96892d Dmitry Safonov      2020-06-08  158  	printk("%sCall Trace:\=
+n", loglvl);
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  159  	do {
+96f0458a96892d Dmitry Safonov      2020-06-08  160  		print_ip_sym(loglvl, =
+pc);
+1924600cdb3143 Atsushi Nemoto      2006-09-29  161  		pc =3D unwind_stack(t=
+ask, &sp, pc, &ra);
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  162  	} while (pc);
+bcf084de5d429c Matt Redfearn       2016-10-19  163  	pr_cont("\n");
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  164  }
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  165  =
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  166  /*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  167   * This routine abuses =
+get_user()/put_user() to reference pointers
+^1da177e4c3f41 Linus Torvalds      2005-04-16  168   * with at least a bit =
+of error checking ...
+^1da177e4c3f41 Linus Torvalds      2005-04-16  169   */
+eae23f2c2ac1e4 Ralf Baechle        2007-10-14  170  static void show_stackt=
+race(struct task_struct *task,
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  171  	const struct pt_regs *=
+regs, const char *loglvl, bool user)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  172  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  173  	const int field =3D 2 =
+* sizeof(unsigned long);
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  174  	unsigned long stackdat=
+a;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  175  	int i;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  176  	unsigned long *sp =3D =
+(unsigned long *)regs->regs[29];
+^1da177e4c3f41 Linus Torvalds      2005-04-16  177  =
+
+96f0458a96892d Dmitry Safonov      2020-06-08  178  	printk("%sStack :", lo=
+glvl);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  179  	i =3D 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  180  	while ((unsigned long)=
+ sp & (PAGE_SIZE - 1)) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  181  		if (i && ((i % (64 / =
+field)) =3D=3D 0)) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  182  			pr_cont("\n");
+96f0458a96892d Dmitry Safonov      2020-06-08  183  			printk("%s       ", =
+loglvl);
+fe4e09e7012132 Matt Redfearn       2016-10-19  184  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  185  		if (i > 39) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  186  			pr_cont(" ...");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  187  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  188  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  189  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  190  		if (__get_addr(&stack=
+data, sp++, user)) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  191  			pr_cont(" (Bad stack=
+ address)");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  192  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  193  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  194  =
+
+fe4e09e7012132 Matt Redfearn       2016-10-19 @195  		pr_cont(" %0*lx", fie=
+ld, stackdata);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  196  		i++;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  197  	}
+fe4e09e7012132 Matt Redfearn       2016-10-19  198  	pr_cont("\n");
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  199  	show_backtrace(task, r=
+egs, loglvl, user);
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  200  }
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  201  =
+
+9cb8f069deeed7 Dmitry Safonov      2020-06-08  202  void show_stack(struct =
+task_struct *task, unsigned long *sp, const char *loglvl)
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  203  {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  204  	struct pt_regs regs;
+85423636337099 James Hogan         2017-06-29  205  =
+
+85423636337099 James Hogan         2017-06-29  206  	regs.cp0_status =3D KS=
+U_KERNEL;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  207  	if (sp) {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  208  		regs.regs[29] =3D (un=
+signed long)sp;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  209  		regs.regs[31] =3D 0;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  210  		regs.cp0_epc =3D 0;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  211  	} else {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  212  		if (task && task !=3D=
+ current) {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  213  			regs.regs[29] =3D ta=
+sk->thread.reg29;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  214  			regs.regs[31] =3D 0;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  215  			regs.cp0_epc =3D tas=
+k->thread.reg31;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  216  		} else {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  217  			prepare_frametrace(&=
+regs);
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  218  		}
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  219  	}
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  220  	show_stacktrace(task, =
+&regs, loglvl, false);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  221  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  222  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  223  static void show_code(v=
+oid *pc, bool user)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  224  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  225  	long i;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  226  	unsigned short *pc16 =
+=3D NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  227  =
+
+41000c5819ee5a Matt Redfearn       2016-10-19  228  	printk("Code:");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  229  =
+
+39b8d5254246ac Ralf Baechle        2008-04-28  230  	if ((unsigned long)pc =
+& 1)
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  231  		pc16 =3D (u16 *)((uns=
+igned long)pc & ~1);
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  232  =
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  233  	for(i =3D -3 ; i < 6 ;=
+ i++) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  234  		if (pc16) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  235  			u16 insn16;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  236  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  237  			if (__get_inst16(&in=
+sn16, pc16 + i, user))
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  238  				goto bad_address;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  239  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @240  			pr_cont("%c%04x%c", =
+(i?' ':'<'), insn16, (i?' ':'>'));
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  241  		} else {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  242  			u32 insn32;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  243  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  244  			if (__get_inst32(&in=
+sn32, (u32 *)pc + i, user))
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  245  				goto bad_address;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  246  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @247  			pr_cont("%c%08x%c", =
+(i?' ':'<'), insn32, (i?' ':'>'));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  248  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  249  	}
+41000c5819ee5a Matt Redfearn       2016-10-19  250  	pr_cont("\n");
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  251  	return;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  252  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  253  bad_address:
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  254  	pr_cont(" (Bad address=
+ in epc)\n\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  255  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  256  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   fs/ext4/extents.c:3637:2: note: '?' condition is false
-           if (err > 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/ext4/extents.c:3637:6: note: 'err' is <=3D 0
-           if (err > 0)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/ext4/extents.c:3637:2: note: '?' condition is false
-           if (err > 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/ext4/extents.c:3637:2: note: Taking false branch
-           if (err > 0)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/ext4/extents.c:3641:6: note: Assuming 'err' is 0
-           if (!err) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/ext4/extents.c:3641:2: note: '?' condition is false
-           if (!err) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/ext4/extents.c:3641:7: note: 'err' is 0
-           if (!err) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/ext4/extents.c:3641:2: note: '?' condition is true
-           if (!err) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/ext4/extents.c:3641:2: note: Taking true branch
-           if (!err) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/ext4/extents.c:3642:9: note: Calling 'ext4_zeroout_es'
-                   err =3D ext4_zeroout_es(inode, &zero_ex1);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/extents.c:3130:12: note: Assigned value is garbage or undefined
-           ee_block  =3D le32_to_cpu(ex->ee_block);
-                     ^
-   fs/ext4/extents.c:3374:2: warning: Value stored to 'split_flag1' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           split_flag1 =3D 0;
-           ^             ~
-   fs/ext4/extents.c:3374:2: note: Value stored to 'split_flag1' is never r=
-ead
-           split_flag1 =3D 0;
-           ^             ~
-   1 warning generated.
->> arch/x86/kernel/fpu/xstate.c:1785:3: warning: Value stored to 'guest' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   guest =3D true;
-                   ^       ~~~~
-   arch/x86/kernel/fpu/xstate.c:1785:3: note: Value stored to 'guest' is ne=
-ver read
-                   guest =3D true;
-                   ^       ~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/firmware/dmi_scan.c:78:3: warning: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(str, bp);
-                   ^~~~~~
-   drivers/firmware/dmi_scan.c:78:3: note: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119
-                   strcpy(str, bp);
-                   ^~~~~~
-   drivers/firmware/dmi_scan.c:287:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy((char *)(dev + 1), name);
-           ^~~~~~
-   drivers/firmware/dmi_scan.c:287:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy((char *)(dev + 1), name);
-           ^~~~~~
-   drivers/firmware/dmi_scan.c:376:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy((char *)&dev[1], name);
-           ^~~~~~
-   drivers/firmware/dmi_scan.c:376:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy((char *)&dev[1], name);
-           ^~~~~~
-   drivers/firmware/dmi_scan.c:555:2: warning: Value stored to 'c' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           c +=3D print_filtered(buf + c, len - c,
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/dmi_scan.c:555:2: note: Value stored to 'c' is never re=
-ad
-           c +=3D print_filtered(buf + c, len - c,
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   lib/oid_registry.c:149:3: warning: Value stored to 'num' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                   num =3D 0;
-                   ^     ~
-   lib/oid_registry.c:149:3: note: Value stored to 'num' is never read
-                   num =3D 0;
-                   ^     ~
-   7 warnings generated.
-   Suppressed 7 warnings (7 with check filters).
-   2 warnings generated.
-   drivers/dma-buf/dma-resv.c:525:34: warning: Access to field 'shared_coun=
-t' results in a dereference of a null pointer (loaded from variable 'list')=
- [clang-analyzer-core.NullDereference]
-                           RCU_INIT_POINTER(list->shared[list->shared_count=
-++], f);
-                                                         ^
-   include/linux/rcupdate.h:854:14: note: expanded from macro 'RCU_INIT_POI=
-NTER'
-                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
-                              ^
-   include/asm-generic/rwonce.h:61:15: note: expanded from macro 'WRITE_ONC=
-E'
-           __WRITE_ONCE(x, val);                                           \
-                        ^
-   include/asm-generic/rwonce.h:55:27: note: expanded from macro '__WRITE_O=
-NCE'
-           *(volatile typeof(x) *)&(x) =3D (val);                          =
-  \
-                                    ^
-   drivers/dma-buf/dma-resv.c:494:2: note: Assuming 'debug_locks' is 0
-           dma_resv_assert_held(dst);
-           ^
-   include/linux/dma-resv.h:271:35: note: expanded from macro 'dma_resv_ass=
-ert_held'
-   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/dma-buf/dma-resv.c:494:2: note: Left side of '&&' is false
-           dma_resv_assert_held(dst);
-           ^
-   include/linux/dma-resv.h:271:35: note: expanded from macro 'dma_resv_ass=
-ert_held'
-   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
-                                     ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   drivers/dma-buf/dma-resv.c:494:2: note: '?' condition is false
-           dma_resv_assert_held(dst);
-           ^
-   include/linux/dma-resv.h:271:35: note: expanded from macro 'dma_resv_ass=
-ert_held'
-   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
-                                     ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                ^
+:::::: The code at line 128 was first introduced by commit
+:::::: 87151ae39bf5556abe83d69af0be9580c32c501b [MIPS] Miscellaneous cleanu=
+p in prologue analysis code
 
-vim +/guest +1785 arch/x86/kernel/fpu/xstate.c
-
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1736  =
-
-db8268df0983ad Chang S. Bae    2021-10-21  1737  /**
-db8268df0983ad Chang S. Bae    2021-10-21  1738   * fpu_xstate_prctl - xsta=
-te permission operations
-db8268df0983ad Chang S. Bae    2021-10-21  1739   * @tsk:	Redundant pointer=
- to current
-db8268df0983ad Chang S. Bae    2021-10-21  1740   * @option:	A subfunction =
-of arch_prctl()
-db8268df0983ad Chang S. Bae    2021-10-21  1741   * @arg2:	option argument
-db8268df0983ad Chang S. Bae    2021-10-21  1742   * Return:	0 if successful=
-; otherwise, an error code
-db8268df0983ad Chang S. Bae    2021-10-21  1743   *
-db8268df0983ad Chang S. Bae    2021-10-21  1744   * Option arguments:
-db8268df0983ad Chang S. Bae    2021-10-21  1745   *
-db8268df0983ad Chang S. Bae    2021-10-21  1746   * ARCH_GET_XCOMP_SUPP: Po=
-inter to user space u64 to store the info
-db8268df0983ad Chang S. Bae    2021-10-21  1747   * ARCH_GET_XCOMP_PERM: Po=
-inter to user space u64 to store the info
-db8268df0983ad Chang S. Bae    2021-10-21  1748   * ARCH_REQ_XCOMP_PERM: Fa=
-cility number requested
-db8268df0983ad Chang S. Bae    2021-10-21  1749   *
-db8268df0983ad Chang S. Bae    2021-10-21  1750   * For facilities which re=
-quire more than one XSTATE component, the request
-db8268df0983ad Chang S. Bae    2021-10-21  1751   * must be the highest sta=
-te component number related to that facility,
-db8268df0983ad Chang S. Bae    2021-10-21  1752   * e.g. for AMX which requ=
-ires XFEATURE_XTILE_CFG(17) and
-db8268df0983ad Chang S. Bae    2021-10-21  1753   * XFEATURE_XTILE_DATA(18)=
- this would be XFEATURE_XTILE_DATA(18).
-db8268df0983ad Chang S. Bae    2021-10-21  1754   */
-db8268df0983ad Chang S. Bae    2021-10-21  1755  long fpu_xstate_prctl(stru=
-ct task_struct *tsk, int option, unsigned long arg2)
-db8268df0983ad Chang S. Bae    2021-10-21  1756  {
-db8268df0983ad Chang S. Bae    2021-10-21  1757  	u64 __user *uptr =3D (u64=
- __user *)arg2;
-db8268df0983ad Chang S. Bae    2021-10-21  1758  	u64 permitted, supported;
-db8268df0983ad Chang S. Bae    2021-10-21  1759  	unsigned long idx =3D arg=
-2;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1760  	bool guest =3D false;
-db8268df0983ad Chang S. Bae    2021-10-21  1761  =
-
-db8268df0983ad Chang S. Bae    2021-10-21  1762  	if (tsk !=3D current)
-db8268df0983ad Chang S. Bae    2021-10-21  1763  		return -EPERM;
-db8268df0983ad Chang S. Bae    2021-10-21  1764  =
-
-db8268df0983ad Chang S. Bae    2021-10-21  1765  	switch (option) {
-db8268df0983ad Chang S. Bae    2021-10-21  1766  	case ARCH_GET_XCOMP_SUPP:
-db8268df0983ad Chang S. Bae    2021-10-21  1767  		supported =3D fpu_user_c=
-fg.max_features |	fpu_user_cfg.legacy_features;
-db8268df0983ad Chang S. Bae    2021-10-21  1768  		return put_user(supporte=
-d, uptr);
-db8268df0983ad Chang S. Bae    2021-10-21  1769  =
-
-db8268df0983ad Chang S. Bae    2021-10-21  1770  	case ARCH_GET_XCOMP_PERM:
-db8268df0983ad Chang S. Bae    2021-10-21  1771  		/*
-db8268df0983ad Chang S. Bae    2021-10-21  1772  		 * Lockless snapshot as =
-it can also change right after the
-db8268df0983ad Chang S. Bae    2021-10-21  1773  		 * dropping the lock.
-db8268df0983ad Chang S. Bae    2021-10-21  1774  		 */
-db8268df0983ad Chang S. Bae    2021-10-21  1775  		permitted =3D xstate_get=
-_host_group_perm();
-db8268df0983ad Chang S. Bae    2021-10-21  1776  		permitted &=3D XFEATURE_=
-MASK_USER_SUPPORTED;
-db8268df0983ad Chang S. Bae    2021-10-21  1777  		return put_user(permitte=
-d, uptr);
-db8268df0983ad Chang S. Bae    2021-10-21  1778  =
-
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1779  	case ARCH_GET_XCOMP_GUEST=
-_PERM:
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1780  		permitted =3D xstate_get=
-_guest_group_perm();
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1781  		permitted &=3D XFEATURE_=
-MASK_USER_SUPPORTED;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1782  		return put_user(permitte=
-d, uptr);
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1783  =
-
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1784  	case ARCH_REQ_XCOMP_GUEST=
-_PERM:
-980fe2fddcff21 Thomas Gleixner 2022-01-05 @1785  		guest =3D true;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1786  		fallthrough;
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1787  =
-
-db8268df0983ad Chang S. Bae    2021-10-21  1788  	case ARCH_REQ_XCOMP_PERM:
-db8268df0983ad Chang S. Bae    2021-10-21  1789  		if (!IS_ENABLED(CONFIG_X=
-86_64))
-db8268df0983ad Chang S. Bae    2021-10-21  1790  			return -EOPNOTSUPP;
-db8268df0983ad Chang S. Bae    2021-10-21  1791  =
-
-980fe2fddcff21 Thomas Gleixner 2022-01-05  1792  		return xstate_request_pe=
-rm(idx, guest);
-db8268df0983ad Chang S. Bae    2021-10-21  1793  =
-
-db8268df0983ad Chang S. Bae    2021-10-21  1794  	default:
-db8268df0983ad Chang S. Bae    2021-10-21  1795  		return -EINVAL;
-db8268df0983ad Chang S. Bae    2021-10-21  1796  	}
-db8268df0983ad Chang S. Bae    2021-10-21  1797  }
-db8268df0983ad Chang S. Bae    2021-10-21  1798  =
-
+:::::: TO: Franck Bui-Huu <vagabon.xyz@gmail.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4493310063739762106==--
+--===============3329846394837591558==--
 
