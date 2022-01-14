@@ -1,122 +1,157 @@
-Content-Type: multipart/mixed; boundary="===============2837982495511535535=="
+Content-Type: multipart/mixed; boundary="===============2826015487755139558=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] lkdtm/bugs: Check for the NULL pointer after calling kmalloc
-Date: Sat, 15 Jan 2022 06:41:02 +0800
-Message-ID: <202201150641.NvpCoUdU-lkp@intel.com>
+Subject: [vishal-tiering:tiering-0.8 40/44] mm/migrate.c:1251 migrate_page_unmap() warn: bitwise AND condition is false here
+Date: Sat, 15 Jan 2022 06:20:38 +0800
+Message-ID: <202201150628.3CmMh36C-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2837982495511535535==
+--===============2826015487755139558==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220114082119.1270966-1-jiasheng@iscas.ac.cn>
-References: <20220114082119.1270966-1-jiasheng@iscas.ac.cn>
-TO: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-TO: keescook(a)chromium.org
-TO: arnd(a)arndb.de
-TO: gregkh(a)linuxfoundation.org
 CC: linux-kernel(a)vger.kernel.org
-CC: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+TO: Huang Ying <ying.huang@intel.com>
 
-Hi Jiasheng,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on kees/for-next/pstore soc/for-next linus/master =
-v5.16 next-20220114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Jiasheng-Jiang/lkdtm-bugs-=
-Check-for-the-NULL-pointer-after-calling-kmalloc/20220114-162452
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
-t d47c7407b4c88cf66098eba8893bc38279f301fc
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: arm-randconfig-m031-20220113 (https://download.01.org/0day-ci/archi=
-ve/20220115/202201150641.NvpCoUdU-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/tiering.git =
+tiering-0.8
+head:   d58c7b0e1a99a2ec17f2910a310835bafc50b4d1
+commit: 02ac43a74241ef7a62c51f3da6c07672254504a3 [40/44] mm/migrate_pages: =
+split unmap_and_move() to _unmap() and _move()
+:::::: branch date: 2 days ago
+:::::: commit date: 10 weeks ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20115/202201150628.3CmMh36C-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/misc/lkdtm/bugs.c:331 lkdtm_ARRAY_BOUNDS() warn: possible memory le=
-ak of 'checked'
-drivers/misc/lkdtm/bugs.c:331 lkdtm_ARRAY_BOUNDS() warn: possible memory le=
-ak of 'not_checked'
+smatch warnings:
+mm/migrate.c:1251 migrate_page_unmap() warn: bitwise AND condition is false=
+ here
 
-Old smatch warnings:
-drivers/misc/lkdtm/bugs.c:346 lkdtm_ARRAY_BOUNDS() error: buffer overflow '=
-checked->data' 8 <=3D 8
+vim +1251 mm/migrate.c
 
-vim +/checked +331 drivers/misc/lkdtm/bugs.c
+02ac43a74241ef7 Huang Ying         2021-08-16  1216  =
 
-ae2e1aad3e48e4 Kees Cook      2020-04-06  321  =
+02ac43a74241ef7 Huang Ying         2021-08-16  1217  /* Obtain the lock on =
+page, remove all ptes. */
+02ac43a74241ef7 Huang Ying         2021-08-16  1218  static int migrate_pag=
+e_unmap(new_page_t get_new_page, free_page_t put_new_page,
+ef2a5153b4d2c48 Geert Uytterhoeven 2015-04-14  1219  			      unsigned long=
+ private, struct page *page,
+02ac43a74241ef7 Huang Ying         2021-08-16  1220  			      struct page *=
+*newpagep, int force,
+02ac43a74241ef7 Huang Ying         2021-08-16  1221  			      enum migrate_=
+mode mode, enum migrate_reason reason,
+dd4ae78a21fc05d Yang Shi           2020-12-14  1222  			      struct list_h=
+ead *ret)
+0dabec93de633a8 Minchan Kim        2011-10-31  1223  {
+02ac43a74241ef7 Huang Ying         2021-08-16  1224  	int rc =3D MIGRATEPAG=
+E_UNMAP;
+74d4a5797b89048 Yang Shi           2019-11-30  1225  	struct page *newpage =
+=3D NULL;
+0dabec93de633a8 Minchan Kim        2011-10-31  1226  =
 
-ae2e1aad3e48e4 Kees Cook      2020-04-06  322  void lkdtm_ARRAY_BOUNDS(void)
-ae2e1aad3e48e4 Kees Cook      2020-04-06  323  {
-ae2e1aad3e48e4 Kees Cook      2020-04-06  324  	struct array_bounds_flex_ar=
-ray *not_checked;
-ae2e1aad3e48e4 Kees Cook      2020-04-06  325  	struct array_bounds *checke=
-d;
-ae2e1aad3e48e4 Kees Cook      2020-04-06  326  	volatile int i;
-ae2e1aad3e48e4 Kees Cook      2020-04-06  327  =
+94723aafb9e7641 Michal Hocko       2018-04-10  1227  	if (!thp_migration_su=
+pported() && PageTransHuge(page))
+d532e2e57e3c53c Yang Shi           2020-12-14  1228  		return -ENOSYS;
+94723aafb9e7641 Michal Hocko       2018-04-10  1229  =
 
-ae2e1aad3e48e4 Kees Cook      2020-04-06  328  	not_checked =3D kmalloc(siz=
-eof(*not_checked) * 2, GFP_KERNEL);
-ae2e1aad3e48e4 Kees Cook      2020-04-06  329  	checked =3D kmalloc(sizeof(=
-*checked) * 2, GFP_KERNEL);
-6ac33daa73b3fe Jiasheng Jiang 2022-01-14  330  	if (!not_checked || !checke=
-d)
-6ac33daa73b3fe Jiasheng Jiang 2022-01-14 @331  		return;
-ae2e1aad3e48e4 Kees Cook      2020-04-06  332  =
+0dabec93de633a8 Minchan Kim        2011-10-31  1230  	if (page_count(page) =
+=3D=3D 1) {
+0dabec93de633a8 Minchan Kim        2011-10-31  1231  		/* page was freed fr=
+om under us. So we are done. */
+c6c919eb90e021f Minchan Kim        2016-07-26  1232  		ClearPageActive(page=
+);
+c6c919eb90e021f Minchan Kim        2016-07-26  1233  		ClearPageUnevictable=
+(page);
+bda807d4445414e Minchan Kim        2016-07-26  1234  		if (unlikely(__PageM=
+ovable(page))) {
+bda807d4445414e Minchan Kim        2016-07-26  1235  			lock_page(page);
+bda807d4445414e Minchan Kim        2016-07-26  1236  			if (!PageMovable(pa=
+ge))
+bda807d4445414e Minchan Kim        2016-07-26  1237  				__ClearPageIsolate=
+d(page);
+bda807d4445414e Minchan Kim        2016-07-26  1238  			unlock_page(page);
+bda807d4445414e Minchan Kim        2016-07-26  1239  		}
+02ac43a74241ef7 Huang Ying         2021-08-16  1240  		list_del(&page->lru);
+02ac43a74241ef7 Huang Ying         2021-08-16  1241  		migrate_page_done(pa=
+ge, reason);
+02ac43a74241ef7 Huang Ying         2021-08-16  1242  		return MIGRATEPAGE_S=
+UCCESS;
+0dabec93de633a8 Minchan Kim        2011-10-31  1243  	}
+0dabec93de633a8 Minchan Kim        2011-10-31  1244  =
 
-ae2e1aad3e48e4 Kees Cook      2020-04-06  333  	pr_info("Array access withi=
-n bounds ...\n");
-ae2e1aad3e48e4 Kees Cook      2020-04-06  334  	/* For both, touch all byte=
-s in the actual member size. */
-ae2e1aad3e48e4 Kees Cook      2020-04-06  335  	for (i =3D 0; i < sizeof(ch=
-ecked->data); i++)
-ae2e1aad3e48e4 Kees Cook      2020-04-06  336  		checked->data[i] =3D 'A';
-ae2e1aad3e48e4 Kees Cook      2020-04-06  337  	/*
-ae2e1aad3e48e4 Kees Cook      2020-04-06  338  	 * For the uninstrumented f=
-lex array member, also touch 1 byte
-ae2e1aad3e48e4 Kees Cook      2020-04-06  339  	 * beyond to verify it is c=
-orrectly uninstrumented.
-ae2e1aad3e48e4 Kees Cook      2020-04-06  340  	 */
-ae2e1aad3e48e4 Kees Cook      2020-04-06  341  	for (i =3D 0; i < sizeof(no=
-t_checked->data) + 1; i++)
-ae2e1aad3e48e4 Kees Cook      2020-04-06  342  		not_checked->data[i] =3D '=
-A';
-ae2e1aad3e48e4 Kees Cook      2020-04-06  343  =
+74d4a5797b89048 Yang Shi           2019-11-30  1245  	newpage =3D get_new_p=
+age(page, private);
+74d4a5797b89048 Yang Shi           2019-11-30  1246  	if (!newpage)
+74d4a5797b89048 Yang Shi           2019-11-30  1247  		return -ENOMEM;
+02ac43a74241ef7 Huang Ying         2021-08-16  1248  =
 
-ae2e1aad3e48e4 Kees Cook      2020-04-06  344  	pr_info("Array access beyon=
-d bounds ...\n");
-ae2e1aad3e48e4 Kees Cook      2020-04-06  345  	for (i =3D 0; i < sizeof(ch=
-ecked->data) + 1; i++)
-ae2e1aad3e48e4 Kees Cook      2020-04-06  346  		checked->data[i] =3D 'B';
-ae2e1aad3e48e4 Kees Cook      2020-04-06  347  =
+8f16510e9b49b98 Huang Ying         2020-09-27  1249  	/* TODO: check whethe=
+r Ksm pages can be demoted? */
+8f16510e9b49b98 Huang Ying         2020-09-27  1250  	if (reason =3D=3D MR_=
+DEMOTION &&
+8f16510e9b49b98 Huang Ying         2020-09-27 @1251  	    sysctl_numa_balan=
+cing_mode & NUMA_BALANCING_MEMORY_TIERING &&
+8f16510e9b49b98 Huang Ying         2020-09-27  1252  	    sysctl_numa_balan=
+cing_scan_demoted &&
+8f16510e9b49b98 Huang Ying         2020-09-27  1253  	    !PageKsm(page)) {
+8f16510e9b49b98 Huang Ying         2020-09-27  1254  		set_page_demoted(new=
+page);
+8f16510e9b49b98 Huang Ying         2020-09-27  1255  	}
+74d4a5797b89048 Yang Shi           2019-11-30  1256  =
 
-ae2e1aad3e48e4 Kees Cook      2020-04-06  348  	kfree(not_checked);
-ae2e1aad3e48e4 Kees Cook      2020-04-06  349  	kfree(checked);
-464e86b4abadfc Kees Cook      2020-06-25  350  	pr_err("FAIL: survived arra=
-y bounds overflow!\n");
-c75be56e35b2ee Kees Cook      2021-08-18  351  	pr_expected_config(CONFIG_U=
-BSAN_BOUNDS);
-ae2e1aad3e48e4 Kees Cook      2020-04-06  352  }
-ae2e1aad3e48e4 Kees Cook      2020-04-06  353  =
+02ac43a74241ef7 Huang Ying         2021-08-16  1257  	*newpagep =3D newpage;
+02ac43a74241ef7 Huang Ying         2021-08-16  1258  =
 
+02ac43a74241ef7 Huang Ying         2021-08-16  1259  	rc =3D __migrate_page=
+_unmap(page, newpage, force, mode);
+02ac43a74241ef7 Huang Ying         2021-08-16  1260  	if (rc =3D=3D MIGRATE=
+PAGE_UNMAP)
+02ac43a74241ef7 Huang Ying         2021-08-16  1261  		return rc;
+02ac43a74241ef7 Huang Ying         2021-08-16  1262  =
+
+02ac43a74241ef7 Huang Ying         2021-08-16  1263  	/*
+02ac43a74241ef7 Huang Ying         2021-08-16  1264  	 * A page that has no=
+t been migrated will have kept its
+02ac43a74241ef7 Huang Ying         2021-08-16  1265  	 * references and be =
+restored.
+02ac43a74241ef7 Huang Ying         2021-08-16  1266  	 */
+02ac43a74241ef7 Huang Ying         2021-08-16  1267  	/* restore the page t=
+o right list. */
+02ac43a74241ef7 Huang Ying         2021-08-16  1268  	if (rc !=3D -EAGAIN)
+02ac43a74241ef7 Huang Ying         2021-08-16  1269  		list_move_tail(&page=
+->lru, ret);
+02ac43a74241ef7 Huang Ying         2021-08-16  1270  =
+
+02ac43a74241ef7 Huang Ying         2021-08-16  1271  	if (put_new_page)
+02ac43a74241ef7 Huang Ying         2021-08-16  1272  		put_new_page(newpage=
+, private);
+02ac43a74241ef7 Huang Ying         2021-08-16  1273  	else
+02ac43a74241ef7 Huang Ying         2021-08-16  1274  		put_page(newpage);
+02ac43a74241ef7 Huang Ying         2021-08-16  1275  =
+
+02ac43a74241ef7 Huang Ying         2021-08-16  1276  	return rc;
+02ac43a74241ef7 Huang Ying         2021-08-16  1277  }
+02ac43a74241ef7 Huang Ying         2021-08-16  1278  =
+
+
+:::::: The code at line 1251 was first introduced by commit
+:::::: 8f16510e9b49b9822f08eb95892fffa2dd9b2910 memory tiering: measure whe=
+ther demoted pages are hot
+
+:::::: TO: Huang Ying <ying.huang@intel.com>
+:::::: CC: Huang Ying <ying.huang@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2837982495511535535==--
+--===============2826015487755139558==--
 
