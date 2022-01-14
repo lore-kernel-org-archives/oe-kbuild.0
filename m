@@ -1,433 +1,210 @@
-Content-Type: multipart/mixed; boundary="===============1434914993049318571=="
+Content-Type: multipart/mixed; boundary="===============6268507224307066198=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC v2] perf: Rewrite core context handling
-Date: Sat, 15 Jan 2022 05:48:56 +0800
-Message-ID: <202201150516.CCZxTJTq-lkp@intel.com>
+Subject: [vishal-tiering:tiering-0.8 15/44] mm/vmscan.c:4261 kswapd_try_to_sleep() warn: bitwise AND condition is false here
+Date: Sat, 15 Jan 2022 00:41:35 +0800
+Message-ID: <202201150055.zW9tTTH1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1434914993049318571==
+--===============6268507224307066198==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220113134743.1292-1-ravi.bangoria@amd.com>
-References: <20220113134743.1292-1-ravi.bangoria@amd.com>
-TO: Ravi Bangoria <ravi.bangoria@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Huang Ying <ying.huang@intel.com>
 
-Hi Ravi,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on tip/perf/core]
-[also build test WARNING on powerpc/next tip/sched/core v5.16 next-20220114]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Ravi-Bangoria/perf-Rewrite=
--core-context-handling/20220113-215022
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git a9f4a6e=
-92b3b319296fb078da2615f618f6cd80c
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: arm-randconfig-c002-20220113 (https://download.01.org/0day-ci/archi=
-ve/20220115/202201150516.CCZxTJTq-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d10219=
-78b8e7e35dcc30201ca1731d64b5a602a8)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/f7cf7134e405062bf0f22c3ba=
-5637241c4c4d06a
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Ravi-Bangoria/perf-Rewrite-core-co=
-ntext-handling/20220113-215022
-        git checkout f7cf7134e405062bf0f22c3ba5637241c4c4d06a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vishal/tiering.git =
+tiering-0.8
+head:   d58c7b0e1a99a2ec17f2910a310835bafc50b4d1
+commit: 17a24a354e12d4d4675d78481b358f668d5a6866 [15/44] memory tiering: av=
+oid kswap to be keep in failure state for long
+:::::: branch date: 2 days ago
+:::::: commit date: 10 weeks ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20115/202201150055.zW9tTTH1-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/vmscan.c:4261 kswapd_try_to_sleep() warn: bitwise AND condition is false=
+ here
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:3752:2: note: Loop condition is true.  Entering loo=
-p body
-           while (event_heap.nr) {
-           ^
-   kernel/events/core.c:3753:9: note: Calling 'merge_sched_in'
-                   ret =3D func(*evt, data);
-                         ^~~~~~~~~~~~~~~~
-   kernel/events/core.c:3792:35: note: Assuming pointer value is null
-           struct perf_event_context *ctx =3D event->ctx;
-                                            ^~~~~~~~~~
-   kernel/events/core.c:3795:6: note: Assuming field 'state' is > PERF_EVEN=
-T_STATE_OFF
-           if (event->state <=3D PERF_EVENT_STATE_OFF)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:3795:2: note: Taking false branch
-           if (event->state <=3D PERF_EVENT_STATE_OFF)
-           ^
-   kernel/events/core.c:3798:6: note: Assuming the condition is true
-           if (!event_filter_match(event))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:3798:2: note: Taking true branch
-           if (!event_filter_match(event))
-           ^
-   kernel/events/core.c:3799:3: note: Returning zero, which participates in=
- a condition later
-                   return 0;
-                   ^~~~~~~~
-   kernel/events/core.c:3753:9: note: Returning from 'merge_sched_in'
-                   ret =3D func(*evt, data);
-                         ^~~~~~~~~~~~~~~~
-   kernel/events/core.c:3754:7: note: 'ret' is 0
-                   if (ret)
-                       ^~~
-   kernel/events/core.c:3754:3: note: Taking false branch
-                   if (ret)
-                   ^
-   kernel/events/core.c:3758:3: note: Taking false branch
-                   if (*evt)
-                   ^
-   kernel/events/core.c:3761:4: note: Calling 'min_heap_pop'
-                           min_heap_pop(&event_heap, &perf_min_heap);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/min_heap.h:84:16: note: Assuming field 'nr' is > 0
-           if (WARN_ONCE(heap->nr <=3D 0, "Popping an empty heap"))
-                         ^
-   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-                           ^~~~~~~~~
-   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   bool __ret_do_once =3D !!(condition);                   =
-  \
-                                           ^~~~~~~~~
-   include/linux/min_heap.h:84:6: note: '__ret_do_once' is false
-           if (WARN_ONCE(heap->nr <=3D 0, "Popping an empty heap"))
-               ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                ^~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/min_heap.h:84:6: note: Left side of '&&' is false
-           if (WARN_ONCE(heap->nr <=3D 0, "Popping an empty heap"))
-               ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:17:30: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                              ^
-   include/linux/min_heap.h:84:6: note: Taking false branch
-           if (WARN_ONCE(heap->nr <=3D 0, "Popping an empty heap"))
-               ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^
-   include/linux/once_lite.h:17:3: note: expanded from macro 'DO_ONCE_LITE_=
-IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                   ^
-   include/linux/min_heap.h:84:2: note: Taking false branch
-           if (WARN_ONCE(heap->nr <=3D 0, "Popping an empty heap"))
-           ^
-   include/linux/min_heap.h:90:2: note: Value assigned to 'event_heap.nr', =
-which participates in a condition later
-           min_heapify(heap, 0, func);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:3761:4: note: Returning from 'min_heap_pop'
-                           min_heap_pop(&event_heap, &perf_min_heap);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:3752:2: note: Loop condition is true.  Entering loo=
-p body
-           while (event_heap.nr) {
-           ^
-   kernel/events/core.c:3753:14: note: Passing null pointer value via 1st p=
-arameter 'event'
-                   ret =3D func(*evt, data);
-                              ^~~~
-   kernel/events/core.c:3753:9: note: Calling 'merge_sched_in'
-                   ret =3D func(*evt, data);
-                         ^~~~~~~~~~~~~~~~
-   kernel/events/core.c:3792:35: note: Access to field 'ctx' results in a d=
-ereference of a null pointer (loaded from variable 'event')
-           struct perf_event_context *ctx =3D event->ctx;
-                                            ^~~~~
->> kernel/events/core.c:4277:2: warning: Value stored to 'task_ctx' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           task_ctx =3D cpuctx->task_ctx;
-           ^          ~~~~~~~~~~~~~~~~
-   kernel/events/core.c:4277:2: note: Value stored to 'task_ctx' is never r=
-ead
-           task_ctx =3D cpuctx->task_ctx;
-           ^          ~~~~~~~~~~~~~~~~
-   kernel/events/core.c:4777:2: warning: Value stored to 'err' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           err =3D -EINVAL;
-           ^     ~~~~~~~
-   kernel/events/core.c:4777:2: note: Value stored to 'err' is never read
-           err =3D -EINVAL;
-           ^     ~~~~~~~
-   kernel/events/core.c:10439:13: warning: Dereference of null pointer [cla=
-ng-analyzer-core.NullDereference]
-           for (vma =3D mm->mmap; vma; vma =3D vma->vm_next) {
-                      ^
-   kernel/events/core.c:10454:39: note: Calling 'perf_event_addr_filters'
-           struct perf_addr_filters_head *ifh =3D perf_event_addr_filters(e=
-vent);
-                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/perf_event.h:1475:6: note: Assuming field 'parent' is null
-           if (event->parent)
-               ^~~~~~~~~~~~~
-   include/linux/perf_event.h:1475:2: note: Taking false branch
-           if (event->parent)
-           ^
-   include/linux/perf_event.h:1478:2: note: Returning without writing to 'e=
-vent->addr_filters.nr_file_filters', which participates in a condition later
-           return ifh;
-           ^
-   kernel/events/core.c:10454:39: note: Returning from 'perf_event_addr_fil=
-ters'
-           struct perf_addr_filters_head *ifh =3D perf_event_addr_filters(e=
-vent);
-                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   kernel/events/core.c:10455:29: note: Left side of '||' is false
-           struct task_struct *task =3D READ_ONCE(event->ctx->task);
-                                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/events/core.c:10455:29: note: Left side of '||' is false
-           struct task_struct *task =3D READ_ONCE(event->ctx->task);
-                                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/events/core.c:10455:29: note: Left side of '||' is true
-           struct task_struct *task =3D READ_ONCE(event->ctx->task);
-                                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:303:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   kernel/events/core.c:10455:29: note: Taking false branch
-           struct task_struct *task =3D READ_ONCE(event->ctx->task);
-                                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   kernel/events/core.c:10455:29: note: Loop condition is false.  Exiting l=
-oop
-           struct task_struct *task =3D READ_ONCE(event->ctx->task);
-                                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
+vim +4261 mm/vmscan.c
 
-vim +/task_ctx +4277 kernel/events/core.c
+e716f2eb24defb Mel Gorman      2017-05-03  4183  =
 
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4257  =
+38087d9b036098 Mel Gorman      2016-07-28  4184  static void kswapd_try_to_=
+sleep(pg_data_t *pgdat, int alloc_order, int reclaim_order,
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4185  				unsigned int highest_z=
+oneidx)
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4186  {
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4187  	long remaining =3D 0;
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4188  	DEFINE_WAIT(wait);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4189  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4258  sta=
-tic bool perf_rotate_context(struct perf_cpu_pmu_context *cpc)
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4259  {
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4260  	st=
-ruct perf_cpu_context *cpuctx =3D this_cpu_ptr(&cpu_context);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4261  	st=
-ruct perf_event_pmu_context *cpu_epc, *task_epc =3D NULL;
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4262  	st=
-ruct perf_event *cpu_event =3D NULL, *task_event =3D NULL;
-fd7d55172d1e2e kernel/events/core.c  Ian Rogers       2019-06-01  4263  	st=
-ruct perf_event_context *task_ctx =3D NULL;
-fd7d55172d1e2e kernel/events/core.c  Ian Rogers       2019-06-01  4264  	in=
-t cpu_rotate, task_rotate;
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4265  	st=
-ruct pmu *pmu;
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4266  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4190  	if (freezing(current) || =
+kthread_should_stop())
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4191  		return;
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4192  =
 
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4267  	/*
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4268  	 *=
- Since we run this from IRQ context, nobody can install new
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4269  	 *=
- events, thus the event count values are stable.
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4270  	 */
-7fc23a53807970 kernel/perf_counter.c Peter Zijlstra   2009-05-08  4271  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4193  	prepare_to_wait(&pgdat->k=
+swapd_wait, &wait, TASK_INTERRUPTIBLE);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4194  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4272  	cp=
-u_epc =3D &cpc->epc;
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4273  	pm=
-u =3D cpu_epc->pmu;
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4274  	ta=
-sk_epc =3D cpc->task_epc;
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4275  =
+333b0a459c0e1b Shantanu Goel   2017-05-03  4195  	/*
+333b0a459c0e1b Shantanu Goel   2017-05-03  4196  	 * Try to sleep for a sho=
+rt interval. Note that kcompactd will only be
+333b0a459c0e1b Shantanu Goel   2017-05-03  4197  	 * woken if it is possibl=
+e to sleep for a short interval. This is
+333b0a459c0e1b Shantanu Goel   2017-05-03  4198  	 * deliberate on the assu=
+mption that if reclaim cannot keep an
+333b0a459c0e1b Shantanu Goel   2017-05-03  4199  	 * eligible zone balanced=
+ that it's also unlikely that compaction will
+333b0a459c0e1b Shantanu Goel   2017-05-03  4200  	 * succeed.
+333b0a459c0e1b Shantanu Goel   2017-05-03  4201  	 */
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4202  	if (prepare_kswapd_sleep(=
+pgdat, reclaim_order, highest_zoneidx)) {
+fd901c95388b3b Vlastimil Babka 2016-04-28  4203  		/*
+fd901c95388b3b Vlastimil Babka 2016-04-28  4204  		 * Compaction records wh=
+at page blocks it recently failed to
+fd901c95388b3b Vlastimil Babka 2016-04-28  4205  		 * isolate pages from an=
+d skips them in the future scanning.
+fd901c95388b3b Vlastimil Babka 2016-04-28  4206  		 * When kswapd is going =
+to sleep, it is reasonable to assume
+fd901c95388b3b Vlastimil Babka 2016-04-28  4207  		 * that pages and compac=
+tion may succeed so reset the cache.
+fd901c95388b3b Vlastimil Babka 2016-04-28  4208  		 */
+fd901c95388b3b Vlastimil Babka 2016-04-28  4209  		reset_isolation_suitable=
+(pgdat);
+fd901c95388b3b Vlastimil Babka 2016-04-28  4210  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4276  	cp=
-u_rotate =3D cpu_epc->rotate_necessary;
-fd7d55172d1e2e kernel/events/core.c  Ian Rogers       2019-06-01 @4277  	ta=
-sk_ctx =3D cpuctx->task_ctx;
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4278  	ta=
-sk_rotate =3D task_epc ? task_epc->rotate_necessary : 0;
-9717e6cd3db22e kernel/perf_event.c   Peter Zijlstra   2010-01-28  4279  =
+fd901c95388b3b Vlastimil Babka 2016-04-28  4211  		/*
+fd901c95388b3b Vlastimil Babka 2016-04-28  4212  		 * We have freed the mem=
+ory, now we should compact it to make
+fd901c95388b3b Vlastimil Babka 2016-04-28  4213  		 * allocation of the req=
+uested order possible.
+fd901c95388b3b Vlastimil Babka 2016-04-28  4214  		 */
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4215  		wakeup_kcompactd(pgdat, =
+alloc_order, highest_zoneidx);
+fd901c95388b3b Vlastimil Babka 2016-04-28  4216  =
 
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4280  	if=
- (!(cpu_rotate || task_rotate))
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4281  		r=
-eturn false;
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4282  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4217  		remaining =3D schedule_t=
+imeout(HZ/10);
+38087d9b036098 Mel Gorman      2016-07-28  4218  =
 
-facc43071cc0d4 kernel/events/core.c  Peter Zijlstra   2011-04-09  4283  	pe=
-rf_ctx_lock(cpuctx, cpuctx->task_ctx);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4284  	pe=
-rf_pmu_disable(pmu);
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4285  =
+38087d9b036098 Mel Gorman      2016-07-28  4219  		/*
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4220  		 * If woken prematurely =
+then reset kswapd_highest_zoneidx and
+38087d9b036098 Mel Gorman      2016-07-28  4221  		 * order. The values wil=
+l either be from a wakeup request or
+38087d9b036098 Mel Gorman      2016-07-28  4222  		 * the previous request =
+that slept prematurely.
+38087d9b036098 Mel Gorman      2016-07-28  4223  		 */
+38087d9b036098 Mel Gorman      2016-07-28  4224  		if (remaining) {
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4225  			WRITE_ONCE(pgdat->kswap=
+d_highest_zoneidx,
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4226  					kswapd_highest_zoneid=
+x(pgdat,
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4227  							highest_zoneidx));
+5644e1fbbfe15a Qian Cai        2020-04-01  4228  =
 
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4286  	if=
- (task_rotate)
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4287  		t=
-ask_event =3D ctx_event_to_rotate(task_epc);
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4288  	if=
- (cpu_rotate)
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4289  		c=
-pu_event =3D ctx_event_to_rotate(cpu_epc);
-8703a7cfe148f7 kernel/events/core.c  Peter Zijlstra   2017-11-13  4290  =
+5644e1fbbfe15a Qian Cai        2020-04-01  4229  			if (READ_ONCE(pgdat->ks=
+wapd_order) < reclaim_order)
+5644e1fbbfe15a Qian Cai        2020-04-01  4230  				WRITE_ONCE(pgdat->kswa=
+pd_order, reclaim_order);
+38087d9b036098 Mel Gorman      2016-07-28  4231  		}
+38087d9b036098 Mel Gorman      2016-07-28  4232  =
 
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4291  	/*
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4292  	 *=
- As per the order given at ctx_resched() first 'pop' task flexible
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4293  	 *=
- and then, if needed CPU flexible.
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4294  	 */
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4295  	if=
- (task_event || (task_epc && cpu_event)) {
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4296  		u=
-pdate_context_time(task_epc->ctx);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4297  		_=
-_pmu_ctx_sched_out(task_epc, EVENT_FLEXIBLE);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4298  	}
-235c7fc7c500e4 kernel/perf_counter.c Ingo Molnar      2008-12-21  4299  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4233  		finish_wait(&pgdat->kswa=
+pd_wait, &wait);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4234  		prepare_to_wait(&pgdat->=
+kswapd_wait, &wait, TASK_INTERRUPTIBLE);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4235  	}
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4236  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4300  	if=
- (cpu_event) {
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4301  		u=
-pdate_context_time(&cpuctx->ctx);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4302  		_=
-_pmu_ctx_sched_out(cpu_epc, EVENT_FLEXIBLE);
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4303  		r=
-otate_ctx(&cpuctx->ctx, cpu_event);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4304  		_=
-_pmu_ctx_sched_in(&cpuctx->ctx, pmu);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4305  	}
-0793a61d4df8da kernel/perf_counter.c Thomas Gleixner  2008-12-04  4306  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4237  	/*
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4238  	 * After a short sleep, c=
+heck if it was a premature sleep. If not, then
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4239  	 * go fully to sleep unti=
+l explicitly woken up.
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4240  	 */
+d9f21d426dc606 Mel Gorman      2016-07-28  4241  	if (!remaining &&
+97a225e69a1f88 Joonsoo Kim     2020-06-03  4242  	    prepare_kswapd_sleep(=
+pgdat, reclaim_order, highest_zoneidx)) {
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4243  		trace_mm_vmscan_kswapd_s=
+leep(pgdat->node_id);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4244  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4307  	if=
- (task_event)
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4308  		r=
-otate_ctx(task_epc->ctx, task_event);
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4309  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4245  		/*
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4246  		 * vmstat counters are n=
+ot perfectly accurate and the estimated
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4247  		 * value for counters su=
+ch as NR_FREE_PAGES can deviate from the
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4248  		 * true value by nr_onli=
+ne_cpus * threshold. To avoid the zone
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4249  		 * watermarks being brea=
+ched while under pressure, we reduce the
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4250  		 * per-cpu vmstat thresh=
+old while kswapd is awake and restore
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4251  		 * them before going bac=
+k to sleep.
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4252  		 */
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4253  		set_pgdat_percpu_thresho=
+ld(pgdat, calculate_normal_threshold);
+1c7e7f6c0703d0 Aaditya Kumar   2012-07-17  4254  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4310  	if=
- (task_event || (task_epc && cpu_event))
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4311  		_=
-_pmu_ctx_sched_in(task_epc->ctx, pmu);
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4312  =
+17a24a354e12d4 Huang Ying      2019-10-29  4255  		if (!kthread_should_stop=
+()) {
+17a24a354e12d4 Huang Ying      2019-10-29  4256  			/*
+17a24a354e12d4 Huang Ying      2019-10-29  4257  			 * In memory tiering mo=
+de, try harder to recover from
+17a24a354e12d4 Huang Ying      2019-10-29  4258  			 * kswapd failures, bec=
+ause direct reclaiming may be
+17a24a354e12d4 Huang Ying      2019-10-29  4259  			 * not triggered.
+17a24a354e12d4 Huang Ying      2019-10-29  4260  			 */
+17a24a354e12d4 Huang Ying      2019-10-29 @4261  			if (sysctl_numa_balanci=
+ng_mode & NUMA_BALANCING_MEMORY_TIERING &&
+17a24a354e12d4 Huang Ying      2019-10-29  4262  			    node_is_toptier(pgd=
+at->node_id) &&
+17a24a354e12d4 Huang Ying      2019-10-29  4263  			    pgdat->kswapd_failu=
+res >=3D MAX_RECLAIM_RETRIES) {
+17a24a354e12d4 Huang Ying      2019-10-29  4264  				remaining =3D schedule=
+_timeout(10 * HZ);
+17a24a354e12d4 Huang Ying      2019-10-29  4265  				if (!remaining) {
+17a24a354e12d4 Huang Ying      2019-10-29  4266  					pgdat->kswapd_highest=
+_zoneidx =3D ZONE_MOVABLE;
+17a24a354e12d4 Huang Ying      2019-10-29  4267  					pgdat->kswapd_order =
+=3D 0;
+17a24a354e12d4 Huang Ying      2019-10-29  4268  				}
+17a24a354e12d4 Huang Ying      2019-10-29  4269  			} else
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4270  				schedule();
+17a24a354e12d4 Huang Ying      2019-10-29  4271  		}
+1c7e7f6c0703d0 Aaditya Kumar   2012-07-17  4272  =
 
-f7cf7134e40506 kernel/events/core.c  Peter Zijlstra   2022-01-13  4313  	pe=
-rf_pmu_enable(pmu);
-0f5a2601284237 kernel/events/core.c  Peter Zijlstra   2011-11-16  4314  	pe=
-rf_ctx_unlock(cpuctx, cpuctx->task_ctx);
-9e6302056f8029 kernel/events/core.c  Stephane Eranian 2013-04-03  4315  =
-
-8d5bce0c37fa10 kernel/events/core.c  Peter Zijlstra   2018-03-09  4316  	re=
-turn true;
-e9d2b064149ff7 kernel/perf_event.c   Peter Zijlstra   2010-09-17  4317  }
-e9d2b064149ff7 kernel/perf_event.c   Peter Zijlstra   2010-09-17  4318  =
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4273  		set_pgdat_percpu_thresho=
+ld(pgdat, calculate_pressure_threshold);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4274  	} else {
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4275  		if (remaining)
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4276  			count_vm_event(KSWAPD_L=
+OW_WMARK_HIT_QUICKLY);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4277  		else
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4278  			count_vm_event(KSWAPD_H=
+IGH_WMARK_HIT_QUICKLY);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4279  	}
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4280  	finish_wait(&pgdat->kswap=
+d_wait, &wait);
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4281  }
+f0bc0a60b13f20 KOSAKI Motohiro 2011-01-13  4282  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1434914993049318571==--
+--===============6268507224307066198==--
 
