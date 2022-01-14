@@ -1,69 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============8036607963670482404=="
+Content-Type: multipart/mixed; boundary="===============7186700826931185374=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v10 1/2] bluetooth: msft: Handle MSFT Monitor Device Event
-Date: Fri, 14 Jan 2022 15:58:36 +0800
-Message-ID: <202201141502.K9VxPX1a-lkp@intel.com>
+Subject: drivers/gpu/drm/ast/ast_mode.c:1232:3: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Fri, 14 Jan 2022 14:12:05 +0800
+Message-ID: <202201141416.VfNXpsi5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8036607963670482404==
+--===============7186700826931185374==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220111081048.v10.1.Ic0a40b84dee3825302890aaea690e73165c7182=
-0@changeid>
-References: <20220111081048.v10.1.Ic0a40b84dee3825302890aaea690e73165c71820=
-@changeid>
-TO: Manish Mandlik <mmandlik@google.com>
-TO: marcel(a)holtmann.org
-TO: luiz.dentz(a)gmail.com
-CC: linux-bluetooth(a)vger.kernel.org
-CC: chromeos-bluetooth-upstreaming(a)chromium.org
-CC: Manish Mandlik <mmandlik@google.com>
-CC: "Miao-chen Chou" <mcchou@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Johan Hedberg <johan.hedberg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
-CC: netdev(a)vger.kernel.org
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Maxime Ripard <maxime@cerno.tech>
 
-Hi Manish,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on next-20220113]
-[cannot apply to bluetooth/master v5.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Manish-Mandlik/bluetooth-m=
-sft-Handle-MSFT-Monitor-Device-Event/20220112-001634
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
--next.git master
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-114/202201141502.K9VxPX1a-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
-913a43a200f5a6544d424cdc37b771028b)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   fb3b0673b7d5b477ed104949450cd511337ba3c6
+commit: 55dc449a7c60d3df5a8f0b71bbae9d5173c864f5 drm/ast: Handle failed I2C=
+ initialization gracefully
+date:   4 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-c006-20220113 (https://download.01.org/0day-ci/arc=
+hive/20220114/202201141416.VfNXpsi5-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d10219=
+78b8e7e35dcc30201ca1731d64b5a602a8)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/70532b5d55db00ce650dedd8f=
-8dceece7a705dc5
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Manish-Mandlik/bluetooth-msft-Hand=
-le-MSFT-Monitor-Device-Event/20220112-001634
-        git checkout 70532b5d55db00ce650dedd8f8dceece7a705dc5
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D55dc449a7c60d3df5a8f0b71bbae9d5173c864f5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 55dc449a7c60d3df5a8f0b71bbae9d5173c864f5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -71,313 +52,325 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/target/target_core_fabric_configfs.c:1009:2: note: Taking false =
-branch
-           if (kstrtoint(page, 0, &compl_val))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/target/target_core_fabric_configfs.c:1012:2: note: Control jumps=
- to the 'default' case at line 1019
-           switch (compl_val) {
-           ^
-   drivers/target/target_core_fabric_configfs.c:1020:7: note: Assuming 'com=
-pl_val' is >=3D 0
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
-'||' is false
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                       ^
-   drivers/target/target_core_fabric_configfs.c:1020:24: note: Assuming 'co=
-mpl_val' is < 1
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
-'||' is false
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                       ^
-   drivers/target/target_core_fabric_configfs.c:1020:3: note: '?' condition=
- is false
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+   fs/overlayfs/export.c:654:34: note: '?' condition is false
+   fs/overlayfs/export.c:655:24: note: '?' condition is false
+           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
                                  ^
-   drivers/target/target_core_fabric_configfs.c:1020:7: note: 'compl_val' i=
-s >=3D 0
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
-'||' is false
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                       ^
-   drivers/target/target_core_fabric_configfs.c:1020:24: note: 'compl_val' =
-is < 1
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
-'||' is false
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
-                       ^
-   drivers/target/target_core_fabric_configfs.c:1020:3: note: '?' condition=
- is false
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+   fs/overlayfs/export.c:655:34: note: '?' condition is false
+           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
+                                           ^
+   fs/overlayfs/export.c:655:2: note: 'real' initialized to a null pointer =
+value
+           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
+           ^~~~~~~~~~~~~~~~~~~
+   fs/overlayfs/export.c:661:16: note: Passing null pointer value via 1st p=
+arameter 'dentry'
+           if (!d_is_dir(real))
+                         ^~~~
+   fs/overlayfs/export.c:661:7: note: Calling 'd_is_dir'
+           if (!d_is_dir(real))
+                ^~~~~~~~~~~~~~
+   include/linux/dcache.h:420:22: note: Passing null pointer value via 1st =
+parameter 'dentry'
+           return d_can_lookup(dentry) || d_is_autodir(dentry);
+                               ^~~~~~
+   include/linux/dcache.h:420:9: note: Calling 'd_can_lookup'
+           return d_can_lookup(dentry) || d_is_autodir(dentry);
+                  ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dcache.h:410:24: note: Passing null pointer value via 1st =
+parameter 'dentry'
+           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
+                                 ^~~~~~
+   include/linux/dcache.h:410:9: note: Calling '__d_entry_type'
+           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
+                  ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dcache.h:395:9: note: Access to field 'd_flags' results in=
+ a dereference of a null pointer (loaded from variable 'dentry')
+           return dentry->d_flags & DCACHE_ENTRY_TYPE;
+                  ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/gpu/drm/ast/ast_mode.c:291:2: warning: Value stored to 'jreg' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_mode.c:291:2: note: Value stored to 'jreg' is ne=
+ver read
+           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_mode.c:300:2: warning: Value stored to 'jreg' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_mode.c:300:2: note: Value stored to 'jreg' is ne=
+ver read
+           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/ast/ast_mode.c:1232:3: warning: Use of memory after it i=
+s freed [clang-analyzer-unix.Malloc]
+                   drm_connector_update_edid_property(&ast_connector->base,=
+ edid);
+                   ^                                                       =
+ ~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1217:6: note: Assuming field 'tx_chip_typ=
+e' is equal to AST_TX_DP501
+           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1217:2: note: Taking true branch
+           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
+           ^
+   drivers/gpu/drm/ast/ast_mode.c:1220:7: note: Assuming 'edid' is non-null
+                   if (!edid)
+                       ^~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1220:3: note: Taking false branch
+                   if (!edid)
                    ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/target/target_core_fabric_configfs.c:1020:3: note: Taking false =
-branch
-                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+   drivers/gpu/drm/ast/ast_mode.c:1224:7: note: Assuming 'flags' is false
+                   if (flags)
+                       ^~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1224:3: note: Taking false branch
+                   if (flags)
                    ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/target/target_core_fabric_configfs.c:1027:27: note: Access to fi=
-eld 'cmd_compl_affinity' results in a dereference of a null pointer (loaded=
- from variable 'wwn')
-                   wwn->cmd_compl_affinity =3D compl_val;
-                   ~~~                     ^
-   5 warnings generated.
->> net/bluetooth/msft.c:222:2: warning: Use of memory after it is freed [cl=
-ang-analyzer-unix.Malloc]
-           list_for_each_entry_safe(dev, tmp, &hdev->monitored_devices, lis=
-t) {
-           ^
-   include/linux/list.h:718:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^
-   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^
-   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^
-   net/bluetooth/msft.c:728:6: note: Assuming 'msft' is non-null
-           if (!msft)
+   drivers/gpu/drm/ast/ast_mode.c:1227:4: note: Memory is released
+                           kfree(edid);
+                           ^~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1229:7: note: 'flags' is false
+           if (!flags && ast_connector->i2c)
+                ^~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1229:6: note: Left side of '&&' is true
+           if (!flags && ast_connector->i2c)
                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/bluetooth/msft.c:728:2: note: '?' condition is false
-           if (!msft)
+   drivers/gpu/drm/ast/ast_mode.c:1229:16: note: Assuming field 'i2c' is nu=
+ll
+           if (!flags && ast_connector->i2c)
+                         ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_mode.c:1229:2: note: Taking false branch
+           if (!flags && ast_connector->i2c)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/bluetooth/msft.c:728:7: note: 'msft' is non-null
-           if (!msft)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/bluetooth/msft.c:728:2: note: '?' condition is false
-           if (!msft)
+   drivers/gpu/drm/ast/ast_mode.c:1231:6: note: 'edid' is non-null
+           if (edid) {
+               ^~~~
+   drivers/gpu/drm/ast/ast_mode.c:1231:2: note: Taking true branch
+           if (edid) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/gpu/drm/ast/ast_mode.c:1232:3: note: Use of memory after it is f=
+reed
+                   drm_connector_update_edid_property(&ast_connector->base,=
+ edid);
+                   ^                                                       =
+ ~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/gpu/drm/ast/ast_dp501.c:227:20: warning: Access to field 'data' =
+results in a dereference of a null pointer (loaded from field 'dp501_fw') [=
+clang-analyzer-core.NullDereference]
+                           fw_addr =3D (u8 *)ast->dp501_fw->data;
+                                           ^
+   drivers/gpu/drm/ast/ast_dp501.c:498:6: note: Assuming field 'chip' is eq=
+ual to AST2300
+           if (ast->chip =3D=3D AST2300 || ast->chip =3D=3D AST2400) {
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:498:27: note: Left side of '||' is true
+           if (ast->chip =3D=3D AST2300 || ast->chip =3D=3D AST2400) {
+                                    ^
+   drivers/gpu/drm/ast/ast_dp501.c:500:3: note: Control jumps to 'case 8:' =
+ at line 504
+                   switch (jreg & 0x0e) {
+                   ^
+   drivers/gpu/drm/ast/ast_dp501.c:505:4: note: Calling 'ast_launch_m68k'
+                           ast_launch_m68k(dev);
+                           ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:213:6: note: Assuming field 'config_mode=
+' is equal to ast_use_p2a
+           if (ast->config_mode !=3D ast_use_p2a)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:213:2: note: Taking false branch
+           if (ast->config_mode !=3D ast_use_p2a)
            ^
-   net/bluetooth/msft.c:728:2: note: Taking false branch
-           if (!msft)
+   drivers/gpu/drm/ast/ast_dp501.c:217:6: note: Assuming 'data' is 0
+           if (!data) {
+               ^~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:217:2: note: Taking true branch
+           if (!data) {
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/bluetooth/msft.c:734:6: note: Assuming field 'evt_prefix_len' is <=
-=3D 0
-           if (msft->evt_prefix_len > 0) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/bluetooth/msft.c:734:2: note: '?' condition is false
-           if (msft->evt_prefix_len > 0) {
+   drivers/gpu/drm/ast/ast_dp501.c:219:7: note: Assuming field 'dp501_fw_ad=
+dr' is null
+                   if (ast->dp501_fw_addr) {
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:219:3: note: Taking false branch
+                   if (ast->dp501_fw_addr) {
+                   ^
+   drivers/gpu/drm/ast/ast_dp501.c:223:8: note: Assuming field 'dp501_fw' i=
+s null
+                           if (!ast->dp501_fw &&
+                               ^~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:223:8: note: Left side of '&&' is true
+   drivers/gpu/drm/ast/ast_dp501.c:224:8: note: Calling 'ast_load_dp501_mic=
+rocode'
+                               ast_load_dp501_microcode(dev) < 0)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/ast/ast_dp501.c:25:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/ast/ast_dp501.c:25:2: note: Taking false branch
+           if (ret)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/bluetooth/msft.c:734:12: note: Field 'evt_prefix_len' is <=3D 0
-           if (msft->evt_prefix_len > 0) {
-                     ^
-   net/bluetooth/msft.c:734:2: note: '?' condition is false
-           if (msft->evt_prefix_len > 0) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/bluetooth/msft.c:734:2: note: Taking false branch
-           if (msft->evt_prefix_len > 0) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+   drivers/gpu/drm/ast/ast_dp501.c:28:9: note: Calling 'devm_add_action_or_=
+reset'
+           return devm_add_action_or_reset(dev->dev, ast_release_firmware, =
+ast);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/linux/device.h:254:6: note: Assuming 'ret' is not equal to 0
 
-vim +222 net/bluetooth/msft.c
+vim +1232 drivers/gpu/drm/ast/ast_mode.c
 
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  214  =
+312fec1405dd54 Dave Airlie       2012-02-29  1204  =
 
-70532b5d55db00 Manish Mandlik         2022-01-11  215  /* This function req=
-uires the caller holds hdev->lock */
-70532b5d55db00 Manish Mandlik         2022-01-11  216  static int msft_moni=
-tor_device_del(struct hci_dev *hdev, __u16 mgmt_handle,
-70532b5d55db00 Manish Mandlik         2022-01-11  217  				   bdaddr_t *bda=
-ddr, __u8 addr_type)
-70532b5d55db00 Manish Mandlik         2022-01-11  218  {
-70532b5d55db00 Manish Mandlik         2022-01-11  219  	struct monitored_de=
-vice *dev, *tmp;
-70532b5d55db00 Manish Mandlik         2022-01-11  220  	int count =3D 0;
-70532b5d55db00 Manish Mandlik         2022-01-11  221  =
+4961eb60f14553 Thomas Zimmermann 2019-11-07  1205  /*
+4961eb60f14553 Thomas Zimmermann 2019-11-07  1206   * Connector
+4961eb60f14553 Thomas Zimmermann 2019-11-07  1207   */
+4961eb60f14553 Thomas Zimmermann 2019-11-07  1208  =
 
-70532b5d55db00 Manish Mandlik         2022-01-11 @222  	list_for_each_entry=
-_safe(dev, tmp, &hdev->monitored_devices, list) {
-70532b5d55db00 Manish Mandlik         2022-01-11  223  		/* mgmt_handle =3D=
-=3D 0 indicates remove all devices, whereas,
-70532b5d55db00 Manish Mandlik         2022-01-11  224  		 * bdaddr =3D=3D N=
-ULL indicates remove all devices matching the
-70532b5d55db00 Manish Mandlik         2022-01-11  225  		 * mgmt_handle.
-70532b5d55db00 Manish Mandlik         2022-01-11  226  		 */
-70532b5d55db00 Manish Mandlik         2022-01-11  227  		if ((!mgmt_handle =
-|| dev->handle =3D=3D mgmt_handle) &&
-70532b5d55db00 Manish Mandlik         2022-01-11  228  		    (!bdaddr || (!=
-bacmp(bdaddr, &dev->bdaddr) &&
-70532b5d55db00 Manish Mandlik         2022-01-11  229  				 addr_type =3D=
-=3D dev->addr_type))) {
-70532b5d55db00 Manish Mandlik         2022-01-11  230  			list_del(&dev->li=
-st);
-70532b5d55db00 Manish Mandlik         2022-01-11  231  			kfree(dev);
-70532b5d55db00 Manish Mandlik         2022-01-11  232  			count++;
-70532b5d55db00 Manish Mandlik         2022-01-11  233  		}
-70532b5d55db00 Manish Mandlik         2022-01-11  234  	}
-70532b5d55db00 Manish Mandlik         2022-01-11  235  =
+312fec1405dd54 Dave Airlie       2012-02-29  1209  static int ast_get_modes=
+(struct drm_connector *connector)
+312fec1405dd54 Dave Airlie       2012-02-29  1210  {
+312fec1405dd54 Dave Airlie       2012-02-29  1211  	struct ast_connector *a=
+st_connector =3D to_ast_connector(connector);
+fa7dbd7688849d Thomas Zimmermann 2020-06-17  1212  	struct ast_private *ast=
+ =3D to_ast_private(connector->dev);
+55dc449a7c60d3 Thomas Zimmermann 2021-12-06  1213  	struct edid *edid =3D N=
+ULL;
+83c6620bae3f14 Dave Airlie       2014-03-28  1214  	bool flags =3D false;
+55dc449a7c60d3 Thomas Zimmermann 2021-12-06  1215  	int ret;
+6c9bd4432b2527 Gregory Williams  2021-07-30  1216  =
 
-70532b5d55db00 Manish Mandlik         2022-01-11  236  	return count;
-70532b5d55db00 Manish Mandlik         2022-01-11  237  }
-70532b5d55db00 Manish Mandlik         2022-01-11  238  =
+83c6620bae3f14 Dave Airlie       2014-03-28  1217  	if (ast->tx_chip_type =
+=3D=3D AST_TX_DP501) {
+83c6620bae3f14 Dave Airlie       2014-03-28  1218  		ast->dp501_maxclk =3D =
+0xff;
+83c6620bae3f14 Dave Airlie       2014-03-28  1219  		edid =3D kmalloc(128, =
+GFP_KERNEL);
+83c6620bae3f14 Dave Airlie       2014-03-28  1220  		if (!edid)
+83c6620bae3f14 Dave Airlie       2014-03-28  1221  			return -ENOMEM;
+312fec1405dd54 Dave Airlie       2012-02-29  1222  =
 
+83c6620bae3f14 Dave Airlie       2014-03-28  1223  		flags =3D ast_dp501_re=
+ad_edid(connector->dev, (u8 *)edid);
+83c6620bae3f14 Dave Airlie       2014-03-28  1224  		if (flags)
+83c6620bae3f14 Dave Airlie       2014-03-28  1225  			ast->dp501_maxclk =3D=
+ ast_get_dp501_max_clk(connector->dev);
+83c6620bae3f14 Dave Airlie       2014-03-28  1226  		else
+83c6620bae3f14 Dave Airlie       2014-03-28  1227  			kfree(edid);
+83c6620bae3f14 Dave Airlie       2014-03-28  1228  	}
+55dc449a7c60d3 Thomas Zimmermann 2021-12-06  1229  	if (!flags && ast_conne=
+ctor->i2c)
+312fec1405dd54 Dave Airlie       2012-02-29  1230  		edid =3D drm_get_edid(=
+connector, &ast_connector->i2c->adapter);
+312fec1405dd54 Dave Airlie       2012-02-29  1231  	if (edid) {
+c555f02371c338 Daniel Vetter     2018-07-09 @1232  		drm_connector_update_e=
+did_property(&ast_connector->base, edid);
+312fec1405dd54 Dave Airlie       2012-02-29  1233  		ret =3D drm_add_edid_m=
+odes(connector, edid);
+993dcb05e47e35 Jani Nikula       2012-08-15  1234  		kfree(edid);
+312fec1405dd54 Dave Airlie       2012-02-29  1235  		return ret;
+6c9bd4432b2527 Gregory Williams  2021-07-30  1236  	}
+c555f02371c338 Daniel Vetter     2018-07-09  1237  	drm_connector_update_ed=
+id_property(&ast_connector->base, NULL);
+312fec1405dd54 Dave Airlie       2012-02-29  1238  	return 0;
+312fec1405dd54 Dave Airlie       2012-02-29  1239  }
+312fec1405dd54 Dave Airlie       2012-02-29  1240  =
+
+
+:::::: The code at line 1232 was first introduced by commit
+:::::: c555f02371c338b06752577aebf738dbdb6907bd drm: drop _mode_ from updat=
+e_edit_property()
+
+:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8036607963670482404==--
+--===============7186700826931185374==--
 
