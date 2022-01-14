@@ -1,32 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============8472271645008100294=="
+Content-Type: multipart/mixed; boundary="===============3253102915925658893=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 7777/12279] sound/soc/codecs/tlv320adc3xxx.c:416:8: warning: Excessive padding in 'struct adc3xxx_rate_divs' (4 padding bytes, where 0 is optimal).
-Date: Fri, 14 Jan 2022 18:44:50 +0800
-Message-ID: <202201141842.uUtbYUDQ-lkp@intel.com>
+Subject: [pinchartl-media:rpi/next/bcm2835-isp 5/49] drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:246:5: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Fri, 14 Jan 2022 16:22:12 +0800
+Message-ID: <202201141631.O4sw00Gq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8472271645008100294==
+--===============3253102915925658893==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ricard Wanderlof <ricardw@axis.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dave Stevenson <dave.stevenson@raspberrypi.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   468c1d50222ce9439c9835e00ab55ae9ced389fb
-commit: e9a3b57efd28fe889a98171bdc1e9e0dd7eb9a50 [7777/12279] ASoC: codec: =
-tlv320adc3xxx: New codec driver
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 weeks ago
-config: arm-randconfig-c002-20220111 (https://download.01.org/0day-ci/archi=
-ve/20220114/202201141842.uUtbYUDQ-lkp(a)intel.com/config)
+tree:   git://linuxtv.org/pinchartl/media.git rpi/next/bcm2835-isp
+head:   97975aa0732da0e2084ed69d140656c2162bec05
+commit: 0cfa42bcc0795e569f1312e6ef5843c97bd36642 [5/49] staging: vc04_servi=
+ces: Add new vc-sm-cma driver
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: arm-randconfig-c002-20220112 (https://download.01.org/0day-ci/archi=
+ve/20220114/202201141631.O4sw00Gq-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
 913a43a200f5a6544d424cdc37b771028b)
 reproduce (this is a W=3D1 build):
@@ -35,12 +34,9 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3De9a3b57efd28fe889a98171bdc1e9e0dd7eb9a50
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout e9a3b57efd28fe889a98171bdc1e9e0dd7eb9a50
+        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
+        git fetch --no-tags pinchartl-media rpi/next/bcm2835-isp
+        git checkout 0cfa42bcc0795e569f1312e6ef5843c97bd36642
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -51,588 +47,417 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/md/dm-rq.c:163:2: warning: Access to field 'type' results in a d=
-ereference of a null pointer (loaded from field 'ti') [clang-analyzer-core.=
-NullDereference]
-           tio->ti->type->release_clone_rq(clone, NULL);
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
+                   if (avg->avg_avl[i] =3D=3D val)
+                   ^
+   drivers/iio/humidity/hts221_core.c:176:36: note: The value 2 is assigned=
+ to 'i'
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
+                                             ^~~
+   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
+ Entering loop body
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
            ^
-   drivers/md/dm-rq.c:259:6: note: Assuming 'clone' is non-null
-           if (!clone) {
-               ^~~~~~
-   drivers/md/dm-rq.c:259:2: note: Taking false branch
-           if (!clone) {
+   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
+s true
+                   if (avg->avg_avl[i] =3D=3D val)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:177:3: note: Taking true branch
+                   if (avg->avg_avl[i] =3D=3D val)
+                   ^
+   drivers/iio/humidity/hts221_core.c:178:4: note:  Execution continues on =
+line 180
+                           break;
+                           ^
+   drivers/iio/humidity/hts221_core.c:180:6: note: 'i' is not equal to HTS2=
+21_AVG_DEPTH
+           if (i =3D=3D HTS221_AVG_DEPTH)
+               ^
+   drivers/iio/humidity/hts221_core.c:180:2: note: Taking false branch
+           if (i =3D=3D HTS221_AVG_DEPTH)
            ^
-   drivers/md/dm-rq.c:268:6: note: Assuming the condition is false
-           if (rq->rq_flags & RQF_FAILED)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-rq.c:268:2: note: Taking false branch
-           if (rq->rq_flags & RQF_FAILED)
+   drivers/iio/humidity/hts221_core.c:183:13: note: The result of the left =
+shift is undefined due to shifting '2' by '31', which is unrepresentable in=
+ the unsigned version of the return type 'int'
+           data =3D ((i << __ffs(avg->mask)) & avg->mask);
+                    ~ ^
+   drivers/iio/humidity/hts221_core.c:183:13: warning: The result of the le=
+ft shift is undefined due to shifting '3' by '31', which is unrepresentable=
+ in the unsigned version of the return type 'int' [clang-analyzer-core.Unde=
+finedBinaryOperatorResult]
+           data =3D ((i << __ffs(avg->mask)) & avg->mask);
+                      ^
+   drivers/iio/humidity/hts221_core.c:486:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/iio/humidity/hts221_core.c:486:2: note: Taking false branch
+           if (ret)
            ^
-   drivers/md/dm-rq.c:271:2: note: Calling 'dm_done'
-           dm_done(clone, tio->error, mapped);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-rq.c:209:6: note: Assuming field 'ti' is null
-           if (tio->ti) {
-               ^~~~~~~
-   drivers/md/dm-rq.c:209:2: note: Taking false branch
-           if (tio->ti) {
+   drivers/iio/humidity/hts221_core.c:489:2: note: Control jumps to 'case I=
+IO_CHAN_INFO_OVERSAMPLING_RATIO:'  at line 493
+           switch (mask) {
            ^
-   drivers/md/dm-rq.c:216:15: note: Assuming 'error' is not equal to 5
-           if (unlikely(error =3D=3D BLK_STS_TARGET)) {
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   drivers/md/dm-rq.c:216:15: note: 'error' is not equal to 5
-           if (unlikely(error =3D=3D BLK_STS_TARGET)) {
-                        ^
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
-k__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   drivers/md/dm-rq.c:216:2: note: Taking false branch
-           if (unlikely(error =3D=3D BLK_STS_TARGET)) {
+   drivers/iio/humidity/hts221_core.c:494:3: note: Control jumps to 'case I=
+IO_TEMP:'  at line 498
+                   switch (chan->type) {
+                   ^
+   drivers/iio/humidity/hts221_core.c:499:10: note: Calling 'hts221_update_=
+avg'
+                           ret =3D hts221_update_avg(hw, HTS221_SENSOR_T, v=
+al);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
+ Entering loop body
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
            ^
-   drivers/md/dm-rq.c:228:2: note: Control jumps to 'case 0:'  at line 229
-           switch (r) {
+   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
+s false
+                   if (avg->avg_avl[i] =3D=3D val)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
+                   if (avg->avg_avl[i] =3D=3D val)
+                   ^
+   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
+ Entering loop body
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
            ^
-   drivers/md/dm-rq.c:231:3: note: Calling 'dm_end_request'
-                   dm_end_request(clone, error);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-rq.c:163:2: note: Access to field 'type' results in a dere=
-ference of a null pointer (loaded from field 'ti')
-           tio->ti->type->release_clone_rq(clone, NULL);
-           ^    ~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> sound/soc/codecs/tlv320adc3xxx.c:416:8: warning: Excessive padding in 's=
-truct adc3xxx_rate_divs' (4 padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   mclk, =
-
-   rate, =
-
-   pll_d, =
-
-   pll_p, =
-
-   pll_r, =
-
-   pll_j, =
-
-   nadc, =
-
-   madc, =
-
-   aosr, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct adc3xxx_rate_divs {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/tlv320adc3xxx.c:416:8: note: Excessive padding in 'stru=
-ct adc3xxx_rate_divs' (4 padding bytes, where 0 is optimal). Optimal fields=
- order: mclk, rate, pll_d, pll_p, pll_r, pll_j, nadc, madc, aosr, consider =
-reordering the fields or adding explicit padding members
-   struct adc3xxx_rate_divs {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/soc/fsl/fsl_asrc.c:959:17: warning: Value stored to 'dev' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &asrc->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   sound/soc/fsl/fsl_asrc.c:959:17: note: Value stored to 'dev' during its =
-initialization is never read
-           struct device *dev =3D &asrc->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
+s false
+                   if (avg->avg_avl[i] =3D=3D val)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
+                   if (avg->avg_avl[i] =3D=3D val)
+                   ^
+   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
+ Entering loop body
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
+           ^
+   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
+s false
+                   if (avg->avg_avl[i] =3D=3D val)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
+                   if (avg->avg_avl[i] =3D=3D val)
+                   ^
+   drivers/iio/humidity/hts221_core.c:176:36: note: The value 3 is assigned=
+ to 'i'
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
+                                             ^~~
+   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
+ Entering loop body
+           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
+           ^
+   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
+s true
+                   if (avg->avg_avl[i] =3D=3D val)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/humidity/hts221_core.c:177:3: note: Taking true branch
+                   if (avg->avg_avl[i] =3D=3D val)
+                   ^
+   drivers/iio/humidity/hts221_core.c:178:4: note:  Execution continues on =
+line 180
+                           break;
+                           ^
+   drivers/iio/humidity/hts221_core.c:180:6: note: 'i' is not equal to HTS2=
+21_AVG_DEPTH
+           if (i =3D=3D HTS221_AVG_DEPTH)
+               ^
+   drivers/iio/humidity/hts221_core.c:180:2: note: Taking false branch
+           if (i =3D=3D HTS221_AVG_DEPTH)
+           ^
+   drivers/iio/humidity/hts221_core.c:183:13: note: The result of the left =
+shift is undefined due to shifting '3' by '31', which is unrepresentable in=
+ the unsigned version of the return type 'int'
+           data =3D ((i << __ffs(avg->mask)) & avg->mask);
+                    ~ ^
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   drivers/target/target_core_rd.c:95:2: warning: Value stored to 'page_cou=
-nt' is never read [clang-analyzer-deadcode.DeadStores]
-           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_table_arr=
-ay,
-           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_rd.c:95:2: note: Value stored to 'page_count'=
- is never read
-           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_table_arr=
-ay,
-           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_rd.c:221:2: warning: Value stored to 'page_co=
-unt' is never read [clang-analyzer-deadcode.DeadStores]
-           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_prot_arra=
-y,
-           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_rd.c:221:2: note: Value stored to 'page_count=
-' is never read
-           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_prot_arra=
-y,
-           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/target/target_core_stat.c:226:5: warning: Null pointer passed as=
- 1st argument to string length function [clang-analyzer-unix.cstring.NullAr=
-g]
-                           (strlen(dev->t10_wwn.unit_serial)) ?
-                            ^      ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_stat.c:226:5: note: Null pointer passed as 1s=
-t argument to string length function
-                           (strlen(dev->t10_wwn.unit_serial)) ?
-                            ^      ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/ata/libata-core.c:92:8: warning: Excessive padding in 'struct at=
-a_force_param' (4 padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   name, =
-
-   xfer_mask, =
-
-   horkage_on, =
-
-   horkage_off, =
-
-   lflags, =
-
-   cbl, =
-
-   spd_limit, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ata_force_param {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:92:8: note: Excessive padding in 'struct ata_f=
-orce_param' (4 padding bytes, where 0 is optimal). Optimal fields order: na=
-me, xfer_mask, horkage_on, horkage_off, lflags, cbl, spd_limit, consider re=
-ordering the fields or adding explicit padding members
-   struct ata_force_param {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5570:18: warning: Access to field 'pio_mask' r=
-esults in a dereference of a null pointer (loaded from variable 'pi') [clan=
-g-analyzer-core.NullDereference]
-                   ap->pio_mask =3D pi->pio_mask;
-                                  ^~
-   drivers/ata/libata-core.c:5561:6: note: Assuming 'host' is non-null
-           if (!host)
-               ^~~~~
-   drivers/ata/libata-core.c:5561:2: note: Taking false branch
-           if (!host)
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:246:5: warning:=
+ Use of memory after it is freed [clang-analyzer-unix.Malloc]
+                                   vc_sm_cma_vchi_rx_ack(instance, cmd, rep=
+ly,
+                                   ^                               ~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:188:2: note: Lo=
+op condition is true.  Entering loop body
+           while (1) {
            ^
-   drivers/ata/libata-core.c:5564:21: note: Null pointer value stored to 'p=
-i'
-           for (i =3D 0, j =3D 0, pi =3D NULL; i < host->n_ports; i++) {
-                              ^~~~~~~~~
-   drivers/ata/libata-core.c:5564:32: note: Assuming 'i' is < field 'n_port=
-s'
-           for (i =3D 0, j =3D 0, pi =3D NULL; i < host->n_ports; i++) {
-                                         ^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5564:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0, j =3D 0, pi =3D NULL; i < host->n_ports; i++) {
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:189:7: note: 's=
+vc_use' is 1
+                   if (svc_use)
+                       ^~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:189:3: note: Ta=
+king true branch
+                   if (svc_use)
+                   ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:193:7: note: As=
+suming the condition is false
+                   if (wait_for_completion_interruptible(&instance->io_cmpl=
+t))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:193:3: note: Ta=
+king false branch
+                   if (wait_for_completion_interruptible(&instance->io_cmpl=
+t))
+                   ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:8: note: As=
+suming the condition is false
+                           if (list_empty(&instance->cmd_list)) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:4: note: Ta=
+king false branch
+                           if (list_empty(&instance->cmd_list)) {
+                           ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:217:8: note: As=
+suming 'status' is 0
+                           if (status) {
+                               ^~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:217:4: note: Ta=
+king false branch
+                           if (status) {
+                           ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:223:8: note: As=
+suming field 'wait' is 0
+                           if (!cmd->wait) {
+                               ^~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:223:4: note: Ta=
+king true branch
+                           if (!cmd->wait) {
+                           ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:227:5: note: Ca=
+lling 'vc_vchi_cmd_delete'
+                                   vc_vchi_cmd_delete(instance, cmd);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:138:6: note: As=
+suming field 'alloc' is not equal to 0
+           if (blk->alloc) {
+               ^~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:138:2: note: Ta=
+king true branch
+           if (blk->alloc) {
            ^
---
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:139:3: note: Me=
+mory is released
+                   kfree(blk);
+                   ^~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:227:5: note: Re=
+turning; memory was released via 2nd parameter
+                                   vc_vchi_cmd_delete(instance, cmd);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:228:5: note:  E=
+xecution continues on line 236
+                                   continue;
+                                   ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:198:3: note: Lo=
+op condition is true. Execution continues on line 202
+                   do {
+                   ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:8: note: As=
+suming the condition is true
+                           if (list_empty(&instance->cmd_list)) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:4: note: Ta=
+king true branch
+                           if (list_empty(&instance->cmd_list)) {
+                           ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:206:5: note:  E=
+xecution continues on line 238
+                                   break;
+                                   ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:238:3: note: Lo=
+op condition is true.  Entering loop body
+                   while ((header =3D vchiq_msg_hold(instance->service_hand=
+le[0]))) {
+                   ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:240:8: note: As=
+suming the condition is false
+                           if (reply->trans_id & 0x80000000) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:240:4: note: Ta=
+king false branch
+                           if (reply->trans_id & 0x80000000) {
+                           ^
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:246:5: note: Us=
+e of memory after it is freed
+                                   vc_sm_cma_vchi_rx_ack(instance, cmd, rep=
+ly,
+                                   ^                               ~~~
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/media/v4l2-core/v4l2-async.c:447:17: warning: Value stored to 'd=
-ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           struct device *dev =3D
-                          ^~~
-   drivers/media/v4l2-core/v4l2-async.c:447:17: note: Value stored to 'dev'=
- during its initialization is never read
-           struct device *dev =3D
-                          ^~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/soc/codecs/tas2562.c:69:23: warning: Value stored to 'tas2562' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct tas2562_data *tas2562 =3D
-                                ^~~~~~~
-   sound/soc/codecs/tas2562.c:69:23: note: Value stored to 'tas2562' during=
- its initialization is never read
-           struct tas2562_data *tas2562 =3D
-                                ^~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> sound/soc/codecs/tlv320adc3xxx.c:416:8: warning: Excessive padding in 's=
-truct adc3xxx_rate_divs' (4 padding bytes, where 0 is optimal). =
+   16 warnings generated.
+   drivers/media/usb/stk1160/stk1160-video.c:31:3: warning: Value stored to=
+ 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
+                   errmsg =3D "unlinked synchronously";
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/stk1160/stk1160-video.c:31:3: note: Value stored to 'e=
+rrmsg' is never read
+                   errmsg =3D "unlinked synchronously";
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/stk1160/stk1160-video.c:34:3: warning: Value stored to=
+ 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
+                   errmsg =3D "unlinked asynchronously";
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/stk1160/stk1160-video.c:34:3: note: Value stored to 'e=
+rrmsg' is never read
+                   errmsg =3D "unlinked asynchronously";
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/stk1160/stk1160-video.c:37:3: warning: Value stored to=
+ 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
+                   errmsg =3D "Buffer error (overrun)";
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/stk1160/stk1160-video.c:37:3: note: Value stored to 'e=
+rrmsg' is never read
+                   errmsg =3D "Buffer error (overrun)";
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/stk1160/stk1160-video.c:40:3: warning: Value stored to=
+ 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
+                   errmsg =3D "Stalled (device not responding)";
 
-   Optimal fields order: =
+vim +246 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
 
-   mclk, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  178  =
 
-   rate, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  179  static int vc_sm_cma_vchi_vi=
+deocore_io(void *arg)
+0cfa42bcc0795e Dave Stevenson 2020-10-08  180  {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  181  	struct sm_instance *instanc=
+e =3D arg;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  182  	struct sm_cmd_rsp_blk *cmd =
+=3D NULL, *cmd_tmp;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  183  	struct vc_sm_result_t *repl=
+y;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  184  	struct vchiq_header *header;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  185  	s32 status;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  186  	int svc_use =3D 1;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  187  =
 
-   pll_d, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  188  	while (1) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  189  		if (svc_use)
+0cfa42bcc0795e Dave Stevenson 2020-10-08  190  			vchiq_release_service(ins=
+tance->service_handle[0]);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  191  		svc_use =3D 0;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  192  =
 
-   pll_p, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  193  		if (wait_for_completion_in=
+terruptible(&instance->io_cmplt))
+0cfa42bcc0795e Dave Stevenson 2020-10-08  194  			continue;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  195  		vchiq_use_service(instance=
+->service_handle[0]);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  196  		svc_use =3D 1;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  197  =
 
-   pll_r, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  198  		do {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  199  			/*
+0cfa42bcc0795e Dave Stevenson 2020-10-08  200  			 * Get new command and mo=
+ve it to response list
+0cfa42bcc0795e Dave Stevenson 2020-10-08  201  			 */
+0cfa42bcc0795e Dave Stevenson 2020-10-08  202  			mutex_lock(&instance->loc=
+k);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  203  			if (list_empty(&instance-=
+>cmd_list)) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  204  				/* no more commands to p=
+rocess */
+0cfa42bcc0795e Dave Stevenson 2020-10-08  205  				mutex_unlock(&instance->=
+lock);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  206  				break;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  207  			}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  208  			cmd =3D list_first_entry(=
+&instance->cmd_list,
+0cfa42bcc0795e Dave Stevenson 2020-10-08  209  					       struct sm_cmd_rs=
+p_blk, head);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  210  			list_move(&cmd->head, &in=
+stance->rsp_list);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  211  			cmd->sent =3D 1;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  212  			mutex_unlock(&instance->l=
+ock);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  213  			/* Send the command */
+0cfa42bcc0795e Dave Stevenson 2020-10-08  214  			status =3D
+0cfa42bcc0795e Dave Stevenson 2020-10-08  215  				bcm2835_vchi_msg_queue(i=
+nstance->service_handle[0],
+0cfa42bcc0795e Dave Stevenson 2020-10-08  216  						       cmd->msg, cmd->=
+length);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  217  			if (status) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  218  				pr_err("%s: failed to qu=
+eue message (%d)",
+0cfa42bcc0795e Dave Stevenson 2020-10-08  219  				       __func__, status);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  220  			}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  221  =
 
-   pll_j, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  222  			/* If no reply is needed =
+then we're done */
+0cfa42bcc0795e Dave Stevenson 2020-10-08  223  			if (!cmd->wait) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  224  				mutex_lock(&instance->lo=
+ck);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  225  				list_del(&cmd->head);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  226  				mutex_unlock(&instance->=
+lock);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  227  				vc_vchi_cmd_delete(insta=
+nce, cmd);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  228  				continue;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  229  			}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  230  =
 
-   nadc, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  231  			if (status) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  232  				complete(&cmd->cmplt);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  233  				continue;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  234  			}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  235  =
 
-   madc, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  236  		} while (1);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  237  =
 
-   aosr, =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  238  		while ((header =3D vchiq_m=
+sg_hold(instance->service_handle[0]))) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  239  			reply =3D (struct vc_sm_r=
+esult_t *)header->data;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  240  			if (reply->trans_id & 0x8=
+0000000) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  241  				/* Async event or cmd fr=
+om the VPU */
+0cfa42bcc0795e Dave Stevenson 2020-10-08  242  				if (instance->vpu_event)
+0cfa42bcc0795e Dave Stevenson 2020-10-08  243  					instance->vpu_event(ins=
+tance, reply,
+0cfa42bcc0795e Dave Stevenson 2020-10-08  244  							    header->size);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  245  			} else {
+0cfa42bcc0795e Dave Stevenson 2020-10-08 @246  				vc_sm_cma_vchi_rx_ack(in=
+stance, cmd, reply,
+0cfa42bcc0795e Dave Stevenson 2020-10-08  247  						      header->size);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  248  			}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  249  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct adc3xxx_rate_divs {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/tlv320adc3xxx.c:416:8: note: Excessive padding in 'stru=
-ct adc3xxx_rate_divs' (4 padding bytes, where 0 is optimal). Optimal fields=
- order: mclk, rate, pll_d, pll_p, pll_r, pll_j, nadc, madc, aosr, consider =
-reordering the fields or adding explicit padding members
-   struct adc3xxx_rate_divs {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/ata/pdc_adma.c:356:2: warning: Value stored to 'i' is never read=
- [clang-analyzer-deadcode.DeadStores]
-           i =3D adma_fill_sg(qc);
-           ^   ~~~~~~~~~~~~~~~~
-   drivers/ata/pdc_adma.c:356:2: note: Value stored to 'i' is never read
-           i =3D adma_fill_sg(qc);
-           ^   ~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/ata/sata_sx4.c:1326:8: warning: Although the value stored to 'sp=
-eed' is used in the enclosing expression, the value is never actually read =
-from 'speed' [clang-analyzer-deadcode.DeadStores]
-           if (!(speed =3D pdc20621_detect_dimm(host))) {
-                 ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/sata_sx4.c:1326:8: note: Although the value stored to 'speed=
-' is used in the enclosing expression, the value is never actually read fro=
-m 'speed'
-           if (!(speed =3D pdc20621_detect_dimm(host))) {
-                 ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/mmc/host/via-sdmmc.c:334:16: warning: Value stored to 'addrbase'=
- during its initialization is never read [clang-analyzer-deadcode.DeadStore=
-s]
-           void __iomem *addrbase =3D host->sdhc_mmiobase;
-                         ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/via-sdmmc.c:334:16: note: Value stored to 'addrbase' du=
-ring its initialization is never read
-           void __iomem *addrbase =3D host->sdhc_mmiobase;
-                         ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/via-sdmmc.c:353:16: warning: Value stored to 'addrbase'=
- during its initialization is never read [clang-analyzer-deadcode.DeadStore=
-s]
-           void __iomem *addrbase =3D host->pcictrl_mmiobase;
-                         ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/via-sdmmc.c:353:16: note: Value stored to 'addrbase' du=
-ring its initialization is never read
-           void __iomem *addrbase =3D host->pcictrl_mmiobase;
-                         ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/ext4/super.c:4974:4: warning: Value stored to 'descr' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                           descr =3D " journalled data mode";
-                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/super.c:4974:4: note: Value stored to 'descr' is never read
-                           descr =3D " journalled data mode";
-                           ^       ~~~~~~~~~~~~~~~~~~~~~~~
+0cfa42bcc0795e Dave Stevenson 2020-10-08  250  			vchiq_release_message(ins=
+tance->service_handle[0],
+0cfa42bcc0795e Dave Stevenson 2020-10-08  251  					      header);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  252  		}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  253  =
 
-vim +416 sound/soc/codecs/tlv320adc3xxx.c
+0cfa42bcc0795e Dave Stevenson 2020-10-08  254  		/* Go through the dead lis=
+t and free them */
+0cfa42bcc0795e Dave Stevenson 2020-10-08  255  		mutex_lock(&instance->lock=
+);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  256  		list_for_each_entry_safe(c=
+md, cmd_tmp, &instance->dead_list,
+0cfa42bcc0795e Dave Stevenson 2020-10-08  257  					 head) {
+0cfa42bcc0795e Dave Stevenson 2020-10-08  258  			list_del(&cmd->head);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  259  			vc_vchi_cmd_delete(instan=
+ce, cmd);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  260  		}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  261  		mutex_unlock(&instance->lo=
+ck);
+0cfa42bcc0795e Dave Stevenson 2020-10-08  262  	}
+0cfa42bcc0795e Dave Stevenson 2020-10-08  263  =
 
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  415  =
-
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15 @416  struct adc3xxx_rate_divs {
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  417  	u32 mclk;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  418  	u32 rate;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  419  	u8 pll_p;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  420  	u8 pll_r;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  421  	u8 pll_j;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  422  	u16 pll_d;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  423  	u8 nadc;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  424  	u8 madc;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  425  	u8 aosr;
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  426  };
-e9a3b57efd28fe Ricard Wanderlof 2021-12-15  427  =
+0cfa42bcc0795e Dave Stevenson 2020-10-08  264  	return 0;
+0cfa42bcc0795e Dave Stevenson 2020-10-08  265  }
+0cfa42bcc0795e Dave Stevenson 2020-10-08  266  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8472271645008100294==--
+--===============3253102915925658893==--
 
