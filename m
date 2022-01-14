@@ -1,45 +1,69 @@
-Content-Type: multipart/mixed; boundary="===============3253102915925658893=="
+Content-Type: multipart/mixed; boundary="===============8036607963670482404=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [pinchartl-media:rpi/next/bcm2835-isp 5/49] drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:246:5: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Fri, 14 Jan 2022 16:22:12 +0800
-Message-ID: <202201141631.O4sw00Gq-lkp@intel.com>
+Subject: Re: [PATCH v10 1/2] bluetooth: msft: Handle MSFT Monitor Device Event
+Date: Fri, 14 Jan 2022 15:58:36 +0800
+Message-ID: <202201141502.K9VxPX1a-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3253102915925658893==
+--===============8036607963670482404==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20220111081048.v10.1.Ic0a40b84dee3825302890aaea690e73165c7182=
+0@changeid>
+References: <20220111081048.v10.1.Ic0a40b84dee3825302890aaea690e73165c71820=
+@changeid>
+TO: Manish Mandlik <mmandlik@google.com>
+TO: marcel(a)holtmann.org
+TO: luiz.dentz(a)gmail.com
+CC: linux-bluetooth(a)vger.kernel.org
+CC: chromeos-bluetooth-upstreaming(a)chromium.org
+CC: Manish Mandlik <mmandlik@google.com>
+CC: "Miao-chen Chou" <mcchou@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Johan Hedberg <johan.hedberg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Dave Stevenson <dave.stevenson@raspberrypi.com>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: netdev(a)vger.kernel.org
 
-tree:   git://linuxtv.org/pinchartl/media.git rpi/next/bcm2835-isp
-head:   97975aa0732da0e2084ed69d140656c2162bec05
-commit: 0cfa42bcc0795e569f1312e6ef5843c97bd36642 [5/49] staging: vc04_servi=
-ces: Add new vc-sm-cma driver
+Hi Manish,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on next-20220113]
+[cannot apply to bluetooth/master v5.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Manish-Mandlik/bluetooth-m=
+sft-Handle-MSFT-Monitor-Device-Event/20220112-001634
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
+-next.git master
 :::::: branch date: 3 days ago
 :::::: commit date: 3 days ago
-config: arm-randconfig-c002-20220112 (https://download.01.org/0day-ci/archi=
-ve/20220114/202201141631.O4sw00Gq-lkp(a)intel.com/config)
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+114/202201141502.K9VxPX1a-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
 913a43a200f5a6544d424cdc37b771028b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
-        git fetch --no-tags pinchartl-media rpi/next/bcm2835-isp
-        git checkout 0cfa42bcc0795e569f1312e6ef5843c97bd36642
+        # https://github.com/0day-ci/linux/commit/70532b5d55db00ce650dedd8f=
+8dceece7a705dc5
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Manish-Mandlik/bluetooth-msft-Hand=
+le-MSFT-Monitor-Device-Event/20220112-001634
+        git checkout 70532b5d55db00ce650dedd8f8dceece7a705dc5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -47,417 +71,313 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
-                   if (avg->avg_avl[i] =3D=3D val)
-                   ^
-   drivers/iio/humidity/hts221_core.c:176:36: note: The value 2 is assigned=
- to 'i'
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
-                                             ^~~
-   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
-s true
-                   if (avg->avg_avl[i] =3D=3D val)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:177:3: note: Taking true branch
-                   if (avg->avg_avl[i] =3D=3D val)
+   drivers/target/target_core_fabric_configfs.c:1009:2: note: Taking false =
+branch
+           if (kstrtoint(page, 0, &compl_val))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/target/target_core_fabric_configfs.c:1012:2: note: Control jumps=
+ to the 'default' case at line 1019
+           switch (compl_val) {
+           ^
+   drivers/target/target_core_fabric_configfs.c:1020:7: note: Assuming 'com=
+pl_val' is >=3D 0
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
+'||' is false
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                       ^
+   drivers/target/target_core_fabric_configfs.c:1020:24: note: Assuming 'co=
+mpl_val' is < 1
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
+'||' is false
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                       ^
+   drivers/target/target_core_fabric_configfs.c:1020:3: note: '?' condition=
+ is false
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
                    ^
-   drivers/iio/humidity/hts221_core.c:178:4: note:  Execution continues on =
-line 180
-                           break;
-                           ^
-   drivers/iio/humidity/hts221_core.c:180:6: note: 'i' is not equal to HTS2=
-21_AVG_DEPTH
-           if (i =3D=3D HTS221_AVG_DEPTH)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/target/target_core_fabric_configfs.c:1020:7: note: 'compl_val' i=
+s >=3D 0
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
+'||' is false
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                       ^
+   drivers/target/target_core_fabric_configfs.c:1020:24: note: 'compl_val' =
+is < 1
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/target/target_core_fabric_configfs.c:1020:7: note: Left side of =
+'||' is false
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                       ^
+   drivers/target/target_core_fabric_configfs.c:1020:3: note: '?' condition=
+ is false
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/target/target_core_fabric_configfs.c:1020:3: note: Taking false =
+branch
+                   if (compl_val < 0 || compl_val >=3D nr_cpu_ids ||
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/target/target_core_fabric_configfs.c:1027:27: note: Access to fi=
+eld 'cmd_compl_affinity' results in a dereference of a null pointer (loaded=
+ from variable 'wwn')
+                   wwn->cmd_compl_affinity =3D compl_val;
+                   ~~~                     ^
+   5 warnings generated.
+>> net/bluetooth/msft.c:222:2: warning: Use of memory after it is freed [cl=
+ang-analyzer-unix.Malloc]
+           list_for_each_entry_safe(dev, tmp, &hdev->monitored_devices, lis=
+t) {
+           ^
+   include/linux/list.h:718:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^
+   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^
+   net/bluetooth/msft.c:728:6: note: Assuming 'msft' is non-null
+           if (!msft)
                ^
-   drivers/iio/humidity/hts221_core.c:180:2: note: Taking false branch
-           if (i =3D=3D HTS221_AVG_DEPTH)
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/bluetooth/msft.c:728:2: note: '?' condition is false
+           if (!msft)
            ^
-   drivers/iio/humidity/hts221_core.c:183:13: note: The result of the left =
-shift is undefined due to shifting '2' by '31', which is unrepresentable in=
- the unsigned version of the return type 'int'
-           data =3D ((i << __ffs(avg->mask)) & avg->mask);
-                    ~ ^
-   drivers/iio/humidity/hts221_core.c:183:13: warning: The result of the le=
-ft shift is undefined due to shifting '3' by '31', which is unrepresentable=
- in the unsigned version of the return type 'int' [clang-analyzer-core.Unde=
-finedBinaryOperatorResult]
-           data =3D ((i << __ffs(avg->mask)) & avg->mask);
-                      ^
-   drivers/iio/humidity/hts221_core.c:486:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/iio/humidity/hts221_core.c:486:2: note: Taking false branch
-           if (ret)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/bluetooth/msft.c:728:7: note: 'msft' is non-null
+           if (!msft)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/bluetooth/msft.c:728:2: note: '?' condition is false
+           if (!msft)
            ^
-   drivers/iio/humidity/hts221_core.c:489:2: note: Control jumps to 'case I=
-IO_CHAN_INFO_OVERSAMPLING_RATIO:'  at line 493
-           switch (mask) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/iio/humidity/hts221_core.c:494:3: note: Control jumps to 'case I=
-IO_TEMP:'  at line 498
-                   switch (chan->type) {
-                   ^
-   drivers/iio/humidity/hts221_core.c:499:10: note: Calling 'hts221_update_=
-avg'
-                           ret =3D hts221_update_avg(hw, HTS221_SENSOR_T, v=
-al);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
+   net/bluetooth/msft.c:728:2: note: Taking false branch
+           if (!msft)
            ^
-   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
-s false
-                   if (avg->avg_avl[i] =3D=3D val)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
-                   if (avg->avg_avl[i] =3D=3D val)
-                   ^
-   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
-           ^
-   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
-s false
-                   if (avg->avg_avl[i] =3D=3D val)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
-                   if (avg->avg_avl[i] =3D=3D val)
-                   ^
-   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
-           ^
-   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
-s false
-                   if (avg->avg_avl[i] =3D=3D val)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:177:3: note: Taking false branch
-                   if (avg->avg_avl[i] =3D=3D val)
-                   ^
-   drivers/iio/humidity/hts221_core.c:176:36: note: The value 3 is assigned=
- to 'i'
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
-                                             ^~~
-   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
-           ^
-   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
-s true
-                   if (avg->avg_avl[i] =3D=3D val)
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:177:3: note: Taking true branch
-                   if (avg->avg_avl[i] =3D=3D val)
-                   ^
-   drivers/iio/humidity/hts221_core.c:178:4: note:  Execution continues on =
-line 180
-                           break;
-                           ^
-   drivers/iio/humidity/hts221_core.c:180:6: note: 'i' is not equal to HTS2=
-21_AVG_DEPTH
-           if (i =3D=3D HTS221_AVG_DEPTH)
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/bluetooth/msft.c:734:6: note: Assuming field 'evt_prefix_len' is <=
+=3D 0
+           if (msft->evt_prefix_len > 0) {
                ^
-   drivers/iio/humidity/hts221_core.c:180:2: note: Taking false branch
-           if (i =3D=3D HTS221_AVG_DEPTH)
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/bluetooth/msft.c:734:2: note: '?' condition is false
+           if (msft->evt_prefix_len > 0) {
            ^
-   drivers/iio/humidity/hts221_core.c:183:13: note: The result of the left =
-shift is undefined due to shifting '3' by '31', which is unrepresentable in=
- the unsigned version of the return type 'int'
-           data =3D ((i << __ffs(avg->mask)) & avg->mask);
-                    ~ ^
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:246:5: warning:=
- Use of memory after it is freed [clang-analyzer-unix.Malloc]
-                                   vc_sm_cma_vchi_rx_ack(instance, cmd, rep=
-ly,
-                                   ^                               ~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:188:2: note: Lo=
-op condition is true.  Entering loop body
-           while (1) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/bluetooth/msft.c:734:12: note: Field 'evt_prefix_len' is <=3D 0
+           if (msft->evt_prefix_len > 0) {
+                     ^
+   net/bluetooth/msft.c:734:2: note: '?' condition is false
+           if (msft->evt_prefix_len > 0) {
            ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:189:7: note: 's=
-vc_use' is 1
-                   if (svc_use)
-                       ^~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:189:3: note: Ta=
-king true branch
-                   if (svc_use)
-                   ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:193:7: note: As=
-suming the condition is false
-                   if (wait_for_completion_interruptible(&instance->io_cmpl=
-t))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:193:3: note: Ta=
-king false branch
-                   if (wait_for_completion_interruptible(&instance->io_cmpl=
-t))
-                   ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:8: note: As=
-suming the condition is false
-                           if (list_empty(&instance->cmd_list)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:4: note: Ta=
-king false branch
-                           if (list_empty(&instance->cmd_list)) {
-                           ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:217:8: note: As=
-suming 'status' is 0
-                           if (status) {
-                               ^~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:217:4: note: Ta=
-king false branch
-                           if (status) {
-                           ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:223:8: note: As=
-suming field 'wait' is 0
-                           if (!cmd->wait) {
-                               ^~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:223:4: note: Ta=
-king true branch
-                           if (!cmd->wait) {
-                           ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:227:5: note: Ca=
-lling 'vc_vchi_cmd_delete'
-                                   vc_vchi_cmd_delete(instance, cmd);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:138:6: note: As=
-suming field 'alloc' is not equal to 0
-           if (blk->alloc) {
-               ^~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:138:2: note: Ta=
-king true branch
-           if (blk->alloc) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:139:3: note: Me=
-mory is released
-                   kfree(blk);
-                   ^~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:227:5: note: Re=
-turning; memory was released via 2nd parameter
-                                   vc_vchi_cmd_delete(instance, cmd);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:228:5: note:  E=
-xecution continues on line 236
-                                   continue;
-                                   ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:198:3: note: Lo=
-op condition is true. Execution continues on line 202
-                   do {
-                   ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:8: note: As=
-suming the condition is true
-                           if (list_empty(&instance->cmd_list)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:203:4: note: Ta=
-king true branch
-                           if (list_empty(&instance->cmd_list)) {
-                           ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:206:5: note:  E=
-xecution continues on line 238
-                                   break;
-                                   ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:238:3: note: Lo=
-op condition is true.  Entering loop body
-                   while ((header =3D vchiq_msg_hold(instance->service_hand=
-le[0]))) {
-                   ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:240:8: note: As=
-suming the condition is false
-                           if (reply->trans_id & 0x80000000) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:240:4: note: Ta=
-king false branch
-                           if (reply->trans_id & 0x80000000) {
-                           ^
-   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:246:5: note: Us=
-e of memory after it is freed
-                                   vc_sm_cma_vchi_rx_ack(instance, cmd, rep=
-ly,
-                                   ^                               ~~~
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   drivers/media/usb/stk1160/stk1160-video.c:31:3: warning: Value stored to=
- 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
-                   errmsg =3D "unlinked synchronously";
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/stk1160/stk1160-video.c:31:3: note: Value stored to 'e=
-rrmsg' is never read
-                   errmsg =3D "unlinked synchronously";
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/stk1160/stk1160-video.c:34:3: warning: Value stored to=
- 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
-                   errmsg =3D "unlinked asynchronously";
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/stk1160/stk1160-video.c:34:3: note: Value stored to 'e=
-rrmsg' is never read
-                   errmsg =3D "unlinked asynchronously";
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/stk1160/stk1160-video.c:37:3: warning: Value stored to=
- 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
-                   errmsg =3D "Buffer error (overrun)";
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/stk1160/stk1160-video.c:37:3: note: Value stored to 'e=
-rrmsg' is never read
-                   errmsg =3D "Buffer error (overrun)";
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/stk1160/stk1160-video.c:40:3: warning: Value stored to=
- 'errmsg' is never read [clang-analyzer-deadcode.DeadStores]
-                   errmsg =3D "Stalled (device not responding)";
+   net/bluetooth/msft.c:734:2: note: Taking false branch
+           if (msft->evt_prefix_len > 0) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +246 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+vim +222 net/bluetooth/msft.c
 
-0cfa42bcc0795e Dave Stevenson 2020-10-08  178  =
+182ee45da083db Luiz Augusto von Dentz 2021-10-27  214  =
 
-0cfa42bcc0795e Dave Stevenson 2020-10-08  179  static int vc_sm_cma_vchi_vi=
-deocore_io(void *arg)
-0cfa42bcc0795e Dave Stevenson 2020-10-08  180  {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  181  	struct sm_instance *instanc=
-e =3D arg;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  182  	struct sm_cmd_rsp_blk *cmd =
-=3D NULL, *cmd_tmp;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  183  	struct vc_sm_result_t *repl=
-y;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  184  	struct vchiq_header *header;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  185  	s32 status;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  186  	int svc_use =3D 1;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  187  =
+70532b5d55db00 Manish Mandlik         2022-01-11  215  /* This function req=
+uires the caller holds hdev->lock */
+70532b5d55db00 Manish Mandlik         2022-01-11  216  static int msft_moni=
+tor_device_del(struct hci_dev *hdev, __u16 mgmt_handle,
+70532b5d55db00 Manish Mandlik         2022-01-11  217  				   bdaddr_t *bda=
+ddr, __u8 addr_type)
+70532b5d55db00 Manish Mandlik         2022-01-11  218  {
+70532b5d55db00 Manish Mandlik         2022-01-11  219  	struct monitored_de=
+vice *dev, *tmp;
+70532b5d55db00 Manish Mandlik         2022-01-11  220  	int count =3D 0;
+70532b5d55db00 Manish Mandlik         2022-01-11  221  =
 
-0cfa42bcc0795e Dave Stevenson 2020-10-08  188  	while (1) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  189  		if (svc_use)
-0cfa42bcc0795e Dave Stevenson 2020-10-08  190  			vchiq_release_service(ins=
-tance->service_handle[0]);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  191  		svc_use =3D 0;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  192  =
+70532b5d55db00 Manish Mandlik         2022-01-11 @222  	list_for_each_entry=
+_safe(dev, tmp, &hdev->monitored_devices, list) {
+70532b5d55db00 Manish Mandlik         2022-01-11  223  		/* mgmt_handle =3D=
+=3D 0 indicates remove all devices, whereas,
+70532b5d55db00 Manish Mandlik         2022-01-11  224  		 * bdaddr =3D=3D N=
+ULL indicates remove all devices matching the
+70532b5d55db00 Manish Mandlik         2022-01-11  225  		 * mgmt_handle.
+70532b5d55db00 Manish Mandlik         2022-01-11  226  		 */
+70532b5d55db00 Manish Mandlik         2022-01-11  227  		if ((!mgmt_handle =
+|| dev->handle =3D=3D mgmt_handle) &&
+70532b5d55db00 Manish Mandlik         2022-01-11  228  		    (!bdaddr || (!=
+bacmp(bdaddr, &dev->bdaddr) &&
+70532b5d55db00 Manish Mandlik         2022-01-11  229  				 addr_type =3D=
+=3D dev->addr_type))) {
+70532b5d55db00 Manish Mandlik         2022-01-11  230  			list_del(&dev->li=
+st);
+70532b5d55db00 Manish Mandlik         2022-01-11  231  			kfree(dev);
+70532b5d55db00 Manish Mandlik         2022-01-11  232  			count++;
+70532b5d55db00 Manish Mandlik         2022-01-11  233  		}
+70532b5d55db00 Manish Mandlik         2022-01-11  234  	}
+70532b5d55db00 Manish Mandlik         2022-01-11  235  =
 
-0cfa42bcc0795e Dave Stevenson 2020-10-08  193  		if (wait_for_completion_in=
-terruptible(&instance->io_cmplt))
-0cfa42bcc0795e Dave Stevenson 2020-10-08  194  			continue;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  195  		vchiq_use_service(instance=
-->service_handle[0]);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  196  		svc_use =3D 1;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  197  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  198  		do {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  199  			/*
-0cfa42bcc0795e Dave Stevenson 2020-10-08  200  			 * Get new command and mo=
-ve it to response list
-0cfa42bcc0795e Dave Stevenson 2020-10-08  201  			 */
-0cfa42bcc0795e Dave Stevenson 2020-10-08  202  			mutex_lock(&instance->loc=
-k);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  203  			if (list_empty(&instance-=
->cmd_list)) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  204  				/* no more commands to p=
-rocess */
-0cfa42bcc0795e Dave Stevenson 2020-10-08  205  				mutex_unlock(&instance->=
-lock);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  206  				break;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  207  			}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  208  			cmd =3D list_first_entry(=
-&instance->cmd_list,
-0cfa42bcc0795e Dave Stevenson 2020-10-08  209  					       struct sm_cmd_rs=
-p_blk, head);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  210  			list_move(&cmd->head, &in=
-stance->rsp_list);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  211  			cmd->sent =3D 1;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  212  			mutex_unlock(&instance->l=
-ock);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  213  			/* Send the command */
-0cfa42bcc0795e Dave Stevenson 2020-10-08  214  			status =3D
-0cfa42bcc0795e Dave Stevenson 2020-10-08  215  				bcm2835_vchi_msg_queue(i=
-nstance->service_handle[0],
-0cfa42bcc0795e Dave Stevenson 2020-10-08  216  						       cmd->msg, cmd->=
-length);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  217  			if (status) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  218  				pr_err("%s: failed to qu=
-eue message (%d)",
-0cfa42bcc0795e Dave Stevenson 2020-10-08  219  				       __func__, status);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  220  			}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  221  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  222  			/* If no reply is needed =
-then we're done */
-0cfa42bcc0795e Dave Stevenson 2020-10-08  223  			if (!cmd->wait) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  224  				mutex_lock(&instance->lo=
-ck);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  225  				list_del(&cmd->head);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  226  				mutex_unlock(&instance->=
-lock);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  227  				vc_vchi_cmd_delete(insta=
-nce, cmd);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  228  				continue;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  229  			}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  230  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  231  			if (status) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  232  				complete(&cmd->cmplt);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  233  				continue;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  234  			}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  235  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  236  		} while (1);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  237  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  238  		while ((header =3D vchiq_m=
-sg_hold(instance->service_handle[0]))) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  239  			reply =3D (struct vc_sm_r=
-esult_t *)header->data;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  240  			if (reply->trans_id & 0x8=
-0000000) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  241  				/* Async event or cmd fr=
-om the VPU */
-0cfa42bcc0795e Dave Stevenson 2020-10-08  242  				if (instance->vpu_event)
-0cfa42bcc0795e Dave Stevenson 2020-10-08  243  					instance->vpu_event(ins=
-tance, reply,
-0cfa42bcc0795e Dave Stevenson 2020-10-08  244  							    header->size);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  245  			} else {
-0cfa42bcc0795e Dave Stevenson 2020-10-08 @246  				vc_sm_cma_vchi_rx_ack(in=
-stance, cmd, reply,
-0cfa42bcc0795e Dave Stevenson 2020-10-08  247  						      header->size);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  248  			}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  249  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  250  			vchiq_release_message(ins=
-tance->service_handle[0],
-0cfa42bcc0795e Dave Stevenson 2020-10-08  251  					      header);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  252  		}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  253  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  254  		/* Go through the dead lis=
-t and free them */
-0cfa42bcc0795e Dave Stevenson 2020-10-08  255  		mutex_lock(&instance->lock=
-);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  256  		list_for_each_entry_safe(c=
-md, cmd_tmp, &instance->dead_list,
-0cfa42bcc0795e Dave Stevenson 2020-10-08  257  					 head) {
-0cfa42bcc0795e Dave Stevenson 2020-10-08  258  			list_del(&cmd->head);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  259  			vc_vchi_cmd_delete(instan=
-ce, cmd);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  260  		}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  261  		mutex_unlock(&instance->lo=
-ck);
-0cfa42bcc0795e Dave Stevenson 2020-10-08  262  	}
-0cfa42bcc0795e Dave Stevenson 2020-10-08  263  =
-
-0cfa42bcc0795e Dave Stevenson 2020-10-08  264  	return 0;
-0cfa42bcc0795e Dave Stevenson 2020-10-08  265  }
-0cfa42bcc0795e Dave Stevenson 2020-10-08  266  =
+70532b5d55db00 Manish Mandlik         2022-01-11  236  	return count;
+70532b5d55db00 Manish Mandlik         2022-01-11  237  }
+70532b5d55db00 Manish Mandlik         2022-01-11  238  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3253102915925658893==--
+--===============8036607963670482404==--
 
