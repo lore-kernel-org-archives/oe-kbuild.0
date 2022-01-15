@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3067056116947427822=="
+Content-Type: multipart/mixed; boundary="===============6897815785530698984=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pinctrl/qcom/pinctrl-sc8180x.c:1664:16: warning: Access to field 'start' results in a dereference of an undefined pointer value (loaded from variable 'mres') [clang-analyzer-core.NullDereference]
-Date: Fri, 21 Jan 2022 13:25:02 +0800
-Message-ID: <202201211317.RYE7ffKa-lkp@intel.com>
+Subject: [intel-tdx:guest-upstream 25/33] arch/x86/mm/pat/set_memory.c:2044:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 15 Jan 2022 09:13:03 +0800
+Message-ID: <202201150902.Q0x8pSmK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3067056116947427822==
+--===============6897815785530698984==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Shawn Guo <shawn.guo@linaro.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
-CC: Andy Shevchenko <andriy.shevchenko@intel.com>
+TO: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+CC: Sean Christopherson <sean.j.christopherson@intel.com>
+CC: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.co=
+m>
+CC: Andi Kleen <ak@linux.intel.com>
+CC: Tony Luck <tony.luck@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2c271fe77d52a0555161926c232cd5bc07178b39
-commit: 6d8d67988b1a2db04d9d6083a729e8abfeb725d7 pinctrl: qcom: sc8180x: ad=
-d ACPI probe support
-date:   10 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220117 (https://download.01.org/0day-ci/archi=
-ve/20220121/202201211317.RYE7ffKa-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c10cbb=
-243cafc0cf42c3e922cb29183279444432)
+tree:   https://github.com/intel/tdx.git guest-upstream
+head:   33b1329c49e6d5f961b29c5cafd6571a5de523f0
+commit: 5364ea9ede9af9f08041cacf140f8feef077d375 [25/33] x86/mm/cpa: Add su=
+pport for TDX shared memory
+:::::: branch date: 33 hours ago
+:::::: commit date: 33 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20115/202201150902.Q0x8pSmK-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 82c8ac=
+a93488730ce8f66101e0f3538f14b551dd)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D6d8d67988b1a2db04d9d6083a729e8abfeb725d7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 6d8d67988b1a2db04d9d6083a729e8abfeb725d7
+        # https://github.com/intel/tdx/commit/5364ea9ede9af9f08041cacf140f8=
+feef077d375
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx guest-upstream
+        git checkout 5364ea9ede9af9f08041cacf140f8feef077d375
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,382 +51,382 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+                   ^     ~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:5171:3: note: Value stored to 'rno' is never read
+                   rno =3D ino_get(&oe->ref);
+                   ^     ~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:5197:2: warning: 1st function call argument is an unini=
+tialized value [clang-analyzer-core.CallAndMessage]
+           kfree(rst_info.r_page);
+           ^     ~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3783:14: note: Calling 'norm_file_page'
+           page_size =3D norm_file_page(PAGE_SIZE, &l_size, true);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:655:6: note: 'use_default' is true
+           if (use_default)
+               ^~~~~~~~~~~
+   fs/ntfs3/fslog.c:655:2: note: Taking true branch
+           if (use_default)
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   fs/ntfs3/fslog.c:662:6: note: Assuming the condition is false
+           if (*l_size < (MinLogRecordPages + 2) * page_size)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:662:2: note: Taking false branch
+           if (*l_size < (MinLogRecordPages + 2) * page_size)
            ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   fs/ntfs3/fslog.c:665:2: note: Returning the value 4096 (loaded from 'pag=
+e_size'), which participates in a condition later
+           return page_size;
+           ^~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3783:14: note: Returning from 'norm_file_page'
+           page_size =3D norm_file_page(PAGE_SIZE, &l_size, true);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3787:7: note: 'page_size' is 4096
+           if (!page_size)
+                ^~~~~~~~~
+   fs/ntfs3/fslog.c:3787:2: note: Taking false branch
+           if (!page_size)
+           ^
+   fs/ntfs3/fslog.c:3790:8: note: Calling 'kzalloc'
+           log =3D kzalloc(sizeof(struct ntfs_log), GFP_NOFS);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:724:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:578:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:595:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:724:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:724:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3790:8: note: Returning from 'kzalloc'
+           log =3D kzalloc(sizeof(struct ntfs_log), GFP_NOFS);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3791:6: note: Assuming 'log' is non-null
+           if (!log)
+               ^~~~
+   fs/ntfs3/fslog.c:3791:2: note: Taking false branch
+           if (!log)
+           ^
+   fs/ntfs3/fslog.c:3796:22: note: Calling 'kmalloc'
+           log->one_page_buf =3D kmalloc(page_size, GFP_NOFS);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:578:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:595:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3796:22: note: Returning from 'kmalloc'
+           log->one_page_buf =3D kmalloc(page_size, GFP_NOFS);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3798:6: note: Assuming field 'one_page_buf' is null
+           if (!log->one_page_buf) {
+               ^~~~~~~~~~~~~~~~~~
+   fs/ntfs3/fslog.c:3798:2: note: Taking true branch
+           if (!log->one_page_buf) {
+           ^
+   fs/ntfs3/fslog.c:3800:3: note: Control jumps to line 5161
+                   goto out;
                    ^
-   drivers/pci/setup-bus.c:459:2: note: Loop condition is false.  Exiting l=
-oop
-           list_for_each_entry(dev_res, head, list)
+   fs/ntfs3/fslog.c:5162:6: note: 'lcb' is null
+           if (lcb)
+               ^~~
+   fs/ntfs3/fslog.c:5162:2: note: Taking false branch
+           if (lcb)
            ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   fs/ntfs3/fslog.c:5170:2: note: Loop condition is false. Execution contin=
+ues on line 5193
+           while ((oe =3D enum_rstbl(oatbl, oe))) {
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/pci/setup-bus.c:459:2: note: Loop condition is true.  Entering l=
-oop body
-           list_for_each_entry(dev_res, head, list)
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/pci/setup-bus.c:460:7: note: Use of memory after it is freed
-                   if (dev_res->res->parent)
-                       ^~~~~~~~~~~~
+   fs/ntfs3/fslog.c:5197:2: note: 1st function call argument is an uninitia=
+lized value
+           kfree(rst_info.r_page);
+           ^     ~~~~~~~~~~~~~~~
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
+>> arch/x86/mm/pat/set_memory.c:2044:2: warning: Value stored to 'ret' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           ret =3D __change_page_attr_set_clr(&cpa, 1);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/pat/set_memory.c:2044:2: note: Value stored to 'ret' is neve=
+r read
+           ret =3D __change_page_attr_set_clr(&cpa, 1);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   arch/x86/mm/pat/memtype.c:1098:24: warning: Access to field 'vm_start' r=
+esults in a dereference of a null pointer (loaded from variable 'vma') [cla=
+ng-analyzer-core.NullDereference]
+                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+                                        ^~~
+   arch/x86/mm/pat/memtype.c:1092:6: note: Assuming 'vma' is null
+           if (vma && !(vma->vm_flags & VM_PAT))
+               ^~~
+   arch/x86/mm/pat/memtype.c:1092:10: note: Left side of '&&' is false
+           if (vma && !(vma->vm_flags & VM_PAT))
+                   ^
+   arch/x86/mm/pat/memtype.c:1097:6: note: Assuming 'paddr' is 0
+           if (!paddr && !size) {
+               ^~~~~~
+   arch/x86/mm/pat/memtype.c:1097:6: note: Left side of '&&' is true
+   arch/x86/mm/pat/memtype.c:1097:16: note: Assuming 'size' is 0
+           if (!paddr && !size) {
+                         ^~~~~
+   arch/x86/mm/pat/memtype.c:1097:2: note: Taking true branch
+           if (!paddr && !size) {
+           ^
+   arch/x86/mm/pat/memtype.c:1098:24: note: Access to field 'vm_start' resu=
+lts in a dereference of a null pointer (loaded from variable 'vma')
+                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+                                        ^~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/target/target_core_rd.c:95:2: warning: Value stored to 'page_cou=
+nt' is never read [clang-analyzer-deadcode.DeadStores]
+           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_table_arr=
+ay,
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_rd.c:95:2: note: Value stored to 'page_count'=
+ is never read
+           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_table_arr=
+ay,
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_rd.c:221:2: warning: Value stored to 'page_co=
+unt' is never read [clang-analyzer-deadcode.DeadStores]
+           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_prot_arra=
+y,
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/target/target_core_rd.c:221:2: note: Value stored to 'page_count=
+' is never read
+           page_count =3D rd_release_sgl_table(rd_dev, rd_dev->sg_prot_arra=
+y,
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1562:26: warning: Value stored=
- to 'npcm' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1562:26: note: Value stored to=
- 'npcm' during its initialization is never read
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1590:26: warning: Value stored=
- to 'npcm' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1590:26: note: Value stored to=
- 'npcm' during its initialization is never read
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/pinctrl/qcom/pinctrl-sc8180x.c:1664:16: warning: Access to field=
- 'start' results in a dereference of an undefined pointer value (loaded fro=
-m variable 'mres') [clang-analyzer-core.NullDereference]
-                   res->start =3D mres->start + info->offset;
-                                ^
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1692:6: note: Assuming 'soc_data'=
- is non-null
-           if (!soc_data)
-               ^~~~~~~~~
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1692:2: note: Taking false branch
-           if (!soc_data)
+   mm/gup.c:708:2: warning: Value stored to 'page' is never read [clang-ana=
+lyzer-deadcode.DeadStores]
+           page =3D follow_trans_huge_pmd(vma, address, pmd, flags);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/gup.c:708:2: note: Value stored to 'page' is never read
+           page =3D follow_trans_huge_pmd(vma, address, pmd, flags);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/gup.c:1296:13: warning: Dereference of null pointer (loaded from vari=
+able 'unlocked') [clang-analyzer-core.NullDereference]
+                   *unlocked =3D true;
+                    ~~~~~~~~ ^
+   mm/gup.c:1270:6: note: Assuming 'unlocked' is null
+           if (unlocked)
+               ^~~~~~~~
+   mm/gup.c:1270:2: note: Taking false branch
+           if (unlocked)
            ^
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1695:8: note: Calling 'sc8180x_pi=
-nctrl_add_tile_resources'
-           ret =3D sc8180x_pinctrl_add_tile_resources(pdev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1633:19: note: 'mres' declared wi=
-thout an initial value
-           struct resource *mres, *nres, *res;
-                            ^~~~
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1640:6: note: Assuming field 'of_=
-node' is null
-           if (pdev->dev.of_node)
-               ^~~~~~~~~~~~~~~~~
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1640:2: note: Taking false branch
-           if (pdev->dev.of_node)
-           ^
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1645:6: note: Assuming 'nres' is =
-non-null
-           if (!nres)
-               ^~~~~
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1645:2: note: Taking false branch
-           if (!nres)
-           ^
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1650:14: note: Assuming 'i' is >=
-=3D field 'num_resources'
-           for (i =3D 0; i < pdev->num_resources; i++) {
+   mm/gup.c:1275:6: note: Assuming 'vma' is non-null
+           if (!vma || address < vma->vm_start)
+               ^~~~
+   mm/gup.c:1275:6: note: Left side of '||' is false
+   mm/gup.c:1275:14: note: Assuming 'address' is >=3D field 'vm_start'
+           if (!vma || address < vma->vm_start)
                        ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1650:2: note: Loop condition is f=
-alse. Execution continues on line 1661
-           for (i =3D 0; i < pdev->num_resources; i++) {
+   mm/gup.c:1275:2: note: Taking false branch
+           if (!vma || address < vma->vm_start)
            ^
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1661:2: note: Loop condition is t=
-rue.  Entering loop body
-           for (i =3D 0; i < ARRAY_SIZE(sc8180x_tiles); i++, res++) {
-           ^
-   drivers/pinctrl/qcom/pinctrl-sc8180x.c:1664:16: note: Access to field 's=
-tart' results in a dereference of an undefined pointer value (loaded from v=
-ariable 'mres')
-                   res->start =3D mres->start + info->offset;
-                                ^~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/md/bcache/btree.c:1921:2: warning: Value stored to 'cur_idx' is =
-never read [clang-analyzer-deadcode.DeadStores]
-           cur_idx =3D prev_idx =3D 0;
-           ^         ~~~~~~~~~~~~
-   drivers/md/bcache/btree.c:1921:2: note: Value stored to 'cur_idx' is nev=
-er read
-           cur_idx =3D prev_idx =3D 0;
-           ^         ~~~~~~~~~~~~
-   drivers/md/bcache/btree.c:2278:28: warning: The result of the left shift=
- is undefined because the left operand is negative [clang-analyzer-core.Und=
-efinedBinaryOperatorResult]
-                   bkey_copy_key(&n3->key, &MAX_KEY);
-                                            ^
-   include/uapi/linux/bcache.h:81:24: note: expanded from macro 'MAX_KEY'
-   #define MAX_KEY                         KEY(MAX_KEY_INODE, MAX_KEY_OFFSE=
-T, 0)
-                                               ^~~~~~~~~~~~~
-   include/uapi/linux/bcache.h:79:31: note: expanded from macro 'MAX_KEY_IN=
-ODE'
-   #define MAX_KEY_INODE                   (~(~0 << 20))
-                                              ~~ ^
-   include/uapi/linux/bcache.h:73:51: note: expanded from macro 'KEY'
-           .high =3D (1ULL << 63) | ((__u64) (size) << 20) | (inode),      =
-  \
-                                                            ^~~~~
-   drivers/md/bcache/btree.c:2204:6: note: Calling 'btree_check_reserve'
-           if (btree_check_reserve(b, op)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/btree.c:1178:6: note: Assuming the condition is false
-           if (fifo_used(&ca->free[RESERVE_BTREE]) < reserve) {
-               ^
-   drivers/md/bcache/util.h:162:26: note: expanded from macro 'fifo_used'
-   #define fifo_used(fifo)         (((fifo)->back - (fifo)->front) & (fifo)=
-->mask)
-                                   ^
-   drivers/md/bcache/btree.c:1178:2: note: Taking false branch
-           if (fifo_used(&ca->free[RESERVE_BTREE]) < reserve) {
-           ^
-   drivers/md/bcache/btree.c:1188:9: note: Calling 'mca_cannibalize_lock'
-           return mca_cannibalize_lock(b->c, op);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/btree.c:846:13: note: Assuming field 'btree_cache_allo=
-c_lock' is not equal to null
-           if (likely(c->btree_cache_alloc_lock =3D=3D NULL)) {
-                      ^
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   drivers/md/bcache/btree.c:846:2: note: Taking false branch
-           if (likely(c->btree_cache_alloc_lock =3D=3D NULL)) {
-           ^
-   drivers/md/bcache/btree.c:848:13: note: Assuming field 'btree_cache_allo=
-c_lock' is equal to field 'task'
-           } else if (c->btree_cache_alloc_lock !=3D current) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/btree.c:848:9: note: Taking false branch
-           } else if (c->btree_cache_alloc_lock !=3D current) {
+   mm/gup.c:1278:7: note: Calling 'vma_permits_fault'
+           if (!vma_permits_fault(vma, fault_flags))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/gup.c:1212:18: note: Assuming the condition is false
+           bool write   =3D !!(fault_flags & FAULT_FLAG_WRITE);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/gup.c:1213:18: note: Assuming the condition is false
+           bool foreign =3D !!(fault_flags & FAULT_FLAG_REMOTE);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/gup.c:1214:24: note: 'write' is true
+           vm_flags_t vm_flags =3D write ? VM_WRITE : VM_READ;
+                                 ^~~~~
 
-vim +1664 drivers/pinctrl/qcom/pinctrl-sc8180x.c
+vim +/ret +2044 arch/x86/mm/pat/set_memory.c
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1623  =
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2004  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1624  /*
-6d8d67988b1a2db Shawn Guo 2021-03-11  1625   * ACPI DSDT has one single mem=
-ory resource for TLMM, which voilates the
-6d8d67988b1a2db Shawn Guo 2021-03-11  1626   * hardware layout of 3 sepeart=
-e tiles.  Let's split the memory resource into
-6d8d67988b1a2db Shawn Guo 2021-03-11  1627   * 3 named ones, so that msm_pi=
-nctrl_probe() can map memory for ACPI in the
-6d8d67988b1a2db Shawn Guo 2021-03-11  1628   * same way as for DT probe.
-6d8d67988b1a2db Shawn Guo 2021-03-11  1629   */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1630  static int sc8180x_pinctrl_add_=
-tile_resources(struct platform_device *pdev)
-6d8d67988b1a2db Shawn Guo 2021-03-11  1631  {
-6d8d67988b1a2db Shawn Guo 2021-03-11  1632  	int nres_num =3D pdev->num_res=
-ources + ARRAY_SIZE(sc8180x_tiles) - 1;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1633  	struct resource *mres, *nres, =
-*res;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1634  	int i, ret;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1635  =
+810a521265023a arch/x86/mm/pat/set_memory.c Tianyu Lan         2021-10-25  =
+2005  /*
+810a521265023a arch/x86/mm/pat/set_memory.c Tianyu Lan         2021-10-25  =
+2006   * __set_memory_enc_pgtable() is used for the hypervisors that get
+810a521265023a arch/x86/mm/pat/set_memory.c Tianyu Lan         2021-10-25  =
+2007   * informed about "encryption" status via page tables.
+810a521265023a arch/x86/mm/pat/set_memory.c Tianyu Lan         2021-10-25  =
+2008   */
+810a521265023a arch/x86/mm/pat/set_memory.c Tianyu Lan         2021-10-25  =
+2009  static int __set_memory_enc_pgtable(unsigned long addr, int numpages,=
+ bool enc)
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2010  {
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2011  	struct cpa_data cpa;
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2012  	int ret;
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2013  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1636  	/*
-6d8d67988b1a2db Shawn Guo 2021-03-11  1637  	 * DT already has tiles define=
-d properly, so nothing needs to be done
-6d8d67988b1a2db Shawn Guo 2021-03-11  1638  	 * for DT probe.
-6d8d67988b1a2db Shawn Guo 2021-03-11  1639  	 */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1640  	if (pdev->dev.of_node)
-6d8d67988b1a2db Shawn Guo 2021-03-11  1641  		return 0;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1642  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2014  	/* Should not be working on unaligned addresses */
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2015  	if (WARN_ONCE(addr & ~PAGE_MASK, "misaligned address: %#lx\n", addr))
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2016  		addr &=3D PAGE_MASK;
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2017  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1643  	/* Allocate for new resources =
-*/
-6d8d67988b1a2db Shawn Guo 2021-03-11  1644  	nres =3D devm_kzalloc(&pdev->d=
-ev, sizeof(*nres) * nres_num, GFP_KERNEL);
-6d8d67988b1a2db Shawn Guo 2021-03-11  1645  	if (!nres)
-6d8d67988b1a2db Shawn Guo 2021-03-11  1646  		return -ENOMEM;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1647  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2018  	memset(&cpa, 0, sizeof(cpa));
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2019  	cpa.vaddr =3D &addr;
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2020  	cpa.numpages =3D numpages;
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2021  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1648  	res =3D nres;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1649  =
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2022  	cpa.mask_set =3D pgprot_cc_mask(enc);
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2023  	cpa.mask_clr =3D pgprot_cc_mask(!enc);
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2024  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1650  	for (i =3D 0; i < pdev->num_re=
-sources; i++) {
-6d8d67988b1a2db Shawn Guo 2021-03-11  1651  		struct resource *r =3D &pdev-=
->resource[i];
-6d8d67988b1a2db Shawn Guo 2021-03-11  1652  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2025  	cpa.pgd =3D init_mm.pgd;
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2026  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1653  		/* Save memory resource and c=
-opy others */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1654  		if (resource_type(r) =3D=3D I=
-ORESOURCE_MEM)
-6d8d67988b1a2db Shawn Guo 2021-03-11  1655  			mres =3D r;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1656  		else
-6d8d67988b1a2db Shawn Guo 2021-03-11  1657  			*res++ =3D *r;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1658  	}
-6d8d67988b1a2db Shawn Guo 2021-03-11  1659  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2027  	/* Must avoid aliasing mappings in the highmem code */
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2028  	kmap_flush_unused();
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2029  	vm_unmap_aliases();
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2030  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1660  	/* Append tile memory resource=
-s */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1661  	for (i =3D 0; i < ARRAY_SIZE(s=
-c8180x_tiles); i++, res++) {
-6d8d67988b1a2db Shawn Guo 2021-03-11  1662  		const struct tile_info *info =
-=3D &sc8180x_tile_info[i];
-6d8d67988b1a2db Shawn Guo 2021-03-11  1663  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2031  	/*
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2032  	 * Before changing the encryption attribute, flush caches.
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2033  	 *
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2034  	 * For TDX, guest is responsible for flushing caches on private->sha=
+red
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2035  	 * transition. VMM is responsible for flushing on shared->private.
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2036  	 */
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2037  	if (cc_platform_has(CC_ATTR_GUEST_TDX)) {
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2038  		if (!enc)
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2039  			cpa_flush(&cpa, 1);
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2040  	} else {
+75d1cc0e05af57 arch/x86/mm/pat/set_memory.c Krish Sadhukhan    2020-09-17  =
+2041  		cpa_flush(&cpa, !this_cpu_has(X86_FEATURE_SME_COHERENT));
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2042  	}
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2043  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11 @1664  		res->start =3D mres->start + =
-info->offset;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1665  		res->end =3D mres->start + in=
-fo->offset + info->size - 1;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1666  		res->flags =3D mres->flags;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1667  		res->name =3D sc8180x_tiles[i=
-];
-6d8d67988b1a2db Shawn Guo 2021-03-11  1668  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17 @=
+2044  	ret =3D __change_page_attr_set_clr(&cpa, 1);
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2045  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1669  		/* Add new MEM to resource tr=
-ee */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1670  		insert_resource(mres->parent,=
- res);
-6d8d67988b1a2db Shawn Guo 2021-03-11  1671  	}
-6d8d67988b1a2db Shawn Guo 2021-03-11  1672  =
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2046  	/*
+fe0937b24ff5d7 arch/x86/mm/pageattr.c       Peter Zijlstra     2018-12-03  =
+2047  	 * After changing the encryption attribute, we need to flush TLBs ag=
+ain
+fe0937b24ff5d7 arch/x86/mm/pageattr.c       Peter Zijlstra     2018-12-03  =
+2048  	 * in case any speculative TLB caching occurred (but no need to flush
+fe0937b24ff5d7 arch/x86/mm/pageattr.c       Peter Zijlstra     2018-12-03  =
+2049  	 * caches again).  We could just use cpa_flush_all(), but in case TLB
+fe0937b24ff5d7 arch/x86/mm/pageattr.c       Peter Zijlstra     2018-12-03  =
+2050  	 * flushing gets optimized in the cpa_flush() path use the same logic
+fe0937b24ff5d7 arch/x86/mm/pageattr.c       Peter Zijlstra     2018-12-03  =
+2051  	 * as above.
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2052  	 */
+fe0937b24ff5d7 arch/x86/mm/pageattr.c       Peter Zijlstra     2018-12-03  =
+2053  	cpa_flush(&cpa, 0);
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2054  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1673  	/* Remove old MEM from resourc=
-e tree */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1674  	remove_resource(mres);
-6d8d67988b1a2db Shawn Guo 2021-03-11  1675  =
+064ce6c550a063 arch/x86/mm/pat/set_memory.c Brijesh Singh      2021-08-24  =
+2055  	/*
+064ce6c550a063 arch/x86/mm/pat/set_memory.c Brijesh Singh      2021-08-24  =
+2056  	 * Notify hypervisor that a given memory range is mapped encrypted
+064ce6c550a063 arch/x86/mm/pat/set_memory.c Brijesh Singh      2021-08-24  =
+2057  	 * or decrypted.
+064ce6c550a063 arch/x86/mm/pat/set_memory.c Brijesh Singh      2021-08-24  =
+2058  	 */
+5364ea9ede9af9 arch/x86/mm/pat/set_memory.c Kirill A. Shutemov 2020-03-30  =
+2059  	return notify_range_enc_status_changed(addr, numpages, enc);
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2060  }
+77bd2342d4304b arch/x86/mm/pageattr.c       Tom Lendacky       2017-07-17  =
+2061  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1676  	/* Free old resources and inst=
-all new ones */
-6d8d67988b1a2db Shawn Guo 2021-03-11  1677  	ret =3D platform_device_add_re=
-sources(pdev, nres, nres_num);
-6d8d67988b1a2db Shawn Guo 2021-03-11  1678  	if (ret) {
-6d8d67988b1a2db Shawn Guo 2021-03-11  1679  		dev_err(&pdev->dev, "failed t=
-o add new resources: %d\n", ret);
-6d8d67988b1a2db Shawn Guo 2021-03-11  1680  		return ret;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1681  	}
-6d8d67988b1a2db Shawn Guo 2021-03-11  1682  =
 
-6d8d67988b1a2db Shawn Guo 2021-03-11  1683  	return 0;
-6d8d67988b1a2db Shawn Guo 2021-03-11  1684  }
-6d8d67988b1a2db Shawn Guo 2021-03-11  1685  =
+:::::: The code at line 2044 was first introduced by commit
+:::::: 77bd2342d4304bda7896c953d424d15deb314ca3 x86/mm: Add support for cha=
+nging the memory encryption attribute
 
+:::::: TO: Tom Lendacky <thomas.lendacky@amd.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3067056116947427822==--
+--===============6897815785530698984==--
 
