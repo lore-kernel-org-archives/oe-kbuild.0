@@ -1,50 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============5392173506142180313=="
+Content-Type: multipart/mixed; boundary="===============0585332174309902906=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hnaz-mm:master 420/435] net/mctp/route.c:156:3: warning: Attempt to free released memory [clang-analyzer-unix.Malloc]
-Date: Sat, 15 Jan 2022 22:11:18 +0800
-Message-ID: <202201152250.uZ6shWKA-lkp@intel.com>
+Subject: Re: [PATCH mptcp-next v2 1/3] mptcp: set fullmesh flag in pm_netlink
+Date: Sat, 15 Jan 2022 21:00:15 +0800
+Message-ID: <202201152053.18RZ72y4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5392173506142180313==
+--===============0585332174309902906==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Johannes Weiner <hannes@cmpxchg.org>
+In-Reply-To: <503652e15fb983e53f4b20a95eb24dbde773e12e.1641868545.git.gelia=
+ng.tang@suse.com>
+References: <503652e15fb983e53f4b20a95eb24dbde773e12e.1641868545.git.gelian=
+g.tang@suse.com>
+TO: Geliang Tang <geliang.tang@suse.com>
 
-Hi Andrew,
+Hi Geliang,
 
-First bad commit (maybe !=3D root cause):
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://github.com/hnaz/linux-mm master
-head:   b8280145cf2a894c873fdf91fb2af474c52ac6cc
-commit: 467f11828258634df98bade42c10d6660b319f35 [420/435] mm-filemap-check=
--if-thp-has-hwpoisoned-subpage-for-pmd-page-fault-vs-folios
-:::::: branch date: 3 months ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20115/202201152250.uZ6shWKA-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 82c8ac=
-a93488730ce8f66101e0f3538f14b551dd)
+[auto build test WARNING on mptcp/export]
+[also build test WARNING on linus/master next-20220115]
+[cannot apply to shuah-kselftest/next v5.16]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Geliang-Tang/fullmesh-flag=
+-setting-support/20220111-104417
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+115/202201152053.18RZ72y4-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 84654f=
+2733f63dc725a7b3d7c55d56849d2d9358)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/hnaz/linux-mm/commit/467f11828258634df98bade42=
-c10d6660b319f35
-        git remote add hnaz-mm https://github.com/hnaz/linux-mm
-        git fetch --no-tags hnaz-mm master
-        git checkout 467f11828258634df98bade42c10d6660b319f35
+        # https://github.com/0day-ci/linux/commit/83615876cb132bd3d75b44a28=
+869443648e64a08
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Geliang-Tang/fullmesh-flag-setting=
+-support/20220111-104417
+        git checkout 83615876cb132bd3d75b44a28869443648e64a08
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,275 +60,292 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           if (id)
-               ^~
-   drivers/power/supply/bq2415x_charger.c:1577:2: note: Taking true branch
-           if (id)
            ^
-   drivers/power/supply/bq2415x_charger.c:1587:6: note: 'np' is null
-           if (np || ACPI_HANDLE(bq->dev)) {
-               ^~
-   drivers/power/supply/bq2415x_charger.c:1587:6: note: Left side of '||' i=
-s false
-   drivers/power/supply/bq2415x_charger.c:1587:12: note: Assuming the condi=
-tion is false
-           if (np || ACPI_HANDLE(bq->dev)) {
-                     ^
-   include/linux/acpi.h:46:46: note: expanded from macro 'ACPI_HANDLE'
-   #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANIO=
-N(dev))
-                                                              ^~~~~~~~~~~~~=
-~~~~~~
-   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
-   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
-e)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/acpi/acpi_bus.h:417:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq2415x_charger.c:1587:12: note: '?' condition is f=
-alse
-           if (np || ACPI_HANDLE(bq->dev)) {
-                     ^
-   include/linux/acpi.h:46:46: note: expanded from macro 'ACPI_HANDLE'
-   #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANIO=
-N(dev))
-                                                              ^
-   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
-   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
-e)
-                                           ^
-   include/acpi/acpi_bus.h:417:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^
-   drivers/power/supply/bq2415x_charger.c:1587:12: note: Calling 'acpi_devi=
-ce_handle'
-           if (np || ACPI_HANDLE(bq->dev)) {
-                     ^
-   include/linux/acpi.h:46:27: note: expanded from macro 'ACPI_HANDLE'
-   #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANIO=
-N(dev))
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   include/linux/acpi.h:40:9: note: 'adev' is null
-           return adev ? adev->handle : NULL;
-                  ^~~~
-   include/linux/acpi.h:40:9: note: '?' condition is false
-   include/linux/acpi.h:40:2: note: Returning null pointer, which participa=
-tes in a condition later
-           return adev ? adev->handle : NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/power/supply/bq2415x_charger.c:1587:12: note: Returning from 'ac=
-pi_device_handle'
-           if (np || ACPI_HANDLE(bq->dev)) {
-                     ^
-   include/linux/acpi.h:46:27: note: expanded from macro 'ACPI_HANDLE'
-   #define ACPI_HANDLE(dev)                acpi_device_handle(ACPI_COMPANIO=
-N(dev))
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/power/supply/bq2415x_charger.c:1587:2: note: Taking false branch
-           if (np || ACPI_HANDLE(bq->dev)) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/power/supply/bq2415x_charger.c:1622:3: note: Null pointer passed=
- as 2nd argument to memory copy function
-                   memcpy(&bq->init_data, pdata, sizeof(bq->init_data));
-                   ^                      ~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   net/mptcp/sockopt.c:595:3: warning: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(msk->ca_name, name);
-                   ^~~~~~
-   net/mptcp/sockopt.c:595:3: note: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119
-                   strcpy(msk->ca_name, name);
-                   ^~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   net/mctp/device.c:125:11: warning: Assigned value is garbage or undefine=
-d [clang-analyzer-core.uninitialized.Assign]
-           mcb->idx =3D idx;
-                    ^ ~~~
-   net/mctp/device.c:95:6: note: 'idx' declared without an initial value
-           int idx, rc;
-               ^~~
-   net/mctp/device.c:102:9: note: Assuming the condition is false
-           for (; mcb->h < NETDEV_HASHENTRIES; mcb->h++, mcb->idx =3D 0) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/device.c:102:2: note: Loop condition is false. Execution contin=
-ues on line 124
-           for (; mcb->h < NETDEV_HASHENTRIES; mcb->h++, mcb->idx =3D 0) {
+   net/mptcp/pm_netlink.c:63:2: note: Taking false branch
+           if (a->family =3D=3D b->family) {
            ^
-   net/mctp/device.c:125:11: note: Assigned value is garbage or undefined
-           mcb->idx =3D idx;
-                    ^ ~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> net/mctp/route.c:156:3: warning: Attempt to free released memory [clang-=
-analyzer-unix.Malloc]
-                   kfree(key);
-                   ^
-   net/mctp/route.c:281:6: note: Assuming the condition is false
-           if (skb->len < sizeof(struct mctp_hdr) + 1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:281:2: note: Taking false branch
-           if (skb->len < sizeof(struct mctp_hdr) + 1)
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/mptcp/pm_netlink.c:69:16: note: Field 'family' is not equal to 2
+           } else if (a->family =3D=3D AF_INET) {
+                         ^
+   net/mptcp/pm_netlink.c:69:9: note: '?' condition is false
+           } else if (a->family =3D=3D AF_INET) {
+                  ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/mptcp/pm_netlink.c:69:16: note: Field 'family' is not equal to 2
+           } else if (a->family =3D=3D AF_INET) {
+                         ^
+   net/mptcp/pm_netlink.c:69:9: note: '?' condition is false
+           } else if (a->family =3D=3D AF_INET) {
+                  ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   net/mctp/route.c:288:6: note: Assuming field 'ver' is equal to 1
-           if (mh->ver !=3D 1)
-               ^~~~~~~~~~~~
-   net/mctp/route.c:288:2: note: Taking false branch
-           if (mh->ver !=3D 1)
-           ^
-   net/mctp/route.c:299:8: note: Calling 'mctp_lookup_key'
-           key =3D mctp_lookup_key(net, skb, mh->src, &f);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:107:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&net->mctp.keys_lock, flags);
-           ^
-   include/linux/spinlock.h:397:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:253:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   net/mctp/route.c:107:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&net->mctp.keys_lock, flags);
-           ^
-   include/linux/spinlock.h:395:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   net/mctp/route.c:109:2: note: Assuming '____ptr' is non-null
-           hlist_for_each_entry(key, &net->mctp.keys, hlist) {
-           ^
-   include/linux/list.h:995:13: note: expanded from macro 'hlist_for_each_e=
-ntry'
-           for (pos =3D hlist_entry_safe((head)->first, typeof(*(pos)), mem=
-ber);\
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/list.h:985:5: note: expanded from macro 'hlist_entry_safe'
-              ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-              ^~~~~~~
-   net/mctp/route.c:109:2: note: '?' condition is true
-           hlist_for_each_entry(key, &net->mctp.keys, hlist) {
-           ^
-   include/linux/list.h:995:13: note: expanded from macro 'hlist_for_each_e=
-ntry'
-           for (pos =3D hlist_entry_safe((head)->first, typeof(*(pos)), mem=
-ber);\
+   net/mptcp/pm_netlink.c:69:9: note: Taking false branch
+           } else if (a->family =3D=3D AF_INET) {
+                  ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/mptcp/pm_netlink.c:72:13: note: Assuming field 'family' is equal to 2
+           } else if (b->family =3D=3D AF_INET) {
                       ^
-   include/linux/list.h:985:5: note: expanded from macro 'hlist_entry_safe'
-              ____ptr ? hlist_entry(____ptr, type, member) : NULL; \
-              ^
-   net/mctp/route.c:109:2: note: Loop condition is true.  Entering loop body
-           hlist_for_each_entry(key, &net->mctp.keys, hlist) {
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/mptcp/pm_netlink.c:72:9: note: '?' condition is false
+           } else if (b->family =3D=3D AF_INET) {
+                  ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/mptcp/pm_netlink.c:72:16: note: Field 'family' is equal to 2
+           } else if (b->family =3D=3D AF_INET) {
+                         ^
+   net/mptcp/pm_netlink.c:72:9: note: '?' condition is true
+           } else if (b->family =3D=3D AF_INET) {
+                  ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/list.h:995:2: note: expanded from macro 'hlist_for_each_en=
+   net/mptcp/pm_netlink.c:72:9: note: Taking true branch
+           } else if (b->family =3D=3D AF_INET) {
+                  ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/mptcp/pm_netlink.c:73:7: note: Calling 'ipv6_addr_v4mapped'
+                   if (ipv6_addr_v4mapped(&a->addr6))
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/net/ipv6.h:696:43: note: The left operand of '|' is a garbage va=
+lue
+                   (__force unsigned long)(a->s6_addr32[0] | a->s6_addr32[1=
+]) |
+                                           ~~~~~~~~~~~~~~~ ^
+>> net/mptcp/pm_netlink.c:274:2: warning: Dereference of null pointer [clan=
+g-analyzer-core.NullDereference]
+           list_for_each_entry(entry, &msk->pm.anno_list, list) {
+           ^
+   include/linux/list.h:632:13: note: expanded from macro 'list_for_each_en=
 try'
-           for (pos =3D hlist_entry_safe((head)->first, typeof(*(pos)), mem=
-ber);\
+                pos =3D list_next_entry(pos, member))
+                      ^
+   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
            ^
-   net/mctp/route.c:110:3: note: Taking false branch
-                   if (!mctp_key_match(key, mh->dest, peer, tag))
-                   ^
-   net/mctp/route.c:114:7: note: Assuming field 'valid' is true
-                   if (key->valid) {
-                       ^~~~~~~~~~
-   net/mctp/route.c:114:3: note: Taking true branch
-                   if (key->valid) {
-                   ^
-   net/mctp/route.c:117:4: note:  Execution continues on line 122
-                           break;
-                           ^
-   net/mctp/route.c:122:6: note: 'ret' is non-null
-           if (ret) {
-               ^~~
-   net/mctp/route.c:122:2: note: Taking true branch
-           if (ret) {
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   net/mctp/route.c:299:8: note: Returning from 'mctp_lookup_key'
-           key =3D mctp_lookup_key(net, skb, mh->src, &f);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:301:6: note: Assuming the condition is true
-           if (flags & MCTP_HDR_FLAG_SOM) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:301:2: note: Taking true branch
-           if (flags & MCTP_HDR_FLAG_SOM) {
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^
+   net/mptcp/pm_netlink.c:514:15: note: Assuming the condition is false
+           if (unlikely(!(msk->pm.status & BIT(MPTCP_PM_MPC_ENDPOINT_ACCOUN=
+TED))) && msk->first) {
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/mptcp/pm_netlink.c:514:73: note: Left side of '&&' is false
+           if (unlikely(!(msk->pm.status & BIT(MPTCP_PM_MPC_ENDPOINT_ACCOUN=
+TED))) && msk->first) {
+                                                                           =
+       ^
+   net/mptcp/pm_netlink.c:514:2: note: '?' condition is false
+           if (unlikely(!(msk->pm.status & BIT(MPTCP_PM_MPC_ENDPOINT_ACCOUN=
+TED))) && msk->first) {
            ^
-   net/mctp/route.c:302:7: note: 'key' is non-null
-                   if (key) {
-                       ^~~
-   net/mctp/route.c:302:3: note: Taking true branch
-                   if (key) {
-                   ^
-   net/mctp/route.c:320:8: note: 'key' is non-null
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                        ^~~
-   net/mctp/route.c:320:12: note: Left side of '&&' is false
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                            ^
-   net/mctp/route.c:323:7: note: Assuming 'msk' is non-null
-                   if (!msk) {
-                       ^~~~
-   net/mctp/route.c:323:3: note: Taking false branch
-                   if (!msk) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/mptcp/pm_netlink.c:514:73: note: Left side of '&&' is false
+           if (unlikely(!(msk->pm.status & BIT(MPTCP_PM_MPC_ENDPOINT_ACCOUN=
+TED))) && msk->first) {
+                                                                           =
+       ^
+   net/mptcp/pm_netlink.c:514:2: note: '?' condition is false
+           if (unlikely(!(msk->pm.status & BIT(MPTCP_PM_MPC_ENDPOINT_ACCOUN=
+TED))) && msk->first) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/mptcp/pm_netlink.c:514:2: note: Taking false branch
+           if (unlikely(!(msk->pm.status & BIT(MPTCP_PM_MPC_ENDPOINT_ACCOUN=
+TED))) && msk->first) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/mptcp/pm_netlink.c:526:2: note: '?' condition is false
+           pr_debug("local %d:%d signal %d:%d subflows %d:%d\n",
+           ^
+   include/linux/printk.h:574:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
+pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/mptcp/pm_netlink.c:526:2: note: '?' condition is false
+           pr_debug("local %d:%d signal %d:%d subflows %d:%d\n",
+           ^
+   include/linux/printk.h:574:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
+pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
 
-vim +156 net/mctp/route.c
+vim +274 net/mptcp/pm_netlink.c
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  152  =
+01cacb00b35cb6 Paolo Abeni      2020-03-27  265  =
 
-2ce5eeadf5d8d9 Andrew Morton 2021-10-28  153  void mctp_key_unref(struct mc=
-tp_sk_key *key)
-2ce5eeadf5d8d9 Andrew Morton 2021-10-28  154  {
-2ce5eeadf5d8d9 Andrew Morton 2021-10-28  155  	if (refcount_dec_and_test(&k=
-ey->refs))
-2ce5eeadf5d8d9 Andrew Morton 2021-10-28 @156  		kfree(key);
-2ce5eeadf5d8d9 Andrew Morton 2021-10-28  157  }
-2ce5eeadf5d8d9 Andrew Morton 2021-10-28  158  =
+d88c476f4a7dd6 Geliang Tang     2021-03-26  266  struct mptcp_pm_add_entry *
+d88c476f4a7dd6 Geliang Tang     2021-03-26  267  mptcp_lookup_anno_list_by_=
+saddr(struct mptcp_sock *msk,
+b6c08380860b92 Geliang Tang     2020-09-24  268  				struct mptcp_addr_info=
+ *addr)
+b6c08380860b92 Geliang Tang     2020-09-24  269  {
+0abd40f823cbd3 Geliang Tang     2020-09-24  270  	struct mptcp_pm_add_entry=
+ *entry;
+b6c08380860b92 Geliang Tang     2020-09-24  271  =
 
+3abc05d9ef6fe9 Florian Westphal 2021-02-04  272  	lockdep_assert_held(&msk-=
+>pm.lock);
+3abc05d9ef6fe9 Florian Westphal 2021-02-04  273  =
 
-:::::: The code at line 156 was first introduced by commit
-:::::: 2ce5eeadf5d8d942274eab25142c309ff63c80ba linux-next
+b6c08380860b92 Geliang Tang     2020-09-24 @274  	list_for_each_entry(entry=
+, &msk->pm.anno_list, list) {
+60b57bf76cfff5 Geliang Tang     2021-02-01  275  		if (addresses_equal(&ent=
+ry->addr, addr, true))
+00cfd77b9063dc Geliang Tang     2020-09-24  276  			return entry;
+b6c08380860b92 Geliang Tang     2020-09-24  277  	}
+b6c08380860b92 Geliang Tang     2020-09-24  278  =
 
-:::::: TO: Andrew Morton <akpm@linux-foundation.org>
-:::::: CC: Johannes Weiner <hannes@cmpxchg.org>
+00cfd77b9063dc Geliang Tang     2020-09-24  279  	return NULL;
+00cfd77b9063dc Geliang Tang     2020-09-24  280  }
+00cfd77b9063dc Geliang Tang     2020-09-24  281  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5392173506142180313==--
+--===============0585332174309902906==--
 
