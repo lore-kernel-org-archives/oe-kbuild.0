@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0535743195226978276=="
+Content-Type: multipart/mixed; boundary="===============0303500368387696920=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 16 Jan 2022 19:35:02 +0800
-Message-ID: <20220116113502.GA36907@60e032481831>
+Date: Sun, 16 Jan 2022 19:35:00 +0800
+Message-ID: <20220116113500.GA35948@60e032481831>
 In-Reply-To: <202201161925.6QTzwT86-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0535743195226978276==
+--===============0303500368387696920==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,16 +17,17 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Russell King <linux@armlinux.org.uk>
-CC: David Airlie <airlied@linux.ie>
-CC: Daniel Vetter <daniel@ffwll.ch>
-CC: dri-devel(a)lists.freedesktop.org
+CC: Maximilian Luz <luzmaximilian@gmail.com>
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: Mark Gross <mgross@linux.intel.com>
+CC: platform-driver-x86(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/gpu/drm/i2c/tda998x_drv.c:1916:8-28: WARNING: Threaded IRQ with no =
-primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/platform/surface/surface_hotplug.c:180:10-35: WARNING: Threaded IRQ=
+ with no primary handler requested without IRQF_ONESHOT (unless it is neste=
+d IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -51,21 +52,22 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- tda998x_drv.c |    3 ++-
+ surface_hotplug.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/i2c/tda998x_drv.c
-+++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-@@ -1914,7 +1914,8 @@ static int tda998x_create(struct device
+--- a/drivers/platform/surface/surface_hotplug.c
++++ b/drivers/platform/surface/surface_hotplug.c
+@@ -178,7 +178,8 @@ static int shps_setup_irq(struct platfor
+ 		return -ENOMEM;
  =
 
- 		irq_flags |=3D IRQF_SHARED | IRQF_ONESHOT;
- 		ret =3D request_threaded_irq(client->irq, NULL,
--					   tda998x_irq_thread, irq_flags,
-+					   tda998x_irq_thread,
-+					   irq_flags | IRQF_ONESHOT,
- 					   "tda998x", priv);
- 		if (ret) {
- 			dev_err(dev, "failed to request IRQ#%u: %d\n",
---===============0535743195226978276==--
+ 	status =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, shps_handle_i=
+rq,
+-					   flags, irq_name, pdev);
++					   flags | IRQF_ONESHOT, irq_name,
++					   pdev);
+ 	if (status)
+ 		return status;
+=20
+--===============0303500368387696920==--
 
