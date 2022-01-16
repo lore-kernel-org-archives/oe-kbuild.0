@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0440262853922386832=="
+Content-Type: multipart/mixed; boundary="===============6046949431797638374=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/rocker/rocker_ofdpa.c:1235:2: warning: The expression is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 16 Jan 2022 18:02:19 +0800
-Message-ID: <202201161722.4XR3O86w-lkp@intel.com>
+Subject: drivers/iommu/apple-dart.c:671:22: warning: Value stored to 'res' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 16 Jan 2022 16:51:22 +0800
+Message-ID: <202201161639.F0YG2q8d-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0440262853922386832==
+--===============6046949431797638374==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Nathan Chancellor <nathan@kernel.org>
-CC: Kees Cook <keescook@chromium.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sven Peter <sven@svenpeter.dev>
+CC: Joerg Roedel <jroedel@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a33f5c380c4bd3fa5278d690421b72052456d9fe
-commit: 97e4910232fa1f81e806aa60c25a0450276d99a2 linux/compiler-clang.h: de=
-fine HAVE_BUILTIN_BSWAP*
-date:   10 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220113 (https://download.01.org/0day-ci/archi=
-ve/20220116/202201161722.4XR3O86w-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d10219=
-78b8e7e35dcc30201ca1731d64b5a602a8)
+commit: 46d1fb072e76b161b0fb1ada9e37bf7e4d1f123f iommu/dart: Add DART iommu=
+ driver
+date:   5 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 5 months ago
+config: riscv-randconfig-c006-20220116 (https://download.01.org/0day-ci/arc=
+hive/20220116/202201161639.F0YG2q8d-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 650fc4=
+0b6d8d9a5869b4fca525d5f237b0ee2803)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D97e4910232fa1f81e806aa60c25a0450276d99a2
+t/commit/?id=3D46d1fb072e76b161b0fb1ada9e37bf7e4d1f123f
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 97e4910232fa1f81e806aa60c25a0450276d99a2
+        git checkout 46d1fb072e76b161b0fb1ada9e37bf7e4d1f123f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,174 +52,6 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   7 warnings generated.
-   drivers/gpu/drm/meson/meson_venc.c:136:2: warning: Excessive padding in =
-'struct meson_hdmi_venc_mode::(unnamed at drivers/gpu/drm/meson/meson_venc.=
-c:136:2)' (39 padding bytes, where 3 is optimal). =
-
-   Optimal fields order: =
-
-   dvi_settings, =
-
-   video_mode, =
-
-   video_mode_adv, =
-
-   video_prog_mode, =
-
-   video_sync_mode, =
-
-   video_yc_dly, =
-
-   video_rgb_ctrl, =
-
-   video_filt_ctrl, =
-
-   video_ofld_voav_ofst, =
-
-   yfp1_htime, =
-
-   yfp2_htime, =
-
-   max_pxcnt, =
-
-   hspuls_begin, =
-
-   hspuls_end, =
-
-   hspuls_switch, =
-
-   vspuls_begin, =
-
-   vspuls_end, =
-
-   vspuls_bline, =
-
-   vspuls_eline, =
-
-   eqpuls_begin, =
-
-   eqpuls_end, =
-
-   eqpuls_bline, =
-
-   eqpuls_eline, =
-
-   havon_begin, =
-
-   havon_end, =
-
-   vavon_bline, =
-
-   vavon_eline, =
-
-   hso_begin, =
-
-   hso_end, =
-
-   vso_begin, =
-
-   vso_end, =
-
-   vso_bline, =
-
-   vso_eline, =
-
-   sy_val, =
-
-   sy2_val, =
-
-   max_lncnt, =
-
-   video_prog_mode_present, =
-
-   video_sync_mode_present, =
-
-   video_yc_dly_present, =
-
-   video_rgb_ctrl_present, =
-
-   video_filt_ctrl_present, =
-
-   video_ofld_voav_ofst_present, =
-
-   eqpuls_begin_present, =
-
-   eqpuls_end_present, =
-
-   eqpuls_bline_present, =
-
-   eqpuls_eline_present, =
-
-   vso_eline_present, =
-
-   sy_val_present, =
-
-   sy2_val_present, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-           struct {
-           ^~~~~~~~
-   drivers/gpu/drm/meson/meson_venc.c:136:2: note: Excessive padding in 'st=
-ruct meson_hdmi_venc_mode::(unnamed at drivers/gpu/drm/meson/meson_venc.c:1=
-36:2)' (39 padding bytes, where 3 is optimal). Optimal fields order: dvi_se=
-ttings, video_mode, video_mode_adv, video_prog_mode, video_sync_mode, video=
-_yc_dly, video_rgb_ctrl, video_filt_ctrl, video_ofld_voav_ofst, yfp1_htime,=
- yfp2_htime, max_pxcnt, hspuls_begin, hspuls_end, hspuls_switch, vspuls_beg=
-in, vspuls_end, vspuls_bline, vspuls_eline, eqpuls_begin, eqpuls_end, eqpul=
-s_bline, eqpuls_eline, havon_begin, havon_end, vavon_bline, vavon_eline, hs=
-o_begin, hso_end, vso_begin, vso_end, vso_bline, vso_eline, sy_val, sy2_val=
-, max_lncnt, video_prog_mode_present, video_sync_mode_present, video_yc_dly=
-_present, video_rgb_ctrl_present, video_filt_ctrl_present, video_ofld_voav_=
-ofst_present, eqpuls_begin_present, eqpuls_end_present, eqpuls_bline_presen=
-t, eqpuls_eline_present, vso_eline_present, sy_val_present, sy2_val_present=
-, consider reordering the fields or adding explicit padding members
-           struct {
-           ^~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/iommu/sun50i-iommu.c:511:3: warning: Value stored to 'dte' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   dte =3D old_dte;
-                   ^     ~~~~~~~
-   drivers/iommu/sun50i-iommu.c:511:3: note: Value stored to 'dte' is never=
- read
-                   dte =3D old_dte;
-                   ^     ~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
    6 warnings generated.
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
@@ -235,172 +64,579 @@ se -system-headers to display errors from system headers as well.
    Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    8 warnings generated.
->> drivers/net/ethernet/rocker/rocker_ofdpa.c:1235:2: warning: The expressi=
-on is an uninitialized value. The computed value will also be garbage [clan=
-g-analyzer-core.uninitialized.Assign]
-           entry->ref_count++;
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/iommu/apple-dart.c:671:22: warning: Value stored to 'res' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct iommu_group *res =3D ERR_PTR(-EINVAL);
+                               ^~~   ~~~~~~~~~~~~~~~~
+   drivers/iommu/apple-dart.c:671:22: note: Value stored to 'res' during it=
+s initialization is never read
+           struct iommu_group *res =3D ERR_PTR(-EINVAL);
+                               ^~~   ~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/drm_crtc_helper.c:635:2: warning: Value stored to 'count=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:635:2: note: Value stored to 'count' i=
+s never read
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:681:2: warning: Value stored to 'count=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:681:2: note: Value stored to 'count' i=
+s never read
+           count =3D 0;
+           ^       ~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:70:35: warning: The result of th=
+e left shift is undefined because the right operand is negative [clang-anal=
+yzer-core.UndefinedBinaryOperatorResult]
+           if ((size >> PAGE_SHIFT) !=3D (1ul << (region_width - 11))) {
+                                            ^
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:386:6: note: Assuming field 'as'=
+ is >=3D 0
+           if (mmu->as >=3D 0) {
+               ^~~~~~~~~~~~
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:386:2: note: Taking true branch
+           if (mmu->as >=3D 0) {
            ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2717:6: note: Assuming field =
-'fib_aborted' is false
-           if (ofdpa->fib_aborted)
-               ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2717:2: note: Taking false br=
-anch
-           if (ofdpa->fib_aborted)
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:388:3: note: Taking true branch
+                   if (pm_runtime_active(pfdev->dev))
+                   ^
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:389:4: note: Calling 'panfrost_m=
+mu_disable'
+                           panfrost_mmu_disable(pfdev, mmu->as);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:134:2: note: Calling 'mmu_hw_do_=
+operation_locked'
+           mmu_hw_do_operation_locked(pfdev, as_nr, 0, ~0UL, AS_COMMAND_FLU=
+SH_MEM);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:86:6: note: 'as_nr' is >=3D 0
+           if (as_nr < 0)
+               ^~~~~
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:86:2: note: Taking false branch
+           if (as_nr < 0)
            ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2721:6: note: Assuming 'ofdpa=
-_port' is non-null
-           if (!ofdpa_port)
-               ^~~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2721:2: note: Taking false br=
-anch
-           if (!ofdpa_port)
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:89:6: note: 'op' is not equal to=
+ AS_COMMAND_UNLOCK
+           if (op !=3D AS_COMMAND_UNLOCK)
+               ^~
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:89:2: note: Taking true branch
+           if (op !=3D AS_COMMAND_UNLOCK)
            ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2723:8: note: Calling 'ofdpa_=
-port_fib_ipv4'
-           err =3D ofdpa_port_fib_ipv4(ofdpa_port, htonl(fen_info->dst),
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2287:16: note: Assuming field=
- 'nhc_dev' is equal to field 'dev'
-           nh_on_port =3D (nh->fib_nh_dev =3D=3D ofdpa_port->dev);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2288:12: note: Assuming field=
- 'ipv4' is not equal to 0
-           has_gw =3D !!nh->fib_nh_gw4;
-                     ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2290:6: note: 'has_gw' is true
-           if (has_gw && nh_on_port) {
-               ^~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2290:6: note: Left side of '&=
-&' is true
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2290:16: note: 'nh_on_port' i=
-s true
-           if (has_gw && nh_on_port) {
-                         ^~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2290:2: note: Taking true bra=
-nch
-           if (has_gw && nh_on_port) {
-           ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:2291:9: note: Calling 'ofdpa_=
-port_ipv4_nh'
-                   err =3D ofdpa_port_ipv4_nh(ofdpa_port, flags,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1390:6: note: Assuming 'entry=
-' is non-null
-           if (!entry)
-               ^~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1390:2: note: Taking false br=
-anch
-           if (!entry)
-           ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1393:2: note: Loop condition =
-is false.  Exiting loop
-           spin_lock_irqsave(&ofdpa->neigh_tbl_lock, lock_flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1393:2: note: Loop condition =
-is false.  Exiting loop
-           spin_lock_irqsave(&ofdpa->neigh_tbl_lock, lock_flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1397:13: note: Assuming 'foun=
-d' is non-null
-           updating =3D found && adding;
-                      ^~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1397:13: note: Left side of '=
-&&' is true
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1398:13: note: 'found' is non=
--null
-           removing =3D found && !adding;
-                      ^~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1398:13: note: Left side of '=
-&&' is true
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1399:12: note: 'found' is non=
--null
-           adding =3D !found && adding;
-                     ^~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1399:18: note: Left side of '=
-&&' is false
-           adding =3D !found && adding;
-                           ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1401:6: note: 'adding' is fal=
-se
-           if (adding) {
-               ^~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1401:2: note: Taking false br=
-anch
-           if (adding) {
-           ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1407:13: note: 'removing' is =
-false
-           } else if (removing) {
-                      ^~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1407:9: note: Taking false br=
-anch
-           } else if (removing) {
-                  ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1410:13: note: 'updating' is =
-true
-           } else if (updating) {
-                      ^~~~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1410:9: note: Taking true bra=
-nch
-           } else if (updating) {
-                  ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1420:7: note: 'adding' is fal=
-se
-           if (!adding)
-                ^~~~~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1420:2: note: Taking true bra=
-nch
-           if (!adding)
-           ^
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1423:6: note: 'err' is 0
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:90:3: note: Calling 'lock_region'
+                   lock_region(pfdev, as_nr, iova, size);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panfrost/panfrost_mmu.c:70:35: note: The result of the l=
+eft shift is undefined because the right operand is negative
+           if ((size >> PAGE_SHIFT) !=3D (1ul << (region_width - 11))) {
+--
+                   ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1164:8: note:=
+ Returning from 'komeda_splitter_validate'
+           err =3D komeda_splitter_validate(pipe->splitter, conn_st,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1166:6: note:=
+ Assuming 'err' is 0
            if (err)
                ^~~
-   drivers/net/ethernet/rocker/rocker_ofdpa.c:1423:2: note: Taking false br=
-anch
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1166:2: note:=
+ Taking false branch
            if (err)
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1168:8: note:=
+ Calling 'komeda_scaler_validate'
+           err =3D komeda_scaler_validate(conn, kcrtc_st, &l_dflow);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:514:8: note: =
+Branch condition evaluates to a garbage value
+           if (!(dflow->en_scaling || dflow->en_img_enhancement))
+                 ^~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:87:29: warning: Value stored to =
+'priv' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct exynos_drm_private *priv =3D drm_dev->dev_private;
+                                      ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:87:29: note: Value stored to 'pr=
+iv' during its initialization is never read
+           struct exynos_drm_private *priv =3D drm_dev->dev_private;
+                                      ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:119:7: warning: 1st function cal=
+l argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+                   if (IS_ERR(mapping))
+                       ^      ~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:101:6: note: Assuming field 'dma=
+_dev' is non-null
+           if (!priv->dma_dev) {
+               ^~~~~~~~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:101:2: note: Taking false branch
+           if (!priv->dma_dev) {
+           ^
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:107:2: note: Taking false branch
+           if (!IS_ENABLED(CONFIG_EXYNOS_IOMMU))
+           ^
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:110:6: note: Assuming field 'map=
+ping' is null
+           if (!priv->mapping) {
+               ^~~~~~~~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:110:2: note: Taking true branch
+           if (!priv->mapping) {
+           ^
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:111:3: note: 'mapping' declared =
+without an initial value
+                   void *mapping;
+                   ^~~~~~~~~~~~~
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:113:3: note: Taking false branch
+                   if (IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU))
+                   ^
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:116:8: note: Taking false branch
+                   else if (IS_ENABLED(CONFIG_IOMMU_DMA))
+                        ^
+   drivers/gpu/drm/exynos/exynos_drm_dma.c:119:7: note: 1st function call a=
+rgument is an uninitialized value
+                   if (IS_ERR(mapping))
+                       ^      ~~~~~~~
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (5 in non-user code, 5 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/iommu/apple-dart.c:671:22: warning: Value stored to 'res' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct iommu_group *res =3D ERR_PTR(-EINVAL);
+                               ^~~   ~~~~~~~~~~~~~~~~
+   drivers/iommu/apple-dart.c:671:22: note: Value stored to 'res' during it=
+s initialization is never read
+           struct iommu_group *res =3D ERR_PTR(-EINVAL);
+                               ^~~   ~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/drm_crtc_helper.c:635:2: warning: Value stored to 'count=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:635:2: note: Value stored to 'count' i=
+s never read
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:681:2: warning: Value stored to 'count=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:681:2: note: Value stored to 'count' i=
+s never read
+           count =3D 0;
+           ^       ~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/w1/slaves/w1_ds2438.c:69:3: warning: Value stored to 'crc' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   crc =3D 0;
+                   ^     ~
+   drivers/w1/slaves/w1_ds2438.c:69:3: note: Value stored to 'crc' is never=
+ read
+                   crc =3D 0;
+                   ^     ~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +1235 drivers/net/ethernet/rocker/rocker_ofdpa.c
+vim +/res +671 drivers/iommu/apple-dart.c
 
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1230  =
+46d1fb072e76b1 Sven Peter 2021-08-03  663  =
 
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1231  static void ofdpa_neigh_add(str=
-uct ofdpa *ofdpa,
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1232  			    struct ofdpa_neigh_tbl_e=
-ntry *entry)
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1233  {
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1234  	entry->index =3D ofdpa->neigh_=
-tbl_next_index++;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16 @1235  	entry->ref_count++;
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1236  	hash_add(ofdpa->neigh_tbl, &en=
-try->entry,
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1237  		 be32_to_cpu(entry->ip_addr));
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1238  }
-3fbcdbf3f1cbe8 Jiri Pirko 2016-02-16  1239  =
+46d1fb072e76b1 Sven Peter 2021-08-03  664  static struct iommu_group *apple=
+_dart_device_group(struct device *dev)
+46d1fb072e76b1 Sven Peter 2021-08-03  665  {
+46d1fb072e76b1 Sven Peter 2021-08-03  666  	static DEFINE_MUTEX(lock);
+46d1fb072e76b1 Sven Peter 2021-08-03  667  	int i, sid;
+46d1fb072e76b1 Sven Peter 2021-08-03  668  	struct apple_dart_master_cfg *c=
+fg =3D dev_iommu_priv_get(dev);
+46d1fb072e76b1 Sven Peter 2021-08-03  669  	struct apple_dart_stream_map *s=
+tream_map;
+46d1fb072e76b1 Sven Peter 2021-08-03  670  	struct iommu_group *group =3D N=
+ULL;
+46d1fb072e76b1 Sven Peter 2021-08-03 @671  	struct iommu_group *res =3D ERR=
+_PTR(-EINVAL);
+46d1fb072e76b1 Sven Peter 2021-08-03  672  =
 
+46d1fb072e76b1 Sven Peter 2021-08-03  673  	mutex_lock(&lock);
+46d1fb072e76b1 Sven Peter 2021-08-03  674  =
 
-:::::: The code at line 1235 was first introduced by commit
-:::::: 3fbcdbf3f1cbe86fc11856ec268470d7d7bd459b rocker: move OF-DPA stuff i=
-nto separate file
+46d1fb072e76b1 Sven Peter 2021-08-03  675  	for_each_stream_map(i, cfg, str=
+eam_map) {
+46d1fb072e76b1 Sven Peter 2021-08-03  676  		for_each_set_bit(sid, &stream_=
+map->sidmap, DART_MAX_STREAMS) {
+46d1fb072e76b1 Sven Peter 2021-08-03  677  			struct iommu_group *stream_gr=
+oup =3D
+46d1fb072e76b1 Sven Peter 2021-08-03  678  				stream_map->dart->sid2group[=
+sid];
+46d1fb072e76b1 Sven Peter 2021-08-03  679  =
 
-:::::: TO: Jiri Pirko <jiri@mellanox.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+46d1fb072e76b1 Sven Peter 2021-08-03  680  			if (group && group !=3D strea=
+m_group) {
+46d1fb072e76b1 Sven Peter 2021-08-03  681  				res =3D ERR_PTR(-EINVAL);
+46d1fb072e76b1 Sven Peter 2021-08-03  682  				goto out;
+46d1fb072e76b1 Sven Peter 2021-08-03  683  			}
+46d1fb072e76b1 Sven Peter 2021-08-03  684  =
+
+46d1fb072e76b1 Sven Peter 2021-08-03  685  			group =3D stream_group;
+46d1fb072e76b1 Sven Peter 2021-08-03  686  		}
+46d1fb072e76b1 Sven Peter 2021-08-03  687  	}
+46d1fb072e76b1 Sven Peter 2021-08-03  688  =
+
+46d1fb072e76b1 Sven Peter 2021-08-03  689  	if (group) {
+46d1fb072e76b1 Sven Peter 2021-08-03  690  		res =3D iommu_group_ref_get(gr=
+oup);
+46d1fb072e76b1 Sven Peter 2021-08-03  691  		goto out;
+46d1fb072e76b1 Sven Peter 2021-08-03  692  	}
+46d1fb072e76b1 Sven Peter 2021-08-03  693  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0440262853922386832==--
+--===============6046949431797638374==--
 
