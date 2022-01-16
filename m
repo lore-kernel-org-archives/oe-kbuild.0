@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1036397910902793813=="
+Content-Type: multipart/mixed; boundary="===============5982167944703802083=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 16 Jan 2022 19:34:57 +0800
-Message-ID: <20220116113457.GA34989@60e032481831>
+Date: Sun, 16 Jan 2022 19:34:55 +0800
+Message-ID: <20220116113455.GA34030@60e032481831>
 In-Reply-To: <202201161925.6QTzwT86-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1036397910902793813==
+--===============5982167944703802083==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,17 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Support Opensource <support.opensource@diasemi.com>
 CC: Liam Girdwood <lgirdwood@gmail.com>
 CC: Mark Brown <broonie@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
+CC: linux-arm-kernel(a)lists.infradead.org
+CC: linux-mediatek(a)lists.infradead.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/regulator/slg51000-regulator.c:480:8-33: WARNING: Threaded IRQ with=
- no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/regulator/mt6360-regulator.c:386:8-33: WARNING: Threaded IRQ with n=
+o primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,20 +52,23 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- slg51000-regulator.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ mt6360-regulator.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/regulator/slg51000-regulator.c
-+++ b/drivers/regulator/slg51000-regulator.c
-@@ -479,8 +479,7 @@ static int slg51000_i2c_probe(struct i2c
- 	if (chip->chip_irq) {
- 		ret =3D devm_request_threaded_irq(dev, chip->chip_irq, NULL,
- 						slg51000_irq_handler,
--						(IRQF_TRIGGER_HIGH |
--						IRQF_ONESHOT),
-+						(IRQF_TRIGGER_HIGH | IRQF_ONESHOT) | IRQF_ONESHOT,
- 						"slg51000-irq", chip);
- 		if (ret !=3D 0) {
- 			dev_err(dev, "Failed to request IRQ: %d\n",
---===============1036397910902793813==--
+--- a/drivers/regulator/mt6360-regulator.c
++++ b/drivers/regulator/mt6360-regulator.c
+@@ -383,7 +383,8 @@ static int mt6360_regulator_irq_register
+ 		if (irq < 0)
+ 			return irq;
+ =
+
+-		ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, irq_desc->handl=
+er, 0,
++		ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, irq_desc->handl=
+er,
++						IRQF_ONESHOT,
+ 						irq_desc->name, rdev);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "Fail to request %s irq\n", irq_desc->name);
+--===============5982167944703802083==--
 
