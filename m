@@ -1,175 +1,227 @@
-Content-Type: multipart/mixed; boundary="===============3684447342891292184=="
+Content-Type: multipart/mixed; boundary="===============1014909789087265937=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c:101 visconti_eth_fix_mac_speed() error: uninitialized symbol 'clk_sel_val'.
-Date: Mon, 17 Jan 2022 03:01:49 +0800
-Message-ID: <202201170216.Q8zMAmz9-lkp@intel.com>
+Subject: Re: [PATCH net-next v2] net: mptcp, Fast Open Mechanism
+Date: Mon, 17 Jan 2022 02:41:17 +0800
+Message-ID: <202201170247.BMTU5XYy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3684447342891292184==
+--===============1014909789087265937==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+In-Reply-To: <20220116001259.203319-1-dmytro@shytyi.net>
+References: <20220116001259.203319-1-dmytro@shytyi.net>
+TO: Dmytro SHYTYI <dmytro@shytyi.net>
+TO: mptcp(a)lists.linux.dev
+CC: Dmytro SHYTYI <dmytro@shytyi.net>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   4d66020dcef83314092f2c8c89152a8d122627e2
-commit: b38dd98ff8d0d951770bffdca49b387dc63ba92b net: stmmac: Add Toshiba V=
-isconti SoCs glue driver
-date:   11 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 months ago
-config: nios2-randconfig-m031-20220116 (https://download.01.org/0day-ci/arc=
-hive/20220117/202201170216.Q8zMAmz9-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+Hi Dmytro,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on v5.16]
+[cannot apply to net-next/master linus/master next-20220116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Dmytro-SHYTYI/net-mptcp-Fa=
+st-Open-Mechanism/20220116-081430
+base:    df0cc57e057f18e44dac8e6c18aba47ab53202f9
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20117/202201170247.BMTU5XYy-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c:101 visconti_eth_fix_m=
-ac_speed() error: uninitialized symbol 'clk_sel_val'.
+smatch warnings:
+net/ipv4/tcp_input.c:6960 tcp_conn_request() warn: ignoring unreachable cod=
+e.
 
-Old smatch warnings:
-drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c:104 visconti_eth_fix_m=
-ac_speed() error: uninitialized symbol 'clk_sel_val'.
-drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c:110 visconti_eth_fix_m=
-ac_speed() error: uninitialized symbol 'clk_sel_val'.
+vim +6960 net/ipv4/tcp_input.c
 
-vim +/clk_sel_val +101 drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6864  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   54  =
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6865  	tcp_clear_options(&=
+tmp_opt);
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6866  	tmp_opt.mss_clamp =
+=3D af_ops->mss_clamp;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6867  	tmp_opt.user_mss  =
+=3D tp->rx_opt.user_mss;
+eed29f17f09ad7 Eric Dumazet          2017-06-07  6868  	tcp_parse_options(s=
+ock_net(sk), skb, &tmp_opt, 0,
+eed29f17f09ad7 Eric Dumazet          2017-06-07  6869  			  want_cookie ? N=
+ULL : &foc);
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6870  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   55  static void visconti_eth_=
-fix_mac_speed(void *priv, unsigned int speed)
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   56  {
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   57  	struct visconti_eth *dwm=
-ac =3D priv;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   58  	unsigned int val, clk_se=
-l_val;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   59  	unsigned long flags;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   60  =
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6871  	if (want_cookie && =
+!tmp_opt.saw_tstamp)
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6872  		tcp_clear_options(=
+&tmp_opt);
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6873  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   61  	spin_lock_irqsave(&dwmac=
-->lock, flags);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   62  =
+bc58a1baf2a978 Hans Wippel           2018-03-23  6874  	if (IS_ENABLED(CONF=
+IG_SMC) && want_cookie)
+bc58a1baf2a978 Hans Wippel           2018-03-23  6875  		tmp_opt.smc_ok =3D=
+ 0;
+bc58a1baf2a978 Hans Wippel           2018-03-23  6876  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   63  	/* adjust link */
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   64  	val =3D readl(dwmac->reg=
- + MAC_CTRL_REG);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   65  	val &=3D ~(GMAC_CONFIG_P=
-S | GMAC_CONFIG_FES);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   66  =
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6877  	tmp_opt.tstamp_ok =
+=3D tmp_opt.saw_tstamp;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6878  	tcp_openreq_init(re=
+q, &tmp_opt, skb, sk);
+7a682575ad4829 KOVACS Krisztian      2016-09-23  6879  	inet_rsk(req)->no_s=
+rccheck =3D inet_sk(sk)->transparent;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6880  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   67  	switch (speed) {
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   68  	case SPEED_1000:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   69  		if (dwmac->phy_intf_sel=
- =3D=3D ETHER_CONFIG_INTF_RGMII)
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   70  			clk_sel_val =3D ETHER_=
-CLK_SEL_FREQ_SEL_125M;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   71  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   72  	case SPEED_100:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   73  		if (dwmac->phy_intf_sel=
- =3D=3D ETHER_CONFIG_INTF_RGMII)
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   74  			clk_sel_val =3D ETHER_=
-CLK_SEL_FREQ_SEL_25M;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   75  		if (dwmac->phy_intf_sel=
- =3D=3D ETHER_CONFIG_INTF_RMII)
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   76  			clk_sel_val =3D ETHER_=
-CLK_SEL_DIV_SEL_2;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   77  		val |=3D GMAC_CONFIG_PS=
- | GMAC_CONFIG_FES;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   78  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   79  	case SPEED_10:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   80  		if (dwmac->phy_intf_sel=
- =3D=3D ETHER_CONFIG_INTF_RGMII)
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   81  			clk_sel_val =3D ETHER_=
-CLK_SEL_FREQ_SEL_2P5M;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   82  		if (dwmac->phy_intf_sel=
- =3D=3D ETHER_CONFIG_INTF_RMII)
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   83  			clk_sel_val =3D ETHER_=
-CLK_SEL_DIV_SEL_20;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   84  		val |=3D GMAC_CONFIG_PS;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   85  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   86  	default:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   87  		/* No bit control */
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   88  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   89  	}
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   90  =
+16f86165bd0a94 Eric Dumazet          2015-03-13  6881  	/* Note: tcp_v6_ini=
+t_req() might override ir_iif for link locals */
+6dd9a14e92e548 David Ahern           2015-12-16  6882  	inet_rsk(req)->ir_i=
+if =3D inet_request_bound_dev_if(sk, skb);
+16f86165bd0a94 Eric Dumazet          2015-03-13  6883  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   91  	writel(val, dwmac->reg +=
- MAC_CTRL_REG);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   92  =
+7ea851d19b2359 Florian Westphal      2020-11-30  6884  	dst =3D af_ops->rou=
+te_req(sk, skb, &fl, req);
+7ea851d19b2359 Florian Westphal      2020-11-30  6885  	if (!dst)
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6886  		goto drop_and_free;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6887  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   93  	/* Stop internal clock */
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   94  	val =3D readl(dwmac->reg=
- + REG_ETHER_CLOCK_SEL);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   95  	val &=3D ~(ETHER_CLK_SEL=
-_RMII_CLK_EN | ETHER_CLK_SEL_RX_TX_CLK_EN);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   96  	val |=3D ETHER_CLK_SEL_T=
-X_O_E_N_IN;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   97  	writel(val, dwmac->reg +=
- REG_ETHER_CLOCK_SEL);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   98  =
+84b114b98452c4 Eric Dumazet          2017-05-05  6888  	if (tmp_opt.tstamp_=
+ok)
+5d2ed0521ac98f Eric Dumazet          2017-06-07  6889  		tcp_rsk(req)->ts_o=
+ff =3D af_ops->init_ts_off(net, skb);
+95a22caee396ce Florian Westphal      2016-12-01  6890  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16   99  	switch (dwmac->phy_intf_=
-sel) {
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  100  	case ETHER_CONFIG_INTF_R=
-GMII:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16 @101  		val =3D clk_sel_val | E=
-THER_CLK_SEL_RX_CLK_EXT_SEL_RXC;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  102  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  103  	case ETHER_CONFIG_INTF_R=
-MII:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  104  		val =3D clk_sel_val | E=
-THER_CLK_SEL_RX_CLK_EXT_SEL_DIV |
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  105  			ETHER_CLK_SEL_TX_CLK_E=
-XT_SEL_TXC | ETHER_CLK_SEL_TX_O_E_N_IN |
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  106  			ETHER_CLK_SEL_RMII_CLK=
-_SEL_RX_C;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  107  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  108  	case ETHER_CONFIG_INTF_M=
-II:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  109  	default:
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  110  		val =3D clk_sel_val | E=
-THER_CLK_SEL_RX_CLK_EXT_SEL_RXC |
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  111  			ETHER_CLK_SEL_TX_CLK_E=
-XT_SEL_DIV | ETHER_CLK_SEL_TX_O_E_N_IN |
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  112  			ETHER_CLK_SEL_RMII_CLK=
-_EN;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  113  		break;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  114  	}
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  115  =
+f7b3bec6f5167e Florian Westphal      2014-11-03  6891  	if (!want_cookie &&=
+ !isn) {
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6892  		/* Kill the follow=
+ing clause, if you dislike this way. */
+4396e46187ca50 Soheil Hassas Yeganeh 2017-03-15  6893  		if (!net->ipv4.sys=
+ctl_tcp_syncookies &&
+fee83d097b1620 Haishuang Yan         2016-12-28  6894  		    (net->ipv4.sys=
+ctl_max_syn_backlog - inet_csk_reqsk_queue_len(sk) <
+fee83d097b1620 Haishuang Yan         2016-12-28  6895  		     (net->ipv4.sy=
+sctl_max_syn_backlog >> 2)) &&
+d82bae12dc38d7 Soheil Hassas Yeganeh 2017-03-15  6896  		    !tcp_peer_is_p=
+roven(req, dst)) {
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6897  			/* Without syncoo=
+kies last quarter of
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6898  			 * backlog is fil=
+led with destinations,
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6899  			 * proven to be a=
+live.
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6900  			 * It means that =
+we continue to communicate
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6901  			 * to destination=
+s, already remembered
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6902  			 * to the moment =
+of synflood.
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6903  			 */
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6904  			pr_drop_req(req, =
+ntohs(tcp_hdr(skb)->source),
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6905  				    rsk_ops->fam=
+ily);
+52c7bf82e2e91e Dmytro SHYTYI         2022-01-16  6906  			//goto drop_and_r=
+elease;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6907  		}
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6908  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  116  	/* Start clock */
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  117  	writel(val, dwmac->reg +=
- REG_ETHER_CLOCK_SEL);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  118  	val |=3D ETHER_CLK_SEL_R=
-X_TX_CLK_EN;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  119  	writel(val, dwmac->reg +=
- REG_ETHER_CLOCK_SEL);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  120  =
+84b114b98452c4 Eric Dumazet          2017-05-05  6909  		isn =3D af_ops->in=
+it_seq(skb);
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6910  	}
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6911  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  121  	val &=3D ~ETHER_CLK_SEL_=
-TX_O_E_N_IN;
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  122  	writel(val, dwmac->reg +=
- REG_ETHER_CLOCK_SEL);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  123  =
+f7b3bec6f5167e Florian Westphal      2014-11-03  6912  	tcp_ecn_create_requ=
+est(req, skb, sk, dst);
+f7b3bec6f5167e Florian Westphal      2014-11-03  6913  =
 
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  124  	spin_unlock_irqrestore(&=
-dwmac->lock, flags);
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  125  }
-b38dd98ff8d0d9 Nobuhiro Iwamatsu 2021-02-16  126  =
+f7b3bec6f5167e Florian Westphal      2014-11-03  6914  	if (want_cookie) {
+f7b3bec6f5167e Florian Westphal      2014-11-03  6915  		isn =3D cookie_ini=
+t_sequence(af_ops, sk, skb, &req->mss);
+f7b3bec6f5167e Florian Westphal      2014-11-03  6916  		if (!tmp_opt.tstam=
+p_ok)
+f7b3bec6f5167e Florian Westphal      2014-11-03  6917  			inet_rsk(req)->ec=
+n_ok =3D 0;
+f7b3bec6f5167e Florian Westphal      2014-11-03  6918  	}
+f7b3bec6f5167e Florian Westphal      2014-11-03  6919  =
 
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6920  	tcp_rsk(req)->snt_i=
+sn =3D isn;
+58d607d3e52f2b Eric Dumazet          2015-09-15  6921  	tcp_rsk(req)->txhas=
+h =3D net_tx_rndhash();
+e9b12edc133b54 Wei Wang              2020-09-09  6922  	tcp_rsk(req)->syn_t=
+os =3D TCP_SKB_CB(skb)->ip_dsfield;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6923  	tcp_openreq_init_rw=
+in(req, sk, dst);
+c6345ce7d361dc Amritha Nambiar       2018-06-29  6924  	sk_rx_queue_set(req=
+_to_sk(req), skb);
+ca6fb06518836e Eric Dumazet          2015-10-02  6925  	if (!want_cookie) {
+ca6fb06518836e Eric Dumazet          2015-10-02  6926  		tcp_reqsk_record_s=
+yn(sk, req, skb);
+71c02379c762cb Christoph Paasch      2017-10-23  6927  		fastopen_sk =3D tc=
+p_try_fastopen(sk, skb, req, &foc, dst);
+ca6fb06518836e Eric Dumazet          2015-10-02  6928  	}
+7c85af8810448d Eric Dumazet          2015-09-24  6929  	if (fastopen_sk) {
+ca6fb06518836e Eric Dumazet          2015-10-02  6930  		af_ops->send_synac=
+k(fastopen_sk, dst, &fl, req,
+331fca4315efa3 Martin KaFai Lau      2020-08-20  6931  				    &foc, TCP_SY=
+NACK_FASTOPEN, skb);
+7656d842de93fd Eric Dumazet          2015-10-04  6932  		/* Add the child s=
+ocket directly into the accept queue */
+9d3e1368bb4589 Guillaume Nault       2019-03-08  6933  		if (!inet_csk_reqs=
+k_queue_add(sk, req, fastopen_sk)) {
+9d3e1368bb4589 Guillaume Nault       2019-03-08  6934  			reqsk_fastopen_re=
+move(fastopen_sk, req, false);
+9d3e1368bb4589 Guillaume Nault       2019-03-08  6935  			bh_unlock_sock(fa=
+stopen_sk);
+9d3e1368bb4589 Guillaume Nault       2019-03-08  6936  			sock_put(fastopen=
+_sk);
+9403cf23025880 Guillaume Nault       2019-03-19  6937  			goto drop_and_fre=
+e;
+9d3e1368bb4589 Guillaume Nault       2019-03-08  6938  		}
+7656d842de93fd Eric Dumazet          2015-10-04  6939  		sk->sk_data_ready(=
+sk);
+7656d842de93fd Eric Dumazet          2015-10-04  6940  		bh_unlock_sock(fas=
+topen_sk);
+7c85af8810448d Eric Dumazet          2015-09-24  6941  		sock_put(fastopen_=
+sk);
+7c85af8810448d Eric Dumazet          2015-09-24  6942  	} else {
+9439ce00f208d9 Eric Dumazet          2015-03-17  6943  		tcp_rsk(req)->tfo_=
+listener =3D false;
+ca6fb06518836e Eric Dumazet          2015-10-02  6944  		if (!want_cookie)
+8550f328f45db6 Lawrence Brakmo       2017-06-30  6945  			inet_csk_reqsk_qu=
+eue_hash_add(sk, req,
+8550f328f45db6 Lawrence Brakmo       2017-06-30  6946  				tcp_timeout_init=
+((struct sock *)req));
+b3d051477cf94e Eric Dumazet          2016-04-13  6947  		af_ops->send_synac=
+k(sk, dst, &fl, req, &foc,
+b3d051477cf94e Eric Dumazet          2016-04-13  6948  				    !want_cookie=
+ ? TCP_SYNACK_NORMAL :
+331fca4315efa3 Martin KaFai Lau      2020-08-20  6949  						   TCP_SYNACK_=
+COOKIE,
+331fca4315efa3 Martin KaFai Lau      2020-08-20  6950  				    skb);
+9caad864151e52 Eric Dumazet          2016-04-01  6951  		if (want_cookie) {
+9caad864151e52 Eric Dumazet          2016-04-01  6952  			reqsk_free(req);
+9caad864151e52 Eric Dumazet          2016-04-01  6953  			return 0;
+9caad864151e52 Eric Dumazet          2016-04-01  6954  		}
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6955  	}
+ca6fb06518836e Eric Dumazet          2015-10-02  6956  	reqsk_put(req);
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6957  	return 0;
+1fb6f159fd21c6 Octavian Purdila      2014-06-25  6958  =
+
+52c7bf82e2e91e Dmytro SHYTYI         2022-01-16  6959  //drop_and_release:
+1fb6f159fd21c6 Octavian Purdila      2014-06-25 @6960  	dst_release(dst);
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3684447342891292184==--
+--===============1014909789087265937==--
 
