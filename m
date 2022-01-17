@@ -1,68 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============5946874926112399156=="
+Content-Type: multipart/mixed; boundary="===============4482450487957588194=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [Patch V3] memory: tegra: Add MC error logging on tegra186 onward
-Date: Sat, 22 Jan 2022 06:27:03 +0800
-Message-ID: <202201220613.9e6ZCZdZ-lkp@intel.com>
+Subject: drivers/pnp/pnpbios/core.c:94:2: warning: Potential leak of memory pointed to by 'buf' [clang-analyzer-unix.Malloc]
+Date: Tue, 18 Jan 2022 04:37:09 +0800
+Message-ID: <202201180446.gHm822Qh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5946874926112399156==
+--===============4482450487957588194==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1642763962-32129-1-git-send-email-amhetre@nvidia.com>
-References: <1642763962-32129-1-git-send-email-amhetre@nvidia.com>
-TO: Ashish Mhetre <amhetre@nvidia.com>
-TO: digetx(a)gmail.com
-TO: thierry.reding(a)gmail.com
-TO: jonathanh(a)nvidia.com
-TO: linux-tegra(a)vger.kernel.org
-TO: krzysztof.kozlowski(a)canonical.com
-TO: linux-kernel(a)vger.kernel.org
-CC: Snikam(a)nvidia.com
-CC: vdumpa(a)nvidia.com
-CC: Ashish Mhetre <amhetre@nvidia.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Kees Cook <keescook@chromium.org>
 
-Hi Ashish,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tegra/for-next]
-[also build test WARNING on next-20220121]
-[cannot apply to v5.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Ashish-Mhetre/memory-tegra=
--Add-MC-error-logging-on-tegra186-onward/20220121-192115
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for=
--next
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: arm-randconfig-c002-20220120 (https://download.01.org/0day-ci/archi=
-ve/20220122/202201220613.9e6ZCZdZ-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7b3d30=
-728816403d1fd73cc5082e9fb761262bce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0c947b893d69231a9add855939da7c66237ab44f
+commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
+e Clang support
+date:   4 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+118/202201180446.gHm822Qh-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
+913a43a200f5a6544d424cdc37b771028b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/c76ed3ccfbb800c6a32b27d87=
-b2d5464ebdf1918
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Ashish-Mhetre/memory-tegra-Add-MC-=
-error-logging-on-tegra186-onward/20220121-192115
-        git checkout c76ed3ccfbb800c6a32b27d87b2d5464ebdf1918
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -70,189 +49,112 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ret =3D sdw_slave_set_frequency(slave);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1180:6: note: Assuming field 'class_id' is not e=
-qual to 0
-           if (!slave->id.class_id)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1180:2: note: Taking false branch
-           if (!slave->id.class_id)
+           __mmap_lock_trace_acquire_returned(mm, false, ret =3D=3D 0);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mmap_lock.h:35:2: note: '?' condition is false
+           if (tracepoint_enabled(mmap_lock_acquire_returned))
            ^
-   drivers/soundwire/bus.c:1183:6: note: Assuming 'mclk_freq' is not equal =
-to 0
-           if (!mclk_freq) {
-               ^~~~~~~~~~
-   drivers/soundwire/bus.c:1183:2: note: Taking false branch
-           if (!mclk_freq) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/linux/mmap_lock.h:35:2: note: '?' condition is false
+           if (tracepoint_enabled(mmap_lock_acquire_returned))
            ^
-   drivers/soundwire/bus.c:1198:6: note: Assuming the condition is true
-           if (!(19200000 % mclk_freq)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1198:2: note: Taking true branch
-           if (!(19200000 % mclk_freq)) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/soundwire/bus.c:1220:6: note: Assuming the condition is false
-           if (mclk_freq % curr_freq) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1220:2: note: Taking false branch
-           if (mclk_freq % curr_freq) {
+   include/linux/mmap_lock.h:35:2: note: Taking false branch
+           if (tracepoint_enabled(mmap_lock_acquire_returned))
            ^
-   drivers/soundwire/bus.c:1233:16: note: '?' condition is false
-           scale_index =3D ilog2(scale);
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
+   include/linux/mmap_lock.h:37:1: note: Returning without writing to 'mm->=
+.mmap', which participates in a condition later
+   }
+   ^
+   include/linux/mmap_lock.h:37:1: note: Returning without writing to 'mm->=
+.mmap'
+   include/linux/mmap_lock.h:127:2: note: Returning from '__mmap_lock_trace=
+_acquire_returned'
+           __mmap_lock_trace_acquire_returned(mm, false, ret =3D=3D 0);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c:860:8: note: Returning from 'mmap_read_lock_killable'
+           ret =3D mmap_read_lock_killable(mm);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/proc/task_mmu.c:861:2: note: '?' condition is false
+           if (ret)
            ^
-   drivers/soundwire/bus.c:1233:16: note: '?' condition is true
-           scale_index =3D ilog2(scale);
-                         ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/soundwire/bus.c:1233:16: note: Calling '__ilog2_u32'
-           scale_index =3D ilog2(scale);
-                         ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   include/linux/log2.h:24:2: note: Returning the value -1
-           return fls(n) - 1;
-           ^~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1233:16: note: Returning from '__ilog2_u32'
-           scale_index =3D ilog2(scale);
-                         ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1233:2: note: The value 255 is assigned to 'scal=
-e_index'
-           scale_index =3D ilog2(scale);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soundwire/bus.c:1235:6: note: The result of the left shift is un=
-defined due to shifting by '255', which is greater or equal to the width of=
- type 'unsigned long'
-           if (BIT(scale_index) !=3D scale || scale_index > 6) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/proc/task_mmu.c:861:6: note: 'ret' is 0
+           if (ret)
                ^
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   2 warnings generated.
-   drivers/media/usb/uvc/uvc_ctrl.c:811:37: warning: The result of the left=
- shift is undefined because the left operand is negative [clang-analyzer-co=
-re.UndefinedBinaryOperatorResult]
-                   *data =3D (*data & ~mask) | ((value << offset) & mask);
-                                               ~~~~~ ^
-   drivers/media/usb/uvc/uvc_ctrl.c:803:6: note: Assuming field 'v4l2_type'=
- is equal to V4L2_CTRL_TYPE_BUTTON
-           if (mapping->v4l2_type =3D=3D V4L2_CTRL_TYPE_BUTTON)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:803:2: note: Taking true branch
-           if (mapping->v4l2_type =3D=3D V4L2_CTRL_TYPE_BUTTON)
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/proc/task_mmu.c:861:2: note: '?' condition is false
+           if (ret)
            ^
-   drivers/media/usb/uvc/uvc_ctrl.c:809:9: note: Assuming 'bits' is > 0
-           for (; bits > 0; data++) {
-                  ^~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:809:2: note: Loop condition is true.  E=
-ntering loop body
-           for (; bits > 0; data++) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/media/usb/uvc/uvc_ctrl.c:812:13: note: Assuming 'offset' is 0
-                   value >>=3D offset ? offset : 8;
-                             ^~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:812:13: note: '?' condition is false
-   drivers/media/usb/uvc/uvc_ctrl.c:812:3: note: The value -1 is assigned t=
-o 'value'
-                   value >>=3D offset ? offset : 8;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:809:9: note: Assuming 'bits' is > 0
-           for (; bits > 0; data++) {
-                  ^~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:809:2: note: Loop condition is true.  E=
-ntering loop body
-           for (; bits > 0; data++) {
+   fs/proc/task_mmu.c:861:2: note: Taking false branch
+           if (ret)
            ^
-   drivers/media/usb/uvc/uvc_ctrl.c:811:37: note: The result of the left sh=
-ift is undefined because the left operand is negative
-                   *data =3D (*data & ~mask) | ((value << offset) & mask);
-                                               ~~~~~ ^
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
->> drivers/memory/tegra/mc.c:564:5: warning: Value stored to 'addr_hi_reg' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                                   addr_hi_reg =3D MC_ERR_ADR_HI;
-                                   ^
-   drivers/memory/tegra/mc.c:564:5: note: Value stored to 'addr_hi_reg' is =
-never read
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/crypto/gemini/sl3516-ce-core.c:139:28: warning: Dereference of n=
-ull pointer [clang-analyzer-core.NullDereference]
-           rdd->next_desc.bits.eofie =3D 1;
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/crypto/gemini/sl3516-ce-core.c:122:26: note: 'rdd' initialized t=
-o a null pointer value
-           struct descriptor *dd, *rdd =3D NULL;
-                                   ^~~
-   drivers/crypto/gemini/sl3516-ce-core.c:131:14: note: Assuming 'i' is >=
-=3D field 'nr_sgd'
-           for (i =3D 0; i < rctx->nr_sgd; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-core.c:131:2: note: Loop condition is fa=
-lse. Execution continues on line 139
-           for (i =3D 0; i < rctx->nr_sgd; i++) {
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/proc/task_mmu.c:866:29: note: Assuming pointer value is null
+           for (vma =3D priv->mm->mmap; vma;) {
+                                      ^~~
+   fs/proc/task_mmu.c:866:2: note: Loop condition is false. Execution conti=
+nues on line 935
+           for (vma =3D priv->mm->mmap; vma;) {
            ^
-   drivers/crypto/gemini/sl3516-ce-core.c:139:28: note: Dereference of null=
- pointer
-           rdd->next_desc.bits.eofie =3D 1;
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/crypto/gemini/sl3516-ce-cipher.c:26:22: warning: Value stored to=
- 'in_sg' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct scatterlist *in_sg =3D areq->src;
-                               ^~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:26:22: note: Value stored to 'i=
-n_sg' during its initialization is never read
-           struct scatterlist *in_sg =3D areq->src;
-                               ^~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:27:22: warning: Value stored to=
- 'out_sg' during its initialization is never read [clang-analyzer-deadcode.=
-DeadStores]
-           struct scatterlist *out_sg =3D areq->dst;
-                               ^~~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:27:22: note: Value stored to 'o=
-ut_sg' during its initialization is never read
-           struct scatterlist *out_sg =3D areq->dst;
-                               ^~~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:364:24: warning: Value stored t=
-o 'ce' during its initialization is never read [clang-analyzer-deadcode.Dea=
-dStores]
-           struct sl3516_ce_dev *ce =3D op->ce;
-                                 ^~   ~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:364:24: note: Value stored to '=
-ce' during its initialization is never read
-           struct sl3516_ce_dev *ce =3D op->ce;
-                                 ^~   ~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
+   fs/proc/task_mmu.c:935:28: note: Access to field 'vm_start' results in a=
+ dereference of a null pointer (loaded from field 'mmap')
+           show_vma_header_prefix(m, priv->mm->mmap->vm_start,
+                                     ^         ~~~~
    Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -261,7 +163,458 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   lib/glob.c:48:32: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   lib/glob.c:48:32: note: Assigned value is garbage or undefined
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   4 warnings generated.
+>> drivers/pnp/pnpbios/core.c:94:2: warning: Potential leak of memory point=
+ed to by 'buf' [clang-analyzer-unix.Malloc]
+           if (!(buf =3D kzalloc(256, GFP_KERNEL))) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:71:4: note: expanded from macro '__trace_if_val=
+ue'
+                   (__if_trace.miss_hit[0]++,0);           \
+                    ^
+   drivers/pnp/pnpbios/core.c:145:2: note: Loop condition is true.  Enterin=
+g loop body
+           while (1) {
+           ^
+   drivers/pnp/pnpbios/core.c:153:3: note: '?' condition is false
+                   if (try_to_freeze())
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/pnp/pnpbios/core.c:153:3: note: '?' condition is false
+                   if (try_to_freeze())
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/pnp/pnpbios/core.c:153:3: note: Taking false branch
+                   if (try_to_freeze())
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/pnp/pnpbios/core.c:158:3: note: Control jumps to 'case 135:'  at=
+ line 164
+                   switch (status) {
+                   ^
+   drivers/pnp/pnpbios/core.c:166:4: note:  Execution continues on line 175
+                           break;
+                           ^
+   drivers/pnp/pnpbios/core.c:175:3: note: '?' condition is false
+                   if (d !=3D docked) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/pnp/pnpbios/core.c:175:7: note: 'd' is not equal to 'docked'
+                   if (d !=3D docked) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/pnp/pnpbios/core.c:175:3: note: '?' condition is true
+                   if (d !=3D docked) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/pnp/pnpbios/core.c:175:3: note: Taking true branch
+                   if (d !=3D docked) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/pnp/pnpbios/core.c:176:4: note: '?' condition is false
+                           if (pnp_dock_event(d, &now) =3D=3D 0) {
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/pnp/pnpbios/core.c:176:8: note: Calling 'pnp_dock_event'
+                           if (pnp_dock_event(d, &now) =3D=3D 0) {
+                               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+--
+                   if (voice->chan =3D=3D chan) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/drivers/opl4/opl4_synth.c:344:4: note: Calling 'snd_opl4_update_pi=
+tch'
+                           func(opl4, voice);
+                           ^~~~~~~~~~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:425:9: note: Assuming field 'drum_channe=
+l' is not equal to 0
+           note =3D chan->drum_channel ? 60 : voice->note;
+                  ^~~~~~~~~~~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:425:9: note: '?' condition is true
+   sound/drivers/opl4/opl4_synth.c:432:13: note: Field 'drum_channel' is no=
+t equal to 0
+           if (!chan->drum_channel)
+                      ^
+   sound/drivers/opl4/opl4_synth.c:432:2: note: '?' condition is false
+           if (!chan->drum_channel)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/drivers/opl4/opl4_synth.c:432:13: note: Field 'drum_channel' is no=
+t equal to 0
+           if (!chan->drum_channel)
+                      ^
+   sound/drivers/opl4/opl4_synth.c:432:13: note: Field 'drum_channel' is no=
+t equal to 0
+   sound/drivers/opl4/opl4_synth.c:432:2: note: '?' condition is false
+           if (!chan->drum_channel)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/drivers/opl4/opl4_synth.c:432:2: note: Taking false branch
+           if (!chan->drum_channel)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/drivers/opl4/opl4_synth.c:436:6: note: Assuming 'pitch' is < 0
+           if (pitch < 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/drivers/opl4/opl4_synth.c:436:2: note: '?' condition is false
+           if (pitch < 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/drivers/opl4/opl4_synth.c:436:6: note: 'pitch' is < 0
+           if (pitch < 0)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/drivers/opl4/opl4_synth.c:436:2: note: '?' condition is true
+           if (pitch < 0)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/drivers/opl4/opl4_synth.c:436:2: note: Taking true branch
+           if (pitch < 0)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/drivers/opl4/opl4_synth.c:440:2: note: The value -8 is assigned to=
+ 'octave'
+           octave =3D pitch / 0x600 - 8;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:444:18: note: The result of the left shi=
+ft is undefined because the left operand is negative
+                          (octave << 4) | ((pitch >> 7) & OPL4_F_NUMBER_HIG=
+H_MASK));
+                           ~~~~~~ ^
+>> sound/drivers/opl4/opl4_synth.c:511:19: warning: Assigned value is garba=
+ge or undefined [clang-analyzer-core.uninitialized.Assign]
+                   voice[i]->sound =3D sound[i];
+                                   ^ ~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:492:6: note: Assuming field 'drum_channe=
+l' is not equal to 0
+           i =3D chan->drum_channel ? 0x80 : (chan->midi_program & 0x7f);
+               ^~~~~~~~~~~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:492:6: note: '?' condition is true
+   sound/drivers/opl4/opl4_synth.c:494:14: note: Assuming 'i' is < field 'c=
+ount'
+           for (i =3D 0; i < regions->count; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:494:2: note: Loop condition is true.  En=
+tering loop body
+           for (i =3D 0; i < regions->count; i++) {
+           ^
+   sound/drivers/opl4/opl4_synth.c:495:7: note: Assuming 'note' is < field =
+'key_min'
+                   if (note >=3D regions->regions[i].key_min &&
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/drivers/opl4/opl4_synth.c:495:43: note: Left side of '&&' is false
+                   if (note >=3D regions->regions[i].key_min &&
+                                                           ^
+   sound/drivers/opl4/opl4_synth.c:495:3: note: '?' condition is false
+                   if (note >=3D regions->regions[i].key_min &&
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/drivers/opl4/opl4_synth.c:495:7: note: 'note' is < field 'key_min'
+                   if (note >=3D regions->regions[i].key_min &&
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/drivers/opl4/opl4_synth.c:495:43: note: Left side of '&&' is false
+                   if (note >=3D regions->regions[i].key_min &&
+                                                           ^
+   sound/drivers/opl4/opl4_synth.c:495:3: note: '?' condition is false
+                   if (note >=3D regions->regions[i].key_min &&
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/drivers/opl4/opl4_synth.c:495:3: note: Taking false branch
+                   if (note >=3D regions->regions[i].key_min &&
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/drivers/opl4/opl4_synth.c:494:14: note: Assuming 'i' is < field 'c=
+ount'
+           for (i =3D 0; i < regions->count; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   sound/drivers/opl4/opl4_synth.c:494:2: note: Loop condition is true.  En=
+tering loop body
+           for (i =3D 0; i < regions->count; i++) {
+           ^
+   sound/drivers/opl4/opl4_synth.c:495:7: note: Assuming 'note' is < field =
+'key_min'
+                   if (note >=3D regions->regions[i].key_min &&
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/drivers/opl4/opl4_synth.c:495:43: note: Left side of '&&' is false
+                   if (note >=3D regions->regions[i].key_min &&
+                                                           ^
+   sound/drivers/opl4/opl4_synth.c:495:3: note: '?' condition is false
+                   if (note >=3D regions->regions[i].key_min &&
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/drivers/opl4/opl4_synth.c:495:7: note: 'note' is < field 'key_min'
+                   if (note >=3D regions->regions[i].key_min &&
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+--
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/ntfs/mft.c:1953:2: note: Taking false branch
+           if (ntfs_cluster_free(mft_ni, old_last_vcn, -1, ctx) < 0) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/ntfs/mft.c:1958:6: note: Access to field 'attr' results in a derefere=
+nce of a null pointer (loaded from variable 'ctx')
+           a =3D ctx->attr;
+               ^~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   fs/xfs/libxfs/xfs_rtbitmap.c:349:8: warning: Although the value stored t=
+o 'bufp' is used in the enclosing expression, the value is never actually r=
+ead from 'bufp' [clang-analyzer-deadcode.DeadStores]
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:349:8: note: Although the value stored to '=
+bufp' is used in the enclosing expression, the value is never actually read=
+ from 'bufp'
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:394:8: warning: Although the value stored t=
+o 'bufp' is used in the enclosing expression, the value is never actually r=
+ead from 'bufp' [clang-analyzer-deadcode.DeadStores]
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:394:8: note: Although the value stored to '=
+bufp' is used in the enclosing expression, the value is never actually read=
+ from 'bufp'
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:847:8: warning: Although the value stored t=
+o 'bufp' is used in the enclosing expression, the value is never actually r=
+ead from 'bufp' [clang-analyzer-deadcode.DeadStores]
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:847:8: note: Although the value stored to '=
+bufp' is used in the enclosing expression, the value is never actually read=
+ from 'bufp'
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:893:8: warning: Although the value stored t=
+o 'bufp' is used in the enclosing expression, the value is never actually r=
+ead from 'bufp' [clang-analyzer-deadcode.DeadStores]
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:893:8: note: Although the value stored to '=
+bufp' is used in the enclosing expression, the value is never actually read=
+ from 'bufp'
+                           b =3D bufp =3D bp->b_addr;
+                               ^      ~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
@@ -269,145 +622,275 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/media/common/tveeprom.c:455:9: warning: Although the value store=
-d to 'len' is used in the enclosing expression, the value is never actually=
- read from 'len' [clang-analyzer-deadcode.DeadStores]
-           done =3D len =3D beenhere =3D 0;
-                  ^     ~~~~~~~~~~~~
-   drivers/media/common/tveeprom.c:455:9: note: Although the value stored t=
-o 'len' is used in the enclosing expression, the value is never actually re=
-ad from 'len'
-           done =3D len =3D beenhere =3D 0;
-                  ^     ~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/media/platform/allegro-dvt/allegro-core.c:2107:3: warning: Value=
- stored to 'curr' is never read [clang-analyzer-deadcode.DeadStores]
-                   curr +=3D len;
-                   ^       ~~~
-   drivers/media/platform/allegro-dvt/allegro-core.c:2107:3: note: Value st=
-ored to 'curr' is never read
-                   curr +=3D len;
-                   ^       ~~~
-   Suppressed 1 warnings (1 with check filters).
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    1 warning generated.
-   drivers/staging/fwserial/fwserial.c:275:2: warning: Value stored to 'ava=
-il' is never read [clang-analyzer-deadcode.DeadStores]
-           avail =3D dma_fifo_avail(&port->tx_fifo);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fwserial/fwserial.c:275:2: note: Value stored to 'avail'=
- is never read
-           avail =3D dma_fifo_avail(&port->tx_fifo);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/most/configfs.c:173:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(mdev_link->direction, page);
+           ^~~~~~
+   drivers/most/configfs.c:173:2: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+           strcpy(mdev_link->direction, page);
+           ^~~~~~
+   drivers/most/configfs.c:192:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(mdev_link->datatype, page);
+           ^~~~~~
+   drivers/most/configfs.c:192:2: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+           strcpy(mdev_link->datatype, page);
+           ^~~~~~
+   drivers/most/configfs.c:446:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(mdev_link->name, name);
+           ^~~~~~
+   drivers/most/configfs.c:446:2: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+           strcpy(mdev_link->name, name);
+           ^~~~~~
+   drivers/most/configfs.c:535:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(mdev_link->name, name);
+           ^~~~~~
+   drivers/most/configfs.c:535:2: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+           strcpy(mdev_link->name, name);
+           ^~~~~~
    1 warning generated.
-   drivers/md/dm-rq.c:163:2: warning: Access to field 'type' results in a d=
-ereference of a null pointer (loaded from field 'ti') [clang-analyzer-core.=
-NullDereference]
-           tio->ti->type->release_clone_rq(clone, NULL);
+   sound/sound_core.c:406:9: warning: Call to function 'strcat' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                                   strcat(_name, "-");
+                                   ^~~~~~
+   sound/sound_core.c:406:9: note: Call to function 'strcat' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcat'. CWE-119
+                                   strcat(_name, "-");
+                                   ^~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> sound/isa/wavefront/wavefront_synth.c:421:14: warning: Array access (fro=
+m variable 'rbuf') results in a null pointer dereference [clang-analyzer-co=
+re.NullDereference]
+                                           rbuf[0] =3D WF_ST_EMPTY;
+                                           ~~~~    ^
+   sound/isa/wavefront/wavefront_synth.c:343:2: note: '?' condition is false
+           if (!wfcmd) {
            ^
-   drivers/md/dm-rq.c:259:6: note: Assuming 'clone' is non-null
-           if (!clone) {
-               ^~~~~~
-   drivers/md/dm-rq.c:259:2: note: Taking false branch
-           if (!clone) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/isa/wavefront/wavefront_synth.c:343:7: note: 'wfcmd' is non-null
+           if (!wfcmd) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/isa/wavefront/wavefront_synth.c:343:2: note: '?' condition is false
+           if (!wfcmd) {
            ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/isa/wavefront/wavefront_synth.c:343:2: note: Taking false branch
+           if (!wfcmd) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/isa/wavefront/wavefront_synth.c:354:6: note: Assuming 'cmd' is equ=
+al to 130
+           if (cmd =3D=3D WFC_DOWNLOAD_MULTISAMPLE) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/isa/wavefront/wavefront_synth.c:354:2: note: '?' condition is false
+           if (cmd =3D=3D WFC_DOWNLOAD_MULTISAMPLE) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/isa/wavefront/wavefront_synth.c:354:6: note: 'cmd' is equal to 130
+           if (cmd =3D=3D WFC_DOWNLOAD_MULTISAMPLE) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/isa/wavefront/wavefront_synth.c:354:2: note: '?' condition is true
+           if (cmd =3D=3D WFC_DOWNLOAD_MULTISAMPLE) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/isa/wavefront/wavefront_synth.c:354:2: note: Taking true branch
+           if (cmd =3D=3D WFC_DOWNLOAD_MULTISAMPLE) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/isa/wavefront/wavefront_synth.c:356:3: note: Null pointer value st=
+ored to 'rbuf'
+                   rbuf =3D NULL;
+                   ^~~~~~~~~~~
+   sound/isa/wavefront/wavefront_synth.c:359:2: note: Assuming the conditio=
+n is false
+           DPRINT (WF_DEBUG_CMD, "0x%x [%s] (%d,%d,%d)\n",
+           ^
+   sound/isa/wavefront/wavefront_synth.c:118:12: note: expanded from macro =
+'DPRINT'
+          if ((dev->debug & (cond)) =3D=3D (cond)) { \
+          ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +/addr_hi_reg +564 drivers/memory/tegra/mc.c
+vim +/buf +94 drivers/pnp/pnpbios/core.c
 
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  516  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16   82  =
 
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  517  irqreturn_t tegra30_mc_han=
-dle_irq(int irq, void *data)
-891846516317132 Thierry Reding  2014-04-16  518  {
-891846516317132 Thierry Reding  2014-04-16  519  	struct tegra_mc *mc =3D d=
-ata;
-1c74d5c0de0c2cc Dmitry Osipenko 2018-04-09  520  	unsigned long status;
-891846516317132 Thierry Reding  2014-04-16  521  	unsigned int bit;
-891846516317132 Thierry Reding  2014-04-16  522  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16   83  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16   84   * (Much of this belongs=
+ in a shared routine somewhere)
+^1da177e4c3f41 Linus Torvalds     2005-04-16   85   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16   86  static int pnp_dock_even=
+t(int dock, struct pnp_docking_station_info *info)
+^1da177e4c3f41 Linus Torvalds     2005-04-16   87  {
+377e7a27c049d6 Greg Kroah-Hartman 2016-12-11   88  	static char const sbin_=
+pnpbios[] =3D "/sbin/pnpbios";
+^1da177e4c3f41 Linus Torvalds     2005-04-16   89  	char *argv[3], **envp, =
+*buf, *scratch;
+^1da177e4c3f41 Linus Torvalds     2005-04-16   90  	int i =3D 0, value;
+^1da177e4c3f41 Linus Torvalds     2005-04-16   91  =
 
-891846516317132 Thierry Reding  2014-04-16  523  	/* mask all interrupts to=
- avoid flooding */
-1c74d5c0de0c2cc Dmitry Osipenko 2018-04-09  524  	status =3D mc_readl(mc, M=
-C_INTSTATUS) & mc->soc->intmask;
-bf3fbdfbec947cd Dmitry Osipenko 2018-04-09  525  	if (!status)
-bf3fbdfbec947cd Dmitry Osipenko 2018-04-09  526  		return IRQ_NONE;
-891846516317132 Thierry Reding  2014-04-16  527  =
+07d4e9af109221 Bjorn Helgaas      2007-07-26   92  	if (!(envp =3D kcalloc(=
+20, sizeof(char *), GFP_KERNEL)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16   93  		return -ENOMEM;
+cd86128088554d Robert P. J. Day   2006-12-13  @94  	if (!(buf =3D kzalloc(2=
+56, GFP_KERNEL))) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16   95  		kfree(envp);
+^1da177e4c3f41 Linus Torvalds     2005-04-16   96  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16   97  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16   98  =
 
-891846516317132 Thierry Reding  2014-04-16  528  	for_each_set_bit(bit, &st=
-atus, 32) {
-1079a66bc32ff04 Thierry Reding  2021-06-02  529  		const char *error =3D te=
-gra_mc_status_names[bit] ?: "unknown";
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  530  		u32 addr_hi_reg =3D 0, s=
-tatus_reg, addr_reg;
-891846516317132 Thierry Reding  2014-04-16  531  		const char *client =3D "=
-unknown", *desc;
-891846516317132 Thierry Reding  2014-04-16  532  		const char *direction, *=
-secure;
-891846516317132 Thierry Reding  2014-04-16  533  		phys_addr_t addr =3D 0;
-891846516317132 Thierry Reding  2014-04-16  534  		unsigned int i;
-891846516317132 Thierry Reding  2014-04-16  535  		char perm[7];
-891846516317132 Thierry Reding  2014-04-16  536  		u8 id, type;
-891846516317132 Thierry Reding  2014-04-16  537  		u32 value;
-891846516317132 Thierry Reding  2014-04-16  538  =
+07d4e9af109221 Bjorn Helgaas      2007-07-26   99  	/* FIXME: if there are =
+actual users of this, it should be
+07d4e9af109221 Bjorn Helgaas      2007-07-26  100  	 * integrated into the =
+driver core and use the usual infrastructure
+07d4e9af109221 Bjorn Helgaas      2007-07-26  101  	 * like sysfs and ueven=
+ts
+07d4e9af109221 Bjorn Helgaas      2007-07-26  102  	 */
+377e7a27c049d6 Greg Kroah-Hartman 2016-12-11  103  	argv[0] =3D (char *)sbi=
+n_pnpbios;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  104  	argv[1] =3D "dock";
+^1da177e4c3f41 Linus Torvalds     2005-04-16  105  	argv[2] =3D NULL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  106  =
 
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  539  		switch (bit) {
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  540  		case MC_INT_DECERR_VPR:
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  541  			status_reg =3D MC_ERR_V=
-PR_STATUS;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  542  			addr_reg =3D MC_ERR_VPR=
-_ADR;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  543  			break;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  544  		case MC_INT_SECERR_SEC:
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  545  			status_reg =3D MC_ERR_S=
-EC_STATUS;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  546  			addr_reg =3D MC_ERR_SEC=
-_ADR;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  547  			break;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  548  		case MC_INT_DECERR_MTS:
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  549  			status_reg =3D MC_ERR_M=
-TS_STATUS;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  550  			addr_reg =3D MC_ERR_MTS=
-_ADR;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  551  			break;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  552  		case MC_INT_DECERR_GENER=
-ALIZED_CARVEOUT:
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  553  			status_reg =3D MC_ERR_G=
-ENERALIZED_CARVEOUT_STATUS;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  554  			addr_reg =3D MC_ERR_GEN=
-ERALIZED_CARVEOUT_ADR;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  555  			break;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  556  		case MC_INT_DECERR_ROUTE=
-_SANITY:
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  557  			status_reg =3D MC_ERR_R=
-OUTE_SANITY_STATUS;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  558  			addr_reg =3D MC_ERR_ROU=
-TE_SANITY_ADR;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  559  			break;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  560  		default:
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  561  			status_reg =3D MC_ERR_S=
-TATUS;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  562  			addr_reg =3D MC_ERR_ADR;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  563  			if (mc->soc->has_addr_h=
-i_reg)
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21 @564  				addr_hi_reg =3D MC_ERR=
-_ADR_HI;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  565  			break;
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  566  		}
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  567  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  107  	/* minimal command envi=
+ronment */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  108  	envp[i++] =3D "HOME=3D/=
+";
+^1da177e4c3f41 Linus Torvalds     2005-04-16  109  	envp[i++] =3D "PATH=3D/=
+sbin:/bin:/usr/sbin:/usr/bin";
+^1da177e4c3f41 Linus Torvalds     2005-04-16  110  =
 
-c76ed3ccfbb800c Ashish Mhetre   2022-01-21  568  		value =3D mc_readl(mc, s=
-tatus_reg);
-891846516317132 Thierry Reding  2014-04-16  569  =
 
+:::::: The code at line 94 was first introduced by commit
+:::::: cd86128088554d64fea1679191509f00e6353c5b [PATCH] Fix numerous kcallo=
+c() calls, convert to kzalloc()
+
+:::::: TO: Robert P. J. Day <rpjday@mindspring.com>
+:::::: CC: Linus Torvalds <torvalds@woody.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5946874926112399156==--
+--===============4482450487957588194==--
 
