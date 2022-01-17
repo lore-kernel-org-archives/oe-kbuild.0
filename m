@@ -1,365 +1,370 @@
-Content-Type: multipart/mixed; boundary="===============2754374687867872769=="
+Content-Type: multipart/mixed; boundary="===============3998427166550035586=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/block/xen-blkback/blkback.c:831:9: warning: Opposite expression on both sides of '|='. [oppositeExpression]
-Date: Mon, 17 Jan 2022 09:28:20 +0800
-Message-ID: <202201170923.c52Ul7Ji-lkp@intel.com>
+Subject: Re: [PATCH mptcp-next v2 04/10] mptcp: allow to use port and non-signal in set_flags
+Date: Mon, 17 Jan 2022 08:57:54 +0800
+Message-ID: <202201170809.mnbOMph4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2754374687867872769==
+--===============3998427166550035586==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jan Beulich <jbeulich@suse.com>
-CC: Juergen Gross <jgross@suse.com>
+In-Reply-To: <3be4e9906eafe7efb2326e47f75ef26cc1031427.1642320655.git.gelia=
+ng.tang@suse.com>
+References: <3be4e9906eafe7efb2326e47f75ef26cc1031427.1642320655.git.gelian=
+g.tang@suse.com>
+TO: Geliang Tang <geliang.tang@suse.com>
+TO: mptcp(a)lists.linux.dev
+CC: Geliang Tang <geliang.tang@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   79e06c4c4950be2abd8ca5d2428a8c915aa62c24
-commit: 5a264285ed1cd32e26d9de4f3c8c6855e467fd63 xen-blkback: don't "handle=
-" error by BUG()
-date:   11 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+Hi Geliang,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on mptcp/export]
+[cannot apply to shuah-kselftest/next linus/master v5.16 next-20220116]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Geliang-Tang/set-flags-and=
+-selftests/20220116-162051
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20117/202201170809.mnbOMph4-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c63a31=
+75c2947e8c1a2d3bbe16a8586600705c54)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/019a14644e4d438da92165724=
+463810bca38eeec
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Geliang-Tang/set-flags-and-selftes=
+ts/20220116-162051
+        git checkout 019a14644e4d438da92165724463810bca38eeec
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> fs/f2fs/data.c:1850:11: warning: Redundant condition: If 'err =3D=3D 1',=
- the comparison 'err' is always true. [redundantCondition]
-     if (err || err =3D=3D 1)
-             ^
-   fs/f2fs/f2fs.h:2222:15: warning: Local variable valid_node_count shadows=
- outer function [shadowFunction]
-    unsigned int valid_node_count, user_block_count;
-                 ^
-   fs/f2fs/f2fs.h:2318:28: note: Shadowed declaration
-   static inline unsigned int valid_node_count(struct f2fs_sb_info *sbi)
-                              ^
-   fs/f2fs/f2fs.h:2222:15: note: Shadow variable
-    unsigned int valid_node_count, user_block_count;
-                 ^
->> drivers/block/xen-blkback/blkback.c:831:9: warning: Opposite expression =
-on both sides of '|=3D'. [oppositeExpression]
-       ret |=3D !ret;
+clang-analyzer warnings: (new ones prefixed by >>)
+   net/mptcp/pm_netlink.c:1783:2: note: Taking false branch
+           if (addr.addr.family =3D=3D AF_UNSPEC) {
            ^
+   net/mptcp/pm_netlink.c:1791:7: note: 'entry' is non-null
+           if (!entry) {
+                ^~~~~
+   net/mptcp/pm_netlink.c:1791:2: note: Taking false branch
+           if (!entry) {
+           ^
+   net/mptcp/pm_netlink.c:1795:49: note: Left side of '&&' is false
+           if ((addr.flags & MPTCP_PM_ADDR_FLAG_FULLMESH) &&
+                                                          ^
+   net/mptcp/pm_netlink.c:1806:2: note: Calling 'mptcp_nl_set_flags'
+           mptcp_nl_set_flags(net, &addr.addr, bkup, changed);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1743:9: note: Assuming the condition is true
+           while ((msk =3D mptcp_token_iter_next(net, &s_slot, &s_num)) !=
+=3D NULL) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   net/mptcp/pm_netlink.c:1743:2: note: Loop condition is true.  Entering l=
+oop body
+           while ((msk =3D mptcp_token_iter_next(net, &s_slot, &s_num)) !=
+=3D NULL) {
+           ^
+   net/mptcp/pm_netlink.c:1746:7: note: Assuming the condition is false
+                   if (list_empty(&msk->conn_list) || mptcp_pm_is_userspace=
+(msk))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1746:7: note: Left side of '||' is false
+   net/mptcp/pm_netlink.c:1746:3: note: Taking false branch
+                   if (list_empty(&msk->conn_list) || mptcp_pm_is_userspace=
+(msk))
+                   ^
+   net/mptcp/pm_netlink.c:1751:7: note: Assuming the condition is true
+                   if (changed & MPTCP_PM_ADDR_FLAG_BACKUP)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1751:3: note: Taking true branch
+                   if (changed & MPTCP_PM_ADDR_FLAG_BACKUP)
+                   ^
+   net/mptcp/pm_netlink.c:1752:10: note: Calling 'mptcp_pm_nl_mp_prio_send_=
+ack'
+                           ret =3D mptcp_pm_nl_mp_prio_send_ack(msk, addr, =
+bkup);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   net/mptcp/pm_netlink.c:718:2: note: Taking false branch
+           pr_debug("bkup=3D%d", bkup);
+           ^
+   include/linux/printk.h:580:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/mptcp/pm_netlink.c:720:2: note: Loop condition is true.  Entering lo=
+op body
+           mptcp_for_each_subflow(msk, subflow) {
+           ^
+   net/mptcp/protocol.h:304:2: note: expanded from macro 'mptcp_for_each_su=
+bflow'
+           list_for_each_entry(__subflow, &((__msk)->conn_list), node)
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   net/mptcp/pm_netlink.c:725:3: note: Calling 'local_address'
+                   local_address((struct sock_common *)ssk, &local);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:101:6: note: Assuming field 'family' is not equal=
+ to AF_INET
+           if (addr->family =3D=3D AF_INET)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:101:2: note: Taking false branch
+           if (addr->family =3D=3D AF_INET)
+           ^
+   net/mptcp/pm_netlink.c:104:11: note: Assuming field 'family' is not equa=
+l to AF_INET6
+           else if (addr->family =3D=3D AF_INET6)
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:104:7: note: Taking false branch
+           else if (addr->family =3D=3D AF_INET6)
+                ^
+   net/mptcp/pm_netlink.c:725:3: note: Returning from 'local_address'
+                   local_address((struct sock_common *)ssk, &local);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:726:8: note: Calling 'addresses_equal'
+                   if (!addresses_equal(&local, addr, addr->port))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:63:6: note: Assuming 'a->family' is not equal to =
+'b->family'
+           if (a->family =3D=3D b->family) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:63:2: note: Taking false branch
+           if (a->family =3D=3D b->family) {
+           ^
+   net/mptcp/pm_netlink.c:69:16: note: Field 'family' is not equal to AF_IN=
+ET
+           } else if (a->family =3D=3D AF_INET) {
+                         ^
+   net/mptcp/pm_netlink.c:69:9: note: Taking false branch
+           } else if (a->family =3D=3D AF_INET) {
+                  ^
+   net/mptcp/pm_netlink.c:72:13: note: Assuming field 'family' is equal to =
+AF_INET
+           } else if (b->family =3D=3D AF_INET) {
+                      ^~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:72:9: note: Taking true branch
+           } else if (b->family =3D=3D AF_INET) {
+                  ^
+   net/mptcp/pm_netlink.c:73:7: note: Calling 'ipv6_addr_v4mapped'
+                   if (ipv6_addr_v4mapped(&a->addr6))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/ipv6.h:698:43: note: The left operand of '^' is a garbage va=
+lue
+                   (__force unsigned long)(a->s6_addr32[2] ^
+                                           ~~~~~~~~~~~~~~~ ^
+>> net/mptcp/pm_netlink.c:1213:6: warning: Branch condition evaluates to a =
+garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (addr.addr.port && !(addr.flags & MPTCP_PM_ADDR_FLAG_SIGNAL))=
+ {
+               ^~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1209:8: note: Calling 'mptcp_pm_parse_addr'
+           ret =3D mptcp_pm_parse_addr(attr, info, true, &addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1107:6: note: Assuming 'attr' is non-null
+           if (!attr) {
+               ^~~~~
+   net/mptcp/pm_netlink.c:1107:2: note: Taking false branch
+           if (!attr) {
+           ^
+   net/mptcp/pm_netlink.c:1115:6: note: Assuming 'err' is not equal to 0
+           if (err)
+               ^~~
+   net/mptcp/pm_netlink.c:1115:2: note: Taking true branch
+           if (err)
+           ^
+   net/mptcp/pm_netlink.c:1116:3: note: Returning without writing to 'entry=
+->addr.port'
+                   return err;
+                   ^
+   net/mptcp/pm_netlink.c:1209:8: note: Returning from 'mptcp_pm_parse_addr'
+           ret =3D mptcp_pm_parse_addr(attr, info, true, &addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1210:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   net/mptcp/pm_netlink.c:1210:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   net/mptcp/pm_netlink.c:1213:6: note: Branch condition evaluates to a gar=
+bage value
+           if (addr.addr.port && !(addr.flags & MPTCP_PM_ADDR_FLAG_SIGNAL))=
+ {
+               ^~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1399:19: warning: The left operand of '=3D=3D' is=
+ a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (addr.addr.id =3D=3D 0)
+               ~~~~~~~~~~~~ ^
+   net/mptcp/pm_netlink.c:1390:8: note: Calling 'mptcp_pm_parse_addr'
+           ret =3D mptcp_pm_parse_addr(attr, info, false, &addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1107:6: note: Assuming 'attr' is non-null
+           if (!attr) {
+               ^~~~~
+   net/mptcp/pm_netlink.c:1107:2: note: Taking false branch
+           if (!attr) {
+           ^
+   net/mptcp/pm_netlink.c:1115:6: note: Assuming 'err' is not equal to 0
+           if (err)
+               ^~~
+   net/mptcp/pm_netlink.c:1115:2: note: Taking true branch
+           if (err)
+           ^
+   net/mptcp/pm_netlink.c:1116:3: note: Returning without writing to 'entry=
+->addr.id'
+                   return err;
+                   ^
+   net/mptcp/pm_netlink.c:1390:8: note: Returning from 'mptcp_pm_parse_addr'
+           ret =3D mptcp_pm_parse_addr(attr, info, false, &addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1391:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   net/mptcp/pm_netlink.c:1391:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   net/mptcp/pm_netlink.c:1399:19: note: The left operand of '=3D=3D' is a =
+garbage value
+           if (addr.addr.id =3D=3D 0)
+               ~~~~~~~~~~~~ ^
+   net/mptcp/pm_netlink.c:1583:10: warning: 2nd function call argument is a=
+n uninitialized value [clang-analyzer-core.CallAndMessage]
+           entry =3D __lookup_addr_by_id(pernet, addr.addr.id);
+                   ^                           ~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1566:8: note: Calling 'mptcp_pm_parse_addr'
+           ret =3D mptcp_pm_parse_addr(attr, info, false, &addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1107:6: note: Assuming 'attr' is non-null
+           if (!attr) {
+               ^~~~~
+   net/mptcp/pm_netlink.c:1107:2: note: Taking false branch
+           if (!attr) {
+           ^
+   net/mptcp/pm_netlink.c:1115:6: note: Assuming 'err' is not equal to 0
+           if (err)
+               ^~~
+   net/mptcp/pm_netlink.c:1115:2: note: Taking true branch
+           if (err)
+           ^
+   net/mptcp/pm_netlink.c:1116:3: note: Returning without writing to 'entry=
+->addr.id'
+                   return err;
+                   ^
+   net/mptcp/pm_netlink.c:1566:8: note: Returning from 'mptcp_pm_parse_addr'
+           ret =3D mptcp_pm_parse_addr(attr, info, false, &addr);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mptcp/pm_netlink.c:1567:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   net/mptcp/pm_netlink.c:1567:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   net/mptcp/pm_netlink.c:1571:6: note: Assuming 'msg' is non-null
+           if (!msg)
+               ^~~~
+   net/mptcp/pm_netlink.c:1571:2: note: Taking false branch
+           if (!msg)
 
-vim +831 drivers/block/xen-blkback/blkback.c
+vim +1213 net/mptcp/pm_netlink.c
 
-01f37f2d53e14a drivers/block/xen-blkback/blkback.c Konrad Rzeszutek Wilk 20=
-11-05-11  755  =
+875b76718f68ba Geliang Tang 2021-02-01  1201  =
 
-597957000ab5b1 drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  756  static int xen_blkbk_map(struct xen_blkif_ring *ring,
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  757  			 struct grant_page *pages[],
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  758  			 int num, bool ro)
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  759  {
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  760  	struct gnttab_map_grant_ref map[BLKIF_MAX_SEGMENTS_PER_REQU=
-EST];
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  761  	struct page *pages_to_gnt[BLKIF_MAX_SEGMENTS_PER_REQUEST];
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  762  	struct persistent_gnt *persistent_gnt =3D NULL;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  763  	phys_addr_t addr =3D 0;
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  764  	int i, seg_idx, new_map_idx;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  765  	int segs_to_map =3D 0;
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  766  	int ret =3D 0;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  767  	int last_map =3D 0, map_until =3D 0;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  768  	int use_persistent_gnts;
-597957000ab5b1 drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  769  	struct xen_blkif *blkif =3D ring->blkif;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  770  =
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1202  static int mptcp_nl_cmd_add_a=
+ddr(struct sk_buff *skb, struct genl_info *info)
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1203  {
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1204  	struct nlattr *attr =3D info=
+->attrs[MPTCP_PM_ATTR_ADDR];
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1205  	struct pm_nl_pernet *pernet =
+=3D genl_info_pm_nl(info);
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1206  	struct mptcp_pm_addr_entry a=
+ddr, *entry;
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1207  	int ret;
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1208  =
 
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  771  	use_persistent_gnts =3D (blkif->vbd.feature_gnt_persistent);
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  772  =
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1209  	ret =3D mptcp_pm_parse_addr(=
+attr, info, true, &addr);
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1210  	if (ret < 0)
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1211  		return ret;
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1212  =
 
-01f37f2d53e14a drivers/block/xen-blkback/blkback.c Konrad Rzeszutek Wilk 20=
-11-05-11  773  	/*
-01f37f2d53e14a drivers/block/xen-blkback/blkback.c Konrad Rzeszutek Wilk 20=
-11-05-11  774  	 * Fill out preq.nr_sects with proper amount of sectors, an=
-d setup
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  775  	 * assign map[..] with the PFN of the page in our domain wi=
-th the
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  776  	 * corresponding grant reference for each page.
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  777  	 */
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  778  again:
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  779  	for (i =3D map_until; i < num; i++) {
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  780  		uint32_t flags;
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  781  =
+019a14644e4d43 Geliang Tang 2022-01-16 @1213  	if (addr.addr.port && !(addr=
+.flags & MPTCP_PM_ADDR_FLAG_SIGNAL)) {
+019a14644e4d43 Geliang Tang 2022-01-16  1214  		GENL_SET_ERR_MSG(info, "fla=
+gs must have signal when using port");
+019a14644e4d43 Geliang Tang 2022-01-16  1215  		return -EINVAL;
+019a14644e4d43 Geliang Tang 2022-01-16  1216  	}
+019a14644e4d43 Geliang Tang 2022-01-16  1217  =
 
-597957000ab5b1 drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  782  		if (use_persistent_gnts) {
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  783  			persistent_gnt =3D get_persistent_gnt(
-d4bf0065b7251a drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  784  				ring,
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  785  				pages[i]->gref);
-597957000ab5b1 drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  786  		}
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  787  =
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1218  	entry =3D kmalloc(sizeof(*en=
+try), GFP_KERNEL);
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1219  	if (!entry) {
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1220  		GENL_SET_ERR_MSG(info, "can=
+'t allocate addr");
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1221  		return -ENOMEM;
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1222  	}
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1223  =
 
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  788  		if (persistent_gnt) {
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  789  			/*
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  790  			 * We are using persistent grants and
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  791  			 * the grant is already mapped
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  792  			 */
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  793  			pages[i]->page =3D persistent_gnt->page;
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  794  			pages[i]->persistent_gnt =3D persistent_gnt;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  795  		} else {
-ca33479cc7be2c drivers/block/xen-blkback/blkback.c Juergen Gross         20=
-20-12-07  796  			if (gnttab_page_cache_get(&ring->free_pages,
-ca33479cc7be2c drivers/block/xen-blkback/blkback.c Juergen Gross         20=
-20-12-07  797  						  &pages[i]->page))
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  798  				goto out_of_memory;
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  799  			addr =3D vaddr(pages[i]->page);
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  800  			pages_to_gnt[segs_to_map] =3D pages[i]->page;
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  801  			pages[i]->persistent_gnt =3D NULL;
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  802  			flags =3D GNTMAP_host_map;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  803  			if (!use_persistent_gnts && ro)
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  804  				flags |=3D GNTMAP_readonly;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  805  			gnttab_set_map_op(&map[segs_to_map++], addr,
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  806  					  flags, pages[i]->gref,
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  807  					  blkif->domid);
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  808  		}
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  809  		map_until =3D i + 1;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  810  		if (segs_to_map =3D=3D BLKIF_MAX_SEGMENTS_PER_REQUEST)
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  811  			break;
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  812  	}
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  813  =
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1224  	*entry =3D addr;
+1729cf186d8a5d Geliang Tang 2021-02-01  1225  	if (entry->addr.port) {
+1729cf186d8a5d Geliang Tang 2021-02-01  1226  		ret =3D mptcp_pm_nl_create_=
+listen_socket(skb->sk, entry);
+1729cf186d8a5d Geliang Tang 2021-02-01  1227  		if (ret) {
+1729cf186d8a5d Geliang Tang 2021-02-01  1228  			GENL_SET_ERR_MSG(info, "cr=
+eate listen socket error");
+1729cf186d8a5d Geliang Tang 2021-02-01  1229  			kfree(entry);
+1729cf186d8a5d Geliang Tang 2021-02-01  1230  			return ret;
+1729cf186d8a5d Geliang Tang 2021-02-01  1231  		}
+1729cf186d8a5d Geliang Tang 2021-02-01  1232  	}
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1233  	ret =3D mptcp_pm_nl_append_n=
+ew_local_addr(pernet, entry);
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1234  	if (ret < 0) {
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1235  		GENL_SET_ERR_MSG(info, "too=
+ many addresses or duplicate one");
+1729cf186d8a5d Geliang Tang 2021-02-01  1236  		if (entry->lsk)
+1729cf186d8a5d Geliang Tang 2021-02-01  1237  			sock_release(entry->lsk);
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1238  		kfree(entry);
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1239  		return ret;
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1240  	}
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1241  =
 
-5a264285ed1cd3 drivers/block/xen-blkback/blkback.c Jan Beulich           20=
-21-02-15  814  	if (segs_to_map)
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  815  		ret =3D gnttab_map_refs(map, NULL, pages_to_gnt, segs_to_m=
-ap);
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  816  =
+875b76718f68ba Geliang Tang 2021-02-01  1242  	mptcp_nl_add_subflow_or_sign=
+al_addr(sock_net(skb->sk));
+875b76718f68ba Geliang Tang 2021-02-01  1243  =
 
-01f37f2d53e14a drivers/block/xen-blkback/blkback.c Konrad Rzeszutek Wilk 20=
-11-05-11  817  	/*
-01f37f2d53e14a drivers/block/xen-blkback/blkback.c Konrad Rzeszutek Wilk 20=
-11-05-11  818  	 * Now swizzle the MFN in our domain with the MFN from the =
-other domain
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  819  	 * so that when we access vaddr(pending_req,i) it has the c=
-ontents of
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  820  	 * the page from the other domain.
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  821  	 */
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  822  	for (seg_idx =3D last_map, new_map_idx =3D 0; seg_idx < map=
-_until; seg_idx++) {
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  823  		if (!pages[seg_idx]->persistent_gnt) {
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  824  			/* This is a newly mapped grant */
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  825  			BUG_ON(new_map_idx >=3D segs_to_map);
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  826  			if (unlikely(map[new_map_idx].status !=3D 0)) {
-77387b82d1b2ba drivers/block/xen-blkback/blkback.c Tao Chen              20=
-15-04-01  827  				pr_debug("invalid buffer -- could not remap it\n");
-ca33479cc7be2c drivers/block/xen-blkback/blkback.c Juergen Gross         20=
-20-12-07  828  				gnttab_page_cache_put(&ring->free_pages,
-ca33479cc7be2c drivers/block/xen-blkback/blkback.c Juergen Gross         20=
-20-12-07  829  						      &pages[seg_idx]->page, 1);
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  830  				pages[seg_idx]->handle =3D BLKBACK_INVALID_HANDLE;
-5a264285ed1cd3 drivers/block/xen-blkback/blkback.c Jan Beulich           20=
-21-02-15 @831  				ret |=3D !ret;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  832  				goto next;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  833  			}
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  834  			pages[seg_idx]->handle =3D map[new_map_idx].handle;
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  835  		} else {
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  836  			continue;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  837  		}
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  838  		if (use_persistent_gnts &&
-823f2091469367 drivers/block/xen-blkback/blkback.c SeongJae Park         20=
-20-01-27  839  		    ring->persistent_gnt_c < max_pgrants) {
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  840  			/*
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  841  			 * We are using persistent grants, the grant is
-3f3aad5e6686ed drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  842  			 * not mapped but we might have room for it.
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  843  			 */
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  844  			persistent_gnt =3D kmalloc(sizeof(struct persistent_gnt),
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  845  				                 GFP_KERNEL);
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  846  			if (!persistent_gnt) {
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  847  				/*
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  848  				 * If we don't have enough memory to
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  849  				 * allocate the persistent_gnt struct
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  850  				 * map this grant non-persistenly
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  851  				 */
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  852  				goto next;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  853  			}
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  854  			persistent_gnt->gnt =3D map[new_map_idx].ref;
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  855  			persistent_gnt->handle =3D map[new_map_idx].handle;
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  856  			persistent_gnt->page =3D pages[seg_idx]->page;
-d4bf0065b7251a drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  857  			if (add_persistent_gnt(ring,
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  858  			                       persistent_gnt)) {
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  859  				kfree(persistent_gnt);
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  860  				persistent_gnt =3D NULL;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  861  				goto next;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  862  			}
-bb642e8315fd57 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-05-02  863  			pages[seg_idx]->persistent_gnt =3D persistent_gnt;
-77387b82d1b2ba drivers/block/xen-blkback/blkback.c Tao Chen              20=
-15-04-01  864  			pr_debug("grant %u added to the tree of persistent grants=
-, using %u/%u\n",
-d4bf0065b7251a drivers/block/xen-blkback/blkback.c Bob Liu               20=
-15-11-14  865  				 persistent_gnt->gnt, ring->persistent_gnt_c,
-823f2091469367 drivers/block/xen-blkback/blkback.c SeongJae Park         20=
-20-01-27  866  				 max_pgrants);
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  867  			goto next;
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  868  		}
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  869  		if (use_persistent_gnts && !blkif->vbd.overflow_max_grants=
-) {
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  870  			blkif->vbd.overflow_max_grants =3D 1;
-77387b82d1b2ba drivers/block/xen-blkback/blkback.c Tao Chen              20=
-15-04-01  871  			pr_debug("domain %u, device %#x is using maximum number o=
-f persistent grants\n",
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  872  			         blkif->domid, blkif->vbd.handle);
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  873  		}
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  874  		/*
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  875  		 * We could not map this grant persistently, so use it as
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  876  		 * a non-persistent grant.
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  877  		 */
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  878  next:
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  879  		new_map_idx++;
-0a8704a51f386c drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-12-10-24  880  	}
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  881  	segs_to_map =3D 0;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  882  	last_map =3D map_until;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  883  	if (map_until !=3D num)
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  884  		goto again;
-31552ee32df89f drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  885  =
-
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  886  	return ret;
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  887  =
-
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  888  out_of_memory:
-77387b82d1b2ba drivers/block/xen-blkback/blkback.c Tao Chen              20=
-15-04-01  889  	pr_alert("%s: out of memory\n", __func__);
-ca33479cc7be2c drivers/block/xen-blkback/blkback.c Juergen Gross         20=
-20-12-07  890  	gnttab_page_cache_put(&ring->free_pages, pages_to_gnt, segs=
-_to_map);
-f9bd84a8a845d8 drivers/block/xen-blkback/blkback.c SeongJae Park         20=
-19-11-26  891  	for (i =3D last_map; i < num; i++)
-f9bd84a8a845d8 drivers/block/xen-blkback/blkback.c SeongJae Park         20=
-19-11-26  892  		pages[i]->handle =3D BLKBACK_INVALID_HANDLE;
-c6cc142dac52e6 drivers/block/xen-blkback/blkback.c Roger Pau Monne       20=
-13-04-17  893  	return -ENOMEM;
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  894  }
-1a95fe6e42cefc drivers/xen/blkback/blkback.c       Konrad Rzeszutek Wilk 20=
-11-04-15  895  =
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1244  	return 0;
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1245  }
+01cacb00b35cb6 Paolo Abeni  2020-03-27  1246  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2754374687867872769==--
+--===============3998427166550035586==--
 
