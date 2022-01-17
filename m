@@ -1,141 +1,96 @@
-Content-Type: multipart/mixed; boundary="===============7131164003248874442=="
+Content-Type: multipart/mixed; boundary="===============2939696898764666233=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/freescale/enetc/enetc.c:356:3: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
-Date: Tue, 18 Jan 2022 02:54:20 +0800
-Message-ID: <202201180108.LLHw7JDU-lkp@intel.com>
+Subject: [linux-next:master 11781/12392] drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c:7035:2-4: WARNING: possible condition with no effect (if == else)
+Date: Mon, 17 Jan 2022 21:58:39 +0800
+Message-ID: <202201172034.UclsXCtq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7131164003248874442==
+--===============2939696898764666233==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Ioana Ciornei <ioana.ciornei@nxp.com>
-CC: Claudiu Manoil <claudiu.manoil@nxp.com>
-CC: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Evan Quan <evan.quan@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Lijo Lazar <lijo.lazar@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0c947b893d69231a9add855939da7c66237ab44f
-commit: fb8629e2cbfce2b695521d6d33d029117ceda007 net: enetc: add support fo=
-r software TSO
-date:   3 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 3 months ago
-compiler: sparc64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   68e0667e38d92a8f461fa2e4ccf268ecf4ea1307
+commit: 837d542a09cd533055423dfca7e621a9c1d13c5b [11781/12392] drm/amd/pm: =
+relocate the power related headers
+:::::: branch date: 11 hours ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/202=
+20117/202201172034.UclsXCtq-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c:7035:2-4: WARNING: possible c=
+ondition with no effect (if =3D=3D else)
 
->> drivers/net/ethernet/freescale/enetc/enetc.c:356:3: warning: Assignment =
-of function parameter has no effect outside the function. Did you forget de=
-referencing it? [uselessAssignmentPtrArg]
-     tx_swbd =3D &tx_ring->tx_swbd[*i];
-     ^
+vim +7035 drivers/gpu/drm/amd/pm/legacy-dpm/si_dpm.c
 
-vim +356 drivers/net/ethernet/freescale/enetc/enetc.c
+841686df9f7d29 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 2016=
+-08-01  7027  =
 
-d4fd0404c1c95b Claudiu Manoil 2019-01-22  317  =
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7028  static void si_set_vce_clock(struct amdgpu_device *adev,
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7029  			     struct amdgpu_ps *new_rps,
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7030  			     struct amdgpu_ps *old_rps)
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7031  {
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7032  	if ((old_rps->evclk !=3D new_rps->evclk) ||
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7033  	    (old_rps->ecclk !=3D new_rps->ecclk)) {
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7034  		/* Turn the clocks on when encoding, off otherwise */
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24 @7035  		if (new_rps->evclk || new_rps->ecclk) {
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7036  			/* Place holder for future VCE1.0 porting to amdgpu
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7037  			vce_v1_0_enable_mgcg(adev, false, false);*/
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7038  		} else {
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7039  			/* Place holder for future VCE1.0 porting to amdgpu
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7040  			vce_v1_0_enable_mgcg(adev, true, false);
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7041  			amdgpu_asic_set_vce_clocks(adev, new_rps->evclk, new_rps->=
+ecclk);*/
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7042  		}
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7043  	}
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7044  }
+a71a4f501586c9 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Jivin          2020=
+-06-24  7045  =
 
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  318  static void enetc_map_tx_tso=
-_hdr(struct enetc_bdr *tx_ring, struct sk_buff *skb,
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  319  				 struct enetc_tx_swbd *t=
-x_swbd,
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  320  				 union enetc_tx_bd *txbd=
-, int *i, int hdr_len,
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  321  				 int data_len)
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  322  {
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  323  	union enetc_tx_bd txbd_tmp;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  324  	u8 flags =3D 0, e_flags =3D=
- 0;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  325  	dma_addr_t addr;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  326  =
 
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  327  	enetc_clear_tx_bd(&txbd_tmp=
-);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  328  	addr =3D tx_ring->tso_heade=
-rs_dma + *i * TSO_HEADER_SIZE;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  329  =
+:::::: The code at line 7035 was first introduced by commit
+:::::: a71a4f501586c9a1c710c3d5c1db4ff6650e5fc4 drm/amdgpu: SI support for =
+UVD and VCE power managment
 
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  330  	if (skb_vlan_tag_present(sk=
-b))
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  331  		flags |=3D ENETC_TXBD_FLAG=
-S_EX;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  332  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  333  	txbd_tmp.addr =3D cpu_to_le=
-64(addr);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  334  	txbd_tmp.buf_len =3D cpu_to=
-_le16(hdr_len);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  335  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  336  	/* first BD needs frm_len a=
-nd offload flags set */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  337  	txbd_tmp.frm_len =3D cpu_to=
-_le16(hdr_len + data_len);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  338  	txbd_tmp.flags =3D flags;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  339  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  340  	/* For the TSO header we do=
- not set the dma address since we do not
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  341  	 * want it unmapped when we=
- do cleanup. We still set len so that we
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  342  	 * count the bytes sent.
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  343  	 */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  344  	tx_swbd->len =3D hdr_len;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  345  	tx_swbd->do_twostep_tstamp =
-=3D false;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  346  	tx_swbd->check_wb =3D false;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  347  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  348  	/* Actually write the heade=
-r in the BD */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  349  	*txbd =3D txbd_tmp;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  350  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  351  	/* Add extension BD for VLA=
-N */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  352  	if (flags & ENETC_TXBD_FLAG=
-S_EX) {
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  353  		/* Get the next BD */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  354  		enetc_bdr_idx_inc(tx_ring,=
- i);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  355  		txbd =3D ENETC_TXBD(*tx_ri=
-ng, *i);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07 @356  		tx_swbd =3D &tx_ring->tx_s=
-wbd[*i];
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  357  		prefetchw(txbd);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  358  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  359  		/* Setup the VLAN fields */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  360  		enetc_clear_tx_bd(&txbd_tm=
-p);
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  361  		txbd_tmp.ext.vid =3D cpu_t=
-o_le16(skb_vlan_tag_get(skb));
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  362  		txbd_tmp.ext.tpid =3D 0; /=
-* < C-TAG */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  363  		e_flags |=3D ENETC_TXBD_E_=
-FLAGS_VLAN_INS;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  364  =
-
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  365  		/* Write the BD */
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  366  		txbd_tmp.ext.e_flags =3D e=
-_flags;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  367  		*txbd =3D txbd_tmp;
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  368  	}
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  369  }
-fb8629e2cbfce2 Ioana Ciornei  2021-10-07  370  =
-
+:::::: TO: Alex Jivin <alex.jivin@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7131164003248874442==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2939696898764666233==--
 
