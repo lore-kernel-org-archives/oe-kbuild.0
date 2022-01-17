@@ -1,196 +1,181 @@
-Content-Type: multipart/mixed; boundary="===============5483711216595449217=="
+Content-Type: multipart/mixed; boundary="===============1443607821272336784=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/xen/swiotlb-xen.c:206 xen_swiotlb_init() error: uninitialized symbol 'start'.
-Date: Mon, 17 Jan 2022 10:59:53 +0800
-Message-ID: <202201171049.JsHkmgNy-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 99/334] fs/xfs/scrub/fscounters.c:198 xchk_fscounters_freeze() warn: inconsistent returns '&sb->s_umount'.
+Date: Mon, 17 Jan 2022 09:48:51 +0800
+Message-ID: <202201170928.GcIhOWMI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5483711216595449217==
+--===============1443607821272336784==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   79e06c4c4950be2abd8ca5d2428a8c915aa62c24
-commit: cbce99527ca7c4e98db9890651d5e9dfc2fb89ac xen-swiotlb: remove xen_io=
-_tlb_start and xen_io_tlb_nslabs
-date:   10 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-m031-20220116 (https://download.01.org/0day-ci/archi=
-ve/20220117/202201171049.JsHkmgNy-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   8427da8e62fbcf9a04e5b2663fe60b97d6911417
+commit: 8dd594d12f08acc6c6fa388b2cae3e270bf8effc [99/334] xfs: stabilize fs=
+ summary counters for online fsck
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: ia64-randconfig-m031-20220116 (https://download.01.org/0day-ci/arch=
+ive/20220117/202201170928.GcIhOWMI-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/xen/swiotlb-xen.c:206 xen_swiotlb_init() error: uninitialized symbo=
-l 'start'.
+smatch warnings:
+fs/xfs/scrub/fscounters.c:198 xchk_fscounters_freeze() warn: inconsistent r=
+eturns '&sb->s_umount'.
 
-Old smatch warnings:
-arch/arm/include/asm/dma-direct.h:24 dma_to_pfn() warn: should 'pfn << 12' =
-be a 64 bit type?
+vim +198 fs/xfs/scrub/fscounters.c
 
-vim +/start +206 drivers/xen/swiotlb-xen.c
+8dd594d12f08acc Darrick J. Wong 2022-01-06  117  =
 
-4035b43da6daa5 Christoph Hellwig     2021-03-01  158  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  118  /*
+8dd594d12f08acc Darrick J. Wong 2022-01-06  119   * We couldn't stabilize t=
+he filesystem long enough to sample all the variables
+8dd594d12f08acc Darrick J. Wong 2022-01-06  120   * that comprise the summa=
+ry counters and compare them to the percpu counters.
+8dd594d12f08acc Darrick J. Wong 2022-01-06  121   * We need to disable all =
+writer threads, which means taking the first two
+8dd594d12f08acc Darrick J. Wong 2022-01-06  122   * freeze levels to put us=
+erspace to sleep, and the third freeze level to
+8dd594d12f08acc Darrick J. Wong 2022-01-06  123   * prevent background thre=
+ads from starting new transactions.
+8dd594d12f08acc Darrick J. Wong 2022-01-06  124   */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  125  STATIC int
+8dd594d12f08acc Darrick J. Wong 2022-01-06  126  xchk_fscounters_freeze(
+8dd594d12f08acc Darrick J. Wong 2022-01-06  127  	struct xfs_scrub	*sc)
+8dd594d12f08acc Darrick J. Wong 2022-01-06  128  {
+8dd594d12f08acc Darrick J. Wong 2022-01-06  129  	struct xchk_fscounters	*f=
+sc =3D sc->buf;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  130  	struct xfs_mount	*mp =3D =
+sc->mp;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  131  	struct super_block	*sb =
+=3D mp->m_super;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  132  	int			level;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  133  	int			error =3D 0;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  134  =
 
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  159  int __ref xen_swiotlb=
-_init(int verbose, bool early)
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  160  {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  161  	unsigned long bytes,=
- order;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  162  	int rc =3D -ENOMEM;
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  163  	enum xen_swiotlb_err=
- m_ret =3D XEN_SWIOTLB_UNKNOWN;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  164  	unsigned int repeat =
-=3D 3;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  165  	char *start;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  166  	unsigned long nslabs;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  167  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  135  	if (sc->flags & XCHK_HAVE=
+_FREEZE_PROT) {
+8dd594d12f08acc Darrick J. Wong 2022-01-06  136  		sc->flags &=3D ~XCHK_HAV=
+E_FREEZE_PROT;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  137  		mnt_drop_write_file(sc->=
+file);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  138  	}
+8dd594d12f08acc Darrick J. Wong 2022-01-06  139  =
 
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  168  	nslabs =3D swiotlb_n=
-r_tbl();
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  169  retry:
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  170  	if (!nslabs)
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  171  		nslabs =3D DEFAULT_=
-NSLABS;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  172  	bytes =3D nslabs << =
-IO_TLB_SHIFT;
-4035b43da6daa5 Christoph Hellwig     2021-03-01  173  	order =3D get_order(=
-bytes);
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  174  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  140  	/* Wait until we're ready=
+ to freeze or give up. */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  141  	down_write(&sb->s_umount);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  142  	while (sb->s_writers.froz=
+en !=3D SB_UNFROZEN) {
+8dd594d12f08acc Darrick J. Wong 2022-01-06  143  		up_write(&sb->s_umount);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  144  =
 
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  175  	/*
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  176  	 * IO TLB memory alr=
-eady allocated. Just use it.
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  177  	 */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  178  	if (io_tlb_start !=
-=3D 0)
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  179  		goto end;
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  180  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  145  		if (xchk_should_terminat=
+e(sc, &error))
+8dd594d12f08acc Darrick J. Wong 2022-01-06  146  			return error;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  147  =
 
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  181  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  182  	 * Get IO TLB memory=
- from any location.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  183  	 */
-8a7f97b902f4fb Mike Rapoport         2019-03-11  184  	if (early) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  185  		start =3D memblock_=
-alloc(PAGE_ALIGN(bytes),
-15c3c114ed144e Mike Rapoport         2018-10-30  186  						  PAGE_SIZE);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  187  		if (!start)
-8a7f97b902f4fb Mike Rapoport         2019-03-11  188  			panic("%s: Failed =
-to allocate %lu bytes align=3D0x%lx\n",
-8a7f97b902f4fb Mike Rapoport         2019-03-11  189  			      __func__, PA=
-GE_ALIGN(bytes), PAGE_SIZE);
-8a7f97b902f4fb Mike Rapoport         2019-03-11  190  	} else {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  191  #define SLABS_PER_PAG=
-E (1 << (PAGE_SHIFT - IO_TLB_SHIFT))
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  192  #define IO_TLB_MIN_SL=
-ABS ((1<<20) >> IO_TLB_SHIFT)
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  193  		while ((SLABS_PER_P=
-AGE << order) > IO_TLB_MIN_SLABS) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  194  			start =3D (void *)=
-xen_get_swiotlb_free_pages(order);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  195  			if (start)
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  196  				break;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  197  			order--;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  198  		}
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  199  		if (order !=3D get_=
-order(bytes)) {
-283c0972d53769 Joe Perches           2013-06-28  200  			pr_warn("Warning: =
-only able to allocate %ld MB for software IO TLB\n",
-283c0972d53769 Joe Perches           2013-06-28  201  				(PAGE_SIZE << ord=
-er) >> 20);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  202  			nslabs =3D SLABS_P=
-ER_PAGE << order;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  203  			bytes =3D nslabs <=
-< IO_TLB_SHIFT;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  204  		}
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  205  	}
-cbce99527ca7c4 Christoph Hellwig     2021-03-01 @206  	if (!start) {
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  207  		m_ret =3D XEN_SWIOT=
-LB_ENOMEM;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  208  		goto error;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  209  	}
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  210  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  211  	 * And replace that =
-memory with pages under 4GB.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  212  	 */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  213  	rc =3D xen_swiotlb_f=
-ixup(start,
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  214  			       bytes,
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  215  			       nslabs);
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  216  	if (rc) {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  217  		if (early)
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  218  			memblock_free(__pa=
-(start),
-2013288f723887 Mike Rapoport         2018-10-30  219  				      PAGE_ALIGN(=
-bytes));
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  220  		else {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  221  			free_pages((unsign=
-ed long)start, order);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  222  			start =3D NULL;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  223  		}
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  224  		m_ret =3D XEN_SWIOT=
-LB_EFIXUP;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  225  		goto error;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  226  	}
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  227  	if (early) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  228  		if (swiotlb_init_wi=
-th_tbl(start, nslabs,
-ac2cbab21f318e Yinghai Lu            2013-01-24  229  			 verbose))
-ac2cbab21f318e Yinghai Lu            2013-01-24  230  			panic("Cannot allo=
-cate SWIOTLB buffer");
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  231  		rc =3D 0;
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  232  	} else
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  233  		rc =3D swiotlb_late=
-_init_with_tbl(start, nslabs);
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  234  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  148  		delay(HZ / 10);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  149  		down_write(&sb->s_umount=
+);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  150  	}
+8dd594d12f08acc Darrick J. Wong 2022-01-06  151  =
 
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  235  end:
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  236  	if (!rc)
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  237  		swiotlb_set_max_seg=
-ment(PAGE_SIZE);
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  238  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  152  	if (sb_rdonly(sb)) {
+8dd594d12f08acc Darrick J. Wong 2022-01-06  153  		sb->s_writers.frozen =3D=
+ SB_FREEZE_EXCLUSIVE;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  154  		goto done;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  155  	}
+8dd594d12f08acc Darrick J. Wong 2022-01-06  156  =
 
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  239  	return rc;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  240  error:
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  241  	if (repeat--) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  242  		nslabs =3D max(1024=
-UL, /* Min is 2MB */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  243  					(nslabs >> 1));
-283c0972d53769 Joe Perches           2013-06-28  244  		pr_info("Lowering t=
-o %luMB\n",
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  245  			(nslabs << IO_TLB_=
-SHIFT) >> 20);
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  246  		goto retry;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  247  	}
-283c0972d53769 Joe Perches           2013-06-28  248  	pr_err("%s (rc:%d)\n=
-", xen_swiotlb_error(m_ret), rc);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  249  	if (early)
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  250  		panic("%s (rc:%d)",=
- xen_swiotlb_error(m_ret), rc);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  251  	else
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  252  		free_pages((unsigne=
-d long)start, order);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  253  	return rc;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  254  }
-dceb1a6819ab2c Christoph Hellwig     2017-05-21  255  =
+8dd594d12f08acc Darrick J. Wong 2022-01-06  157  	sb->s_writers.frozen =3D =
+SB_FREEZE_WRITE;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  158  	/* Release s_umount to pr=
+eserve sb_start_write -> s_umount ordering */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  159  	up_write(&sb->s_umount);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  160  	percpu_down_write(sb->s_w=
+riters.rw_sem + SB_FREEZE_WRITE - 1);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  161  	down_write(&sb->s_umount);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  162  =
+
+8dd594d12f08acc Darrick J. Wong 2022-01-06  163  	/* Now we go and block pa=
+ge faults... */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  164  	sb->s_writers.frozen =3D =
+SB_FREEZE_PAGEFAULT;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  165  	percpu_down_write(sb->s_w=
+riters.rw_sem + SB_FREEZE_PAGEFAULT - 1);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  166  =
+
+8dd594d12f08acc Darrick J. Wong 2022-01-06  167  	/*
+8dd594d12f08acc Darrick J. Wong 2022-01-06  168  	 * All writers are done s=
+o after syncing there won't be dirty data.
+8dd594d12f08acc Darrick J. Wong 2022-01-06  169  	 * Let xfs_fs_sync_fs flu=
+sh dirty data so the VFS won't start writeback
+8dd594d12f08acc Darrick J. Wong 2022-01-06  170  	 * and to disable the bac=
+kground gc workers.
+8dd594d12f08acc Darrick J. Wong 2022-01-06  171  	 */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  172  	error =3D sync_filesystem=
+(sb);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  173  	if (error) {
+8dd594d12f08acc Darrick J. Wong 2022-01-06  174  		sb->s_writers.frozen =3D=
+ SB_UNFROZEN;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  175  		for (level =3D SB_FREEZE=
+_PAGEFAULT; level >=3D 0; level--)
+8dd594d12f08acc Darrick J. Wong 2022-01-06  176  			percpu_up_write(sb->s_w=
+riters.rw_sem + level);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  177  		wake_up(&sb->s_writers.w=
+ait_unfrozen);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  178  		return error;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  179  	}
+8dd594d12f08acc Darrick J. Wong 2022-01-06  180  =
+
+8dd594d12f08acc Darrick J. Wong 2022-01-06  181  	/* Now wait for internal =
+filesystem counter */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  182  	sb->s_writers.frozen =3D =
+SB_FREEZE_FS;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  183  	percpu_down_write(sb->s_w=
+riters.rw_sem + SB_FREEZE_FS - 1);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  184  =
+
+8dd594d12f08acc Darrick J. Wong 2022-01-06  185  	/*
+8dd594d12f08acc Darrick J. Wong 2022-01-06  186  	 * We do not need to quie=
+sce the log to check the summary counters, so
+8dd594d12f08acc Darrick J. Wong 2022-01-06  187  	 * skip the call to xfs_f=
+s_freeze here.  To prevent anyone else from
+8dd594d12f08acc Darrick J. Wong 2022-01-06  188  	 * unfreezing us, set the=
+ VFS freeze level to one higher than
+8dd594d12f08acc Darrick J. Wong 2022-01-06  189  	 * FREEZE_COMPLETE.
+8dd594d12f08acc Darrick J. Wong 2022-01-06  190  	 */
+8dd594d12f08acc Darrick J. Wong 2022-01-06  191  	sb->s_writers.frozen =3D =
+SB_FREEZE_EXCLUSIVE;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  192  	for (level =3D SB_FREEZE_=
+LEVELS - 1; level >=3D 0; level--)
+8dd594d12f08acc Darrick J. Wong 2022-01-06  193  		percpu_rwsem_release(sb-=
+>s_writers.rw_sem + level, 0,
+8dd594d12f08acc Darrick J. Wong 2022-01-06  194  				_THIS_IP_);
+8dd594d12f08acc Darrick J. Wong 2022-01-06  195  done:
+8dd594d12f08acc Darrick J. Wong 2022-01-06  196  	fsc->frozen =3D true;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  197  	up_write(&sb->s_umount);
+8dd594d12f08acc Darrick J. Wong 2022-01-06 @198  	return 0;
+8dd594d12f08acc Darrick J. Wong 2022-01-06  199  }
+8dd594d12f08acc Darrick J. Wong 2022-01-06  200  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5483711216595449217==--
+--===============1443607821272336784==--
 
