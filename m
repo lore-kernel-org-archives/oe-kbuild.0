@@ -1,74 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============2718452085066363613=="
+Content-Type: multipart/mixed; boundary="===============0511704852199911956=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/slab.h:589 account_slab() warn: bitwise AND condition is false here
-Date: Wed, 19 Jan 2022 14:59:41 +0800
-Message-ID: <202201191458.AIFpaOpg-lkp@intel.com>
+Subject: arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [uninitvar]
+Date: Wed, 19 Jan 2022 14:27:32 +0800
+Message-ID: <202201191431.nDJLtLm6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2718452085066363613==
+--===============0511704852199911956==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-CC: Vlastimil Babka <vbabka@suse.cz>
-CC: Roman Gushchin <guro@fb.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   99613159ad749543621da8238acf1a122880144e
-commit: b918653b4f32881afb383b7b5853a7edfe0937a6 mm: Convert [un]account_sl=
-ab_page() to struct slab
-date:   13 days ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-m001-20220117 (https://download.01.org/0day-ci/ar=
-chive/20220119/202201191458.AIFpaOpg-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+commit: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local variab=
+les around longjmp as volatile
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-mm/slab.h:589 account_slab() warn: bitwise AND condition is false here
-
-vim +589 mm/slab.h
-
-a64b53780ec35b Kees Cook               2019-07-11  585  =
-
-b918653b4f3288 Matthew Wilcox (Oracle  2021-10-04  586) static __always_inl=
-ine void account_slab(struct slab *slab, int order,
-b918653b4f3288 Matthew Wilcox (Oracle  2021-10-04  587) 					 struct kmem_c=
-ache *s, gfp_t gfp)
-6cea1d569d24af Roman Gushchin          2019-07-11  588  {
-2e9bd483159939 Roman Gushchin          2021-02-24 @589  	if (memcg_kmem_ena=
-bled() && (s->flags & SLAB_ACCOUNT))
-b918653b4f3288 Matthew Wilcox (Oracle  2021-10-04  590) 		memcg_alloc_page_=
-obj_cgroups(slab_page(slab), s, gfp, true);
-2e9bd483159939 Roman Gushchin          2021-02-24  591  =
-
-b918653b4f3288 Matthew Wilcox (Oracle  2021-10-04  592) 	mod_node_page_stat=
-e(slab_pgdat(slab), cache_vmstat_idx(s),
-f2fe7b09a52bc8 Roman Gushchin          2020-08-06  593  			    PAGE_SIZE <<=
- order);
-6cea1d569d24af Roman Gushchin          2019-07-11  594  }
-6cea1d569d24af Roman Gushchin          2019-07-11  595  =
 
 
-:::::: The code@line 589 was first introduced by commit
-:::::: 2e9bd483159939ed2c0704b914294653c8341d25 mm: memcg/slab: pre-allocat=
-e obj_cgroups for slab caches with SLAB_ACCOUNT
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: Roman Gushchin <guro@fb.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+>> arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [=
+uninitvar]
+    if (name) {
+        ^
+
+vim +3745 arch/powerpc/xmon/xmon.c
+
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3722  =
+
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3723  =
+
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3724  /=
+* Print an address in numeric and symbolic form (if possible) */
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3725  s=
+tatic void xmon_print_symbol(unsigned long address, const char *mid,
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3726  	=
+		      const char *after)
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3727  {
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3728  	=
+char *modname;
+a2305e3de819394 arch/powerpc/xmon/xmon.c Arnd Bergmann  2021-04-29  3729  	=
+const char *volatile name =3D NULL;
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3730  	=
+unsigned long offset, size;
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3731  =
+
+f78541dcec327b0 arch/powerpc/xmon/xmon.c Paul Mackerras 2005-10-28  3732  	=
+printf(REG, address);
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3733  	=
+if (setjmp(bus_error_jmp) =3D=3D 0) {
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3734  	=
+	catch_memory_errors =3D 1;
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3735  	=
+	sync();
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3736  	=
+	name =3D kallsyms_lookup(address, &size, &offset, &modname,
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3737  	=
+			       tmpstr);
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3738  	=
+	sync();
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3739  	=
+	/* wait a little while to see if we get a machine check */
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3740  	=
+	__delay(200);
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3741  	}
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3742  =
+
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3743  	=
+catch_memory_errors =3D 0;
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3744  =
+
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16 @3745  	=
+if (name) {
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3746  	=
+	printf("%s%s+%#lx/%#lx", mid, name, offset, size);
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3747  	=
+	if (modname)
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3748  	=
+		printf(" [%s]", modname);
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3749  	}
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3750  	=
+printf("%s", after);
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3751  }
+^1da177e4c3f415 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3752  =
+
+
+:::::: The code at line 3745 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2718452085066363613==--
+--===============0511704852199911956==--
 
