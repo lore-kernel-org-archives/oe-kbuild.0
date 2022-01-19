@@ -1,593 +1,345 @@
-Content-Type: multipart/mixed; boundary="===============8497069949873910593=="
+Content-Type: multipart/mixed; boundary="===============5680414913714709672=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/mach-ep93xx/clock.c:154:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Thu, 20 Jan 2022 04:13:25 +0800
-Message-ID: <202201200359.lTk9zHg4-lkp@intel.com>
+Subject: kernel/bpf/btf.c:4596:38: warning: Either the condition 't?btf_type_vlen(t):MAX_BPF_FUNC_REG_ARGS' is redundant or there is pointer arithmetic with NULL pointer. [nullPointerArithmeticRedundantCheck]
+Date: Thu, 20 Jan 2022 04:13:07 +0800
+Message-ID: <202201200228.sb904LhW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8497069949873910593==
+--===============5680414913714709672==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Nikita Shubin <nikita.shubin@maquefel.me>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: Alexander Sverdlin <alexander.sverdlin@gmail.com>
+TO: Dmitrii Banshchikov <me@ubique.spb.ru>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1d1df41c5a33359a00e919d54eaebfb789711fdc
-commit: 9645ccc7bd7a16cd73c3be9dee70cd702b03be37 ep93xx: clock: convert in-=
-place to COMMON_CLK
-date:   3 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220118 (https://download.01.org/0day-ci/archi=
-ve/20220120/202201200359.lTk9zHg4-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5f782d=
-25a742302d25ef3c8b84b54f7483c2deb9)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9645ccc7bd7a16cd73c3be9dee70cd702b03be37
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9645ccc7bd7a16cd73c3be9dee70cd702b03be37
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: 523a4cf491b3c9e2d546040d57250f1a0ca84f03 bpf: Use MAX_BPF_FUNC_REG_=
+ARGS macro
+date:   11 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 11 months ago
+compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   security/integrity/ima/ima_api.c:73:4: note: Control jumps to line 81
-                           goto out;
-                           ^
-   security/integrity/ima/ima_api.c:82:2: note: Null pointer value stored t=
-o 'entry'
-           *entry =3D NULL;
-           ^~~~~~~~~~~~~
-   security/integrity/ima/ima_api.c:328:11: note: Returning from 'ima_alloc=
-_init_template'
-           result =3D ima_alloc_init_template(&event_data, &entry, template=
-_desc);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   security/integrity/ima/ima_api.c:329:6: note: Assuming 'result' is >=3D 0
-           if (result < 0) {
-               ^~~~~~~~~~
-   security/integrity/ima/ima_api.c:329:2: note: Taking false branch
-           if (result < 0) {
-           ^
-   security/integrity/ima/ima_api.c:335:30: note: Passing null pointer valu=
-e via 1st parameter 'entry'
-           result =3D ima_store_template(entry, violation, inode, filename,=
- pcr);
-                                       ^~~~~
-   security/integrity/ima/ima_api.c:335:11: note: Calling 'ima_store_templa=
-te'
-           result =3D ima_store_template(entry, violation, inode, filename,=
- pcr);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   security/integrity/ima/ima_api.c:108:24: note: Access to field 'template=
-_desc' results in a dereference of a null pointer (loaded from variable 'en=
-try')
-           char *template_name =3D entry->template_desc->name;
-                                 ^~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/bus/mhi/core/boot.c:28:17: warning: Value stored to 'dev' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:28:17: note: Value stored to 'dev' during it=
-s initialization is never read
-           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:121:3: warning: Value stored to 'ee' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ee =3D mhi_get_exec_env(mhi_cntrl);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:121:3: note: Value stored to 'ee' is never r=
-ead
-                   ee =3D mhi_get_exec_env(mhi_cntrl);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:143:2: warning: Value stored to 'ret' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           ret =3D mhi_read_reg(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS, &rx=
-_status);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/bus/mhi/core/boot.c:143:2: note: Value stored to 'ret' is never =
-read
-           ret =3D mhi_read_reg(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS, &rx=
-_status);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/bus/mhi/core/boot.c:158:17: warning: Value stored to 'dev' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:158:17: note: Value stored to 'dev' during i=
-ts initialization is never read
-           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:183:17: warning: Value stored to 'dev' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/mhi/core/boot.c:183:17: note: Value stored to 'dev' during i=
-ts initialization is never read
-           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/phy/phy-core.c:307:2: warning: Value stored to 'ret' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-           ret =3D 0; /* Override possible ret =3D=3D -ENOTSUPP */
-           ^     ~
-   drivers/phy/phy-core.c:307:2: note: Value stored to 'ret' is never read
-           ret =3D 0; /* Override possible ret =3D=3D -ENOTSUPP */
-           ^     ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (3 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> arch/arm/mach-ep93xx/clock.c:154:2: warning: Use of memory after it is f=
-reed [clang-analyzer-unix.Malloc]
-           return &psc->hw;
-           ^
-   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-           ^
-   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:579:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-           ^
-   arch/arm/mach-ep93xx/clock.c:627:6: note: Assuming the condition is false
-           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:627:2: note: Taking false branch
-           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
-           ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: Loop condition is false.  Exit=
-ing loop
-           pr_info("PLL1 running at %ld MHz, PLL2@%ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: Loop condition is false.  Exit=
-ing loop
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   arch/arm/mach-ep93xx/clock.c:642:2: note: Calling 'ep93xx_uart_clock_ini=
-t'
-           ep93xx_uart_clock_init();
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:479:6: note: Assuming the condition is false
-           if (value & EP93XX_SYSCON_PWRCNT_UARTBAUD)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:479:2: note: Taking false branch
-           if (value & EP93XX_SYSCON_PWRCNT_UARTBAUD)
-           ^
-   arch/arm/mach-ep93xx/clock.c:487:2: note: Loop condition is true.  Enter=
-ing loop body
-           for (i =3D 0; i < ARRAY_SIZE(ep93xx_uarts); i++) {
-           ^
-   arch/arm/mach-ep93xx/clock.c:488:8: note: Calling 'ep93xx_clk_register_g=
-ate'
-                   hw =3D ep93xx_clk_register_gate(ep93xx_uarts[i].dev_id,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:136:6: note: Assuming 'psc' is non-null
-           if (!psc)
-               ^~~~
-   arch/arm/mach-ep93xx/clock.c:136:2: note: Taking false branch
-           if (!psc)
-           ^
-   arch/arm/mach-ep93xx/clock.c:142:23: note: 'parent_name' is non-null
-           init.parent_names =3D (parent_name ? &parent_name : NULL);
-                                ^~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:142:23: note: '?' condition is true
-   arch/arm/mach-ep93xx/clock.c:143:22: note: 'parent_name' is non-null
-           init.num_parents =3D (parent_name ? 1 : 0);
-                               ^~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:143:22: note: '?' condition is true
-   arch/arm/mach-ep93xx/clock.c:151:2: note: Taking true branch
-           if (IS_ERR(clk))
-           ^
-   arch/arm/mach-ep93xx/clock.c:152:3: note: Memory is released
-                   kfree(psc);
-                   ^~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:154:2: note: Use of memory after it is freed
-           return &psc->hw;
-           ^      ~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:349:2: warning: Use of memory after it is f=
-reed [clang-analyzer-unix.Malloc]
-           return &psc->hw;
-           ^
-   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-           ^
-   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   arch/arm/mach-ep93xx/clock.c:686:7: note: Calling 'clk_hw_register_ddiv'
-           hw =3D clk_hw_register_ddiv("ep93xx-fb",
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:331:6: note: Assuming 'psc' is non-null
-           if (!psc)
-               ^~~~
-   arch/arm/mach-ep93xx/clock.c:331:2: note: Taking false branch
-           if (!psc)
-           ^
-   arch/arm/mach-ep93xx/clock.c:346:2: note: Taking true branch
-           if (IS_ERR(clk))
-           ^
-   arch/arm/mach-ep93xx/clock.c:347:3: note: Memory is released
-                   kfree(psc);
-                   ^~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:349:2: note: Use of memory after it is freed
-           return &psc->hw;
-           ^      ~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:456:2: warning: Use of memory after it is f=
-reed [clang-analyzer-unix.Malloc]
-           return &psc->hw;
-           ^
-   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
-           ^
-   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:579:2: note: Taking true branch
-           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
-           ^
-   arch/arm/mach-ep93xx/clock.c:627:6: note: Assuming the condition is false
-           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:627:2: note: Taking false branch
-           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
-           ^
-   arch/arm/mach-ep93xx/clock.c:636:2: note: Loop condition is false.  Exit=
-ing loop
-           pr_info("PLL1 running at %ld MHz, PLL2@%ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   arch/arm/mach-ep93xx/clock.c:638:2: note: Loop condition is false.  Exit=
-ing loop
-           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   arch/arm/mach-ep93xx/clock.c:645:7: note: Calling 'clk_hw_register_div'
-           hw =3D clk_hw_register_div("ep93xx-adc",
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:434:6: note: Assuming 'psc' is non-null
-           if (!psc)
-               ^~~~
-   arch/arm/mach-ep93xx/clock.c:434:2: note: Taking false branch
-           if (!psc)
-           ^
-   arch/arm/mach-ep93xx/clock.c:440:23: note: 'parent_name' is non-null
-           init.parent_names =3D (parent_name ? &parent_name : NULL);
-                                ^~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:440:23: note: '?' condition is true
-   arch/arm/mach-ep93xx/clock.c:453:2: note: Taking true branch
-           if (IS_ERR(clk))
-           ^
-   arch/arm/mach-ep93xx/clock.c:454:3: note: Memory is released
-                   kfree(psc);
-                   ^~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:456:2: note: Use of memory after it is freed
-           return &psc->hw;
-           ^      ~~~~~~~~
->> arch/arm/mach-ep93xx/clock.c:484:2: warning: Value stored to 'hw' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           hw =3D clk_hw_register_fixed_factor(NULL, "uart", "xtali", 0, 1,=
- clk_uart_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:484:2: note: Value stored to 'hw' is never =
-read
-           hw =3D clk_hw_register_fixed_factor(NULL, "uart", "xtali", 0, 1,=
- clk_uart_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:612:2: warning: Value stored to 'hw' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           hw =3D clk_hw_register_fixed_factor(NULL, "usb_clk", "pll2", 0, =
-1, clk_usb_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   arch/arm/mach-ep93xx/clock.c:612:2: note: Value stored to 'hw' is never =
-read
-           hw =3D clk_hw_register_fixed_factor(NULL, "usb_clk", "pll2", 0, =
-1, clk_usb_div);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   lib/mpi/mpi-pow.c:164:10: warning: The result of the left shift is undef=
-ined due to shifting by '32', which is greater or equal to the width of typ=
-e 'mpi_limb_t' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   e =3D (e << c) << 1;      /* shift the exp bits to the l=
-eft, lose msb */
-                          ^  ~
-   lib/mpi/mpi-pow.c:49:6: note: Assuming 'msize' is not equal to 0
-           if (!msize)
-               ^~~~~~
-   lib/mpi/mpi-pow.c:49:2: note: Taking false branch
-           if (!msize)
-           ^
-   lib/mpi/mpi-pow.c:52:6: note: Assuming 'esize' is not equal to 0
-           if (!esize) {
-               ^~~~~~
-   lib/mpi/mpi-pow.c:52:2: note: Taking false branch
-           if (!esize) {
-           ^
-   lib/mpi/mpi-pow.c:71:6: note: Assuming 'mp' is non-null
-           if (!mp)
-               ^~~
-   lib/mpi/mpi-pow.c:71:2: note: Taking false branch
-           if (!mp)
-           ^
-   lib/mpi/mpi-pow.c:74:6: note: 'mod_shift_cnt' is 32
-           if (mod_shift_cnt)
-               ^~~~~~~~~~~~~
-   lib/mpi/mpi-pow.c:74:2: note: Taking true branch
-           if (mod_shift_cnt)
-           ^
-   lib/mpi/mpi-pow.c:81:6: note: Assuming 'bsize' is <=3D 'msize'
-           if (bsize > msize) {    /* The base is larger than the module. R=
-educe it. */
-               ^~~~~~~~~~~~~
-   lib/mpi/mpi-pow.c:81:2: note: Taking false branch
-           if (bsize > msize) {    /* The base is larger than the module. R=
-educe it. */
-           ^
-   lib/mpi/mpi-pow.c:98:6: note: Assuming 'bsize' is not equal to 0
-           if (!bsize) {
-               ^~~~~~
-   lib/mpi/mpi-pow.c:98:2: note: Taking false branch
-           if (!bsize) {
-           ^
-   lib/mpi/mpi-pow.c:104:6: note: Assuming 'size' is > field 'alloced'
-           if (res->alloced < size) {
-               ^~~~~~~~~~~~~~~~~~~
-   lib/mpi/mpi-pow.c:104:2: note: Taking true branch
-           if (res->alloced < size) {
-           ^
-   lib/mpi/mpi-pow.c:108:7: note: Assuming 'rp' is not equal to 'ep'
-                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
-                       ^~~~~~~~
-   lib/mpi/mpi-pow.c:108:7: note: Left side of '||' is false
-   lib/mpi/mpi-pow.c:108:19: note: Assuming 'rp' is not equal to 'mp'
-                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
-                                   ^~~~~~~~
-   lib/mpi/mpi-pow.c:108:7: note: Left side of '||' is false
-                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
-                       ^
-   lib/mpi/mpi-pow.c:108:31: note: Assuming 'rp' is not equal to 'bp'
-                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
-                                               ^~~~~~~~
-   lib/mpi/mpi-pow.c:108:3: note: Taking false branch
-                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
-                   ^
-   lib/mpi/mpi-pow.c:114:8: note: Assuming the condition is false
-                           if (mpi_resize(res, size) < 0)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/mpi/mpi-pow.c:114:4: note: Taking false branch
-                           if (mpi_resize(res, size) < 0)
-                           ^
-   lib/mpi/mpi-pow.c:144:2: note: Assuming '_i' is >=3D 'bsize'
-           MPN_COPY(rp, bp, bsize);
-           ^
-   lib/mpi/mpi-internal.h:65:16: note: expanded from macro 'MPN_COPY'
-                   for (_i =3D 0; _i < (n); _i++)    \
-                                ^~~~~~~~
-   lib/mpi/mpi-pow.c:144:2: note: Loop condition is false. Execution contin=
-ues on line 144
-           MPN_COPY(rp, bp, bsize);
-           ^
-   lib/mpi/mpi-internal.h:65:3: note: expanded from macro 'MPN_COPY'
-                   for (_i =3D 0; _i < (n); _i++)    \
-                   ^
-   lib/mpi/mpi-pow.c:144:2: note: Loop condition is false.  Exiting loop
-           MPN_COPY(rp, bp, bsize);
-           ^
-   lib/mpi/mpi-internal.h:63:2: note: expanded from macro 'MPN_COPY'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +154 arch/arm/mach-ep93xx/clock.c
+   kernel/bpf/btf.c:5723:13: warning: Boolean result is used in bitwise ope=
+ration. Clarify expression with parentheses. [clarifyCondition]
+    if (!uname ^ !uname_len)
+               ^
+>> kernel/bpf/btf.c:4596:38: warning: Either the condition 't?btf_type_vlen=
+(t):MAX_BPF_FUNC_REG_ARGS' is redundant or there is pointer arithmetic with=
+ NULL pointer. [nullPointerArithmeticRedundantCheck]
+    args =3D (const struct btf_param *)(t + 1);
+                                        ^
+   kernel/bpf/btf.c:4600:14: note: Assuming that condition 't?btf_type_vlen=
+(t):MAX_BPF_FUNC_REG_ARGS' is not redundant
+    nr_args =3D t ? btf_type_vlen(t) : MAX_BPF_FUNC_REG_ARGS;
+                ^
+   kernel/bpf/btf.c:4596:38: note: Null pointer addition
+    args =3D (const struct btf_param *)(t + 1);
+                                        ^
 
-ff05c0330b9880 Hartley Sweeten 2009-05-07  125  =
+vim +4596 kernel/bpf/btf.c
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  126  static struct clk_hw *ep93x=
-x_clk_register_gate(const char *name,
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  127  				    const char *parent_=
-name,
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  128  				    void __iomem *reg,
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  129  				    u8 bit_idx)
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  130  {
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  131  	struct clk_init_data init;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  132  	struct clk_psc *psc;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  133  	struct clk *clk;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  134  =
+84ad7a7ab69f11 Jiri Olsa              2020-01-23  4576  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  135  	psc =3D kzalloc(sizeof(*ps=
-c), GFP_KERNEL);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  136  	if (!psc)
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  137  		return ERR_PTR(-ENOMEM);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  138  =
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4577  bool btf_ctx_access=
+(int off, int size, enum bpf_access_type type,
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4578  		    const struct =
+bpf_prog *prog,
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4579  		    struct bpf_in=
+sn_access_aux *info)
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4580  {
+38207291604401 Martin KaFai Lau       2019-10-24  4581  	const struct btf_t=
+ype *t =3D prog->aux->attach_func_proto;
+3aac1ead5eb6b7 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4582  	struct b=
+pf_prog *tgt_prog =3D prog->aux->dst_prog;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4583  	struct btf *btf =
+=3D bpf_prog_get_target_btf(prog);
+38207291604401 Martin KaFai Lau       2019-10-24  4584  	const char *tname =
+=3D prog->aux->attach_func_name;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4585  	struct bpf_verifie=
+r_log *log =3D info->log;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4586  	const struct btf_p=
+aram *args;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4587  	u32 nr_args, arg;
+3c32cc1bceba8a Yonghong Song          2020-05-13  4588  	int i, ret;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4589  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  139  	init.name =3D name;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  140  	init.ops =3D &clk_ep93xx_g=
-ate_ops;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  141  	init.flags =3D CLK_SET_RAT=
-E_PARENT;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  142  	init.parent_names =3D (par=
-ent_name ? &parent_name : NULL);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  143  	init.num_parents =3D (pare=
-nt_name ? 1 : 0);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  144  =
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4590  	if (off % 8) {
+38207291604401 Martin KaFai Lau       2019-10-24  4591  		bpf_log(log, "fun=
+c '%s' offset %d is not multiple of 8\n",
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4592  			tname, off);
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4593  		return false;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4594  	}
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4595  	arg =3D off / 8;
+9e15db66136a14 Alexei Starovoitov     2019-10-15 @4596  	args =3D (const st=
+ruct btf_param *)(t + 1);
+523a4cf491b3c9 Dmitrii Banshchikov    2021-02-26  4597  	/* if (t =3D=3D NU=
+LL) Fall back to default BPF prog with
+523a4cf491b3c9 Dmitrii Banshchikov    2021-02-26  4598  	 * MAX_BPF_FUNC_RE=
+G_ARGS u64 arguments.
+523a4cf491b3c9 Dmitrii Banshchikov    2021-02-26  4599  	 */
+523a4cf491b3c9 Dmitrii Banshchikov    2021-02-26  4600  	nr_args =3D t ? bt=
+f_type_vlen(t) : MAX_BPF_FUNC_REG_ARGS;
+38207291604401 Martin KaFai Lau       2019-10-24  4601  	if (prog->aux->att=
+ach_btf_trace) {
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4602  		/* skip first 'vo=
+id *__data' argument in btf_trace_##name typedef */
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4603  		args++;
+38207291604401 Martin KaFai Lau       2019-10-24  4604  		nr_args--;
+38207291604401 Martin KaFai Lau       2019-10-24  4605  	}
+fec56f5890d93f Alexei Starovoitov     2019-11-14  4606  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  145  	psc->reg =3D reg;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  146  	psc->bit_idx =3D bit_idx;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  147  	psc->hw.init =3D &init;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  148  	psc->lock =3D &clk_lock;
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  149  =
+f50b49a0bfcaf5 KP Singh               2020-03-30  4607  	if (arg > nr_args)=
+ {
+f50b49a0bfcaf5 KP Singh               2020-03-30  4608  		bpf_log(log, "fun=
+c '%s' doesn't have %d-th argument\n",
+f50b49a0bfcaf5 KP Singh               2020-03-30  4609  			tname, arg + 1);
+f50b49a0bfcaf5 KP Singh               2020-03-30  4610  		return false;
+f50b49a0bfcaf5 KP Singh               2020-03-30  4611  	}
+f50b49a0bfcaf5 KP Singh               2020-03-30  4612  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  150  	clk =3D clk_register(NULL,=
- &psc->hw);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  151  	if (IS_ERR(clk))
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  152  		kfree(psc);
-9645ccc7bd7a16 Nikita Shubin   2021-10-18  153  =
+6ba43b761c4134 KP Singh               2020-03-04  4613  	if (arg =3D=3D nr_=
+args) {
+f50b49a0bfcaf5 KP Singh               2020-03-30  4614  		switch (prog->exp=
+ected_attach_type) {
+f50b49a0bfcaf5 KP Singh               2020-03-30  4615  		case BPF_LSM_MAC:
+f50b49a0bfcaf5 KP Singh               2020-03-30  4616  		case BPF_TRACE_FE=
+XIT:
+9e4e01dfd3254c KP Singh               2020-03-29  4617  			/* When LSM prog=
+rams are attached to void LSM hooks
+9e4e01dfd3254c KP Singh               2020-03-29  4618  			 * they use FEXI=
+T trampolines and when attached to
+9e4e01dfd3254c KP Singh               2020-03-29  4619  			 * int LSM hooks=
+, they use MODIFY_RETURN trampolines.
+9e4e01dfd3254c KP Singh               2020-03-29  4620  			 *
+9e4e01dfd3254c KP Singh               2020-03-29  4621  			 * While the LSM=
+ programs are BPF_MODIFY_RETURN-like
+9e4e01dfd3254c KP Singh               2020-03-29  4622  			 * the check:
+9e4e01dfd3254c KP Singh               2020-03-29  4623  			 *
+9e4e01dfd3254c KP Singh               2020-03-29  4624  			 *	if (ret_type =
+!=3D 'int')
+9e4e01dfd3254c KP Singh               2020-03-29  4625  			 *		return -EINV=
+AL;
+9e4e01dfd3254c KP Singh               2020-03-29  4626  			 *
+9e4e01dfd3254c KP Singh               2020-03-29  4627  			 * is _not_ done=
+ here. This is still safe as LSM hooks
+9e4e01dfd3254c KP Singh               2020-03-29  4628  			 * have only voi=
+d and int return types.
+9e4e01dfd3254c KP Singh               2020-03-29  4629  			 */
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4630  			if (!t)
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4631  				return true;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4632  			t =3D btf_type_b=
+y_id(btf, t->type);
+f50b49a0bfcaf5 KP Singh               2020-03-30  4633  			break;
+f50b49a0bfcaf5 KP Singh               2020-03-30  4634  		case BPF_MODIFY_R=
+ETURN:
+6ba43b761c4134 KP Singh               2020-03-04  4635  			/* For now the B=
+PF_MODIFY_RETURN can only be attached to
+6ba43b761c4134 KP Singh               2020-03-04  4636  			 * functions tha=
+t return an int.
+6ba43b761c4134 KP Singh               2020-03-04  4637  			 */
+6ba43b761c4134 KP Singh               2020-03-04  4638  			if (!t)
+6ba43b761c4134 KP Singh               2020-03-04  4639  				return false;
+6ba43b761c4134 KP Singh               2020-03-04  4640  =
 
-9645ccc7bd7a16 Nikita Shubin   2021-10-18 @154  	return &psc->hw;
-ff05c0330b9880 Hartley Sweeten 2009-05-07  155  }
-ff05c0330b9880 Hartley Sweeten 2009-05-07  156  =
+6ba43b761c4134 KP Singh               2020-03-04  4641  			t =3D btf_type_s=
+kip_modifiers(btf, t->type, NULL);
+a9b59159d338d4 John Fastabend         2020-06-24  4642  			if (!btf_type_is=
+_small_int(t)) {
+6ba43b761c4134 KP Singh               2020-03-04  4643  				bpf_log(log,
+6ba43b761c4134 KP Singh               2020-03-04  4644  					"ret type %s n=
+ot allowed for fmod_ret\n",
+6ba43b761c4134 KP Singh               2020-03-04  4645  					btf_kind_str[B=
+TF_INFO_KIND(t->info)]);
+6ba43b761c4134 KP Singh               2020-03-04  4646  				return false;
+6ba43b761c4134 KP Singh               2020-03-04  4647  			}
+f50b49a0bfcaf5 KP Singh               2020-03-30  4648  			break;
+f50b49a0bfcaf5 KP Singh               2020-03-30  4649  		default:
+38207291604401 Martin KaFai Lau       2019-10-24  4650  			bpf_log(log, "fu=
+nc '%s' doesn't have %d-th argument\n",
+fec56f5890d93f Alexei Starovoitov     2019-11-14  4651  				tname, arg + 1);
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4652  			return false;
+f50b49a0bfcaf5 KP Singh               2020-03-30  4653  		}
+fec56f5890d93f Alexei Starovoitov     2019-11-14  4654  	} else {
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4655  		if (!t)
+523a4cf491b3c9 Dmitrii Banshchikov    2021-02-26  4656  			/* Default prog =
+with MAX_BPF_FUNC_REG_ARGS args */
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4657  			return true;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4658  		t =3D btf_type_by=
+_id(btf, args[arg].type);
+fec56f5890d93f Alexei Starovoitov     2019-11-14  4659  	}
+f50b49a0bfcaf5 KP Singh               2020-03-30  4660  =
 
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4661  	/* skip modifiers =
+*/
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4662  	while (btf_type_is=
+_modifier(t))
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4663  		t =3D btf_type_by=
+_id(btf, t->type);
+a9b59159d338d4 John Fastabend         2020-06-24  4664  	if (btf_type_is_sm=
+all_int(t) || btf_type_is_enum(t))
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4665  		/* accessing a sc=
+alar */
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4666  		return true;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4667  	if (!btf_type_is_p=
+tr(t)) {
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4668  		bpf_log(log,
+38207291604401 Martin KaFai Lau       2019-10-24  4669  			"func '%s' arg%d=
+ '%s' has type %s. Only pointer access is allowed\n",
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4670  			tname, arg,
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4671  			__btf_name_by_of=
+fset(btf, t->name_off),
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4672  			btf_kind_str[BTF=
+_INFO_KIND(t->info)]);
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4673  		return false;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4674  	}
+afbf21dce668ef Yonghong Song          2020-07-23  4675  =
+
+afbf21dce668ef Yonghong Song          2020-07-23  4676  	/* check for PTR_T=
+O_RDONLY_BUF_OR_NULL or PTR_TO_RDWR_BUF_OR_NULL */
+afbf21dce668ef Yonghong Song          2020-07-23  4677  	for (i =3D 0; i < =
+prog->aux->ctx_arg_info_size; i++) {
+afbf21dce668ef Yonghong Song          2020-07-23  4678  		const struct bpf_=
+ctx_arg_aux *ctx_arg_info =3D &prog->aux->ctx_arg_info[i];
+afbf21dce668ef Yonghong Song          2020-07-23  4679  =
+
+afbf21dce668ef Yonghong Song          2020-07-23  4680  		if (ctx_arg_info-=
+>offset =3D=3D off &&
+afbf21dce668ef Yonghong Song          2020-07-23  4681  		    (ctx_arg_info=
+->reg_type =3D=3D PTR_TO_RDONLY_BUF_OR_NULL ||
+afbf21dce668ef Yonghong Song          2020-07-23  4682  		     ctx_arg_info=
+->reg_type =3D=3D PTR_TO_RDWR_BUF_OR_NULL)) {
+afbf21dce668ef Yonghong Song          2020-07-23  4683  			info->reg_type =
+=3D ctx_arg_info->reg_type;
+afbf21dce668ef Yonghong Song          2020-07-23  4684  			return true;
+afbf21dce668ef Yonghong Song          2020-07-23  4685  		}
+afbf21dce668ef Yonghong Song          2020-07-23  4686  	}
+afbf21dce668ef Yonghong Song          2020-07-23  4687  =
+
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4688  	if (t->type =3D=3D=
+ 0)
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4689  		/* This is a poin=
+ter to void.
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4690  		 * It is the same=
+ as scalar from the verifier safety pov.
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4691  		 * No further poi=
+nter walking is allowed.
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4692  		 */
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4693  		return true;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4694  =
+
+84ad7a7ab69f11 Jiri Olsa              2020-01-23  4695  	if (is_string_ptr(=
+btf, t))
+84ad7a7ab69f11 Jiri Olsa              2020-01-23  4696  		return true;
+84ad7a7ab69f11 Jiri Olsa              2020-01-23  4697  =
+
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4698  	/* this is a point=
+er to another type */
+3c32cc1bceba8a Yonghong Song          2020-05-13  4699  	for (i =3D 0; i < =
+prog->aux->ctx_arg_info_size; i++) {
+3c32cc1bceba8a Yonghong Song          2020-05-13  4700  		const struct bpf_=
+ctx_arg_aux *ctx_arg_info =3D &prog->aux->ctx_arg_info[i];
+3c32cc1bceba8a Yonghong Song          2020-05-13  4701  =
+
+3c32cc1bceba8a Yonghong Song          2020-05-13  4702  		if (ctx_arg_info-=
+>offset =3D=3D off) {
+3c32cc1bceba8a Yonghong Song          2020-05-13  4703  			info->reg_type =
+=3D ctx_arg_info->reg_type;
+22dc4a0f5ed11b Andrii Nakryiko        2020-12-03  4704  			info->btf =3D bt=
+f_vmlinux;
+951cf368bcb11d Yonghong Song          2020-07-20  4705  			info->btf_id =3D=
+ ctx_arg_info->btf_id;
+951cf368bcb11d Yonghong Song          2020-07-20  4706  			return true;
+3c32cc1bceba8a Yonghong Song          2020-05-13  4707  		}
+3c32cc1bceba8a Yonghong Song          2020-05-13  4708  	}
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4709  =
+
+951cf368bcb11d Yonghong Song          2020-07-20  4710  	info->reg_type =3D=
+ PTR_TO_BTF_ID;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4711  	if (tgt_prog) {
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4712  		enum bp=
+f_prog_type tgt_type;
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4713  =
+
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4714  		if (tgt=
+_prog->type =3D=3D BPF_PROG_TYPE_EXT)
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4715  			tgt_ty=
+pe =3D tgt_prog->aux->saved_dst_prog_type;
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4716  		else
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4717  			tgt_ty=
+pe =3D tgt_prog->type;
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4718  =
+
+43bc2874e779c1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-29  4719  		ret =3D=
+ btf_translate_to_vmlinux(log, btf, t, tgt_type, arg);
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4720  		if (ret > 0) {
+22dc4a0f5ed11b Andrii Nakryiko        2020-12-03  4721  			info->btf =3D bt=
+f_vmlinux;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4722  			info->btf_id =3D=
+ ret;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4723  			return true;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4724  		} else {
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4725  			return false;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4726  		}
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4727  	}
+275517ff452a53 Martin KaFai Lau       2020-01-08  4728  =
+
+22dc4a0f5ed11b Andrii Nakryiko        2020-12-03  4729  	info->btf =3D btf;
+275517ff452a53 Martin KaFai Lau       2020-01-08  4730  	info->btf_id =3D t=
+->type;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4731  	t =3D btf_type_by_=
+id(btf, t->type);
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4732  	/* skip modifiers =
+*/
+275517ff452a53 Martin KaFai Lau       2020-01-08  4733  	while (btf_type_is=
+_modifier(t)) {
+275517ff452a53 Martin KaFai Lau       2020-01-08  4734  		info->btf_id =3D =
+t->type;
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4735  		t =3D btf_type_by=
+_id(btf, t->type);
+275517ff452a53 Martin KaFai Lau       2020-01-08  4736  	}
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4737  	if (!btf_type_is_s=
+truct(t)) {
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4738  		bpf_log(log,
+38207291604401 Martin KaFai Lau       2019-10-24  4739  			"func '%s' arg%d=
+ type %s is not a struct\n",
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4740  			tname, arg, btf_=
+kind_str[BTF_INFO_KIND(t->info)]);
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4741  		return false;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4742  	}
+38207291604401 Martin KaFai Lau       2019-10-24  4743  	bpf_log(log, "func=
+ '%s' arg%d has btf_id %d type %s '%s'\n",
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4744  		tname, arg, info-=
+>btf_id, btf_kind_str[BTF_INFO_KIND(t->info)],
+5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  4745  		__btf_name_by_off=
+set(btf, t->name_off));
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4746  	return true;
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4747  }
+9e15db66136a14 Alexei Starovoitov     2019-10-15  4748  =
+
+
+:::::: The code at line 4596 was first introduced by commit
+:::::: 9e15db66136a14cde3f35691f1d839d950118826 bpf: Implement accurate raw=
+_tp context access via BTF
+
+:::::: TO: Alexei Starovoitov <ast@kernel.org>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8497069949873910593==--
+--===============5680414913714709672==--
 
