@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5500860960586596767=="
+Content-Type: multipart/mixed; boundary="===============0505020422174861976=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Thu, 20 Jan 2022 05:16:47 +0800
-Message-ID: <20220119211647.GA61922@a3695ee4520b>
+Date: Thu, 20 Jan 2022 05:16:42 +0800
+Message-ID: <20220119211641.GA60963@a3695ee4520b>
 In-Reply-To: <202201200516.w0lBynSC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5500860960586596767==
+--===============0505020422174861976==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Lee Jones <lee.jones@linaro.org>
-CC: patches(a)opensource.cirrus.com
+CC: Alessandro Zummo <a.zummo@towertech.it>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: linux-rtc(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/mfd/wm8994-irq.c:232:8-28: WARNING: Threaded IRQ with no primary ha=
-ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/rtc/rtc-rk808.c:441:7-32: WARNING: Threaded IRQ with no primary han=
+dler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -49,20 +50,20 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- wm8994-irq.c |    2 +-
+ rtc-rk808.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/mfd/wm8994-irq.c
-+++ b/drivers/mfd/wm8994-irq.c
-@@ -231,7 +231,7 @@ int wm8994_irq_init(struct wm8994 *wm899
+--- a/drivers/rtc/rtc-rk808.c
++++ b/drivers/rtc/rtc-rk808.c
+@@ -439,7 +439,7 @@ static int rk808_rtc_probe(struct platfo
  =
 
- 		ret =3D request_threaded_irq(wm8994->irq,
- 					   NULL, wm8994_edge_irq,
--					   irqflags,
-+					   irqflags | IRQF_ONESHOT,
- 					   "WM8994 edge", wm8994);
- 	} else {
- 		ret =3D regmap_add_irq_chip(wm8994->regmap, wm8994->irq,
---===============5500860960586596767==--
+ 	/* request alarm irq of rk808 */
+ 	ret =3D devm_request_threaded_irq(&pdev->dev, rk808_rtc->irq, NULL,
+-					rk808_alarm_irq, 0,
++					rk808_alarm_irq, IRQF_ONESHOT,
+ 					"RTC alarm", rk808_rtc);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "Failed to request alarm IRQ %d: %d\n",
+--===============0505020422174861976==--
 
