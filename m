@@ -1,272 +1,593 @@
-Content-Type: multipart/mixed; boundary="===============6778645777378934146=="
+Content-Type: multipart/mixed; boundary="===============8497069949873910593=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.10 789/9999] mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
-Date: Thu, 20 Jan 2022 04:13:27 +0800
-Message-ID: <202201200302.m54SIMqZ-lkp@intel.com>
+Subject: arch/arm/mach-ep93xx/clock.c:154:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Thu, 20 Jan 2022 04:13:25 +0800
+Message-ID: <202201200359.lTk9zHg4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6778645777378934146==
+--===============8497069949873910593==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Vinayak Menon <vinmenon@codeaurora.org>
-CC: Todd Kjos <tkjos@google.com>
+TO: Nikita Shubin <nikita.shubin@maquefel.me>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: Alexander Sverdlin <alexander.sverdlin@gmail.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android13-5.10
-head:   2fd546e0e3c4466e76513bf5c15937ded9367918
-commit: 35eacb5c87b9b5e9683e25a24282cde1a2d4a1d5 [789/9999] ANDROID: mm: al=
-low vmas with vm_ops to be speculatively handled
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1d1df41c5a33359a00e919d54eaebfb789711fdc
+commit: 9645ccc7bd7a16cd73c3be9dee70cd702b03be37 ep93xx: clock: convert in-=
+place to COMMON_CLK
+date:   3 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-m021-20220117 (https://download.01.org/0day-ci/arch=
-ive/20220120/202201200302.m54SIMqZ-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220118 (https://download.01.org/0day-ci/archi=
+ve/20220120/202201200359.lTk9zHg4-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5f782d=
+25a742302d25ef3c8b84b54f7483c2deb9)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9645ccc7bd7a16cd73c3be9dee70cd702b03be37
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9645ccc7bd7a16cd73c3be9dee70cd702b03be37
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
 
-vim +4691 mm/memory.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^
+   security/integrity/ima/ima_api.c:73:4: note: Control jumps to line 81
+                           goto out;
+                           ^
+   security/integrity/ima/ima_api.c:82:2: note: Null pointer value stored t=
+o 'entry'
+           *entry =3D NULL;
+           ^~~~~~~~~~~~~
+   security/integrity/ima/ima_api.c:328:11: note: Returning from 'ima_alloc=
+_init_template'
+           result =3D ima_alloc_init_template(&event_data, &entry, template=
+_desc);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   security/integrity/ima/ima_api.c:329:6: note: Assuming 'result' is >=3D 0
+           if (result < 0) {
+               ^~~~~~~~~~
+   security/integrity/ima/ima_api.c:329:2: note: Taking false branch
+           if (result < 0) {
+           ^
+   security/integrity/ima/ima_api.c:335:30: note: Passing null pointer valu=
+e via 1st parameter 'entry'
+           result =3D ima_store_template(entry, violation, inode, filename,=
+ pcr);
+                                       ^~~~~
+   security/integrity/ima/ima_api.c:335:11: note: Calling 'ima_store_templa=
+te'
+           result =3D ima_store_template(entry, violation, inode, filename,=
+ pcr);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   security/integrity/ima/ima_api.c:108:24: note: Access to field 'template=
+_desc' results in a dereference of a null pointer (loaded from variable 'en=
+try')
+           char *template_name =3D entry->template_desc->name;
+                                 ^~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/bus/mhi/core/boot.c:28:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:28:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:121:3: warning: Value stored to 'ee' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   ee =3D mhi_get_exec_env(mhi_cntrl);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:121:3: note: Value stored to 'ee' is never r=
+ead
+                   ee =3D mhi_get_exec_env(mhi_cntrl);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:143:2: warning: Value stored to 'ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           ret =3D mhi_read_reg(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS, &rx=
+_status);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/bus/mhi/core/boot.c:143:2: note: Value stored to 'ret' is never =
+read
+           ret =3D mhi_read_reg(mhi_cntrl, base, BHIE_RXVECSTATUS_OFFS, &rx=
+_status);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/bus/mhi/core/boot.c:158:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:158:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:183:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/boot.c:183:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/phy/phy-core.c:307:2: warning: Value stored to 'ret' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0; /* Override possible ret =3D=3D -ENOTSUPP */
+           ^     ~
+   drivers/phy/phy-core.c:307:2: note: Value stored to 'ret' is never read
+           ret =3D 0; /* Override possible ret =3D=3D -ENOTSUPP */
+           ^     ~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (3 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> arch/arm/mach-ep93xx/clock.c:154:2: warning: Use of memory after it is f=
+reed [clang-analyzer-unix.Malloc]
+           return &psc->hw;
+           ^
+   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
+           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
+           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
+           ^
+   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
+           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:579:2: note: Taking true branch
+           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
+           ^
+   arch/arm/mach-ep93xx/clock.c:627:6: note: Assuming the condition is false
+           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:627:2: note: Taking false branch
+           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
+           ^
+   arch/arm/mach-ep93xx/clock.c:636:2: note: Loop condition is false.  Exit=
+ing loop
+           pr_info("PLL1 running at %ld MHz, PLL2@%ld MHz\n",
+           ^
+   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   arch/arm/mach-ep93xx/clock.c:638:2: note: Loop condition is false.  Exit=
+ing loop
+           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
+           ^
+   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   arch/arm/mach-ep93xx/clock.c:642:2: note: Calling 'ep93xx_uart_clock_ini=
+t'
+           ep93xx_uart_clock_init();
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:479:6: note: Assuming the condition is false
+           if (value & EP93XX_SYSCON_PWRCNT_UARTBAUD)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:479:2: note: Taking false branch
+           if (value & EP93XX_SYSCON_PWRCNT_UARTBAUD)
+           ^
+   arch/arm/mach-ep93xx/clock.c:487:2: note: Loop condition is true.  Enter=
+ing loop body
+           for (i =3D 0; i < ARRAY_SIZE(ep93xx_uarts); i++) {
+           ^
+   arch/arm/mach-ep93xx/clock.c:488:8: note: Calling 'ep93xx_clk_register_g=
+ate'
+                   hw =3D ep93xx_clk_register_gate(ep93xx_uarts[i].dev_id,
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:136:6: note: Assuming 'psc' is non-null
+           if (!psc)
+               ^~~~
+   arch/arm/mach-ep93xx/clock.c:136:2: note: Taking false branch
+           if (!psc)
+           ^
+   arch/arm/mach-ep93xx/clock.c:142:23: note: 'parent_name' is non-null
+           init.parent_names =3D (parent_name ? &parent_name : NULL);
+                                ^~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:142:23: note: '?' condition is true
+   arch/arm/mach-ep93xx/clock.c:143:22: note: 'parent_name' is non-null
+           init.num_parents =3D (parent_name ? 1 : 0);
+                               ^~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:143:22: note: '?' condition is true
+   arch/arm/mach-ep93xx/clock.c:151:2: note: Taking true branch
+           if (IS_ERR(clk))
+           ^
+   arch/arm/mach-ep93xx/clock.c:152:3: note: Memory is released
+                   kfree(psc);
+                   ^~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:154:2: note: Use of memory after it is freed
+           return &psc->hw;
+           ^      ~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:349:2: warning: Use of memory after it is f=
+reed [clang-analyzer-unix.Malloc]
+           return &psc->hw;
+           ^
+   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
+           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
+           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
+           ^
+   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
+           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   arch/arm/mach-ep93xx/clock.c:686:7: note: Calling 'clk_hw_register_ddiv'
+           hw =3D clk_hw_register_ddiv("ep93xx-fb",
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:331:6: note: Assuming 'psc' is non-null
+           if (!psc)
+               ^~~~
+   arch/arm/mach-ep93xx/clock.c:331:2: note: Taking false branch
+           if (!psc)
+           ^
+   arch/arm/mach-ep93xx/clock.c:346:2: note: Taking true branch
+           if (IS_ERR(clk))
+           ^
+   arch/arm/mach-ep93xx/clock.c:347:3: note: Memory is released
+                   kfree(psc);
+                   ^~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:349:2: note: Use of memory after it is freed
+           return &psc->hw;
+           ^      ~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:456:2: warning: Use of memory after it is f=
+reed [clang-analyzer-unix.Malloc]
+           return &psc->hw;
+           ^
+   arch/arm/mach-ep93xx/clock.c:553:6: note: Assuming the condition is true
+           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:553:2: note: Taking true branch
+           if (!(value & EP93XX_SYSCON_CLKSET1_NBYP1))
+           ^
+   arch/arm/mach-ep93xx/clock.c:579:6: note: Assuming the condition is true
+           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:579:2: note: Taking true branch
+           if (!(value & EP93XX_SYSCON_CLKSET2_NBYP2))
+           ^
+   arch/arm/mach-ep93xx/clock.c:627:6: note: Assuming the condition is false
+           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:627:2: note: Taking false branch
+           if (ep93xx_chip_revision() < EP93XX_CHIP_REV_E2)
+           ^
+   arch/arm/mach-ep93xx/clock.c:636:2: note: Loop condition is false.  Exit=
+ing loop
+           pr_info("PLL1 running at %ld MHz, PLL2@%ld MHz\n",
+           ^
+   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   arch/arm/mach-ep93xx/clock.c:638:2: note: Loop condition is false.  Exit=
+ing loop
+           pr_info("FCLK %ld MHz, HCLK %ld MHz, PCLK %ld MHz\n",
+           ^
+   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
+           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   arch/arm/mach-ep93xx/clock.c:645:7: note: Calling 'clk_hw_register_div'
+           hw =3D clk_hw_register_div("ep93xx-adc",
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:434:6: note: Assuming 'psc' is non-null
+           if (!psc)
+               ^~~~
+   arch/arm/mach-ep93xx/clock.c:434:2: note: Taking false branch
+           if (!psc)
+           ^
+   arch/arm/mach-ep93xx/clock.c:440:23: note: 'parent_name' is non-null
+           init.parent_names =3D (parent_name ? &parent_name : NULL);
+                                ^~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:440:23: note: '?' condition is true
+   arch/arm/mach-ep93xx/clock.c:453:2: note: Taking true branch
+           if (IS_ERR(clk))
+           ^
+   arch/arm/mach-ep93xx/clock.c:454:3: note: Memory is released
+                   kfree(psc);
+                   ^~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:456:2: note: Use of memory after it is freed
+           return &psc->hw;
+           ^      ~~~~~~~~
+>> arch/arm/mach-ep93xx/clock.c:484:2: warning: Value stored to 'hw' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           hw =3D clk_hw_register_fixed_factor(NULL, "uart", "xtali", 0, 1,=
+ clk_uart_div);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:484:2: note: Value stored to 'hw' is never =
+read
+           hw =3D clk_hw_register_fixed_factor(NULL, "uart", "xtali", 0, 1,=
+ clk_uart_div);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:612:2: warning: Value stored to 'hw' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           hw =3D clk_hw_register_fixed_factor(NULL, "usb_clk", "pll2", 0, =
+1, clk_usb_div);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
+   arch/arm/mach-ep93xx/clock.c:612:2: note: Value stored to 'hw' is never =
+read
+           hw =3D clk_hw_register_fixed_factor(NULL, "usb_clk", "pll2", 0, =
+1, clk_usb_div);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   lib/mpi/mpi-pow.c:164:10: warning: The result of the left shift is undef=
+ined due to shifting by '32', which is greater or equal to the width of typ=
+e 'mpi_limb_t' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   e =3D (e << c) << 1;      /* shift the exp bits to the l=
+eft, lose msb */
+                          ^  ~
+   lib/mpi/mpi-pow.c:49:6: note: Assuming 'msize' is not equal to 0
+           if (!msize)
+               ^~~~~~
+   lib/mpi/mpi-pow.c:49:2: note: Taking false branch
+           if (!msize)
+           ^
+   lib/mpi/mpi-pow.c:52:6: note: Assuming 'esize' is not equal to 0
+           if (!esize) {
+               ^~~~~~
+   lib/mpi/mpi-pow.c:52:2: note: Taking false branch
+           if (!esize) {
+           ^
+   lib/mpi/mpi-pow.c:71:6: note: Assuming 'mp' is non-null
+           if (!mp)
+               ^~~
+   lib/mpi/mpi-pow.c:71:2: note: Taking false branch
+           if (!mp)
+           ^
+   lib/mpi/mpi-pow.c:74:6: note: 'mod_shift_cnt' is 32
+           if (mod_shift_cnt)
+               ^~~~~~~~~~~~~
+   lib/mpi/mpi-pow.c:74:2: note: Taking true branch
+           if (mod_shift_cnt)
+           ^
+   lib/mpi/mpi-pow.c:81:6: note: Assuming 'bsize' is <=3D 'msize'
+           if (bsize > msize) {    /* The base is larger than the module. R=
+educe it. */
+               ^~~~~~~~~~~~~
+   lib/mpi/mpi-pow.c:81:2: note: Taking false branch
+           if (bsize > msize) {    /* The base is larger than the module. R=
+educe it. */
+           ^
+   lib/mpi/mpi-pow.c:98:6: note: Assuming 'bsize' is not equal to 0
+           if (!bsize) {
+               ^~~~~~
+   lib/mpi/mpi-pow.c:98:2: note: Taking false branch
+           if (!bsize) {
+           ^
+   lib/mpi/mpi-pow.c:104:6: note: Assuming 'size' is > field 'alloced'
+           if (res->alloced < size) {
+               ^~~~~~~~~~~~~~~~~~~
+   lib/mpi/mpi-pow.c:104:2: note: Taking true branch
+           if (res->alloced < size) {
+           ^
+   lib/mpi/mpi-pow.c:108:7: note: Assuming 'rp' is not equal to 'ep'
+                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
+                       ^~~~~~~~
+   lib/mpi/mpi-pow.c:108:7: note: Left side of '||' is false
+   lib/mpi/mpi-pow.c:108:19: note: Assuming 'rp' is not equal to 'mp'
+                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
+                                   ^~~~~~~~
+   lib/mpi/mpi-pow.c:108:7: note: Left side of '||' is false
+                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
+                       ^
+   lib/mpi/mpi-pow.c:108:31: note: Assuming 'rp' is not equal to 'bp'
+                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
+                                               ^~~~~~~~
+   lib/mpi/mpi-pow.c:108:3: note: Taking false branch
+                   if (rp =3D=3D ep || rp =3D=3D mp || rp =3D=3D bp) {
+                   ^
+   lib/mpi/mpi-pow.c:114:8: note: Assuming the condition is false
+                           if (mpi_resize(res, size) < 0)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/mpi/mpi-pow.c:114:4: note: Taking false branch
+                           if (mpi_resize(res, size) < 0)
+                           ^
+   lib/mpi/mpi-pow.c:144:2: note: Assuming '_i' is >=3D 'bsize'
+           MPN_COPY(rp, bp, bsize);
+           ^
+   lib/mpi/mpi-internal.h:65:16: note: expanded from macro 'MPN_COPY'
+                   for (_i =3D 0; _i < (n); _i++)    \
+                                ^~~~~~~~
+   lib/mpi/mpi-pow.c:144:2: note: Loop condition is false. Execution contin=
+ues on line 144
+           MPN_COPY(rp, bp, bsize);
+           ^
+   lib/mpi/mpi-internal.h:65:3: note: expanded from macro 'MPN_COPY'
+                   for (_i =3D 0; _i < (n); _i++)    \
+                   ^
+   lib/mpi/mpi-pow.c:144:2: note: Loop condition is false.  Exiting loop
+           MPN_COPY(rp, bp, bsize);
+           ^
+   lib/mpi/mpi-internal.h:63:2: note: expanded from macro 'MPN_COPY'
 
-a00cc7d9dd93d6 Matthew Wilcox        2017-02-24  4562  =
+vim +154 arch/arm/mach-ep93xx/clock.c
 
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4563  /*
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4564   * These routines al=
-so need to handle stuff like marking pages dirty
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4565   * and/or accessed f=
-or architectures that don't do it in hardware (most
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4566   * RISC architecture=
-s).  The early dirtying is also good on the i386.
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4567   *
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4568   * There is also a h=
-ook called "update_mmu_cache()" that architectures
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4569   * with external mmu=
- caches can use to update those (ie the Sparc or
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4570   * PowerPC hashed pa=
-ge tables that act as extended TLBs).
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4571   *
-c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4572   * We enter with non=
--exclusive mmap_lock (to exclude vma changes, but allow
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4573   * concurrent faults=
-).
-9a95f3cf7b33d6 Paul Cassella         2014-08-06  4574   *
-c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4575   * The mmap_lock may=
- have been released depending on flags and our return value.
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4576   * See filemap_fault=
-() and __lock_page_or_retry().
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4577   */
-2b7403035459c7 Souptick Joarder      2018-08-23  4578  static vm_fault_t ha=
-ndle_pte_fault(struct vm_fault *vmf)
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4579  {
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4580  	pte_t entry;
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4581  	vm_fault_t ret =3D =
-0;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4582  =
+ff05c0330b9880 Hartley Sweeten 2009-05-07  125  =
 
-82b0f8c39a3869 Jan Kara              2016-12-14  4583  	if (unlikely(pmd_no=
-ne(*vmf->pmd))) {
-1c5371744061fc Peter Zijlstra        2018-04-17  4584  		/*
-1c5371744061fc Peter Zijlstra        2018-04-17  4585  		 * In the case of =
-the speculative page fault handler we abort
-1c5371744061fc Peter Zijlstra        2018-04-17  4586  		 * the speculative=
- path immediately as the pmd is probably
-1c5371744061fc Peter Zijlstra        2018-04-17  4587  		 * in the way to b=
-e converted in a huge one. We will try
-1c5371744061fc Peter Zijlstra        2018-04-17  4588  		 * again holding t=
-he mmap_sem (which implies that the collapse
-1c5371744061fc Peter Zijlstra        2018-04-17  4589  		 * operation is do=
-ne).
-1c5371744061fc Peter Zijlstra        2018-04-17  4590  		 */
-1c5371744061fc Peter Zijlstra        2018-04-17  4591  		if (vmf->flags & F=
-AULT_FLAG_SPECULATIVE)
-1c5371744061fc Peter Zijlstra        2018-04-17  4592  			return VM_FAULT_R=
-ETRY;
-e37c6982706333 Christian Borntraeger 2014-12-07  4593  		/*
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4594  		 * Leave __pte_all=
-oc() until later: because vm_ops->fault may
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4595  		 * want to allocat=
-e huge page, and if we expose page table
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4596  		 * for an instant,=
- it will be difficult to retract from
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4597  		 * concurrent faul=
-ts and from rmap lookups.
-e37c6982706333 Christian Borntraeger 2014-12-07  4598  		 */
-82b0f8c39a3869 Jan Kara              2016-12-14  4599  		vmf->pte =3D NULL;
-1c5371744061fc Peter Zijlstra        2018-04-17  4600  	} else if (!(vmf->f=
-lags & FAULT_FLAG_SPECULATIVE)) {
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4601  		/*
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4602  		 * If a huge pmd m=
-aterialized under us just retry later.  Use
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4603  		 * pmd_trans_unsta=
-ble() via pmd_devmap_trans_unstable() instead
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4604  		 * of pmd_trans_hu=
-ge() to ensure the pmd didn't become
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4605  		 * pmd_trans_huge =
-under us and then back to pmd_none, as a
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4606  		 * result of MADV_=
-DONTNEED running immediately after a huge pmd
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4607  		 * fault in a diff=
-erent thread of this mm, in turn leading to a
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4608  		 * misleading pmd_=
-trans_huge() retval. All we have to ensure is
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4609  		 * that it is a re=
-gular pmd that we can walk with
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4610  		 * pte_offset_map(=
-) and we can do that through an atomic read
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4611  		 * in C, which is =
-what pmd_trans_unstable() provides.
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4612  		 */
-d0f0931de936a0 Ross Zwisler          2017-06-02  4613  		if (pmd_devmap_tra=
-ns_unstable(vmf->pmd))
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4614  			return 0;
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4615  		/*
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4616  		 * A regular pmd i=
-s established and it can't morph into a huge
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4617  		 * pmd from under =
-us anymore at this point because we hold the
-c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4618  		 * mmap_lock read =
-mode and khugepaged takes it in write mode.
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4619  		 * So now it's saf=
-e to run pte_offset_map().
-1c5371744061fc Peter Zijlstra        2018-04-17  4620  		 * This is not app=
-licable to the speculative page fault handler
-1c5371744061fc Peter Zijlstra        2018-04-17  4621  		 * but in that cas=
-e, the pte is fetched earlier in
-1c5371744061fc Peter Zijlstra        2018-04-17  4622  		 * handle_speculat=
-ive_fault().
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4623  		 */
-82b0f8c39a3869 Jan Kara              2016-12-14  4624  		vmf->pte =3D pte_o=
-ffset_map(vmf->pmd, vmf->address);
-2994302bc8a171 Jan Kara              2016-12-14  4625  		vmf->orig_pte =3D =
-*vmf->pte;
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4626  =
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  126  static struct clk_hw *ep93x=
+x_clk_register_gate(const char *name,
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  127  				    const char *parent_=
+name,
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  128  				    void __iomem *reg,
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  129  				    u8 bit_idx)
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  130  {
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  131  	struct clk_init_data init;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  132  	struct clk_psc *psc;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  133  	struct clk *clk;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  134  =
 
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4627  		/*
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4628  		 * some architectu=
-res can have larger ptes than wordsize,
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4629  		 * e.g.ppc44x-defc=
-onfig has CONFIG_PTE_64BIT=3Dy and
-b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4630  		 * CONFIG_32BIT=3D=
-y, so READ_ONCE cannot guarantee atomic
-b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4631  		 * accesses.  The =
-code below just needs a consistent view
-b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4632  		 * for the ifs and=
- we later double check anyway with the
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4633  		 * ptl lock held. =
-So here a barrier will do.
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4634  		 */
-e37c6982706333 Christian Borntraeger 2014-12-07  4635  		barrier();
-2994302bc8a171 Jan Kara              2016-12-14  4636  		if (pte_none(vmf->=
-orig_pte)) {
-82b0f8c39a3869 Jan Kara              2016-12-14  4637  			pte_unmap(vmf->pt=
-e);
-82b0f8c39a3869 Jan Kara              2016-12-14  4638  			vmf->pte =3D NULL;
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4639  		}
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4640  	}
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4641  =
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  135  	psc =3D kzalloc(sizeof(*ps=
+c), GFP_KERNEL);
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  136  	if (!psc)
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  137  		return ERR_PTR(-ENOMEM);
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  138  =
 
-82b0f8c39a3869 Jan Kara              2016-12-14  4642  	if (!vmf->pte) {
-82b0f8c39a3869 Jan Kara              2016-12-14  4643  		if (vma_is_anonymo=
-us(vmf->vma))
-82b0f8c39a3869 Jan Kara              2016-12-14  4644  			return do_anonymo=
-us_page(vmf);
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4645  		else if ((vmf->fla=
-gs & FAULT_FLAG_SPECULATIVE) &&
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4646  				!vmf_allows_spec=
-ulation(vmf))
-1c5371744061fc Peter Zijlstra        2018-04-17  4647  			return VM_FAULT_R=
-ETRY;
-b5330628546616 Oleg Nesterov         2015-09-08  4648  		else
-82b0f8c39a3869 Jan Kara              2016-12-14  4649  			return do_fault(v=
-mf);
-65500d234e74fc Hugh Dickins          2005-10-29  4650  	}
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4651  =
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  139  	init.name =3D name;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  140  	init.ops =3D &clk_ep93xx_g=
+ate_ops;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  141  	init.flags =3D CLK_SET_RAT=
+E_PARENT;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  142  	init.parent_names =3D (par=
+ent_name ? &parent_name : NULL);
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  143  	init.num_parents =3D (pare=
+nt_name ? 1 : 0);
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  144  =
 
-2994302bc8a171 Jan Kara              2016-12-14  4652  	if (!pte_present(vm=
-f->orig_pte))
-2994302bc8a171 Jan Kara              2016-12-14  4653  		return do_swap_pag=
-e(vmf);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4654  =
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  145  	psc->reg =3D reg;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  146  	psc->bit_idx =3D bit_idx;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  147  	psc->hw.init =3D &init;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  148  	psc->lock =3D &clk_lock;
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  149  =
 
-2994302bc8a171 Jan Kara              2016-12-14  4655  	if (pte_protnone(vm=
-f->orig_pte) && vma_is_accessible(vmf->vma))
-2994302bc8a171 Jan Kara              2016-12-14  4656  		return do_numa_pag=
-e(vmf);
-d10e63f29488b0 Mel Gorman            2012-10-25  4657  =
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  150  	clk =3D clk_register(NULL,=
+ &psc->hw);
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  151  	if (IS_ERR(clk))
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  152  		kfree(psc);
+9645ccc7bd7a16 Nikita Shubin   2021-10-18  153  =
 
-b23ffc113b308e Laurent Dufour        2018-04-17  4658  	if (!pte_spinlock(v=
-mf))
-b23ffc113b308e Laurent Dufour        2018-04-17  4659  		return VM_FAULT_RE=
-TRY;
-2994302bc8a171 Jan Kara              2016-12-14  4660  	entry =3D vmf->orig=
-_pte;
-7df676974359f9 Bibo Mao              2020-05-27  4661  	if (unlikely(!pte_s=
-ame(*vmf->pte, entry))) {
-7df676974359f9 Bibo Mao              2020-05-27  4662  		update_mmu_tlb(vmf=
-->vma, vmf->address, vmf->pte);
-8f4e2101fd7df9 Hugh Dickins          2005-10-29  4663  		goto unlock;
-7df676974359f9 Bibo Mao              2020-05-27  4664  	}
-82b0f8c39a3869 Jan Kara              2016-12-14  4665  	if (vmf->flags & FA=
-ULT_FLAG_WRITE) {
-f6f3732162b5ae Linus Torvalds        2017-12-15  4666  		if (!pte_write(ent=
-ry))
-2994302bc8a171 Jan Kara              2016-12-14  4667  			return do_wp_page=
-(vmf);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4668  		entry =3D pte_mkdi=
-rty(entry);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4669  	}
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4670  	entry =3D pte_mkyou=
-ng(entry);
-82b0f8c39a3869 Jan Kara              2016-12-14  4671  	if (ptep_set_access=
-_flags(vmf->vma, vmf->address, vmf->pte, entry,
-82b0f8c39a3869 Jan Kara              2016-12-14  4672  				vmf->flags & FAU=
-LT_FLAG_WRITE)) {
-82b0f8c39a3869 Jan Kara              2016-12-14  4673  		update_mmu_cache(v=
-mf->vma, vmf->address, vmf->pte);
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4674  	} else {
-b7333b58f358f3 Yang Shi              2020-08-14  4675  		/* Skip spurious T=
-LB flush for retried page fault */
-b7333b58f358f3 Yang Shi              2020-08-14  4676  		if (vmf->flags & F=
-AULT_FLAG_TRIED)
-b7333b58f358f3 Yang Shi              2020-08-14  4677  			goto unlock;
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4678  		if (vmf->flags & F=
-AULT_FLAG_SPECULATIVE)
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4679  			ret =3D VM_FAULT_=
-RETRY;
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4680  		/*
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4681  		 * This is needed =
-only for protection faults but the arch code
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4682  		 * is not yet tell=
-ing us if this is a protection fault or not.
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4683  		 * This still avoi=
-ds useless tlb flushes for .text page faults
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4684  		 * with threads.
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4685  		 */
-82b0f8c39a3869 Jan Kara              2016-12-14  4686  		if (vmf->flags & F=
-AULT_FLAG_WRITE)
-82b0f8c39a3869 Jan Kara              2016-12-14  4687  			flush_tlb_fix_spu=
-rious_fault(vmf->vma, vmf->address);
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4688  	}
-8f4e2101fd7df9 Hugh Dickins          2005-10-29  4689  unlock:
-82b0f8c39a3869 Jan Kara              2016-12-14  4690  	pte_unmap_unlock(vm=
-f->pte, vmf->ptl);
-35eacb5c87b9b5 Vinayak Menon         2021-03-18 @4691  	return ret;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4692  }
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4693  =
+9645ccc7bd7a16 Nikita Shubin   2021-10-18 @154  	return &psc->hw;
+ff05c0330b9880 Hartley Sweeten 2009-05-07  155  }
+ff05c0330b9880 Hartley Sweeten 2009-05-07  156  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6778645777378934146==--
+--===============8497069949873910593==--
 
