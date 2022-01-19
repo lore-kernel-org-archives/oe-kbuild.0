@@ -1,784 +1,760 @@
-Content-Type: multipart/mixed; boundary="===============0002128884013923390=="
+Content-Type: multipart/mixed; boundary="===============6151815003120198744=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [esmil:visionfive 65/80] drivers/gpu/drm/i2c/tda998x_drv.c:1605:3: warning: Value stored to 'reg' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 20 Jan 2022 00:06:45 +0800
-Message-ID: <202201200059.5I6YIzfQ-lkp@intel.com>
+Subject: drivers/net/ethernet/davicom/dm9000.c:1684 dm9000_probe() error: we previously assumed 'pdata' could be null (see line 1576)
+Date: Wed, 19 Jan 2022 23:46:15 +0800
+Message-ID: <202201192350.uMsraGrb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0002128884013923390==
+--===============6151815003120198744==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "sw.multimedia" <sw.multimedia@starfivetech.com>
-CC: Emil Renner Berthing <kernel@esmil.dk>
-CC: "jack.zhu" <jack.zhu@starfivetech.com>
-CC: "keith.zhao" <keith.zhao@starfivetech.com>
+TO: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://github.com/esmil/linux visionfive
-head:   e46c3a7e373e6faa03399f1a41c29cf7546c37cb
-commit: 69ab3da030416954c21253df87b7d86e0d58c433 [65/80] drm/i2c/tda998x: H=
-ardcode register values for Starlight
-:::::: branch date: 16 hours ago
-:::::: commit date: 10 days ago
-config: arm-randconfig-c002-20220116 (https://download.01.org/0day-ci/archi=
-ve/20220120/202201200059.5I6YIzfQ-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f7b713=
-8a62648f4019c55e4671682af1f851f295)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/esmil/linux/commit/69ab3da030416954c21253df87b=
-7d86e0d58c433
-        git remote add esmil https://github.com/esmil/linux
-        git fetch --no-tags esmil visionfive
-        git checkout 69ab3da030416954c21253df87b7d86e0d58c433
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1d1df41c5a33359a00e919d54eaebfb789711fdc
+commit: 4abd7cffc09a38015fa14a22471e3de48a4ca032 ethernet: use eth_hw_addr_=
+set() in unmaintained drivers
+date:   3 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 3 months ago
+config: microblaze-randconfig-m031-20220119 (https://download.01.org/0day-c=
+i/archive/20220119/202201192350.uMsraGrb-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/net/ethernet/davicom/dm9000.c:1684 dm9000_probe() error: we previou=
+sly assumed 'pdata' could be null (see line 1576)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~
-   drivers/iio/adc/vf610_adc.c:821:2: note: Taking false branch
-           if (irq < 0)
-           ^
-   drivers/iio/adc/vf610_adc.c:827:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0) {
-               ^~~~~~~
-   drivers/iio/adc/vf610_adc.c:827:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/iio/adc/vf610_adc.c:833:2: note: Taking false branch
-           if (IS_ERR(info->clk)) {
-           ^
-   drivers/iio/adc/vf610_adc.c:840:2: note: Taking false branch
-           if (IS_ERR(info->vref))
-           ^
-   drivers/iio/adc/vf610_adc.c:844:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/iio/adc/vf610_adc.c:844:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/iio/adc/vf610_adc.c:854:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/iio/adc/vf610_adc.c:854:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/iio/adc/vf610_adc.c:868:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/iio/adc/vf610_adc.c:868:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/iio/adc/vf610_adc.c:874:2: note: Calling 'vf610_adc_cfg_init'
-           vf610_adc_cfg_init(info);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/vf610_adc.c:246:2: note: Calling 'vf610_adc_calculate_ra=
-tes'
-           vf610_adc_calculate_rates(info);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/vf610_adc.c:189:6: note: Assuming 'adck_rate' is not equ=
-al to 0
-           if (adck_rate) {
-               ^~~~~~~~~
-   drivers/iio/adc/vf610_adc.c:189:2: note: Taking true branch
-           if (adck_rate) {
-           ^
-   drivers/iio/adc/vf610_adc.c:192:31: note: Calling 'fls'
-                   adc_feature->clk_div =3D 1 << fls(divisor + 1);
-                                               ^~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   drivers/iio/adc/vf610_adc.c:192:31: note: Returning from 'fls'
-                   adc_feature->clk_div =3D 1 << fls(divisor + 1);
-                                               ^~~~~~~~~~~~~~~~
-   drivers/iio/adc/vf610_adc.c:192:28: note: The result of the left shift i=
-s undefined due to shifting by '32', which is greater or equal to the width=
- of type 'int'
-                   adc_feature->clk_div =3D 1 << fls(divisor + 1);
-                                            ^  ~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/gpu/drm/i2c/tda998x_drv.c:1605:3: warning: Value stored to 'reg'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   reg |=3D VIP_CNTRL_3_V_TGL;
-                   ^
-   drivers/gpu/drm/i2c/tda998x_drv.c:1605:3: note: Value stored to 'reg' is=
- never read
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c:366:3: warning: Value=
- stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D PTR_ERR(kingdisplay->enable_gpio);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c:366:3: note: Value st=
-ored to 'err' is never read
-                   err =3D PTR_ERR(kingdisplay->enable_gpio);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/chemical/scd4x.c:474:10: warning: The left operand of '=3D=
-=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (val =3D=3D 0xff) {
-               ~~~ ^
-   drivers/iio/chemical/scd4x.c:460:11: note: 'val' declared without an ini=
-tial value
-           uint16_t val, arg;
-                    ^~~
-   drivers/iio/chemical/scd4x.c:464:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/iio/chemical/scd4x.c:464:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/iio/chemical/scd4x.c:467:6: note: 'arg' is >=3D SCD4X_FRC_MIN_PPM
-           if (arg < SCD4X_FRC_MIN_PPM || arg > SCD4X_FRC_MAX_PPM)
-               ^~~
-   drivers/iio/chemical/scd4x.c:467:6: note: Left side of '||' is false
-   drivers/iio/chemical/scd4x.c:467:33: note: Assuming 'arg' is <=3D SCD4X_=
-FRC_MAX_PPM
-           if (arg < SCD4X_FRC_MIN_PPM || arg > SCD4X_FRC_MAX_PPM)
-                                          ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/chemical/scd4x.c:467:2: note: Taking false branch
-           if (arg < SCD4X_FRC_MIN_PPM || arg > SCD4X_FRC_MAX_PPM)
-           ^
-   drivers/iio/chemical/scd4x.c:471:8: note: Calling 'scd4x_write_and_fetch'
-           ret =3D scd4x_write_and_fetch(state, CMD_FRC, arg, &val, sizeof(=
-val));
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/iio/chemical/scd4x.c:222:6: note: 'ret' is -5
-           if (ret)
-               ^~~
-   drivers/iio/chemical/scd4x.c:222:2: note: Taking true branch
-           if (ret)
-           ^
-   drivers/iio/chemical/scd4x.c:223:3: note: Control jumps to line 258
-                   goto err;
-                   ^
+vim +/pdata +1684 drivers/net/ethernet/davicom/dm9000.c
 
-vim +/reg +1605 drivers/gpu/drm/i2c/tda998x_drv.c
+0b8bf1baabe56f drivers/net/ethernet/davicom/dm9000.c Tomasz Figa           =
+    2013-05-20  1408  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1429  =
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1409  /*
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1410   * Search DM9000 board, allocate space and register it
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1411   */
+6b6a3e7f65e573 drivers/net/ethernet/davicom/dm9000.c Bill Pemberton        =
+    2012-12-03  1412  static int
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1413  dm9000_probe(struct platform_device *pdev)
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1414  {
+cd4e2e4b368fd5 drivers/net/ethernet/davicom/dm9000.c Jingoo Han            =
+    2013-08-30  1415  	struct dm9000_plat_data *pdata =3D dev_get_platdata(=
+&pdev->dev);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1416  	struct board_info *db;	/* Point a board information =
+structure */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1417  	struct net_device *ndev;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1418  	struct device *dev =3D &pdev->dev;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1419  	const unsigned char *mac_src;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1420  	int ret =3D 0;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1421  	int iosize;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1422  	int i;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1423  	u32 id_val;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1424  	int reset_gpios;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1425  	enum of_gpio_flags flags;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1426  	struct regulator *power;
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1427  	bool inv_mac_addr =3D false;
+4abd7cffc09a38 drivers/net/ethernet/davicom/dm9000.c Jakub Kicinski        =
+    2021-10-15  1428  	u8 addr[ETH_ALEN];
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1429  =
 
-30bd8b862f5466f Russell King          2018-08-02  1430  static void tda998x=
-_bridge_mode_set(struct drm_bridge *bridge,
-63f8f3badf799c8 Laurent Pinchart      2018-04-06  1431  				    const struc=
-t drm_display_mode *mode,
-63f8f3badf799c8 Laurent Pinchart      2018-04-06  1432  				    const struc=
-t drm_display_mode *adjusted_mode)
-e7792ce2da5ded8 Rob Clark             2013-01-08  1433  {
-30bd8b862f5466f Russell King          2018-08-02  1434  	struct tda998x_pri=
-v *priv =3D bridge_to_tda998x_priv(bridge);
-926a299c42e38bb Russell King          2018-08-02  1435  	unsigned long tmds=
-_clock;
-e66e03abf80f701 Russell King          2015-06-06  1436  	u16 ref_pix, ref_l=
-ine, n_pix, n_line;
-e66e03abf80f701 Russell King          2015-06-06  1437  	u16 hs_pix_s, hs_p=
-ix_e;
-e66e03abf80f701 Russell King          2015-06-06  1438  	u16 vs1_pix_s, vs1=
-_pix_e, vs1_line_s, vs1_line_e;
-e66e03abf80f701 Russell King          2015-06-06  1439  	u16 vs2_pix_s, vs2=
-_pix_e, vs2_line_s, vs2_line_e;
-e66e03abf80f701 Russell King          2015-06-06  1440  	u16 vwin1_line_s, =
-vwin1_line_e;
-e66e03abf80f701 Russell King          2015-06-06  1441  	u16 vwin2_line_s, =
-vwin2_line_e;
-e66e03abf80f701 Russell King          2015-06-06  1442  	u16 de_pix_s, de_p=
-ix_e;
-2807ba75970367c Russell King          2018-07-08  1443  	u8 reg, div, rep, =
-sel_clk;
-e7792ce2da5ded8 Rob Clark             2013-01-08  1444  =
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1430  	power =3D devm_regulator_get(dev, "vcc");
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1431  	if (IS_ERR(power)) {
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1432  		if (PTR_ERR(power) =3D=3D -EPROBE_DEFER)
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1433  			return -EPROBE_DEFER;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1434  		dev_dbg(dev, "no regulator provided\n");
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1435  	} else {
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1436  		ret =3D regulator_enable(power);
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1437  		if (ret !=3D 0) {
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1438  			dev_err(dev,
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1439  				"Failed to enable power regulator: %d\n", ret);
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1440  			return ret;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1441  		}
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1442  		dev_dbg(dev, "regulator enabled\n");
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1443  	}
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1444  =
 
-fcc22c5f9ddaa8d Russell King          2018-07-31  1445  	/*
-fcc22c5f9ddaa8d Russell King          2018-07-31  1446  	 * Since we are "c=
-omputer" like, our source invariably produces
-fcc22c5f9ddaa8d Russell King          2018-07-31  1447  	 * full-range RGB.=
-  If the monitor supports full-range, then use
-fcc22c5f9ddaa8d Russell King          2018-07-31  1448  	 * it, otherwise r=
-educe to limited-range.
-fcc22c5f9ddaa8d Russell King          2018-07-31  1449  	 */
-fcc22c5f9ddaa8d Russell King          2018-07-31  1450  	priv->rgb_quant_ra=
-nge =3D
-fcc22c5f9ddaa8d Russell King          2018-07-31  1451  		priv->connector.d=
-isplay_info.rgb_quant_range_selectable ?
-fcc22c5f9ddaa8d Russell King          2018-07-31  1452  		HDMI_QUANTIZATION=
-_RANGE_FULL :
-fcc22c5f9ddaa8d Russell King          2018-07-31  1453  		drm_default_rgb_q=
-uant_range(adjusted_mode);
-e7792ce2da5ded8 Rob Clark             2013-01-08  1454  =
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1445  	reset_gpios =3D of_get_named_gpio_flags(dev->of_node=
+, "reset-gpios", 0,
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1446  					      &flags);
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1447  	if (gpio_is_valid(reset_gpios)) {
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1448  		ret =3D devm_gpio_request_one(dev, reset_gpios, fla=
+gs,
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1449  					    "dm9000_reset");
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1450  		if (ret) {
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1451  			dev_err(dev, "failed to request reset gpio %d: %d\=
+n",
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1452  				reset_gpios, ret);
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1453  			goto out_regulator_disable;
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1454  		}
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1455  =
 
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1455  	/*
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1456  	 * Internally TDA9=
-98x is using ITU-R BT.656 style sync but
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1457  	 * we get VESA sty=
-le sync. TDA998x is using a reference pixel
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1458  	 * relative to ITU=
- to sync to the input frame and for output
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1459  	 * sync generation=
-. Currently, we are using reference detection
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1460  	 * from HS/VS, i.e=
-. REFPIX/REFLINE denote frame start sync point
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1461  	 * which is positi=
-on of rising VS with coincident rising HS.
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1462  	 *
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1463  	 * Now there is so=
-me issues to take care of:
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1464  	 * - HDMI data isl=
-ands require sync-before-active
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1465  	 * - TDA998x regis=
-ter values must be > 0 to be enabled
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1466  	 * - REFLINE needs=
- an additional offset of +1
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1467  	 * - REFPIX needs =
-an addtional offset of +1 for UYUV and +3 for RGB
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1468  	 *
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1469  	 * So we add +1 to=
- all horizontal and vertical register values,
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1470  	 * plus an additio=
-nal +3 for REFPIX as we are using RGB input only.
-e7792ce2da5ded8 Rob Clark             2013-01-08  1471  	 */
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1472  	n_pix        =3D m=
-ode->htotal;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1473  	n_line       =3D m=
-ode->vtotal;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1474  =
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1456  		/* According to manual PWRST# Low Period Min 1ms */
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1457  		msleep(2);
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1458  		gpio_set_value(reset_gpios, 1);
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1459  		/* Needs 3ms to read eeprom when PWRST is deasserte=
+d */
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1460  		msleep(4);
+7994fe55a4a200 drivers/net/ethernet/davicom/dm9000.c Zubair Lutfullah Kakak=
+hel 2015-01-15  1461  	}
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1462  =
 
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1475  	hs_pix_e     =3D m=
-ode->hsync_end - mode->hdisplay;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1476  	hs_pix_s     =3D m=
-ode->hsync_start - mode->hdisplay;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1477  	de_pix_e     =3D m=
-ode->htotal;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1478  	de_pix_s     =3D m=
-ode->htotal - mode->hdisplay;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1479  	ref_pix      =3D 3=
- + hs_pix_s;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1480  =
+0b8bf1baabe56f drivers/net/ethernet/davicom/dm9000.c Tomasz Figa           =
+    2013-05-20  1463  	if (!pdata) {
+0b8bf1baabe56f drivers/net/ethernet/davicom/dm9000.c Tomasz Figa           =
+    2013-05-20  1464  		pdata =3D dm9000_parse_dt(&pdev->dev);
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1465  		if (IS_ERR(pdata)) {
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1466  			ret =3D PTR_ERR(pdata);
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1467  			goto out_regulator_disable;
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1468  		}
+0b8bf1baabe56f drivers/net/ethernet/davicom/dm9000.c Tomasz Figa           =
+    2013-05-20  1469  	}
+0b8bf1baabe56f drivers/net/ethernet/davicom/dm9000.c Tomasz Figa           =
+    2013-05-20  1470  =
 
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1481  	/*
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1482  	 * Attached LCD co=
-ntrollers may generate broken sync. Allow
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1483  	 * those to adjust=
- the position of the rising VS edge by adding
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1484  	 * HSKEW to ref_pi=
-x.
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1485  	 */
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1486  	if (adjusted_mode-=
->flags & DRM_MODE_FLAG_HSKEW)
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1487  		ref_pix +=3D adju=
-sted_mode->hskew;
-179f1aa407b466c Sebastian Hesselbarth 2013-08-14  1488  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1471  	/* Init network device */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1472  	ndev =3D alloc_etherdev(sizeof(struct board_info));
+31457db3750c0b drivers/net/ethernet/davicom/dm9000.c Christophe JAILLET    =
+    2021-04-11  1473  	if (!ndev) {
+31457db3750c0b drivers/net/ethernet/davicom/dm9000.c Christophe JAILLET    =
+    2021-04-11  1474  		ret =3D -ENOMEM;
+31457db3750c0b drivers/net/ethernet/davicom/dm9000.c Christophe JAILLET    =
+    2021-04-11  1475  		goto out_regulator_disable;
+31457db3750c0b drivers/net/ethernet/davicom/dm9000.c Christophe JAILLET    =
+    2021-04-11  1476  	}
+9a2f037cdbe840 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1477  =
 
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1489  	if ((mode->flags &=
- DRM_MODE_FLAG_INTERLACE) =3D=3D 0) {
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1490  		ref_line     =3D =
-1 + mode->vsync_start - mode->vdisplay;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1491  		vwin1_line_s =3D =
-mode->vtotal - mode->vdisplay - 1;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1492  		vwin1_line_e =3D =
-vwin1_line_s + mode->vdisplay;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1493  		vs1_pix_s    =3D =
-vs1_pix_e =3D hs_pix_s;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1494  		vs1_line_s   =3D =
-mode->vsync_start - mode->vdisplay;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1495  		vs1_line_e   =3D =
-vs1_line_s +
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1496  			       mode->vsy=
-nc_end - mode->vsync_start;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1497  		vwin2_line_s =3D =
-vwin2_line_e =3D 0;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1498  		vs2_pix_s    =3D =
-vs2_pix_e  =3D 0;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1499  		vs2_line_s   =3D =
-vs2_line_e =3D 0;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1500  	} else {
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1501  		ref_line     =3D =
-1 + (mode->vsync_start - mode->vdisplay)/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1502  		vwin1_line_s =3D =
-(mode->vtotal - mode->vdisplay)/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1503  		vwin1_line_e =3D =
-vwin1_line_s + mode->vdisplay/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1504  		vs1_pix_s    =3D =
-vs1_pix_e =3D hs_pix_s;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1505  		vs1_line_s   =3D =
-(mode->vsync_start - mode->vdisplay)/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1506  		vs1_line_e   =3D =
-vs1_line_s +
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1507  			       (mode->vs=
-ync_end - mode->vsync_start)/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1508  		vwin2_line_s =3D =
-vwin1_line_s + mode->vtotal/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1509  		vwin2_line_e =3D =
-vwin2_line_s + mode->vdisplay/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1510  		vs2_pix_s    =3D =
-vs2_pix_e =3D hs_pix_s + mode->htotal/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1511  		vs2_line_s   =3D =
-vs1_line_s + mode->vtotal/2 ;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1512  		vs2_line_e   =3D =
-vs2_line_s +
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1513  			       (mode->vs=
-ync_end - mode->vsync_start)/2;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1514  	}
-e7792ce2da5ded8 Rob Clark             2013-01-08  1515  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1478  	SET_NETDEV_DEV(ndev, &pdev->dev);
+9ef9ac51cc5fa5 drivers/net/dm9000.c                  Ben Dooks             =
+    2005-07-23  1479  =
 
-2807ba75970367c Russell King          2018-07-08  1516  	/*
-2807ba75970367c Russell King          2018-07-08  1517  	 * Select pixel re=
-peat depending on the double-clock flag
-2807ba75970367c Russell King          2018-07-08  1518  	 * (which means we=
- have to repeat each pixel once.)
-2807ba75970367c Russell King          2018-07-08  1519  	 */
-2807ba75970367c Russell King          2018-07-08  1520  	rep =3D mode->flag=
-s & DRM_MODE_FLAG_DBLCLK ? 1 : 0;
-2807ba75970367c Russell King          2018-07-08  1521  	sel_clk =3D SEL_CL=
-K_ENA_SC_CLK | SEL_CLK_SEL_CLK1 |
-2807ba75970367c Russell King          2018-07-08  1522  		  SEL_CLK_SEL_VRF=
-_CLK(rep ? 2 : 0);
-2807ba75970367c Russell King          2018-07-08  1523  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1480  	dev_dbg(&pdev->dev, "dm9000_probe()\n");
+9ef9ac51cc5fa5 drivers/net/dm9000.c                  Ben Dooks             =
+    2005-07-23  1481  =
 
-2807ba75970367c Russell King          2018-07-08  1524  	/* the TMDS clock =
-is scaled up by the pixel repeat */
-2807ba75970367c Russell King          2018-07-08  1525  	tmds_clock =3D mod=
-e->clock * (1 + rep);
-926a299c42e38bb Russell King          2018-08-02  1526  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1482  	/* setup board info structure */
+4cf1653aa90c63 drivers/net/dm9000.c                  Wang Chen             =
+    2008-11-12  1483  	db =3D netdev_priv(ndev);
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1484  =
 
-926a299c42e38bb Russell King          2018-08-02  1527  	/*
-926a299c42e38bb Russell King          2018-08-02  1528  	 * The divisor is =
-power-of-2. The TDA9983B datasheet gives
-926a299c42e38bb Russell King          2018-08-02  1529  	 * this as ranges =
-of Msample/s, which is 10x the TMDS clock:
-926a299c42e38bb Russell King          2018-08-02  1530  	 *   0 - 800 to 15=
-00 Msample/s
-926a299c42e38bb Russell King          2018-08-02  1531  	 *   1 - 400 to 80=
-0 Msample/s
-926a299c42e38bb Russell King          2018-08-02  1532  	 *   2 - 200 to 40=
-0 Msample/s
-926a299c42e38bb Russell King          2018-08-02  1533  	 *   3 - as 2 above
-926a299c42e38bb Russell King          2018-08-02  1534  	 */
-926a299c42e38bb Russell King          2018-08-02  1535  	for (div =3D 0; di=
-v < 3; div++)
-926a299c42e38bb Russell King          2018-08-02  1536  		if (80000 >> div =
-<=3D tmds_clock)
-926a299c42e38bb Russell King          2018-08-02  1537  			break;
-e7792ce2da5ded8 Rob Clark             2013-01-08  1538  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1485  	db->dev =3D &pdev->dev;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1486  	db->ndev =3D ndev;
+cf9e60aa69ae6c drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1487  	if (!IS_ERR(power))
+cf9e60aa69ae6c drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1488  		db->power_supply =3D power;
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1489  =
 
-2cae8e028ecb440 Russell King          2016-11-02  1539  	mutex_lock(&priv->=
-audio_mutex);
-2cae8e028ecb440 Russell King          2016-11-02  1540  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1490  	spin_lock_init(&db->lock);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1491  	mutex_init(&db->addr_lock);
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1492  =
 
-2807ba75970367c Russell King          2018-07-08  1541  	priv->tmds_clock =
-=3D tmds_clock;
-2807ba75970367c Russell King          2018-07-08  1542  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1493  	INIT_DELAYED_WORK(&db->phy_poll, dm9000_poll_work);
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1494  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1543  	/* mute the audio =
-FIFO: */
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1544  	reg_set(priv, REG_=
-AIP_CNTRL_0, AIP_CNTRL_0_RST_FIFO);
-e7792ce2da5ded8 Rob Clark             2013-01-08  1545  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1495  	db->addr_res =3D platform_get_resource(pdev, IORESOU=
+RCE_MEM, 0);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1496  	db->data_res =3D platform_get_resource(pdev, IORESOU=
+RCE_MEM, 1);
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1497  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1546  	/* set HDMI HDCP m=
-ode off: */
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1547  	reg_write(priv, RE=
-G_TBG_CNTRL_1, TBG_CNTRL_1_DWIN_DIS);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1548  	reg_clear(priv, RE=
-G_TX33, TX33_HDMI);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1549  	reg_write(priv, RE=
-G_ENC_CNTRL, ENC_CNTRL_CTL_CODE(0));
-e7792ce2da5ded8 Rob Clark             2013-01-08  1550  =
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1498  	if (!db->addr_res || !db->data_res) {
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1499  		dev_err(db->dev, "insufficient resources addr=3D%p =
+data=3D%p\n",
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1500  			db->addr_res, db->data_res);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1501  		ret =3D -ENOENT;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1502  		goto out;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1503  	}
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1504  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1551  	/* no pre-filter o=
-r interpolator: */
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1552  	reg_write(priv, RE=
-G_HVF_CNTRL_0, HVF_CNTRL_0_PREFIL(0) |
-e7792ce2da5ded8 Rob Clark             2013-01-08  1553  			HVF_CNTRL_0_INTP=
-OL(0));
-9476ed2e3883b11 Russell King          2016-11-03  1554  	reg_set(priv, REG_=
-FEAT_POWERDOWN, FEAT_POWERDOWN_PREFILT);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1555  	reg_write(priv, RE=
-G_VIP_CNTRL_5, VIP_CNTRL_5_SP_CNT(0));
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1556  	reg_write(priv, RE=
-G_VIP_CNTRL_4, VIP_CNTRL_4_BLANKIT(0) |
-e7792ce2da5ded8 Rob Clark             2013-01-08  1557  			VIP_CNTRL_4_BLC(=
-0));
-e7792ce2da5ded8 Rob Clark             2013-01-08  1558  =
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1505  	ndev->irq =3D platform_get_irq(pdev, 0);
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1506  	if (ndev->irq < 0) {
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1507  		ret =3D ndev->irq;
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1508  		goto out;
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1509  	}
+b5a099c67a1c36 drivers/net/ethernet/davicom/dm9000.c Robert Jarzmik        =
+    2016-02-20  1510  =
 
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1559  	reg_clear(priv, RE=
-G_PLL_SERIAL_1, PLL_SERIAL_1_SRL_MAN_IZ);
-a8b517e5312124e Jean-Francois Moine   2014-01-25  1560  	reg_clear(priv, RE=
-G_PLL_SERIAL_3, PLL_SERIAL_3_SRL_CCIR |
-a8b517e5312124e Jean-Francois Moine   2014-01-25  1561  					  PLL_SERIAL_3=
-_SRL_DE);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1562  	reg_write(priv, RE=
-G_SERIALIZER, 0);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1563  	reg_write(priv, RE=
-G_HVF_CNTRL_1, HVF_CNTRL_1_VQR(0));
-e7792ce2da5ded8 Rob Clark             2013-01-08  1564  =
+2e2696223676d5 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1511  	db->irq_wake =3D platform_get_irq_optional(pdev, 1);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1512  	if (db->irq_wake >=3D 0) {
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1513  		dev_dbg(db->dev, "wakeup irq %d\n", db->irq_wake);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1514  =
 
-2807ba75970367c Russell King          2018-07-08  1565  	reg_write(priv, RE=
-G_RPT_CNTRL, RPT_CNTRL_REPEAT(rep));
-2807ba75970367c Russell King          2018-07-08  1566  	reg_write(priv, RE=
-G_SEL_CLK, sel_clk);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1567  	reg_write(priv, RE=
-G_PLL_SERIAL_2, PLL_SERIAL_2_SRL_NOSC(div) |
-e7792ce2da5ded8 Rob Clark             2013-01-08  1568  			PLL_SERIAL_2_SRL=
-_PR(rep));
-e7792ce2da5ded8 Rob Clark             2013-01-08  1569  =
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1515  		ret =3D request_irq(db->irq_wake, dm9000_wol_interr=
+upt,
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1516  				  IRQF_SHARED, dev_name(db->dev), ndev);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1517  		if (ret) {
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1518  			dev_err(db->dev, "cannot get wakeup irq (%d)\n", r=
+et);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1519  		} else {
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1520  =
 
-fcc22c5f9ddaa8d Russell King          2018-07-31  1570  	/* set color matri=
-x according to output rgb quant range */
-fcc22c5f9ddaa8d Russell King          2018-07-31  1571  	if (priv->rgb_quan=
-t_range =3D=3D HDMI_QUANTIZATION_RANGE_LIMITED) {
-fcc22c5f9ddaa8d Russell King          2018-07-31  1572  		static u8 tda998x=
-_full_to_limited_range[] =3D {
-fcc22c5f9ddaa8d Russell King          2018-07-31  1573  			MAT_CONTRL_MAT_S=
-C(2),
-fcc22c5f9ddaa8d Russell King          2018-07-31  1574  			0x00, 0x00, 0x00=
-, 0x00, 0x00, 0x00,
-fcc22c5f9ddaa8d Russell King          2018-07-31  1575  			0x03, 0x6f, 0x00=
-, 0x00, 0x00, 0x00,
-fcc22c5f9ddaa8d Russell King          2018-07-31  1576  			0x00, 0x00, 0x03=
-, 0x6f, 0x00, 0x00,
-fcc22c5f9ddaa8d Russell King          2018-07-31  1577  			0x00, 0x00, 0x00=
-, 0x00, 0x03, 0x6f,
-fcc22c5f9ddaa8d Russell King          2018-07-31  1578  			0x00, 0x40, 0x00=
-, 0x40, 0x00, 0x40
-fcc22c5f9ddaa8d Russell King          2018-07-31  1579  		};
-fcc22c5f9ddaa8d Russell King          2018-07-31  1580  		reg_clear(priv, R=
-EG_FEAT_POWERDOWN, FEAT_POWERDOWN_CSC);
-fcc22c5f9ddaa8d Russell King          2018-07-31  1581  		reg_write_range(p=
-riv, REG_MAT_CONTRL,
-fcc22c5f9ddaa8d Russell King          2018-07-31  1582  				tda998x_full_to=
-_limited_range,
-fcc22c5f9ddaa8d Russell King          2018-07-31  1583  				sizeof(tda998x_=
-full_to_limited_range));
-fcc22c5f9ddaa8d Russell King          2018-07-31  1584  	} else {
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1585  		reg_write(priv, R=
-EG_MAT_CONTRL, MAT_CONTRL_MAT_BP |
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1586  					MAT_CONTRL_MAT=
-_SC(1));
-9476ed2e3883b11 Russell King          2016-11-03  1587  		reg_set(priv, REG=
-_FEAT_POWERDOWN, FEAT_POWERDOWN_CSC);
-fcc22c5f9ddaa8d Russell King          2018-07-31  1588  	}
-e7792ce2da5ded8 Rob Clark             2013-01-08  1589  =
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1521  			/* test to see if irq is really wakeup capable */
+dced35aeb0367d drivers/net/dm9000.c                  Thomas Gleixner       =
+    2011-03-28  1522  			ret =3D irq_set_irq_wake(db->irq_wake, 1);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1523  			if (ret) {
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1524  				dev_err(db->dev, "irq %d cannot set wakeup (%d)\n=
+",
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1525  					db->irq_wake, ret);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1526  			} else {
+dced35aeb0367d drivers/net/dm9000.c                  Thomas Gleixner       =
+    2011-03-28  1527  				irq_set_irq_wake(db->irq_wake, 0);
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1528  				db->wake_supported =3D 1;
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1529  			}
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1530  		}
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1531  	}
+c029f4440fd3f0 drivers/net/dm9000.c                  Ben Dooks             =
+    2009-11-10  1532  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1590  	/* set BIAS tmds v=
-alue: */
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1591  	reg_write(priv, RE=
-G_ANA_GENERAL, 0x09);
-e7792ce2da5ded8 Rob Clark             2013-01-08  1592  =
+ec282e9225be92 drivers/net/dm9000.c                  Tobias Klauser        =
+    2009-09-09  1533  	iosize =3D resource_size(db->addr_res);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1534  	db->addr_req =3D request_mem_region(db->addr_res->st=
+art, iosize,
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1535  					  pdev->name);
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1536  =
 
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1593  	/*
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1594  	 * Sync on rising =
-HSYNC/VSYNC
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1595  	 */
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1596  	reg =3D VIP_CNTRL_=
-3_SYNC_HS;
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1597  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1537  	if (db->addr_req =3D=3D NULL) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1538  		dev_err(db->dev, "cannot claim address reg area\n");
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1539  		ret =3D -EIO;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1540  		goto out;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1541  	}
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1542  =
 
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1598  	/*
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1599  	 * TDA19988 requir=
-es high-active sync at input stage,
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1600  	 * so invert low-a=
-ctive sync provided by master encoder here
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1601  	 */
-088d61d1fdfde56 Sebastian Hesselbarth 2013-08-14  1602  	if (mode->flags & =
-DRM_MODE_FLAG_NHSYNC)
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1603  		reg |=3D VIP_CNTR=
-L_3_H_TGL;
-e7792ce2da5ded8 Rob Clark             2013-01-08  1604  	if (mode->flags & =
-DRM_MODE_FLAG_NVSYNC)
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25 @1605  		reg |=3D VIP_CNTR=
-L_3_V_TGL;
-69ab3da03041695 sw.multimedia         2021-08-31  1606  	//reg_write(priv, =
-REG_VIP_CNTRL_3, reg);
-69ab3da03041695 sw.multimedia         2021-08-31  1607  	reg_write(priv, RE=
-G_VIP_CNTRL_3, 0x26);
-69ab3da03041695 sw.multimedia         2021-08-31  1608  	reg_write(priv, RE=
-G_VIDFORMAT, 0x06);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1609  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1543  	db->io_addr =3D ioremap(db->addr_res->start, iosize);
+37d5dca6af6b62 drivers/net/dm9000.c                  Enrico Scholz         =
+    2008-05-08  1544  =
 
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1610  	reg_write(priv, RE=
-G_VIDFORMAT, 0x00);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1611  	reg_write16(priv, =
-REG_REFPIX_MSB, ref_pix);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1612  	reg_write16(priv, =
-REG_REFLINE_MSB, ref_line);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1613  	reg_write16(priv, =
-REG_NPIX_MSB, n_pix);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1614  	reg_write16(priv, =
-REG_NLINE_MSB, n_line);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1615  	reg_write16(priv, =
-REG_VS_LINE_STRT_1_MSB, vs1_line_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1616  	reg_write16(priv, =
-REG_VS_PIX_STRT_1_MSB, vs1_pix_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1617  	reg_write16(priv, =
-REG_VS_LINE_END_1_MSB, vs1_line_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1618  	reg_write16(priv, =
-REG_VS_PIX_END_1_MSB, vs1_pix_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1619  	reg_write16(priv, =
-REG_VS_LINE_STRT_2_MSB, vs2_line_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1620  	reg_write16(priv, =
-REG_VS_PIX_STRT_2_MSB, vs2_pix_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1621  	reg_write16(priv, =
-REG_VS_LINE_END_2_MSB, vs2_line_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1622  	reg_write16(priv, =
-REG_VS_PIX_END_2_MSB, vs2_pix_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1623  	reg_write16(priv, =
-REG_HS_PIX_START_MSB, hs_pix_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1624  	reg_write16(priv, =
-REG_HS_PIX_STOP_MSB, hs_pix_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1625  	reg_write16(priv, =
-REG_VWIN_START_1_MSB, vwin1_line_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1626  	reg_write16(priv, =
-REG_VWIN_END_1_MSB, vwin1_line_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1627  	reg_write16(priv, =
-REG_VWIN_START_2_MSB, vwin2_line_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1628  	reg_write16(priv, =
-REG_VWIN_END_2_MSB, vwin2_line_e);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1629  	reg_write16(priv, =
-REG_DE_START_MSB, de_pix_s);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1630  	reg_write16(priv, =
-REG_DE_STOP_MSB, de_pix_e);
-e7792ce2da5ded8 Rob Clark             2013-01-08  1631  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1545  	if (db->io_addr =3D=3D NULL) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1546  		dev_err(db->dev, "failed to ioremap address reg\n");
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1547  		ret =3D -EINVAL;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1548  		goto out;
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1549  	}
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1550  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1632  	if (priv->rev =3D=
-=3D TDA19988) {
-e7792ce2da5ded8 Rob Clark             2013-01-08  1633  		/* let incoming p=
-ixels fill the active space (if any) */
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1634  		reg_write(priv, R=
-EG_ENABLE_SPACE, 0x00);
-e7792ce2da5ded8 Rob Clark             2013-01-08  1635  	}
-e7792ce2da5ded8 Rob Clark             2013-01-08  1636  =
+ec282e9225be92 drivers/net/dm9000.c                  Tobias Klauser        =
+    2009-09-09  1551  	iosize =3D resource_size(db->data_res);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1552  	db->data_req =3D request_mem_region(db->data_res->st=
+art, iosize,
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1553  					  pdev->name);
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1554  =
 
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1637  	/*
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1638  	 * Always generate=
- sync polarity relative to input sync and
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1639  	 * revert input st=
-age toggled sync at output stage
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1640  	 */
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1641  	reg =3D TBG_CNTRL_=
-1_DWIN_DIS | TBG_CNTRL_1_TGL_EN;
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1642  	if (mode->flags & =
-DRM_MODE_FLAG_NHSYNC)
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1643  		reg |=3D TBG_CNTR=
-L_1_H_TGL;
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1644  	if (mode->flags & =
-DRM_MODE_FLAG_NVSYNC)
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1645  		reg |=3D TBG_CNTR=
-L_1_V_TGL;
-69ab3da03041695 sw.multimedia         2021-08-31  1646  	//reg_write(priv, =
-REG_TBG_CNTRL_1, reg);
-69ab3da03041695 sw.multimedia         2021-08-31  1647  	reg_write(priv, RE=
-G_TBG_CNTRL_1, 0x46);
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1648  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1555  	if (db->data_req =3D=3D NULL) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1556  		dev_err(db->dev, "cannot claim data reg area\n");
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1557  		ret =3D -EIO;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1558  		goto out;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1559  	}
+9a2f037cdbe840 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1560  =
 
-e7792ce2da5ded8 Rob Clark             2013-01-08  1649  	/* must be last re=
-gister set: */
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1650  	reg_write(priv, RE=
-G_TBG_CNTRL_0, 0);
-c4c11dd160a8cc9 Russell King          2013-08-14  1651  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1561  	db->io_data =3D ioremap(db->data_res->start, iosize);
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1562  =
 
-896a4130b8e60cb Russell King          2016-10-23  1652  	/* CEA-861B sectio=
-n 6 says that:
-896a4130b8e60cb Russell King          2016-10-23  1653  	 * CEA version 1 (=
-CEA-861) has no support for infoframes.
-896a4130b8e60cb Russell King          2016-10-23  1654  	 * CEA version 2 (=
-CEA-861A) supports version 1 AVI infoframes,
-896a4130b8e60cb Russell King          2016-10-23  1655  	 * and optional ba=
-sic audio.
-896a4130b8e60cb Russell King          2016-10-23  1656  	 * CEA version 3 (=
-CEA-861B) supports version 1 and 2 AVI infoframes,
-896a4130b8e60cb Russell King          2016-10-23  1657  	 * and optional di=
-gital audio, with audio infoframes.
-896a4130b8e60cb Russell King          2016-10-23  1658  	 *
-896a4130b8e60cb Russell King          2016-10-23  1659  	 * Since we only s=
-upport generation of version 2 AVI infoframes,
-896a4130b8e60cb Russell King          2016-10-23  1660  	 * ignore CEA vers=
-ion 2 and below (iow, behave as if we're a
-896a4130b8e60cb Russell King          2016-10-23  1661  	 * CEA-861 source.)
-896a4130b8e60cb Russell King          2016-10-23  1662  	 */
-896a4130b8e60cb Russell King          2016-10-23  1663  	priv->supports_inf=
-oframes =3D priv->connector.display_info.cea_rev >=3D 3;
-896a4130b8e60cb Russell King          2016-10-23  1664  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1563  	if (db->io_data =3D=3D NULL) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1564  		dev_err(db->dev, "failed to ioremap data reg\n");
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1565  		ret =3D -EINVAL;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1566  		goto out;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1567  	}
+9ef9ac51cc5fa5 drivers/net/dm9000.c                  Ben Dooks             =
+    2005-07-23  1568  =
 
-896a4130b8e60cb Russell King          2016-10-23  1665  	if (priv->supports=
-_infoframes) {
-c4c11dd160a8cc9 Russell King          2013-08-14  1666  		/* We need to tur=
-n HDMI HDCP stuff on to get audio through */
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1667  		reg &=3D ~TBG_CNT=
-RL_1_DWIN_DIS;
-81b53a166f5cdf4 Jean-Francois Moine   2014-01-25  1668  		reg_write(priv, R=
-EG_TBG_CNTRL_1, reg);
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1669  		reg_write(priv, R=
-EG_ENC_CNTRL, ENC_CNTRL_CTL_CODE(1));
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1670  		reg_set(priv, REG=
-_TX33, TX33_HDMI);
-c4c11dd160a8cc9 Russell King          2013-08-14  1671  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1569  	/* fill in parameters for net-dev structure */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1570  	ndev->base_addr =3D (unsigned long)db->io_addr;
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1571  =
 
-2f7f730a4f0fd33 Jean-Francois Moine   2014-01-25  1672  		tda998x_write_avi=
-(priv, adjusted_mode);
-45a19dd397886a9 Russell King          2018-12-05  1673  		tda998x_write_vsi=
-(priv, adjusted_mode);
-c4c11dd160a8cc9 Russell King          2013-08-14  1674  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1572  	/* ensure at least we have a default set of IO routi=
+nes */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1573  	dm9000_set_io(db, iosize);
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1574  =
 
-82642ab7345d7e7 Russell King          2019-03-01  1675  		if (priv->sink_ha=
-s_audio)
-900b2b7250b8fe4 Russell King          2019-03-01  1676  			tda998x_configur=
-e_audio(priv);
-95db3b255fde4e8 Jyri Sarha            2016-08-09  1677  	}
-319e658c78befa5 Russell King          2016-10-23  1678  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1575  	/* check to see if anything is being over-ridden */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24 @1576  	if (pdata !=3D NULL) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1577  		/* check to see if the driver wants to over-ride the
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1578  		 * default IO width */
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1579  =
 
-319e658c78befa5 Russell King          2016-10-23  1679  	mutex_unlock(&priv=
-->audio_mutex);
-c4c11dd160a8cc9 Russell King          2013-08-14  1680  }
-e7792ce2da5ded8 Rob Clark             2013-01-08  1681  =
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1580  		if (pdata->flags & DM9000_PLATF_8BITONLY)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1581  			dm9000_set_io(db, 1);
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1582  =
 
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1583  		if (pdata->flags & DM9000_PLATF_16BITONLY)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1584  			dm9000_set_io(db, 2);
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1585  =
 
-:::::: The code at line 1605 was first introduced by commit
-:::::: 81b53a166f5cdf4e5bec47fc8884c994de82dc6b drm/i2c: tda998x: don't rea=
-d write-only registers
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1586  		if (pdata->flags & DM9000_PLATF_32BITONLY)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1587  			dm9000_set_io(db, 4);
+89c8b0e6cd3859 drivers/net/dm9000.c                  Ben Dooks             =
+    2008-02-05  1588  =
 
-:::::: TO: Jean-Francois Moine <moinejf@free.fr>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1589  		/* check to see if there are any IO routine
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1590  		 * over-rides */
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1591  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1592  		if (pdata->inblk !=3D NULL)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1593  			db->inblk =3D pdata->inblk;
+9ef9ac51cc5fa5 drivers/net/dm9000.c                  Ben Dooks             =
+    2005-07-23  1594  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1595  		if (pdata->outblk !=3D NULL)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1596  			db->outblk =3D pdata->outblk;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1597  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1598  		if (pdata->dumpblk !=3D NULL)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1599  			db->dumpblk =3D pdata->dumpblk;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1600  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1601  		db->flags =3D pdata->flags;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1602  	}
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1603  =
+
+f8dd0ecbb74d4b drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1604  #ifdef CONFIG_DM9000_FORCE_SIMPLE_PHY_POLL
+f8dd0ecbb74d4b drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1605  	db->flags |=3D DM9000_PLATF_SIMPLE_PHY;
+f8dd0ecbb74d4b drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1606  #endif
+f8dd0ecbb74d4b drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1607  =
+
+751bb6fd80b728 drivers/net/ethernet/davicom/dm9000.c Andrew Ruder          =
+    2014-06-04  1608  	dm9000_reset(db);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1609  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1610  	/* try multiple times, DM9000 sometimes gets the rea=
+d wrong */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1611  	for (i =3D 0; i < 8; i++) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1612  		id_val  =3D ior(db, DM9000_VIDL);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1613  		id_val |=3D (u32)ior(db, DM9000_VIDH) << 8;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1614  		id_val |=3D (u32)ior(db, DM9000_PIDL) << 16;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1615  		id_val |=3D (u32)ior(db, DM9000_PIDH) << 24;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1616  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1617  		if (id_val =3D=3D DM9000_ID)
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1618  			break;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1619  		dev_err(db->dev, "read wrong id 0x%08x\n", id_val);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1620  	}
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1621  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1622  	if (id_val !=3D DM9000_ID) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1623  		dev_err(db->dev, "wrong id: 0x%08x\n", id_val);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1624  		ret =3D -ENODEV;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1625  		goto out;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1626  	}
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1627  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1628  	/* Identify what type of DM9000 we are working on */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1629  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1630  	id_val =3D ior(db, DM9000_CHIPR);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1631  	dev_dbg(db->dev, "dm9000 revision 0x%02x\n", id_val);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1632  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1633  	switch (id_val) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1634  	case CHIPR_DM9000A:
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1635  		db->type =3D TYPE_DM9000A;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1636  		break;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1637  	case CHIPR_DM9000B:
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1638  		db->type =3D TYPE_DM9000B;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1639  		break;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1640  	default:
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1641  		dev_dbg(db->dev, "ID %02x =3D> defaulting to DM9000=
+E\n", id_val);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1642  		db->type =3D TYPE_DM9000E;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1643  	}
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1644  =
+
+5dcc60b7188679 drivers/net/dm9000.c                  Yeasah Pell           =
+    2009-07-06  1645  	/* dm9000a/b are capable of hardware checksum offloa=
+d */
+5dcc60b7188679 drivers/net/dm9000.c                  Yeasah Pell           =
+    2009-07-06  1646  	if (db->type =3D=3D TYPE_DM9000A || db->type =3D=3D =
+TYPE_DM9000B) {
+c88fcb3d8265cf drivers/net/dm9000.c                  Micha=C5=82 Miros=C5=
+=82aw           2011-04-15  1647  		ndev->hw_features =3D NETIF_F_RXCSUM | =
+NETIF_F_IP_CSUM;
+c88fcb3d8265cf drivers/net/dm9000.c                  Micha=C5=82 Miros=C5=
+=82aw           2011-04-15  1648  		ndev->features |=3D ndev->hw_features;
+5dcc60b7188679 drivers/net/dm9000.c                  Yeasah Pell           =
+    2009-07-06  1649  	}
+5dcc60b7188679 drivers/net/dm9000.c                  Yeasah Pell           =
+    2009-07-06  1650  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1651  	/* from this point we assume that we have found a DM=
+9000 */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1652  =
+
+d88106b70178a8 drivers/net/dm9000.c                  Alexander Beregalov   =
+    2009-04-15  1653  	ndev->netdev_ops	=3D &dm9000_netdev_ops;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1654  	ndev->watchdog_timeo	=3D msecs_to_jiffies(watchdog);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1655  	ndev->ethtool_ops	=3D &dm9000_ethtool_ops;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1656  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1657  	db->msg_enable       =3D NETIF_MSG_LINK;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1658  	db->mii.phy_id_mask  =3D 0x1f;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1659  	db->mii.reg_num_mask =3D 0x1f;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1660  	db->mii.force_media  =3D 0;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1661  	db->mii.full_duplex  =3D 0;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1662  	db->mii.dev	     =3D ndev;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1663  	db->mii.mdio_read    =3D dm9000_phy_read;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1664  	db->mii.mdio_write   =3D dm9000_phy_write;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1665  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1666  	mac_src =3D "eeprom";
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1667  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1668  	/* try reading the node address from the attached EE=
+PROM */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1669  	for (i =3D 0; i < 6; i +=3D 2)
+4abd7cffc09a38 drivers/net/ethernet/davicom/dm9000.c Jakub Kicinski        =
+    2021-10-15  1670  		dm9000_read_eeprom(db, i / 2, addr + i);
+4abd7cffc09a38 drivers/net/ethernet/davicom/dm9000.c Jakub Kicinski        =
+    2021-10-15  1671  	eth_hw_addr_set(ndev, addr);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1672  =
+
+fe414248551e28 drivers/net/dm9000.c                  Laurent Pinchart      =
+    2008-07-23  1673  	if (!is_valid_ether_addr(ndev->dev_addr) && pdata !=
+=3D NULL) {
+fe414248551e28 drivers/net/dm9000.c                  Laurent Pinchart      =
+    2008-07-23  1674  		mac_src =3D "platform data";
+a96d317fb1a30b drivers/net/ethernet/davicom/dm9000.c Jakub Kicinski        =
+    2021-10-01  1675  		eth_hw_addr_set(ndev, pdata->dev_addr);
+fe414248551e28 drivers/net/dm9000.c                  Laurent Pinchart      =
+    2008-07-23  1676  	}
+fe414248551e28 drivers/net/dm9000.c                  Laurent Pinchart      =
+    2008-07-23  1677  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1678  	if (!is_valid_ether_addr(ndev->dev_addr)) {
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1679  		/* try reading from mac */
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1680  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1681  		mac_src =3D "chip";
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1682  		for (i =3D 0; i < 6; i++)
+4abd7cffc09a38 drivers/net/ethernet/davicom/dm9000.c Jakub Kicinski        =
+    2021-10-15  1683  			addr[i] =3D ior(db, i + DM9000_PAR);
+4abd7cffc09a38 drivers/net/ethernet/davicom/dm9000.c Jakub Kicinski        =
+    2021-10-15 @1684  		eth_hw_addr_set(ndev, pdata->dev_addr);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1685  	}
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1686  =
+
+85e6b8c5d8be1e drivers/net/dm9000.c                  Ben Dooks             =
+    2011-02-24  1687  	if (!is_valid_ether_addr(ndev->dev_addr)) {
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1688  		inv_mac_addr =3D true;
+f2cedb63df1434 drivers/net/ethernet/davicom/dm9000.c Danny Kukawka         =
+    2012-02-15  1689  		eth_hw_addr_random(ndev);
+85e6b8c5d8be1e drivers/net/dm9000.c                  Ben Dooks             =
+    2011-02-24  1690  		mac_src =3D "random";
+85e6b8c5d8be1e drivers/net/dm9000.c                  Ben Dooks             =
+    2011-02-24  1691  	}
+85e6b8c5d8be1e drivers/net/dm9000.c                  Ben Dooks             =
+    2011-02-24  1692  =
+
+85e6b8c5d8be1e drivers/net/dm9000.c                  Ben Dooks             =
+    2011-02-24  1693  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1694  	platform_set_drvdata(pdev, ndev);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1695  	ret =3D register_netdev(ndev);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1696  =
+
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1697  	if (ret =3D=3D 0) {
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1698  		if (inv_mac_addr)
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1699  			dev_warn(db->dev, "%s: Invalid ethernet MAC addres=
+s. Please set using ip\n",
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1700  				 ndev->name);
+e174961ca1a0b2 drivers/net/dm9000.c                  Johannes Berg         =
+    2008-10-27  1701  		printk(KERN_INFO "%s: dm9000%c at %p,%p IRQ %d MAC:=
+ %pM (%s)\n",
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1702  		       ndev->name, dm9000_type_to_char(db->type),
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1703  		       db->io_addr, db->io_data, ndev->irq,
+e174961ca1a0b2 drivers/net/dm9000.c                  Johannes Berg         =
+    2008-10-27  1704  		       ndev->dev_addr, mac_src);
+3274940bd3d870 drivers/net/ethernet/davicom/dm9000.c Harvey Hunt           =
+    2016-05-17  1705  	}
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1706  	return 0;
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1707  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1708  out:
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1709  	dev_err(db->dev, "not found (%d).\n", ret);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1710  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1711  	dm9000_release_board(pdev, db);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1712  	free_netdev(ndev);
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1713  =
+
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1714  out_regulator_disable:
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1715  	if (!IS_ERR(power))
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1716  		regulator_disable(power);
+ac88c531a5b388 drivers/net/ethernet/davicom/dm9000.c Paul Cercueil         =
+    2021-03-07  1717  =
+
+f8d79e79a1700f drivers/net/dm9000.c                  Ben Dooks             =
+    2008-06-24  1718  	return ret;
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1719  }
+a1365275e745bb drivers/net/dm9000.c                  Sascha Hauer          =
+    2005-05-05  1720  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0002128884013923390==--
+--===============6151815003120198744==--
 
