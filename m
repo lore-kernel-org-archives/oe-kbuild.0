@@ -1,111 +1,79 @@
-Content-Type: multipart/mixed; boundary="===============6629722941158463941=="
+Content-Type: multipart/mixed; boundary="===============2693942116305590501=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:bpf/bpf-next/master 18/45] kernel/bpf/btf.c:4584:5: warning: union member 'Anonymous3::__t' is never used. [unusedStructMember]
-Date: Thu, 20 Jan 2022 11:28:03 +0800
-Message-ID: <202201201135.MlbTXxnz-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlxbf_gige/mlxbf_gige_rx.c:26 mlxbf_gige_set_mac_rx_filter() warn: should '((((1))) << (4)) << index' be a 64 bit type?
+Date: Thu, 20 Jan 2022 11:27:47 +0800
+Message-ID: <202201200947.ryWuG9gs-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6629722941158463941==
+--===============2693942116305590501==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: David Thompson <davthompson@nvidia.com>
+CC: Asmaa Mnebhi <asmaa@nvidia.com>
+CC: Liming Sun <limings@nvidia.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
-head:   4e950747ba126eb4accacf8f8b10459f374e6e9e
-commit: dee872e124e8d5de22b68c58f6f6c3f5e8889160 [18/45] bpf: Populate kfun=
-c BTF ID sets in struct btf
-:::::: branch date: 6 hours ago
-:::::: commit date: 29 hours ago
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1d1df41c5a33359a00e919d54eaebfb789711fdc
+commit: f92e1869d74e1acc6551256eb084a1c14a054e19 Add Mellanox BlueField Gig=
+abit Ethernet driver
+date:   7 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 7 months ago
+config: nios2-randconfig-m031-20220116 (https://download.01.org/0day-ci/arc=
+hive/20220120/202201200947.ryWuG9gs-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/net/ethernet/mellanox/mlxbf_gige/mlxbf_gige_rx.c:26 mlxbf_gige_set_=
+mac_rx_filter() warn: should '((((1))) << (4)) << index' be a 64 bit type?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +26 drivers/net/ethernet/mellanox/mlxbf_gige/mlxbf_gige_rx.c
 
-                ^
-   kernel/bpf/btf.c:4898:38: note: Null pointer addition
-    args =3D (const struct btf_param *)(t + 1);
-                                        ^
->> kernel/bpf/btf.c:4584:5: warning: union member 'Anonymous3::__t' is neve=
-r used. [unusedStructMember]
-    } *__t;
-       ^
-   kernel/bpf/btf.c:3877:29: warning: Variable 'tag' is not assigned a valu=
-e. [unassignedVariable]
-    const struct btf_decl_tag *tag;
-                               ^
+f92e1869d74e1a David Thompson 2021-06-24  13  =
 
-vim +4584 kernel/bpf/btf.c
+f92e1869d74e1a David Thompson 2021-06-24  14  void mlxbf_gige_set_mac_rx_fi=
+lter(struct mlxbf_gige *priv,
+f92e1869d74e1a David Thompson 2021-06-24  15  				  unsigned int index, u64=
+ dmac)
+f92e1869d74e1a David Thompson 2021-06-24  16  {
+f92e1869d74e1a David Thompson 2021-06-24  17  	void __iomem *base =3D priv-=
+>base;
+f92e1869d74e1a David Thompson 2021-06-24  18  	u64 control;
+f92e1869d74e1a David Thompson 2021-06-24  19  =
 
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4574  =
+f92e1869d74e1a David Thompson 2021-06-24  20  	/* Write destination MAC to =
+specified MAC RX filter */
+f92e1869d74e1a David Thompson 2021-06-24  21  	writeq(dmac, base + MLXBF_GI=
+GE_RX_MAC_FILTER +
+f92e1869d74e1a David Thompson 2021-06-24  22  	       (index * MLXBF_GIGE_R=
+X_MAC_FILTER_STRIDE));
+f92e1869d74e1a David Thompson 2021-06-24  23  =
 
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4575  #define BPF_MAP_TYPE(_i=
-d, _ops)
-f2e10bff16a0fd Andrii Nakryiko    2020-04-28  4576  #define BPF_LINK_TYPE(_=
-id, _name)
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4577  static union {
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4578  	struct bpf_ctx_convert=
- {
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4579  #define BPF_PROG_TYPE(_=
-id, _name, prog_ctx_type, kern_ctx_type) \
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4580  	prog_ctx_type _id##_pr=
-og; \
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4581  	kern_ctx_type _id##_ke=
-rn;
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4582  #include <linux/bpf_typ=
-es.h>
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4583  #undef BPF_PROG_TYPE
-91cc1a99740e2e Alexei Starovoitov 2019-11-14 @4584  	} *__t;
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4585  	/* 't' is written once=
- under lock. Read many times. */
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4586  	const struct btf_type =
-*t;
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4587  } bpf_ctx_convert;
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4588  enum {
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4589  #define BPF_PROG_TYPE(_=
-id, _name, prog_ctx_type, kern_ctx_type) \
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4590  	__ctx_convert##_id,
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4591  #include <linux/bpf_typ=
-es.h>
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4592  #undef BPF_PROG_TYPE
-ce27709b8162e5 Alexei Starovoitov 2019-11-27  4593  	__ctx_convert_unused, =
-/* to avoid empty enum in extreme .config */
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4594  };
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4595  static u8 bpf_ctx_conve=
-rt_map[] =3D {
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4596  #define BPF_PROG_TYPE(_=
-id, _name, prog_ctx_type, kern_ctx_type) \
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4597  	[_id] =3D __ctx_conver=
-t##_id,
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4598  #include <linux/bpf_typ=
-es.h>
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4599  #undef BPF_PROG_TYPE
-4c80c7bc583a87 Arnd Bergmann      2019-12-10  4600  	0, /* avoid empty arra=
-y */
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4601  };
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4602  #undef BPF_MAP_TYPE
-f2e10bff16a0fd Andrii Nakryiko    2020-04-28  4603  #undef BPF_LINK_TYPE
-91cc1a99740e2e Alexei Starovoitov 2019-11-14  4604  =
+f92e1869d74e1a David Thompson 2021-06-24  24  	/* Enable MAC receive filter=
+ mask for specified index */
+f92e1869d74e1a David Thompson 2021-06-24  25  	control =3D readq(base + MLX=
+BF_GIGE_CONTROL);
+f92e1869d74e1a David Thompson 2021-06-24 @26  	control |=3D (MLXBF_GIGE_CON=
+TROL_EN_SPECIFIC_MAC << index);
+f92e1869d74e1a David Thompson 2021-06-24  27  	writeq(control, base + MLXBF=
+_GIGE_CONTROL);
+f92e1869d74e1a David Thompson 2021-06-24  28  }
+f92e1869d74e1a David Thompson 2021-06-24  29  =
 
-
-:::::: The code at line 4584 was first introduced by commit
-:::::: 91cc1a99740e2ed1d903b5906afb470cc5a07379 bpf: Annotate context types
-
-:::::: TO: Alexei Starovoitov <ast@kernel.org>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6629722941158463941==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============2693942116305590501==--
 
