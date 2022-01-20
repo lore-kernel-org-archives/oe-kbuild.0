@@ -1,120 +1,177 @@
-Content-Type: multipart/mixed; boundary="===============6182941094746550660=="
+Content-Type: multipart/mixed; boundary="===============7941929150978367313=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 bpf-next 2/5] bpf: af_unix: Use batching algorithm in bpf unix iter.
-Date: Fri, 14 Jan 2022 01:20:39 +0800
-Message-ID: <202201140137.dztxZIjJ-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1562:12: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+Date: Fri, 21 Jan 2022 05:54:53 +0800
+Message-ID: <202201210431.Nt8QmugI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6182941094746550660==
+--===============7941929150978367313==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220113002849.4384-3-kuniyu@amazon.co.jp>
-References: <20220113002849.4384-3-kuniyu@amazon.co.jp>
-TO: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: Alexei Starovoitov <ast@kernel.org>
-TO: Daniel Borkmann <daniel@iogearbox.net>
-TO: Andrii Nakryiko <andrii@kernel.org>
-CC: Martin KaFai Lau <kafai@fb.com>
-CC: Benjamin Herrenschmidt <benh@amazon.com>
-CC: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-CC: bpf(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Alex Deucher <alexander.deucher@amd.com>
 
-Hi Kuniyuki,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Kuniyuki-Iwashima/bpf-Batc=
-hing-iter-for-AF_UNIX-sockets/20220113-083151
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: arm-randconfig-m031-20220113 (https://download.01.org/0day-ci/archi=
-ve/20220114/202201140137.dztxZIjJ-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2c271fe77d52a0555161926c232cd5bc07178b39
+commit: d5c7255dc7ff6e1239d794b9c53029d83ced04ca drm/amdgpu/pm: fix powerpl=
+ay OD interface
+date:   8 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 weeks ago
+compiler: sparc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/unix/af_unix.c:3464 bpf_iter_unix_batch() warn: sleeping in atomic cont=
-ext
 
-Old smatch warnings:
-net/unix/af_unix.c:1586 unix_stream_connect() warn: variable dereferenced b=
-efore check 'other' (see line 1469)
-net/unix/af_unix.c:2652 manage_oob() warn: returning freed memory 'skb'
+cppcheck warnings: (new ones prefixed by >>)
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu8_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1562:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1574:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
 
-vim +3464 net/unix/af_unix.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3436  =
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu8_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1562:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1574:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:3494:36: warning: '*mrioc' is of type 'v=
+oid', the behaviour of 'sizeof(void)' is not covered by the ISO C standard.=
+ [sizeofDereferencedVoidPointer]
+    memset(mrioc->init_cmds.reply, 0, sizeof(*mrioc->init_cmds.reply));
+                                      ^
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:3496:6: warning: '*mrioc' is of type 'vo=
+id', the behaviour of 'sizeof(void)' is not covered by the ISO C standard. =
+[sizeofDereferencedVoidPointer]
+        sizeof(*mrioc->host_tm_cmds.reply));
+        ^
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:3499:7: warning: '*mrioc' is of type 'vo=
+id', the behaviour of 'sizeof(void)' is not covered by the ISO C standard. =
+[sizeofDereferencedVoidPointer]
+         sizeof(*mrioc->dev_rmhs_cmds[i].reply));
+         ^
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3437  static struct sock *bpf_=
-iter_unix_batch(struct seq_file *seq,
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3438  					loff_t *pos)
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3439  {
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3440  	struct bpf_unix_iter_st=
-ate *iter =3D seq->private;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3441  	unsigned int expected;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3442  	bool resized =3D false;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3443  	struct sock *sk;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3444  =
+vim +1562 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3445  	if (iter->st_bucket_don=
-e)
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3446  		*pos =3D set_bucket_of=
-fset(get_bucket(*pos) + 1, 1);
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3447  =
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1543  =
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3448  again:
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3449  	/* Get a new batch */
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3450  	iter->cur_sk =3D 0;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3451  	iter->end_sk =3D 0;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3452  =
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1544  static int smu8_print_clock_levels(struct pp_hwmgr =
+*hwmgr,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1545  		enum pp_clock_type type, char *buf)
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1546  {
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1547  	struct smu8_hwmgr *data =3D hwmgr->backend;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1548  	struct phm_clock_voltage_dependency_table *sclk_ta=
+ble =3D
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1549  			hwmgr->dyn_state.vddc_dependency_on_sclk;
+6db0c87a0a8ee1 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Darren P=
+owell 2021-07-17  1550  	uint32_t i, now;
+6db0c87a0a8ee1 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Darren P=
+owell 2021-07-17  1551  	int size =3D 0;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1552  =
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3453  	sk =3D unix_get_first(s=
-eq, pos);
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3454  	if (!sk)
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3455  		return NULL; /* Done */
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3456  =
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1553  	switch (type) {
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1554  	case PP_SCLK:
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1555  		now =3D PHM_GET_FIELD(cgs_read_ind_register(hwmgr=
+->device,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1556  				CGS_IND_REG__SMC,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1557  				ixTARGET_AND_CURRENT_PROFILE_INDEX),
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1558  				TARGET_AND_CURRENT_PROFILE_INDEX,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1559  				CURR_SCLK_INDEX);
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1560  =
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3457  	expected =3D bpf_iter_u=
-nix_hold_batch(seq, sk);
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3458  =
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1561  		for (i =3D 0; i < sclk_table->count; i++)
+d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Alex Deu=
+cher  2021-11-23 @1562  			size +=3D sprintf(buf + size, "%d: %uMhz %s\n",
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1563  					i, sclk_table->entries[i].clk / 100,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1564  					(i =3D=3D now) ? "*" : "");
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1565  		break;
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1566  	case PP_MCLK:
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1567  		now =3D PHM_GET_FIELD(cgs_read_ind_register(hwmgr=
+->device,
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1568  				CGS_IND_REG__SMC,
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1569  				ixTARGET_AND_CURRENT_PROFILE_INDEX),
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1570  				TARGET_AND_CURRENT_PROFILE_INDEX,
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1571  				CURR_MCLK_INDEX);
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1572  =
 
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3459  	if (iter->end_sk =3D=3D=
- expected) {
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3460  		iter->st_bucket_done =
-=3D true;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3461  		return sk;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3462  	}
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3463  =
-
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13 @3464  	if (!resized && !bpf_it=
-er_unix_realloc_batch(iter, expected * 3 / 2)) {
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3465  		resized =3D true;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3466  		goto again;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3467  	}
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3468  =
-
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3469  	return sk;
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3470  }
-a8f4be17743b80 Kuniyuki Iwashima 2022-01-13  3471  =
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1573  		for (i =3D SMU8_NUM_NBPMEMORYCLOCK; i > 0; i--)
+d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Alex Deu=
+cher  2021-11-23  1574  			size +=3D sprintf(buf + size, "%d: %uMhz %s\n",
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1575  					SMU8_NUM_NBPMEMORYCLOCK-i, data->sys_info.nbp_=
+memory_clock[i-1] / 100,
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1576  					(SMU8_NUM_NBPMEMORYCLOCK-i =3D=3D now) ? "*" :=
+ "");
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1577  		break;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1578  	default:
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1579  		break;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1580  	}
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1581  	return size;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1582  }
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1583  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6182941094746550660==--
+--===============7941929150978367313==--
 
