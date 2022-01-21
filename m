@@ -1,673 +1,244 @@
-Content-Type: multipart/mixed; boundary="===============3617874332415671233=="
+Content-Type: multipart/mixed; boundary="===============5047216804690166328=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: warning: Value stored to 'gen' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 19 Jan 2022 16:01:16 +0800
-Message-ID: <202201191502.gKfsqKWc-lkp@intel.com>
+Subject: Re: [PATCH] ipv4: fix lock leaks
+Date: Sat, 22 Jan 2022 06:57:55 +0800
+Message-ID: <202201220630.r90cJXB8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3617874332415671233==
+--===============5047216804690166328==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Robert Foss <robert.foss@linaro.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220121031108.4813-1-ycaibb@gmail.com>
+References: <20220121031108.4813-1-ycaibb@gmail.com>
+TO: ycaibb <ycaibb@gmail.com>
+TO: edumazet(a)google.com
+TO: davem(a)davemloft.net
+TO: yoshfuji(a)linux-ipv6.org
+TO: dsahern(a)kernel.org
+TO: kuba(a)kernel.org
+TO: ast(a)kernel.org
+TO: daniel(a)iogearbox.net
+TO: andrii(a)kernel.org
+TO: kafai(a)fb.com
+TO: songliubraving(a)fb.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   99613159ad749543621da8238acf1a122880144e
-commit: 2fa698e3da84edc6b7a2d670f8bd5035891a744e media: camss: vfe: Decreas=
-e priority of of VFE HW version to 'dbg'
-date:   4 months ago
+Hi ycaibb,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+[also build test WARNING on net/master horms-ipvs/master linus/master v5.16=
+ next-20220121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/ycaibb/ipv4-fix-lock-leaks=
+/20220121-111241
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+8aaaf2f3af2ae212428f4db1af34214225f5cec3
 :::::: branch date: 20 hours ago
-:::::: commit date: 4 months ago
-config: riscv-randconfig-c006-20220111 (https://download.01.org/0day-ci/arc=
-hive/20220119/202201191502.gKfsqKWc-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 244dd2=
-913a43a200f5a6544d424cdc37b771028b)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2fa698e3da84edc6b7a2d670f8bd5035891a744e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2fa698e3da84edc6b7a2d670f8bd5035891a744e
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+:::::: commit date: 20 hours ago
+config: x86_64-randconfig-m001-20220117 (https://download.01.org/0day-ci/ar=
+chive/20220122/202201220630.r90cJXB8-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+net/ipv4/tcp_ipv4.c:2344 listening_get_first() warn: curly braces intended?
+net/ipv4/tcp_ipv4.c:2340 listening_get_first() warn: ignoring unreachable c=
+ode.
+net/ipv4/tcp_ipv4.c:2423 established_get_first() warn: curly braces intende=
+d?
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/dvb-frontends/stv0297.c:64:2: note: Taking true branch
-           if (state->config->stop_during_read) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/dvb-frontends/stv0297.c:65:7: note: Assuming the condition=
- is false
-                   if ((ret =3D i2c_transfer(state->i2c, &msg[0], 1)) !=3D =
-1) {
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/media/dvb-frontends/stv0297.c:65:3: note: '?' condition is false
-                   if ((ret =3D i2c_transfer(state->i2c, &msg[0], 1)) !=3D =
-1) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/media/dvb-frontends/stv0297.c:65:7: note: Assuming the condition=
- is true
-                   if ((ret =3D i2c_transfer(state->i2c, &msg[0], 1)) !=3D =
-1) {
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/media/dvb-frontends/stv0297.c:65:3: note: '?' condition is true
-                   if ((ret =3D i2c_transfer(state->i2c, &msg[0], 1)) !=3D =
-1) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/dvb-frontends/stv0297.c:65:3: note: Taking true branch
-                   if ((ret =3D i2c_transfer(state->i2c, &msg[0], 1)) !=3D =
-1) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/dvb-frontends/stv0297.c:66:4: note: Loop condition is fals=
-e.  Exiting loop
-                           dprintk("%s: readreg error (reg =3D=3D 0x%02x, r=
-et =3D=3D %i)\n", __func__, reg, ret);
-                           ^
-   drivers/media/dvb-frontends/stv0297.c:31:23: note: expanded from macro '=
-dprintk'
-   #define dprintk(x...) printk(x)
-                         ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/media/dvb-frontends/stv0297.c:67:4: note: Returning the value -1
-                           return -1;
-                           ^~~~~~~~~
-   drivers/media/dvb-frontends/stv0297.c:130:10: note: Returning from 'stv0=
-297_readreg'
-                       | (stv0297_readreg(state, 0x58) << 24));
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/stv0297.c:130:39: note: The result of the le=
-ft shift is undefined because the left operand is negative
-                       | (stv0297_readreg(state, 0x58) << 24));
-                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: warning: Value =
-stored to 'gen' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: note: Value sto=
-red to 'gen' during its initialization is never read
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: warning: Value =
-stored to 'rev' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: note: Value sto=
-red to 'rev' during its initialization is never read
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: warning: Value =
-stored to 'step' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: note: Value sto=
-red to 'step' during its initialization is never read
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:336:6: warning: Value =
-stored to 'violation' during its initialization is never read [clang-analyz=
-er-deadcode.DeadStores]
-           u32 violation =3D readl_relaxed(vfe->base + VFE_VIOLATION_STATUS=
+Old smatch warnings:
+net/ipv4/tcp_ipv4.c:2965 bpf_iter_tcp_seq_show() error: uninitialized symbo=
+l 'slow'.
+
+vim +2344 net/ipv4/tcp_ipv4.c
+
+ad2d61376a0517 Martin KaFai Lau 2021-07-01  2321  =
+
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2322  /* Find a non empty bucke=
+t (starting from st->bucket)
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2323   * and return the first s=
+k from it.
+a8b690f98baf9f Tom Herbert      2010-06-07  2324   */
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2325  static void *listening_ge=
+t_first(struct seq_file *seq)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2326  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2327  	struct tcp_iter_state *s=
+t =3D seq->private;
+b08d4d3b6c0460 Yonghong Song    2020-06-23  2328  =
+
+a8b690f98baf9f Tom Herbert      2010-06-07  2329  	st->offset =3D 0;
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2330  	for (; st->bucket <=3D t=
+cp_hashinfo.lhash2_mask; st->bucket++) {
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2331  		struct inet_listen_hash=
+bucket *ilb2;
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2332  		struct inet_connection_=
+sock *icsk;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2333  		struct sock *sk;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2334  =
+
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2335  		ilb2 =3D &tcp_hashinfo.=
+lhash2[st->bucket];
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2336  		if (hlist_empty(&ilb2->=
+head))
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2337  			continue;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2338  =
+
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2339  		spin_lock(&ilb2->lock);
+05c0b35709c58b Martin KaFai Lau 2021-07-01 @2340  		inet_lhash2_for_each_ic=
+sk(icsk, &ilb2->head) {
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2341  			sk =3D (struct sock *)=
+icsk;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2342  			if (seq_sk_match(seq, =
+sk))
+604258c8f5a979 Ryan Cai         2022-01-21  2343  				spin_unlock(&ilb2->lo=
+ck);
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01 @2344  				return sk;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2345  		}
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2346  		spin_unlock(&ilb2->lock=
 );
-               ^~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:336:6: note: Value sto=
-red to 'violation' during its initialization is never read
-           u32 violation =3D readl_relaxed(vfe->base + VFE_VIOLATION_STATUS=
-);
-               ^~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   include/media/v4l2-subdev.h:1000:10: warning: Access to field 'pads' res=
-ults in a dereference of a null pointer (loaded from variable 'state') [cla=
-ng-analyzer-core.NullDereference]
-           return &state->pads[pad].try_fmt;
-                   ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1531:14: note: Assuming 'i=
-' is < field 'line_num'
-           for (i =3D 0; i < vfe->line_num; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1531:2: note: Loop conditi=
-on is true.  Entering loop body
-           for (i =3D 0; i < vfe->line_num; i++) {
-           ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:3: note: '?' conditio=
-n is false
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:7: note: 'i' is not e=
-qual to VFE_LINE_PIX
-                   if (i =3D=3D VFE_LINE_PIX)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:3: note: '?' conditio=
-n is false
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:3: note: Taking false=
- branch
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1550:9: note: Calling 'vfe=
-_init_formats'
-                   ret =3D vfe_init_formats(sd, NULL);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1256:12: note: 'fh' is null
-                   .which =3D fh ? V4L2_SUBDEV_FORMAT_TRY :
-                            ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1256:12: note: '?' conditi=
-on is false
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:28: note: 'fh' is null
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                                     ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:28: note: '?' conditi=
-on is false
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:28: note: Passing nul=
-l pointer value via 2nd parameter 'sd_state'
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                                     ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:9: note: Calling 'vfe=
-_set_format'
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1074:6: note: 'format' is =
-not equal to null
-           if (format =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1074:2: note: '?' conditio=
-n is false
-           if (format =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
---
-           ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:71:7: note: Assuming t=
-he condition is true
-                   if ((PAGE_SIZE << order) > size)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:71:3: note: '?' condit=
-ion is false
-                   if ((PAGE_SIZE << order) > size)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:71:3: note: '?' condit=
-ion is true
-                   if ((PAGE_SIZE << order) > size)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:71:3: note: Taking tru=
-e branch
-                   if ((PAGE_SIZE << order) > size)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:72:4: note: The value =
--1 is assigned to 'order'
-                           order--;
-                           ^~~~~~~
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:75:3: note: Loop condi=
-tion is true.  Entering loop body
-                   while (!pages) {
-                   ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:78:4: note: Assuming '=
-pages' is non-null
-                           if (pages)
-                           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:78:4: note: '?' condit=
-ion is false
-                           if (pages)
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:78:8: note: 'pages' is=
- non-null
-                           if (pages)
-                               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:78:4: note: '?' condit=
-ion is true
-                           if (pages)
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:78:4: note: Taking tru=
-e branch
-                           if (pages)
-                           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:79:5: note:  Execution=
- continues on line 89
-                                   break;
-                                   ^
-   drivers/media/common/videobuf2/videobuf2-dma-sg.c:90:22: note: The resul=
-t of the left shift is undefined because the right operand is negative
-                   for (i =3D 0; i < (1 << order); i++)
-                                      ^  ~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: warning: Value =
-stored to 'gen' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:184:6: note: Value sto=
-red to 'gen' during its initialization is never read
-           u32 gen =3D (hw_version >> 28) & 0xF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: warning: Value =
-stored to 'rev' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:185:6: note: Value sto=
-red to 'rev' during its initialization is never read
-           u32 rev =3D (hw_version >> 16) & 0xFFF;
-               ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: warning: Value =
-stored to 'step' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:186:6: note: Value sto=
-red to 'step' during its initialization is never read
-           u32 step =3D hw_version & 0xFFFF;
-               ^~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:336:6: warning: Value =
-stored to 'violation' during its initialization is never read [clang-analyz=
-er-deadcode.DeadStores]
-           u32 violation =3D readl_relaxed(vfe->base + VFE_VIOLATION_STATUS=
-);
-               ^~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe-170.c:336:6: note: Value sto=
-red to 'violation' during its initialization is never read
-           u32 violation =3D readl_relaxed(vfe->base + VFE_VIOLATION_STATUS=
-);
-               ^~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   include/media/v4l2-subdev.h:1000:10: warning: Access to field 'pads' res=
-ults in a dereference of a null pointer (loaded from variable 'state') [cla=
-ng-analyzer-core.NullDereference]
-           return &state->pads[pad].try_fmt;
-                   ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1531:14: note: Assuming 'i=
-' is < field 'line_num'
-           for (i =3D 0; i < vfe->line_num; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1531:2: note: Loop conditi=
-on is true.  Entering loop body
-           for (i =3D 0; i < vfe->line_num; i++) {
-           ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:3: note: '?' conditio=
-n is false
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:7: note: 'i' is not e=
-qual to VFE_LINE_PIX
-                   if (i =3D=3D VFE_LINE_PIX)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:3: note: '?' conditio=
-n is false
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1541:3: note: Taking false=
- branch
-                   if (i =3D=3D VFE_LINE_PIX)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/platform/qcom/camss/camss-vfe.c:1550:9: note: Calling 'vfe=
-_init_formats'
-                   ret =3D vfe_init_formats(sd, NULL);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1256:12: note: 'fh' is null
-                   .which =3D fh ? V4L2_SUBDEV_FORMAT_TRY :
-                            ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1256:12: note: '?' conditi=
-on is false
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:28: note: 'fh' is null
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                                     ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:28: note: '?' conditi=
-on is false
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:28: note: Passing nul=
-l pointer value via 2nd parameter 'sd_state'
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                                     ^~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1265:9: note: Calling 'vfe=
-_set_format'
-           return vfe_set_format(sd, fh ? fh->state : NULL, &format);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1074:6: note: 'format' is =
-not equal to null
-           if (format =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/media/platform/qcom/camss/camss-vfe.c:1074:2: note: '?' conditio=
-n is false
-           if (format =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2347  	}
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2348  =
 
-vim +/gen +184 drivers/media/platform/qcom/camss/camss-vfe-170.c
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2349  	return NULL;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2350  }
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2351  =
 
-7319cdf189bb64 Robert Foss 2021-03-16  179  =
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2352  /* Find the next sk of "c=
+ur" within the same bucket (i.e. st->bucket).
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2353   * If "cur" is the last o=
+ne in the st->bucket,
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2354   * call listening_get_fir=
+st() to return the first sk of the next
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2355   * non empty bucket.
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2356   */
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2357  static void *listening_ge=
+t_next(struct seq_file *seq, void *cur)
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2358  {
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2359  	struct tcp_iter_state *s=
+t =3D seq->private;
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2360  	struct inet_listen_hashb=
+ucket *ilb2;
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2361  	struct inet_connection_s=
+ock *icsk;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2362  	struct sock *sk =3D cur;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2363  =
 
-7319cdf189bb64 Robert Foss 2021-03-16  180  static void vfe_hw_version_read=
-(struct vfe_device *vfe, struct device *dev)
-7319cdf189bb64 Robert Foss 2021-03-16  181  {
-7319cdf189bb64 Robert Foss 2021-03-16  182  	u32 hw_version =3D readl_relax=
-ed(vfe->base + VFE_HW_VERSION);
-7319cdf189bb64 Robert Foss 2021-03-16  183  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2364  	++st->num;
+a8b690f98baf9f Tom Herbert      2010-06-07  2365  	++st->offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2366  =
 
-7319cdf189bb64 Robert Foss 2021-03-16 @184  	u32 gen =3D (hw_version >> 28)=
- & 0xF;
-7319cdf189bb64 Robert Foss 2021-03-16 @185  	u32 rev =3D (hw_version >> 16)=
- & 0xFFF;
-7319cdf189bb64 Robert Foss 2021-03-16 @186  	u32 step =3D hw_version & 0xFF=
-FF;
-7319cdf189bb64 Robert Foss 2021-03-16  187  =
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2367  	icsk =3D inet_csk(sk);
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2368  	inet_lhash2_for_each_ics=
+k_continue(icsk) {
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2369  		sk =3D (struct sock *)i=
+csk;
+ad2d61376a0517 Martin KaFai Lau 2021-07-01  2370  		if (seq_sk_match(seq, s=
+k))
+3b24d854cb3538 Eric Dumazet     2016-04-01  2371  			return sk;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2372  	}
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2373  =
 
-2fa698e3da84ed Robert Foss 2021-07-26  188  	dev_dbg(dev, "VFE HW Version =
-=3D %u.%u.%u\n", gen, rev, step);
-7319cdf189bb64 Robert Foss 2021-03-16  189  }
-7319cdf189bb64 Robert Foss 2021-03-16  190  =
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2374  	ilb2 =3D &tcp_hashinfo.l=
+hash2[st->bucket];
+05c0b35709c58b Martin KaFai Lau 2021-07-01  2375  	spin_unlock(&ilb2->lock);
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2376  	++st->bucket;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2377  	return listening_get_fir=
+st(seq);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2378  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2379  =
 
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2380  static void *listening_ge=
+t_idx(struct seq_file *seq, loff_t *pos)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2381  {
+a8b690f98baf9f Tom Herbert      2010-06-07  2382  	struct tcp_iter_state *s=
+t =3D seq->private;
+a8b690f98baf9f Tom Herbert      2010-06-07  2383  	void *rc;
+a8b690f98baf9f Tom Herbert      2010-06-07  2384  =
 
-:::::: The code at line 184 was first introduced by commit
-:::::: 7319cdf189bb643c6d56e5898ef89ad7c3ef6c31 media: camss: Add support f=
-or VFE hardware version Titan 170
+a8b690f98baf9f Tom Herbert      2010-06-07  2385  	st->bucket =3D 0;
+a8b690f98baf9f Tom Herbert      2010-06-07  2386  	st->offset =3D 0;
+b72acf4501d7c3 Martin KaFai Lau 2021-07-01  2387  	rc =3D listening_get_fir=
+st(seq);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2388  =
 
-:::::: TO: Robert Foss <robert.foss@linaro.org>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2389  	while (rc && *pos) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2390  		rc =3D listening_get_ne=
+xt(seq, rc);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2391  		--*pos;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2392  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2393  	return rc;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2394  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2395  =
+
+05dbc7b59481ca Eric Dumazet     2013-10-03  2396  static inline bool empty_=
+bucket(const struct tcp_iter_state *st)
+6eac56040787c3 Andi Kleen       2008-08-28  2397  {
+05dbc7b59481ca Eric Dumazet     2013-10-03  2398  	return hlist_nulls_empty=
+(&tcp_hashinfo.ehash[st->bucket].chain);
+6eac56040787c3 Andi Kleen       2008-08-28  2399  }
+6eac56040787c3 Andi Kleen       2008-08-28  2400  =
+
+a8b690f98baf9f Tom Herbert      2010-06-07  2401  /*
+a8b690f98baf9f Tom Herbert      2010-06-07  2402   * Get first established =
+socket starting from bucket given in st->bucket.
+a8b690f98baf9f Tom Herbert      2010-06-07  2403   * If st->bucket is zero,=
+ the very first socket in the hash is returned.
+a8b690f98baf9f Tom Herbert      2010-06-07  2404   */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2405  static void *established_=
+get_first(struct seq_file *seq)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2406  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2407  	struct tcp_iter_state *s=
+t =3D seq->private;
+b08d4d3b6c0460 Yonghong Song    2020-06-23  2408  =
+
+a8b690f98baf9f Tom Herbert      2010-06-07  2409  	st->offset =3D 0;
+a8b690f98baf9f Tom Herbert      2010-06-07  2410  	for (; st->bucket <=3D t=
+cp_hashinfo.ehash_mask; ++st->bucket) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2411  		struct sock *sk;
+3ab5aee7fe840b Eric Dumazet     2008-11-16  2412  		struct hlist_nulls_node=
+ *node;
+9db66bdcc83749 Eric Dumazet     2008-11-20  2413  		spinlock_t *lock =3D in=
+et_ehash_lockp(&tcp_hashinfo, st->bucket);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2414  =
+
+6eac56040787c3 Andi Kleen       2008-08-28  2415  		/* Lockless fast path f=
+or the common case of empty buckets */
+6eac56040787c3 Andi Kleen       2008-08-28  2416  		if (empty_bucket(st))
+6eac56040787c3 Andi Kleen       2008-08-28  2417  			continue;
+6eac56040787c3 Andi Kleen       2008-08-28  2418  =
+
+9db66bdcc83749 Eric Dumazet     2008-11-20  2419  		spin_lock_bh(lock);
+3ab5aee7fe840b Eric Dumazet     2008-11-16  2420  		sk_nulls_for_each(sk, n=
+ode, &tcp_hashinfo.ehash[st->bucket].chain) {
+ad2d61376a0517 Martin KaFai Lau 2021-07-01  2421  			if (seq_sk_match(seq, =
+sk))
+604258c8f5a979 Ryan Cai         2022-01-21  2422  				spin_unlock_bh(lock);
+ad2d61376a0517 Martin KaFai Lau 2021-07-01 @2423  				return sk;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2424  		}
+9db66bdcc83749 Eric Dumazet     2008-11-20  2425  		spin_unlock_bh(lock);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2426  	}
+ad2d61376a0517 Martin KaFai Lau 2021-07-01  2427  =
+
+ad2d61376a0517 Martin KaFai Lau 2021-07-01  2428  	return NULL;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2429  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  2430  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3617874332415671233==--
+--===============5047216804690166328==--
 
