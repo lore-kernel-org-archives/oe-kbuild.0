@@ -1,149 +1,108 @@
-Content-Type: multipart/mixed; boundary="===============3468307616932537250=="
+Content-Type: multipart/mixed; boundary="===============3766142442659354613=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/sysdev/xive/common.c:1155:3: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
-Date: Sun, 16 Jan 2022 12:28:46 +0800
-Message-ID: <202201161219.Hq0LORl3-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c:224:8: warning: %llx in format string (no. 2) requires 'unsigned long long' but the argument type is 'unsigned long'. [invalidPrintfArgType_uint]
+Date: Fri, 21 Jan 2022 22:26:06 +0800
+Message-ID: <202201212254.uvRNzYbg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3468307616932537250==
+--===============3766142442659354613==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "C=C3=A9dric Le Goater" <clg@kaod.org>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+TO: Graham Sider <Graham.Sider@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   a33f5c380c4bd3fa5278d690421b72052456d9fe
-commit: 7dcc37b3eff97379b194adb17eb9a8270512dd1d powerpc/xive: Map one IPI =
-interrupt per node
-date:   9 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 9 months ago
+head:   c2c94b3b187dc92b2002809f489e0f24a41e91bc
+commit: 410e302ea53f095f5d94dc14efefe8191bde901b drm/amdkfd: Update SMI thr=
+ottle event bitmask
+date:   6 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 months ago
 compiler: powerpc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-vim +1155 arch/powerpc/sysdev/xive/common.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1115  =
+>> drivers/rtc/rtc-rv8803.c:80:0: warning: syntax error [syntaxError]
+   =
 
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1116  static int __i=
-nit xive_request_ipi(void)
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1117  {
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1118  	struct fwnode=
-_handle *fwnode;
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1119  	struct irq_do=
-main *ipi_domain;
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1120  	unsigned int =
-node;
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1121  	int ret =3D -=
-ENOMEM;
-243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1122  =
+   ^
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../amdkfd/kfd_smi_event=
+s.c:
+>> drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c:224:8: warning: %llx in form=
+at string (no. 2) requires 'unsigned long long' but the argument type is 'u=
+nsigned long'. [invalidPrintfArgType_uint]
+    len =3D snprintf(fifo_in, sizeof(fifo_in), "%x %llx:%llxn",
+          ^
+--
+>> drivers/net/wireless/intersil/hostap/hostap_ap.c:2078:12: warning: Varia=
+ble 'left' is modified but its new value is never used. [unreadVariable]
+      left -=3D ileft;
+              ^
+>> drivers/net/wireless/intersil/hostap/hostap_ap.c:3231:2: warning: Addres=
+s of local auto-variable assigned to a function parameter. [autoVariables]
+    *crypt =3D &sta->crypt;
+    ^
 
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1123  	fwnode =3D ir=
-q_domain_alloc_named_fwnode("XIVE-IPI");
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1124  	if (!fwnode)
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1125  		goto out;
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1126  =
+vim +224 drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c
 
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1127  	ipi_domain =
-=3D irq_domain_create_linear(fwnode, nr_node_ids,
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1128  					      &xi=
-ve_ipi_irq_domain_ops, NULL);
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1129  	if (!ipi_doma=
-in)
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1130  		goto out_fre=
-e_fwnode;
-243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1131  =
+55977744f9d862 Mukul Joshi  2020-08-28  206  =
 
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1132  	xive_ipis =3D=
- kcalloc(nr_node_ids, sizeof(*xive_ipis), GFP_KERNEL | __GFP_NOFAIL);
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1133  	if (!xive_ipi=
-s)
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1134  		goto out_fre=
-e_domain;
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1135  =
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  207  void kfd_smi_event_update_ther=
+mal_throttling(struct kfd_dev *dev,
+410e302ea53f09 Graham Sider 2021-07-06  208  					     uint64_t throttle_bi=
+tmask)
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  209  {
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  210  	struct amdgpu_device *adev =
+=3D (struct amdgpu_device *)dev->kgd;
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  211  	/*
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  212  	 * ThermalThrottle msg =3D th=
+rottle_bitmask(8):
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  213  	 * 			 thermal_interrupt_coun=
+t(16):
+410e302ea53f09 Graham Sider 2021-07-06  214  	 * 1 byte event + 1 byte spac=
+e + 16 byte throttle_bitmask +
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  215  	 * 1 byte : + 16 byte thermal=
+_interupt_counter + 1 byte \n +
+410e302ea53f09 Graham Sider 2021-07-06  216  	 * 1 byte \0 =3D 37
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  217  	 */
+410e302ea53f09 Graham Sider 2021-07-06  218  	char fifo_in[37];
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  219  	int len;
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  220  =
 
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1136  	for_each_node=
-(node) {
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1137  		struct xive_=
-ipi_desc *xid =3D &xive_ipis[node];
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1138  		irq_hw_numbe=
-r_t ipi_hwirq =3D node;
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1139  =
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  221  	if (list_empty(&dev->smi_clie=
+nts))
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  222  		return;
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  223  =
 
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1140  		/* Skip node=
-s without CPUs */
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1141  		if (cpumask_=
-empty(cpumask_of_node(node)))
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1142  			continue;
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1143  =
+410e302ea53f09 Graham Sider 2021-07-06 @224  	len =3D snprintf(fifo_in, siz=
+eof(fifo_in), "%x %llx:%llx\n",
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  225  		       KFD_SMI_EVENT_THERMAL=
+_THROTTLE, throttle_bitmask,
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  226  		       atomic64_read(&adev->=
+smu.throttle_int_counter));
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  227  =
 
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1144  		/*
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1145  		 * Map one I=
-PI interrupt per node for all cpus of that node.
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1146  		 * Since the=
- HW interrupt number doesn't have any meaning,
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1147  		 * simply us=
-e the node number.
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1148  		 */
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1149  		xid->irq =3D=
- irq_create_mapping(ipi_domain, ipi_hwirq);
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1150  		if (!xid->ir=
-q) {
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1151  			ret =3D -EI=
-NVAL;
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1152  			goto out_fr=
-ee_xive_ipis;
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1153  		}
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1154  =
-
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31 @1155  		snprintf(xid=
-->name, sizeof(xid->name), "IPI-%d", node);
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1156  =
-
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1157  		ret =3D requ=
-est_irq(xid->irq, xive_muxed_ipi_action,
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1158  				  IRQF_PER=
-CPU | IRQF_NO_THREAD, xid->name, NULL);
-243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1159  =
-
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1160  		WARN(ret < 0=
-, "Failed to request IPI %d: %d\n", xid->irq, ret);
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1161  	}
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1162  =
-
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1163  	return ret;
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1164  =
-
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1165  out_free_xive_=
-ipis:
-7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1166  	kfree(xive_ip=
-is);
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1167  out_free_domai=
-n:
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1168  	irq_domain_re=
-move(ipi_domain);
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1169  out_free_fwnod=
-e:
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1170  	irq_domain_fr=
-ee_fwnode(fwnode);
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1171  out:
-7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1172  	return ret;
-243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1173  }
-243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1174  =
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  228  	add_event_to_kfifo(dev, KFD_S=
+MI_EVENT_THERMAL_THROTTLE,	fifo_in, len);
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  229  }
+2c2b0d880f1b4c Mukul Joshi  2020-07-23  230  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3468307616932537250==--
+--===============3766142442659354613==--
 
