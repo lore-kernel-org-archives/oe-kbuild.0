@@ -1,81 +1,79 @@
-Content-Type: multipart/mixed; boundary="===============7142844366498351015=="
+Content-Type: multipart/mixed; boundary="===============8772300063384009014=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rt-devel:linux-5.16.y-rt-rebase 16/132] kernel/printk/printk.c:2339 __alloc_atomic_data() warn: returning -1 instead of -ENOMEM is sloppy
-Date: Sat, 22 Jan 2022 13:08:02 +0800
-Message-ID: <202201221259.fzbUIBAU-lkp@intel.com>
+Subject: drivers/pci/msi/msi.c:646:4: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+Date: Sat, 22 Jan 2022 12:37:28 +0800
+Message-ID: <202201221240.tCvaIgyh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7142844366498351015==
+--===============8772300063384009014==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: John Ogness <john.ogness@linutronix.de>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Jason Gunthorpe <jgg@nvidia.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.g=
-it linux-5.16.y-rt-rebase
-head:   1722f531f5244c70dcd9687c40729860bb254e8d
-commit: e1fd5438186d729df636919574f08231f7ecdd1d [16/132] serial: 8250: imp=
-lement write_atomic
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: x86_64-randconfig-m001-20220117 (https://download.01.org/0day-ci/ar=
-chive/20220122/202201221259.fzbUIBAU-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9b57f458985742bd1c585f4c7f36d04634ce1143
+commit: 54324c2f3d728f451d9053fcc7859b26fc9cecb4 PCI/MSI: Split out CONFIG_=
+PCI_MSI independent part
+date:   6 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 6 weeks ago
+compiler: powerpc64le-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-kernel/printk/printk.c:2339 __alloc_atomic_data() warn: returning -1 instea=
-d of -ENOMEM is sloppy
-
-vim +2339 kernel/printk/printk.c
-
-02489ebe320634 John Ogness 2021-12-22  2334  =
-
-02489ebe320634 John Ogness 2021-12-22  2335  static int __alloc_atomic_data=
-(struct console_atomic_data *d, short flags)
-02489ebe320634 John Ogness 2021-12-22  2336  {
-02489ebe320634 John Ogness 2021-12-22  2337  	d->text =3D kmalloc(CONSOLE_L=
-OG_MAX, GFP_KERNEL);
-02489ebe320634 John Ogness 2021-12-22  2338  	if (!d->text)
-02489ebe320634 John Ogness 2021-12-22 @2339  		return -1;
-02489ebe320634 John Ogness 2021-12-22  2340  =
-
-02489ebe320634 John Ogness 2021-12-22  2341  	if (flags & CON_EXTENDED) {
-02489ebe320634 John Ogness 2021-12-22  2342  		d->ext_text =3D kmalloc(CONS=
-OLE_EXT_LOG_MAX, GFP_KERNEL);
-02489ebe320634 John Ogness 2021-12-22  2343  		if (!d->ext_text)
-02489ebe320634 John Ogness 2021-12-22  2344  			return -1;
-02489ebe320634 John Ogness 2021-12-22  2345  	} else {
-02489ebe320634 John Ogness 2021-12-22  2346  		d->dropped_text =3D kmalloc(=
-DROPPED_TEXT_MAX, GFP_KERNEL);
-02489ebe320634 John Ogness 2021-12-22  2347  		if (!d->dropped_text)
-02489ebe320634 John Ogness 2021-12-22  2348  			return -1;
-02489ebe320634 John Ogness 2021-12-22  2349  	}
-02489ebe320634 John Ogness 2021-12-22  2350  =
-
-02489ebe320634 John Ogness 2021-12-22  2351  	return 0;
-02489ebe320634 John Ogness 2021-12-22  2352  }
-02489ebe320634 John Ogness 2021-12-22  2353  =
 
 
-:::::: The code at line 2339 was first introduced by commit
-:::::: 02489ebe320634155c5ddb3110d7d456fa68d304 printk: add infrastucture f=
-or atomic consoles
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: John Ogness <john.ogness@linutronix.de>
-:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+>> drivers/pci/msi/msi.c:646:4: warning: Assignment of function parameter h=
+as no effect outside the function. Did you forget dereferencing it? [useles=
+sAssignmentPtrArg]
+      entries++;
+      ^
+
+vim +646 drivers/pci/msi/msi.c
+
+d9d7070e611765 drivers/pci/msi.c Hidetoshi Seto  2009-08-06  638  =
+
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29  639  static vo=
+id msix_update_entries(struct pci_dev *dev, struct msix_entry *entries)
+75cb3426878d47 drivers/pci/msi.c Hidetoshi Seto  2009-08-06  640  {
+75cb3426878d47 drivers/pci/msi.c Hidetoshi Seto  2009-08-06  641  	struct m=
+si_desc *entry;
+75cb3426878d47 drivers/pci/msi.c Hidetoshi Seto  2009-08-06  642  =
+
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29  643  	if (entr=
+ies) {
+7112158d97a153 drivers/pci/msi.c Thomas Gleixner 2021-12-06  644  		for_eac=
+h_pci_msi_entry(entry, dev) {
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29  645  			entrie=
+s->vector =3D entry->irq;
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29 @646  			entrie=
+s++;
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29  647  		}
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29  648  	}
+7d5ec3d3612396 drivers/pci/msi.c Thomas Gleixner 2021-07-29  649  }
+d7cc609fb679e1 drivers/pci/msi.c Logan Gunthorpe 2019-05-23  650  =
+
+
+:::::: The code at line 646 was first introduced by commit
+:::::: 7d5ec3d3612396dc6d4b76366d20ab9fc06f399f PCI/MSI: Mask all unused MS=
+I-X entries
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7142844366498351015==--
+--===============8772300063384009014==--
 
