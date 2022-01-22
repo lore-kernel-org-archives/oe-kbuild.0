@@ -1,55 +1,53 @@
-Content-Type: multipart/mixed; boundary="===============8564140622313242199=="
+Content-Type: multipart/mixed; boundary="===============6607261053700781205=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/ufs/ufshpb.c:54:17: warning: Access to field 'is_last' results in a dereference of an undefined pointer value (loaded from variable 'srgn') [clang-analyzer-core.NullDereference]
-Date: Sun, 23 Jan 2022 06:33:35 +0800
-Message-ID: <202201230608.GaekbR7k-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10-2021-12 1196/9999] fs/verity/read_metadata.c:70:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sun, 23 Jan 2022 06:22:32 +0800
+Message-ID: <202201230638.Ezq7bcax-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8564140622313242199==
+--===============6607261053700781205==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Daejun Park <daejun7.park@samsung.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Bart Van Assche <bvanassche@acm.org>
-CC: Can Guo <cang@codeaurora.org>
-CC: Bean Huo <beanhuo@micron.com>
-CC: Stanley Chu <stanley.chu@mediatek.com>
+TO: Eric Biggers <ebiggers@google.com>
+CC: Jaegeuk Kim <jaegeuk@google.com>
+CC: Victor Hsieh <victorhsieh@google.com>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   1c52283265a462a100ae63ddf58b4e5884acde86
-commit: f02bc9754a6887bf5e286889265d24ce5e3b1952 scsi: ufs: ufshpb: Introdu=
-ce Host Performance Buffer feature
-date:   6 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20220122 (https://download.01.org/0day-ci/arc=
-hive/20220123/202201230608.GaekbR7k-lkp(a)intel.com/config)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android12-5.10-2021-12
+head:   51e133b6e4eb00703d3b3fe71cc2447ebd9fb4a8
+commit: 0b29c4caec92e23e3a9698f40b619f3ec71a13ab [1196/9999] fs-verity: sup=
+port reading Merkle tree with ioctl
+:::::: branch date: 2 days ago
+:::::: commit date: 11 months ago
+config: s390-randconfig-c005-20220121 (https://download.01.org/0day-ci/arch=
+ive/20220123/202201230638.Ezq7bcax-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7b3d30=
 728816403d1fd73cc5082e9fb761262bce)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df02bc9754a6887bf5e286889265d24ce5e3b1952
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f02bc9754a6887bf5e286889265d24ce5e3b1952
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/0b29c4caec92e23=
+e3a9698f40b619f3ec71a13ab
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
+android12-5.10-2021-12
+        git checkout 0b29c4caec92e23e3a9698f40b619f3ec71a13ab
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Ds390 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -57,465 +55,321 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/scsi/scsi_debug.c:4969:2: note: Loop condition is false. Executi=
-on continues on line 4979
-           list_for_each_entry(devip, &sdbg_host->dev_info_list, dev_list) {
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/scsi/scsi_debug.c:4979:7: note: 'open_devip' is null
-           if (!open_devip) { /* try and make a new one */
-                ^~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4979:2: note: Taking true branch
-           if (!open_devip) { /* try and make a new one */
-           ^
-   drivers/scsi/scsi_debug.c:4980:16: note: Calling 'sdebug_device_create'
-                   open_devip =3D sdebug_device_create(sdbg_host, GFP_ATOMI=
-C);
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4927:6: note: Assuming 'devip' is non-null
-           if (devip) {
-               ^~~~~
-   drivers/scsi/scsi_debug.c:4927:2: note: Taking true branch
-           if (devip) {
-           ^
-   drivers/scsi/scsi_debug.c:4928:7: note: Assuming 'sdebug_uuid_ctl' is no=
-t equal to 1
-                   if (sdebug_uuid_ctl =3D=3D 1)
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4928:3: note: Taking false branch
-                   if (sdebug_uuid_ctl =3D=3D 1)
-                   ^
-   drivers/scsi/scsi_debug.c:4930:12: note: Assuming 'sdebug_uuid_ctl' is n=
-ot equal to 2
-                   else if (sdebug_uuid_ctl =3D=3D 2) {
-                            ^~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4930:8: note: Taking false branch
-                   else if (sdebug_uuid_ctl =3D=3D 2) {
-                        ^
-   drivers/scsi/scsi_debug.c:4940:7: note: Assuming 'sdeb_zbc_in_use' is tr=
-ue
-                   if (sdeb_zbc_in_use) {
-                       ^~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4940:3: note: Taking true branch
-                   if (sdeb_zbc_in_use) {
-                   ^
-   drivers/scsi/scsi_debug.c:4942:8: note: Calling 'sdebug_device_create_zo=
-nes'
-                           if (sdebug_device_create_zones(devip)) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4848:6: note: Assuming 'sdeb_zbc_zone_size_mb'=
- is 0
-           if (!sdeb_zbc_zone_size_mb) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4848:2: note: Taking true branch
-           if (!sdeb_zbc_zone_size_mb) {
-           ^
-   drivers/scsi/scsi_debug.c:4850:7: note: '?' condition is false
-                           >> ilog2(sdebug_sector_size);
-                              ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/scsi/scsi_debug.c:4850:7: note: '?' condition is true
-                           >> ilog2(sdebug_sector_size);
-                              ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/scsi/scsi_debug.c:4850:7: note: Calling '__ilog2_u32'
-                           >> ilog2(sdebug_sector_size);
-                              ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   include/linux/log2.h:24:2: note: Returning the value -1
-           return fls(n) - 1;
-           ^~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4850:7: note: Returning from '__ilog2_u32'
-                           >> ilog2(sdebug_sector_size);
-                              ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   drivers/scsi/scsi_debug.c:4850:4: note: The result of the right shift is=
- undefined because the right operand is negative
-                           >> ilog2(sdebug_sector_size);
+                           goto unwind;
                            ^
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
->> drivers/scsi/ufs/ufshpb.c:54:17: warning: Access to field 'is_last' resu=
-lts in a dereference of an undefined pointer value (loaded from variable 's=
-rgn') [clang-analyzer-core.NullDereference]
-                   srgn->is_last =3D true;
-                                 ^
-   drivers/scsi/ufs/ufshpb.c:475:6: note: Assuming 'lun' is < field 'max_lu=
-_supported'
-           if (lun >=3D hba->dev_info.max_lu_supported)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:475:2: note: Taking false branch
-           if (lun >=3D hba->dev_info.max_lu_supported)
+   kernel/locking/locktorture.c:1040:2: note: Calling 'lock_torture_cleanup'
+           lock_torture_cleanup();
+           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:784:6: note: Assuming the condition is false
+           if (torture_cleanup_begin())
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:784:2: note: Taking false branch
+           if (torture_cleanup_begin())
            ^
-   drivers/scsi/ufs/ufshpb.c:479:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/scsi/ufs/ufshpb.c:479:2: note: Taking false branch
-           if (ret)
+   kernel/locking/locktorture.c:793:6: note: Assuming field 'lwsa' is non-n=
+ull
+           if (!cxt.lwsa && !cxt.lrsa)
+               ^~~~~~~~~
+   kernel/locking/locktorture.c:793:16: note: Left side of '&&' is false
+           if (!cxt.lwsa && !cxt.lrsa)
+                         ^
+   kernel/locking/locktorture.c:796:6: note: Assuming 'writer_tasks' is null
+           if (writer_tasks) {
+               ^~~~~~~~~~~~
+   kernel/locking/locktorture.c:796:2: note: Taking false branch
+           if (writer_tasks) {
            ^
-   drivers/scsi/ufs/ufshpb.c:482:8: note: Calling 'ufshpb_alloc_hpb_lu'
-           hpb =3D ufshpb_alloc_hpb_lu(hba, lun, &hba->ufshpb_dev,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:257:6: note: Assuming 'hpb' is non-null
-           if (!hpb)
-               ^~~~
-   drivers/scsi/ufs/ufshpb.c:257:2: note: Taking false branch
-           if (!hpb)
+   kernel/locking/locktorture.c:804:6: note: Assuming 'reader_tasks' is null
+           if (reader_tasks) {
+               ^~~~~~~~~~~~
+   kernel/locking/locktorture.c:804:2: note: Taking false branch
+           if (reader_tasks) {
            ^
-   drivers/scsi/ufs/ufshpb.c:264:8: note: Calling 'ufshpb_lu_hpb_init'
-           ret =3D ufshpb_lu_hpb_init(hba, hpb);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:241:8: note: Calling 'ufshpb_alloc_region_tbl'
-           ret =3D ufshpb_alloc_region_tbl(hba, hpb);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:120:6: note: Assuming 'rgn_table' is non-null
-           if (!rgn_table)
-               ^~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:120:2: note: Taking false branch
-           if (!rgn_table)
+   kernel/locking/locktorture.c:813:2: note: Calling 'lock_torture_stats_pr=
+int'
+           lock_torture_stats_print();  /* -After- the stats thread is stop=
+ped! */
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:721:6: note: Assuming field 'readlock' is n=
+ull
+           if (cxt.cur_ops->readlock)
+               ^~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:721:2: note: Taking false branch
+           if (cxt.cur_ops->readlock)
            ^
-   drivers/scsi/ufs/ufshpb.c:125:20: note: Assuming 'rgn_idx' is < field 'r=
-gns_per_lu'
-           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:125:2: note: Loop condition is true.  Entering=
- loop body
-           for (rgn_idx =3D 0; rgn_idx < hpb->rgns_per_lu; rgn_idx++) {
+   kernel/locking/locktorture.c:724:8: note: Calling 'kmalloc'
+           buf =3D kmalloc(size, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:540:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   drivers/scsi/ufs/ufshpb.c:132:7: note: Assuming the condition is true
-                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:132:3: note: Taking true branch
-                   if (rgn_idx =3D=3D hpb->rgns_per_lu - 1) {
-                   ^
-   drivers/scsi/ufs/ufshpb.c:139:7: note: 'ret' is 0
-                   if (ret)
-                       ^~~
-   drivers/scsi/ufs/ufshpb.c:139:3: note: Taking false branch
-                   if (ret)
-                   ^
-   drivers/scsi/ufs/ufshpb.c:141:3: note: Calling 'ufshpb_init_subregion_tb=
-l'
-                   ufshpb_init_subregion_tbl(hpb, rgn, last_srgn);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:43:2: note: 'srgn' declared without an initial=
- value
-           struct ufshpb_subregion *srgn;
+   include/linux/slab.h:557:9: note: Value assigned to 'cxt.lwsa'
+           return __kmalloc(size, flags);
+                  ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:557:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:45:21: note: Assuming 'srgn_idx' is >=3D field=
- 'srgn_cnt'
-           for (srgn_idx =3D 0; srgn_idx < rgn->srgn_cnt; srgn_idx++) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:45:2: note: Loop condition is false. Execution=
- continues on line 53
-           for (srgn_idx =3D 0; srgn_idx < rgn->srgn_cnt; srgn_idx++) {
-           ^
-   drivers/scsi/ufs/ufshpb.c:53:15: note: 'last' is true
-           if (unlikely(last && hpb->last_srgn_entries))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/scsi/ufs/ufshpb.c:53:15: note: Left side of '&&' is true
-           if (unlikely(last && hpb->last_srgn_entries))
-                        ^
-   drivers/scsi/ufs/ufshpb.c:53:6: note: Assuming the condition is false
-           if (unlikely(last && hpb->last_srgn_entries))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/scsi/ufs/ufshpb.c:53:2: note: Taking true branch
-           if (unlikely(last && hpb->last_srgn_entries))
-           ^
-   drivers/scsi/ufs/ufshpb.c:54:17: note: Access to field 'is_last' results=
- in a dereference of an undefined pointer value (loaded from variable 'srgn=
-')
-                   srgn->is_last =3D true;
-                   ~~~~          ^
->> drivers/scsi/ufs/ufshpb.c:104:22: warning: Division by zero [clang-analy=
-zer-core.DivideZero]
-           hpb->srgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
-                               ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                                        ^
-   drivers/scsi/ufs/ufshpb.c:475:6: note: Assuming 'lun' is < field 'max_lu=
-_supported'
-           if (lun >=3D hba->dev_info.max_lu_supported)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:475:2: note: Taking false branch
-           if (lun >=3D hba->dev_info.max_lu_supported)
-           ^
-   drivers/scsi/ufs/ufshpb.c:479:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/scsi/ufs/ufshpb.c:479:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/scsi/ufs/ufshpb.c:482:8: note: Calling 'ufshpb_alloc_hpb_lu'
-           hpb =3D ufshpb_alloc_hpb_lu(hba, lun, &hba->ufshpb_dev,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:257:6: note: Assuming 'hpb' is non-null
-           if (!hpb)
+   kernel/locking/locktorture.c:724:8: note: Returning from 'kmalloc'
+           buf =3D kmalloc(size, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:725:6: note: Assuming 'buf' is non-null
+           if (!buf) {
                ^~~~
-   drivers/scsi/ufs/ufshpb.c:257:2: note: Taking false branch
-           if (!hpb)
+   kernel/locking/locktorture.c:725:2: note: Taking false branch
+           if (!buf) {
            ^
-   drivers/scsi/ufs/ufshpb.c:262:2: note: Calling 'ufshpb_lu_parameter_init'
-           ufshpb_lu_parameter_init(hba, hpb, hpb_dev_info, hpb_lu_info);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:78:23: note: Assuming field 'num_pinned' is 0
-           hpb->lu_pinned_end =3D hpb_lu_info->num_pinned ?
-                                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:78:23: note: '?' condition is false
-   drivers/scsi/ufs/ufshpb.c:91:31: note: '?' condition is false
-           hpb->entries_per_rgn_shift =3D ilog2(entries_per_rgn);
-                                        ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
+   kernel/locking/locktorture.c:731:29: note: Passing value via 2nd paramet=
+er 'statp'
+           __torture_print_stats(buf, cxt.lwsa, true);
+                                      ^~~~~~~~
+   kernel/locking/locktorture.c:731:2: note: Calling '__torture_print_stats'
+           __torture_print_stats(buf, cxt.lwsa, true);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:685:22: note: Assuming 'statp' is null
+           long max =3D 0, min =3D statp ? statp[0].n_lock_acquired : 0;
+                               ^~~~~
+   kernel/locking/locktorture.c:685:22: note: '?' condition is false
+   kernel/locking/locktorture.c:688:13: note: 'write' is true
+           n_stress =3D write ? cxt.nrealwriters_stress : cxt.nrealreaders_=
+stress;
+                      ^~~~~
+   kernel/locking/locktorture.c:688:13: note: '?' condition is true
+   kernel/locking/locktorture.c:689:14: note: Assuming 'i' is < 'n_stress'
+           for (i =3D 0; i < n_stress; i++) {
+                       ^~~~~~~~~~~~
+   kernel/locking/locktorture.c:689:2: note: Loop condition is true.  Enter=
+ing loop body
+           for (i =3D 0; i < n_stress; i++) {
            ^
-   drivers/scsi/ufs/ufshpb.c:91:31: note: '?' condition is true
-           hpb->entries_per_rgn_shift =3D ilog2(entries_per_rgn);
-                                        ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/scsi/ufs/ufshpb.c:95:32: note: '?' condition is false
-           hpb->entries_per_srgn_shift =3D ilog2(hpb->entries_per_srgn);
-                                         ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/scsi/ufs/ufshpb.c:95:32: note: '?' condition is true
-           hpb->entries_per_srgn_shift =3D ilog2(hpb->entries_per_srgn);
-                                         ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/scsi/ufs/ufshpb.c:104:22: note: Division by zero
-           hpb->srgns_per_lu =3D DIV_ROUND_UP(hpb_lu_info->num_blocks,
-                               ^
-   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+   kernel/locking/locktorture.c:690:7: note: Dereference of null pointer
+                   if (statp[i].n_lock_fail)
+                       ^~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:698:2: warning: Value stored to 'page' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           page +=3D sprintf(page,
+           ^       ~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:698:2: note: Value stored to 'page' is neve=
+r read
+           page +=3D sprintf(page,
+           ^       ~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   26 warnings generated.
+>> fs/verity/read_metadata.c:70:28: warning: Dereference of null pointer [c=
+lang-analyzer-core.NullDereference]
+                   if (fatal_signal_pending(current))  {
+                                            ^
+   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
+t'
+   #define current ((struct task_struct *const)S390_lowcore.current_task)
+                                               ^
+   arch/s390/include/asm/lowcore.h:193:22: note: expanded from macro 'S390_=
+lowcore'
+   #define S390_lowcore (*((struct lowcore *) 0))
                         ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                        ~~~~~~~~~~~~~~~~^~~~~
-   drivers/scsi/ufs/ufshpb.c:241:2: warning: Value stored to 'ret' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           ret =3D ufshpb_alloc_region_tbl(hba, hpb);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/ufs/ufshpb.c:241:2: note: Value stored to 'ret' is never re=
-ad
-           ret =3D ufshpb_alloc_region_tbl(hba, hpb);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 11 warnings (3 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/md/dm-cache-metadata.c:341:3: warning: Value stored to 'bdev_siz=
-e' is never read [clang-analyzer-deadcode.DeadStores]
-                   bdev_size =3D DM_CACHE_METADATA_MAX_SECTORS;
+   fs/verity/read_metadata.c:95:6: note: Assuming 'vi' is non-null
+           if (!vi)
+               ^~~
+   fs/verity/read_metadata.c:95:2: note: Taking false branch
+           if (!vi)
+           ^
+   fs/verity/read_metadata.c:102:2: note: Taking false branch
+           if (copy_from_user(&arg, uarg, sizeof(arg)))
+           ^
+   fs/verity/read_metadata.c:105:6: note: Assuming field '__reserved' is 0
+           if (arg.__reserved)
+               ^~~~~~~~~~~~~~
+   fs/verity/read_metadata.c:105:2: note: Taking false branch
+           if (arg.__reserved)
+           ^
+   fs/verity/read_metadata.c:109:6: note: Assuming the condition is false
+           if (arg.offset + arg.length < arg.offset)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/read_metadata.c:109:2: note: Taking false branch
+           if (arg.offset + arg.length < arg.offset)
+           ^
+   fs/verity/read_metadata.c:113:11: note: Assuming '__UNIQUE_ID___x287' is=
+ < '__UNIQUE_ID___y288'
+           length =3D min_t(u64, arg.length, INT_MAX);
+                    ^
+   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/verity/read_metadata.c:113:11: note: '?' condition is true
+           length =3D min_t(u64, arg.length, INT_MAX);
+                    ^
+   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                    ^
-   drivers/md/dm-cache-metadata.c:341:3: note: Value stored to 'bdev_size' =
-is never read
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/verity/read_metadata.c:117:2: note: Control jumps to 'case 1:' @li=
+ne 118
+           switch (arg.metadata_type) {
+           ^
+   fs/verity/read_metadata.c:119:10: note: Calling 'fsverity_read_merkle_tr=
+ee'
+                   return fsverity_read_merkle_tree(inode, vi, buf, arg.off=
+set,
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/verity/read_metadata.c:26:15: note: Assuming '__UNIQUE_ID___x281' is =
+>=3D '__UNIQUE_ID___y282'
+           end_offset =3D min(offset + length, vi->tree_params.tree_size);
+                        ^
+   include/linux/minmax.h:51:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/verity/read_metadata.c:26:15: note: '?' condition is false
+           end_offset =3D min(offset + length, vi->tree_params.tree_size);
+                        ^
+   include/linux/minmax.h:51:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/verity/read_metadata.c:27:6: note: Assuming 'offset' is < 'end_offset'
+           if (offset >=3D end_offset)
+               ^~~~~~~~~~~~~~~~~~~~
+   fs/verity/read_metadata.c:27:2: note: Taking false branch
+           if (offset >=3D end_offset)
 
-vim +54 drivers/scsi/ufs/ufshpb.c
+vim +70 fs/verity/read_metadata.c
 
-f02bc9754a6887 Daejun Park 2021-07-12   38  =
+d758f506808823a Eric Biggers 2021-01-15  14  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   39  static void ufshpb_init_subregi=
-on_tbl(struct ufshpb_lu *hpb,
-f02bc9754a6887 Daejun Park 2021-07-12   40  				      struct ufshpb_region =
-*rgn, bool last)
-f02bc9754a6887 Daejun Park 2021-07-12   41  {
-f02bc9754a6887 Daejun Park 2021-07-12   42  	int srgn_idx;
-f02bc9754a6887 Daejun Park 2021-07-12   43  	struct ufshpb_subregion *srgn;
-f02bc9754a6887 Daejun Park 2021-07-12   44  =
+0b29c4caec92e23 Eric Biggers 2021-01-15  15  static int fsverity_read_merkl=
+e_tree(struct inode *inode,
+0b29c4caec92e23 Eric Biggers 2021-01-15  16  				     const struct fsverity=
+_info *vi,
+0b29c4caec92e23 Eric Biggers 2021-01-15  17  				     void __user *buf, u64=
+ offset, int length)
+0b29c4caec92e23 Eric Biggers 2021-01-15  18  {
+0b29c4caec92e23 Eric Biggers 2021-01-15  19  	const struct fsverity_operati=
+ons *vops =3D inode->i_sb->s_vop;
+0b29c4caec92e23 Eric Biggers 2021-01-15  20  	u64 end_offset;
+0b29c4caec92e23 Eric Biggers 2021-01-15  21  	unsigned int offs_in_page;
+0b29c4caec92e23 Eric Biggers 2021-01-15  22  	pgoff_t index, last_index;
+0b29c4caec92e23 Eric Biggers 2021-01-15  23  	int retval =3D 0;
+0b29c4caec92e23 Eric Biggers 2021-01-15  24  	int err =3D 0;
+0b29c4caec92e23 Eric Biggers 2021-01-15  25  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   45  	for (srgn_idx =3D 0; srgn_idx =
-< rgn->srgn_cnt; srgn_idx++) {
-f02bc9754a6887 Daejun Park 2021-07-12   46  		srgn =3D rgn->srgn_tbl + srgn=
-_idx;
-f02bc9754a6887 Daejun Park 2021-07-12   47  =
+0b29c4caec92e23 Eric Biggers 2021-01-15  26  	end_offset =3D min(offset + l=
+ength, vi->tree_params.tree_size);
+0b29c4caec92e23 Eric Biggers 2021-01-15  27  	if (offset >=3D end_offset)
+0b29c4caec92e23 Eric Biggers 2021-01-15  28  		return 0;
+0b29c4caec92e23 Eric Biggers 2021-01-15  29  	offs_in_page =3D offset_in_pa=
+ge(offset);
+0b29c4caec92e23 Eric Biggers 2021-01-15  30  	last_index =3D (end_offset - =
+1) >> PAGE_SHIFT;
+0b29c4caec92e23 Eric Biggers 2021-01-15  31  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   48  		srgn->rgn_idx =3D rgn->rgn_id=
-x;
-f02bc9754a6887 Daejun Park 2021-07-12   49  		srgn->srgn_idx =3D srgn_idx;
-f02bc9754a6887 Daejun Park 2021-07-12   50  		srgn->srgn_state =3D HPB_SRGN=
-_UNUSED;
-f02bc9754a6887 Daejun Park 2021-07-12   51  	}
-f02bc9754a6887 Daejun Park 2021-07-12   52  =
+0b29c4caec92e23 Eric Biggers 2021-01-15  32  	/*
+0b29c4caec92e23 Eric Biggers 2021-01-15  33  	 * Iterate through each Merkl=
+e tree page in the requested range and copy
+0b29c4caec92e23 Eric Biggers 2021-01-15  34  	 * the requested portion to u=
+serspace.  Note that the Merkle tree block
+0b29c4caec92e23 Eric Biggers 2021-01-15  35  	 * size isn't important here,=
+ as we are returning a byte stream; i.e.,
+0b29c4caec92e23 Eric Biggers 2021-01-15  36  	 * we can just work with page=
+s even if the tree block size !=3D PAGE_SIZE.
+0b29c4caec92e23 Eric Biggers 2021-01-15  37  	 */
+0b29c4caec92e23 Eric Biggers 2021-01-15  38  	for (index =3D offset >> PAGE=
+_SHIFT; index <=3D last_index; index++) {
+0b29c4caec92e23 Eric Biggers 2021-01-15  39  		unsigned long num_ra_pages =
+=3D
+0b29c4caec92e23 Eric Biggers 2021-01-15  40  			min_t(unsigned long, last_i=
+ndex - index + 1,
+0b29c4caec92e23 Eric Biggers 2021-01-15  41  			      inode->i_sb->s_bdi->i=
+o_pages);
+0b29c4caec92e23 Eric Biggers 2021-01-15  42  		unsigned int bytes_to_copy =
+=3D min_t(u64, end_offset - offset,
+0b29c4caec92e23 Eric Biggers 2021-01-15  43  						   PAGE_SIZE - offs_in_p=
+age);
+0b29c4caec92e23 Eric Biggers 2021-01-15  44  		struct page *page;
+0b29c4caec92e23 Eric Biggers 2021-01-15  45  		const void *virt;
+0b29c4caec92e23 Eric Biggers 2021-01-15  46  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   53  	if (unlikely(last && hpb->last=
-_srgn_entries))
-f02bc9754a6887 Daejun Park 2021-07-12  @54  		srgn->is_last =3D true;
-f02bc9754a6887 Daejun Park 2021-07-12   55  }
-f02bc9754a6887 Daejun Park 2021-07-12   56  =
+0b29c4caec92e23 Eric Biggers 2021-01-15  47  		page =3D vops->read_merkle_t=
+ree_page(inode, index, num_ra_pages);
+0b29c4caec92e23 Eric Biggers 2021-01-15  48  		if (IS_ERR(page)) {
+0b29c4caec92e23 Eric Biggers 2021-01-15  49  			err =3D PTR_ERR(page);
+0b29c4caec92e23 Eric Biggers 2021-01-15  50  			fsverity_err(inode,
+0b29c4caec92e23 Eric Biggers 2021-01-15  51  				     "Error %d reading Mer=
+kle tree page %lu",
+0b29c4caec92e23 Eric Biggers 2021-01-15  52  				     err, index);
+0b29c4caec92e23 Eric Biggers 2021-01-15  53  			break;
+0b29c4caec92e23 Eric Biggers 2021-01-15  54  		}
+0b29c4caec92e23 Eric Biggers 2021-01-15  55  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   57  static int ufshpb_alloc_subregi=
-on_tbl(struct ufshpb_lu *hpb,
-f02bc9754a6887 Daejun Park 2021-07-12   58  				      struct ufshpb_region =
-*rgn, int srgn_cnt)
-f02bc9754a6887 Daejun Park 2021-07-12   59  {
-f02bc9754a6887 Daejun Park 2021-07-12   60  	rgn->srgn_tbl =3D kvcalloc(srg=
-n_cnt, sizeof(struct ufshpb_subregion),
-f02bc9754a6887 Daejun Park 2021-07-12   61  				 GFP_KERNEL);
-f02bc9754a6887 Daejun Park 2021-07-12   62  	if (!rgn->srgn_tbl)
-f02bc9754a6887 Daejun Park 2021-07-12   63  		return -ENOMEM;
-f02bc9754a6887 Daejun Park 2021-07-12   64  =
+0b29c4caec92e23 Eric Biggers 2021-01-15  56  		virt =3D kmap(page);
+0b29c4caec92e23 Eric Biggers 2021-01-15  57  		if (copy_to_user(buf, virt +=
+ offs_in_page, bytes_to_copy)) {
+0b29c4caec92e23 Eric Biggers 2021-01-15  58  			kunmap(page);
+0b29c4caec92e23 Eric Biggers 2021-01-15  59  			put_page(page);
+0b29c4caec92e23 Eric Biggers 2021-01-15  60  			err =3D -EFAULT;
+0b29c4caec92e23 Eric Biggers 2021-01-15  61  			break;
+0b29c4caec92e23 Eric Biggers 2021-01-15  62  		}
+0b29c4caec92e23 Eric Biggers 2021-01-15  63  		kunmap(page);
+0b29c4caec92e23 Eric Biggers 2021-01-15  64  		put_page(page);
+0b29c4caec92e23 Eric Biggers 2021-01-15  65  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   65  	rgn->srgn_cnt =3D srgn_cnt;
-f02bc9754a6887 Daejun Park 2021-07-12   66  	return 0;
-f02bc9754a6887 Daejun Park 2021-07-12   67  }
-f02bc9754a6887 Daejun Park 2021-07-12   68  =
+0b29c4caec92e23 Eric Biggers 2021-01-15  66  		retval +=3D bytes_to_copy;
+0b29c4caec92e23 Eric Biggers 2021-01-15  67  		buf +=3D bytes_to_copy;
+0b29c4caec92e23 Eric Biggers 2021-01-15  68  		offset +=3D bytes_to_copy;
+0b29c4caec92e23 Eric Biggers 2021-01-15  69  =
 
-f02bc9754a6887 Daejun Park 2021-07-12   69  static void ufshpb_lu_parameter=
-_init(struct ufs_hba *hba,
-f02bc9754a6887 Daejun Park 2021-07-12   70  				     struct ufshpb_lu *hpb,
-f02bc9754a6887 Daejun Park 2021-07-12   71  				     struct ufshpb_dev_info=
- *hpb_dev_info,
-f02bc9754a6887 Daejun Park 2021-07-12   72  				     struct ufshpb_lu_info =
-*hpb_lu_info)
-f02bc9754a6887 Daejun Park 2021-07-12   73  {
-f02bc9754a6887 Daejun Park 2021-07-12   74  	u32 entries_per_rgn;
-f02bc9754a6887 Daejun Park 2021-07-12   75  	u64 rgn_mem_size, tmp;
-f02bc9754a6887 Daejun Park 2021-07-12   76  =
-
-f02bc9754a6887 Daejun Park 2021-07-12   77  	hpb->lu_pinned_start =3D hpb_l=
-u_info->pinned_start;
-f02bc9754a6887 Daejun Park 2021-07-12   78  	hpb->lu_pinned_end =3D hpb_lu_=
-info->num_pinned ?
-f02bc9754a6887 Daejun Park 2021-07-12   79  		(hpb_lu_info->pinned_start + =
-hpb_lu_info->num_pinned - 1)
-f02bc9754a6887 Daejun Park 2021-07-12   80  		: PINNED_NOT_SET;
-f02bc9754a6887 Daejun Park 2021-07-12   81  =
-
-f02bc9754a6887 Daejun Park 2021-07-12   82  	rgn_mem_size =3D (1ULL << hpb_=
-dev_info->rgn_size) * HPB_RGN_SIZE_UNIT
-f02bc9754a6887 Daejun Park 2021-07-12   83  			* HPB_ENTRY_SIZE;
-f02bc9754a6887 Daejun Park 2021-07-12   84  	do_div(rgn_mem_size, HPB_ENTRY=
-_BLOCK_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12   85  	hpb->srgn_mem_size =3D (1ULL <=
-< hpb_dev_info->srgn_size)
-f02bc9754a6887 Daejun Park 2021-07-12   86  		* HPB_RGN_SIZE_UNIT / HPB_ENT=
-RY_BLOCK_SIZE * HPB_ENTRY_SIZE;
-f02bc9754a6887 Daejun Park 2021-07-12   87  =
-
-f02bc9754a6887 Daejun Park 2021-07-12   88  	tmp =3D rgn_mem_size;
-f02bc9754a6887 Daejun Park 2021-07-12   89  	do_div(tmp, HPB_ENTRY_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12   90  	entries_per_rgn =3D (u32)tmp;
-f02bc9754a6887 Daejun Park 2021-07-12   91  	hpb->entries_per_rgn_shift =3D=
- ilog2(entries_per_rgn);
-f02bc9754a6887 Daejun Park 2021-07-12   92  	hpb->entries_per_rgn_mask =3D =
-entries_per_rgn - 1;
-f02bc9754a6887 Daejun Park 2021-07-12   93  =
-
-f02bc9754a6887 Daejun Park 2021-07-12   94  	hpb->entries_per_srgn =3D hpb-=
->srgn_mem_size / HPB_ENTRY_SIZE;
-f02bc9754a6887 Daejun Park 2021-07-12   95  	hpb->entries_per_srgn_shift =
-=3D ilog2(hpb->entries_per_srgn);
-f02bc9754a6887 Daejun Park 2021-07-12   96  	hpb->entries_per_srgn_mask =3D=
- hpb->entries_per_srgn - 1;
-f02bc9754a6887 Daejun Park 2021-07-12   97  =
-
-f02bc9754a6887 Daejun Park 2021-07-12   98  	tmp =3D rgn_mem_size;
-f02bc9754a6887 Daejun Park 2021-07-12   99  	do_div(tmp, hpb->srgn_mem_size=
-);
-f02bc9754a6887 Daejun Park 2021-07-12  100  	hpb->srgns_per_rgn =3D (int)tm=
-p;
-f02bc9754a6887 Daejun Park 2021-07-12  101  =
-
-f02bc9754a6887 Daejun Park 2021-07-12  102  	hpb->rgns_per_lu =3D DIV_ROUND=
-_UP(hpb_lu_info->num_blocks,
-f02bc9754a6887 Daejun Park 2021-07-12  103  				entries_per_rgn);
-f02bc9754a6887 Daejun Park 2021-07-12 @104  	hpb->srgns_per_lu =3D DIV_ROUN=
-D_UP(hpb_lu_info->num_blocks,
-f02bc9754a6887 Daejun Park 2021-07-12  105  				(hpb->srgn_mem_size / HPB_E=
-NTRY_SIZE));
-f02bc9754a6887 Daejun Park 2021-07-12  106  	hpb->last_srgn_entries =3D hpb=
-_lu_info->num_blocks
-f02bc9754a6887 Daejun Park 2021-07-12  107  				 % (hpb->srgn_mem_size / HP=
-B_ENTRY_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12  108  =
-
-f02bc9754a6887 Daejun Park 2021-07-12  109  	hpb->pages_per_srgn =3D DIV_RO=
-UND_UP(hpb->srgn_mem_size, PAGE_SIZE);
-f02bc9754a6887 Daejun Park 2021-07-12  110  }
-f02bc9754a6887 Daejun Park 2021-07-12  111  =
-
+0b29c4caec92e23 Eric Biggers 2021-01-15 @70  		if (fatal_signal_pending(cur=
+rent))  {
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8564140622313242199==--
+--===============6607261053700781205==--
 
