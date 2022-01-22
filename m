@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0811704055630553457=="
+Content-Type: multipart/mixed; boundary="===============4097445864619874984=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/core/dev.c:7069:1: warning: Address of stack memory associated with local variable 'list' is still referred to by the global variable 'softnet_data' upon returning to the caller. This will be a dangling reference [clang-analyzer-core.StackAddressEsca...
-Date: Fri, 28 Jan 2022 18:17:06 +0800
-Message-ID: <202201281845.nL4DUPcq-lkp@intel.com>
+Subject: [rt-devel:linux-5.16.y-rt-rebase 16/132] kernel/printk/printk.c:3003:4: warning: Value stored to 'any_usable' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 23 Jan 2022 05:52:06 +0800
+Message-ID: <202201230553.1xzXqlQl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0811704055630553457==
+--===============4097445864619874984==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Lobakin <alobakin@pm.me>
+TO: John Ogness <john.ogness@linutronix.de>
+CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   23a46422c56144939c091c76cf389aa863ce9c18
-commit: fec6e49b63989657bc4076dad99fa51d5ece34da skbuff: remove __kfree_skb=
-_flush()
-date:   12 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20220121 (https://download.01.org/0day-ci/archi=
-ve/20220128/202201281845.nL4DUPcq-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d4baf3=
-b1322b84816aa623d8e8cb45a49cb68b84)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.g=
+it linux-5.16.y-rt-rebase
+head:   1722f531f5244c70dcd9687c40729860bb254e8d
+commit: e1fd5438186d729df636919574f08231f7ecdd1d [16/132] serial: 8250: imp=
+lement write_atomic
+:::::: branch date: 27 hours ago
+:::::: commit date: 27 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20123/202201230553.1xzXqlQl-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7b3d30=
+728816403d1fd73cc5082e9fb761262bce)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfec6e49b63989657bc4076dad99fa51d5ece34da
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fec6e49b63989657bc4076dad99fa51d5ece34da
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel=
+.git/commit/?id=3De1fd5438186d729df636919574f08231f7ecdd1d
+        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel=
+/git/rt/linux-rt-devel.git
+        git fetch --no-tags rt-devel linux-5.16.y-rt-rebase
+        git checkout e1fd5438186d729df636919574f08231f7ecdd1d
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,600 +49,360 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   fs/jbd2/transaction.c:2497:2: note: Loop condition is false.  Exiting lo=
+op
+           J_ASSERT_JH(jh, jh->b_transaction =3D=3D transaction ||
            ^
-   net/core/dev.c:5885:3: note: Taking false branch
-                   if (skb_vlan_tag_present(p))
+   include/linux/jbd2.h:364:31: note: expanded from macro 'J_ASSERT_JH'
+   #define J_ASSERT_JH(jh, expr)   J_ASSERT(expr)
+                                   ^
+   include/linux/jbd2.h:361:26: note: expanded from macro 'J_ASSERT'
+   #define J_ASSERT(assert)        BUG_ON(!(assert))
+                                   ^
+   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   fs/jbd2/transaction.c:2500:10: note: Field 'b_transaction' is null
+           if (jh->b_transaction && jh->b_jlist =3D=3D jlist)
                    ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/dev.c:5887:12: note: Calling 'skb_metadata_dst_cmp'
-                   diffs |=3D skb_metadata_dst_cmp(p, skb);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/dst_metadata.h:66:6: note: Assuming the condition is false
-           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   include/net/dst_metadata.h:66:2: note: '?' condition is false
-           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+   fs/jbd2/transaction.c:2500:24: note: Left side of '&&' is false
+           if (jh->b_transaction && jh->b_jlist =3D=3D jlist)
                                  ^
-   include/net/dst_metadata.h:66:2: note: '?' condition is false
-           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   include/net/dst_metadata.h:66:2: note: Taking false branch
-           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   include/net/dst_metadata.h:69:2: note: Value assigned to 'a'
-           a =3D (const struct metadata_dst *) skb_dst(skb_a);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/dst_metadata.h:72:6: note: Assuming 'a' is null
-           if (!a !=3D !b || a->type !=3D b->type)
+   fs/jbd2/transaction.c:2503:6: note: Assuming 'jlist' is not equal to BJ_=
+Metadata
+           if (jlist =3D=3D BJ_Metadata || jlist =3D=3D BJ_Reserved ||
+               ^~~~~~~~~~~~~~~~~~~~
+   fs/jbd2/transaction.c:2503:6: note: Left side of '||' is false
+   fs/jbd2/transaction.c:2503:30: note: Assuming 'jlist' is not equal to BJ=
+_Reserved
+           if (jlist =3D=3D BJ_Metadata || jlist =3D=3D BJ_Reserved ||
+                                       ^~~~~~~~~~~~~~~~~~~~
+   fs/jbd2/transaction.c:2503:6: note: Left side of '||' is false
+           if (jlist =3D=3D BJ_Metadata || jlist =3D=3D BJ_Reserved ||
                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   include/net/dst_metadata.h:72:12: note: Assuming 'b' is null
-           if (!a !=3D !b || a->type !=3D b->type)
-                     ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   include/net/dst_metadata.h:72:6: note: Left side of '||' is false
-           if (!a !=3D !b || a->type !=3D b->type)
+   fs/jbd2/transaction.c:2504:6: note: Assuming 'jlist' is not equal to BJ_=
+Shadow
+               jlist =3D=3D BJ_Shadow || jlist =3D=3D BJ_Forget) {
+               ^~~~~~~~~~~~~~~~~~
+   fs/jbd2/transaction.c:2503:6: note: Left side of '||' is false
+           if (jlist =3D=3D BJ_Metadata || jlist =3D=3D BJ_Reserved ||
                ^
-   include/net/dst_metadata.h:72:18: note: Access to field 'type' results i=
-n a dereference of a null pointer (loaded from variable 'a')
-           if (!a !=3D !b || a->type !=3D b->type)
-                           ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/dev.c:1037:2: warning: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(name, dev->name);
-           ^~~~~~
-   net/core/dev.c:1037:2: note: Call to function 'strcpy' is insecure as it=
- does not provide bounding of the memory buffer. Replace unbounded copy fun=
-ctions with analogous functions that support length arguments such as 'strl=
-cpy'. CWE-119
-           strcpy(name, dev->name);
-           ^~~~~~
-   net/core/dev.c:3215:4: warning: Value stored to 'name' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                           name =3D dev_driver_string(dev->dev.parent);
-                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/dev.c:3215:4: note: Value stored to 'name' is never read
-                           name =3D dev_driver_string(dev->dev.parent);
-                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/dev.c:3217:4: warning: Value stored to 'name' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                           name =3D netdev_name(dev);
-                           ^      ~~~~~~~~~~~~~~~~
-   net/core/dev.c:3217:4: note: Value stored to 'name' is never read
-                           name =3D netdev_name(dev);
-                           ^      ~~~~~~~~~~~~~~~~
->> net/core/dev.c:7069:1: warning: Address of stack memory associated with =
-local variable 'list' is still referred to by the global variable 'softnet_=
-data' upon returning to the caller.  This will be a dangling reference [cla=
-ng-analyzer-core.StackAddressEscape]
-   }
-   ^
-   net/core/dev.c:7026:28: note: Loop condition is false.  Exiting loop
-           struct softnet_data *sd =3D this_cpu_ptr(&softnet_data);
-                                     ^
-   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
-                                   ^
-   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
-tr'
-   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
-                                   ^
-   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
-tr'
-   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
-})
-                                                   ^
-   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
-CPU_PTR'
-           __verify_pcpu_ptr(__p);                                         \
+   fs/jbd2/transaction.c:2504:28: note: Assuming 'jlist' is not equal to BJ=
+_Forget
+               jlist =3D=3D BJ_Shadow || jlist =3D=3D BJ_Forget) {
+                                     ^~~~~~~~~~~~~~~~~~
+   fs/jbd2/transaction.c:2503:2: note: Taking false branch
+           if (jlist =3D=3D BJ_Metadata || jlist =3D=3D BJ_Reserved ||
            ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   net/core/dev.c:7033:2: note: Loop condition is false.  Exiting loop
-           local_irq_disable();
-           ^
-   include/linux/irqflags.h:224:29: note: expanded from macro 'local_irq_di=
-sable'
-   #define local_irq_disable()     do { raw_local_irq_disable(); } while (0)
-                                   ^
-   net/core/dev.c:7035:2: note: Loop condition is false.  Exiting loop
-           local_irq_enable();
-           ^
-   include/linux/irqflags.h:223:28: note: expanded from macro 'local_irq_en=
-able'
-   #define local_irq_enable()      do { raw_local_irq_enable(); } while (0)
-                                   ^
-   net/core/dev.c:7037:2: note: Loop condition is true.  Entering loop body
-           for (;;) {
-           ^
-   net/core/dev.c:7040:3: note: Assuming the condition is false
-                   if (list_empty(&list)) {
+   fs/jbd2/transaction.c:2519:10: note: Field 'b_transaction' is null
+           if (jh->b_transaction)
                    ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/dev.c:7040:3: note: '?' condition is false
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/core/dev.c:7040:3: note: Assuming the condition is false
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/core/dev.c:7040:3: note: '?' condition is true
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   fs/jbd2/transaction.c:2519:2: note: Taking false branch
+           if (jh->b_transaction)
            ^
-   net/core/dev.c:7040:3: note: Taking true branch
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/dev.c:7041:8: note: Left side of '&&' is true
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                               ^
-   net/core/dev.c:7041:4: note: Assuming the condition is false
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/dev.c:7041:4: note: '?' condition is false
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/core/dev.c:7041:8: note: Left side of '&&' is true
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                               ^
-   net/core/dev.c:7041:4: note: Assuming the condition is true
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/core/dev.c:7041:4: note: '?' condition is false
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   fs/jbd2/transaction.c:2525:2: note: 'Default' branch taken. Execution co=
+ntinues on line 2545
+           switch (jlist) {
            ^
-   net/core/dev.c:7041:4: note: Taking false branch
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/dev.c:7043:4: note:  Execution continues on line 7060
-                           break;
-                           ^
-   net/core/dev.c:7060:2: note: Loop condition is false.  Exiting loop
-           local_irq_disable();
-           ^
-   include/linux/irqflags.h:224:29: note: expanded from macro 'local_irq_di=
-sable'
-   #define local_irq_disable()     do { raw_local_irq_disable(); } while (0)
-                                   ^
-   net/core/dev.c:7065:6: note: Assuming the condition is false
-           if (!list_empty(&sd->poll_list))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/dev.c:7065:2: note: '?' condition is false
-           if (!list_empty(&sd->poll_list))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/core/dev.c:7065:6: note: Assuming the condition is false
-           if (!list_empty(&sd->poll_list))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/core/dev.c:7065:2: note: '?' condition is false
-           if (!list_empty(&sd->poll_list))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/core/dev.c:7065:2: note: Taking false branch
-           if (!list_empty(&sd->poll_list))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/dev.c:7069:1: note: Address of stack memory associated with loc=
-al variable 'list' is still referred to by the global variable 'softnet_dat=
-a' upon returning to the caller.  This will be a dangling reference
-   }
-   ^
->> net/core/dev.c:7069:1: warning: Address of stack memory associated with =
-local variable 'repoll' is still referred to by the global variable 'softne=
-t_data' upon returning to the caller.  This will be a dangling reference [c=
-lang-analyzer-core.StackAddressEscape]
-   }
-   ^
-   net/core/dev.c:7026:28: note: Loop condition is false.  Exiting loop
-           struct softnet_data *sd =3D this_cpu_ptr(&softnet_data);
-                                     ^
-   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
-                                   ^
-   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
-tr'
-   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
-                                   ^
-   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
-tr'
-   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
-})
-                                                   ^
-   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
-CPU_PTR'
-           __verify_pcpu_ptr(__p);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   net/core/dev.c:7033:2: note: Loop condition is false.  Exiting loop
-           local_irq_disable();
-           ^
-   include/linux/irqflags.h:224:29: note: expanded from macro 'local_irq_di=
-sable'
-   #define local_irq_disable()     do { raw_local_irq_disable(); } while (0)
-                                   ^
-   net/core/dev.c:7035:2: note: Loop condition is false.  Exiting loop
-           local_irq_enable();
-           ^
-   include/linux/irqflags.h:223:28: note: expanded from macro 'local_irq_en=
-able'
-   #define local_irq_enable()      do { raw_local_irq_enable(); } while (0)
-                                   ^
-   net/core/dev.c:7037:2: note: Loop condition is true.  Entering loop body
-           for (;;) {
-           ^
-   net/core/dev.c:7040:3: note: Assuming the condition is false
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/dev.c:7040:3: note: '?' condition is false
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/core/dev.c:7040:3: note: Assuming the condition is false
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/core/dev.c:7040:3: note: '?' condition is true
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/core/dev.c:7040:3: note: Taking true branch
-                   if (list_empty(&list)) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/dev.c:7041:8: note: Left side of '&&' is true
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                               ^
-   net/core/dev.c:7041:4: note: Assuming the condition is false
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/dev.c:7041:4: note: '?' condition is false
-                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
-epoll))
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+   fs/jbd2/transaction.c:2545:21: note: Passing null pointer value via 1st =
+parameter 'list'
+           __blist_add_buffer(list, jh);
+                              ^~~~
+   fs/jbd2/transaction.c:2545:2: note: Calling '__blist_add_buffer'
+           __blist_add_buffer(list, jh);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/jbd2/transaction.c:1960:7: note: Dereference of null pointer (loaded =
+from variable 'list')
+           if (!*list) {
+                ^~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   kernel/printk/printk.c:157:3: warning: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(devkmsg_log_str, "on");
+                   ^~~~~~
+   kernel/printk/printk.c:157:3: note: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119
+                   strcpy(devkmsg_log_str, "on");
+                   ^~~~~~
+   kernel/printk/printk.c:159:3: warning: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(devkmsg_log_str, "off");
+                   ^~~~~~
+   kernel/printk/printk.c:159:3: note: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119
+                   strcpy(devkmsg_log_str, "off");
+                   ^~~~~~
+>> kernel/printk/printk.c:3003:4: warning: Value stored to 'any_usable' is =
+never read [clang-analyzer-deadcode.DeadStores]
+                           any_usable =3D true;
+                           ^            ~~~~
+   kernel/printk/printk.c:3003:4: note: Value stored to 'any_usable' is nev=
+er read
+                           any_usable =3D true;
+                           ^            ~~~~
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   fs/xfs/libxfs/xfs_refcount.c:114:19: warning: Value stored to 'agno' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           xfs_agnumber_t                  agno =3D cur->bc_ag.pag->pag_agn=
+o;
+                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_refcount.c:114:19: note: Value stored to 'agno' during=
+ its initialization is never read
+           xfs_agnumber_t                  agno =3D cur->bc_ag.pag->pag_agn=
+o;
+                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/acpi/acpica/exnames.c:160:4: warning: Call to function 'strcat' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(name_string, char_buf);
+                           ^~~~~~
+   drivers/acpi/acpica/exnames.c:160:4: note: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119
+                           strcat(name_string, char_buf);
+                           ^~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +7069 net/core/dev.c
+vim +/any_usable +3003 kernel/printk/printk.c
 
-29863d41bb6e1d Wei Wang          2021-02-08  7023  =
+02489ebe320634 John Ogness 2021-12-22  2992  =
 
-0766f788eb727e Emese Revfy       2016-06-20  7024  static __latent_entropy =
-void net_rx_action(struct softirq_action *h)
-726ce70e9e4050 Herbert Xu        2014-12-21  7025  {
-726ce70e9e4050 Herbert Xu        2014-12-21  7026  	struct softnet_data *sd=
- =3D this_cpu_ptr(&softnet_data);
-7acf8a1e8a28b3 Matthew Whitehead 2017-04-19  7027  	unsigned long time_limi=
-t =3D jiffies +
-7acf8a1e8a28b3 Matthew Whitehead 2017-04-19  7028  		usecs_to_jiffies(netde=
-v_budget_usecs);
-726ce70e9e4050 Herbert Xu        2014-12-21  7029  	int budget =3D netdev_b=
-udget;
-726ce70e9e4050 Herbert Xu        2014-12-21  7030  	LIST_HEAD(list);
-726ce70e9e4050 Herbert Xu        2014-12-21  7031  	LIST_HEAD(repoll);
-726ce70e9e4050 Herbert Xu        2014-12-21  7032  =
+02489ebe320634 John Ogness 2021-12-22  2993  	printk_cpu_sync_get_irqsave(f=
+lags);
+02489ebe320634 John Ogness 2021-12-22  2994  =
 
-726ce70e9e4050 Herbert Xu        2014-12-21  7033  	local_irq_disable();
-726ce70e9e4050 Herbert Xu        2014-12-21  7034  	list_splice_init(&sd->p=
-oll_list, &list);
-726ce70e9e4050 Herbert Xu        2014-12-21  7035  	local_irq_enable();
-726ce70e9e4050 Herbert Xu        2014-12-21  7036  =
+02489ebe320634 John Ogness 2021-12-22  2995  	do {
+02489ebe320634 John Ogness 2021-12-22  2996  		any_progress =3D false;
+02489ebe320634 John Ogness 2021-12-22  2997  =
 
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7037  	for (;;) {
-726ce70e9e4050 Herbert Xu        2014-12-21  7038  		struct napi_struct *n;
-726ce70e9e4050 Herbert Xu        2014-12-21  7039  =
+02489ebe320634 John Ogness 2021-12-22  2998  		for_each_console(con) {
+02489ebe320634 John Ogness 2021-12-22  2999  			bool progress;
+02489ebe320634 John Ogness 2021-12-22  3000  =
 
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7040  		if (list_empty(&list))=
- {
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7041  			if (!sd_has_rps_ipi_w=
-aiting(sd) && list_empty(&repoll))
-fec6e49b639896 Alexander Lobakin 2021-02-13  7042  				return;
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7043  			break;
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7044  		}
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7045  =
+02489ebe320634 John Ogness 2021-12-22  3001  			if (!console_is_usable(con,=
+ true))
+02489ebe320634 John Ogness 2021-12-22  3002  				continue;
+02489ebe320634 John Ogness 2021-12-22 @3003  			any_usable =3D true;
+02489ebe320634 John Ogness 2021-12-22  3004  =
 
-6bd373ebbac4b1 Herbert Xu        2014-12-21  7046  		n =3D list_first_entry=
-(&list, struct napi_struct, poll_list);
-6bd373ebbac4b1 Herbert Xu        2014-12-21  7047  		budget -=3D napi_poll(=
-n, &repoll);
-6bd373ebbac4b1 Herbert Xu        2014-12-21  7048  =
+02489ebe320634 John Ogness 2021-12-22  3005  			if (con->flags & CON_EXTEND=
+ED) {
+02489ebe320634 John Ogness 2021-12-22  3006  				/* Extended consoles do no=
+t print "dropped messages". */
+02489ebe320634 John Ogness 2021-12-22  3007  				progress =3D console_emit_=
+next_record(con,
+02489ebe320634 John Ogness 2021-12-22  3008  							&con->atomic_data->text=
+[index],
+02489ebe320634 John Ogness 2021-12-22  3009  							&con->atomic_data->ext_=
+text[index],
+02489ebe320634 John Ogness 2021-12-22  3010  							NULL,
+02489ebe320634 John Ogness 2021-12-22  3011  							true, NULL);
+02489ebe320634 John Ogness 2021-12-22  3012  			} else {
+02489ebe320634 John Ogness 2021-12-22  3013  				progress =3D console_emit_=
+next_record(con,
+02489ebe320634 John Ogness 2021-12-22  3014  							&con->atomic_data->text=
+[index],
+02489ebe320634 John Ogness 2021-12-22  3015  							NULL,
+02489ebe320634 John Ogness 2021-12-22  3016  							&con->atomic_data->drop=
+ped_text[index],
+02489ebe320634 John Ogness 2021-12-22  3017  							true, NULL);
+02489ebe320634 John Ogness 2021-12-22  3018  			}
+02489ebe320634 John Ogness 2021-12-22  3019  =
 
-726ce70e9e4050 Herbert Xu        2014-12-21  7049  		/* If softirq window i=
-s exhausted then punt.
-726ce70e9e4050 Herbert Xu        2014-12-21  7050  		 * Allow this to run f=
-or 2 jiffies since which will allow
-726ce70e9e4050 Herbert Xu        2014-12-21  7051  		 * an average latency =
-of 1.5/HZ.
-726ce70e9e4050 Herbert Xu        2014-12-21  7052  		 */
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7053  		if (unlikely(budget <=
-=3D 0 ||
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7054  			     time_after_eq(ji=
-ffies, time_limit))) {
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7055  			sd->time_squeeze++;
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7056  			break;
-ceb8d5bf17d366 Herbert Xu        2014-12-21  7057  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  7058  	}
-d75b1ade567ffa Eric Dumazet      2014-11-02  7059  =
+02489ebe320634 John Ogness 2021-12-22  3020  			if (!progress)
+02489ebe320634 John Ogness 2021-12-22  3021  				continue;
+02489ebe320634 John Ogness 2021-12-22  3022  			any_progress =3D true;
+02489ebe320634 John Ogness 2021-12-22  3023  =
 
-d75b1ade567ffa Eric Dumazet      2014-11-02  7060  	local_irq_disable();
-d75b1ade567ffa Eric Dumazet      2014-11-02  7061  =
+02489ebe320634 John Ogness 2021-12-22  3024  			touch_softlockup_watchdog_s=
+ync();
+02489ebe320634 John Ogness 2021-12-22  3025  			clocksource_touch_watchdog(=
+);
+02489ebe320634 John Ogness 2021-12-22  3026  			rcu_cpu_stall_reset();
+02489ebe320634 John Ogness 2021-12-22  3027  			touch_nmi_watchdog();
+02489ebe320634 John Ogness 2021-12-22  3028  		}
+02489ebe320634 John Ogness 2021-12-22  3029  	} while (any_progress);
+02489ebe320634 John Ogness 2021-12-22  3030  =
 
-d75b1ade567ffa Eric Dumazet      2014-11-02  7062  	list_splice_tail_init(&=
-sd->poll_list, &list);
-d75b1ade567ffa Eric Dumazet      2014-11-02  7063  	list_splice_tail(&repol=
-l, &list);
-d75b1ade567ffa Eric Dumazet      2014-11-02  7064  	list_splice(&list, &sd-=
->poll_list);
-d75b1ade567ffa Eric Dumazet      2014-11-02  7065  	if (!list_empty(&sd->po=
-ll_list))
-d75b1ade567ffa Eric Dumazet      2014-11-02  7066  		__raise_softirq_irqoff=
-(NET_RX_SOFTIRQ);
-d75b1ade567ffa Eric Dumazet      2014-11-02  7067  =
-
-e326bed2f47d03 Eric Dumazet      2010-04-22  7068  	net_rps_action_and_irq_=
-enable(sd);
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @7069  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  7070  =
+02489ebe320634 John Ogness 2021-12-22  3031  	printk_cpu_sync_put_irqrestor=
+e(flags);
+02489ebe320634 John Ogness 2021-12-22  3032  }
+02489ebe320634 John Ogness 2021-12-22  3033  #else /* CONFIG_HAVE_ATOMIC_CO=
+NSOLE */
+02489ebe320634 John Ogness 2021-12-22  3034  #define atomic_console_flush_a=
+ll()
+02489ebe320634 John Ogness 2021-12-22  3035  #endif
+02489ebe320634 John Ogness 2021-12-22  3036  =
 
 
-:::::: The code at line 7069 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code at line 3003 was first introduced by commit
+:::::: 02489ebe320634155c5ddb3110d7d456fa68d304 printk: add infrastucture f=
+or atomic consoles
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: John Ogness <john.ogness@linutronix.de>
+:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0811704055630553457==--
+--===============4097445864619874984==--
 
