@@ -1,159 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============4796715856029881147=="
+Content-Type: multipart/mixed; boundary="===============0407830607729994227=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:34 mlx5_dm_create() warn: should '(((1))) << (((((__builtin_constant_p(((*((dev->caps.hca[15]->cur)[(($expr_0x7f369fa16400(30)) / 32)]))))) ?((((((*((dev->caps.hca[15]->cur)[(($expr_0x7f369fa16d10(30)) / 32...
-Date: Sun, 23 Jan 2022 08:14:49 +0800
-Message-ID: <202201230806.QOZ1SMrO-lkp@intel.com>
+Subject: sound/soc/codecs/lpass-rx-macro.c:1476 rx_macro_int_dem_inp_mux_put() error: uninitialized symbol 'look_ahead_dly_reg'.
+Date: Sun, 23 Jan 2022 06:43:52 +0800
+Message-ID: <202201230601.ctiviZ4q-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4796715856029881147==
+--===============0407830607729994227==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Parav Pandit <parav@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Shay Drory <shayd@nvidia.com>
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1c52283265a462a100ae63ddf58b4e5884acde86
-commit: 5958a6fad623ad3b67a9e4d8dbd5f1874cc7039e net/mlx5: Reorganize curre=
-nt and maximal capabilities to be per-type
-date:   5 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 5 months ago
-config: microblaze-randconfig-m031-20220122 (https://download.01.org/0day-c=
-i/archive/20220123/202201230806.QOZ1SMrO-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+commit: 4f692926f562ff48abfcca6b16f36ff8d57473b6 ASoC: codecs: lpass-rx-mac=
+ro: add dapm widgets and route
+date:   12 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 12 months ago
+config: powerpc64-randconfig-m031-20220120 (https://download.01.org/0day-ci=
+/archive/20220123/202201230601.ctiviZ4q-lkp(a)intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:34 mlx5_dm_create() warn: =
-should '(((1))) << (((((__builtin_constant_p(((*((dev->caps.hca[15]->cur)[(=
-($expr_0x7f369fa16400(30)) / 32)]))))) ?((((((*((dev->caps.hca[15]->cur)[((=
-$expr_0x7f369fa16d10(30)) / 32)]))) & 255) << 24) | ((((*((dev->caps.hca[15=
-]->cur)[(($expr_0x7f369fa076f0(30)) / 32)]))) & 65280) << 8) | ((((*((dev->=
-caps.hca[15]->cur)[(($expr_0x7f369fa080a0(30)) / 32)]))) & 16711680) >> 8) =
-| ((((*((dev->caps.hca[15]->cur)[(($expr_0x7f369fa08a50(30)) / 32)]))) & 42=
-78190080) >> 24))):__fswab32((*((dev->caps.hca[15]->cur) + (($expr_0x' be a=
- 64 bit type?
+sound/soc/codecs/lpass-rx-macro.c:1476 rx_macro_int_dem_inp_mux_put() error=
+: uninitialized symbol 'look_ahead_dly_reg'.
+sound/soc/codecs/lpass-rx-macro.c:2187 rx_macro_hd2_control() error: uninit=
+ialized symbol 'hd2_enable_reg'.
+sound/soc/codecs/lpass-rx-macro.c:2188 rx_macro_hd2_control() error: uninit=
+ialized symbol 'hd2_scale_reg'.
 
 Old smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:46 mlx5_dm_create() warn: =
-should '(((1))) << (((((__builtin_constant_p(((*((dev->caps.hca[15]->cur)[(=
-($expr_0x7f369f9fd730(30)) / 32)]))))) ?((((((*((dev->caps.hca[15]->cur)[((=
-$expr_0x7f369f9fe040(30)) / 32)]))) & 255) << 24) | ((((*((dev->caps.hca[15=
-]->cur)[(($expr_0x7f369f9fe9f0(30)) / 32)]))) & 65280) << 8) | ((((*((dev->=
-caps.hca[15]->cur)[(($expr_0x7f369f9e73d0(30)) / 32)]))) & 16711680) >> 8) =
-| ((((*((dev->caps.hca[15]->cur)[(($expr_0x7f369f9e7d80(30)) / 32)]))) & 42=
-78190080) >> 24))):__fswab32((*((dev->caps.hca[15]->cur) + (($expr_0x' be a=
- 64 bit type?
+sound/soc/codecs/lpass-rx-macro.c:1480 rx_macro_int_dem_inp_mux_put() error=
+: uninitialized symbol 'look_ahead_dly_reg'.
+sound/soc/codecs/lpass-rx-macro.c:2197 rx_macro_hd2_control() error: uninit=
+ialized symbol 'hd2_scale_reg'.
+sound/soc/codecs/lpass-rx-macro.c:2655 rx_macro_enable_echo() error: uninit=
+ialized symbol 'ec_tx'.
 
-vim +34 drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c
+vim +/look_ahead_dly_reg +1476 sound/soc/codecs/lpass-rx-macro.c
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  16  =
+af3d54b99764f0 Srinivas Kandagatla 2021-02-11  1457  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  17  struct mlx5_dm *mlx5_dm_crea=
-te(struct mlx5_core_dev *dev)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  18  {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  19  	u64 header_modify_icm_block=
-s =3D 0;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  20  	u64 steering_icm_blocks =3D=
- 0;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  21  	struct mlx5_dm *dm;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  22  =
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1458  static int rx_macro_in=
+t_dem_inp_mux_put(struct snd_kcontrol *kcontrol,
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1459  					struct snd_ctl_el=
+em_value *ucontrol)
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1460  {
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1461  	struct snd_soc_dapm_w=
+idget *widget =3D snd_soc_dapm_kcontrol_widget(kcontrol);
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1462  	struct snd_soc_compon=
+ent *component =3D snd_soc_dapm_to_component(widget->dapm);
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1463  	struct soc_enum *e =
+=3D (struct soc_enum *)kcontrol->private_value;
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1464  	unsigned short look_a=
+head_dly_reg;
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1465  	unsigned int val;
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1466  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  23  	if (!(MLX5_CAP_GEN_64(dev, =
-general_obj_types) & MLX5_GENERAL_OBJ_TYPES_CAP_SW_ICM))
-586ee9e8a3b007 Saeed Mahameed  2020-01-22  24  		return NULL;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  25  =
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1467  	val =3D ucontrol->val=
+ue.enumerated.item[0];
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1468  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  26  	dm =3D kzalloc(sizeof(*dm),=
- GFP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  27  	if (!dm)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  28  		return ERR_PTR(-ENOMEM);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  29  =
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1469  	if (e->reg =3D=3D CDC=
+_RX_RX0_RX_PATH_CFG1)
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1470  		look_ahead_dly_reg =
+=3D CDC_RX_RX0_RX_PATH_CFG0;
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1471  	else if (e->reg =3D=
+=3D CDC_RX_RX1_RX_PATH_CFG1)
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1472  		look_ahead_dly_reg =
+=3D CDC_RX_RX1_RX_PATH_CFG0;
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1473  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  30  	spin_lock_init(&dm->lock);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  31  =
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1474  	/* Set Look Ahead Del=
+ay */
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1475  	if (val)
+4f692926f562ff Srinivas Kandagatla 2021-02-11 @1476  		snd_soc_component_up=
+date_bits(component, look_ahead_dly_reg,
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1477  					      CDC_RX_DLY_=
+ZN_EN_MASK,
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1478  					      CDC_RX_DLY_=
+ZN_ENABLE);
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1479  	else
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1480  		snd_soc_component_up=
+date_bits(component, look_ahead_dly_reg,
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1481  					      CDC_RX_DLY_=
+ZN_EN_MASK, 0);
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1482  	/* Set DEM INP Select=
+ */
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1483  	return snd_soc_dapm_p=
+ut_enum_double(kcontrol, ucontrol);
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1484  }
+4f692926f562ff Srinivas Kandagatla 2021-02-11  1485  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  32  	if (MLX5_CAP64_DEV_MEM(dev,=
- steering_sw_icm_start_address)) {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  33  		steering_icm_blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29 @34  			BIT(MLX5_CAP_DEV_MEM(dev,=
- log_steering_sw_icm_size) -
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  35  			    MLX5_LOG_SW_ICM_BLOCK=
-_SIZE(dev));
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  36  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  37  		dm->steering_sw_icm_alloc_=
-blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  38  			kcalloc(BITS_TO_LONGS(ste=
-ering_icm_blocks),
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  39  				sizeof(unsigned long), G=
-FP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  40  		if (!dm->steering_sw_icm_a=
-lloc_blocks)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  41  			goto err_steering;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  42  	}
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  43  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  44  	if (MLX5_CAP64_DEV_MEM(dev,=
- header_modify_sw_icm_start_address)) {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  45  		header_modify_icm_blocks =
-=3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  46  			BIT(MLX5_CAP_DEV_MEM(dev,=
- log_header_modify_sw_icm_size) -
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  47  			    MLX5_LOG_SW_ICM_BLOCK=
-_SIZE(dev));
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  48  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  49  		dm->header_modify_sw_icm_a=
-lloc_blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  50  			kcalloc(BITS_TO_LONGS(hea=
-der_modify_icm_blocks),
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  51  				sizeof(unsigned long), G=
-FP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  52  		if (!dm->header_modify_sw_=
-icm_alloc_blocks)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  53  			goto err_modify_hdr;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  54  	}
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  55  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  56  	return dm;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  57  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  58  err_modify_hdr:
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  59  	kfree(dm->steering_sw_icm_a=
-lloc_blocks);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  60  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  61  err_steering:
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  62  	kfree(dm);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  63  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  64  	return ERR_PTR(-ENOMEM);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  65  }
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  66  =
-
-
-:::::: The code at line 34 was first introduced by commit
-:::::: c9b9dcb430b3cd0ad2b04c360c4e528d73430481 net/mlx5: Move device memor=
-y management to mlx5_core
-
-:::::: TO: Ariel Levkovich <lariel@mellanox.com>
-:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4796715856029881147==--
+--===============0407830607729994227==--
 
