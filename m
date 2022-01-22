@@ -1,53 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============5843091563649345829=="
+Content-Type: multipart/mixed; boundary="===============7107493666944003475=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/lpfc/lpfc_ct.c:3955:2: warning: Value stored to 'size' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 22 Jan 2022 16:32:06 +0800
-Message-ID: <202201221636.smRQbc1j-lkp@intel.com>
+Subject: Re: [PATCH v4 3/7] mm: page_isolation: check specified range for unmovable pages
+Date: Sat, 22 Jan 2022 16:32:03 +0800
+Message-ID: <202201221659.XbJv2v5A-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5843091563649345829==
+--===============7107493666944003475==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Gaurav Srivastava <gaurav.srivastava@broadcom.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Hannes Reinecke <hare@suse.de>
-CC: James Smart <jsmart2021@gmail.com>
-CC: Muneendra Kumar <muneendra.kumar@broadcom.com>
+In-Reply-To: <20220119190623.1029355-4-zi.yan@sent.com>
+References: <20220119190623.1029355-4-zi.yan@sent.com>
+TO: Zi Yan <zi.yan@sent.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9b57f458985742bd1c585f4c7f36d04634ce1143
-commit: 742b0cf87a8f9219101d68a7b4c6317db057ac58 scsi: lpfc: vmid: Implemen=
-t CT commands for appid
-date:   8 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220117 (https://download.01.org/0day-ci/archi=
-ve/20220122/202201221636.smRQbc1j-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c10cbb=
-243cafc0cf42c3e922cb29183279444432)
+Hi Zi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master hnaz-mm/master v5.16 next-20220121]
+[cannot apply to powerpc/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Zi-Yan/Use-pageblock_order=
+-for-cma-and-alloc_contig_range-alignment/20220120-032623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+99613159ad749543621da8238acf1a122880144e
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20122/202201221659.XbJv2v5A-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f7b713=
+8a62648f4019c55e4671682af1f851f295)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D742b0cf87a8f9219101d68a7b4c6317db057ac58
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 742b0cf87a8f9219101d68a7b4c6317db057ac58
+        # https://github.com/0day-ci/linux/commit/34f568f50dcc72fc76e85b137=
+621abc7dedb1cc5
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Zi-Yan/Use-pageblock_order-for-cma=
+-and-alloc_contig_range-alignment/20220120-032623
+        git checkout 34f568f50dcc72fc76e85b137621abc7dedb1cc5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,377 +59,444 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                          ^
+           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:655:6: note: Assuming 'new' is equal to fi=
+eld 'leaf'
+           if (cur->leaf !=3D new && cur->pos =3D=3D 0 && nr_entries > 0) {
+               ^~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:655:23: note: Left side of '&&' is false
+           if (cur->leaf !=3D new && cur->pos =3D=3D 0 && nr_entries > 0) {
+                                ^
+   fs/xfs/libxfs/xfs_iext_tree.c:660:23: note: Assuming 'i' is <=3D field '=
+pos'
+           for (i =3D nr_entries; i > cur->pos; i--)
+                                ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:660:2: note: Loop condition is false. Exec=
+ution continues on line 662
+           for (i =3D nr_entries; i > cur->pos; i--)
+           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:667:6: note: Assuming 'new' is non-null
+           if (new)
+               ^~~
+   fs/xfs/libxfs/xfs_iext_tree.c:667:2: note: Taking true branch
+           if (new)
+           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:668:3: note: Calling 'xfs_iext_insert_node'
+                   xfs_iext_insert_node(ifp, xfs_iext_leaf_key(new, 0), new=
+, 2);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:503:6: note: Assuming 'level' is <=3D fiel=
+d 'if_height'
+           if (ifp->if_height < level)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:503:2: note: Taking false branch
+           if (ifp->if_height < level)
+           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:507:2: note: Value assigned to 'node'
+           node =3D xfs_iext_find_level(ifp, offset, level);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:511:9: note: Assuming 'pos' is >=3D 'nr_en=
+tries'
+           ASSERT(pos >=3D nr_entries || xfs_iext_key_cmp(node, pos, offset=
+) !=3D 0);
+                  ^
+   fs/xfs/xfs_linux.h:208:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+                   ^~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_iext_tree.c:511:27: note: Left side of '||' is true
+           ASSERT(pos >=3D nr_entries || xfs_iext_key_cmp(node, pos, offset=
+) !=3D 0);
+                                    ^
+   fs/xfs/libxfs/xfs_iext_tree.c:511:2: note: '?' condition is true
+           ASSERT(pos >=3D nr_entries || xfs_iext_key_cmp(node, pos, offset=
+) !=3D 0);
+           ^
+   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
    include/linux/compiler.h:77:20: note: expanded from macro 'likely'
    # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:525:6: note: Value assigned to 'cmd.flags=
-', which participates in a condition later
-           n =3D arm_copy_from_user(to, from, n);
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:527:2: note: Returning value (loaded from=
- 'n'), which participates in a condition later
-           return n;
-           ^~~~~~~~
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   drivers/nvme/host/ioctl.c:191:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:191:2: note: Taking false branch
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-           ^
-   drivers/nvme/host/ioctl.c:193:6: note: Assuming field 'flags' is 0
-           if (cmd.flags)
-               ^~~~~~~~~
-   drivers/nvme/host/ioctl.c:193:2: note: Taking false branch
-           if (cmd.flags)
-           ^
-   drivers/nvme/host/ioctl.c:195:6: note: 'ns' is null
-           if (ns && cmd.nsid !=3D ns->head->ns_id) {
-               ^~
-   drivers/nvme/host/ioctl.c:195:9: note: Left side of '&&' is false
-           if (ns && cmd.nsid !=3D ns->head->ns_id) {
+                           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:512:9: note: Assuming 'nr_entries' is <=3D=
+ KEYS_PER_NODE
+           ASSERT(nr_entries <=3D KEYS_PER_NODE);
                   ^
-   drivers/nvme/host/ioctl.c:215:6: note: Assuming field 'timeout_ms' is 0
-           if (cmd.timeout_ms)
-               ^~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:215:2: note: Taking false branch
-           if (cmd.timeout_ms)
+   fs/xfs/xfs_linux.h:208:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+                   ^~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_iext_tree.c:512:2: note: '?' condition is true
+           ASSERT(nr_entries <=3D KEYS_PER_NODE);
            ^
-   drivers/nvme/host/ioctl.c:218:32: note: 'ns' is null
-           status =3D nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, =
-&c,
-                                         ^~
-   drivers/nvme/host/ioctl.c:218:32: note: '?' condition is false
-   drivers/nvme/host/ioctl.c:218:11: note: Calling 'nvme_submit_user_cmd'
-           status =3D nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, =
-&c,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:63:30: note: Assuming 'ns' is null
-           struct block_device *bdev =3D ns ? ns->disk->part0 : NULL;
-                                       ^~
-   drivers/nvme/host/ioctl.c:63:30: note: '?' condition is false
-   drivers/nvme/host/ioctl.c:70:2: note: Taking true branch
-           if (IS_ERR(req))
+   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:514:6: note: Assuming 'nr_entries' is not =
+equal to KEYS_PER_NODE
+           if (nr_entries =3D=3D KEYS_PER_NODE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:514:2: note: Taking false branch
+           if (nr_entries =3D=3D KEYS_PER_NODE)
            ^
-   drivers/nvme/host/ioctl.c:71:3: note: Returning without writing to '*res=
-ult'
-                   return PTR_ERR(req);
-                   ^
-   drivers/nvme/host/ioctl.c:218:11: note: Returning from 'nvme_submit_user=
-_cmd'
-           status =3D nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, =
-&c,
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:223:6: note: 'status' is >=3D 0
-           if (status >=3D 0) {
-               ^~~~~~
-   drivers/nvme/host/ioctl.c:223:2: note: Taking true branch
-           if (status >=3D 0) {
+   fs/xfs/libxfs/xfs_iext_tree.c:521:6: note: Assuming 'node' is equal to '=
+new'
+           if (node !=3D new && pos =3D=3D 0 && nr_entries > 0)
+               ^~~~~~~~~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:521:18: note: Left side of '&&' is false
+           if (node !=3D new && pos =3D=3D 0 && nr_entries > 0)
+                           ^
+   fs/xfs/libxfs/xfs_iext_tree.c:524:23: note: 'i' is <=3D 'pos'
+           for (i =3D nr_entries; i > pos; i--) {
+                                ^
+   fs/xfs/libxfs/xfs_iext_tree.c:524:2: note: Loop condition is false. Exec=
+ution continues on line 528
+           for (i =3D nr_entries; i > pos; i--) {
            ^
-   drivers/nvme/host/ioctl.c:224:7: note: Assigned value is garbage or unde=
-fined
-                   if (put_user(result, &ucmd->result))
-                       ^
-   arch/arm/include/asm/uaccess.h:406:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:389:3: note: expanded from macro '__put_u=
-ser_switch'
-                   __typeof__(*(ptr)) __pu_val =3D (x);                    =
-  \
-                   ^                             ~~~
+   fs/xfs/libxfs/xfs_iext_tree.c:528:18: note: Array access (via field 'key=
+s') results in a null pointer dereference
+           node->keys[pos] =3D offset;
+                 ~~~~      ^
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
->> drivers/scsi/lpfc/lpfc_ct.c:3955:2: warning: Value stored to 'size' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           size =3D 0;
-           ^      ~
-   drivers/scsi/lpfc/lpfc_ct.c:3955:2: note: Value stored to 'size' is neve=
-r read
-           size =3D 0;
-           ^      ~
-   Suppressed 16 warnings (7 in non-user code, 9 with check filters).
+   6 warnings generated.
+>> mm/page_isolation.c:40:2: warning: Value stored to 'page' is never read =
+[clang-analyzer-deadcode.DeadStores]
+           page =3D pfn_to_page(pfn);
+           ^
+   mm/page_isolation.c:40:2: note: Value stored to 'page' is never read
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   21 warnings generated.
-   drivers/scsi/lpfc/lpfc_els.c:4463:24: warning: Access to field 'virt' re=
-sults in a dereference of a null pointer (loaded from variable 'buf_ptr') [=
-clang-analyzer-core.NullDereference]
-                   lpfc_mbuf_free(phba, buf_ptr->virt, buf_ptr->phys);
-                                        ^
-   drivers/scsi/lpfc/lpfc_els.c:10789:6: note: Assuming 'ndlp' is non-null
-           if (!ndlp || ndlp->nlp_state !=3D NLP_STE_UNMAPPED_NODE)
-               ^~~~~
-   drivers/scsi/lpfc/lpfc_els.c:10789:6: note: Left side of '||' is false
-   drivers/scsi/lpfc/lpfc_els.c:10789:15: note: Assuming field 'nlp_state' =
-is equal to NLP_STE_UNMAPPED_NODE
-           if (!ndlp || ndlp->nlp_state !=3D NLP_STE_UNMAPPED_NODE)
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:10789:2: note: Taking false branch
-           if (!ndlp || ndlp->nlp_state !=3D NLP_STE_UNMAPPED_NODE)
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   include/linux/list.h:72:13: warning: Access to field 'prev' results in a=
+ dereference of a null pointer (loaded from variable 'next') [clang-analyze=
+r-core.NullDereference]
+           next->prev =3D new;
+                      ^
+   mm/zsmalloc.c:2302:16: note: Calling 'zs_compact'
+           pages_freed =3D zs_compact(pool);
+                         ^~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:2270:11: note: '?' condition is false
+           for (i =3D ZS_SIZE_CLASSES - 1; i >=3D 0; i--) {
+                    ^
+   mm/zsmalloc.c:150:59: note: expanded from macro 'ZS_SIZE_CLASSES'
+   #define ZS_SIZE_CLASSES (DIV_ROUND_UP(ZS_MAX_ALLOC_SIZE - ZS_MIN_ALLOC_S=
+IZE, \
+                                                             ^
+   mm/zsmalloc.c:132:52: note: expanded from macro 'ZS_MIN_ALLOC_SIZE'
+           MAX(32, (ZS_MAX_PAGES_PER_ZSPAGE << PAGE_SHIFT >> OBJ_INDEX_BITS=
+))
+                                                             ^
+   mm/zsmalloc.c:121:41: note: expanded from macro 'OBJ_INDEX_BITS'
+   #define OBJ_INDEX_BITS  (BITS_PER_LONG - _PFN_BITS - OBJ_TAG_BITS)
+                                            ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   mm/zsmalloc.c:91:35: note: expanded from macro 'MAX_POSSIBLE_PHYSMEM_BIT=
+S'
+   #define MAX_POSSIBLE_PHYSMEM_BITS MAX_PHYSMEM_BITS
+                                     ^
+   arch/x86/include/asm/sparsemem.h:27:28: note: expanded from macro 'MAX_P=
+HYSMEM_BITS'
+   # define MAX_PHYSMEM_BITS       (pgtable_l5_enabled() ? 52 : 46)
+                                    ^
+   arch/x86/include/asm/pgtable_64_types.h:40:30: note: expanded from macro=
+ 'pgtable_l5_enabled'
+   #define pgtable_l5_enabled() 0
+                                ^
+   mm/zsmalloc.c:2270:11: note: '?' condition is true
+           for (i =3D ZS_SIZE_CLASSES - 1; i >=3D 0; i--) {
+                    ^
+   mm/zsmalloc.c:150:59: note: expanded from macro 'ZS_SIZE_CLASSES'
+   #define ZS_SIZE_CLASSES (DIV_ROUND_UP(ZS_MAX_ALLOC_SIZE - ZS_MIN_ALLOC_S=
+IZE, \
+                                                             ^
+   mm/zsmalloc.c:132:2: note: expanded from macro 'ZS_MIN_ALLOC_SIZE'
+           MAX(32, (ZS_MAX_PAGES_PER_ZSPAGE << PAGE_SHIFT >> OBJ_INDEX_BITS=
+))
            ^
-   drivers/scsi/lpfc/lpfc_els.c:10792:9: note: Assuming the condition is tr=
-ue
-           prsp =3D list_get_first(&dmabuf->list, struct lpfc_dmabuf, list);
-                  ^
-   drivers/scsi/lpfc/lpfc_scsi.h:38:3: note: expanded from macro 'list_get_=
-first'
-           (list_empty(list)) ? NULL :                             \
-            ^~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:10792:9: note: '?' condition is true
-           prsp =3D list_get_first(&dmabuf->list, struct lpfc_dmabuf, list);
-                  ^
-   drivers/scsi/lpfc/lpfc_scsi.h:38:2: note: expanded from macro 'list_get_=
-first'
-           (list_empty(list)) ? NULL :                             \
+   mm/zsmalloc.c:129:20: note: expanded from macro 'MAX'
+   #define MAX(a, b) ((a) >=3D (b) ? (a) : (b))
+                      ^
+   mm/zsmalloc.c:2270:2: note: Loop condition is true.  Entering loop body
+           for (i =3D ZS_SIZE_CLASSES - 1; i >=3D 0; i--) {
            ^
-   drivers/scsi/lpfc/lpfc_els.c:10793:7: note: 'prsp' is null
-           if (!prsp)
-                ^~~~
-   drivers/scsi/lpfc/lpfc_els.c:10793:2: note: Taking true branch
-           if (!prsp)
-           ^
-   drivers/scsi/lpfc/lpfc_els.c:10794:3: note: Control jumps to line 10822
-                   goto out;
+   mm/zsmalloc.c:2272:7: note: Assuming 'class' is non-null
+                   if (!class)
+                       ^~~~~~
+   mm/zsmalloc.c:2272:3: note: Taking false branch
+                   if (!class)
                    ^
-   drivers/scsi/lpfc/lpfc_els.c:10823:2: note: Calling 'lpfc_els_free_iocb'
-           lpfc_els_free_iocb(phba, icmdiocb);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4527:15: note: Field 'context2' is non-null
-           if (elsiocb->context2) {
-                        ^
-   drivers/scsi/lpfc/lpfc_els.c:4527:2: note: Taking true branch
-           if (elsiocb->context2) {
-           ^
-   drivers/scsi/lpfc/lpfc_els.c:4528:7: note: Assuming the condition is fal=
-se
-                   if (elsiocb->iocb_flag & LPFC_DELAY_MEM_FREE) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4528:3: note: Taking false branch
-                   if (elsiocb->iocb_flag & LPFC_DELAY_MEM_FREE) {
+   mm/zsmalloc.c:2274:7: note: Assuming 'i' is equal to field 'index'
+                   if (class->index !=3D i)
+                       ^~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:2274:3: note: Taking false branch
+                   if (class->index !=3D i)
                    ^
-   drivers/scsi/lpfc/lpfc_els.c:4555:4: note: Calling 'lpfc_els_free_data'
-                           lpfc_els_free_data(phba, buf_ptr1);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4459:6: note: Assuming the condition is true
-           if (!list_empty(&buf_ptr1->list)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4459:2: note: Taking true branch
-           if (!list_empty(&buf_ptr1->list)) {
+   mm/zsmalloc.c:2276:18: note: Calling '__zs_compact'
+                   pages_freed +=3D __zs_compact(pool, class);
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:2221:2: note: Calling 'spin_lock'
+           spin_lock(&class->lock);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:349:2: note: Value assigned to field 'next'
+           raw_spin_lock(&lock->rlock);
            ^
-   drivers/scsi/lpfc/lpfc_els.c:4460:37: note: Null pointer value stored to=
- 'buf_ptr'
-                   list_remove_head(&buf_ptr1->list, buf_ptr,
-                                                     ^
-   drivers/scsi/lpfc/lpfc_scsi.h:30:2: note: expanded from macro 'list_remo=
-ve_head'
-           entry =3D NULL;                                           \
-           ^~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4460:3: note: Assuming the condition is fal=
-se
-                   list_remove_head(&buf_ptr1->list, buf_ptr,
-                   ^
-   drivers/scsi/lpfc/lpfc_scsi.h:31:6: note: expanded from macro 'list_remo=
-ve_head'
-           if (!list_empty(list)) {                                \
-               ^~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4460:3: note: Taking false branch
-                   list_remove_head(&buf_ptr1->list, buf_ptr,
-                   ^
-   drivers/scsi/lpfc/lpfc_scsi.h:31:2: note: expanded from macro 'list_remo=
-ve_head'
-           if (!list_empty(list)) {                                \
+   include/linux/spinlock.h:215:29: note: expanded from macro 'raw_spin_loc=
+k'
+   #define raw_spin_lock(lock)     _raw_spin_lock(lock)
+                                   ^~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:2221:2: note: Returning from 'spin_lock'
+           spin_lock(&class->lock);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:2222:2: note: Loop condition is true.  Entering loop body
+           while ((src_zspage =3D isolate_zspage(class, true))) {
            ^
-   drivers/scsi/lpfc/lpfc_els.c:4460:3: note: Loop condition is false.  Exi=
-ting loop
-                   list_remove_head(&buf_ptr1->list, buf_ptr,
+   mm/zsmalloc.c:2224:7: note: Assuming the condition is true
+                   if (!zs_can_compact(class))
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   mm/zsmalloc.c:2224:3: note: Taking true branch
+                   if (!zs_can_compact(class))
                    ^
-   drivers/scsi/lpfc/lpfc_scsi.h:29:2: note: expanded from macro 'list_remo=
-ve_head'
-           do {                                                    \
+   mm/zsmalloc.c:2225:4: note:  Execution continues on line 2256
+                           break;
+                           ^
+   mm/zsmalloc.c:2256:6: note: 'src_zspage' is non-null
+           if (src_zspage)
+               ^~~~~~~~~~
+   mm/zsmalloc.c:2256:2: note: Taking true branch
+           if (src_zspage)
            ^
-   drivers/scsi/lpfc/lpfc_els.c:4463:24: note: Access to field 'virt' resul=
-ts in a dereference of a null pointer (loaded from variable 'buf_ptr')
-                   lpfc_mbuf_free(phba, buf_ptr->virt, buf_ptr->phys);
-                                        ^~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4913:3: warning: Value stored to 'pcmd' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   pcmd +=3D sizeof(uint32_t);
-                   ^       ~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:4913:3: note: Value stored to 'pcmd' is nev=
-er read
-                   pcmd +=3D sizeof(uint32_t);
-                   ^       ~~~~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_els.c:8477:4: warning: Value stored to 'cmd' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
 
-vim +/size +3955 drivers/scsi/lpfc/lpfc_ct.c
+vim +/page +40 mm/page_isolation.c
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3883  =
+0f0848e5118a4c Joonsoo Kim 2016-01-14   17  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3884  /**
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3885   * lpfc_vmid_cmd - Build=
- and send a FDMI cmd to the specified NPort
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3886   * @vport: pointer to a =
-host virtual N_Port data structure.
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3887   * @ndlp: ndlp to send F=
-DMI cmd to (if NULL use FDMI_DID)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3888   * cmdcode: FDMI command=
- to send
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3889   * mask: Mask of HBA or =
-PORT Attributes to send
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3890   *
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3891   * Builds and sends a FD=
-MI command using the CT subsystem.
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3892   */
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3893  int
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3894  lpfc_vmid_cmd(struct lpf=
-c_vport *vport,
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3895  	      int cmdcode, stru=
-ct lpfc_vmid *vmid)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3896  {
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3897  	struct lpfc_hba *phba =
-=3D vport->phba;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3898  	struct lpfc_dmabuf *mp,=
- *bmp;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3899  	struct lpfc_sli_ct_requ=
-est *ctreq;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3900  	struct ulp_bde64 *bpl;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3901  	u32 size;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3902  	u32 rsp_size;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3903  	u8 *data;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3904  	struct lpfc_vmid_rapp_i=
-dent_list *rap;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3905  	struct lpfc_vmid_dapp_i=
-dent_list *dap;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3906  	u8 retry =3D 0;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3907  	struct lpfc_nodelist *n=
-dlp;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3908  =
+1edc0e02d51603 Zi Yan      2022-01-19   18  /*
+34f568f50dcc72 Zi Yan      2022-01-19   19   * This function checks whether=
+ pageblock within [start_pfn, end_pfn) includes
+34f568f50dcc72 Zi Yan      2022-01-19   20   * unmovable pages or not.
+1edc0e02d51603 Zi Yan      2022-01-19   21   *
+1edc0e02d51603 Zi Yan      2022-01-19   22   * PageLRU check without isolat=
+ion or lru_lock could race so that
+1edc0e02d51603 Zi Yan      2022-01-19   23   * MIGRATE_MOVABLE block might =
+include unmovable pages. And __PageMovable
+1edc0e02d51603 Zi Yan      2022-01-19   24   * check without lock_page also=
+ may miss some movable non-lru pages at
+1edc0e02d51603 Zi Yan      2022-01-19   25   * race condition. So you can't=
+ expect this function should be exact.
+1edc0e02d51603 Zi Yan      2022-01-19   26   *
+1edc0e02d51603 Zi Yan      2022-01-19   27   * Returns a page without holdi=
+ng a reference. If the caller wants to
+1edc0e02d51603 Zi Yan      2022-01-19   28   * dereference that page (e.g.,=
+ dumping), it has to make sure that it
+1edc0e02d51603 Zi Yan      2022-01-19   29   * cannot get removed (e.g., vi=
+a memory unplug) concurrently.
+1edc0e02d51603 Zi Yan      2022-01-19   30   *
+1edc0e02d51603 Zi Yan      2022-01-19   31   */
+1edc0e02d51603 Zi Yan      2022-01-19   32  static struct page *has_unmovab=
+le_pages(struct zone *zone, struct page *page,
+34f568f50dcc72 Zi Yan      2022-01-19   33  				 int migratetype, int flags,
+34f568f50dcc72 Zi Yan      2022-01-19   34  				 unsigned long start_pfn, u=
+nsigned long end_pfn)
+1edc0e02d51603 Zi Yan      2022-01-19   35  {
+34f568f50dcc72 Zi Yan      2022-01-19   36  	unsigned long first_pfn =3D ma=
+x(page_to_pfn(page), start_pfn);
+34f568f50dcc72 Zi Yan      2022-01-19   37  	unsigned long pfn =3D first_pf=
+n;
+34f568f50dcc72 Zi Yan      2022-01-19   38  	unsigned long last_pfn =3D min=
+(ALIGN(pfn + 1, pageblock_nr_pages), end_pfn);
+34f568f50dcc72 Zi Yan      2022-01-19   39  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3909  	void (*cmpl)(struct lpf=
-c_hba *phba, struct lpfc_iocbq *cmdiocb,
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3910  		     struct lpfc_iocbq=
- *rspiocb);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3911  =
+34f568f50dcc72 Zi Yan      2022-01-19  @40  	page =3D pfn_to_page(pfn);
+1edc0e02d51603 Zi Yan      2022-01-19   41  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3912  	ndlp =3D lpfc_findnode_=
-did(vport, FDMI_DID);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3913  	if (!ndlp || ndlp->nlp_=
-state !=3D NLP_STE_UNMAPPED_NODE)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3914  		return 0;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3915  =
+1edc0e02d51603 Zi Yan      2022-01-19   42  	if (is_migrate_cma_page(page))=
+ {
+1edc0e02d51603 Zi Yan      2022-01-19   43  		/*
+1edc0e02d51603 Zi Yan      2022-01-19   44  		 * CMA allocations (alloc_con=
+tig_range) really need to mark
+1edc0e02d51603 Zi Yan      2022-01-19   45  		 * isolate CMA pageblocks eve=
+n when they are not movable in fact
+1edc0e02d51603 Zi Yan      2022-01-19   46  		 * so consider them movable h=
+ere.
+1edc0e02d51603 Zi Yan      2022-01-19   47  		 */
+1edc0e02d51603 Zi Yan      2022-01-19   48  		if (is_migrate_cma(migratetyp=
+e))
+1edc0e02d51603 Zi Yan      2022-01-19   49  			return NULL;
+1edc0e02d51603 Zi Yan      2022-01-19   50  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3916  	cmpl =3D lpfc_cmpl_ct_c=
-md_vmid;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3917  =
+1edc0e02d51603 Zi Yan      2022-01-19   51  		return page;
+1edc0e02d51603 Zi Yan      2022-01-19   52  	}
+1edc0e02d51603 Zi Yan      2022-01-19   53  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3918  	/* fill in BDEs for com=
-mand */
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3919  	/* Allocate buffer for =
-command payload */
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3920  	mp =3D kmalloc(sizeof(*=
-mp), GFP_KERNEL);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3921  	if (!mp)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3922  		goto vmid_free_mp_exit;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3923  =
+34f568f50dcc72 Zi Yan      2022-01-19   54  	for (pfn =3D first_pfn; pfn < =
+last_pfn; pfn++) {
+34f568f50dcc72 Zi Yan      2022-01-19   55  		page =3D pfn_to_page(pfn);
+1edc0e02d51603 Zi Yan      2022-01-19   56  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3924  	mp->virt =3D lpfc_mbuf_=
-alloc(phba, 0, &mp->phys);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3925  	if (!mp->virt)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3926  		goto vmid_free_mp_virt=
-_exit;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3927  =
+1edc0e02d51603 Zi Yan      2022-01-19   57  		/*
+1edc0e02d51603 Zi Yan      2022-01-19   58  		 * Both, bootmem allocations =
+and memory holes are marked
+1edc0e02d51603 Zi Yan      2022-01-19   59  		 * PG_reserved and are unmova=
+ble. We can even have unmovable
+1edc0e02d51603 Zi Yan      2022-01-19   60  		 * allocations inside ZONE_MO=
+VABLE, for example when
+1edc0e02d51603 Zi Yan      2022-01-19   61  		 * specifying "movablecore".
+1edc0e02d51603 Zi Yan      2022-01-19   62  		 */
+1edc0e02d51603 Zi Yan      2022-01-19   63  		if (PageReserved(page))
+1edc0e02d51603 Zi Yan      2022-01-19   64  			return page;
+1edc0e02d51603 Zi Yan      2022-01-19   65  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3928  	/* Allocate buffer for =
-Buffer ptr list */
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3929  	bmp =3D kmalloc(sizeof(=
-*bmp), GFP_KERNEL);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3930  	if (!bmp)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3931  		goto vmid_free_bmp_exi=
-t;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3932  =
+1edc0e02d51603 Zi Yan      2022-01-19   66  		/*
+1edc0e02d51603 Zi Yan      2022-01-19   67  		 * If the zone is movable and=
+ we have ruled out all reserved
+1edc0e02d51603 Zi Yan      2022-01-19   68  		 * pages then it should be re=
+asonably safe to assume the rest
+1edc0e02d51603 Zi Yan      2022-01-19   69  		 * is movable.
+1edc0e02d51603 Zi Yan      2022-01-19   70  		 */
+1edc0e02d51603 Zi Yan      2022-01-19   71  		if (zone_idx(zone) =3D=3D ZON=
+E_MOVABLE)
+1edc0e02d51603 Zi Yan      2022-01-19   72  			continue;
+1edc0e02d51603 Zi Yan      2022-01-19   73  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3933  	bmp->virt =3D lpfc_mbuf=
-_alloc(phba, 0, &bmp->phys);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3934  	if (!bmp->virt)
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3935  		goto vmid_free_bmp_vir=
-t_exit;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3936  =
+1edc0e02d51603 Zi Yan      2022-01-19   74  		/*
+1edc0e02d51603 Zi Yan      2022-01-19   75  		 * Hugepages are not in LRU l=
+ists, but they're movable.
+1edc0e02d51603 Zi Yan      2022-01-19   76  		 * THPs are on the LRU, but n=
+eed to be counted as #small pages.
+1edc0e02d51603 Zi Yan      2022-01-19   77  		 * We need not scan over tail=
+ pages because we don't
+1edc0e02d51603 Zi Yan      2022-01-19   78  		 * handle each tail page indi=
+vidually in migration.
+1edc0e02d51603 Zi Yan      2022-01-19   79  		 */
+1edc0e02d51603 Zi Yan      2022-01-19   80  		if (PageHuge(page) || PageTra=
+nsCompound(page)) {
+1edc0e02d51603 Zi Yan      2022-01-19   81  			struct page *head =3D compou=
+nd_head(page);
+1edc0e02d51603 Zi Yan      2022-01-19   82  			unsigned int skip_pages;
+1edc0e02d51603 Zi Yan      2022-01-19   83  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3937  	INIT_LIST_HEAD(&mp->lis=
-t);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3938  	INIT_LIST_HEAD(&bmp->li=
-st);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3939  =
+1edc0e02d51603 Zi Yan      2022-01-19   84  			if (PageHuge(page)) {
+1edc0e02d51603 Zi Yan      2022-01-19   85  				if (!hugepage_migration_sup=
+ported(page_hstate(head)))
+1edc0e02d51603 Zi Yan      2022-01-19   86  					return page;
+1edc0e02d51603 Zi Yan      2022-01-19   87  			} else if (!PageLRU(head) &&=
+ !__PageMovable(head)) {
+1edc0e02d51603 Zi Yan      2022-01-19   88  				return page;
+1edc0e02d51603 Zi Yan      2022-01-19   89  			}
+1edc0e02d51603 Zi Yan      2022-01-19   90  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3940  	lpfc_printf_vlog(vport,=
- KERN_INFO, LOG_DISCOVERY,
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3941  			 "3275 VMID Request D=
-ata: x%x x%x x%x\n",
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3942  			 vport->fc_flag, vpor=
-t->port_state, cmdcode);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3943  	ctreq =3D (struct lpfc_=
-sli_ct_request *)mp->virt;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3944  	data =3D mp->virt;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3945  	/* First populate the C=
-T_IU preamble */
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3946  	memset(data, 0, LPFC_BP=
-L_SIZE);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3947  	ctreq->RevisionId.bits.=
-Revision =3D SLI_CT_REVISION;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3948  	ctreq->RevisionId.bits.=
-InId =3D 0;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3949  =
+1edc0e02d51603 Zi Yan      2022-01-19   91  			skip_pages =3D compound_nr(h=
+ead) - (page - head);
+34f568f50dcc72 Zi Yan      2022-01-19   92  			pfn +=3D skip_pages - 1;
+1edc0e02d51603 Zi Yan      2022-01-19   93  			continue;
+1edc0e02d51603 Zi Yan      2022-01-19   94  		}
+1edc0e02d51603 Zi Yan      2022-01-19   95  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3950  	ctreq->FsType =3D SLI_C=
-T_MANAGEMENT_SERVICE;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3951  	ctreq->FsSubType =3D SL=
-I_CT_APP_SEV_Subtypes;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3952  =
+1edc0e02d51603 Zi Yan      2022-01-19   96  		/*
+1edc0e02d51603 Zi Yan      2022-01-19   97  		 * We can't use page_count wi=
+thout pin a page
+1edc0e02d51603 Zi Yan      2022-01-19   98  		 * because another CPU can fr=
+ee compound page.
+1edc0e02d51603 Zi Yan      2022-01-19   99  		 * This check already skips c=
+ompound tails of THP
+1edc0e02d51603 Zi Yan      2022-01-19  100  		 * because their page->_refco=
+unt is zero at all time.
+1edc0e02d51603 Zi Yan      2022-01-19  101  		 */
+1edc0e02d51603 Zi Yan      2022-01-19  102  		if (!page_ref_count(page)) {
+1edc0e02d51603 Zi Yan      2022-01-19  103  			if (PageBuddy(page))
+34f568f50dcc72 Zi Yan      2022-01-19  104  				pfn +=3D (1 << buddy_order(=
+page)) - 1;
+1edc0e02d51603 Zi Yan      2022-01-19  105  			continue;
+1edc0e02d51603 Zi Yan      2022-01-19  106  		}
+1edc0e02d51603 Zi Yan      2022-01-19  107  =
 
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3953  	ctreq->CommandResponse.=
-bits.CmdRsp =3D cpu_to_be16(cmdcode);
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08  3954  	rsp_size =3D LPFC_BPL_S=
-IZE;
-742b0cf87a8f92 Gaurav Srivastava 2021-06-08 @3955  	size =3D 0;
+1edc0e02d51603 Zi Yan      2022-01-19  108  		/*
+1edc0e02d51603 Zi Yan      2022-01-19  109  		 * The HWPoisoned page may be=
+ not in buddy system, and
+1edc0e02d51603 Zi Yan      2022-01-19  110  		 * page_count() is not 0.
+1edc0e02d51603 Zi Yan      2022-01-19  111  		 */
+1edc0e02d51603 Zi Yan      2022-01-19  112  		if ((flags & MEMORY_OFFLINE) =
+&& PageHWPoison(page))
+1edc0e02d51603 Zi Yan      2022-01-19  113  			continue;
+1edc0e02d51603 Zi Yan      2022-01-19  114  =
+
+1edc0e02d51603 Zi Yan      2022-01-19  115  		/*
+1edc0e02d51603 Zi Yan      2022-01-19  116  		 * We treat all PageOffline()=
+ pages as movable when offlining
+1edc0e02d51603 Zi Yan      2022-01-19  117  		 * to give drivers a chance t=
+o decrement their reference count
+1edc0e02d51603 Zi Yan      2022-01-19  118  		 * in MEM_GOING_OFFLINE in or=
+der to indicate that these pages
+1edc0e02d51603 Zi Yan      2022-01-19  119  		 * can be offlined as there a=
+re no direct references anymore.
+1edc0e02d51603 Zi Yan      2022-01-19  120  		 * For actually unmovable Pag=
+eOffline() where the driver does
+1edc0e02d51603 Zi Yan      2022-01-19  121  		 * not support this, we will =
+fail later when trying to actually
+1edc0e02d51603 Zi Yan      2022-01-19  122  		 * move these pages that stil=
+l have a reference count > 0.
+1edc0e02d51603 Zi Yan      2022-01-19  123  		 * (false negatives in this f=
+unction only)
+1edc0e02d51603 Zi Yan      2022-01-19  124  		 */
+1edc0e02d51603 Zi Yan      2022-01-19  125  		if ((flags & MEMORY_OFFLINE) =
+&& PageOffline(page))
+1edc0e02d51603 Zi Yan      2022-01-19  126  			continue;
+1edc0e02d51603 Zi Yan      2022-01-19  127  =
+
+1edc0e02d51603 Zi Yan      2022-01-19  128  		if (__PageMovable(page) || Pa=
+geLRU(page))
+1edc0e02d51603 Zi Yan      2022-01-19  129  			continue;
+1edc0e02d51603 Zi Yan      2022-01-19  130  =
+
+1edc0e02d51603 Zi Yan      2022-01-19  131  		/*
+1edc0e02d51603 Zi Yan      2022-01-19  132  		 * If there are RECLAIMABLE p=
+ages, we need to check
+1edc0e02d51603 Zi Yan      2022-01-19  133  		 * it.  But now, memory offli=
+ne itself doesn't call
+1edc0e02d51603 Zi Yan      2022-01-19  134  		 * shrink_node_slabs() and it=
+ still to be fixed.
+1edc0e02d51603 Zi Yan      2022-01-19  135  		 */
+1edc0e02d51603 Zi Yan      2022-01-19  136  		return page;
+1edc0e02d51603 Zi Yan      2022-01-19  137  	}
+1edc0e02d51603 Zi Yan      2022-01-19  138  	return NULL;
+1edc0e02d51603 Zi Yan      2022-01-19  139  }
+1edc0e02d51603 Zi Yan      2022-01-19  140  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5843091563649345829==--
+--===============7107493666944003475==--
 
