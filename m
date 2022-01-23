@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6062804886173482664=="
+Content-Type: multipart/mixed; boundary="===============7334402391539778393=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 23 Jan 2022 08:54:57 +0800
-Message-ID: <20220123005457.GA60246@c7e3fa984dd0>
+Date: Sun, 23 Jan 2022 08:54:52 +0800
+Message-ID: <20220123005452.GA59287@c7e3fa984dd0>
 In-Reply-To: <202201230839.q0UxYYV5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6062804886173482664==
+--===============7334402391539778393==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -24,8 +24,8 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-rk808.c:441:7-32: WARNING: Threaded IRQ with no primary han=
-dler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/rtc/rtc-max8998.c:283:7-32: WARNING: Threaded IRQ with no primary h=
+andler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,20 +50,22 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-rk808.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rtc-max8998.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/rtc/rtc-rk808.c
-+++ b/drivers/rtc/rtc-rk808.c
-@@ -439,7 +439,7 @@ static int rk808_rtc_probe(struct platfo
+--- a/drivers/rtc/rtc-max8998.c
++++ b/drivers/rtc/rtc-max8998.c
+@@ -281,7 +281,8 @@ static int max8998_rtc_probe(struct plat
+ 	}
  =
 
- 	/* request alarm irq of rk808 */
- 	ret =3D devm_request_threaded_irq(&pdev->dev, rk808_rtc->irq, NULL,
--					rk808_alarm_irq, 0,
-+					rk808_alarm_irq, IRQF_ONESHOT,
- 					"RTC alarm", rk808_rtc);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to request alarm IRQ %d: %d\n",
---===============6062804886173482664==--
+ 	ret =3D devm_request_threaded_irq(&pdev->dev, info->irq, NULL,
+-				max8998_rtc_alarm_irq, 0, "rtc-alarm0", info);
++				max8998_rtc_alarm_irq, IRQF_ONESHOT,
++				"rtc-alarm0", info);
+ =
+
+ 	if (ret < 0)
+ 		dev_err(&pdev->dev, "Failed to request alarm IRQ: %d: %d\n",
+--===============7334402391539778393==--
 
