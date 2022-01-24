@@ -1,111 +1,117 @@
-Content-Type: multipart/mixed; boundary="===============8558222492555214001=="
+Content-Type: multipart/mixed; boundary="===============8647334621380115876=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/3] net-zerocopy: split zerocopy receive to several parts
-Date: Tue, 25 Jan 2022 00:44:18 +0800
-Message-ID: <202201250056.W4B9lptZ-lkp@intel.com>
+Subject: [cxl:preview 30/54] drivers/cxl/core/port.c:527 decoder_populate_targets() warn: inconsistent returns '&cxld->target_lock.lock'.
+Date: Tue, 25 Jan 2022 00:13:33 +0800
+Message-ID: <202201250055.R82EBqL1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8558222492555214001==
+--===============8647334621380115876==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220124094320.900713-2-haoxu@linux.alibaba.com>
-References: <20220124094320.900713-2-haoxu@linux.alibaba.com>
-TO: Hao Xu <haoxu@linux.alibaba.com>
-TO: netdev(a)vger.kernel.org
-TO: io-uring(a)vger.kernel.org
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Pavel Begunkov <asml.silence@gmail.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: "David S . Miller" <davem@davemloft.net>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
-CC: David Ahern <dsahern@kernel.org>
-CC: Joseph Qi <joseph.qi@linux.alibaba.com>
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dan Williams <dan.j.williams@intel.com>
 
-Hi Hao,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.17-rc1 next-20220124]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Hao-Xu/io_uring-zerocopy-r=
-eceive/20220124-174546
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-dd81e1c7d5fb126e5fbc5c9e334d7b3ec29a16a0
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: x86_64-randconfig-m001-20220124 (https://download.01.org/0day-ci/ar=
-chive/20220125/202201250056.W4B9lptZ-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
+head:   d0687472d5b56e2018b833723082c2717e96c074
+commit: a5d24e660f35f16cfe30031dcbd7356f7a002398 [30/54] cxl/core/port: Use=
+ dedicated lock for decoder target list
+:::::: branch date: 2 days ago
+:::::: commit date: 3 days ago
+config: s390-randconfig-m031-20220120 (https://download.01.org/0day-ci/arch=
+ive/20220125/202201250055.R82EBqL1-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-net/ipv4/tcp.c:3951 zc_receive_check() warn: check for integer overflow 'le=
-n'
+drivers/cxl/core/port.c:527 decoder_populate_targets() warn: inconsistent r=
+eturns '&cxld->target_lock.lock'.
 
-vim +/len +3951 net/ipv4/tcp.c
+vim +527 drivers/cxl/core/port.c
 
-1c885808e45601 Francis Yan 2016-11-27  3938  =
+7d4b5ca2e2cb5d drivers/cxl/core.c      Dan Williams 2021-06-09  497  =
 
-8ed32d9a0fe79a Hao Xu      2022-01-24  3939  int zc_receive_check(struct tc=
-p_zerocopy_receive *zc, int *lenp,
-8ed32d9a0fe79a Hao Xu      2022-01-24  3940  		     char __user *optval, in=
-t __user *optlen)
-8ed32d9a0fe79a Hao Xu      2022-01-24  3941  {
-8ed32d9a0fe79a Hao Xu      2022-01-24  3942  	int len =3D *lenp, err;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3943  =
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  498  static=
+ int decoder_populate_targets(struct cxl_decoder *cxld,
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  499  				  =
+  struct cxl_port *port, int *target_map)
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  500  {
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  501  	int r=
+c =3D 0, i;
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  502  =
 
-8ed32d9a0fe79a Hao Xu      2022-01-24  3944  	if (get_user(len, optlen))
-8ed32d9a0fe79a Hao Xu      2022-01-24  3945  		return -EFAULT;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3946  	if (len < 0 ||
-8ed32d9a0fe79a Hao Xu      2022-01-24  3947  	    len < offsetofend(struct =
-tcp_zerocopy_receive, length))
-8ed32d9a0fe79a Hao Xu      2022-01-24  3948  		return -EINVAL;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3949  	if (unlikely(len > sizeof(*zc=
-))) {
-8ed32d9a0fe79a Hao Xu      2022-01-24  3950  		err =3D check_zeroed_user(op=
-tval + sizeof(*zc),
-8ed32d9a0fe79a Hao Xu      2022-01-24 @3951  					len - sizeof(*zc));
-8ed32d9a0fe79a Hao Xu      2022-01-24  3952  		if (err < 1)
-8ed32d9a0fe79a Hao Xu      2022-01-24  3953  			return err =3D=3D 0 ? -EINV=
-AL : err;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3954  		len =3D sizeof(*zc);
-8ed32d9a0fe79a Hao Xu      2022-01-24  3955  		if (put_user(len, optlen))
-8ed32d9a0fe79a Hao Xu      2022-01-24  3956  			return -EFAULT;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3957  	}
-8ed32d9a0fe79a Hao Xu      2022-01-24  3958  	if (copy_from_user(zc, optval=
-, len))
-8ed32d9a0fe79a Hao Xu      2022-01-24  3959  		return -EFAULT;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3960  =
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  503  	if (!=
+target_map)
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  504  		retu=
+rn 0;
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  505  =
 
-8ed32d9a0fe79a Hao Xu      2022-01-24  3961  	if (zc->reserved)
-8ed32d9a0fe79a Hao Xu      2022-01-24  3962  		return -EINVAL;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3963  	if (zc->msg_flags & ~(TCP_VAL=
-ID_ZC_MSG_FLAGS))
-8ed32d9a0fe79a Hao Xu      2022-01-24  3964  		return -EINVAL;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3965  =
+42c377a63d21df drivers/cxl/core/port.c Dan Williams 2022-01-05  506  	cxl_d=
+evice_lock(&port->dev);
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  507  	if (l=
+ist_empty(&port->dports)) {
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  508  		rc =
+=3D -EINVAL;
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  509  		goto=
+ out_unlock;
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  510  	}
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  511  =
 
-8ed32d9a0fe79a Hao Xu      2022-01-24  3966  	*lenp =3D len;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3967  	return 0;
-8ed32d9a0fe79a Hao Xu      2022-01-24  3968  }
-8ed32d9a0fe79a Hao Xu      2022-01-24  3969  =
+a5d24e660f35f1 drivers/cxl/core/port.c Dan Williams 2022-01-21  512  	write=
+_seqlock(&cxld->target_lock);
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  513  	for (=
+i =3D 0; i < cxld->nr_targets; i++) {
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  514  		stru=
+ct cxl_dport *dport =3D find_dport(port, target_map[i]);
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  515  =
 
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  516  		if (=
+!dport) {
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  517  			rc =
+=3D -ENXIO;
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  518  			got=
+o out_unlock;
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  519  		}
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  520  		cxld=
+->target[i] =3D dport;
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  521  	}
+a5d24e660f35f1 drivers/cxl/core/port.c Dan Williams 2022-01-21  522  	write=
+_sequnlock(&cxld->target_lock);
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  523  =
+
+48667f676189ec drivers/cxl/core/bus.c  Dan Williams 2021-09-21  524  out_un=
+lock:
+42c377a63d21df drivers/cxl/core/port.c Dan Williams 2022-01-05  525  	cxl_d=
+evice_unlock(&port->dev);
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  526  =
+
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08 @527  	retur=
+n rc;
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  528  }
+a5c25802168993 drivers/cxl/core/bus.c  Dan Williams 2021-09-08  529  =
+
+
+:::::: The code at line 527 was first introduced by commit
+:::::: a5c25802168993c67a03a6e04142761dfb4a3bf5 cxl/bus: Populate the targe=
+t list at decoder create
+
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8558222492555214001==--
+--===============8647334621380115876==--
 
