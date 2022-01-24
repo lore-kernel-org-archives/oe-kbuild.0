@@ -1,139 +1,89 @@
-Content-Type: multipart/mixed; boundary="===============3629117677923990523=="
+Content-Type: multipart/mixed; boundary="===============2310491041951406400=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/dac/ad3552r.c:688 ad3552r_reset() warn: impossible condition '(val < 0) => (0-u16max < 0)'
-Date: Mon, 24 Jan 2022 21:08:11 +0800
-Message-ID: <202201242005.NNLuFLzZ-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [allisonhenderson-xfs-work:delayed_attrs_v26_extended 17/30] fs/xfs/libxfs/xfs_attr.c:666:46: warning: Expression '(X | 0x8) != 0x0' is always true. [comparisonError]
+Date: Mon, 24 Jan 2022 15:07:58 +0300
+Message-ID: <20220124114626.GK1978@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3629117677923990523==
+--===============2310491041951406400==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mihail Chindris <mihail.chindris@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   dd81e1c7d5fb126e5fbc5c9e334d7b3ec29a16a0
-commit: 8f2b54824b28ba8317c60947b5941d686e3df70d drivers:iio:dac: Add AD355=
-2R driver support
-date:   6 weeks ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 6 weeks ago
-config: nios2-randconfig-m031-20220124 (https://download.01.org/0day-ci/arc=
-hive/20220124/202201242005.NNLuFLzZ-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/allisonhenderson/xfs_work.git  delayed_attrs_v26=
+_extended
+head:   19459f5cfa422b0a6a9cd3898892e43ecb49f8f3
+commit: 721a69ffe0e2561371de01822bef355354eee926 [17/30] xfs: add parent po=
+inter support to attribute code
+compiler: sparc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/iio/dac/ad3552r.c:688 ad3552r_reset() warn: impossible condition '(=
-val < 0) =3D> (0-u16max < 0)'
 
-Old smatch warnings:
-drivers/iio/dac/ad3552r.c:699 ad3552r_reset() warn: impossible condition '(=
-val < 0) =3D> (0-u16max < 0)'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +688 drivers/iio/dac/ad3552r.c
+>> fs/xfs/libxfs/xfs_attr.c:666:46: warning: Expression '(X | 0x8) !=3D 0x0=
+' is always true. [comparisonError]
+    rsvd =3D ((args->attr_filter & XFS_ATTR_ROOT) | XFS_ATTR_PARENT) !=3D 0;
+                                                ^
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  654  =
+vim +666 fs/xfs/libxfs/xfs_attr.c
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  655  static int ad3552r_reset(st=
-ruct ad3552r_desc *dac)
-8f2b54824b28ba Mihail Chindris 2021-12-13  656  {
-8f2b54824b28ba Mihail Chindris 2021-12-13  657  	struct reg_addr_pool addr;
-8f2b54824b28ba Mihail Chindris 2021-12-13  658  	int ret;
-8f2b54824b28ba Mihail Chindris 2021-12-13  659  	u16 val;
-8f2b54824b28ba Mihail Chindris 2021-12-13  660  =
+c5b4ac39a4cb6a fs/xfs/xfs_attr.c        Christoph Hellwig 2014-05-13  653  =
+int
+c5b4ac39a4cb6a fs/xfs/xfs_attr.c        Christoph Hellwig 2014-05-13  654  =
+xfs_attr_set(
+a25446224353a7 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  655  =
+	struct xfs_da_args	*args)
+^1da177e4c3f41 fs/xfs/xfs_attr.c        Linus Torvalds    2005-04-16  656  {
+a25446224353a7 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  657  =
+	struct xfs_inode	*dp =3D args->dp;
+3d3c8b5222b924 fs/xfs/xfs_attr.c        Jie Liu           2013-08-12  658  =
+	struct xfs_mount	*mp =3D dp->i_mount;
+3d3c8b5222b924 fs/xfs/xfs_attr.c        Jie Liu           2013-08-12  659  =
+	struct xfs_trans_res	tres;
+721a69ffe0e256 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-08-23  660  =
+	bool			rsvd;
+4c74a56b9de76b fs/xfs/libxfs/xfs_attr.c Allison Henderson 2018-10-18  661  =
+	int			error, local;
+3a19bb147c72d2 fs/xfs/libxfs/xfs_attr.c Chandan Babu R    2021-01-22  662  =
+	int			rmt_blks =3D 0;
+0eb81a5f5c3442 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  663  =
+	unsigned int		total;
+5fad9cb9d34c53 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2022-01-18  664  =
+	int			delayed =3D xfs_has_larp(mp);
+c5b4ac39a4cb6a fs/xfs/xfs_attr.c        Christoph Hellwig 2014-05-13  665  =
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  661  	dac->gpio_reset =3D devm_g=
-piod_get_optional(&dac->spi->dev, "reset",
-8f2b54824b28ba Mihail Chindris 2021-12-13  662  						  GPIOD_OUT_LOW);
-8f2b54824b28ba Mihail Chindris 2021-12-13  663  	if (IS_ERR(dac->gpio_reset=
-))
-8f2b54824b28ba Mihail Chindris 2021-12-13  664  		return dev_err_probe(&dac=
-->spi->dev, PTR_ERR(dac->gpio_reset),
-8f2b54824b28ba Mihail Chindris 2021-12-13  665  				     "Error while getti=
-ng gpio reset");
-8f2b54824b28ba Mihail Chindris 2021-12-13  666  =
+721a69ffe0e256 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-08-23 @666  =
+	rsvd =3D ((args->attr_filter & XFS_ATTR_ROOT) | XFS_ATTR_PARENT) !=3D 0;
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  667  	if (dac->gpio_reset) {
-8f2b54824b28ba Mihail Chindris 2021-12-13  668  		/* Perform hardware reset=
- */
-8f2b54824b28ba Mihail Chindris 2021-12-13  669  		usleep_range(10, 20);
-8f2b54824b28ba Mihail Chindris 2021-12-13  670  		gpiod_set_value_cansleep(=
-dac->gpio_reset, 1);
-8f2b54824b28ba Mihail Chindris 2021-12-13  671  	} else {
-8f2b54824b28ba Mihail Chindris 2021-12-13  672  		/* Perform software reset=
- if no GPIO provided */
-8f2b54824b28ba Mihail Chindris 2021-12-13  673  		ret =3D ad3552r_update_re=
-g_field(dac,
-8f2b54824b28ba Mihail Chindris 2021-12-13  674  					       AD3552R_REG_ADD=
-R_INTERFACE_CONFIG_A,
-8f2b54824b28ba Mihail Chindris 2021-12-13  675  					       AD3552R_MASK_SO=
-FTWARE_RESET,
-8f2b54824b28ba Mihail Chindris 2021-12-13  676  					       AD3552R_MASK_SO=
-FTWARE_RESET);
-8f2b54824b28ba Mihail Chindris 2021-12-13  677  		if (ret < 0)
-8f2b54824b28ba Mihail Chindris 2021-12-13  678  			return ret;
-8f2b54824b28ba Mihail Chindris 2021-12-13  679  =
+Anything ORed with XFS_ATTR_PARENT can't be zero.  Parentheses in the
+wrong location?
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  680  	}
-8f2b54824b28ba Mihail Chindris 2021-12-13  681  =
+	rsvd =3D (args->attr_filter & (XFS_ATTR_ROOT | XFS_ATTR_PARENT)) !=3D 0;
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  682  	addr.dac =3D dac;
-8f2b54824b28ba Mihail Chindris 2021-12-13  683  	addr.addr =3D AD3552R_REG_=
-ADDR_INTERFACE_CONFIG_B;
-8f2b54824b28ba Mihail Chindris 2021-12-13  684  	ret =3D readx_poll_timeout=
-(ad3552r_read_reg_wrapper, &addr, val,
-8f2b54824b28ba Mihail Chindris 2021-12-13  685  				 val =3D=3D AD3552R_DEF=
-AULT_CONFIG_B_VALUE ||
-8f2b54824b28ba Mihail Chindris 2021-12-13  686  				 val < 0,
-8f2b54824b28ba Mihail Chindris 2021-12-13  687  				 5000, 50000);
-8f2b54824b28ba Mihail Chindris 2021-12-13 @688  	if (val < 0)
-8f2b54824b28ba Mihail Chindris 2021-12-13  689  		ret =3D val;
-8f2b54824b28ba Mihail Chindris 2021-12-13  690  	if (ret) {
-8f2b54824b28ba Mihail Chindris 2021-12-13  691  		dev_err(&dac->spi->dev, "=
-Error while resetting");
-8f2b54824b28ba Mihail Chindris 2021-12-13  692  		return ret;
-8f2b54824b28ba Mihail Chindris 2021-12-13  693  	}
-8f2b54824b28ba Mihail Chindris 2021-12-13  694  =
+721a69ffe0e256 fs/xfs/libxfs/xfs_attr.c Allison Henderson 2021-08-23  667  =
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  695  	ret =3D readx_poll_timeout=
-(ad3552r_read_reg_wrapper, &addr, val,
-8f2b54824b28ba Mihail Chindris 2021-12-13  696  				 !(val & AD3552R_MASK_I=
-NTERFACE_NOT_READY) ||
-8f2b54824b28ba Mihail Chindris 2021-12-13  697  				 val < 0,
-8f2b54824b28ba Mihail Chindris 2021-12-13  698  				 5000, 50000);
-8f2b54824b28ba Mihail Chindris 2021-12-13  699  	if (val < 0)
-8f2b54824b28ba Mihail Chindris 2021-12-13  700  		ret =3D val;
-8f2b54824b28ba Mihail Chindris 2021-12-13  701  	if (ret) {
-8f2b54824b28ba Mihail Chindris 2021-12-13  702  		dev_err(&dac->spi->dev, "=
-Error while resetting");
-8f2b54824b28ba Mihail Chindris 2021-12-13  703  		return ret;
-8f2b54824b28ba Mihail Chindris 2021-12-13  704  	}
-8f2b54824b28ba Mihail Chindris 2021-12-13  705  =
+75c8c50fa16a23 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2021-08-18  668  =
+	if (xfs_is_shutdown(dp->i_mount))
+2451337dd04390 fs/xfs/libxfs/xfs_attr.c Dave Chinner      2014-06-25  669  =
+		return -EIO;
+c5b4ac39a4cb6a fs/xfs/xfs_attr.c        Christoph Hellwig 2014-05-13  670  =
 
-8f2b54824b28ba Mihail Chindris 2021-12-13  706  	return ad3552r_update_reg_=
-field(dac,
-8f2b54824b28ba Mihail Chindris 2021-12-13  707  					addr_mask_map[AD3552R_=
-ADDR_ASCENSION][0],
-8f2b54824b28ba Mihail Chindris 2021-12-13  708  					addr_mask_map[AD3552R_=
-ADDR_ASCENSION][1],
-8f2b54824b28ba Mihail Chindris 2021-12-13  709  					val);
-8f2b54824b28ba Mihail Chindris 2021-12-13  710  }
-8f2b54824b28ba Mihail Chindris 2021-12-13  711  =
-
+0eb81a5f5c3442 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  671  =
+	error =3D xfs_qm_dqattach(dp);
+0eb81a5f5c3442 fs/xfs/libxfs/xfs_attr.c Christoph Hellwig 2020-02-26  672  =
+	if (error)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3629117677923990523==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+
+_______________________________________________
+kbuild mailing list -- kbuild(a)lists.01.org
+To unsubscribe send an email to kbuild-leave(a)lists.01.org
+--===============2310491041951406400==--
 
