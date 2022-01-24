@@ -1,212 +1,192 @@
-Content-Type: multipart/mixed; boundary="===============3331818231738334226=="
+Content-Type: multipart/mixed; boundary="===============3557031014574575694=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/vc4/vc4_kms.c:369 vc4_atomic_commit_tail() error: 'new_hvs_state' dereferencing possible ERR_PTR()
-Date: Tue, 25 Jan 2022 03:24:07 +0800
-Message-ID: <202201250306.F7iqo5yp-lkp@intel.com>
+Subject: arch/x86/kernel/fpu/xstate.c:1580 fpstate_realloc() warn: variable dereferenced before check 'curfps' (see line 1559)
+Date: Tue, 25 Jan 2022 03:23:58 +0800
+Message-ID: <202201250223.SYDiQopU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3331818231738334226==
+--===============3557031014574575694==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+CC: Jing Liu <jing2.liu@intel.com>
+CC: Yang Zhong <yang.zhong@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   dd81e1c7d5fb126e5fbc5c9e334d7b3ec29a16a0
-commit: 99b03ca651f1c409d296d6c6e9440d9b005c722f Merge v5.16-rc5 into drm-n=
-ext
-date:   6 weeks ago
+commit: c270ce393dfd700e7510a4579568deeefba954fd x86/fpu: Add guest support=
+ to xfd_enable_feature()
+date:   10 days ago
 :::::: branch date: 27 hours ago
-:::::: commit date: 6 weeks ago
-config: powerpc64-randconfig-m031-20220120 (https://download.01.org/0day-ci=
-/archive/20220125/202201250306.F7iqo5yp-lkp(a)intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.2.0
+:::::: commit date: 10 days ago
+config: x86_64-randconfig-m001-20220124 (https://download.01.org/0day-ci/ar=
+chive/20220125/202201250223.SYDiQopU-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/vc4/vc4_kms.c:369 vc4_atomic_commit_tail() error: 'new_hvs_=
-state' dereferencing possible ERR_PTR()
-drivers/gpu/drm/vc4/vc4_kms.c:380 vc4_atomic_commit_tail() error: 'old_hvs_=
-state' dereferencing possible ERR_PTR()
+arch/x86/kernel/fpu/xstate.c:1580 fpstate_realloc() warn: variable derefere=
+nced before check 'curfps' (see line 1559)
 
 Old smatch warnings:
-drivers/gpu/drm/vc4/vc4_kms.c:433 vc4_atomic_commit_setup() warn: passing z=
-ero to 'PTR_ERR'
-drivers/gpu/drm/vc4/vc4_kms.c:444 vc4_atomic_commit_setup() error: 'hvs_sta=
-te' dereferencing possible ERR_PTR()
+arch/x86/kernel/fpu/xstate.c:375 os_xrstor_booting() warn: mask and shift t=
+o zero
 
-vim +/new_hvs_state +369 drivers/gpu/drm/vc4/vc4_kms.c
+vim +/curfps +1580 arch/x86/kernel/fpu/xstate.c
 
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  337  =
+500afbf645a040 Chang S. Bae    2021-10-21  1501  =
 
-f3c420fe19f8cc Maxime Ripard   2020-12-04  338  static void vc4_atomic_comm=
-it_tail(struct drm_atomic_state *state)
-b501bacc6060fd Eric Anholt     2015-11-30  339  {
-b501bacc6060fd Eric Anholt     2015-11-30  340  	struct drm_device *dev =3D=
- state->dev;
-b501bacc6060fd Eric Anholt     2015-11-30  341  	struct vc4_dev *vc4 =3D to=
-_vc4_dev(dev);
-d7d96c00e585ce Maxime Ripard   2020-09-03  342  	struct vc4_hvs *hvs =3D vc=
-4->hvs;
-596356678fb429 Maxime Ripard   2020-09-03  343  	struct drm_crtc_state *new=
-_crtc_state;
-16e101051f329f Maxime Ripard   2021-10-25  344  	struct vc4_hvs_state *new_=
-hvs_state;
-596356678fb429 Maxime Ripard   2020-09-03  345  	struct drm_crtc *crtc;
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  346  	struct vc4_hvs_state *old_=
-hvs_state;
-6052a3110be208 Maxime Ripard   2021-11-17  347  	unsigned int channel;
-531a1b622da9ad Boris Brezillon 2019-02-20  348  	int i;
-531a1b622da9ad Boris Brezillon 2019-02-20  349  =
+500afbf645a040 Chang S. Bae    2021-10-21  1502  /**
+500afbf645a040 Chang S. Bae    2021-10-21  1503   * fpstate_realloc - Reall=
+ocate struct fpstate for the requested new features
+500afbf645a040 Chang S. Bae    2021-10-21  1504   *
+500afbf645a040 Chang S. Bae    2021-10-21  1505   * @xfeatures:	A bitmap of=
+ xstate features which extend the enabled features
+500afbf645a040 Chang S. Bae    2021-10-21  1506   *		of that task
+500afbf645a040 Chang S. Bae    2021-10-21  1507   * @ksize:	The required si=
+ze for the kernel buffer
+500afbf645a040 Chang S. Bae    2021-10-21  1508   * @usize:	The required si=
+ze for user space buffers
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1509   * @guest_fpu:	Pointer to =
+a guest FPU container. NULL for host allocations
+500afbf645a040 Chang S. Bae    2021-10-21  1510   *
+500afbf645a040 Chang S. Bae    2021-10-21  1511   * Note vs. vmalloc(): If =
+the task with a vzalloc()-allocated buffer
+500afbf645a040 Chang S. Bae    2021-10-21  1512   * terminates quickly, vfr=
+ee()-induced IPIs may be a concern, but tasks
+500afbf645a040 Chang S. Bae    2021-10-21  1513   * with large states are l=
+ikely to live longer.
+500afbf645a040 Chang S. Bae    2021-10-21  1514   *
+500afbf645a040 Chang S. Bae    2021-10-21  1515   * Returns: 0 on success, =
+-ENOMEM on allocation error.
+500afbf645a040 Chang S. Bae    2021-10-21  1516   */
+500afbf645a040 Chang S. Bae    2021-10-21  1517  static int fpstate_realloc=
+(u64 xfeatures, unsigned int ksize,
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1518  			   unsigned int usize, =
+struct fpu_guest *guest_fpu)
+500afbf645a040 Chang S. Bae    2021-10-21  1519  {
+500afbf645a040 Chang S. Bae    2021-10-21  1520  	struct fpu *fpu =3D &curr=
+ent->thread.fpu;
+500afbf645a040 Chang S. Bae    2021-10-21  1521  	struct fpstate *curfps, *=
+newfps =3D NULL;
+500afbf645a040 Chang S. Bae    2021-10-21  1522  	unsigned int fpsize;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1523  	bool in_use;
+500afbf645a040 Chang S. Bae    2021-10-21  1524  =
 
-16e101051f329f Maxime Ripard   2021-10-25  350  	old_hvs_state =3D vc4_hvs_=
-get_old_global_state(state);
-99b03ca651f1c4 Daniel Vetter   2021-12-14  351  	if (WARN_ON(IS_ERR(old_hvs=
-_state)))
-16e101051f329f Maxime Ripard   2021-10-25  352  		return;
-16e101051f329f Maxime Ripard   2021-10-25  353  =
+500afbf645a040 Chang S. Bae    2021-10-21  1525  	fpsize =3D ksize + ALIGN(=
+offsetof(struct fpstate, regs), 64);
+500afbf645a040 Chang S. Bae    2021-10-21  1526  =
 
-16e101051f329f Maxime Ripard   2021-10-25  354  	new_hvs_state =3D vc4_hvs_=
-get_new_global_state(state);
-99b03ca651f1c4 Daniel Vetter   2021-12-14  355  	if (WARN_ON(IS_ERR(new_hvs=
-_state)))
-16e101051f329f Maxime Ripard   2021-10-25  356  		return;
-16e101051f329f Maxime Ripard   2021-10-25  357  =
+500afbf645a040 Chang S. Bae    2021-10-21  1527  	newfps =3D vzalloc(fpsize=
+);
+500afbf645a040 Chang S. Bae    2021-10-21  1528  	if (!newfps)
+500afbf645a040 Chang S. Bae    2021-10-21  1529  		return -ENOMEM;
+500afbf645a040 Chang S. Bae    2021-10-21  1530  	newfps->size =3D ksize;
+500afbf645a040 Chang S. Bae    2021-10-21  1531  	newfps->user_size =3D usi=
+ze;
+500afbf645a040 Chang S. Bae    2021-10-21  1532  	newfps->is_valloc =3D tru=
+e;
+500afbf645a040 Chang S. Bae    2021-10-21  1533  =
 
-596356678fb429 Maxime Ripard   2020-09-03  358  	for_each_new_crtc_in_state=
-(state, crtc, new_crtc_state, i) {
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  359  		struct vc4_crtc_state *vc=
-4_crtc_state;
-596356678fb429 Maxime Ripard   2020-09-03  360  =
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1534  	/*
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1535  	 * When a guest FPU is su=
+pplied, use @guest_fpu->fpstate
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1536  	 * as reference independe=
+nt whether it is in use or not.
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1537  	 */
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1538  	curfps =3D guest_fpu ? gu=
+est_fpu->fpstate : fpu->fpstate;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1539  =
 
-596356678fb429 Maxime Ripard   2020-09-03  361  		if (!new_crtc_state->comm=
-it)
-531a1b622da9ad Boris Brezillon 2019-02-20  362  			continue;
-531a1b622da9ad Boris Brezillon 2019-02-20  363  =
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1540  	/* Determine whether @cur=
+fps is the active fpstate */
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1541  	in_use =3D fpu->fpstate =
+=3D=3D curfps;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1542  =
 
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  364  		vc4_crtc_state =3D to_vc4=
-_crtc_state(new_crtc_state);
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  365  		vc4_hvs_mask_underrun(dev=
-, vc4_crtc_state->assigned_channel);
-531a1b622da9ad Boris Brezillon 2019-02-20  366  	}
-b501bacc6060fd Eric Anholt     2015-11-30  367  =
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1543  	if (guest_fpu) {
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1544  		newfps->is_guest =3D tru=
+e;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1545  		newfps->is_confidential =
+=3D curfps->is_confidential;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1546  		newfps->in_use =3D curfp=
+s->in_use;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1547  		guest_fpu->xfeatures |=
+=3D xfeatures;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1548  	}
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1549  =
 
-16e101051f329f Maxime Ripard   2021-10-25  368  	if (vc4->hvs->hvs5) {
-16e101051f329f Maxime Ripard   2021-10-25 @369  		unsigned long core_rate =
-=3D max_t(unsigned long,
-16e101051f329f Maxime Ripard   2021-10-25  370  						500000000,
-16e101051f329f Maxime Ripard   2021-10-25  371  						new_hvs_state->core_c=
-lock_rate);
-d7d96c00e585ce Maxime Ripard   2020-09-03  372  =
+500afbf645a040 Chang S. Bae    2021-10-21  1550  	fpregs_lock();
+500afbf645a040 Chang S. Bae    2021-10-21  1551  	/*
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1552  	 * If @curfps is in use, =
+ensure that the current state is in the
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1553  	 * registers before swapp=
+ing fpstate as that might invalidate it
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1554  	 * due to layout changes.
+500afbf645a040 Chang S. Bae    2021-10-21  1555  	 */
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1556  	if (in_use && test_thread=
+_flag(TIF_NEED_FPU_LOAD))
+500afbf645a040 Chang S. Bae    2021-10-21  1557  		fpregs_restore_userregs(=
+);
+500afbf645a040 Chang S. Bae    2021-10-21  1558  =
 
-16e101051f329f Maxime Ripard   2021-10-25  373  		clk_set_min_rate(hvs->cor=
-e_clk, core_rate);
-16e101051f329f Maxime Ripard   2021-10-25  374  	}
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  375  =
+500afbf645a040 Chang S. Bae    2021-10-21 @1559  	newfps->xfeatures =3D cur=
+fps->xfeatures | xfeatures;
+500afbf645a040 Chang S. Bae    2021-10-21  1560  	newfps->user_xfeatures =
+=3D curfps->user_xfeatures | xfeatures;
+500afbf645a040 Chang S. Bae    2021-10-21  1561  	newfps->xfd =3D curfps->x=
+fd & ~xfeatures;
+500afbf645a040 Chang S. Bae    2021-10-21  1562  =
 
-6052a3110be208 Maxime Ripard   2021-11-17  376  	for (channel =3D 0; channe=
-l < HVS_NUM_CHANNELS; channel++) {
-049cfff8d53a30 Maxime Ripard   2021-11-17  377  		struct drm_crtc_commit *c=
-ommit;
-b99c2c95412c0b Maxime Ripard   2021-01-11  378  		int ret;
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  379  =
+500afbf645a040 Chang S. Bae    2021-10-21  1563  	/* Do the final updates w=
+ithin the locked region */
+500afbf645a040 Chang S. Bae    2021-10-21  1564  	xstate_init_xcomp_bv(&new=
+fps->regs.xsave, newfps->xfeatures);
+500afbf645a040 Chang S. Bae    2021-10-21  1565  =
 
-9ec03d7f1ed394 Maxime Ripard   2020-12-04 @380  		if (!old_hvs_state->fifo_=
-state[channel].in_use)
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  381  			continue;
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  382  =
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1566  	if (guest_fpu) {
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1567  		guest_fpu->fpstate =3D n=
+ewfps;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1568  		/* If curfps is active, =
+update the FPU fpstate pointer */
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1569  		if (in_use)
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1570  			fpu->fpstate =3D newfps;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1571  	} else {
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1572  		fpu->fpstate =3D newfps;
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1573  	}
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1574  =
 
-049cfff8d53a30 Maxime Ripard   2021-11-17  383  		commit =3D old_hvs_state-=
->fifo_state[channel].pending_commit;
-049cfff8d53a30 Maxime Ripard   2021-11-17  384  		if (!commit)
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  385  			continue;
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  386  =
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1575  	if (in_use)
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1576  		xfd_update_state(fpu->fp=
+state);
+500afbf645a040 Chang S. Bae    2021-10-21  1577  	fpregs_unlock();
+500afbf645a040 Chang S. Bae    2021-10-21  1578  =
 
-049cfff8d53a30 Maxime Ripard   2021-11-17  387  		ret =3D drm_crtc_commit_w=
-ait(commit);
-b99c2c95412c0b Maxime Ripard   2021-01-11  388  		if (ret)
-b99c2c95412c0b Maxime Ripard   2021-01-11  389  			drm_err(dev, "Timed out =
-waiting for commit\n");
-049cfff8d53a30 Maxime Ripard   2021-11-17  390  =
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1579  	/* Only free valloc'ed st=
+ate */
+c270ce393dfd70 Thomas Gleixner 2022-01-05 @1580  	if (curfps && curfps->is_=
+valloc)
+500afbf645a040 Chang S. Bae    2021-10-21  1581  		vfree(curfps);
+c270ce393dfd70 Thomas Gleixner 2022-01-05  1582  =
 
-049cfff8d53a30 Maxime Ripard   2021-11-17  391  		drm_crtc_commit_put(commi=
-t);
-d134c5ff71c7f2 Maxime Ripard   2021-11-17  392  		old_hvs_state->fifo_state=
-[channel].pending_commit =3D NULL;
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  393  	}
-9ec03d7f1ed394 Maxime Ripard   2020-12-04  394  =
+500afbf645a040 Chang S. Bae    2021-10-21  1583  	return 0;
+500afbf645a040 Chang S. Bae    2021-10-21  1584  }
+500afbf645a040 Chang S. Bae    2021-10-21  1585  =
 
-b501bacc6060fd Eric Anholt     2015-11-30  395  	drm_atomic_helper_commit_m=
-odeset_disables(dev, state);
-b501bacc6060fd Eric Anholt     2015-11-30  396  =
-
-766cc6b1f7fc9e Stefan Schake   2018-04-20  397  	vc4_ctm_commit(vc4, state);
-766cc6b1f7fc9e Stefan Schake   2018-04-20  398  =
-
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  399  	if (vc4->hvs->hvs5)
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  400  		vc5_hvs_pv_muxing_commit(=
-vc4, state);
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  401  	else
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  402  		vc4_hvs_pv_muxing_commit(=
-vc4, state);
-87ebcd42fb7b8d Maxime Ripard   2020-09-03  403  =
-
-2b58e98d42af85 Liu Ying        2016-08-29  404  	drm_atomic_helper_commit_p=
-lanes(dev, state, 0);
-b501bacc6060fd Eric Anholt     2015-11-30  405  =
-
-b501bacc6060fd Eric Anholt     2015-11-30  406  	drm_atomic_helper_commit_m=
-odeset_enables(dev, state);
-b501bacc6060fd Eric Anholt     2015-11-30  407  =
-
-1ebe99a75eeda1 Boris Brezillon 2018-07-03  408  	drm_atomic_helper_fake_vbl=
-ank(state);
-1ebe99a75eeda1 Boris Brezillon 2018-07-03  409  =
-
-34c8ea400ff638 Boris Brezillon 2017-06-02  410  	drm_atomic_helper_commit_h=
-w_done(state);
-34c8ea400ff638 Boris Brezillon 2017-06-02  411  =
-
-184d3cf4f73896 Boris Brezillon 2018-07-03  412  	drm_atomic_helper_wait_for=
-_flip_done(dev, state);
-b501bacc6060fd Eric Anholt     2015-11-30  413  =
-
-b501bacc6060fd Eric Anholt     2015-11-30  414  	drm_atomic_helper_cleanup_=
-planes(dev, state);
-b501bacc6060fd Eric Anholt     2015-11-30  415  =
-
-16e101051f329f Maxime Ripard   2021-10-25  416  	if (vc4->hvs->hvs5) {
-16e101051f329f Maxime Ripard   2021-10-25  417  		drm_dbg(dev, "Running the=
- core clock at %lu Hz\n",
-16e101051f329f Maxime Ripard   2021-10-25  418  			new_hvs_state->core_cloc=
-k_rate);
-16e101051f329f Maxime Ripard   2021-10-25  419  =
-
-16e101051f329f Maxime Ripard   2021-10-25  420  		clk_set_min_rate(hvs->cor=
-e_clk, new_hvs_state->core_clock_rate);
-16e101051f329f Maxime Ripard   2021-10-25  421  	}
-b501bacc6060fd Eric Anholt     2015-11-30  422  }
-b501bacc6060fd Eric Anholt     2015-11-30  423  =
-
-
-:::::: The code at line 369 was first introduced by commit
-:::::: 16e101051f329f5f3f2dd810f3687d166580aa3a drm/vc4: Increase the core =
-clock based on HVS load
-
-:::::: TO: Maxime Ripard <maxime@cerno.tech>
-:::::: CC: Maxime Ripard <maxime@cerno.tech>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3331818231738334226==--
+--===============3557031014574575694==--
 
