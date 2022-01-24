@@ -1,425 +1,190 @@
-Content-Type: multipart/mixed; boundary="===============1058520159992852233=="
+Content-Type: multipart/mixed; boundary="===============4599150423974637549=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 08/12] HID: core: for input reports, process the usages by priority list
-Date: Fri, 28 Jan 2022 21:52:41 +0800
-Message-ID: <202201282135.fedFj5tc-lkp@intel.com>
+Subject: Re: [PATCH] RDMA/rtrs: Fix double free in alloc_clt
+Date: Mon, 24 Jan 2022 21:08:17 +0800
+Message-ID: <202201242029.Oiu4ZZAL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1058520159992852233==
+--===============4599150423974637549==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220126161832.3193805-9-benjamin.tissoires@redhat.com>
-References: <20220126161832.3193805-9-benjamin.tissoires@redhat.com>
-TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-TO: Jiri Kosina <jikos@kernel.org>
-TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-TO: Jonathan Corbet <corbet@lwn.net>
-TO: "Ahelenia Ziemia=C5=84ska" <nabijaczleweli@nabijaczleweli.xyz>
-TO: Ping Cheng <pinglinux@gmail.com>
-TO: Aaron Armstrong Skomra <skomra@gmail.com>
-TO: Jason Gerecke <killertofu@gmail.com>
-TO: Peter Hutterer <peter.hutterer@who-t.net>
-CC: linux-input(a)vger.kernel.org
-CC: linux-doc(a)vger.kernel.org
+In-Reply-To: <20220120103714.32108-1-linmq006@gmail.com>
+References: <20220120103714.32108-1-linmq006@gmail.com>
+TO: Miaoqian Lin <linmq006@gmail.com>
 
-Hi Benjamin,
+Hi Miaoqian,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on v5.17-rc1 next-20220127]
-[cannot apply to jikos-hid/for-next]
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on v5.17-rc1 next-20220124]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Benjamin-Tissoires/HID-fix=
--for-generic-input-processing/20220127-002107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: riscv-randconfig-c006-20220124 (https://download.01.org/0day-ci/arc=
-hive/20220128/202201282135.fedFj5tc-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2a1b7a=
-a016c0f4b5598806205bdfbab1ea2d92c4)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/5f297c23cba491924689834a0=
-1ef511263c9e547
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Benjamin-Tissoires/HID-fix-for-gen=
-eric-input-processing/20220127-002107
-        git checkout 5f297c23cba491924689834a01ef511263c9e547
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+url:    https://github.com/0day-ci/linux/commits/Miaoqian-Lin/RDMA-rtrs-Fix=
+-double-free-in-alloc_clt/20220120-183823
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-n=
+ext
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: x86_64-randconfig-m001-20220124 (https://download.01.org/0day-ci/ar=
+chive/20220124/202201242029.Oiu4ZZAL-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/infiniband/ulp/rtrs/rtrs-clt.c:2767 alloc_clt() error: dereferencin=
+g freed memory 'clt'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:2353:2: note: Taking false branch
-           if (hdev->ll_driver->request)
-           ^
-   drivers/hid/hid-core.c:2356:2: note: Calling '__hid_request'
-           __hid_request(hdev, report, reqtype);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1931:6: note: Assuming 'buf' is non-null
-           if (!buf)
-               ^~~~
-   drivers/hid/hid-core.c:1931:2: note: Taking false branch
-           if (!buf)
-           ^
-   drivers/hid/hid-core.c:1936:6: note: Assuming 'reqtype' is equal to HID_=
-REQ_SET_REPORT
-           if (reqtype =3D=3D HID_REQ_SET_REPORT)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1936:2: note: Taking true branch
-           if (reqtype =3D=3D HID_REQ_SET_REPORT)
-           ^
-   drivers/hid/hid-core.c:1937:3: note: Calling 'hid_output_report'
-                   hid_output_report(report, buf);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1844:14: note: Field 'id' is <=3D 0
-           if (report->id > 0)
-                       ^
-   drivers/hid/hid-core.c:1844:2: note: Taking false branch
-           if (report->id > 0)
-           ^
-   drivers/hid/hid-core.c:1848:14: note: Assuming 'n' is < field 'maxfield'
-           for (n =3D 0; n < report->maxfield; n++)
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1848:2: note: Loop condition is true.  Entering l=
-oop body
-           for (n =3D 0; n < report->maxfield; n++)
-           ^
-   drivers/hid/hid-core.c:1849:3: note: Calling 'hid_output_field'
-                   hid_output_field(report->device, report->field[n], data);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1811:2: note: 'size' initialized here
-           unsigned size =3D field->report_size;
-           ^~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1814:14: note: Assuming 'n' is < 'count'
-           for (n =3D 0; n < count; n++) {
-                       ^~~~~~~~~
-   drivers/hid/hid-core.c:1814:2: note: Loop condition is true.  Entering l=
-oop body
-           for (n =3D 0; n < count; n++) {
-           ^
-   drivers/hid/hid-core.c:1815:7: note: Assuming field 'logical_minimum' is=
- < 0
-                   if (field->logical_minimum < 0) /* signed values */
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1815:3: note: Taking true branch
-                   if (field->logical_minimum < 0) /* signed values */
-                   ^
-   drivers/hid/hid-core.c:1816:4: note: Calling 'implement'
-                           implement(hid, data, offset + n * size, size,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1426:15: note: Assuming 'n' is <=3D 32
-           if (unlikely(n > 32)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/hid/hid-core.c:1426:2: note: Taking false branch
-           if (unlikely(n > 32)) {
-           ^
-   drivers/hid/hid-core.c:1430:13: note: Assuming 'n' is >=3D 32
-           } else if (n < 32) {
-                      ^~~~~~
-   drivers/hid/hid-core.c:1430:9: note: Taking false branch
-           } else if (n < 32) {
-                  ^
-   drivers/hid/hid-core.c:1816:4: note: Returning from 'implement'
-                           implement(hid, data, offset + n * size, size,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1814:14: note: Assuming 'n' is < 'count'
-           for (n =3D 0; n < count; n++) {
-                       ^~~~~~~~~
-   drivers/hid/hid-core.c:1814:2: note: Loop condition is true.  Entering l=
-oop body
-           for (n =3D 0; n < count; n++) {
-           ^
-   drivers/hid/hid-core.c:1815:14: note: Field 'logical_minimum' is < 0
-                   if (field->logical_minimum < 0) /* signed values */
-                              ^
-   drivers/hid/hid-core.c:1815:3: note: Taking true branch
-                   if (field->logical_minimum < 0) /* signed values */
-                   ^
-   drivers/hid/hid-core.c:1817:31: note: Passing the value 32 via 2nd param=
-eter 'n'
-                                     s32ton(field->value[n], size));
-                                                             ^~~~
-   drivers/hid/hid-core.c:1817:7: note: Calling 's32ton'
-                                     s32ton(field->value[n], size));
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1339:6: note: Assuming 'a' is 0
-           if (a && a !=3D -1)
-               ^
-   drivers/hid/hid-core.c:1339:8: note: Left side of '&&' is false
-           if (a && a !=3D -1)
-                 ^
-   drivers/hid/hid-core.c:1341:21: note: The result of the left shift is un=
-defined due to shifting by '32', which is greater or equal to the width of =
-type 'int'
-           return value & ((1 << n) - 1);
-                              ^  ~
->> drivers/hid/hid-core.c:1665:30: warning: Although the value stored to 'f=
-ield' is used in the enclosing expression, the value is never actually read=
- from 'field' [clang-analyzer-deadcode.DeadStores]
-                   hid_input_fetch_field(hid, field =3D report->field[a], d=
-ata);
-                                              ^       ~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1665:30: note: Although the value stored to 'fiel=
-d' is used in the enclosing expression, the value is never actually read fr=
-om 'field'
-                   hid_input_fetch_field(hid, field =3D report->field[a], d=
-ata);
-                                              ^       ~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:2198:3: warning: Value stored to 'len' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:2198:3: note: Value stored to 'len' is never read
-                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   drivers/iio/humidity/hts221_core.c:183:13: warning: The result of the le=
-ft shift is undefined due to shifting '2' by '31', which is unrepresentable=
- in the unsigned version of the return type 'int' [clang-analyzer-core.Unde=
-finedBinaryOperatorResult]
-           data =3D ((i << __ffs(avg->mask)) & avg->mask);
-                      ^
-   drivers/iio/humidity/hts221_core.c:486:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/iio/humidity/hts221_core.c:486:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/iio/humidity/hts221_core.c:489:2: note: Control jumps to 'case I=
-IO_CHAN_INFO_OVERSAMPLING_RATIO:'  at line 493
-           switch (mask) {
-           ^
-   drivers/iio/humidity/hts221_core.c:494:3: note: Control jumps to 'case I=
-IO_TEMP:'  at line 498
-                   switch (chan->type) {
-                   ^
-   drivers/iio/humidity/hts221_core.c:499:10: note: Calling 'hts221_update_=
-avg'
-                           ret =3D hts221_update_avg(hw, HTS221_SENSOR_T, v=
-al);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/humidity/hts221_core.c:176:2: note: Loop condition is true. =
- Entering loop body
-           for (i =3D 0; i < HTS221_AVG_DEPTH; i++)
-           ^
-   drivers/iio/humidity/hts221_core.c:177:7: note: Assuming the condition i=
-s false
-                   if (avg->avg_avl[i] =3D=3D val)
+vim +/clt +2767 drivers/infiniband/ulp/rtrs/rtrs-clt.c
 
-vim +1665 drivers/hid/hid-core.c
+6a98d71daea186 Jack Wang        2020-05-11  2687  =
 
-dde5845a529ff7 Jiri Kosina        2006-12-08  1648  =
+f3433d79cd50d3 Vaishali Thakkar 2022-01-05  2688  static struct rtrs_clt_se=
+ss *alloc_clt(const char *sessname, size_t paths_num,
+6a98d71daea186 Jack Wang        2020-05-11  2689  				  u16 port, size_t pd=
+u_sz, void *priv,
+6a98d71daea186 Jack Wang        2020-05-11  2690  				  void	(*link_ev)(voi=
+d *priv,
+6a98d71daea186 Jack Wang        2020-05-11  2691  						   enum rtrs_clt_li=
+nk_ev ev),
+6a98d71daea186 Jack Wang        2020-05-11  2692  				  unsigned int reconn=
+ect_delay_sec,
+6a98d71daea186 Jack Wang        2020-05-11  2693  				  unsigned int max_re=
+connect_attempts)
+6a98d71daea186 Jack Wang        2020-05-11  2694  {
+f3433d79cd50d3 Vaishali Thakkar 2022-01-05  2695  	struct rtrs_clt_sess *cl=
+t;
+6a98d71daea186 Jack Wang        2020-05-11  2696  	int err;
+6a98d71daea186 Jack Wang        2020-05-11  2697  =
 
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1649  /*
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1650   * Analyse a received r=
-eport, and fetch the data from it. The field
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1651   * content is stored fo=
-r next report processing (we do differential
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1652   * reporting to the lay=
-er).
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1653   */
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1654  static void hid_process=
-_report(struct hid_device *hid,
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1655  			       struct hid_re=
-port *report,
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1656  			       __u8 *data,
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1657  			       int interrupt)
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1658  {
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1659  	unsigned int a;
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1660  	struct hid_field_entry=
- *entry;
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1661  	struct hid_field *fiel=
-d;
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1662  =
+6a98d71daea186 Jack Wang        2020-05-11  2698  	if (!paths_num || paths_=
+num > MAX_PATHS_NUM)
+6a98d71daea186 Jack Wang        2020-05-11  2699  		return ERR_PTR(-EINVAL);
+6a98d71daea186 Jack Wang        2020-05-11  2700  =
 
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1663  	/* first retrieve all =
-incoming values in data */
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1664  	for (a =3D 0; a < repo=
-rt->maxfield; a++)
-5f297c23cba491 Benjamin Tissoires 2022-01-26 @1665  		hid_input_fetch_field=
-(hid, field =3D report->field[a], data);
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1666  =
+6a98d71daea186 Jack Wang        2020-05-11  2701  	if (strlen(sessname) >=
+=3D sizeof(clt->sessname))
+6a98d71daea186 Jack Wang        2020-05-11  2702  		return ERR_PTR(-EINVAL);
+6a98d71daea186 Jack Wang        2020-05-11  2703  =
 
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1667  	if (!list_empty(&repor=
-t->field_entry_list)) {
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1668  		/* INPUT_REPORT, we h=
-ave a priority list of fields */
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1669  		list_for_each_entry(e=
-ntry,
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1670  				    &report->field_=
-entry_list,
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1671  				    list) {
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1672  			field =3D entry->fie=
-ld;
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1673  =
+6a98d71daea186 Jack Wang        2020-05-11  2704  	clt =3D kzalloc(sizeof(*=
+clt), GFP_KERNEL);
+6a98d71daea186 Jack Wang        2020-05-11  2705  	if (!clt)
+6a98d71daea186 Jack Wang        2020-05-11  2706  		return ERR_PTR(-ENOMEM);
+6a98d71daea186 Jack Wang        2020-05-11  2707  =
 
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1674  			if (field->flags & H=
-ID_MAIN_ITEM_VARIABLE)
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1675  				hid_process_event(h=
-id,
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1676  						  field,
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1677  						  &field->usage[e=
-ntry->index],
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1678  						  field->new_valu=
-e[entry->index],
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1679  						  interrupt);
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1680  			else
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1681  				hid_input_array_fie=
-ld(hid, field, interrupt);
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1682  		}
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1683  =
+6a98d71daea186 Jack Wang        2020-05-11  2708  	clt->pcpu_path =3D alloc=
+_percpu(typeof(*clt->pcpu_path));
+6a98d71daea186 Jack Wang        2020-05-11  2709  	if (!clt->pcpu_path) {
+6a98d71daea186 Jack Wang        2020-05-11  2710  		kfree(clt);
+6a98d71daea186 Jack Wang        2020-05-11  2711  		return ERR_PTR(-ENOMEM);
+6a98d71daea186 Jack Wang        2020-05-11  2712  	}
+6a98d71daea186 Jack Wang        2020-05-11  2713  =
 
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1684  		/* we need to do the =
-memcpy at the end for var items */
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1685  		for (a =3D 0; a < rep=
-ort->maxfield; a++) {
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1686  			field =3D report->fi=
-eld[a];
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1687  =
+6a98d71daea186 Jack Wang        2020-05-11  2714  	uuid_gen(&clt->paths_uui=
+d);
+6a98d71daea186 Jack Wang        2020-05-11  2715  	INIT_LIST_HEAD_RCU(&clt-=
+>paths_list);
+6a98d71daea186 Jack Wang        2020-05-11  2716  	clt->paths_num =3D paths=
+_num;
+6a98d71daea186 Jack Wang        2020-05-11  2717  	clt->paths_up =3D MAX_PA=
+THS_NUM;
+6a98d71daea186 Jack Wang        2020-05-11  2718  	clt->port =3D port;
+6a98d71daea186 Jack Wang        2020-05-11  2719  	clt->pdu_sz =3D pdu_sz;
+6fc45596506b7a Jack Wang        2021-06-21  2720  	clt->max_segments =3D RT=
+RS_MAX_SEGMENTS;
+6a98d71daea186 Jack Wang        2020-05-11  2721  	clt->reconnect_delay_sec=
+ =3D reconnect_delay_sec;
+6a98d71daea186 Jack Wang        2020-05-11  2722  	clt->max_reconnect_attem=
+pts =3D max_reconnect_attempts;
+6a98d71daea186 Jack Wang        2020-05-11  2723  	clt->priv =3D priv;
+6a98d71daea186 Jack Wang        2020-05-11  2724  	clt->link_ev =3D link_ev;
+6a98d71daea186 Jack Wang        2020-05-11  2725  	clt->mp_policy =3D MP_PO=
+LICY_MIN_INFLIGHT;
+2d612f0d3d4b4c Dima Stepanov    2021-05-28  2726  	strscpy(clt->sessname, s=
+essname, sizeof(clt->sessname));
+6a98d71daea186 Jack Wang        2020-05-11  2727  	init_waitqueue_head(&clt=
+->permits_wait);
+6a98d71daea186 Jack Wang        2020-05-11  2728  	mutex_init(&clt->paths_e=
+v_mutex);
+6a98d71daea186 Jack Wang        2020-05-11  2729  	mutex_init(&clt->paths_m=
+utex);
+6a98d71daea186 Jack Wang        2020-05-11  2730  =
 
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1688  			if (field->flags & H=
-ID_MAIN_ITEM_VARIABLE)
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1689  				memcpy(field->value=
-, field->new_value,
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1690  				       field->repor=
-t_count * sizeof(__s32));
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1691  		}
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1692  	} else {
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1693  		/* FEATURE_REPORT, re=
-gular processing */
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1694  		for (a =3D 0; a < rep=
-ort->maxfield; a++) {
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1695  			field =3D report->fi=
-eld[a];
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1696  =
+6a98d71daea186 Jack Wang        2020-05-11  2731  	clt->dev.class =3D rtrs_=
+clt_dev_class;
+6a98d71daea186 Jack Wang        2020-05-11  2732  	clt->dev.release =3D rtr=
+s_clt_dev_release;
+6a98d71daea186 Jack Wang        2020-05-11  2733  	err =3D dev_set_name(&cl=
+t->dev, "%s", sessname);
+eab098246625e9 Guoqing Jiang    2020-12-17  2734  	if (err)
+eab098246625e9 Guoqing Jiang    2020-12-17  2735  		goto err;
+6a98d71daea186 Jack Wang        2020-05-11  2736  	/*
+6a98d71daea186 Jack Wang        2020-05-11  2737  	 * Suppress user space n=
+otification until
+6a98d71daea186 Jack Wang        2020-05-11  2738  	 * sysfs files are creat=
+ed
+6a98d71daea186 Jack Wang        2020-05-11  2739  	 */
+6a98d71daea186 Jack Wang        2020-05-11  2740  	dev_set_uevent_suppress(=
+&clt->dev, true);
+6a98d71daea186 Jack Wang        2020-05-11  2741  	err =3D device_register(=
+&clt->dev);
+6a98d71daea186 Jack Wang        2020-05-11  2742  	if (err) {
+6a98d71daea186 Jack Wang        2020-05-11  2743  		put_device(&clt->dev);
+7580d72134cc8f Miaoqian Lin     2022-01-20  2744  		goto err_free_cpu;
+6a98d71daea186 Jack Wang        2020-05-11  2745  	}
+6a98d71daea186 Jack Wang        2020-05-11  2746  =
 
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1697  			if (field->flags & H=
-ID_MAIN_ITEM_VARIABLE)
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1698  				hid_input_var_field=
-(hid, field, interrupt);
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1699  			else
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1700  				hid_input_array_fie=
-ld(hid, field, interrupt);
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1701  		}
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1702  	}
-5f297c23cba491 Benjamin Tissoires 2022-01-26  1703  }
-d95c6e8572e0df Benjamin Tissoires 2022-01-26  1704  =
+6a98d71daea186 Jack Wang        2020-05-11  2747  	clt->kobj_paths =3D kobj=
+ect_create_and_add("paths", &clt->dev.kobj);
+6a98d71daea186 Jack Wang        2020-05-11  2748  	if (!clt->kobj_paths) {
+eab098246625e9 Guoqing Jiang    2020-12-17  2749  		err =3D -ENOMEM;
+eab098246625e9 Guoqing Jiang    2020-12-17  2750  		goto err_dev;
+6a98d71daea186 Jack Wang        2020-05-11  2751  	}
+6a98d71daea186 Jack Wang        2020-05-11  2752  	err =3D rtrs_clt_create_=
+sysfs_root_files(clt);
+6a98d71daea186 Jack Wang        2020-05-11  2753  	if (err) {
+6a98d71daea186 Jack Wang        2020-05-11  2754  		kobject_del(clt->kobj_p=
+aths);
+6a98d71daea186 Jack Wang        2020-05-11  2755  		kobject_put(clt->kobj_p=
+aths);
+eab098246625e9 Guoqing Jiang    2020-12-17  2756  		goto err_dev;
+6a98d71daea186 Jack Wang        2020-05-11  2757  	}
+6a98d71daea186 Jack Wang        2020-05-11  2758  	dev_set_uevent_suppress(=
+&clt->dev, false);
+6a98d71daea186 Jack Wang        2020-05-11  2759  	kobject_uevent(&clt->dev=
+.kobj, KOBJ_ADD);
+6a98d71daea186 Jack Wang        2020-05-11  2760  =
+
+6a98d71daea186 Jack Wang        2020-05-11  2761  	return clt;
+eab098246625e9 Guoqing Jiang    2020-12-17  2762  err_dev:
+eab098246625e9 Guoqing Jiang    2020-12-17  2763  	device_unregister(&clt->=
+dev);
+eab098246625e9 Guoqing Jiang    2020-12-17  2764  err:
+eab098246625e9 Guoqing Jiang    2020-12-17  2765  	free_percpu(clt->pcpu_pa=
+th);
+eab098246625e9 Guoqing Jiang    2020-12-17  2766  	kfree(clt);
+7580d72134cc8f Miaoqian Lin     2022-01-20 @2767  	clt->pcpu_path =3D NULL;
+7580d72134cc8f Miaoqian Lin     2022-01-20  2768  err_free_cpu:
+7580d72134cc8f Miaoqian Lin     2022-01-20  2769  	free_percpu(clt->pcpu_pa=
+th);
+eab098246625e9 Guoqing Jiang    2020-12-17  2770  	return ERR_PTR(err);
+6a98d71daea186 Jack Wang        2020-05-11  2771  }
+6a98d71daea186 Jack Wang        2020-05-11  2772  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1058520159992852233==--
+--===============4599150423974637549==--
 
