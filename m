@@ -1,45 +1,39 @@
-Content-Type: multipart/mixed; boundary="===============2172400032376402663=="
+Content-Type: multipart/mixed; boundary="===============6821953147407104831=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 25 Jan 2022 23:14:07 +0800
-Message-ID: <202201252302.RWrXf0BG-lkp@intel.com>
+Subject: [jimc:dd-drm-rfc 13/18] drivers/gpu/drm/arm/display/komeda/komeda_kms.c:121:22: warning: Value stored to 'a' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 25 Jan 2022 22:43:19 +0800
+Message-ID: <202201252247.vq1Bm7yr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2172400032376402663==
+--===============6821953147407104831==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Hannes Reinecke <hare@suse.com>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+TO: Jim Cromie <jim.cromie@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a08b41ab9e2e468647f78eb17c28e29b93006394
-commit: b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347 ata: pata_pdc2027x: Replac=
-e PDPRINTK() with standard ata logging
-date:   3 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-c007-20220124 (https://download.01.org/0day-ci/ar=
-chive/20220125/202201252302.RWrXf0BG-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7b3d30=
-728816403d1fd73cc5082e9fb761262bce)
+tree:   https://github.com/jimc/linux.git dd-drm-rfc
+head:   c86deb7d09199fd29665d9c68f1e70850132e49a
+commit: ed4425a17de1eb5638703d40ed1d002b28963687 [13/18] drm_print: add cho=
+ice to use dynamic debug in drm-debug
+:::::: branch date: 4 months ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-c007-20211009 (https://download.01.org/0day-ci/ar=
+chive/20220125/202201252247.vq1Bm7yr-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 30caca=
+39f401ae17927439c0a0bd6d1b1916dd6a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
+        # https://github.com/jimc/linux/commit/ed4425a17de1eb5638703d40ed1d=
+002b28963687
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-drm-rfc
+        git checkout ed4425a17de1eb5638703d40ed1d002b28963687
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -50,144 +44,375 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   drivers/acpi/pci_link.c:88:14: warning: Value stored to 'handle' during =
-its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           acpi_handle handle =3D link->device->handle;
-                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/pci_link.c:88:14: note: Value stored to 'handle' during its=
- initialization is never read
-           acpi_handle handle =3D link->device->handle;
-                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/pci_link.c:721:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_name(device), ACPI_PCI_LINK_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/pci_link.c:721:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(acpi_device_name(device), ACPI_PCI_LINK_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/pci_link.c:722:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_class(device), ACPI_PCI_LINK_CLASS);
-           ^~~~~~
-   drivers/acpi/pci_link.c:722:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(acpi_device_class(device), ACPI_PCI_LINK_CLASS);
-           ^~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/acpi/pci_irq.c:131:4: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcpy(prt->source, quirk->actual_source);
-                           ^~~~~~
-   drivers/acpi/pci_irq.c:131:4: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                           strcpy(prt->source, quirk->actual_source);
-                           ^~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/mfd/rohm-bd70528.c:282:2: warning: Value stored to 'ret' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           ret =3D regmap_update_bits(bd70528->chip.regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mfd/rohm-bd70528.c:282:2: note: Value stored to 'ret' is never r=
+ead
+           ret =3D regmap_update_bits(bd70528->chip.regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:514:8: warnin=
+g: Branch condition evaluates to a garbage value [clang-analyzer-core.unini=
+tialized.Branch]
+           if (!(dflow->en_scaling || dflow->en_img_enhancement))
+                 ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1164:8: note:=
+ Calling 'komeda_splitter_validate'
+           err =3D komeda_splitter_validate(pipe->splitter, conn_st,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:572:6: note: =
+Assuming 'splitter' is non-null
+           if (!splitter) {
+               ^~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:572:2: note: =
+Taking false branch
+           if (!splitter) {
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:577:2: note: =
+Taking false branch
+           if (!in_range(&splitter->hsize, dflow->in_w)) {
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:583:2: note: =
+Taking false branch
+           if (!in_range(&splitter->vsize, dflow->in_h)) {
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:592:2: note: =
+Taking true branch
+           if (IS_ERR(c_st))
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:593:3: note: =
+Returning without writing to 'l_output->en_scaling'
+                   return PTR_ERR(c_st);
+                   ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1164:8: note:=
+ Returning from 'komeda_splitter_validate'
+           err =3D komeda_splitter_validate(pipe->splitter, conn_st,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1166:6: note:=
+ Assuming 'err' is 0
+           if (err)
+               ^~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1166:2: note:=
+ Taking false branch
+           if (err)
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1168:8: note:=
+ Calling 'komeda_scaler_validate'
+           err =3D komeda_scaler_validate(conn, kcrtc_st, &l_dflow);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:514:8: note: =
+Branch condition evaluates to a garbage value
+           if (!(dflow->en_scaling || dflow->en_img_enhancement))
+                 ^~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:121:22: warning: Value s=
+tored to 'a' during its initialization is never read [clang-analyzer-deadco=
+de.DeadStores]
+                           struct drm_plane *a =3D node->base.plane;
+                                             ^   ~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:121:22: note: Value stor=
+ed to 'a' during its initialization is never read
+                           struct drm_plane *a =3D node->base.plane;
+                                             ^   ~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:122:22: warning: Value s=
+tored to 'b' during its initialization is never read [clang-analyzer-deadco=
+de.DeadStores]
+                           struct drm_plane *b =3D new->base.plane;
+                                             ^   ~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:122:22: note: Value stor=
+ed to 'b' during its initialization is never read
+                           struct drm_plane *b =3D new->base.plane;
+                                             ^   ~~~~~~~~~~~~~~~
+   include/linux/list.h:73:2: warning: Dereference of null pointer [clang-a=
+nalyzer-core.NullDereference]
+           WRITE_ONCE(prev->next, new);
+           ^
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+                                       ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:205:6: note: Assuming 'e=
+rr' is 0
+           if (err)
+               ^~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:205:2: note: Taking fals=
+e branch
+           if (err)
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Assuming 'i=
+' is < field 'num_crtc'
+           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
+           ^
+   include/drm/drm_atomic.h:846:7: note: expanded from macro 'for_each_new_=
+crtc_in_state'
+                (__i) < (__state)->dev->mode_config.num_crtc;              \
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Loop condit=
+ion is true.  Entering loop body
+           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
+           ^
+   include/drm/drm_atomic.h:845:2: note: expanded from macro 'for_each_new_=
+crtc_in_state'
+           for ((__i) =3D 0;                                               =
+  \
+           ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Assuming fi=
+eld 'ptr' is non-null
+           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
+           ^
+   include/drm/drm_atomic.h:848:16: note: expanded from macro 'for_each_new=
+_crtc_in_state'
+                   for_each_if ((__state)->crtcs[__i].ptr &&               \
+                   ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_util.h:63:38: note: expanded from macro 'for_each_if'
+   #define for_each_if(condition) if (!(condition)) {} else
+                                        ^~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Left side o=
+f '&&' is true
+           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
+           ^
+   include/drm/drm_atomic.h:848:16: note: expanded from macro 'for_each_new=
+_crtc_in_state'
+                   for_each_if ((__state)->crtcs[__i].ptr &&               \
+                                ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Taking fals=
+e branch
+           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
+           ^
+   include/drm/drm_atomic.h:848:3: note: expanded from macro 'for_each_new_=
+crtc_in_state'
+                   for_each_if ((__state)->crtcs[__i].ptr &&               \
+                   ^
+   include/drm/drm_util.h:63:32: note: expanded from macro 'for_each_if'
+   #define for_each_if(condition) if (!(condition)) {} else
+                                  ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:214:7: note: Assuming 'e=
+rr' is 0
+                   if (err)
+                       ^~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:214:3: note: Taking fals=
+e branch
+                   if (err)
+                   ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:217:9: note: Calling 'ko=
+meda_crtc_normalize_zpos'
+                   err =3D komeda_crtc_normalize_zpos(crtc, new_crtc_st);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:140:30: note: Left side =
+of '&&' is false
+           struct komeda_crtc *kcrtc =3D to_kcrtc(crtc);
+                                       ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.h:131:21: note: expanded f=
+rom macro 'to_kcrtc'
+   #define to_kcrtc(p)     container_of(p, struct komeda_crtc, base)
+                           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:140:30: note: Taking fal=
+se branch
+           struct komeda_crtc *kcrtc =3D to_kcrtc(crtc);
+                                       ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.h:131:21: note: expanded f=
+rom macro 'to_kcrtc'
+   #define to_kcrtc(p)     container_of(p, struct komeda_crtc, base)
+                           ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:140:30: note: Loop condi=
+tion is false.  Exiting loop
+           struct komeda_crtc *kcrtc =3D to_kcrtc(crtc);
+                                       ^
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.h:131:21: note: expanded f=
+rom macro 'to_kcrtc'
+   #define to_kcrtc(p)     container_of(p, struct komeda_crtc, base)
+--
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/gpio/gpio-xilinx.c:101:13: warning: The left expression of the c=
+ompound assignment is an uninitialized value. The computed value will also =
+be garbage [clang-analyzer-core.uninitialized.Assign]
+           map[index] &=3D ~(0xFFFFFFFFul << offset);
+                      ^
+   drivers/gpio/gpio-xilinx.c:520:2: note: Calling 'xgpio_read_ch_all'
+           xgpio_read_ch_all(chip, XGPIO_DATA_OFFSET, all);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-xilinx.c:133:16: note: Assuming 'bit' is <=3D 'lastbit'
+           for (bit =3D 0; bit <=3D lastbit ; bit +=3D 32)
+                         ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-xilinx.c:133:2: note: Loop condition is true.  Enterin=
+g loop body
+           for (bit =3D 0; bit <=3D lastbit ; bit +=3D 32)
+           ^
+   drivers/gpio/gpio-xilinx.c:134:3: note: Calling 'xgpio_read_ch'
+                   xgpio_read_ch(chip, reg, bit, a);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-xilinx.c:120:2: note: Calling 'xgpio_set_value32'
+           xgpio_set_value32(a, bit, xgpio_readreg(addr));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-xilinx.c:98:2: note: 'index' initialized to 0
+           const size_t index =3D BIT_WORD(bit);
+           ^~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-xilinx.c:101:13: note: The left expression of the comp=
+ound assignment is an uninitialized value. The computed value will also be =
+garbage
+           map[index] &=3D ~(0xFFFFFFFFul << offset);
+           ~~~~~~~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
@@ -195,22 +420,70 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
->> drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_pdc2027x.c:521:2: note: Value stored to 'pll_ctl' is ne=
-ver read
-           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_pdc2027x.c:570:2: warning: Value stored to 'pll_ctl' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_pdc2027x.c:570:2: note: Value stored to 'pll_ctl' is ne=
-ver read
-           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/gpu/drm/i2c/tda998x_drv.c:798:3: warning: Value stored to 'flag0=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   flag0 =3D reg_read(priv, REG_INT_FLAGS_0);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i2c/tda998x_drv.c:798:3: note: Value stored to 'flag0' i=
+s never read
+                   flag0 =3D reg_read(priv, REG_INT_FLAGS_0);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i2c/tda998x_drv.c:799:3: warning: Value stored to 'flag1=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   flag1 =3D reg_read(priv, REG_INT_FLAGS_1);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i2c/tda998x_drv.c:799:3: note: Value stored to 'flag1' i=
+s never read
+                   flag1 =3D reg_read(priv, REG_INT_FLAGS_1);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -218,273 +491,197 @@ se -system-headers to display errors from system headers as well.
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/video/fbdev/riva/rivafb-i2c.c:94:2: warning: Call to function 's=
-trcpy' is insecure as it does not provide bounding of the memory buffer. Re=
-place unbounded copy functions with analogous functions that support length=
- arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.=
-strcpy]
-           strcpy(chan->adapter.name, name);
-           ^~~~~~
-   drivers/video/fbdev/riva/rivafb-i2c.c:94:2: note: Call to function 'strc=
-py' is insecure as it does not provide bounding of the memory buffer. Repla=
-ce unbounded copy functions with analogous functions that support length ar=
-guments such as 'strlcpy'. CWE-119
-           strcpy(chan->adapter.name, name);
-           ^~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/video/fbdev/nvidia/nvidia.c:124:4: warning: Value stored to 'tmp=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                           tmp =3D 0;
-                           ^     ~
-   drivers/video/fbdev/nvidia/nvidia.c:124:4: note: Value stored to 'tmp' i=
-s never read
-                           tmp =3D 0;
-                           ^     ~
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   drivers/video/fbdev/nvidia/nv_hw.c:261:2: warning: Value stored to 'clwm=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           clwm =3D 0;
-           ^      ~
-   drivers/video/fbdev/nvidia/nv_hw.c:261:2: note: Value stored to 'clwm' i=
-s never read
-           clwm =3D 0;
-           ^      ~
-   drivers/video/fbdev/nvidia/nv_hw.c:284:2: warning: Value stored to 'pclk=
-s' is never read [clang-analyzer-deadcode.DeadStores]
-           pclks +=3D 0;
-           ^        ~
-   drivers/video/fbdev/nvidia/nv_hw.c:284:2: note: Value stored to 'pclks' =
-is never read
-           pclks +=3D 0;
-           ^        ~
-   drivers/video/fbdev/nvidia/nv_hw.c:439:2: warning: Value stored to 'clwm=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           clwm =3D 0;
-           ^      ~
-   drivers/video/fbdev/nvidia/nv_hw.c:439:2: note: Value stored to 'clwm' i=
-s never read
-           clwm =3D 0;
-           ^      ~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/hwmon/lm75.h:30:29: warning: The result of the left shift is und=
-efined because the left operand is negative [clang-analyzer-core.UndefinedB=
-inaryOperatorResult]
-           return (u16)((ntemp / 500) << 7);
-                                      ^
-   drivers/hwmon/ad7418.c:166:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/hwmon/ad7418.c:166:2: note: Taking false branch
-           if (ret < 0)
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/input/keyboard/samsung-keypad.c:88:23: warning: The result of th=
+e left shift is undefined because the left operand is negative [clang-analy=
+zer-core.UndefinedBinaryOperatorResult]
+                           val &=3D ~(1 << col) << 8;
+                                              ^
+   drivers/input/keyboard/samsung-keypad.c:158:3: note: Calling 'samsung_ke=
+ypad_scan'
+                   samsung_keypad_scan(keypad, row_state);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/keyboard/samsung-keypad.c:85:16: note: Assuming 'col' is <=
+ field 'cols'
+           for (col =3D 0; col < keypad->cols; col++) {
+                         ^~~~~~~~~~~~~~~~~~
+   drivers/input/keyboard/samsung-keypad.c:85:2: note: Loop condition is tr=
+ue.  Entering loop body
+           for (col =3D 0; col < keypad->cols; col++) {
            ^
-   drivers/hwmon/ad7418.c:170:28: note: Calling 'LM75_TEMP_TO_REG'
-           data->temp[attr->index] =3D LM75_TEMP_TO_REG(temp);
-                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/lm75.h:27:14: note: Assuming '__UNIQUE_ID___x298' is <=3D =
-'__UNIQUE_ID___y299'
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
+   drivers/input/keyboard/samsung-keypad.c:86:7: note: Assuming field 'type=
+' is equal to KEYPAD_TYPE_S5PV210
+                   if (keypad->type =3D=3D KEYPAD_TYPE_S5PV210) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/keyboard/samsung-keypad.c:86:3: note: Taking true branch
+                   if (keypad->type =3D=3D KEYPAD_TYPE_S5PV210) {
+                   ^
+   drivers/input/keyboard/samsung-keypad.c:88:23: note: The result of the l=
+eft shift is undefined because the left operand is negative
+                           val &=3D ~(1 << col) << 8;
+                                  ~~~~~~~~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +/pll_ctl +521 drivers/ata/pata_pdc2027x.c
+vim +/a +121 drivers/gpu/drm/arm/display/komeda/komeda_kms.c
 
-669a5db411d85a Jeff Garzik     2006-08-29  492  =
+61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   96) =
 
-669a5db411d85a Jeff Garzik     2006-08-29  493  /**
-1906cf27fcc070 Lee Jones       2021-02-01  494   * pdc_adjust_pll - Adjust =
-the PLL input clock in Hz.
-669a5db411d85a Jeff Garzik     2006-08-29  495   *
-5d728824efeda6 Tejun Heo       2007-04-17  496   * @host: target ATA host
-669a5db411d85a Jeff Garzik     2006-08-29  497   * @pll_clock: The input of=
- PLL in HZ
-1906cf27fcc070 Lee Jones       2021-02-01  498   * @board_idx: board identi=
-fier
-669a5db411d85a Jeff Garzik     2006-08-29  499   */
-5d728824efeda6 Tejun Heo       2007-04-17  500  static void pdc_adjust_pll(=
-struct ata_host *host, long pll_clock, unsigned int board_idx)
-669a5db411d85a Jeff Garzik     2006-08-29  501  {
-5d728824efeda6 Tejun Heo       2007-04-17  502  	void __iomem *mmio_base =
-=3D host->iomap[PDC_MMIO_BAR];
-669a5db411d85a Jeff Garzik     2006-08-29  503  	u16 pll_ctl;
-669a5db411d85a Jeff Garzik     2006-08-29  504  	long pll_clock_khz =3D pll=
-_clock / 1000;
-669a5db411d85a Jeff Garzik     2006-08-29  505  	long pout_required =3D boa=
-rd_idx? PDC_133_MHZ:PDC_100_MHZ;
-669a5db411d85a Jeff Garzik     2006-08-29  506  	long ratio =3D pout_requir=
-ed / pll_clock_khz;
-669a5db411d85a Jeff Garzik     2006-08-29  507  	int F, R;
-669a5db411d85a Jeff Garzik     2006-08-29  508  =
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20   97) stat=
+ic int komeda_plane_state_list_add(struct drm_plane_state *plane_st,
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20   98) 				=
+       struct list_head *zorder_list)
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20   99) {
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  100) 	str=
+uct komeda_plane_state *new =3D to_kplane_st(plane_st);
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  101) 	str=
+uct komeda_plane_state *node, *last;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  102) =
 
-669a5db411d85a Jeff Garzik     2006-08-29  509  	/* Sanity check */
-669a5db411d85a Jeff Garzik     2006-08-29  510  	if (unlikely(pll_clock_khz=
- < 5000L || pll_clock_khz > 70000L)) {
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  511  		dev_err(host->dev, "Inval=
-id PLL input clock %ldkHz, give up!\n",
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  512  			pll_clock_khz);
-669a5db411d85a Jeff Garzik     2006-08-29  513  		return;
-669a5db411d85a Jeff Garzik     2006-08-29  514  	}
-669a5db411d85a Jeff Garzik     2006-08-29  515  =
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  103) 	las=
+t =3D list_empty(zorder_list) ?
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  104) 	   =
+    NULL : list_last_entry(zorder_list, typeof(*last), zlist_node);
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  105) =
 
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  516  	dev_dbg(host->dev, "pout_r=
-equired is %ld\n", pout_required);
-669a5db411d85a Jeff Garzik     2006-08-29  517  =
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  106) 	/* =
+Considering the list sequence is zpos increasing, so if list is empty
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  107) 	 * =
+or the zpos of new node bigger than the last node in list, no need
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  108) 	 * =
+loop and just insert the new one to the tail of the list.
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  109) 	 */
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  110) 	if =
+(!last || (new->base.zpos > last->base.zpos)) {
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  111) 		li=
+st_add_tail(&new->zlist_node, zorder_list);
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  112) 		re=
+turn 0;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  113) 	}
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  114) =
 
-669a5db411d85a Jeff Garzik     2006-08-29  518  	/* Show the current clock =
-value of PLL control register
-669a5db411d85a Jeff Garzik     2006-08-29  519  	 * (maybe already configur=
-ed by the firmware)
-669a5db411d85a Jeff Garzik     2006-08-29  520  	 */
-d2a84f47899d1e Alan Cox        2007-09-20 @521  	pll_ctl =3D ioread16(mmio_=
-base + PDC_PLL_CTL);
-669a5db411d85a Jeff Garzik     2006-08-29  522  =
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  115) 	/* =
+Build the list by zpos increasing */
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  116) 	lis=
+t_for_each_entry(node, zorder_list, zlist_node) {
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  117) 		if=
+ (new->base.zpos < node->base.zpos) {
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  118) 			l=
+ist_add_tail(&new->zlist_node, &node->zlist_node);
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  119) 			b=
+reak;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  120) 		} =
+else if (node->base.zpos =3D=3D new->base.zpos) {
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20 @121) 			s=
+truct drm_plane *a =3D node->base.plane;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20 @122) 			s=
+truct drm_plane *b =3D new->base.plane;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  123) =
 
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  523  	dev_dbg(host->dev, "pll_ct=
-l[%X]\n", pll_ctl);
-669a5db411d85a Jeff Garzik     2006-08-29  524  =
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  124) 			/=
+* Komeda doesn't support setting a same zpos for
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  125) 			 =
+* different planes.
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  126) 			 =
+*/
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  127) 			D=
+RM_DEBUG_ATOMIC("PLANE: %s and PLANE: %s are configured same zpos: %d.\n",
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  128) 				=
+	 a->name, b->name, node->base.zpos);
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  129) 			r=
+eturn -EINVAL;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  130) 		}
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  131) 	}
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  132) =
 
-669a5db411d85a Jeff Garzik     2006-08-29  525  	/*
-669a5db411d85a Jeff Garzik     2006-08-29  526  	 * Calculate the ratio of =
-F, R and OD
-669a5db411d85a Jeff Garzik     2006-08-29  527  	 * POUT =3D (F + 2) / (( R=
- + 2) * NO)
-669a5db411d85a Jeff Garzik     2006-08-29  528  	 */
-669a5db411d85a Jeff Garzik     2006-08-29  529  	if (ratio < 8600L) { /* 8.=
-6x */
-669a5db411d85a Jeff Garzik     2006-08-29  530  		/* Using NO =3D 0x01, R =
-=3D 0x0D */
-669a5db411d85a Jeff Garzik     2006-08-29  531  		R =3D 0x0d;
-669a5db411d85a Jeff Garzik     2006-08-29  532  	} else if (ratio < 12900L)=
- { /* 12.9x */
-669a5db411d85a Jeff Garzik     2006-08-29  533  		/* Using NO =3D 0x01, R =
-=3D 0x08 */
-669a5db411d85a Jeff Garzik     2006-08-29  534  		R =3D 0x08;
-669a5db411d85a Jeff Garzik     2006-08-29  535  	} else if (ratio < 16100L)=
- { /* 16.1x */
-669a5db411d85a Jeff Garzik     2006-08-29  536  		/* Using NO =3D 0x01, R =
-=3D 0x06 */
-669a5db411d85a Jeff Garzik     2006-08-29  537  		R =3D 0x06;
-669a5db411d85a Jeff Garzik     2006-08-29  538  	} else if (ratio < 64000L)=
- { /* 64x */
-669a5db411d85a Jeff Garzik     2006-08-29  539  		R =3D 0x00;
-669a5db411d85a Jeff Garzik     2006-08-29  540  	} else {
-669a5db411d85a Jeff Garzik     2006-08-29  541  		/* Invalid ratio */
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  542  		dev_err(host->dev, "Inval=
-id ratio %ld, give up!\n", ratio);
-669a5db411d85a Jeff Garzik     2006-08-29  543  		return;
-669a5db411d85a Jeff Garzik     2006-08-29  544  	}
-669a5db411d85a Jeff Garzik     2006-08-29  545  =
-
-669a5db411d85a Jeff Garzik     2006-08-29  546  	F =3D (ratio * (R+2)) / 10=
-00 - 2;
-669a5db411d85a Jeff Garzik     2006-08-29  547  =
-
-669a5db411d85a Jeff Garzik     2006-08-29  548  	if (unlikely(F < 0 || F > =
-127)) {
-669a5db411d85a Jeff Garzik     2006-08-29  549  		/* Invalid F */
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  550  		dev_err(host->dev, "F[%d]=
- invalid!\n", F);
-669a5db411d85a Jeff Garzik     2006-08-29  551  		return;
-669a5db411d85a Jeff Garzik     2006-08-29  552  	}
-669a5db411d85a Jeff Garzik     2006-08-29  553  =
-
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  554  	dev_dbg(host->dev, "F[%d] =
-R[%d] ratio*1000[%ld]\n", F, R, ratio);
-669a5db411d85a Jeff Garzik     2006-08-29  555  =
-
-669a5db411d85a Jeff Garzik     2006-08-29  556  	pll_ctl =3D (R << 8) | F;
-669a5db411d85a Jeff Garzik     2006-08-29  557  =
-
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  558  	dev_dbg(host->dev, "Writin=
-g pll_ctl[%X]\n", pll_ctl);
-669a5db411d85a Jeff Garzik     2006-08-29  559  =
-
-d2a84f47899d1e Alan Cox        2007-09-20  560  	iowrite16(pll_ctl, mmio_ba=
-se + PDC_PLL_CTL);
-d2a84f47899d1e Alan Cox        2007-09-20  561  	ioread16(mmio_base + PDC_P=
-LL_CTL); /* flush */
-669a5db411d85a Jeff Garzik     2006-08-29  562  =
-
-669a5db411d85a Jeff Garzik     2006-08-29  563  	/* Wait the PLL circuit to=
- be stable */
-b3506c7ed216dd Jia-Ju Bai      2018-01-25  564  	msleep(30);
-669a5db411d85a Jeff Garzik     2006-08-29  565  =
-
-669a5db411d85a Jeff Garzik     2006-08-29  566  	/*
-669a5db411d85a Jeff Garzik     2006-08-29  567  	 *  Show the current clock=
- value of PLL control register
-669a5db411d85a Jeff Garzik     2006-08-29  568  	 * (maybe configured by th=
-e firmware)
-669a5db411d85a Jeff Garzik     2006-08-29  569  	 */
-d2a84f47899d1e Alan Cox        2007-09-20  570  	pll_ctl =3D ioread16(mmio_=
-base + PDC_PLL_CTL);
-669a5db411d85a Jeff Garzik     2006-08-29  571  =
-
-b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  572  	dev_dbg(host->dev, "pll_ct=
-l[%X]\n", pll_ctl);
-669a5db411d85a Jeff Garzik     2006-08-29  573  =
-
-669a5db411d85a Jeff Garzik     2006-08-29  574  	return;
-669a5db411d85a Jeff Garzik     2006-08-29  575  }
-669a5db411d85a Jeff Garzik     2006-08-29  576  =
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  133) 	ret=
+urn 0;
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  134) }
+109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  135) =
 
 
-:::::: The code at line 521 was first introduced by commit
-:::::: d2a84f47899d1efc24fa610696f7b793692279c7 pdc2027x: Switch properly t=
-o ioread/iowrite
+:::::: The code at line 121 was first introduced by commit
+:::::: 109bd7d5f4c2db66541272e5a41aeabd6cfeef95 drm/komeda: Adds zorder sup=
+port
 
-:::::: TO: Alan Cox <alan@lxorguk.ukuu.org.uk>
-:::::: CC: Jeff Garzik <jeff@garzik.org>
+:::::: TO: Lowry Li (Arm Technology China) <Lowry.Li@arm.com>
+:::::: CC: Liviu Dudau <Liviu.Dudau@arm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2172400032376402663==--
+--===============6821953147407104831==--
 
