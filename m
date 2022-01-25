@@ -1,235 +1,272 @@
-Content-Type: multipart/mixed; boundary="===============0264883231385478972=="
+Content-Type: multipart/mixed; boundary="===============3516848400599074831=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cifs:tmp-mchan-branch 14/21] fs/cifs/smb2pdu.c:3869:17-20: ERROR: invalid reference to the index variable of the iterator on line 3809
-Date: Tue, 25 Jan 2022 15:02:35 +0800
-Message-ID: <202201251432.NdN6AWSx-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.10 684/9999] mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
+Date: Tue, 25 Jan 2022 12:39:44 +0800
+Message-ID: <202201251229.1wxbCbfK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0264883231385478972==
+--===============3516848400599074831==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-cifs(a)vger.kernel.org
-CC: samba-technical(a)lists.samba.org
-TO: Shyam Prasad N <sprasad@microsoft.com>
-CC: Steve French <stfrench@microsoft.com>
+CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vinayak Menon <vinmenon@codeaurora.org>
+CC: Todd Kjos <tkjos@google.com>
 
-tree:   git://git.samba.org/sfrench/cifs-2.6.git tmp-mchan-branch
-head:   5dcedd487447680668c095add4b24432a06b2644
-commit: 81b88cd97eb7df45d283a92b56603f6e433a69b5 [14/21] cifs: check reconn=
-ects for channels of active tcons too
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-c022-20220117 (https://download.01.org/0day-ci/ar=
-chive/20220125/202201251432.NdN6AWSx-lkp(a)intel.com/config)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android13-5.10
+head:   a5bf62aaed069a2582e25af1bda15343cd119219
+commit: 35eacb5c87b9b5e9683e25a24282cde1a2d4a1d5 [684/9999] ANDROID: mm: al=
+low vmas with vm_ops to be speculatively handled
+:::::: branch date: 11 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-m021-20211118 (https://download.01.org/0day-ci/arch=
+ive/20220125/202201251229.1wxbCbfK-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
 
-cocci warnings: (new ones prefixed by >>)
->> fs/cifs/smb2pdu.c:3869:17-20: ERROR: invalid reference to the index vari=
-able of the iterator on line 3809
+vim +4691 mm/memory.c
 
-vim +3869 fs/cifs/smb2pdu.c
+a00cc7d9dd93d6 Matthew Wilcox        2017-02-24  4562  =
 
-9094fad1ed90ca Pavel Shilovsky  2012-07-12  3784  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4563  /*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4564   * These routines al=
+so need to handle stuff like marking pages dirty
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4565   * and/or accessed f=
+or architectures that don't do it in hardware (most
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4566   * RISC architecture=
+s).  The early dirtying is also good on the i386.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4567   *
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4568   * There is also a h=
+ook called "update_mmu_cache()" that architectures
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4569   * with external mmu=
+ caches can use to update those (ie the Sparc or
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4570   * PowerPC hashed pa=
+ge tables that act as extended TLBs).
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4571   *
+c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4572   * We enter with non=
+-exclusive mmap_lock (to exclude vma changes, but allow
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4573   * concurrent faults=
+).
+9a95f3cf7b33d6 Paul Cassella         2014-08-06  4574   *
+c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4575   * The mmap_lock may=
+ have been released depending on flags and our return value.
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4576   * See filemap_fault=
+() and __lock_page_or_retry().
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4577   */
+2b7403035459c7 Souptick Joarder      2018-08-23  4578  static vm_fault_t ha=
+ndle_pte_fault(struct vm_fault *vmf)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4579  {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4580  	pte_t entry;
+35eacb5c87b9b5 Vinayak Menon         2021-03-18  4581  	vm_fault_t ret =3D =
+0;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4582  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3785  void smb2_reconnect_serve=
-r(struct work_struct *work)
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3786  {
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3787  	struct TCP_Server_Info *=
-server =3D container_of(work,
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3788  					struct TCP_Server_In=
-fo, reconnect.work);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3789  	struct TCP_Server_Info *=
-pserver;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3790  	struct cifs_ses *ses, *s=
-es2;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3791  	struct cifs_tcon *tcon, =
-*tcon2;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3792  	struct list_head tmp_lis=
-t, tmp_ses_list;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3793  	bool tcon_exist =3D fals=
-e, ses_exist =3D false;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3794  	bool tcon_selected =3D f=
-alse, ses_selected =3D false;
-18ea43113f5b74 Germano Percossi 2017-04-07  3795  	int rc;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3796  	bool resched =3D false;
-18ea43113f5b74 Germano Percossi 2017-04-07  3797  =
+82b0f8c39a3869 Jan Kara              2016-12-14  4583  	if (unlikely(pmd_no=
+ne(*vmf->pmd))) {
+1c5371744061fc Peter Zijlstra        2018-04-17  4584  		/*
+1c5371744061fc Peter Zijlstra        2018-04-17  4585  		 * In the case of =
+the speculative page fault handler we abort
+1c5371744061fc Peter Zijlstra        2018-04-17  4586  		 * the speculative=
+ path immediately as the pmd is probably
+1c5371744061fc Peter Zijlstra        2018-04-17  4587  		 * in the way to b=
+e converted in a huge one. We will try
+1c5371744061fc Peter Zijlstra        2018-04-17  4588  		 * again holding t=
+he mmap_sem (which implies that the collapse
+1c5371744061fc Peter Zijlstra        2018-04-17  4589  		 * operation is do=
+ne).
+1c5371744061fc Peter Zijlstra        2018-04-17  4590  		 */
+1c5371744061fc Peter Zijlstra        2018-04-17  4591  		if (vmf->flags & F=
+AULT_FLAG_SPECULATIVE)
+1c5371744061fc Peter Zijlstra        2018-04-17  4592  			return VM_FAULT_R=
+ETRY;
+e37c6982706333 Christian Borntraeger 2014-12-07  4593  		/*
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4594  		 * Leave __pte_all=
+oc() until later: because vm_ops->fault may
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4595  		 * want to allocat=
+e huge page, and if we expose page table
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4596  		 * for an instant,=
+ it will be difficult to retract from
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4597  		 * concurrent faul=
+ts and from rmap lookups.
+e37c6982706333 Christian Borntraeger 2014-12-07  4598  		 */
+82b0f8c39a3869 Jan Kara              2016-12-14  4599  		vmf->pte =3D NULL;
+1c5371744061fc Peter Zijlstra        2018-04-17  4600  	} else if (!(vmf->f=
+lags & FAULT_FLAG_SPECULATIVE)) {
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4601  		/*
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4602  		 * If a huge pmd m=
+aterialized under us just retry later.  Use
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4603  		 * pmd_trans_unsta=
+ble() via pmd_devmap_trans_unstable() instead
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4604  		 * of pmd_trans_hu=
+ge() to ensure the pmd didn't become
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4605  		 * pmd_trans_huge =
+under us and then back to pmd_none, as a
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4606  		 * result of MADV_=
+DONTNEED running immediately after a huge pmd
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4607  		 * fault in a diff=
+erent thread of this mm, in turn leading to a
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4608  		 * misleading pmd_=
+trans_huge() retval. All we have to ensure is
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4609  		 * that it is a re=
+gular pmd that we can walk with
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4610  		 * pte_offset_map(=
+) and we can do that through an atomic read
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4611  		 * in C, which is =
+what pmd_trans_unstable() provides.
+0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4612  		 */
+d0f0931de936a0 Ross Zwisler          2017-06-02  4613  		if (pmd_devmap_tra=
+ns_unstable(vmf->pmd))
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4614  			return 0;
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4615  		/*
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4616  		 * A regular pmd i=
+s established and it can't morph into a huge
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4617  		 * pmd from under =
+us anymore at this point because we hold the
+c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4618  		 * mmap_lock read =
+mode and khugepaged takes it in write mode.
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4619  		 * So now it's saf=
+e to run pte_offset_map().
+1c5371744061fc Peter Zijlstra        2018-04-17  4620  		 * This is not app=
+licable to the speculative page fault handler
+1c5371744061fc Peter Zijlstra        2018-04-17  4621  		 * but in that cas=
+e, the pte is fetched earlier in
+1c5371744061fc Peter Zijlstra        2018-04-17  4622  		 * handle_speculat=
+ive_fault().
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4623  		 */
+82b0f8c39a3869 Jan Kara              2016-12-14  4624  		vmf->pte =3D pte_o=
+ffset_map(vmf->pmd, vmf->address);
+2994302bc8a171 Jan Kara              2016-12-14  4625  		vmf->orig_pte =3D =
+*vmf->pte;
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4626  =
 
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3798  	/* If server is a channe=
-l, select the primary channel */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3799  	pserver =3D CIFS_SERVER_=
-IS_CHAN(server) ? server->primary_server : server;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3800  =
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4627  		/*
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4628  		 * some architectu=
+res can have larger ptes than wordsize,
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4629  		 * e.g.ppc44x-defc=
+onfig has CONFIG_PTE_64BIT=3Dy and
+b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4630  		 * CONFIG_32BIT=3D=
+y, so READ_ONCE cannot guarantee atomic
+b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4631  		 * accesses.  The =
+code below just needs a consistent view
+b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4632  		 * for the ifs and=
+ we later double check anyway with the
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4633  		 * ptl lock held. =
+So here a barrier will do.
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4634  		 */
+e37c6982706333 Christian Borntraeger 2014-12-07  4635  		barrier();
+2994302bc8a171 Jan Kara              2016-12-14  4636  		if (pte_none(vmf->=
+orig_pte)) {
+82b0f8c39a3869 Jan Kara              2016-12-14  4637  			pte_unmap(vmf->pt=
+e);
+82b0f8c39a3869 Jan Kara              2016-12-14  4638  			vmf->pte =3D NULL;
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4639  		}
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4640  	}
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4641  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3801  	/* Prevent simultaneous =
-reconnects that can corrupt tcon->rlist list */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3802  	mutex_lock(&pserver->rec=
-onnect_mutex);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3803  =
+82b0f8c39a3869 Jan Kara              2016-12-14  4642  	if (!vmf->pte) {
+82b0f8c39a3869 Jan Kara              2016-12-14  4643  		if (vma_is_anonymo=
+us(vmf->vma))
+82b0f8c39a3869 Jan Kara              2016-12-14  4644  			return do_anonymo=
+us_page(vmf);
+35eacb5c87b9b5 Vinayak Menon         2021-03-18  4645  		else if ((vmf->fla=
+gs & FAULT_FLAG_SPECULATIVE) &&
+35eacb5c87b9b5 Vinayak Menon         2021-03-18  4646  				!vmf_allows_spec=
+ulation(vmf))
+1c5371744061fc Peter Zijlstra        2018-04-17  4647  			return VM_FAULT_R=
+ETRY;
+b5330628546616 Oleg Nesterov         2015-09-08  4648  		else
+82b0f8c39a3869 Jan Kara              2016-12-14  4649  			return do_fault(v=
+mf);
+65500d234e74fc Hugh Dickins          2005-10-29  4650  	}
+7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4651  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3804  	INIT_LIST_HEAD(&tmp_list=
-);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3805  	INIT_LIST_HEAD(&tmp_ses_=
-list);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3806  	cifs_dbg(FYI, "Reconnect=
-ing tcons and channels\n");
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3807  =
+2994302bc8a171 Jan Kara              2016-12-14  4652  	if (!pte_present(vm=
+f->orig_pte))
+2994302bc8a171 Jan Kara              2016-12-14  4653  		return do_swap_pag=
+e(vmf);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4654  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3808  	spin_lock(&cifs_tcp_ses_=
-lock);
-81b88cd97eb7df Shyam Prasad N   2021-10-30 @3809  	list_for_each_entry(ses,=
- &pserver->smb_ses_list, smb_ses_list) {
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3810  =
+2994302bc8a171 Jan Kara              2016-12-14  4655  	if (pte_protnone(vm=
+f->orig_pte) && vma_is_accessible(vmf->vma))
+2994302bc8a171 Jan Kara              2016-12-14  4656  		return do_numa_pag=
+e(vmf);
+d10e63f29488b0 Mel Gorman            2012-10-25  4657  =
 
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3811  		tcon_selected =3D ses_s=
-elected =3D false;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3812  =
-
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3813  		list_for_each_entry(tco=
-n, &ses->tcon_list, tcon_list) {
-96a988ffeb90db Pavel Shilovsky  2016-11-29  3814  			if (tcon->need_reconne=
-ct || tcon->need_reopen_files) {
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3815  				tcon->tc_count++;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3816  				list_add_tail(&tcon->=
-rlist, &tmp_list);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3817  				tcon_selected =3D tco=
-n_exist =3D true;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3818  			}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3819  		}
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3820  		/*
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3821  		 * IPC has the same lif=
-etime as its session and uses its
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3822  		 * refcount.
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3823  		 */
-b327a717e50698 Aurelien Aptel   2018-01-24  3824  		if (ses->tcon_ipc && se=
-s->tcon_ipc->need_reconnect) {
-b327a717e50698 Aurelien Aptel   2018-01-24  3825  			list_add_tail(&ses->tc=
-on_ipc->rlist, &tmp_list);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3826  			tcon_selected =3D tcon=
-_exist =3D true;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3827  			ses->ses_count++;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3828  		}
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3829  		/*
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3830  		 * handle the case wher=
-e channel needs to reconnect
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3831  		 * binding session, but=
- tcon is healthy (some other channel
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3832  		 * is active)
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3833  		 */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3834  		if (!tcon_selected && c=
-ifs_chan_needs_reconnect(ses, server)) {
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3835  			list_add_tail(&ses->rl=
-ist, &tmp_ses_list);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3836  			ses_selected =3D ses_e=
-xist =3D true;
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3837  			ses->ses_count++;
-b327a717e50698 Aurelien Aptel   2018-01-24  3838  		}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3839  	}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3840  	/*
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3841  	 * Get the reference to =
-server struct to be sure that the last call of
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3842  	 * cifs_put_tcon() in th=
-e loop below won't release the server pointer.
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3843  	 */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3844  	if (tcon_exist || ses_ex=
-ist)
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3845  		server->srv_count++;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3846  =
-
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3847  	spin_unlock(&cifs_tcp_se=
-s_lock);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3848  =
-
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3849  	list_for_each_entry_safe=
-(tcon, tcon2, &tmp_list, rlist) {
-352d96f3acc6e0 Aurelien Aptel   2020-05-31  3850  		rc =3D smb2_reconnect(S=
-MB2_INTERNAL_CMD, tcon, server);
-18ea43113f5b74 Germano Percossi 2017-04-07  3851  		if (!rc)
-96a988ffeb90db Pavel Shilovsky  2016-11-29  3852  			cifs_reopen_persistent=
-_handles(tcon);
-18ea43113f5b74 Germano Percossi 2017-04-07  3853  		else
-18ea43113f5b74 Germano Percossi 2017-04-07  3854  			resched =3D true;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3855  		list_del_init(&tcon->rl=
-ist);
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3856  		if (tcon->ipc)
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3857  			cifs_put_smb_ses(tcon-=
->ses);
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3858  		else
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3859  			cifs_put_tcon(tcon);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3860  	}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3861  =
-
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3862  	if (!ses_exist)
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3863  		goto done;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3864  =
-
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3865  	/* allocate a dummy tcon=
- struct used for reconnect */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3866  	tcon =3D kzalloc(sizeof(=
-struct cifs_tcon), GFP_KERNEL);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3867  	if (!tcon) {
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3868  		resched =3D true;
-81b88cd97eb7df Shyam Prasad N   2021-10-30 @3869  		list_del_init(&ses->rli=
-st);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3870  		cifs_put_smb_ses(ses);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3871  		goto done;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3872  	}
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3873  =
-
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3874  	tcon->tidStatus =3D Cifs=
-Good;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3875  	tcon->retry =3D false;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3876  	tcon->need_reconnect =3D=
- false;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3877  =
-
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3878  	/* now reconnect session=
-s for necessary channels */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3879  	list_for_each_entry_safe=
-(ses, ses2, &tmp_ses_list, rlist) {
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3880  		tcon->ses =3D ses;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3881  		rc =3D smb2_reconnect(S=
-MB2_INTERNAL_CMD, tcon, server);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3882  		if (rc)
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3883  			resched =3D true;
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3884  		list_del_init(&ses->rli=
-st);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3885  		cifs_put_smb_ses(ses);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3886  	}
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3887  	kfree(tcon);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3888  =
-
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3889  done:
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3890  	cifs_dbg(FYI, "Reconnect=
-ing tcons and channels finished\n");
-18ea43113f5b74 Germano Percossi 2017-04-07  3891  	if (resched)
-18ea43113f5b74 Germano Percossi 2017-04-07  3892  		queue_delayed_work(cifs=
-iod_wq, &server->reconnect, 2 * HZ);
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3893  	mutex_unlock(&pserver->r=
-econnect_mutex);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3894  =
-
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3895  	/* now we can safely rel=
-ease srv struct */
-81b88cd97eb7df Shyam Prasad N   2021-10-30  3896  	if (tcon_exist || ses_ex=
-ist)
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3897  		cifs_put_tcp_session(se=
-rver, 1);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3898  }
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3899  =
+b23ffc113b308e Laurent Dufour        2018-04-17  4658  	if (!pte_spinlock(v=
+mf))
+b23ffc113b308e Laurent Dufour        2018-04-17  4659  		return VM_FAULT_RE=
+TRY;
+2994302bc8a171 Jan Kara              2016-12-14  4660  	entry =3D vmf->orig=
+_pte;
+7df676974359f9 Bibo Mao              2020-05-27  4661  	if (unlikely(!pte_s=
+ame(*vmf->pte, entry))) {
+7df676974359f9 Bibo Mao              2020-05-27  4662  		update_mmu_tlb(vmf=
+->vma, vmf->address, vmf->pte);
+8f4e2101fd7df9 Hugh Dickins          2005-10-29  4663  		goto unlock;
+7df676974359f9 Bibo Mao              2020-05-27  4664  	}
+82b0f8c39a3869 Jan Kara              2016-12-14  4665  	if (vmf->flags & FA=
+ULT_FLAG_WRITE) {
+f6f3732162b5ae Linus Torvalds        2017-12-15  4666  		if (!pte_write(ent=
+ry))
+2994302bc8a171 Jan Kara              2016-12-14  4667  			return do_wp_page=
+(vmf);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4668  		entry =3D pte_mkdi=
+rty(entry);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4669  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4670  	entry =3D pte_mkyou=
+ng(entry);
+82b0f8c39a3869 Jan Kara              2016-12-14  4671  	if (ptep_set_access=
+_flags(vmf->vma, vmf->address, vmf->pte, entry,
+82b0f8c39a3869 Jan Kara              2016-12-14  4672  				vmf->flags & FAU=
+LT_FLAG_WRITE)) {
+82b0f8c39a3869 Jan Kara              2016-12-14  4673  		update_mmu_cache(v=
+mf->vma, vmf->address, vmf->pte);
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4674  	} else {
+b7333b58f358f3 Yang Shi              2020-08-14  4675  		/* Skip spurious T=
+LB flush for retried page fault */
+b7333b58f358f3 Yang Shi              2020-08-14  4676  		if (vmf->flags & F=
+AULT_FLAG_TRIED)
+b7333b58f358f3 Yang Shi              2020-08-14  4677  			goto unlock;
+35eacb5c87b9b5 Vinayak Menon         2021-03-18  4678  		if (vmf->flags & F=
+AULT_FLAG_SPECULATIVE)
+35eacb5c87b9b5 Vinayak Menon         2021-03-18  4679  			ret =3D VM_FAULT_=
+RETRY;
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4680  		/*
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4681  		 * This is needed =
+only for protection faults but the arch code
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4682  		 * is not yet tell=
+ing us if this is a protection fault or not.
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4683  		 * This still avoi=
+ds useless tlb flushes for .text page faults
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4684  		 * with threads.
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4685  		 */
+82b0f8c39a3869 Jan Kara              2016-12-14  4686  		if (vmf->flags & F=
+AULT_FLAG_WRITE)
+82b0f8c39a3869 Jan Kara              2016-12-14  4687  			flush_tlb_fix_spu=
+rious_fault(vmf->vma, vmf->address);
+1a44e149084d77 Andrea Arcangeli      2005-10-29  4688  	}
+8f4e2101fd7df9 Hugh Dickins          2005-10-29  4689  unlock:
+82b0f8c39a3869 Jan Kara              2016-12-14  4690  	pte_unmap_unlock(vm=
+f->pte, vmf->ptl);
+35eacb5c87b9b5 Vinayak Menon         2021-03-18 @4691  	return ret;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4692  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  4693  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0264883231385478972==--
+--===============3516848400599074831==--
 
