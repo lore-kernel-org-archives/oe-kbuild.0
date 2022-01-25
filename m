@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8458385885415095913=="
+Content-Type: multipart/mixed; boundary="===============7119704869910558264=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Tue, 25 Jan 2022 21:03:29 +0800
-Message-ID: <20220125130329.GA127000@37a74d35a09b>
+Date: Tue, 25 Jan 2022 21:03:23 +0800
+Message-ID: <20220125130323.GA126041@37a74d35a09b>
 In-Reply-To: <202201252158.U4FizUGp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8458385885415095913==
+--===============7119704869910558264==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,17 +17,13 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Chanwoo Choi <cw00.choi@samsung.com>
-CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-CC: Alessandro Zummo <a.zummo@towertech.it>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: Lee Jones <lee.jones@linaro.org>
 CC: linux-kernel(a)vger.kernel.org
-CC: linux-rtc(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-max77686.c:779:7-27: WARNING: Threaded IRQ with no primary =
-handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/mfd/htc-i2cpld.c:546:8-28: WARNING: Threaded IRQ with no primary ha=
+ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -52,21 +48,20 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-max77686.c |    3 ++-
+ htc-i2cpld.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/rtc/rtc-max77686.c
-+++ b/drivers/rtc/rtc-max77686.c
-@@ -776,7 +776,8 @@ static int max77686_rtc_probe(struct pla
- 		goto err_rtc;
- 	}
- =
-
--	ret =3D request_threaded_irq(info->virq, NULL, max77686_rtc_alarm_irq, 0,
-+	ret =3D request_threaded_irq(info->virq, NULL, max77686_rtc_alarm_irq,
-+				   IRQF_ONESHOT,
- 				   "rtc-alarm1", info);
- 	if (ret < 0) {
- 		dev_err(&pdev->dev, "Failed to request alarm IRQ: %d: %d\n",
---===============8458385885415095913==--
+--- a/drivers/mfd/htc-i2cpld.c
++++ b/drivers/mfd/htc-i2cpld.c
+@@ -545,7 +545,8 @@ static int htcpld_core_probe(struct plat
+ 			IRQF_ONESHOT;
+ 		ret =3D request_threaded_irq(htcpld->chained_irq,
+ 					   NULL, htcpld_handler,
+-					   flags, pdev->name, htcpld);
++					   flags | IRQF_ONESHOT, pdev->name,
++					   htcpld);
+ 		if (ret) {
+ 			dev_warn(dev, "Unable to setup chained irq handler: %d\n", ret);
+ 			return ret;
+--===============7119704869910558264==--
 
