@@ -1,412 +1,338 @@
-Content-Type: multipart/mixed; boundary="===============8584930061745019802=="
+Content-Type: multipart/mixed; boundary="===============2227451218612979248=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:129:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Thu, 27 Jan 2022 02:21:38 +0800
-Message-ID: <202201270239.Y4uWKZBp-lkp@intel.com>
+Subject: [linux-next:master 1591/1734] fs/btrfs/scrub.c:3678 scrub_stripe() error: uninitialized symbol 'offset'.
+Date: Thu, 27 Jan 2022 00:59:53 +0800
+Message-ID: <202201270045.iXLGJa5t-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8584930061745019802==
+--===============2227451218612979248==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
-CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Qu Wenruo <wqu@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0280e3c58f92b2fe0e8fbbdf8d386449168de4a8
-commit: c80d92fbb67b2c80b8eeb8759ee79d676eb33520 compiler_types.h: Remove _=
-_compiletime_object_size()
-date:   4 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 4 months ago
-config: riscv-randconfig-c006-20220125 (https://download.01.org/0day-ci/arc=
-hive/20220127/202201270239.Y4uWKZBp-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 997e12=
-8e2a78f5a5434fc75997441ae1ee76f8a4)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dc80d92fbb67b2c80b8eeb8759ee79d676eb33520
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c80d92fbb67b2c80b8eeb8759ee79d676eb33520
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   d25ee88530253138d0b20d43511ca5acbda4e9f7
+commit: fa676286533c1c414da23d5ef8ae452c7f66e9b7 [1591/1734] btrfs: use scr=
+ub_simple_mirror() to handle RAID56 data stripe scrub
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-m031-20220124 (https://download.01.org/0day-ci/=
+archive/20220127/202201270045.iXLGJa5t-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+fs/btrfs/scrub.c:3678 scrub_stripe() error: uninitialized symbol 'offset'.
+fs/btrfs/scrub.c:3680 scrub_stripe() error: uninitialized symbol 'physical_=
+end'.
+
+Old smatch warnings:
+fs/btrfs/scrub.c:3439 scrub_simple_mirror() error: uninitialized symbol 're=
+t'.
+
+vim +/offset +3678 fs/btrfs/scrub.c
+
+38d2dda468be859 Qu Wenruo       2022-01-07  3512  =
+
+d9d181c1ba7aa09 Stefan Behrens  2012-11-02  3513  static noinline_for_stack=
+ int scrub_stripe(struct scrub_ctx *sctx,
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3514  					   struct btrfs_bloc=
+k_group *bg,
+a36cf8b8933e4a7 Stefan Behrens  2012-11-02  3515  					   struct map_lookup=
+ *map,
+a36cf8b8933e4a7 Stefan Behrens  2012-11-02  3516  					   struct btrfs_devi=
+ce *scrub_dev,
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3517  					   int stripe_index,=
+ u64 dev_extent_len)
+a2de733c78fa7af Arne Jansen     2011-03-08  3518  {
+2522dbe86b54ff0 Qu Wenruo       2021-12-14  3519  	struct btrfs_path *path;
+fb456252d3d9c05 Jeff Mahoney    2016-06-22  3520  	struct btrfs_fs_info *fs=
+_info =3D sctx->fs_info;
+29cbcf401793f4e Josef Bacik     2021-11-05  3521  	struct btrfs_root *root;
+fc28b25e1f42865 Josef Bacik     2021-11-05  3522  	struct btrfs_root *csum_=
+root;
+e7786c3ae517b2c Arne Jansen     2011-05-28  3523  	struct blk_plug plug;
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3524  	const u64 profile =3D ma=
+p->type & BTRFS_BLOCK_GROUP_PROFILE_MASK;
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3525  	const u64 chunk_logical =
+=3D bg->start;
+a2de733c78fa7af Arne Jansen     2011-03-08  3526  	int ret;
+a2de733c78fa7af Arne Jansen     2011-03-08  3527  	u64 nstripes;
+a2de733c78fa7af Arne Jansen     2011-03-08  3528  	u64 physical;
+a2de733c78fa7af Arne Jansen     2011-03-08  3529  	u64 logical;
+625f1c8dc66d778 Liu Bo          2013-04-27  3530  	u64 logic_end;
+3b080b2564287be Wang Shilong    2014-04-01  3531  	u64 physical_end;
+fa676286533c1c4 Qu Wenruo       2022-01-07  3532  	u64 increment;	/* The lo=
+gical increment after finishing one stripe */
+fa676286533c1c4 Qu Wenruo       2022-01-07  3533  	u64 offset;	/* Offset in=
+side the chunk */
+5a6ac9eacb49143 Miao Xie        2014-11-06  3534  	u64 stripe_logical;
+5a6ac9eacb49143 Miao Xie        2014-11-06  3535  	u64 stripe_end;
+3b080b2564287be Wang Shilong    2014-04-01  3536  	int stop_loop =3D 0;
+53b381b3abeb86f David Woodhouse 2013-01-29  3537  =
+
+a2de733c78fa7af Arne Jansen     2011-03-08  3538  	path =3D btrfs_alloc_pat=
+h();
+a2de733c78fa7af Arne Jansen     2011-03-08  3539  	if (!path)
+a2de733c78fa7af Arne Jansen     2011-03-08  3540  		return -ENOMEM;
+a2de733c78fa7af Arne Jansen     2011-03-08  3541  =
+
+b5d67f64f9bc656 Stefan Behrens  2012-03-27  3542  	/*
+fa676286533c1c4 Qu Wenruo       2022-01-07  3543  	 * Work on commit root. =
+The related disk blocks are static as
+b5d67f64f9bc656 Stefan Behrens  2012-03-27  3544  	 * long as COW is applie=
+d. This means, it is save to rewrite
+b5d67f64f9bc656 Stefan Behrens  2012-03-27  3545  	 * them to repair disk e=
+rrors without any race conditions
+b5d67f64f9bc656 Stefan Behrens  2012-03-27  3546  	 */
+a2de733c78fa7af Arne Jansen     2011-03-08  3547  	path->search_commit_root=
+ =3D 1;
+a2de733c78fa7af Arne Jansen     2011-03-08  3548  	path->skip_locking =3D 1;
+dcf62b204c06ac2 Qu Wenruo       2021-12-14  3549  	path->reada =3D READA_FO=
+RWARD;
+a2de733c78fa7af Arne Jansen     2011-03-08  3550  =
+
+d9d181c1ba7aa09 Stefan Behrens  2012-11-02  3551  	wait_event(sctx->list_wa=
+it,
+b6bfebc13218f1f Stefan Behrens  2012-11-02  3552  		   atomic_read(&sctx->b=
+ios_in_flight) =3D=3D 0);
+cb7ab02156e4ba9 Wang Shilong    2013-12-04  3553  	scrub_blocked_if_needed(=
+fs_info);
+a2de733c78fa7af Arne Jansen     2011-03-08  3554  =
+
+fa676286533c1c4 Qu Wenruo       2022-01-07  3555  	root =3D btrfs_extent_ro=
+ot(fs_info, bg->start);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3556  	csum_root =3D btrfs_csum=
+_root(fs_info, bg->start);
+fc28b25e1f42865 Josef Bacik     2021-11-05  3557  =
+
+a2de733c78fa7af Arne Jansen     2011-03-08  3558  	/*
+fa676286533c1c4 Qu Wenruo       2022-01-07  3559  	 * Collect all data csum=
+s for the stripe to avoid seeking during
+a2de733c78fa7af Arne Jansen     2011-03-08  3560  	 * the scrub. This might=
+ currently (crc32) end up to be about 1MB
+a2de733c78fa7af Arne Jansen     2011-03-08  3561  	 */
+e7786c3ae517b2c Arne Jansen     2011-05-28  3562  	blk_start_plug(&plug);
+a2de733c78fa7af Arne Jansen     2011-03-08  3563  =
+
+de17addce7a20db Naohiro Aota    2021-02-04  3564  	if (sctx->is_dev_replace=
+ &&
+fa676286533c1c4 Qu Wenruo       2022-01-07  3565  	    btrfs_dev_is_sequent=
+ial(sctx->wr_tgtdev,
+fa676286533c1c4 Qu Wenruo       2022-01-07  3566  				    map->stripes[stri=
+pe_index].physical)) {
+de17addce7a20db Naohiro Aota    2021-02-04  3567  		mutex_lock(&sctx->wr_lo=
+ck);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3568  		sctx->write_pointer =3D=
+ map->stripes[stripe_index].physical;
+de17addce7a20db Naohiro Aota    2021-02-04  3569  		mutex_unlock(&sctx->wr_=
+lock);
+de17addce7a20db Naohiro Aota    2021-02-04  3570  		sctx->flush_all_writes =
+=3D true;
+de17addce7a20db Naohiro Aota    2021-02-04  3571  	}
+de17addce7a20db Naohiro Aota    2021-02-04  3572  =
+
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3573  	/*
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3574  	 * There used to be a bi=
+g double loop to handle all profiles using the
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3575  	 * same routine, which g=
+rows larger and more gross over time.
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3576  	 *
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3577  	 * So here we handle eac=
+h profile differently, so simpler profiles
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3578  	 * have simpler scrubing=
+ function.
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3579  	 */
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3580  	if (!(profile & (BTRFS_B=
+LOCK_GROUP_RAID0 | BTRFS_BLOCK_GROUP_RAID10 |
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3581  			 BTRFS_BLOCK_GROUP_RAI=
+D56_MASK))) {
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3582  		/*
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3583  		 * Above check rules ou=
+t all complex profile, the remaining
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3584  		 * profiles are SINGLE|=
+DUP|RAID1|RAID1C*, which is simple
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3585  		 * mirrored duplication=
+ without stripe.
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3586  		 *
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3587  		 * Only @phsyical and @=
+mirror_num needs to calculated using
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3588  		 * @stripe_index.
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3589  		 */
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3590  		ret =3D scrub_simple_mi=
+rror(sctx, root, csum_root, bg, map,
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3591  				bg->start, bg->length=
+, scrub_dev,
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3592  				map->stripes[stripe_i=
+ndex].physical,
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3593  				stripe_index + 1);
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3594  		goto out;
+b5b99b1e02969dd Qu Wenruo       2022-01-07  3595  	}
+38d2dda468be859 Qu Wenruo       2022-01-07  3596  	if (profile & (BTRFS_BLO=
+CK_GROUP_RAID0 | BTRFS_BLOCK_GROUP_RAID10)) {
+38d2dda468be859 Qu Wenruo       2022-01-07  3597  		ret =3D scrub_simple_st=
+ripe(sctx, root, csum_root, bg, map,
+38d2dda468be859 Qu Wenruo       2022-01-07  3598  					  scrub_dev, stripe_=
+index);
+38d2dda468be859 Qu Wenruo       2022-01-07  3599  		goto out;
+38d2dda468be859 Qu Wenruo       2022-01-07  3600  	}
+38d2dda468be859 Qu Wenruo       2022-01-07  3601  =
+
+38d2dda468be859 Qu Wenruo       2022-01-07  3602  	/* Only RAID56 goes thro=
+ugh the old code */
+38d2dda468be859 Qu Wenruo       2022-01-07  3603  	ASSERT(map->type & BTRFS=
+_BLOCK_GROUP_RAID56_MASK);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3604  =
+
+fa676286533c1c4 Qu Wenruo       2022-01-07  3605  	physical =3D map->stripe=
+s[stripe_index].physical;
+fa676286533c1c4 Qu Wenruo       2022-01-07  3606  	offset =3D 0;
+fa676286533c1c4 Qu Wenruo       2022-01-07  3607  	nstripes =3D div64_u64(d=
+ev_extent_len, map->stripe_len);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3608  	get_raid56_logic_offset(=
+physical, stripe_index, map, &offset, NULL);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3609  	increment =3D map->strip=
+e_len * nr_data_stripes(map);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3610  =
+
+fa676286533c1c4 Qu Wenruo       2022-01-07  3611  	logical =3D chunk_logica=
+l + offset;
+fa676286533c1c4 Qu Wenruo       2022-01-07  3612  	physical_end =3D physica=
+l + nstripes * map->stripe_len;
+fa676286533c1c4 Qu Wenruo       2022-01-07  3613  	get_raid56_logic_offset(=
+physical_end, stripe_index, map, &logic_end,
+fa676286533c1c4 Qu Wenruo       2022-01-07  3614  				NULL);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3615  	logic_end +=3D chunk_log=
+ical;
+fa676286533c1c4 Qu Wenruo       2022-01-07  3616  =
+
+a2de733c78fa7af Arne Jansen     2011-03-08  3617  	ret =3D 0;
+a2de733c78fa7af Arne Jansen     2011-03-08  3618  	/*
+fa676286533c1c4 Qu Wenruo       2022-01-07  3619  	 * Due to the rotation, =
+for RAID56 it's better to iterate each stripe
+fa676286533c1c4 Qu Wenruo       2022-01-07  3620  	 * using their physical =
+offset.
+a2de733c78fa7af Arne Jansen     2011-03-08  3621  	 */
+fa676286533c1c4 Qu Wenruo       2022-01-07  3622  	while (physical < physic=
+al_end) {
+fa676286533c1c4 Qu Wenruo       2022-01-07  3623  		ret =3D get_raid56_logi=
+c_offset(physical, stripe_index, map,
+fa676286533c1c4 Qu Wenruo       2022-01-07  3624  					      &logical, &str=
+ipe_logical);
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3625  		logical +=3D chunk_logi=
+cal;
+f2f66a2f886383f Zhao Lei        2015-07-21  3626  		if (ret) {
+fa676286533c1c4 Qu Wenruo       2022-01-07  3627  			/* It is parity strip =
+*/
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3628  			stripe_logical +=3D ch=
+unk_logical;
+a0dd59de3c73fbb Zhao Lei        2015-07-21  3629  			stripe_end =3D stripe_=
+logical + increment;
+f2f66a2f886383f Zhao Lei        2015-07-21  3630  			ret =3D scrub_raid56_p=
+arity(sctx, map, scrub_dev,
+2522dbe86b54ff0 Qu Wenruo       2021-12-14  3631  						  stripe_logical,
+f2f66a2f886383f Zhao Lei        2015-07-21  3632  						  stripe_end);
+f2f66a2f886383f Zhao Lei        2015-07-21  3633  			if (ret)
+f2f66a2f886383f Zhao Lei        2015-07-21  3634  				goto out;
+a2de733c78fa7af Arne Jansen     2011-03-08  3635  			goto next;
+a2de733c78fa7af Arne Jansen     2011-03-08  3636  		}
+a2de733c78fa7af Arne Jansen     2011-03-08  3637  =
+
+a2de733c78fa7af Arne Jansen     2011-03-08  3638  		/*
+fa676286533c1c4 Qu Wenruo       2022-01-07  3639  		 * Now we're@data st=
+ripes, scrub each extents in the range.
+fa676286533c1c4 Qu Wenruo       2022-01-07  3640  		 *
+fa676286533c1c4 Qu Wenruo       2022-01-07  3641  		 * At this stage, if we=
+ ignore the repair part, each data stripe
+fa676286533c1c4 Qu Wenruo       2022-01-07  3642  		 * is no different than=
+ SINGLE profile.
+fa676286533c1c4 Qu Wenruo       2022-01-07  3643  		 * We can reuse scrub_s=
+imple_mirror() here, as the repair part
+fa676286533c1c4 Qu Wenruo       2022-01-07  3644  		 * is still based on @m=
+irror_num.
+3b080b2564287be Wang Shilong    2014-04-01  3645  		 */
+fa676286533c1c4 Qu Wenruo       2022-01-07  3646  		ret =3D scrub_simple_mi=
+rror(sctx, root, csum_root, bg, map,
+fa676286533c1c4 Qu Wenruo       2022-01-07  3647  					  logical, map->stri=
+pe_len,
+fa676286533c1c4 Qu Wenruo       2022-01-07  3648  					  scrub_dev, physica=
+l, 1);
+fa676286533c1c4 Qu Wenruo       2022-01-07  3649  		if (ret < 0)
+5a6ac9eacb49143 Miao Xie        2014-11-06  3650  			goto out;
+a2de733c78fa7af Arne Jansen     2011-03-08  3651  next:
+a2de733c78fa7af Arne Jansen     2011-03-08  3652  		logical +=3D increment;
+a2de733c78fa7af Arne Jansen     2011-03-08  3653  		physical +=3D map->stri=
+pe_len;
+d9d181c1ba7aa09 Stefan Behrens  2012-11-02  3654  		spin_lock(&sctx->stat_l=
+ock);
+625f1c8dc66d778 Liu Bo          2013-04-27  3655  		if (stop_loop)
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3656  			sctx->stat.last_physic=
+al =3D map->stripes[stripe_index].physical +
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3657  						   dev_extent_len;
+625f1c8dc66d778 Liu Bo          2013-04-27  3658  		else
+d9d181c1ba7aa09 Stefan Behrens  2012-11-02  3659  			sctx->stat.last_physic=
+al =3D physical;
+d9d181c1ba7aa09 Stefan Behrens  2012-11-02  3660  		spin_unlock(&sctx->stat=
+_lock);
+625f1c8dc66d778 Liu Bo          2013-04-27  3661  		if (stop_loop)
+625f1c8dc66d778 Liu Bo          2013-04-27  3662  			break;
+a2de733c78fa7af Arne Jansen     2011-03-08  3663  	}
+ff023aac31198e8 Stefan Behrens  2012-11-06  3664  out:
+a2de733c78fa7af Arne Jansen     2011-03-08  3665  	/* push queued extents */
+d9d181c1ba7aa09 Stefan Behrens  2012-11-02  3666  	scrub_submit(sctx);
+3fb99303c64e31f David Sterba    2017-05-16  3667  	mutex_lock(&sctx->wr_loc=
+k);
+ff023aac31198e8 Stefan Behrens  2012-11-06  3668  	scrub_wr_submit(sctx);
+3fb99303c64e31f David Sterba    2017-05-16  3669  	mutex_unlock(&sctx->wr_l=
+ock);
+a2de733c78fa7af Arne Jansen     2011-03-08  3670  =
+
+e7786c3ae517b2c Arne Jansen     2011-05-28  3671  	blk_finish_plug(&plug);
+a2de733c78fa7af Arne Jansen     2011-03-08  3672  	btrfs_free_path(path);
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3673  =
+
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3674  	if (sctx->is_dev_replace=
+ && ret >=3D 0) {
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3675  		int ret2;
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3676  =
+
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3677  		ret2 =3D sync_write_poi=
+nter_for_zoned(sctx,
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15 @3678  				chunk_logical + offse=
+t,
+2ae8ae3d3def4c3 Qu Wenruo       2021-12-15  3679  				map->stripes[stripe_i=
+ndex].physical,
+7db1c5d14dcd521 Naohiro Aota    2021-02-04 @3680  				physical_end);
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3681  		if (ret2)
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3682  			ret =3D ret2;
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3683  	}
+7db1c5d14dcd521 Naohiro Aota    2021-02-04  3684  =
+
+a2de733c78fa7af Arne Jansen     2011-03-08  3685  	return ret < 0 ? ret : 0;
+a2de733c78fa7af Arne Jansen     2011-03-08  3686  }
+a2de733c78fa7af Arne Jansen     2011-03-08  3687  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   5 warnings generated.
-   drivers/iio/dac/ad5755.c:88:8: warning: Excessive padding in 'struct ad5=
-755_state' (100 padding bytes, where 36 is optimal). =
+:::::: The code@line 3678 was first introduced by commit
+:::::: 2ae8ae3d3def4c3ba73a58cc2531c42f0916f14e btrfs: scrub: cleanup the a=
+rgument list of scrub_stripe()
 
-   Optimal fields order: =
-
-   data, =
-
-   spi, =
-
-   chip_info, =
-
-   pwr_down, =
-
-   ctrl, =
-
-   lock, =
-
-   channels, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad5755_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/dac/ad5755.c:88:8: note: Excessive padding in 'struct ad5755=
-_state' (100 padding bytes, where 36 is optimal). Optimal fields order: dat=
-a, spi, chip_info, pwr_down, ctrl, lock, channels, consider reordering the =
-fields or adding explicit padding members
-   struct ad5755_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/dac/ad5755.c:729:37: warning: Value stored to 'pdata' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const struct ad5755_platform_data *pdata =3D dev_get_platdata(&s=
-pi->dev);
-                                              ^~~~~   ~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/iio/dac/ad5755.c:729:37: note: Value stored to 'pdata' during it=
-s initialization is never read
-           const struct ad5755_platform_data *pdata =3D dev_get_platdata(&s=
-pi->dev);
-                                              ^~~~~   ~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/dac/ad5761.c:63:8: warning: Excessive padding in 'struct ad5=
-761_state' (75 padding bytes, where 11 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   spi, =
-
-   vref_reg, =
-
-   vref, =
-
-   range, =
-
-   lock, =
-
-   use_intref, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad5761_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/dac/ad5761.c:63:8: note: Excessive padding in 'struct ad5761=
-_state' (75 padding bytes, where 11 is optimal). Optimal fields order: data=
-, spi, vref_reg, vref, range, lock, use_intref, consider reordering the fie=
-lds or adding explicit padding members
-   struct ad5761_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/input/keyboard/lm8323.c:333:3: warning: Value stored to 'active'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   active =3D debounce + 3;
-                   ^        ~~~~~~~~~~~~
-   drivers/input/keyboard/lm8323.c:333:3: note: Value stored to 'active' is=
- never read
-                   active =3D debounce + 3;
-                   ^        ~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:129:7: war=
-ning: Branch condition evaluates to a garbage value [clang-analyzer-core.un=
-initialized.Branch]
-                   if (!elements[i].data && elements[i].size !=3D 0)
-                       ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:601:18: no=
-te: Assuming 'vchiq_arm_log_level' is < 7
-           vchiq_log_trace(vchiq_arm_log_level,
-                           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:60:11: no=
-te: expanded from macro 'vchiq_log_trace'
-           do { if (cat >=3D VCHIQ_LOG_TRACE) \
-                    ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:601:2: not=
-e: Taking false branch
-           vchiq_log_trace(vchiq_arm_log_level,
-           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:60:7: not=
-e: expanded from macro 'vchiq_log_trace'
-           do { if (cat >=3D VCHIQ_LOG_TRACE) \
-                ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:601:2: not=
-e: Loop condition is false.  Exiting loop
-           vchiq_log_trace(vchiq_arm_log_level,
-           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:60:2: not=
-e: expanded from macro 'vchiq_log_trace'
-           do { if (cat >=3D VCHIQ_LOG_TRACE) \
-           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:608:2: not=
-e: Control jumps to 'case 1074578436:'  at line 738
-           switch (cmd) {
-           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:741:7: not=
-e: Assuming the condition is false
-                   if (copy_from_user(&args, (const void __user *)arg,
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:741:3: not=
-e: Taking false branch
-                   if (copy_from_user(&args, (const void __user *)arg,
-                   ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:7: not=
-e: Assuming 'service' is non-null
-                   if (service && (args.count <=3D MAX_ELEMENTS)) {
-                       ^~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:7: not=
-e: Left side of '&&' is true
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:19: no=
-te: Assuming field 'count' is <=3D MAX_ELEMENTS
-                   if (service && (args.count <=3D MAX_ELEMENTS)) {
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:3: not=
-e: Taking true branch
-                   if (service && (args.count <=3D MAX_ELEMENTS)) {
-                   ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:8: not=
-e: Calling 'copy_from_user'
-                           if (copy_from_user(elements, args.elements,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking false branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->d=
-ata', which participates in a condition later
-           return n;
-           ^
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->d=
-ata'
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:8: not=
-e: Returning from 'copy_from_user'
-                           if (copy_from_user(elements, args.elements,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:8: not=
-e: Assuming the condition is true
-                           if (copy_from_user(elements, args.elements,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:4: not=
-e: Taking true branch
-                           if (copy_from_user(elements, args.elements,
-                           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:755:11: no=
-te: Calling 'vchiq_ioc_queue_message'
-                                   ret =3D vchiq_ioc_queue_message(args.han=
-dle, elements,
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:128:14: no=
-te: Assuming 'i' is < 'count'
-           for (i =3D 0; i < count; i++) {
-                       ^~~~~~~~~
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:128:2: not=
-e: Loop condition is true.  Entering loop body
-           for (i =3D 0; i < count; i++) {
-           ^
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:129:7: not=
-e: Branch condition evaluates to a garbage value
-                   if (!elements[i].data && elements[i].size !=3D 0)
-                       ^~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/spi/spi-tegra20-slink.c:952:3: warning: Value stored to 'err' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D tegra_slink_start_dma_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra20-slink.c:952:3: note: Value stored to 'err' is ne=
-ver read
-                   err =3D tegra_slink_start_dma_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra20-slink.c:954:3: warning: Value stored to 'err' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D tegra_slink_start_cpu_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-tegra20-slink.c:954:3: note: Value stored to 'err' is ne=
-ver read
-                   err =3D tegra_slink_start_cpu_based_transfer(tspi, t);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-
-vim +129 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  114  =
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  115  static int
-f05916281fd75d Ojaswin Mujoo 2021-07-21  116  vchiq_ioc_queue_message(unsig=
-ned int handle, struct vchiq_element *elements,
-f05916281fd75d Ojaswin Mujoo 2021-07-21  117  			unsigned long count)
-f05916281fd75d Ojaswin Mujoo 2021-07-21  118  {
-f05916281fd75d Ojaswin Mujoo 2021-07-21  119  	struct vchiq_io_copy_callbac=
-k_context context;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  120  	enum vchiq_status status =3D=
- VCHIQ_SUCCESS;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  121  	unsigned long i;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  122  	size_t total_size =3D 0;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  123  =
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  124  	context.element =3D elements;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  125  	context.element_offset =3D 0;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  126  	context.elements_to_go =3D c=
-ount;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  127  =
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  128  	for (i =3D 0; i < count; i++=
-) {
-f05916281fd75d Ojaswin Mujoo 2021-07-21 @129  		if (!elements[i].data && el=
-ements[i].size !=3D 0)
-f05916281fd75d Ojaswin Mujoo 2021-07-21  130  			return -EFAULT;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  131  =
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  132  		total_size +=3D elements[i]=
-.size;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  133  	}
-f05916281fd75d Ojaswin Mujoo 2021-07-21  134  =
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  135  	status =3D vchiq_queue_messa=
-ge(handle, vchiq_ioc_copy_element_data,
-f05916281fd75d Ojaswin Mujoo 2021-07-21  136  				     &context, total_size=
-);
-f05916281fd75d Ojaswin Mujoo 2021-07-21  137  =
-
-f05916281fd75d Ojaswin Mujoo 2021-07-21  138  	if (status =3D=3D VCHIQ_ERRO=
-R)
-f05916281fd75d Ojaswin Mujoo 2021-07-21  139  		return -EIO;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  140  	else if (status =3D=3D VCHIQ=
-_RETRY)
-f05916281fd75d Ojaswin Mujoo 2021-07-21  141  		return -EINTR;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  142  	return 0;
-f05916281fd75d Ojaswin Mujoo 2021-07-21  143  }
-f05916281fd75d Ojaswin Mujoo 2021-07-21  144  =
-
-
-:::::: The code@line 129 was first introduced by commit
-:::::: f05916281fd75db2fe32294e26c04d666c762370 staging: vchiq: Move vchiq =
-char driver to its own file
-
-:::::: TO: Ojaswin Mujoo <ojaswin98@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Qu Wenruo <wqu@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8584930061745019802==--
+--===============2227451218612979248==--
 
