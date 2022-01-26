@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7260919534268743643=="
+Content-Type: multipart/mixed; boundary="===============4684425186016534315=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/mptcp/ctrl.c:89:3: warning: Argument to kfree() is the address of the global variable 'mptcp_sysctl_table', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-Date: Wed, 26 Jan 2022 19:13:37 +0800
-Message-ID: <202201261913.99WP2cm3-lkp@intel.com>
+Subject: fs/ext4/super.c:5649:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 26 Jan 2022 16:20:00 +0800
+Message-ID: <202201261659.dZZOrgxb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7260919534268743643==
+--===============4684425186016534315==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,31 +15,32 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: Pavel Machek <pavel@ucw.cz>
+TO: Lukas Czerner <lczerner@redhat.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Carlos Maiolino <cmaiolino@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   0280e3c58f92b2fe0e8fbbdf8d386449168de4a8
-commit: 2cbbe9c50d13b6417e0baf8e8475ed73d4d12c2d leds: lgm-sso: Remove unne=
-eded of_match_ptr()
-date:   8 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-c007-20220124 (https://download.01.org/0day-ci/ar=
-chive/20220126/202201261913.99WP2cm3-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 997e12=
-8e2a78f5a5434fc75997441ae1ee76f8a4)
+commit: cebe85d570cf84804e848332d6721bc9e5300e07 ext4: switch to the new mo=
+unt api
+date:   7 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20126/202201261659.dZZOrgxb-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f7b713=
+8a62648f4019c55e4671682af1f851f295)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2cbbe9c50d13b6417e0baf8e8475ed73d4d12c2d
+t/commit/?id=3Dcebe85d570cf84804e848332d6721bc9e5300e07
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 2cbbe9c50d13b6417e0baf8e8475ed73d4d12c2d
+        git checkout cebe85d570cf84804e848332d6721bc9e5300e07
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -50,351 +51,293 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/most/configfs.c:446:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   drivers/most/configfs.c:535:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   drivers/most/configfs.c:535:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   3 warnings generated.
-   fs/cifs/smb2ops.c:4020:3: warning: Call to function 'strcat' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(message, "R");
-                   ^~~~~~
-   fs/cifs/smb2ops.c:4020:3: note: Call to function 'strcat' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcat'. CWE-119
-                   strcat(message, "R");
-                   ^~~~~~
-   fs/cifs/smb2ops.c:4024:3: warning: Call to function 'strcat' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(message, "H");
-                   ^~~~~~
-   fs/cifs/smb2ops.c:4024:3: note: Call to function 'strcat' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcat'. CWE-119
-                   strcat(message, "H");
-                   ^~~~~~
-   fs/cifs/smb2ops.c:4028:3: warning: Call to function 'strcat' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(message, "W");
-                   ^~~~~~
-   fs/cifs/smb2ops.c:4028:3: note: Call to function 'strcat' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcat'. CWE-119
-                   strcat(message, "W");
-                   ^~~~~~
+           ^
+   net/core/filter.c:1760:15: note: Assuming field 'skb' is non-null
+           if (unlikely(!ctx->skb))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/core/filter.c:1760:2: note: Taking false branch
+           if (unlikely(!ctx->skb))
+           ^
+   net/core/filter.c:1764:15: note: Assuming 'ptr' is null
+           if (unlikely(!ptr))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/core/filter.c:1764:2: note: Taking true branch
+           if (unlikely(!ptr))
+           ^
+   net/core/filter.c:1765:3: note: Control jumps to line 1771
+                   goto err_clear;
+                   ^
+   net/core/filter.c:1771:2: note: Null pointer passed as 1st argument to m=
+emory set function
+           memset(to, 0, len);
+           ^      ~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   net/mac80211/ibss.c:934:6: warning: Value stored to 'reason' during its =
+initialization is never read [clang-analyzer-deadcode.DeadStores]
+           u16 reason =3D le16_to_cpu(mgmt->u.deauth.reason_code);
+               ^~~~~~
+   net/mac80211/ibss.c:934:6: note: Value stored to 'reason' during its ini=
+tialization is never read
+           u16 reason =3D le16_to_cpu(mgmt->u.deauth.reason_code);
+               ^~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   net/sunrpc/svcauth_unix.c:131:2: warning: Call to function 'strcpy' is i=
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+>> fs/ext4/super.c:5649:3: warning: Value stored to 'ret' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   fs/ext4/super.c:5649:3: note: Value stored to 'ret' is never read
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   Suppressed 11 warnings (7 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   net/wireless/wext-compat.c:30:2: warning: Call to function 'strcpy' is i=
 nsecure as it does not provide bounding of the memory buffer. Replace unbou=
 nded copy functions with analogous functions that support length arguments =
 such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(new->m_class, item->m_class);
+           strcpy(name, "IEEE 802.11");
            ^~~~~~
-   net/sunrpc/svcauth_unix.c:131:2: note: Call to function 'strcpy' is inse=
+   net/wireless/wext-compat.c:30:2: note: Call to function 'strcpy' is inse=
 cure as it does not provide bounding of the memory buffer. Replace unbounde=
 d copy functions with analogous functions that support length arguments suc=
 h as 'strlcpy'. CWE-119
-           strcpy(new->m_class, item->m_class);
+           strcpy(name, "IEEE 802.11");
            ^~~~~~
-   net/sunrpc/svcauth_unix.c:294:2: warning: Call to function 'strcpy' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(ip.m_class, class);
-           ^~~~~~
-   net/sunrpc/svcauth_unix.c:294:2: note: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119
-           strcpy(ip.m_class, class);
-           ^~~~~~
-   net/sunrpc/svcauth_unix.c:819:29: warning: Although the value stored to =
-'len' is used in the enclosing expression, the value is never actually read=
- from 'len' [clang-analyzer-deadcode.DeadStores]
-           if (slen > UNX_NGROUPS || (len -=3D (slen + 2)*4) < 0)
-                                      ^      ~~~~~~~~~~~~
-   net/sunrpc/svcauth_unix.c:819:29: note: Although the value stored to 'le=
-n' is used in the enclosing expression, the value is never actually read fr=
-om 'len'
-           if (slen > UNX_NGROUPS || (len -=3D (slen + 2)*4) < 0)
-                                      ^      ~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   net/sunrpc/addr.c:92:2: warning: Call to function 'strcat' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(buf, scopebuf);
-           ^~~~~~
-   net/sunrpc/addr.c:92:2: note: Call to function 'strcat' is insecure as i=
-t does not provide bounding of the memory buffer. Replace unbounded copy fu=
-nctions with analogous functions that support length arguments such as 'str=
-lcat'. CWE-119
-           strcat(buf, scopebuf);
-           ^~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   net/mptcp/crypto.c:60:12: warning: Assigned value is garbage or undefine=
-d [clang-analyzer-core.uninitialized.Assign]
-                   input[i] ^=3D key1be[i];
-                            ^  ~~~~~~~~~
-   net/mptcp/crypto.c:51:19: note: Assuming 'len' is <=3D 32
-           if (WARN_ON_ONCE(len > SHA256_DIGEST_SIZE))
-                            ^
-   include/asm-generic/bug.h:102:25: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_on =3D !!(condition);                      \
-                                  ^~~~~~~~~
-   net/mptcp/crypto.c:51:6: note: Taking false branch
-           if (WARN_ON_ONCE(len > SHA256_DIGEST_SIZE))
-               ^
-   include/asm-generic/bug.h:103:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   net/mptcp/crypto.c:51:2: note: Taking false branch
-           if (WARN_ON_ONCE(len > SHA256_DIGEST_SIZE))
-           ^
-   net/mptcp/crypto.c:54:2: note: Calling 'put_unaligned_be64'
-           put_unaligned_be64(key1, key1be);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/crypto.c:54:2: note: Returning from 'put_unaligned_be64'
-           put_unaligned_be64(key1, key1be);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/crypto.c:59:2: note: Loop condition is true.  Entering loop bo=
-dy
-           for (i =3D 0; i < 8; i++)
-           ^
-   net/mptcp/crypto.c:59:21: note: The value 1 is assigned to 'i'
-           for (i =3D 0; i < 8; i++)
-                              ^~~
-   net/mptcp/crypto.c:59:2: note: Loop condition is true.  Entering loop bo=
-dy
-           for (i =3D 0; i < 8; i++)
-           ^
-   net/mptcp/crypto.c:60:12: note: Assigned value is garbage or undefined
-                   input[i] ^=3D key1be[i];
-                            ^  ~~~~~~~~~
-   1 warning generated.
->> net/mptcp/ctrl.c:89:3: warning: Argument to kfree() is the address of th=
-e global variable 'mptcp_sysctl_table', which is not memory allocated by ma=
-lloc() [clang-analyzer-unix.Malloc]
-                   kfree(table);
-                   ^
-   net/mptcp/ctrl.c:109:9: note: Calling 'mptcp_pernet_new_table'
-           return mptcp_pernet_new_table(net, pernet);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/ctrl.c:70:6: note: Assuming the condition is false
-           if (!net_eq(net, &init_net)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/ctrl.c:70:2: note: Taking false branch
-           if (!net_eq(net, &init_net)) {
-           ^
-   net/mptcp/ctrl.c:80:6: note: Assuming 'hdr' is null
-           if (!hdr)
-               ^~~~
-   net/mptcp/ctrl.c:80:2: note: Taking true branch
-           if (!hdr)
-           ^
-   net/mptcp/ctrl.c:81:3: note: Control jumps to line 88
-                   goto err_reg;
-                   ^
-   net/mptcp/ctrl.c:88:6: note: Assuming the condition is true
-           if (!net_eq(net, &init_net))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/mptcp/ctrl.c:88:2: note: Taking true branch
-           if (!net_eq(net, &init_net))
-           ^
-   net/mptcp/ctrl.c:89:3: note: Argument to kfree() is the address of the g=
-lobal variable 'mptcp_sysctl_table', which is not memory allocated by mallo=
-c()
-                   kfree(table);
-                   ^     ~~~~~
-   1 warning generated.
-   drivers/hid/hid-lg-g15.c:365:3: warning: Value stored to 'ret' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D (ret < 0) ? ret : -EIO;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-lg-g15.c:365:3: note: Value stored to 'ret' is never read
-                   ret =3D (ret < 0) ? ret : -EIO;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   drivers/hid/hid-magicmouse.c:743:3: warning: Value stored to 'report' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   report =3D hid_register_report(hdev, HID_INPUT_REPORT,
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-magicmouse.c:743:3: note: Value stored to 'report' is ne=
-ver read
-                   report =3D hid_register_report(hdev, HID_INPUT_REPORT,
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
-   net/ipv4/ipconfig.c:366:2: warning: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(ir.ifr_ifrn.ifrn_name, ic_dev->dev->name);
-           ^~~~~~
-   net/ipv4/ipconfig.c:366:2: note: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119
-           strcpy(ir.ifr_ifrn.ifrn_name, ic_dev->dev->name);
-           ^~~~~~
-   net/ipv4/ipconfig.c:1034:2: warning: Value stored to 'h' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           h =3D &b->iph;
-           ^   ~~~~~~~
-   net/ipv4/ipconfig.c:1034:2: note: Value stored to 'h' is never read
-           h =3D &b->iph;
-           ^   ~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   116 warnings generated.
+   Suppressed 116 warnings (116 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   net/unix/af_unix.c:1505:3: warning: Value stored to 'err' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   err =3D 0;
-                   ^     ~
-   net/unix/af_unix.c:1505:3: note: Value stored to 'err' is never read
-                   err =3D 0;
-                   ^     ~
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   net/ipv4/udp.c:728:2: warning: Value stored to 'err' is never read [clan=
-g-analyzer-deadcode.DeadStores]
-           err =3D 0;
-           ^     ~
-   net/ipv4/udp.c:728:2: note: Value stored to 'err' is never read
-           err =3D 0;
-           ^     ~
-   1 warning generated.
-   drivers/crypto/qat/qat_common/qat_hal.c:1436:2: warning: 6th function ca=
-ll argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-           qat_hal_wr_rel_reg(handle, ae, ctx, ICP_GPB_REL, gprnum, gprval);
-           ^
-   drivers/crypto/qat/qat_common/qat_hal.c:1521:6: note: Assuming 'reg_num'=
- is < ICP_QAT_UCLO_MAX_XFER_REG
-           if (reg_num >=3D ICP_QAT_UCLO_MAX_XFER_REG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/qat/qat_common/qat_hal.c:1521:2: note: Taking false branch
-           if (reg_num >=3D ICP_QAT_UCLO_MAX_XFER_REG)
-           ^
-   drivers/crypto/qat/qat_common/qat_hal.c:1525:7: note: Assuming 'ctx_mask=
-' is equal to 0
-                   if (ctx_mask =3D=3D 0) {
-                       ^~~~~~~~~~~~~
-   drivers/crypto/qat/qat_common/qat_hal.c:1525:3: note: Taking true branch
-                   if (ctx_mask =3D=3D 0) {
-                   ^
-   drivers/crypto/qat/qat_common/qat_hal.c:1535:10: note: Calling 'qat_hal_=
-put_rel_wr_xfer'
-                   stat =3D qat_hal_put_rel_wr_xfer(handle, ae, ctx, type, =
-reg,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/crypto/qat/qat_common/qat_hal.c:1388:15: note: 'gprval' declared=
- without an initial value
-           unsigned int gprval, ctx_enables;
-                        ^~~~~~
 
-vim +/mptcp_sysctl_table +89 net/mptcp/ctrl.c
+vim +/ret +5649 fs/ext4/super.c
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  63  =
+ac27a0ec112a08 Dave Kleikamp 2006-10-11  5639  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  64  static int mptcp_pernet_new=
-_table(struct net *net, struct mptcp_pernet *pernet)
-784325e9f037e5f Matthieu Baerts 2020-01-21  65  {
-784325e9f037e5f Matthieu Baerts 2020-01-21  66  	struct ctl_table_header *h=
-dr;
-784325e9f037e5f Matthieu Baerts 2020-01-21  67  	struct ctl_table *table;
-784325e9f037e5f Matthieu Baerts 2020-01-21  68  =
+cebe85d570cf84 Lukas Czerner 2021-10-27  5640  static int ext4_fill_super(s=
+truct super_block *sb, struct fs_context *fc)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5641  {
+cebe85d570cf84 Lukas Czerner 2021-10-27  5642  	struct ext4_fs_context *ctx=
+ =3D fc->fs_private;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5643  	struct ext4_sb_info *sbi;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5644  	const char *descr;
+cebe85d570cf84 Lukas Czerner 2021-10-27  5645  	int ret;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5646  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  69  	table =3D mptcp_sysctl_tab=
-le;
-784325e9f037e5f Matthieu Baerts 2020-01-21  70  	if (!net_eq(net, &init_net=
-)) {
-784325e9f037e5f Matthieu Baerts 2020-01-21  71  		table =3D kmemdup(table, =
-sizeof(mptcp_sysctl_table), GFP_KERNEL);
-784325e9f037e5f Matthieu Baerts 2020-01-21  72  		if (!table)
-784325e9f037e5f Matthieu Baerts 2020-01-21  73  			goto err_alloc;
-784325e9f037e5f Matthieu Baerts 2020-01-21  74  	}
-784325e9f037e5f Matthieu Baerts 2020-01-21  75  =
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5647  	sbi =3D ext4_alloc_sbi(sb);
+cebe85d570cf84 Lukas Czerner 2021-10-27  5648  	if (!sbi)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27 @5649  		ret =3D -ENOMEM;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5650  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  76  	table[0].data =3D &pernet-=
->mptcp_enabled;
-93f323b9cccc1fc Geliang Tang    2020-11-03  77  	table[1].data =3D &pernet-=
->add_addr_timeout;
-784325e9f037e5f Matthieu Baerts 2020-01-21  78  =
+cebe85d570cf84 Lukas Czerner 2021-10-27  5651  	fc->s_fs_info =3D sbi;
+cebe85d570cf84 Lukas Czerner 2021-10-27  5652  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  79  	hdr =3D register_net_sysct=
-l(net, MPTCP_SYSCTL_PATH, table);
-784325e9f037e5f Matthieu Baerts 2020-01-21  80  	if (!hdr)
-784325e9f037e5f Matthieu Baerts 2020-01-21  81  		goto err_reg;
-784325e9f037e5f Matthieu Baerts 2020-01-21  82  =
+cebe85d570cf84 Lukas Czerner 2021-10-27  5653  	/* Cleanup superblock name =
+*/
+cebe85d570cf84 Lukas Czerner 2021-10-27  5654  	strreplace(sb->s_id, '/', '=
+!');
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5655  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  83  	pernet->ctl_table_hdr =3D =
-hdr;
-784325e9f037e5f Matthieu Baerts 2020-01-21  84  =
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5656  	sbi->s_sb_block =3D 1;	/* D=
+efault super block location */
+cebe85d570cf84 Lukas Czerner 2021-10-27  5657  	if (ctx->spec & EXT4_SPEC_s=
+_sb_block)
+cebe85d570cf84 Lukas Czerner 2021-10-27  5658  		sbi->s_sb_block =3D ctx->s=
+_sb_block;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5659  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  85  	return 0;
-784325e9f037e5f Matthieu Baerts 2020-01-21  86  =
+cebe85d570cf84 Lukas Czerner 2021-10-27  5660  	ret =3D __ext4_fill_super(f=
+c, sb, fc->sb_flags & SB_SILENT);
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5661  	if (ret < 0)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5662  		goto free_sbi;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5663  =
 
-784325e9f037e5f Matthieu Baerts 2020-01-21  87  err_reg:
-784325e9f037e5f Matthieu Baerts 2020-01-21  88  	if (!net_eq(net, &init_net=
-))
-784325e9f037e5f Matthieu Baerts 2020-01-21 @89  		kfree(table);
-784325e9f037e5f Matthieu Baerts 2020-01-21  90  err_alloc:
-784325e9f037e5f Matthieu Baerts 2020-01-21  91  	return -ENOMEM;
-784325e9f037e5f Matthieu Baerts 2020-01-21  92  }
-784325e9f037e5f Matthieu Baerts 2020-01-21  93  =
+cebe85d570cf84 Lukas Czerner 2021-10-27  5664  	if (sbi->s_journal) {
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5665  		if (test_opt(sb, DATA_FLAG=
+S) =3D=3D EXT4_MOUNT_JOURNAL_DATA)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5666  			descr =3D " journalled da=
+ta mode";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5667  		else if (test_opt(sb, DATA=
+_FLAGS) =3D=3D EXT4_MOUNT_ORDERED_DATA)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5668  			descr =3D " ordered data =
+mode";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5669  		else
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5670  			descr =3D " writeback dat=
+a mode";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5671  	} else
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5672  		descr =3D "out journal";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5673  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5674  	if (___ratelimit(&ext4_moun=
+t_msg_ratelimit, "EXT4-fs mount"))
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5675  		ext4_msg(sb, KERN_INFO, "m=
+ounted filesystem with%s. "
+cebe85d570cf84 Lukas Czerner 2021-10-27  5676  			 "Quota mode: %s.", descr=
+, ext4_quota_mode(sb));
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5677  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5678  	return 0;
+cebe85d570cf84 Lukas Czerner 2021-10-27  5679  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5680  free_sbi:
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5681  	ext4_free_sbi(sbi);
+cebe85d570cf84 Lukas Czerner 2021-10-27  5682  	fc->s_fs_info =3D NULL;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5683  	return ret;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5684  }
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5685  =
 
 
-:::::: The code at line 89 was first introduced by commit
-:::::: 784325e9f037e5f7a7f9a46ecbb27384128f8b6e mptcp: new sysctl to contro=
-l the activation per NS
+:::::: The code at line 5649 was first introduced by commit
+:::::: 7edfd85b1ffd36593011dec96ab395912a340418 ext4: Completely separate o=
+ptions parsing and sb setup
 
-:::::: TO: Matthieu Baerts <matthieu.baerts@tessares.net>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Lukas Czerner <lczerner@redhat.com>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7260919534268743643==--
+--===============4684425186016534315==--
 
