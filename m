@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6738804505810421922=="
+Content-Type: multipart/mixed; boundary="===============1541142531643049977=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pinctrl/pinctrl-starfive.c:640:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 27 Jan 2022 05:56:14 +0800
-Message-ID: <202201270546.QG2iciS2-lkp@intel.com>
+Subject: arch/x86/include/asm/atomic.h:29:9: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Thu, 27 Jan 2022 03:53:15 +0800
+Message-ID: <202201270357.mq4gkY77-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6738804505810421922==
+--===============1541142531643049977==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Emil Renner Berthing <kernel@esmil.dk>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Huan Feng <huan.feng@starfivetech.com>
-CC: Drew Fustini <drew@beagleboard.org>
+TO: David Howells <dhowells@redhat.com>
+CC: Jeff Layton <jlayton@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   0280e3c58f92b2fe0e8fbbdf8d386449168de4a8
-commit: ec648f6b7686b716424e8e73eebb4c11ae199187 pinctrl: starfive: Add pin=
-ctrl driver for StarFive SoCs
-date:   6 weeks ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-c006-20220126 (https://download.01.org/0day-ci/arc=
-hive/20220127/202201270546.QG2iciS2-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2a1b7a=
-a016c0f4b5598806205bdfbab1ea2d92c4)
+commit: 78525c74d9e7d1a6ce69bd4388f045f6e474a20b netfs, 9p, afs, ceph: Use =
+folios
+date:   3 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-c007-20220124 (https://download.01.org/0day-ci/ar=
+chive/20220127/202201270357.mq4gkY77-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7b3d30=
+728816403d1fd73cc5082e9fb761262bce)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dec648f6b7686b716424e8e73eebb4c11ae199187
+t/commit/?id=3D78525c74d9e7d1a6ce69bd4388f045f6e474a20b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout ec648f6b7686b716424e8e73eebb4c11ae199187
+        git checkout 78525c74d9e7d1a6ce69bd4388f045f6e474a20b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,342 +50,305 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   kernel/time/posix-cpu-timers.c:979:7: note: Left side of '||' is true
+           if (!READ_ONCE(pct->timers_active) || pct->expiry_active)
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   include/linux/percpu-defs.h:421:34: note: expanded from macro 'raw_cpu_w=
-rite'
-   #define raw_cpu_write(pcp, val)         __pcpu_size_call(raw_cpu_write_,=
- pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:379:42: note: expanded from macro '__pcpu_si=
-ze_call'
-                   case 4: stem##4(variable, __VA_ARGS__);break;           \
-                                                          ^
-   kernel/softirq.c:540:2: note: Loop condition is false.  Exiting loop
-           set_softirq_pending(0);
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:303:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   kernel/time/posix-cpu-timers.c:979:7: note: Taking false branch
+           if (!READ_ONCE(pct->timers_active) || pct->expiry_active)
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   include/linux/interrupt.h:494:33: note: expanded from macro 'set_softirq=
-_pending'
-   #define set_softirq_pending(x)  (__this_cpu_write(local_softirq_pending_=
-ref, (x)))
-                                    ^
-   include/linux/percpu-defs.h:452:2: note: expanded from macro '__this_cpu=
-_write'
-           raw_cpu_write(pcp, val);                                        \
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
            ^
-   include/linux/percpu-defs.h:421:34: note: expanded from macro 'raw_cpu_w=
-rite'
-   #define raw_cpu_write(pcp, val)         __pcpu_size_call(raw_cpu_write_,=
- pcp, val)
-                                           ^
-   include/linux/percpu-defs.h:373:50: note: expanded from macro '__pcpu_si=
-ze_call'
-   #define __pcpu_size_call(stem, variable, ...)                           \
-                                                                           ^
-   kernel/softirq.c:542:2: note: Loop condition is false.  Exiting loop
-           local_irq_enable();
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   include/linux/irqflags.h:235:28: note: expanded from macro 'local_irq_en=
-able'
-   #define local_irq_enable()      do { raw_local_irq_enable(); } while (0)
-                                   ^
-   kernel/softirq.c:546:2: note: Loop condition is true.  Entering loop body
-           while ((softirq_bit =3D ffs(pending))) {
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   kernel/softirq.c:552:3: note: The value 16 is assigned to 'vec_nr'
-                   vec_nr =3D h - softirq_vec;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/softirq.c:560:16: note: Assuming the condition is true
-                   if (unlikely(prev_count !=3D preempt_count())) {
-                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   kernel/softirq.c:560:3: note: Taking true branch
-                   if (unlikely(prev_count !=3D preempt_count())) {
+   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   kernel/softirq.c:561:4: note: Loop condition is false.  Exiting loop
-                           pr_err("huh, entered softirq %u %s %p with preem=
-pt_count %08x, exited with %08x?\n",
-                           ^
-   include/linux/printk.h:489:2: note: expanded from macro 'pr_err'
-           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+   kernel/time/posix-cpu-timers.c:979:7: note: Loop condition is false.  Ex=
+iting loop
+           if (!READ_ONCE(pct->timers_active) || pct->expiry_active)
+                ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   kernel/time/posix-cpu-timers.c:979:6: note: Assuming the condition is tr=
+ue
+           if (!READ_ONCE(pct->timers_active) || pct->expiry_active)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/posix-cpu-timers.c:979:37: note: Left side of '||' is true
+           if (!READ_ONCE(pct->timers_active) || pct->expiry_active)
+                                              ^
+   kernel/time/posix-cpu-timers.c:1274:3: note: Returning from 'check_proce=
+ss_timers'
+                   check_process_timers(tsk, &firing);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/posix-cpu-timers.c:1258:2: note: Loop condition is false.  E=
+xiting loop
+           do {
+           ^
+   kernel/time/posix-cpu-timers.c:1324:2: note: Assigned value is garbage o=
+r undefined
+           list_for_each_entry_safe(timer, next, &firing, it.cpu.elist) {
+           ^
+   include/linux/list.h:718:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
+of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^              ~~~~~~~~~~~~~
+   2 warnings generated.
+   fs/configfs/symlink.c:70:3: warning: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(s,"../");
+                   ^~~~~~
+   fs/configfs/symlink.c:70:3: note: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119
+                   strcpy(s,"../");
+                   ^~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> arch/x86/include/asm/atomic.h:29:9: warning: Use of memory after it is f=
+reed [clang-analyzer-unix.Malloc]
+           return __READ_ONCE((v)->counter);
+                  ^
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^
+   fs/netfs/read_helper.c:1097:6: note: Assuming the condition is false
+           if (aop_flags & AOP_FLAG_NOFS)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/read_helper.c:1097:2: note: Taking false branch
+           if (aop_flags & AOP_FLAG_NOFS)
+           ^
+   fs/netfs/read_helper.c:1101:6: note: Assuming 'folio' is non-null
+           if (!folio)
+               ^~~~~~
+   fs/netfs/read_helper.c:1101:2: note: Taking false branch
+           if (!folio)
+           ^
+   fs/netfs/read_helper.c:1104:6: note: Assuming field 'check_write_begin' =
+is non-null
+           if (ops->check_write_begin) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/read_helper.c:1104:2: note: Taking true branch
+           if (ops->check_write_begin) {
+           ^
+   fs/netfs/read_helper.c:1107:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0) {
+                       ^~~~~~~
+   fs/netfs/read_helper.c:1107:3: note: Taking false branch
+                   if (ret < 0) {
                    ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   kernel/softirq.c:561:4: note: 3rd function call argument is an uninitial=
-ized value
-                           pr_err("huh, entered softirq %u %s %p with preem=
-pt_count %08x, exited with %08x?\n",
+   fs/netfs/read_helper.c:1115:2: note: Taking false branch
+           if (folio_test_uptodate(folio))
+           ^
+   fs/netfs/read_helper.c:1122:6: note: Assuming the condition is true
+           if (!ops->is_cache_enabled(inode) &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/read_helper.c:1122:6: note: Left side of '&&' is true
+   fs/netfs/read_helper.c:1122:2: note: Taking false branch
+           if (!ops->is_cache_enabled(inode) &&
+           ^
+   fs/netfs/read_helper.c:1129:9: note: Calling 'netfs_alloc_read_request'
+           rreq =3D netfs_alloc_read_request(ops, netfs_priv, file);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/read_helper.c:48:6: note: Assuming 'rreq' is non-null
+           if (rreq) {
+               ^~~~
+   fs/netfs/read_helper.c:48:2: note: Taking true branch
+           if (rreq) {
+           ^
+   fs/netfs/read_helper.c:55:3: note: Loop condition is false.  Exiting loop
+                   INIT_WORK(&rreq->work, netfs_rreq_work);
+                   ^
+   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
+           __INIT_WORK((_work), (_func), 0)
+           ^
+   include/linux/workqueue.h:225:2: note: expanded from macro '__INIT_WORK'
+           do {                                                            \
+           ^
+   fs/netfs/read_helper.c:1129:9: note: Returning from 'netfs_alloc_read_re=
+quest'
+           rreq =3D netfs_alloc_read_request(ops, netfs_priv, file);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/read_helper.c:1130:7: note: 'rreq' is non-null
+           if (!rreq)
+                ^~~~
+   fs/netfs/read_helper.c:1130:2: note: Taking false branch
+           if (!rreq)
+           ^
+   fs/netfs/read_helper.c:1139:6: note: Assuming field 'begin_cache_operati=
+on' is null
+           if (ops->begin_cache_operation) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/netfs/read_helper.c:1139:2: note: Taking false branch
+           if (ops->begin_cache_operation) {
+           ^
+   fs/netfs/read_helper.c:1157:2: note: Loop condition is true.  Entering l=
+oop body
+           while (readahead_folio(&ractl))
+           ^
+   fs/netfs/read_helper.c:1157:2: note: Loop condition is false. Execution =
+continues on line 1160
+   fs/netfs/read_helper.c:1162:3: note: Taking true branch
+                   if (!netfs_rreq_submit_slice(rreq, &debug_index))
+                   ^
+   fs/netfs/read_helper.c:1163:4: note:  Execution continues on line 1171
+                           break;
                            ^
-   include/linux/printk.h:489:2: note: expanded from macro 'pr_err'
-           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-           ^                              ~~~~~~~~~~~
-   include/linux/printk.h:446:44: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                              ^               ~~~~~~~~~~~
-   include/linux/printk.h:418:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                   ^               ~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/pinctrl/pinctrl-starfive.c:640:17: warning: Value stored to 'dev=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct device *dev =3D sfp->gc.parent;
-                          ^~~   ~~~~~~~~~~~~~~
-   drivers/pinctrl/pinctrl-starfive.c:640:17: note: Value stored to 'dev' d=
-uring its initialization is never read
-           struct device *dev =3D sfp->gc.parent;
-                          ^~~   ~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/ntfs/compress.c:164:6: warning: Value stored to 'cb_sb_start' during =
-its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           u8 *cb_sb_start =3D cb;   /* Beginning of the current sb in the =
-cb. */
-               ^~~~~~~~~~~   ~~
-   fs/ntfs/compress.c:164:6: note: Value stored to 'cb_sb_start' during its=
- initialization is never read
-           u8 *cb_sb_start =3D cb;   /* Beginning of the current sb in the =
-cb. */
-               ^~~~~~~~~~~   ~~
-   fs/ntfs/compress.c:810:4: warning: Value stored to 'cb_pos' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           cb_pos +=3D cb_max_ofs - cur_ofs;
-                           ^         ~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/compress.c:810:4: note: Value stored to 'cb_pos' is never read
-                           cb_pos +=3D cb_max_ofs - cur_ofs;
-                           ^         ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/ntfs/dir.c:1107:2: warning: Value stored to 'rc' is never read [clang=
--analyzer-deadcode.DeadStores]
-           rc =3D err =3D 0;
-           ^    ~~~~~~~
-   fs/ntfs/dir.c:1107:2: note: Value stored to 'rc' is never read
-           rc =3D err =3D 0;
-           ^    ~~~~~~~
-   fs/ntfs/dir.c:1306:36: warning: Access to field 'magic' results in a der=
-eference of a null pointer (loaded from variable 'ia') [clang-analyzer-core=
-.NullDereference]
-           if (unlikely(!ntfs_is_indx_record(ia->magic))) {
-                                             ^
-   fs/ntfs/layout.h:139:50: note: expanded from macro 'ntfs_is_indx_record'
-   #define ntfs_is_indx_record(x)          ( ntfs_is_magic (x, INDX) )
-                                                            ^
-   fs/ntfs/layout.h:124:45: note: expanded from macro 'ntfs_is_magic'
-   #define ntfs_is_magic(x, m)     __ntfs_is_magic(x, magic_##m)
-                                                   ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/ntfs/dir.c:1105:2: note: Taking false branch
-           ntfs_debug("Entering for inode 0x%lx, fpos 0x%llx.",
+   fs/netfs/read_helper.c:1171:2: note: Loop condition is true.  Entering l=
+oop body
+           for (;;) {
            ^
-   fs/ntfs/debug.h:39:2: note: expanded from macro 'ntfs_debug'
-           if (0)                                                          \
+   fs/netfs/read_helper.c:1172:3: note: Loop condition is false.  Exiting l=
+oop
+                   wait_var_event(&rreq->nr_rd_ops, atomic_read(&rreq->nr_r=
+d_ops) =3D=3D 1);
+                   ^
+   include/linux/wait_bit.h:275:2: note: expanded from macro 'wait_var_even=
+t'
+           might_sleep();                                                  \
            ^
-   fs/ntfs/dir.c:1105:2: note: Loop condition is false.  Exiting loop
-           ntfs_debug("Entering for inode 0x%lx, fpos 0x%llx.",
+   include/linux/kernel.h:129:2: note: expanded from macro 'might_sleep'
+           do { __might_sleep(__FILE__, __LINE__); might_resched(); } while=
+ (0)
            ^
-   fs/ntfs/debug.h:37:35: note: expanded from macro 'ntfs_debug'
-   #define ntfs_debug(fmt, ...)                                            \
-                                                                           ^
-   fs/ntfs/dir.c:1110:6: note: Assuming the condition is false
-           if (actor->pos >=3D i_size + vol->mft_record_size)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/dir.c:1110:2: note: Taking false branch
-           if (actor->pos >=3D i_size + vol->mft_record_size)
+   fs/netfs/read_helper.c:1172:3: note: Taking true branch
+                   wait_var_event(&rreq->nr_rd_ops, atomic_read(&rreq->nr_r=
+d_ops) =3D=3D 1);
+                   ^
+   include/linux/wait_bit.h:276:2: note: expanded from macro 'wait_var_even=
+t'
+           if (condition)                                                  \
            ^
-   fs/ntfs/dir.c:1113:7: note: Calling 'dir_emit_dots'
-           if (!dir_emit_dots(file, actor))
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fs.h:3653:6: note: Assuming field 'pos' is not equal to 0
-           if (ctx->pos =3D=3D 0) {
-               ^~~~~~~~~~~~~
-   include/linux/fs.h:3653:2: note: Taking false branch
-           if (ctx->pos =3D=3D 0) {
-           ^
-   include/linux/fs.h:3658:6: note: Assuming field 'pos' is not equal to 1
-           if (ctx->pos =3D=3D 1) {
-               ^~~~~~~~~~~~~
-   include/linux/fs.h:3658:2: note: Taking false branch
-           if (ctx->pos =3D=3D 1) {
-           ^
-   include/linux/fs.h:3663:2: note: Returning the value 1, which participat=
-es in a condition later
-           return true;
 
-vim +/dev +640 drivers/pinctrl/pinctrl-starfive.c
+vim +29 arch/x86/include/asm/atomic.h
 
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  635  =
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  11  =
 
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  636  static int starfive_s=
-et_mux(struct pinctrl_dev *pctldev,
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  637  			    unsigned int f=
-sel, unsigned int gsel)
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  638  {
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  639  	struct starfive_pinc=
-trl *sfp =3D pinctrl_dev_get_drvdata(pctldev);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06 @640  	struct device *dev =
-=3D sfp->gc.parent;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  641  	const struct group_d=
-esc *group;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  642  	const u32 *pinmux;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  643  	unsigned int i;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  644  =
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  12  /*
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  13   * Atomic operations that C =
+can't guarantee us.  Useful for
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  14   * resource counting etc..
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  15   */
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  16  =
 
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  645  	group =3D pinctrl_ge=
-neric_get_group(pctldev, gsel);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  646  	if (!group)
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  647  		return -EINVAL;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  648  =
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  17  /**
+8bf705d130396e6 Dmitry Vyukov  2018-01-29  18   * arch_atomic_read - read a=
+tomic variable
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  19   * @v: pointer of type atomi=
+c_t
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  20   *
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  21   * Atomically reads the valu=
+e of @v.
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  22   */
+8bf705d130396e6 Dmitry Vyukov  2018-01-29  23  static __always_inline int a=
+rch_atomic_read(const atomic_t *v)
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  24  {
+ac605bee0bfab40 Dmitry Vyukov  2018-01-29  25  	/*
+ac605bee0bfab40 Dmitry Vyukov  2018-01-29  26  	 * Note for KASAN: we delib=
+erately don't use READ_ONCE_NOCHECK() here,
+ac605bee0bfab40 Dmitry Vyukov  2018-01-29  27  	 * it's non-inlined functio=
+n that increases binary size and stack usage.
+ac605bee0bfab40 Dmitry Vyukov  2018-01-29  28  	 */
+37f8173dd84936e Peter Zijlstra 2020-01-24 @29  	return __READ_ONCE((v)->cou=
+nter);
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  30  }
+5abbbbf0b0cd4ab Brian Gerst    2010-01-07  31  =
 
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  649  	pinmux =3D group->da=
-ta;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  650  	for (i =3D 0; i < gr=
-oup->num_pins; i++) {
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  651  		u32 v =3D pinmux[i];
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  652  		unsigned int gpio =
-=3D starfive_pinmux_to_gpio(v);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  653  		u32 dout =3D starfi=
-ve_pinmux_to_dout(v);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  654  		u32 doen =3D starfi=
-ve_pinmux_to_doen(v);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  655  		u32 din =3D starfiv=
-e_pinmux_to_din(v);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  656  		void __iomem *reg_d=
-out;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  657  		void __iomem *reg_d=
-oen;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  658  		void __iomem *reg_d=
-in;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  659  		unsigned long flags;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  660  =
 
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  661  		dev_dbg(dev, "GPIO%=
-u: dout=3D0x%x doen=3D0x%x din=3D0x%x\n",
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  662  			gpio, dout, doen, =
-din);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  663  =
+:::::: The code at line 29 was first introduced by commit
+:::::: 37f8173dd84936ea78000ed1cad24f8b18d48ebb locking/atomics: Flip fallb=
+acks and instrumentation
 
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  664  		reg_dout =3D sfp->b=
-ase + GPON_DOUT_CFG + 8 * gpio;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  665  		reg_doen =3D sfp->b=
-ase + GPON_DOEN_CFG + 8 * gpio;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  666  		if (din !=3D GPI_NO=
-NE)
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  667  			reg_din =3D sfp->b=
-ase + GPI_CFG_OFFSET + 4 * din;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  668  		else
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  669  			reg_din =3D NULL;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  670  =
-
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  671  		raw_spin_lock_irqsa=
-ve(&sfp->lock, flags);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  672  		writel_relaxed(dout=
-, reg_dout);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  673  		writel_relaxed(doen=
-, reg_doen);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  674  		if (reg_din)
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  675  			writel_relaxed(gpi=
-o + 2, reg_din);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  676  		raw_spin_unlock_irq=
-restore(&sfp->lock, flags);
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  677  	}
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  678  =
-
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  679  	return 0;
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  680  }
-ec648f6b7686b71 Emil Renner Berthing 2021-07-06  681  =
-
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6738804505810421922==--
+--===============1541142531643049977==--
 
