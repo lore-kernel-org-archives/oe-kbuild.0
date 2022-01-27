@@ -1,42 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============4018622514260117211=="
+Content-Type: multipart/mixed; boundary="===============3253618670251243692=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.10 9389/9999] drivers/iio/proximity/sx9324.c:868:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 28 Jan 2022 07:03:06 +0800
-Message-ID: <202201280706.xiAsK5Ap-lkp@intel.com>
+Subject: drivers/pci/controller/pcie-mediatek-gen3.c:399:24: warning: Value stored to 'pcie' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 28 Jan 2022 06:21:36 +0800
+Message-ID: <202201280645.qHxwQX7d-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4018622514260117211==
+--===============3253618670251243692==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Fan Fei <ffclaire1224@gmail.com>
+CC: Bjorn Helgaas <helgaas@kernel.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.10
-head:   1472d9d256d57131a6287ace2d69c22870cb3175
-commit: 6ef1bc6ca5ca4fa1410098291e3d296e6a66bb8e [9389/9999] FROMLIST: iio:=
- sx9324: Add dt_binding support
-:::::: branch date: 21 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   626b2dda7651a7c766108db4cdc0825db05b980d
+commit: d5a4835b5ed05b1f14a00e0db9f2c91ae7d1ede6 PCI: mediatek-gen3: Rename=
+ mtk_pcie_port to mtk_gen3_pcie
+date:   3 weeks ago
+:::::: branch date: 13 hours ago
 :::::: commit date: 3 weeks ago
-config: riscv-randconfig-c006-20220124 (https://download.01.org/0day-ci/arc=
-hive/20220128/202201280706.xiAsK5Ap-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f32dcc=
-b9a43b02ce4e540d6ba5dbbdb188f2dc7d)
+config: riscv-randconfig-c006-20220125 (https://download.01.org/0day-ci/arc=
+hive/20220128/202201280645.qHxwQX7d-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 997e12=
+8e2a78f5a5434fc75997441ae1ee76f8a4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        git remote add chrome-os https://chromium.googlesource.com/chromium=
-os/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.10
-        git checkout 6ef1bc6ca5ca4fa1410098291e3d296e6a66bb8e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dd5a4835b5ed05b1f14a00e0db9f2c91ae7d1ede6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d5a4835b5ed05b1f14a00e0db9f2c91ae7d1ede6
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -47,406 +52,323 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           regval =3D FIELD_GET(SX9324_REG_PROX_CTRL5_HYST_MASK, regval);
-                    ^
-   include/linux/bitfield.h:108:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                 ^
+   include/linux/iopoll.h:156:2: note: expanded from macro 'readl_poll_time=
+out'
+           readx_poll_timeout(readl, addr, val, cond, delay_us, timeout_us)
+           ^
+   include/linux/iopoll.h:121:2: note: expanded from macro 'readx_poll_time=
+out'
+           read_poll_timeout(op, val, cond, sleep_us, timeout_us, false, ad=
+dr)
+           ^
+   include/linux/iopoll.h:47:3: note: expanded from macro 'read_poll_timeou=
+t'
+                   if (cond) \
                    ^
-   include/linux/bitfield.h:54:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
-                   ^
-   include/linux/build_bug.h:21:2: note: expanded from macro '__BUILD_BUG_O=
-N_NOT_POWER_OF_2'
-           BUILD_BUG_ON(((n) & ((n) - 1)) !=3D 0)
+   drivers/pci/controller/pcie-mediatek-gen3.c:318:8: note:  Execution cont=
+inues on line 318
+           err =3D readl_poll_timeout(pcie->base + PCIE_LINK_STATUS_REG, va=
+l,
+                 ^
+   include/linux/iopoll.h:156:2: note: expanded from macro 'readl_poll_time=
+out'
+           readx_poll_timeout(readl, addr, val, cond, delay_us, timeout_us)
            ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/iopoll.h:121:2: note: expanded from macro 'readx_poll_time=
+out'
+           read_poll_timeout(op, val, cond, sleep_us, timeout_us, false, ad=
+dr)
            ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   include/linux/iopoll.h:48:4: note: expanded from macro 'read_poll_timeou=
+t'
+                           break; \
+                           ^
+   drivers/pci/controller/pcie-mediatek-gen3.c:318:8: note: '?' condition i=
+s true
+           err =3D readl_poll_timeout(pcie->base + PCIE_LINK_STATUS_REG, va=
+l,
+                 ^
+   include/linux/iopoll.h:156:2: note: expanded from macro 'readl_poll_time=
+out'
+           readx_poll_timeout(readl, addr, val, cond, delay_us, timeout_us)
            ^
-   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/iio/proximity/sx9324.c:524:11: note: Loop condition is false.  E=
-xiting loop
-           regval =3D FIELD_GET(SX9324_REG_PROX_CTRL5_HYST_MASK, regval);
-                    ^
-   include/linux/bitfield.h:108:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-                   ^
-   include/linux/bitfield.h:54:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
-                   ^
-   include/linux/build_bug.h:21:2: note: expanded from macro '__BUILD_BUG_O=
-N_NOT_POWER_OF_2'
-           BUILD_BUG_ON(((n) & ((n) - 1)) !=3D 0)
+   include/linux/iopoll.h:121:2: note: expanded from macro 'readx_poll_time=
+out'
+           read_poll_timeout(op, val, cond, sleep_us, timeout_us, false, ad=
+dr)
            ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/iopoll.h:57:2: note: expanded from macro 'read_poll_timeou=
+t'
+           (cond) ? 0 : -ETIMEDOUT; \
            ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:293:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/iio/proximity/sx9324.c:525:6: note: Assuming 'regval' is not equ=
-al to 0
-           if (!regval)
-               ^~~~~~~
-   drivers/iio/proximity/sx9324.c:525:2: note: Taking false branch
-           if (!regval)
-           ^
-   drivers/iio/proximity/sx9324.c:528:18: note: The left operand of '>>' is=
- a garbage value
-                   *val =3D pthresh >> (5 - regval);
-                          ~~~~~~~ ^
-   drivers/iio/proximity/sx9324.c:632:26: warning: The left operand of '>>'=
- is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           else if (val >=3D pthresh >> 2)
-                                   ^
-   drivers/iio/proximity/sx9324.c:700:6: note: Assuming field 'type' is equ=
-al to IIO_PROXIMITY
-           if (chan->type !=3D IIO_PROXIMITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/proximity/sx9324.c:700:2: note: Taking false branch
-           if (chan->type !=3D IIO_PROXIMITY)
-           ^
-   drivers/iio/proximity/sx9324.c:703:2: note: Control jumps to 'case IIO_E=
-V_INFO_HYSTERESIS:'  at line 715
-           switch (info) {
-           ^
-   drivers/iio/proximity/sx9324.c:716:10: note: Calling 'sx9324_write_hyste=
-resis'
-                   return sx9324_write_hysteresis(data, chan, val);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/proximity/sx9324.c:624:11: note: 'pthresh' declared without =
-an initial value
-           int ret, pthresh;
-                    ^~~~~~~
-   drivers/iio/proximity/sx9324.c:626:8: note: Calling 'sx9324_read_thresh'
-           ret =3D sx9324_read_thresh(data, chan, &pthresh);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/proximity/sx9324.c:499:6: note: Assuming 'ret' is not equal =
-to 0
-           if (ret)
+   drivers/pci/controller/pcie-mediatek-gen3.c:321:6: note: 'err' is 0
+           if (err) {
                ^~~
-   drivers/iio/proximity/sx9324.c:499:2: note: Taking true branch
-           if (ret)
+   drivers/pci/controller/pcie-mediatek-gen3.c:321:2: note: Taking false br=
+anch
+           if (err) {
            ^
-   drivers/iio/proximity/sx9324.c:500:3: note: Returning without writing to=
- '*val'
-                   return ret;
+   drivers/pci/controller/pcie-mediatek-gen3.c:330:2: note: Loop condition =
+is true.  Entering loop body
+           resource_list_for_each_entry(entry, &host->windows) {
+           ^
+   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
+ist_for_each_entry'
+           list_for_each_entry((entry), (list), node)
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/pci/controller/pcie-mediatek-gen3.c:338:7: note: Assuming 'type'=
+ is equal to IORESOURCE_IO
+                   if (type =3D=3D IORESOURCE_IO) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:338:3: note: Taking true bra=
+nch
+                   if (type =3D=3D IORESOURCE_IO) {
                    ^
-   drivers/iio/proximity/sx9324.c:626:8: note: Returning from 'sx9324_read_=
-thresh'
-           ret =3D sx9324_read_thresh(data, chan, &pthresh);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/proximity/sx9324.c:627:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/iio/proximity/sx9324.c:627:2: note: Taking false branch
-           if (ret < 0)
+   drivers/pci/controller/pcie-mediatek-gen3.c:350:9: note: Calling 'mtk_pc=
+ie_set_trans_table'
+                   err =3D mtk_pcie_set_trans_table(pcie, cpu_addr, pci_add=
+r, size,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:219:6: note: 'num' is < PCIE=
+_MAX_TRANS_TABLES
+           if (num >=3D PCIE_MAX_TRANS_TABLES) {
+               ^~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:219:2: note: Taking false br=
+anch
+           if (num >=3D PCIE_MAX_TRANS_TABLES) {
            ^
-   drivers/iio/proximity/sx9324.c:630:6: note: Assuming 'val' is not equal =
-to 0
-           if (val =3D=3D 0)
-               ^~~~~~~~
-   drivers/iio/proximity/sx9324.c:630:2: note: Taking false branch
-           if (val =3D=3D 0)
+   drivers/pci/controller/pcie-mediatek-gen3.c:228:2: note: Loop condition =
+is false.  Exiting loop
+           writel_relaxed(lower_32_bits(cpu_addr) | PCIE_ATR_SIZE(fls(size)=
+ - 1),
            ^
-   drivers/iio/proximity/sx9324.c:632:26: note: The left operand of '>>' is=
- a garbage value
-           else if (val >=3D pthresh >> 2)
-                           ~~~~~~~ ^
->> drivers/iio/proximity/sx9324.c:868:3: warning: Value stored to 'ret' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D device_property_read_u32_array(dev, prop, pin_de=
-fs,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/proximity/sx9324.c:868:3: note: Value stored to 'ret' is nev=
-er read
-                   ret =3D device_property_read_u32_array(dev, prop, pin_de=
-fs,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
+   arch/riscv/include/asm/mmio.h:120:33: note: expanded from macro 'writel_=
+relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __i=
+o_raw(); })
+                                      ^
+   arch/riscv/include/asm/mmio.h:111:21: note: expanded from macro '__io_rb=
+w'
+   #define __io_rbw()              do {} while (0)
+                                   ^
+   drivers/pci/controller/pcie-mediatek-gen3.c:228:43: note: The result of =
+the left shift is undefined because the left operand is negative
+           writel_relaxed(lower_32_bits(cpu_addr) | PCIE_ATR_SIZE(fls(size)=
+ - 1),
+                                                    ^
+   drivers/pci/controller/pcie-mediatek-gen3.c:92:18: note: expanded from m=
+acro 'PCIE_ATR_SIZE'
+           (((((size) - 1) << 1) & GENMASK(6, 1)) | PCIE_ATR_EN)
+                           ^
+   arch/riscv/include/asm/mmio.h:120:57: note: expanded from macro 'writel_=
+relaxed'
+   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __i=
+o_raw(); })
+                                                  ~~~~~~~~~~~~^~~~~~~~
+   arch/riscv/include/asm/mmio.h:93:71: note: expanded from macro 'writel_c=
+pu'
+   #define writel_cpu(v, c)        ((void)__raw_writel((__force u32)cpu_to_=
+le32(v), (c)))
+                                                                    ~~~~~~~=
+~~~~~^~
+   include/uapi/linux/byteorder/little_endian.h:33:51: note: expanded from =
+macro '__cpu_to_le32'
+   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+                                                     ^
+   drivers/pci/controller/pcie-mediatek-gen3.c:340:4: warning: Value stored=
+ to 'range_type' is never read [clang-analyzer-deadcode.DeadStores]
+                           range_type =3D "IO";
+                           ^            ~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:340:4: note: Value stored to=
+ 'range_type' is never read
+                           range_type =3D "IO";
+                           ^            ~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:343:4: warning: Value stored=
+ to 'range_type' is never read [clang-analyzer-deadcode.DeadStores]
+                           range_type =3D "MEM";
+                           ^            ~~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:343:4: note: Value stored to=
+ 'range_type' is never read
+                           range_type =3D "MEM";
+                           ^            ~~~~~
+>> drivers/pci/controller/pcie-mediatek-gen3.c:399:24: warning: Value store=
+d to 'pcie' during its initialization is never read [clang-analyzer-deadcod=
+e.DeadStores]
+           struct mtk_gen3_pcie *pcie =3D data->domain->host_data;
+                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-mediatek-gen3.c:399:24: note: Value stored t=
+o 'pcie' during its initialization is never read
+           struct mtk_gen3_pcie *pcie =3D data->domain->host_data;
+                                 ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   include/linux/hid.h:1014:9: warning: Access to field 'name' results in a=
- dereference of a null pointer (loaded from variable 'input') [clang-analyz=
-er-core.NullDereference]
-                                       input->name, c, type);
-                                       ^
-   drivers/hid/hid-gyration.c:28:6: note: Assuming the condition is false
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_LOGIVENDOR)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-gyration.c:28:2: note: Taking false branch
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_LOGIVENDOR)
+   5 warnings generated.
+   drivers/gpu/drm/drm_debugfs.c:246:22: warning: Use of memory after it is=
+ freed [clang-analyzer-unix.Malloc]
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                                      ^
+   include/linux/list.h:600:31: note: expanded from macro 'list_for_each_sa=
+fe'
+           for (pos =3D (head)->next, n =3D pos->next; pos !=3D (head); \
+                                        ^~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:245:14: note: Assuming 'i' is < 'count'
+           for (i =3D 0; i < count; i++) {
+                       ^~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:245:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0; i < count; i++) {
            ^
-   drivers/hid/hid-gyration.c:32:2: note: Control jumps to 'case 70:'  at l=
-ine 37
-           switch (usage->hid & HID_USAGE) {
-           ^
-   drivers/hid/hid-gyration.c:37:14: note: Calling 'hid_map_usage_clear'
-           case 0x046: gy_map_key_clear(KEY_MEDIA);        break;
-                       ^
-   drivers/hid/hid-gyration.c:22:29: note: expanded from macro 'gy_map_key_=
-clear'
-   #define gy_map_key_clear(c)     hid_map_usage_clear(hi, usage, bit, max,=
- \
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/hid.h:1035:2: note: Calling 'hid_map_usage'
-           hid_map_usage(hidinput, usage, bit, max, type, c);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:989:2: note: 'input' initialized here
-           struct input_dev *input =3D hidinput->input;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:993:2: note: Control jumps to 'case 1:'  at line 1002
-           switch (type) {
-           ^
-   include/linux/hid.h:1005:3: note:  Execution continues on line 1012
-                   break;
+   drivers/gpu/drm/drm_debugfs.c:246:3: note: Loop condition is true.  Ente=
+ring loop body
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
                    ^
-   include/linux/hid.h:1012:15: note: 'c' is <=3D 'limit'
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1012:15: note: Left side of '||' is false
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/hid.h:1012:28: note: Assuming 'bmap' is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1012:28: note: Assuming pointer value is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1012:2: note: Taking true branch
-           if (unlikely(c > limit || !bmap)) {
+   include/linux/list.h:600:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; pos !=3D (head); \
            ^
-   include/linux/hid.h:1013:3: note: Assuming the condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+   drivers/gpu/drm/drm_debugfs.c:248:8: note: Assuming the condition is true
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:248:4: note: Taking true branch
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                           ^
+   drivers/gpu/drm/drm_debugfs.c:251:5: note: Memory is released
+                                   kfree(tmp);
+                                   ^~~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:246:3: note: Loop condition is false. Exec=
+ution continues on line 245
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
                    ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:511:6: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-               ^~~~~~~~~~~~~~~~~
-   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
-limit'
-   #define __ratelimit(state) ___ratelimit(state, __func__)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:1013:3: note: Taking true branch
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+   include/linux/list.h:600:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; pos !=3D (head); \
            ^
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
+   drivers/gpu/drm/drm_debugfs.c:245:14: note: Assuming 'i' is < 'count'
+           for (i =3D 0; i < count; i++) {
+                       ^~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:245:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0; i < count; i++) {
            ^
-   include/linux/hid.h:1014:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:528:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+   drivers/gpu/drm/drm_debugfs.c:246:22: note: Use of memory after it is fr=
+eed
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                                      ^
+   include/linux/list.h:600:31: note: expanded from macro 'list_for_each_sa=
+fe'
+           for (pos =3D (head)->next, n =3D pos->next; pos !=3D (head); \
+                                        ^~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:624:16: warning: Value sto=
+red to 'tmdsclock' during its initialization is never read [clang-analyzer-=
+deadcode.DeadStores]
+           unsigned long tmdsclock =3D inno_hdmi_phy_get_tmdsclk(inno, rate=
+);
+                         ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:624:16: note: Value stored=
+ to 'tmdsclock' during its initialization is never read
+           unsigned long tmdsclock =3D inno_hdmi_phy_get_tmdsclk(inno, rate=
+);
+                         ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:742:3: warning: Value stor=
+ed to 'no_c' is never read [clang-analyzer-deadcode.DeadStores]
+                   no_c =3D 1 << no_c;
+                   ^      ~~~~~~~~~
+   drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:742:3: note: Value stored =
+to 'no_c' is never read
+                   no_c =3D 1 << no_c;
+                   ^      ~~~~~~~~~
+   drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:778:16: warning: Value sto=
+red to 'tmdsclock' during its initialization is never read [clang-analyzer-=
+deadcode.DeadStores]
+           unsigned long tmdsclock =3D inno_hdmi_phy_get_tmdsclk(inno, rate=
+);
+                         ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/rockchip/phy-rockchip-inno-hdmi.c:778:16: note: Value stored=
+ to 'tmdsclock' during its initialization is never read
+           unsigned long tmdsclock =3D inno_hdmi_phy_get_tmdsclk(inno, rate=
+);
+                         ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +/ret +868 drivers/iio/proximity/sx9324.c
+vim +/pcie +399 drivers/pci/controller/pcie-mediatek-gen3.c
 
-9aeaa4f779fcbd Gwendal Grignou 2022-01-01  843  =
+1bdafba538be70 Jianjun Wang 2021-04-20  395  =
 
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  844  static const struct sx_comm=
-on_reg_default *
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  845  sx9324_get_default_reg(stru=
-ct device *dev, int idx,
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  846  		       struct sx_common_r=
-eg_default *reg_def)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  847  {
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  848  #define SX9324_PIN_DEF "sem=
-tech,ph0-pin"
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  849  #define SX9324_RESOLUTION_D=
-EF "semtech,ph01-resolution"
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  850  #define SX9324_PROXRAW_DEF =
-"semtech,ph01-proxraw-strength"
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  851  	unsigned int pin_defs[SX93=
-24_NUM_PINS];
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  852  	char prop[] =3D SX9324_PRO=
-XRAW_DEF;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  853  	u32 start =3D 0, raw =3D 0=
-, pos =3D 0;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  854  	int ret, count, ph, pin;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  855  =
+1bdafba538be70 Jianjun Wang 2021-04-20  396  static void mtk_compose_msi_ms=
+g(struct irq_data *data, struct msi_msg *msg)
+1bdafba538be70 Jianjun Wang 2021-04-20  397  {
+1bdafba538be70 Jianjun Wang 2021-04-20  398  	struct mtk_msi_set *msi_set =
+=3D irq_data_get_irq_chip_data(data);
+d5a4835b5ed05b Fan Fei      2021-12-22 @399  	struct mtk_gen3_pcie *pcie =
+=3D data->domain->host_data;
+1bdafba538be70 Jianjun Wang 2021-04-20  400  	unsigned long hwirq;
+1bdafba538be70 Jianjun Wang 2021-04-20  401  =
 
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  856  	memcpy(reg_def, &sx9324_de=
-fault_regs[idx], sizeof(*reg_def));
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  857  	switch (reg_def->reg) {
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  858  	case SX9324_REG_AFE_PH0:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  859  	case SX9324_REG_AFE_PH1:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  860  	case SX9324_REG_AFE_PH2:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  861  	case SX9324_REG_AFE_PH3:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  862  		ph =3D reg_def->reg - SX9=
-324_REG_AFE_PH0;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  863  		scnprintf(prop, ARRAY_SIZ=
-E(prop), "semtech,ph%d-pin", ph);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  864  =
+1bdafba538be70 Jianjun Wang 2021-04-20  402  	hwirq =3D	data->hwirq % PCIE_=
+MSI_IRQS_PER_SET;
+1bdafba538be70 Jianjun Wang 2021-04-20  403  =
 
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  865  		count =3D device_property=
-_count_u32(dev, prop);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  866  		if (count !=3D ARRAY_SIZE=
-(pin_defs))
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  867  			break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01 @868  		ret =3D device_property_r=
-ead_u32_array(dev, prop, pin_defs,
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  869  						     ARRAY_SIZE(pin_d=
-efs));
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  870  		for (pin =3D 0; pin < SX9=
-324_NUM_PINS; pin++)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  871  			raw |=3D (pin_defs[pin] =
-<< (2 * pin)) &
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  872  			       SX9324_REG_AFE_PH=
-0_PIN_MASK(pin);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  873  		reg_def->def =3D raw;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  874  		break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  875  	case SX9324_REG_AFE_CTRL4:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  876  	case SX9324_REG_AFE_CTRL7:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  877  		if (reg_def->reg =3D=3D S=
-X9324_REG_AFE_CTRL4)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  878  			strncpy(prop, "semtech,p=
-h01-resolution",
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  879  				ARRAY_SIZE(prop));
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  880  		else
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  881  			strncpy(prop, "semtech,p=
-h23-resolution",
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  882  				ARRAY_SIZE(prop));
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  883  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  884  		ret =3D device_property_r=
-ead_u32(dev, prop, &raw);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  885  		if (ret)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  886  			break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  887  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  888  		raw =3D ilog2(raw) - 3;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  889  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  890  		reg_def->def &=3D ~SX9324=
-_REG_AFE_CTRL4_RESOLUTION_MASK;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  891  		reg_def->def |=3D FIELD_P=
-REP(SX9324_REG_AFE_CTRL4_RESOLUTION_MASK,
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  892  					   raw);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  893  		break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  894  	case SX9324_REG_ADV_CTRL5:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  895  		ret =3D device_property_r=
-ead_u32(dev, "semtech,startup-sensor",
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  896  					       &start);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  897  		if (ret)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  898  			break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  899  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  900  		reg_def->def &=3D ~SX9324=
-_REG_ADV_CTRL5_STARTUPSENS_MASK;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  901  		reg_def->def |=3D FIELD_P=
-REP(SX9324_REG_ADV_CTRL5_STARTUPSENS_MASK,
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  902  					   start);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  903  		break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  904  	case SX9324_REG_PROX_CTRL4:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  905  		ret =3D device_property_r=
-ead_u32(dev, "semtech,avg-pos-strength",
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  906  					       &pos);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  907  		if (ret)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  908  			break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  909  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  910  		/* Powers of 2, except fo=
-r a gap between 16 and 64 */
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  911  		raw =3D clamp(ilog2(pos),=
- 3, 11) - (pos >=3D 32 ? 4 : 3);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  912  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  913  		reg_def->def &=3D ~SX9324=
-_REG_PROX_CTRL4_AVGPOSFILT_MASK;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  914  		reg_def->def |=3D FIELD_P=
-REP(SX9324_REG_PROX_CTRL4_AVGPOSFILT_MASK,
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  915  					   raw);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  916  		break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  917  	case SX9324_REG_PROX_CTRL0:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  918  	case SX9324_REG_PROX_CTRL1:
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  919  		if (reg_def->reg =3D=3D S=
-X9324_REG_PROX_CTRL0)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  920  			strncpy(prop, "semtech,p=
-h01-proxraw-strength",
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  921  				ARRAY_SIZE(prop));
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  922  		else
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  923  			strncpy(prop, "semtech,p=
-h23-proxraw-strength",
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  924  				ARRAY_SIZE(prop));
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  925  		ret =3D device_property_r=
-ead_u32(dev, prop, &raw);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  926  		if (ret)
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  927  			break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  928  =
-
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  929  		reg_def->def &=3D ~SX9324=
-_REG_PROX_CTRL0_RAWFILT_MASK;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  930  		reg_def->def |=3D FIELD_P=
-REP(SX9324_REG_PROX_CTRL0_RAWFILT_MASK,
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  931  					   raw);
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  932  		break;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  933  	}
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  934  	return reg_def;
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  935  }
-6ef1bc6ca5ca4f Gwendal Grignou 2022-01-01  936  =
+1bdafba538be70 Jianjun Wang 2021-04-20  404  	msg->address_hi =3D upper_32_=
+bits(msi_set->msg_addr);
+1bdafba538be70 Jianjun Wang 2021-04-20  405  	msg->address_lo =3D lower_32_=
+bits(msi_set->msg_addr);
+1bdafba538be70 Jianjun Wang 2021-04-20  406  	msg->data =3D hwirq;
+d5a4835b5ed05b Fan Fei      2021-12-22  407  	dev_dbg(pcie->dev, "msi#%#lx =
+address_hi %#x address_lo %#x data %d\n",
+1bdafba538be70 Jianjun Wang 2021-04-20  408  		hwirq, msg->address_hi, msg-=
+>address_lo, msg->data);
+1bdafba538be70 Jianjun Wang 2021-04-20  409  }
+1bdafba538be70 Jianjun Wang 2021-04-20  410  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4018622514260117211==--
+--===============3253618670251243692==--
 
