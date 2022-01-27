@@ -1,297 +1,172 @@
-Content-Type: multipart/mixed; boundary="===============0459363705067698541=="
+Content-Type: multipart/mixed; boundary="===============0236682164587435737=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cxl:preview 57/60] drivers/cxl/region.c:533:5-16: ERROR: invalid reference to the index variable of the iterator on line 526
-Date: Thu, 27 Jan 2022 17:44:12 +0800
-Message-ID: <202201271618.bXoQSwDG-lkp@intel.com>
+Subject: drivers/iommu/dma-iommu.c:666:25: warning: Opposite expression on both sides of '&'. [oppositeExpression]
+Date: Thu, 27 Jan 2022 17:43:52 +0800
+Message-ID: <202201271646.VCCnXdNF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0459363705067698541==
+--===============0236682164587435737==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
+TO: "Jean-Philippe Brucker" <jean-philippe@linaro.org>
+CC: Joerg Roedel <jroedel@suse.de>
+CC: Eric Auger <eric.auger@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
-head:   41c2d219a2c8e14de644f4e953e0c57402c3e884
-commit: a8759d81b528e3e5c4989e9f86d56a09faf39364 [57/60] cxl/region: Add su=
-pport for single switch level
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: powerpc-randconfig-c004-20220124 (https://download.01.org/0day-ci/a=
-rchive/20220127/202201271618.bXoQSwDG-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0280e3c58f92b2fe0e8fbbdf8d386449168de4a8
+commit: 8ce4904bfd22de04ac3cd35d469c0a3337bdeb7b iommu/virtio: Enable x86 s=
+upport
+date:   7 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 7 months ago
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/cxl/region.c:533:5-16: ERROR: invalid reference to the index var=
-iable of the iterator on line 526
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +533 drivers/cxl/region.c
+>> drivers/iommu/dma-iommu.c:666:25: warning: Opposite expression on both s=
+ides of '&'. [oppositeExpression]
+    min_size =3D alloc_sizes & -alloc_sizes;
+                           ^
 
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  396  =
+vim +666 drivers/iommu/dma-iommu.c
 
-84dbaed92240cd Ben Widawsky 2021-06-15  397  /**
-84dbaed92240cd Ben Widawsky 2021-06-15  398   * region_hb_rp_config_valid()=
- - determine root port ordering is correct
-84dbaed92240cd Ben Widawsky 2021-06-15  399   * @cxlr: Region to validate
-84dbaed92240cd Ben Widawsky 2021-06-15  400   * @rootd: root decoder for th=
-is @cxlr
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  401   * @state_update: Whether or n=
-ot to update port state
-84dbaed92240cd Ben Widawsky 2021-06-15  402   *
-84dbaed92240cd Ben Widawsky 2021-06-15  403   * The algorithm is outlined i=
-n 2.13.15 "Verify HB root port configuration
-84dbaed92240cd Ben Widawsky 2021-06-15  404   * sequence" of the CXL Memory=
- Device SW Guide (Rev1p0).
-84dbaed92240cd Ben Widawsky 2021-06-15  405   *
-84dbaed92240cd Ben Widawsky 2021-06-15  406   * Returns true if the configu=
-ration is valid.
-84dbaed92240cd Ben Widawsky 2021-06-15  407   */
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  408  static bool region_hb_rp_confi=
-g_valid(struct cxl_region *cxlr,
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  409  				      const struct cxl_dec=
-oder *rootd,
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  410  				      bool state_update)
-84dbaed92240cd Ben Widawsky 2021-06-15  411  {
-a8759d81b528e3 Ben Widawsky 2022-01-13  412  	const int region_ig =3D cxl_t=
-o_ig(cxlr->config.interleave_granularity);
-a8759d81b528e3 Ben Widawsky 2022-01-13  413  	const int region_eniw =3D cxl=
-_to_eniw(cxlr->config.interleave_ways);
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  414  	const int num_root_ports =3D =
-get_num_root_ports(cxlr);
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  415  	struct cxl_port *hbs[CXL_DECO=
-DER_MAX_INTERLEAVE];
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  416  	struct cxl_decoder *cxld, *c;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  417  	int hb_count, i;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  418  =
+0db2e5d18f76a6 Robin Murphy        2015-10-01  644  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  419  	hb_count =3D get_unique_hostb=
-ridges(cxlr, hbs);
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  420  =
+8230ce9a4e206f Christoph Hellwig   2021-01-28  645  /*
+8230ce9a4e206f Christoph Hellwig   2021-01-28  646   * If size is less than=
+ PAGE_SIZE, then a full CPU page will be allocated,
+0db2e5d18f76a6 Robin Murphy        2015-10-01  647   * but an IOMMU which s=
+upports smaller pages might not map the whole thing.
+0db2e5d18f76a6 Robin Murphy        2015-10-01  648   */
+8230ce9a4e206f Christoph Hellwig   2021-01-28  649  static struct page **__=
+iommu_dma_alloc_noncontiguous(struct device *dev,
+8230ce9a4e206f Christoph Hellwig   2021-01-28  650  		size_t size, struct s=
+g_table *sgt, gfp_t gfp, pgprot_t prot,
+e8d39a903cc680 Christoph Hellwig   2020-09-01  651  		unsigned long attrs)
+0db2e5d18f76a6 Robin Murphy        2015-10-01  652  {
+43c5bf11a610ce Robin Murphy        2018-09-12  653  	struct iommu_domain *d=
+omain =3D iommu_get_dma_domain(dev);
+842fe519f68b4d Robin Murphy        2017-03-31  654  	struct iommu_dma_cooki=
+e *cookie =3D domain->iova_cookie;
+842fe519f68b4d Robin Murphy        2017-03-31  655  	struct iova_domain *io=
+vad =3D &cookie->iovad;
+21b95aaf5f2212 Christoph Hellwig   2019-05-20  656  	bool coherent =3D dev_=
+is_dma_coherent(dev);
+21b95aaf5f2212 Christoph Hellwig   2019-05-20  657  	int ioprot =3D dma_inf=
+o_to_prot(DMA_BIDIRECTIONAL, coherent, attrs);
+21b95aaf5f2212 Christoph Hellwig   2019-05-20  658  	unsigned int count, mi=
+n_size, alloc_sizes =3D domain->pgsize_bitmap;
+0db2e5d18f76a6 Robin Murphy        2015-10-01  659  	struct page **pages;
+842fe519f68b4d Robin Murphy        2017-03-31  660  	dma_addr_t iova;
+0db2e5d18f76a6 Robin Murphy        2015-10-01  661  =
 
-a8759d81b528e3 Ben Widawsky 2022-01-13  421  	/* TODO: support multiple lev=
-els of switches */
-a8759d81b528e3 Ben Widawsky 2022-01-13  422  	if (has_multi_switch(cxlr))
-a8759d81b528e3 Ben Widawsky 2022-01-13  423  		return false;
-a8759d81b528e3 Ben Widawsky 2022-01-13  424  =
+a8e8af35c9f4f7 Lianbo Jiang        2021-01-26  662  	if (static_branch_unli=
+kely(&iommu_deferred_attach_enabled) &&
+3ab657291638ea Lianbo Jiang        2021-01-26  663  	    iommu_deferred_att=
+ach(dev, domain))
+795bbbb9b6f803 Tom Murphy          2019-09-08  664  		return NULL;
+795bbbb9b6f803 Tom Murphy          2019-09-08  665  =
 
-a8759d81b528e3 Ben Widawsky 2022-01-13  425  	/* TODO: x3 interleave for sw=
-itches is hard. */
-a8759d81b528e3 Ben Widawsky 2022-01-13  426  	if (has_switch(cxlr) && !is_p=
-ower_of_2(region_ways(cxlr)))
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  427  		return false;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  428  =
+3b6b7e19e31a81 Robin Murphy        2016-04-13 @666  	min_size =3D alloc_siz=
+es & -alloc_sizes;
+3b6b7e19e31a81 Robin Murphy        2016-04-13  667  	if (min_size < PAGE_SI=
+ZE) {
+3b6b7e19e31a81 Robin Murphy        2016-04-13  668  		min_size =3D PAGE_SIZ=
+E;
+3b6b7e19e31a81 Robin Murphy        2016-04-13  669  		alloc_sizes |=3D PAGE=
+_SIZE;
+3b6b7e19e31a81 Robin Murphy        2016-04-13  670  	} else {
+3b6b7e19e31a81 Robin Murphy        2016-04-13  671  		size =3D ALIGN(size, =
+min_size);
+3b6b7e19e31a81 Robin Murphy        2016-04-13  672  	}
+00085f1efa387a Krzysztof Kozlowski 2016-08-03  673  	if (attrs & DMA_ATTR_A=
+LLOC_SINGLE_PAGES)
+3b6b7e19e31a81 Robin Murphy        2016-04-13  674  		alloc_sizes =3D min_s=
+ize;
+3b6b7e19e31a81 Robin Murphy        2016-04-13  675  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  429  	/*
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  430  	 * Are all devices in this re=
-gion on the same CXL Host Bridge
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  431  	 * Root Port?
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  432  	 */
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  433  	if (num_root_ports =3D=3D 1 &=
-& !has_switch(cxlr) && state_update)
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  434  		return simple_config(cxlr, h=
-bs[0]);
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  435  =
+3b6b7e19e31a81 Robin Murphy        2016-04-13  676  	count =3D PAGE_ALIGN(s=
+ize) >> PAGE_SHIFT;
+c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  677  	pages =3D __iommu_dma_=
+alloc_pages(dev, count, alloc_sizes >> PAGE_SHIFT,
+c4b17afb0a4e8d Ganapatrao Kulkarni 2018-11-30  678  					gfp);
+0db2e5d18f76a6 Robin Murphy        2015-10-01  679  	if (!pages)
+0db2e5d18f76a6 Robin Murphy        2015-10-01  680  		return NULL;
+0db2e5d18f76a6 Robin Murphy        2015-10-01  681  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  436  	for (i =3D 0; i < hb_count; i=
-++) {
-4826d3a341cdac Ben Widawsky 2021-10-14  437  		struct cxl_decoder *cxld;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  438  		int idx, position_mask;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  439  		struct cxl_dport *rp;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  440  		struct cxl_port *hb;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  441  =
+842fe519f68b4d Robin Murphy        2017-03-31  682  	size =3D iova_align(io=
+vad, size);
+842fe519f68b4d Robin Murphy        2017-03-31  683  	iova =3D iommu_dma_all=
+oc_iova(domain, size, dev->coherent_dma_mask, dev);
+0db2e5d18f76a6 Robin Murphy        2015-10-01  684  	if (!iova)
+0db2e5d18f76a6 Robin Murphy        2015-10-01  685  		goto out_free_pages;
+0db2e5d18f76a6 Robin Murphy        2015-10-01  686  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  442  		/* Get next CXL Host Bridge =
-this region spans */
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  443  		hb =3D hbs[i];
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  444  =
+8230ce9a4e206f Christoph Hellwig   2021-01-28  687  	if (sg_alloc_table_fro=
+m_pages(sgt, pages, count, 0, size, GFP_KERNEL))
+0db2e5d18f76a6 Robin Murphy        2015-10-01  688  		goto out_free_iova;
+0db2e5d18f76a6 Robin Murphy        2015-10-01  689  =
 
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  445  		if (state_update) {
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  446  			cxld =3D get_decoder(cxlr, =
-hb);
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  447  			if (IS_ERR(cxld)) {
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  448  				dev_dbg(&cxlr->dev,
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  449  					"Couldn't get decoder for=
- %s\n",
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  450  					dev_name(&hb->dev));
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  451  				goto err;
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  452  			}
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  453  			cxld->interleave_ways =3D 0;
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  454  			cxld->interleave_granularit=
-y =3D region_granularity(cxlr);
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  455  		} else {
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  456  			cxld =3D NULL;
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  457  		}
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  458  =
+21b95aaf5f2212 Christoph Hellwig   2019-05-20  690  	if (!(ioprot & IOMMU_C=
+ACHE)) {
+23f88e0a7e9f08 Christoph Hellwig   2019-05-20  691  		struct scatterlist *s=
+g;
+23f88e0a7e9f08 Christoph Hellwig   2019-05-20  692  		int i;
+23f88e0a7e9f08 Christoph Hellwig   2019-05-20  693  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  459  		/*
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  460  		 * Calculate the position ma=
-sk: NumRootPorts =3D 2^PositionMask
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  461  		 * for this region.
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  462  		 *
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  463  		 * XXX: pos_mask is actually=
- (1 << PositionMask)  - 1
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  464  		 */
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  465  		position_mask =3D (1 << (ilo=
-g2(num_root_ports))) - 1;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  466  =
+8230ce9a4e206f Christoph Hellwig   2021-01-28  694  		for_each_sg(sgt->sgl,=
+ sg, sgt->orig_nents, i)
+23f88e0a7e9f08 Christoph Hellwig   2019-05-20  695  			arch_dma_prep_cohere=
+nt(sg_page(sg), sg->length);
+0db2e5d18f76a6 Robin Murphy        2015-10-01  696  	}
+0db2e5d18f76a6 Robin Murphy        2015-10-01  697  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  467  		/*
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  468  		 * Calculate the PortGroupin=
-g for each device on this CXL Host
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  469  		 * Bridge Root Port:
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  470  		 * PortGrouping =3D RegionLa=
-bel.Position & PositionMask
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  471  		 *
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  472  		 * The following nest iterat=
-ors effectively iterate over each
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  473  		 * root port in the region.
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  474  		 *   for_each_unique_rootpor=
-t(rp, cxlr)
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  475  		 */
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  476  		list_for_each_entry(rp, &hb-=
->dports, list) {
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  477  			struct cxl_memdev *ep;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  478  			int port_grouping =3D -1;
-a8759d81b528e3 Ben Widawsky 2022-01-13  479  			int target_ndx;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  480  =
+8230ce9a4e206f Christoph Hellwig   2021-01-28  698  	if (iommu_map_sg_atomi=
+c(domain, iova, sgt->sgl, sgt->orig_nents, ioprot)
+0db2e5d18f76a6 Robin Murphy        2015-10-01  699  			< size)
+0db2e5d18f76a6 Robin Murphy        2015-10-01  700  		goto out_free_sg;
+0db2e5d18f76a6 Robin Murphy        2015-10-01  701  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  481  			for_each_cxl_endpoint_hb(ep=
-, cxlr, hb, idx) {
-a8759d81b528e3 Ben Widawsky 2022-01-13  482  				struct cxl_decoder *switch=
-_cxld;
-a8759d81b528e3 Ben Widawsky 2022-01-13  483  				struct cxl_dport *target;
-a8759d81b528e3 Ben Widawsky 2022-01-13  484  				struct cxl_port *switch_po=
-rt;
-a8759d81b528e3 Ben Widawsky 2022-01-13  485  				bool found =3D false;
-a8759d81b528e3 Ben Widawsky 2022-01-13  486  =
+8230ce9a4e206f Christoph Hellwig   2021-01-28  702  	sgt->sgl->dma_address =
+=3D iova;
+e817ee5f2f95ca Christoph Hellwig   2021-01-28  703  	sgt->sgl->dma_length =
+=3D size;
+8230ce9a4e206f Christoph Hellwig   2021-01-28  704  	return pages;
+8230ce9a4e206f Christoph Hellwig   2021-01-28  705  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  487  				if (get_rp(ep) !=3D rp)
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  488  					continue;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  489  =
+8230ce9a4e206f Christoph Hellwig   2021-01-28  706  out_free_sg:
+8230ce9a4e206f Christoph Hellwig   2021-01-28  707  	sg_free_table(sgt);
+8230ce9a4e206f Christoph Hellwig   2021-01-28  708  out_free_iova:
+8230ce9a4e206f Christoph Hellwig   2021-01-28  709  	iommu_dma_free_iova(co=
+okie, iova, size, NULL);
+8230ce9a4e206f Christoph Hellwig   2021-01-28  710  out_free_pages:
+8230ce9a4e206f Christoph Hellwig   2021-01-28  711  	__iommu_dma_free_pages=
+(pages, count);
+8230ce9a4e206f Christoph Hellwig   2021-01-28  712  	return NULL;
+8230ce9a4e206f Christoph Hellwig   2021-01-28  713  }
+8230ce9a4e206f Christoph Hellwig   2021-01-28  714  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  490  				if (port_grouping =3D=3D -=
-1)
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  491  					port_grouping =3D idx & p=
-osition_mask;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  492  =
 
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  493  				/*
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  494  				 * Do all devices in the r=
-egion connected to this CXL
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  495  				 * Host Bridge Root Port h=
-ave the same PortGrouping?
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  496  				 */
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  497  				if ((idx & position_mask) =
-!=3D port_grouping) {
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  498  					dev_dbg(&cxlr->dev,
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  499  						"One or more devices are=
- not connected to the correct Host Bridge Root Port\n");
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  500  					goto err;
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  501  				}
-4826d3a341cdac Ben Widawsky 2021-10-14  502  =
+:::::: The code at line 666 was first introduced by commit
+:::::: 3b6b7e19e31a816ee02a8d4372cbea9ad7db3784 iommu/dma: Finish optimisin=
+g higher-order allocations
 
-4826d3a341cdac Ben Widawsky 2021-10-14  503  				if (!state_update)
-4826d3a341cdac Ben Widawsky 2021-10-14  504  					continue;
-4826d3a341cdac Ben Widawsky 2021-10-14  505  =
-
-4826d3a341cdac Ben Widawsky 2021-10-14  506  				if (dev_WARN_ONCE(&cxld->d=
-ev,
-4826d3a341cdac Ben Widawsky 2021-10-14  507  						  port_grouping >=3D cxl=
-d->nr_targets,
-4826d3a341cdac Ben Widawsky 2021-10-14  508  						  "Invalid port grouping=
- %d/%d\n",
-4826d3a341cdac Ben Widawsky 2021-10-14  509  						  port_grouping, cxld->n=
-r_targets))
-4826d3a341cdac Ben Widawsky 2021-10-14  510  					goto err;
-4826d3a341cdac Ben Widawsky 2021-10-14  511  =
-
-4826d3a341cdac Ben Widawsky 2021-10-14  512  				cxld->interleave_ways++;
-4826d3a341cdac Ben Widawsky 2021-10-14  513  				cxld->target[port_grouping=
-] =3D get_rp(ep);
-a8759d81b528e3 Ben Widawsky 2022-01-13  514  =
-
-a8759d81b528e3 Ben Widawsky 2022-01-13  515  				/*
-a8759d81b528e3 Ben Widawsky 2022-01-13  516  				 * At least one switch is =
-connected here if the endpoint
-a8759d81b528e3 Ben Widawsky 2022-01-13  517  				 * has a depth > 2
-a8759d81b528e3 Ben Widawsky 2022-01-13  518  				 */
-a8759d81b528e3 Ben Widawsky 2022-01-13  519  				if (ep->port->depth =3D=3D=
- 2)
-a8759d81b528e3 Ben Widawsky 2022-01-13  520  					continue;
-a8759d81b528e3 Ben Widawsky 2022-01-13  521  =
-
-a8759d81b528e3 Ben Widawsky 2022-01-13  522  				/* Check the staged list t=
-o see if this
-a8759d81b528e3 Ben Widawsky 2022-01-13  523  				 * port has already been a=
-dded
-a8759d81b528e3 Ben Widawsky 2022-01-13  524  				 */
-a8759d81b528e3 Ben Widawsky 2022-01-13  525  				switch_port =3D get_switch=
-(ep);
-a8759d81b528e3 Ben Widawsky 2022-01-13 @526  				list_for_each_entry(switch=
-_cxld, &cxlr->staged_list, region_link) {
-a8759d81b528e3 Ben Widawsky 2022-01-13  527  					if (to_cxl_port(switch_cx=
-ld->dev.parent) =3D=3D switch_port)
-a8759d81b528e3 Ben Widawsky 2022-01-13  528  						found =3D true;
-a8759d81b528e3 Ben Widawsky 2022-01-13  529  				}
-a8759d81b528e3 Ben Widawsky 2022-01-13  530  =
-
-a8759d81b528e3 Ben Widawsky 2022-01-13  531  				if (found) {
-a8759d81b528e3 Ben Widawsky 2022-01-13  532  					target =3D cxl_find_dport=
-_by_dev(switch_port, ep->dev.parent->parent);
-a8759d81b528e3 Ben Widawsky 2022-01-13 @533  					switch_cxld->target[targe=
-t_ndx++] =3D target;
-a8759d81b528e3 Ben Widawsky 2022-01-13  534  					continue;
-a8759d81b528e3 Ben Widawsky 2022-01-13  535  				}
-a8759d81b528e3 Ben Widawsky 2022-01-13  536  =
-
-a8759d81b528e3 Ben Widawsky 2022-01-13  537  				target_ndx =3D 0;
-a8759d81b528e3 Ben Widawsky 2022-01-13  538  =
-
-a8759d81b528e3 Ben Widawsky 2022-01-13  539  				switch_cxld =3D get_decode=
-r(cxlr, switch_port);
-a8759d81b528e3 Ben Widawsky 2022-01-13  540  				switch_cxld->interleave_wa=
-ys++;
-a8759d81b528e3 Ben Widawsky 2022-01-13  541  				switch_cxld->interleave_gr=
-anularity =3D cxl_to_ways(region_ig + region_eniw);
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  542  			}
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  543  		}
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  544  	}
-e6b7dbd076fea0 Ben Widawsky 2021-10-08  545  =
-
-84dbaed92240cd Ben Widawsky 2021-06-15  546  	return true;
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  547  =
-
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  548  err:
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  549  	dev_dbg(&cxlr->dev, "Couldn't=
- get decoder for region\n");
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  550  	list_for_each_entry_safe(cxld=
-, c, &cxlr->staged_list, region_link)
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  551  		cxl_put_decoder(cxld);
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  552  =
-
-e7e84f7fccbb09 Ben Widawsky 2021-12-18  553  	return false;
-84dbaed92240cd Ben Widawsky 2021-06-15  554  }
-84dbaed92240cd Ben Widawsky 2021-06-15  555  =
-
+:::::: TO: Robin Murphy <robin.murphy@arm.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0459363705067698541==--
+--===============0236682164587435737==--
 
