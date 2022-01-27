@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5728218992991791967=="
+Content-Type: multipart/mixed; boundary="===============1791790560063819852=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [morse:mpam/snapshot/v5.16 63/137] fs/resctrl/rdtgroup.c:2611:12: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Thu, 27 Jan 2022 17:54:37 +0800
-Message-ID: <202201271748.gJY4FU90-lkp@intel.com>
+Subject: drivers/pci/controller/dwc/pcie-qcom-ep.c:371:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 27 Jan 2022 17:44:17 +0800
+Message-ID: <202201271758.nOQfKu7w-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5728218992991791967==
+--===============1791790560063819852==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,32 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: James Morse <james.morse@arm.com>
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Bjorn Helgaas <helgaas@kernel.org>
+CC: Siddartha Mohanadoss <smohanad@codeaurora.org>
+CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC: Rob Herring <robh@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpa=
-m/snapshot/v5.16
-head:   364c1c42b229912132e1615c2ce15be7154e2156
-commit: d1a658d708e01bea1213624ee4c5dba135b3cb4d [63/137] x86/resctrl: Move=
- resctrl to live in /fs/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0280e3c58f92b2fe0e8fbbdf8d386449168de4a8
+commit: f55fee56a631032969480e4b0ee5d79734fe3c69 PCI: qcom-ep: Add Qualcomm=
+ PCIe Endpoint controller driver
+date:   4 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c007-20220124 (https://download.01.org/0day-ci/ar=
-chive/20220127/202201271748.gJY4FU90-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2a1b7a=
-a016c0f4b5598806205bdfbab1ea2d92c4)
+:::::: commit date: 4 months ago
+config: riscv-randconfig-c006-20220125 (https://download.01.org/0day-ci/arc=
+hive/20220127/202201271758.nOQfKu7w-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 997e12=
+8e2a78f5a5434fc75997441ae1ee76f8a4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/c=
-ommit/?id=3Dd1a658d708e01bea1213624ee4c5dba135b3cb4d
-        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/morse/linux.git
-        git fetch --no-tags morse mpam/snapshot/v5.16
-        git checkout d1a658d708e01bea1213624ee4c5dba135b3cb4d
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df55fee56a631032969480e4b0ee5d79734fe3c69
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f55fee56a631032969480e4b0ee5d79734fe3c69
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -48,534 +55,299 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/acpi/acpica/nsnames.c:226:2: note: Loop condition is true.  Ente=
-ring loop body
-           while (next_node && next_node !=3D acpi_gbl_root_node) {
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/acpi/acpica/nsnames.c:227:7: note: 'next_node' is equal to 'node'
-                   if (next_node !=3D node) {
-                       ^~~~~~~~~
-   drivers/acpi/acpica/nsnames.c:227:3: note: Taking false branch
-                   if (next_node !=3D node) {
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   drivers/acpi/acpica/nsnames.c:234:3: note: Loop condition is true.  Ente=
-ring loop body
-                   for (i =3D 0; i < 4; i++) {
-                   ^
-   drivers/acpi/acpica/nsnames.c:235:6: note: Assigned value is garbage or =
-undefined
-                           c =3D name[4 - i - 1];
-                             ^ ~~~~~~~~~~~~~~~
-   drivers/acpi/acpica/nsnames.c:376:3: warning: Call to function 'strcat' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(full_path, prefix_path);
-                   ^~~~~~
-   drivers/acpi/acpica/nsnames.c:376:3: note: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119
-                   strcat(full_path, prefix_path);
-                   ^~~~~~
-   drivers/acpi/acpica/nsnames.c:378:4: warning: Call to function 'strcat' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(full_path, ".");
-                           ^~~~~~
-   drivers/acpi/acpica/nsnames.c:378:4: note: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119
-                           strcat(full_path, ".");
-                           ^~~~~~
-   drivers/acpi/acpica/nsnames.c:383:2: warning: Call to function 'strcat' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(full_path, external_path);
-           ^~~~~~
-   drivers/acpi/acpica/nsnames.c:383:2: note: Call to function 'strcat' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcat'. CWE-119
-           strcat(full_path, external_path);
-           ^~~~~~
-   drivers/acpi/acpica/nsnames.c:464:2: warning: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(original_path, new_path_buffer);
-           ^~~~~~
-   drivers/acpi/acpica/nsnames.c:464:2: note: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119
-           strcpy(original_path, new_path_buffer);
-           ^~~~~~
+   kernel/time/posix-cpu-timers.c:1324:2: note: Loop condition is false.  E=
+xiting loop
+           list_for_each_entry_safe(timer, next, &firing, it.cpu.elist) {
+           ^
+   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
+try_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   kernel/time/posix-cpu-timers.c:1324:2: note: Assigned value is garbage o=
+r undefined
+           list_for_each_entry_safe(timer, next, &firing, it.cpu.elist) {
+           ^
+   include/linux/list.h:716:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:494:2: note: expanded from macro 'container_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^              ~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/btrfs/extent_map.c:615:3: warning: Value stored to 'ret' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   fs/btrfs/extent_map.c:615:3: note: Value stored to 'ret' is never read
+                   ret =3D 0;
+                   ^     ~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/btrfs/sysfs.c:627:8: warning: Dereference of null pointer (loaded fro=
+m variable 'value_ptr') [clang-analyzer-core.NullDereference]
+           val =3D *value_ptr;
+                 ^
+   fs/btrfs/sysfs.c:645:34: note: Calling 'to_fs_info'
+           struct btrfs_fs_info *fs_info =3D to_fs_info(kobj->parent);
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:1101:6: note: Assuming the condition is false
+           if (kobj->ktype !=3D &btrfs_ktype)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:1101:2: note: Taking false branch
+           if (kobj->ktype !=3D &btrfs_ktype)
+           ^
+   fs/btrfs/sysfs.c:1103:2: note: Returning pointer
+           return to_fs_devs(kobj)->fs_info;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:645:34: note: Returning from 'to_fs_info'
+           struct btrfs_fs_info *fs_info =3D to_fs_info(kobj->parent);
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:645:2: note: 'fs_info' initialized here
+           struct btrfs_fs_info *fs_info =3D to_fs_info(kobj->parent);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:646:2: note: 'block_rsv' initialized here
+           struct btrfs_block_rsv *block_rsv =3D &fs_info->global_block_rsv;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:647:24: note: Passing value via 1st parameter 'value_pt=
+r'
+           return btrfs_show_u64(&block_rsv->reserved, &block_rsv->lock, bu=
+f);
+                                 ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/sysfs.c:647:9: note: Calling 'btrfs_show_u64'
+           return btrfs_show_u64(&block_rsv->reserved, &block_rsv->lock, bu=
+f);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/btrfs/sysfs.c:625:6: note: Assuming 'lock' is null
+           if (lock)
+               ^~~~
+   fs/btrfs/sysfs.c:625:2: note: Taking false branch
+           if (lock)
+           ^
+   fs/btrfs/sysfs.c:627:8: note: Dereference of null pointer (loaded from v=
+ariable 'value_ptr')
+           val =3D *value_ptr;
+                 ^~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   6 warnings generated.
+>> drivers/pci/controller/dwc/pcie-qcom-ep.c:371:17: warning: Value stored =
+to 'dev' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct device *dev =3D pci->dev;
+                          ^~~   ~~~~~~~~
+   drivers/pci/controller/dwc/pcie-qcom-ep.c:371:17: note: Value stored to =
+'dev' during its initialization is never read
+           struct device *dev =3D pci->dev;
+                          ^~~   ~~~~~~~~
+   drivers/pci/controller/dwc/pcie-qcom-ep.c:488:17: warning: Value stored =
+to 'dev' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct device *dev =3D pci->dev;
+                          ^~~   ~~~~~~~~
+   drivers/pci/controller/dwc/pcie-qcom-ep.c:488:17: note: Value stored to =
+'dev' during its initialization is never read
+           struct device *dev =3D pci->dev;
+                          ^~~   ~~~~~~~~
+   drivers/pci/controller/dwc/pcie-qcom-ep.c:531:17: warning: Value stored =
+to 'dev' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct device *dev =3D pci->dev;
+                          ^~~   ~~~~~~~~
+   drivers/pci/controller/dwc/pcie-qcom-ep.c:531:17: note: Value stored to =
+'dev' during its initialization is never read
+           struct device *dev =3D pci->dev;
+                          ^~~   ~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   3 warnings generated.
+   drivers/pci/controller/dwc/pcie-artpec6.c:243:18: warning: Value stored =
+to 'pci' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct dw_pcie *pci =3D artpec6_pcie->pci;
+                           ^~~   ~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/dwc/pcie-artpec6.c:243:18: note: Value stored to =
+'pci' during its initialization is never read
+           struct dw_pcie *pci =3D artpec6_pcie->pci;
+                           ^~~   ~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> fs/resctrl/rdtgroup.c:2611:12: warning: Assigned value is garbage or und=
-efined [clang-analyzer-core.uninitialized.Assign]
-                   *dest_kn =3D kn;
-                            ^
-   fs/resctrl/rdtgroup.c:2160:6: note: Assuming 'resctrl_mounted' is false
-           if (resctrl_mounted) {
-               ^~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2160:2: note: Taking false branch
-           if (resctrl_mounted) {
+   3 warnings generated.
+   include/linux/log2.h:57:13: warning: The result of the left shift is und=
+efined due to shifting by '32', which is greater or equal to the width of t=
+ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << fls_long(n - 1);
+                      ^
+   drivers/vdpa/vdpa_user/iova_domain.c:364:20: note: Calling 'vduse_domain=
+_alloc_iova'
+           dma_addr_t iova =3D vduse_domain_alloc_iova(iovad, size, limit);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vdpa/vdpa_user/iova_domain.c:301:6: note: Assuming the condition=
+ is true
+           if (iova_len < (1 << (IOVA_RANGE_CACHE_MAX_SIZE - 1)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/vdpa/vdpa_user/iova_domain.c:301:2: note: Taking true branch
+           if (iova_len < (1 << (IOVA_RANGE_CACHE_MAX_SIZE - 1)))
            ^
-   fs/resctrl/rdtgroup.c:2166:6: note: 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~
-   fs/resctrl/rdtgroup.c:2166:2: note: Taking false branch
-           if (ret < 0)
+   drivers/vdpa/vdpa_user/iova_domain.c:302:14: note: '?' condition is false
+                   iova_len =3D roundup_pow_of_two(iova_len);
+                              ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __builtin_constant_p(n) ? (             \
            ^
-   fs/resctrl/rdtgroup.c:2169:8: note: Calling 'schemata_list_create'
-           ret =3D schemata_list_create();
-                 ^~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is true.  Entering lo=
-op body
-           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
+   drivers/vdpa/vdpa_user/iova_domain.c:302:14: note: Calling '__roundup_po=
+w_of_two'
+                   iova_len =3D roundup_pow_of_two(iova_len);
+                              ^
+   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __roundup_pow_of_two(n)                 \
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:188:2: note: Taking true branch
+           if (sizeof(l) =3D=3D 4)
            ^
-   fs/resctrl/rdtgroup.c:2118:7: note: Assuming field 'alloc_capable' is fa=
-lse
-                   if (!r->alloc_capable)
-                       ^~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2118:3: note: Taking true branch
-                   if (!r->alloc_capable)
-                   ^
-   fs/resctrl/rdtgroup.c:2119:4: note:  Execution continues on line 2116
-                           continue;
-                           ^
-   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is true.  Entering lo=
-op body
-           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
+   include/linux/bitops.h:189:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r =3D 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
+o 0, which participates in a condition later
+           if (!x)
+               ^~
+   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
+           if (!x)
            ^
-   fs/resctrl/rdtgroup.c:2118:7: note: Assuming field 'alloc_capable' is fa=
-lse
-                   if (!r->alloc_capable)
-                       ^~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2118:3: note: Taking true branch
-                   if (!r->alloc_capable)
-                   ^
-   fs/resctrl/rdtgroup.c:2119:4: note:  Execution continues on line 2116
-                           continue;
-                           ^
-   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is true.  Entering lo=
-op body
-           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
-           ^
-   fs/resctrl/rdtgroup.c:2118:7: note: Assuming field 'alloc_capable' is fa=
-lse
-                   if (!r->alloc_capable)
-                       ^~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2118:3: note: Taking true branch
-                   if (!r->alloc_capable)
-                   ^
-   fs/resctrl/rdtgroup.c:2119:4: note:  Execution continues on line 2116
-                           continue;
-                           ^
-   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is false. Execution c=
-ontinues on line 2135
-           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
-           ^
-   fs/resctrl/rdtgroup.c:2135:2: note: Returning zero (loaded from 'ret'), =
-which participates in a condition later
-           return ret;
-           ^~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2169:8: note: Returning from 'schemata_list_create'
-           ret =3D schemata_list_create();
-                 ^~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2170:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   fs/resctrl/rdtgroup.c:2170:2: note: Taking false branch
-           if (ret) {
-           ^
-   fs/resctrl/rdtgroup.c:2178:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   fs/resctrl/rdtgroup.c:2178:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   fs/resctrl/rdtgroup.c:2181:6: note: Assuming the condition is true
-           if (resctrl_arch_mon_capable()) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2181:2: note: Taking true branch
-           if (resctrl_arch_mon_capable()) {
-           ^
-   fs/resctrl/rdtgroup.c:2182:9: note: Calling 'mongroup_create_dir'
-                   ret =3D mongroup_create_dir(rdtgroup_default.kn,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:1839:7: note: Calling 'kernfs_create_dir'
-           kn =3D kernfs_create_dir(parent_kn, name, parent_kn->mode, prgrp=
-);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernfs.h:562:9: note: Value assigned to 'kn_mondata', whic=
-h participates in a condition later
-           return kernfs_create_dir_ns(parent, name, mode,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:1839:7: note: Returning from 'kernfs_create_dir'
-           kn =3D kernfs_create_dir(parent_kn, name, parent_kn->mode, prgrp=
-);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:1840:2: note: Taking true branch
-           if (IS_ERR(kn))
-           ^
-   fs/resctrl/rdtgroup.c:2182:9: note: Returning from 'mongroup_create_dir'
-                   ret =3D mongroup_create_dir(rdtgroup_default.kn,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2185:7: note: Assuming 'ret' is >=3D 0
-                   if (ret < 0)
-                       ^~~~~~~
-   fs/resctrl/rdtgroup.c:2185:3: note: Taking false branch
-                   if (ret < 0)
-                   ^
-   fs/resctrl/rdtgroup.c:2188:9: note: Calling 'mkdir_mondata_all'
-                   ret =3D mkdir_mondata_all(rdtgroup_default.kn,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2600:2: note: 'kn' declared without an initial val=
-ue
-           struct kernfs_node *kn;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2606:8: note: Calling 'mongroup_create_dir'
-           ret =3D mongroup_create_dir(parent_kn, prgrp, "mon_data", &kn);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:1840:6: note: Calling 'IS_ERR'
-           if (IS_ERR(kn))
-               ^~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is true
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning the value 1, which participate=
-s in a condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:1840:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(kn))
-               ^~~~~~~~~~
-   fs/resctrl/rdtgroup.c:1840:2: note: Taking true branch
-           if (IS_ERR(kn))
-           ^
-   fs/resctrl/rdtgroup.c:1841:3: note: Returning without writing to '*dest_=
-kn'
-                   return PTR_ERR(kn);
-                   ^
-   fs/resctrl/rdtgroup.c:1841:3: note: Returning value, which participates =
-in a condition later
-                   return PTR_ERR(kn);
-                   ^~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2606:8: note: Returning from 'mongroup_create_dir'
-           ret =3D mongroup_create_dir(parent_kn, prgrp, "mon_data", &kn);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2607:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   fs/resctrl/rdtgroup.c:2607:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/resctrl/rdtgroup.c:2610:6: note: 'dest_kn' is non-null
-           if (dest_kn)
-               ^~~~~~~
-   fs/resctrl/rdtgroup.c:2610:2: note: Taking true branch
-           if (dest_kn)
-           ^
-   fs/resctrl/rdtgroup.c:2611:12: note: Assigned value is garbage or undefi=
-ned
-                   *dest_kn =3D kn;
-                            ^ ~~
->> fs/resctrl/rdtgroup.c:2919:10: warning: Use of memory after it is freed =
-[clang-analyzer-unix.Malloc]
-           prgrp =3D rdtgrp->mon.parent;
-                   ^
-   fs/resctrl/rdtgroup.c:3047:6: note: Assuming the condition is false
-           if (strchr(name, '\n'))
+   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xffff0000u)) {
                ^~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:3047:2: note: Taking false branch
-           if (strchr(name, '\n'))
+   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
            ^
-   fs/resctrl/rdtgroup.c:3055:6: note: Assuming the condition is false
-           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
-fault.kn)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:3055:35: note: Left side of '&&' is false
-           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
-fault.kn)
-                                            ^
-   fs/resctrl/rdtgroup.c:3062:6: note: Assuming the condition is true
-           if (resctrl_arch_mon_capable() && is_mon_groups(parent_kn, name))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:3062:6: note: Left side of '&&' is true
-   fs/resctrl/rdtgroup.c:3062:36: note: Assuming the condition is true
-           if (resctrl_arch_mon_capable() && is_mon_groups(parent_kn, name))
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:3062:2: note: Taking true branch
-           if (resctrl_arch_mon_capable() && is_mon_groups(parent_kn, name))
-           ^
-   fs/resctrl/rdtgroup.c:3063:10: note: Calling 'rdtgroup_mkdir_mon'
-                   return rdtgroup_mkdir_mon(parent_kn, name, mode);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2915:8: note: Calling 'mkdir_rdt_prepare'
-           ret =3D mkdir_rdt_prepare(parent_kn, name, mode, RDTMON_GROUP, &=
-rdtgrp);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   fs/resctrl/rdtgroup.c:2831:7: note: 'prdtgrp' is non-null
-           if (!prdtgrp) {
-                ^~~~~~~
-   fs/resctrl/rdtgroup.c:2831:2: note: Taking false branch
-           if (!prdtgrp) {
-           ^
-   fs/resctrl/rdtgroup.c:2836:6: note: 'rtype' is equal to RDTMON_GROUP
-           if (rtype =3D=3D RDTMON_GROUP &&
-               ^~~~~
-   fs/resctrl/rdtgroup.c:2836:6: note: Left side of '&&' is true
-   fs/resctrl/rdtgroup.c:2837:7: note: Assuming field 'mode' is not equal t=
-o RDT_MODE_PSEUDO_LOCKSETUP
-               (prdtgrp->mode =3D=3D RDT_MODE_PSEUDO_LOCKSETUP ||
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2837:7: note: Left side of '||' is false
-   fs/resctrl/rdtgroup.c:2838:7: note: Assuming field 'mode' is not equal t=
-o RDT_MODE_PSEUDO_LOCKED
-                prdtgrp->mode =3D=3D RDT_MODE_PSEUDO_LOCKED)) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2836:2: note: Taking false branch
-           if (rtype =3D=3D RDTMON_GROUP &&
-           ^
-   fs/resctrl/rdtgroup.c:2846:6: note: Assuming 'rdtgrp' is non-null
-           if (!rdtgrp) {
-               ^~~~~~~
-   fs/resctrl/rdtgroup.c:2846:2: note: Taking false branch
-           if (!rdtgrp) {
-           ^
-   fs/resctrl/rdtgroup.c:2858:2: note: Taking true branch
-           if (IS_ERR(kn)) {
-           ^
-   fs/resctrl/rdtgroup.c:2861:3: note: Control jumps to line 2897
-                   goto out_free_rgrp;
-                   ^
-   fs/resctrl/rdtgroup.c:2897:2: note: Memory is released
-           kfree(rdtgrp);
-           ^~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2915:8: note: Returning; memory was released via 5=
-th parameter
-           ret =3D mkdir_rdt_prepare(parent_kn, name, mode, RDTMON_GROUP, &=
-rdtgrp);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   fs/resctrl/rdtgroup.c:2916:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   fs/resctrl/rdtgroup.c:2916:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/resctrl/rdtgroup.c:2919:10: note: Use of memory after it is freed
-           prgrp =3D rdtgrp->mon.parent;
-                   ^~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2971:7: warning: Use of memory after it is freed [=
-clang-analyzer-unix.Malloc]
-           kn =3D rdtgrp->kn;
-                ^
-   fs/resctrl/rdtgroup.c:3047:6: note: Assuming the condition is false
-           if (strchr(name, '\n'))
+   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xff000000u)) {
                ^~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:3047:2: note: Taking false branch
-           if (strchr(name, '\n'))
+   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
            ^
-   fs/resctrl/rdtgroup.c:3055:6: note: Assuming the condition is true
-           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
-fault.kn)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:3055:6: note: Left side of '&&' is true
-   fs/resctrl/rdtgroup.c:3055:38: note: Assuming 'parent_kn' is equal to fi=
-eld 'kn'
-           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
-fault.kn)
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/resctrl/rdtgroup.c:3055:2: note: Taking true branch
-           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
-fault.kn)
-           ^
-   fs/resctrl/rdtgroup.c:3056:10: note: Calling 'rdtgroup_mkdir_ctrl_mon'
-                   return rdtgroup_mkdir_ctrl_mon(parent_kn, name, mode);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/resctrl/rdtgroup.c:2967:8: note: Calling 'mkdir_rdt_prepare'
+   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
 
-vim +2611 fs/resctrl/rdtgroup.c
+vim +/dev +371 drivers/pci/controller/dwc/pcie-qcom-ep.c
 
-d1a658d708e01b James Morse 2021-09-06  2576  =
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  367  =
 
-d1a658d708e01b James Morse 2021-09-06  2577  /*
-d1a658d708e01b James Morse 2021-09-06  2578   * This creates a directory mo=
-n_data which contains the monitored data.
-d1a658d708e01b James Morse 2021-09-06  2579   *
-d1a658d708e01b James Morse 2021-09-06  2580   * mon_data has one directory =
-for each domain which are named
-d1a658d708e01b James Morse 2021-09-06  2581   * in the format mon_<domain_n=
-ame>_<domain_id>. For ex: A mon_data
-d1a658d708e01b James Morse 2021-09-06  2582   * with L3 domain looks as bel=
-ow:
-d1a658d708e01b James Morse 2021-09-06  2583   * ./mon_data:
-d1a658d708e01b James Morse 2021-09-06  2584   * mon_L3_00
-d1a658d708e01b James Morse 2021-09-06  2585   * mon_L3_01
-d1a658d708e01b James Morse 2021-09-06  2586   * mon_L3_02
-d1a658d708e01b James Morse 2021-09-06  2587   * ...
-d1a658d708e01b James Morse 2021-09-06  2588   *
-d1a658d708e01b James Morse 2021-09-06  2589   * Each domain directory has o=
-ne file per event:
-d1a658d708e01b James Morse 2021-09-06  2590   * ./mon_L3_00/:
-d1a658d708e01b James Morse 2021-09-06  2591   * llc_occupancy
-d1a658d708e01b James Morse 2021-09-06  2592   *
-d1a658d708e01b James Morse 2021-09-06  2593   */
-d1a658d708e01b James Morse 2021-09-06  2594  static int mkdir_mondata_all(s=
-truct kernfs_node *parent_kn,
-d1a658d708e01b James Morse 2021-09-06  2595  			     struct rdtgroup *prgrp,
-d1a658d708e01b James Morse 2021-09-06  2596  			     struct kernfs_node **d=
-est_kn)
-d1a658d708e01b James Morse 2021-09-06  2597  {
-d1a658d708e01b James Morse 2021-09-06  2598  	enum resctrl_res_level i;
-d1a658d708e01b James Morse 2021-09-06  2599  	struct rdt_resource *r;
-d1a658d708e01b James Morse 2021-09-06  2600  	struct kernfs_node *kn;
-d1a658d708e01b James Morse 2021-09-06  2601  	int ret;
-d1a658d708e01b James Morse 2021-09-06  2602  =
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  368  static void qcom_pcie=
+_perst_assert(struct dw_pcie *pci)
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  369  {
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  370  	struct qcom_pcie_ep =
+*pcie_ep =3D to_pcie_ep(pci);
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20 @371  	struct device *dev =
+=3D pci->dev;
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  372  =
 
-d1a658d708e01b James Morse 2021-09-06  2603  	/*
-d1a658d708e01b James Morse 2021-09-06  2604  	 * Create the mon_data direct=
-ory first.
-d1a658d708e01b James Morse 2021-09-06  2605  	 */
-d1a658d708e01b James Morse 2021-09-06  2606  	ret =3D mongroup_create_dir(p=
-arent_kn, prgrp, "mon_data", &kn);
-d1a658d708e01b James Morse 2021-09-06  2607  	if (ret)
-d1a658d708e01b James Morse 2021-09-06  2608  		return ret;
-d1a658d708e01b James Morse 2021-09-06  2609  =
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  373  	if (pcie_ep->link_st=
+atus =3D=3D QCOM_PCIE_EP_LINK_DISABLED) {
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  374  		dev_dbg(dev, "Link =
+is already disabled\n");
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  375  		return;
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  376  	}
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  377  =
 
-d1a658d708e01b James Morse 2021-09-06  2610  	if (dest_kn)
-d1a658d708e01b James Morse 2021-09-06 @2611  		*dest_kn =3D kn;
-d1a658d708e01b James Morse 2021-09-06  2612  =
-
-d1a658d708e01b James Morse 2021-09-06  2613  	/*
-d1a658d708e01b James Morse 2021-09-06  2614  	 * Create the subdirectories =
-for each domain. Note that all events
-d1a658d708e01b James Morse 2021-09-06  2615  	 * in a domain like L3 are gr=
-ouped into a resource whose domain is L3
-d1a658d708e01b James Morse 2021-09-06  2616  	 */
-d1a658d708e01b James Morse 2021-09-06  2617  	for (i =3D 0; i < RDT_NUM_RES=
-OURCES; i++) {
-d1a658d708e01b James Morse 2021-09-06  2618  		r =3D resctrl_arch_get_resou=
-rce(i);
-d1a658d708e01b James Morse 2021-09-06  2619  		if (!r->mon_capable)
-d1a658d708e01b James Morse 2021-09-06  2620  			continue;
-d1a658d708e01b James Morse 2021-09-06  2621  =
-
-d1a658d708e01b James Morse 2021-09-06  2622  		ret =3D mkdir_mondata_subdir=
-_alldom(kn, r, prgrp);
-d1a658d708e01b James Morse 2021-09-06  2623  		if (ret)
-d1a658d708e01b James Morse 2021-09-06  2624  			goto out_destroy;
-d1a658d708e01b James Morse 2021-09-06  2625  	}
-d1a658d708e01b James Morse 2021-09-06  2626  =
-
-d1a658d708e01b James Morse 2021-09-06  2627  	return 0;
-d1a658d708e01b James Morse 2021-09-06  2628  =
-
-d1a658d708e01b James Morse 2021-09-06  2629  out_destroy:
-d1a658d708e01b James Morse 2021-09-06  2630  	kernfs_remove(kn);
-d1a658d708e01b James Morse 2021-09-06  2631  	return ret;
-d1a658d708e01b James Morse 2021-09-06  2632  }
-d1a658d708e01b James Morse 2021-09-06  2633  =
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  378  	phy_power_off(pcie_e=
+p->phy);
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  379  	phy_exit(pcie_ep->ph=
+y);
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  380  	clk_bulk_disable_unp=
+repare(ARRAY_SIZE(qcom_pcie_ep_clks),
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  381  				   qcom_pcie_ep_c=
+lks);
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  382  	pcie_ep->link_status=
+ =3D QCOM_PCIE_EP_LINK_DISABLED;
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  383  }
+f55fee56a63103 Manivannan Sadhasivam 2021-09-20  384  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5728218992991791967==--
+--===============1791790560063819852==--
 
