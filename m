@@ -1,37 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============6019536480065001268=="
+Content-Type: multipart/mixed; boundary="===============5459825560287375526=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH bpf-next v8 09/10] selftests/bpf: Extend kfunc selftests
-Date: Sat, 22 Jan 2022 17:03:00 +0800
-Message-ID: <202201221618.3iotxtfv-lkp@intel.com>
+Subject: [hverkuil-media-tree:for-v5.18i 82/111] drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c:105:2-9: line 105 is redundant because platform_get_irq() already prints an error
+Date: Fri, 28 Jan 2022 16:35:13 +0800
+Message-ID: <202201281603.YgWZ0q17-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6019536480065001268==
+--===============5459825560287375526==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220114163953.1455836-10-memxor@gmail.com>
-References: <20220114163953.1455836-10-memxor@gmail.com>
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Yunfei Dong <yunfei.dong@mediatek.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Steve Cho <stevecho@chromium.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-Hi Kumar,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Kumar-Kartikeya-Dwivedi/In=
-troduce-unstable-CT-lookup-helpers/20220115-004219
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-c022-20220117 (https://download.01.org/0day-ci/ar=
-chive/20220122/202201221618.3iotxtfv-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   git://linuxtv.org/hverkuil/media_tree.git for-v5.18i
+head:   232e2106ba4413aa88143fba77fd717b22169b10
+commit: c05bada35f015fb735a9c3830226ccbe2b05008f [82/111] media: mtk-vcodec=
+: Add to support multi hardware decode
+:::::: branch date: 24 hours ago
+:::::: commit date: 5 days ago
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20220128=
+/202201281603.YgWZ0q17-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -39,14 +36,16 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 cocci warnings: (new ones prefixed by >>)
->> net/bpf/test_run.c:296:6-10: WARNING use flexible-array member instead (=
-https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-=
-and-one-element-arrays)
+>> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c:105:2-9: line 105=
+ is redundant because platform_get_irq() already prints an error
+--
+>> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c:102:2-9: line 102 =
+is redundant because platform_get_irq() already prints an error
 
 Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6019536480065001268==--
+--===============5459825560287375526==--
 
