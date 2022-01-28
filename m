@@ -1,687 +1,287 @@
-Content-Type: multipart/mixed; boundary="===============6821953147407104831=="
+Content-Type: multipart/mixed; boundary="===============3039343787651848691=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:dd-drm-rfc 13/18] drivers/gpu/drm/arm/display/komeda/komeda_kms.c:121:22: warning: Value stored to 'a' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 25 Jan 2022 22:43:19 +0800
-Message-ID: <202201252247.vq1Bm7yr-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/dsi/dsi_host.c:898:43: warning: Possible null pointer dereference: phy_shared_timings [nullPointer]
+Date: Sat, 29 Jan 2022 05:02:48 +0800
+Message-ID: <202201290155.oR0pqKTH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6821953147407104831==
+--===============3039343787651848691==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Jim Cromie <jim.cromie@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Rob Clark <robdclark@gmail.com>
 
-tree:   https://github.com/jimc/linux.git dd-drm-rfc
-head:   c86deb7d09199fd29665d9c68f1e70850132e49a
-commit: ed4425a17de1eb5638703d40ed1d002b28963687 [13/18] drm_print: add cho=
-ice to use dynamic debug in drm-debug
-:::::: branch date: 4 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   145d9b498fc827b79c1260b4caa29a8e59d4c2b9
+commit: b3ed524f84f573ece1aa2f26e9db3c34a593e0d1 drm/msm: allow compile_tes=
+t on !ARM
+date:   4 months ago
+:::::: branch date: 8 hours ago
 :::::: commit date: 4 months ago
-config: x86_64-randconfig-c007-20211009 (https://download.01.org/0day-ci/ar=
-chive/20220125/202201252247.vq1Bm7yr-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 30caca=
-39f401ae17927439c0a0bd6d1b1916dd6a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/ed4425a17de1eb5638703d40ed1d=
-002b28963687
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc dd-drm-rfc
-        git checkout ed4425a17de1eb5638703d40ed1d002b28963687
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/mfd/rohm-bd70528.c:282:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_update_bits(bd70528->chip.regmap,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mfd/rohm-bd70528.c:282:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D regmap_update_bits(bd70528->chip.regmap,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:514:8: warnin=
-g: Branch condition evaluates to a garbage value [clang-analyzer-core.unini=
-tialized.Branch]
-           if (!(dflow->en_scaling || dflow->en_img_enhancement))
-                 ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1164:8: note:=
- Calling 'komeda_splitter_validate'
-           err =3D komeda_splitter_validate(pipe->splitter, conn_st,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:572:6: note: =
-Assuming 'splitter' is non-null
-           if (!splitter) {
-               ^~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:572:2: note: =
-Taking false branch
-           if (!splitter) {
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:577:2: note: =
-Taking false branch
-           if (!in_range(&splitter->hsize, dflow->in_w)) {
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:583:2: note: =
-Taking false branch
-           if (!in_range(&splitter->vsize, dflow->in_h)) {
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:592:2: note: =
-Taking true branch
-           if (IS_ERR(c_st))
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:593:3: note: =
-Returning without writing to 'l_output->en_scaling'
-                   return PTR_ERR(c_st);
-                   ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1164:8: note:=
- Returning from 'komeda_splitter_validate'
-           err =3D komeda_splitter_validate(pipe->splitter, conn_st,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1166:6: note:=
- Assuming 'err' is 0
-           if (err)
-               ^~~
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1166:2: note:=
- Taking false branch
-           if (err)
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:1168:8: note:=
- Calling 'komeda_scaler_validate'
-           err =3D komeda_scaler_validate(conn, kcrtc_st, &l_dflow);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_pipeline_state.c:514:8: note: =
-Branch condition evaluates to a garbage value
-           if (!(dflow->en_scaling || dflow->en_img_enhancement))
-                 ^~~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:121:22: warning: Value s=
-tored to 'a' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-                           struct drm_plane *a =3D node->base.plane;
-                                             ^   ~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:121:22: note: Value stor=
-ed to 'a' during its initialization is never read
-                           struct drm_plane *a =3D node->base.plane;
-                                             ^   ~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/arm/display/komeda/komeda_kms.c:122:22: warning: Value s=
-tored to 'b' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-                           struct drm_plane *b =3D new->base.plane;
-                                             ^   ~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:122:22: note: Value stor=
-ed to 'b' during its initialization is never read
-                           struct drm_plane *b =3D new->base.plane;
-                                             ^   ~~~~~~~~~~~~~~~
-   include/linux/list.h:73:2: warning: Dereference of null pointer [clang-a=
-nalyzer-core.NullDereference]
-           WRITE_ONCE(prev->next, new);
-           ^
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-           ^
-   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
-NCE'
-           *(volatile typeof(x) *)&(x) =3D (val);                          =
-  \
-                                       ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:205:6: note: Assuming 'e=
-rr' is 0
-           if (err)
-               ^~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:205:2: note: Taking fals=
-e branch
-           if (err)
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Assuming 'i=
-' is < field 'num_crtc'
-           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
-           ^
-   include/drm/drm_atomic.h:846:7: note: expanded from macro 'for_each_new_=
-crtc_in_state'
-                (__i) < (__state)->dev->mode_config.num_crtc;              \
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Loop condit=
-ion is true.  Entering loop body
-           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
-           ^
-   include/drm/drm_atomic.h:845:2: note: expanded from macro 'for_each_new_=
-crtc_in_state'
-           for ((__i) =3D 0;                                               =
-  \
-           ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Assuming fi=
-eld 'ptr' is non-null
-           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
-           ^
-   include/drm/drm_atomic.h:848:16: note: expanded from macro 'for_each_new=
-_crtc_in_state'
-                   for_each_if ((__state)->crtcs[__i].ptr &&               \
-                   ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_util.h:63:38: note: expanded from macro 'for_each_if'
-   #define for_each_if(condition) if (!(condition)) {} else
-                                        ^~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Left side o=
-f '&&' is true
-           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
-           ^
-   include/drm/drm_atomic.h:848:16: note: expanded from macro 'for_each_new=
-_crtc_in_state'
-                   for_each_if ((__state)->crtcs[__i].ptr &&               \
-                                ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:212:2: note: Taking fals=
-e branch
-           for_each_new_crtc_in_state(state, crtc, new_crtc_st, i) {
-           ^
-   include/drm/drm_atomic.h:848:3: note: expanded from macro 'for_each_new_=
-crtc_in_state'
-                   for_each_if ((__state)->crtcs[__i].ptr &&               \
-                   ^
-   include/drm/drm_util.h:63:32: note: expanded from macro 'for_each_if'
-   #define for_each_if(condition) if (!(condition)) {} else
-                                  ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:214:7: note: Assuming 'e=
-rr' is 0
-                   if (err)
-                       ^~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:214:3: note: Taking fals=
-e branch
-                   if (err)
-                   ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:217:9: note: Calling 'ko=
-meda_crtc_normalize_zpos'
-                   err =3D komeda_crtc_normalize_zpos(crtc, new_crtc_st);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:140:30: note: Left side =
-of '&&' is false
-           struct komeda_crtc *kcrtc =3D to_kcrtc(crtc);
-                                       ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.h:131:21: note: expanded f=
-rom macro 'to_kcrtc'
-   #define to_kcrtc(p)     container_of(p, struct komeda_crtc, base)
-                           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:140:30: note: Taking fal=
-se branch
-           struct komeda_crtc *kcrtc =3D to_kcrtc(crtc);
-                                       ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.h:131:21: note: expanded f=
-rom macro 'to_kcrtc'
-   #define to_kcrtc(p)     container_of(p, struct komeda_crtc, base)
-                           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:140:30: note: Loop condi=
-tion is false.  Exiting loop
-           struct komeda_crtc *kcrtc =3D to_kcrtc(crtc);
-                                       ^
-   drivers/gpu/drm/arm/display/komeda/komeda_kms.h:131:21: note: expanded f=
-rom macro 'to_kcrtc'
-   #define to_kcrtc(p)     container_of(p, struct komeda_crtc, base)
---
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/gpio/gpio-xilinx.c:101:13: warning: The left expression of the c=
-ompound assignment is an uninitialized value. The computed value will also =
-be garbage [clang-analyzer-core.uninitialized.Assign]
-           map[index] &=3D ~(0xFFFFFFFFul << offset);
-                      ^
-   drivers/gpio/gpio-xilinx.c:520:2: note: Calling 'xgpio_read_ch_all'
-           xgpio_read_ch_all(chip, XGPIO_DATA_OFFSET, all);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-xilinx.c:133:16: note: Assuming 'bit' is <=3D 'lastbit'
-           for (bit =3D 0; bit <=3D lastbit ; bit +=3D 32)
-                         ^~~~~~~~~~~~~~
-   drivers/gpio/gpio-xilinx.c:133:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (bit =3D 0; bit <=3D lastbit ; bit +=3D 32)
-           ^
-   drivers/gpio/gpio-xilinx.c:134:3: note: Calling 'xgpio_read_ch'
-                   xgpio_read_ch(chip, reg, bit, a);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-xilinx.c:120:2: note: Calling 'xgpio_set_value32'
-           xgpio_set_value32(a, bit, xgpio_readreg(addr));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-xilinx.c:98:2: note: 'index' initialized to 0
-           const size_t index =3D BIT_WORD(bit);
-           ^~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-xilinx.c:101:13: note: The left expression of the comp=
-ound assignment is an uninitialized value. The computed value will also be =
-garbage
-           map[index] &=3D ~(0xFFFFFFFFul << offset);
-           ~~~~~~~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/gpu/drm/i2c/tda998x_drv.c:798:3: warning: Value stored to 'flag0=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   flag0 =3D reg_read(priv, REG_INT_FLAGS_0);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i2c/tda998x_drv.c:798:3: note: Value stored to 'flag0' i=
-s never read
-                   flag0 =3D reg_read(priv, REG_INT_FLAGS_0);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/i2c/tda998x_drv.c:799:3: warning: Value stored to 'flag1=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   flag1 =3D reg_read(priv, REG_INT_FLAGS_1);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i2c/tda998x_drv.c:799:3: note: Value stored to 'flag1' i=
-s never read
-                   flag1 =3D reg_read(priv, REG_INT_FLAGS_1);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/input/keyboard/samsung-keypad.c:88:23: warning: The result of th=
-e left shift is undefined because the left operand is negative [clang-analy=
-zer-core.UndefinedBinaryOperatorResult]
-                           val &=3D ~(1 << col) << 8;
-                                              ^
-   drivers/input/keyboard/samsung-keypad.c:158:3: note: Calling 'samsung_ke=
-ypad_scan'
-                   samsung_keypad_scan(keypad, row_state);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/samsung-keypad.c:85:16: note: Assuming 'col' is <=
- field 'cols'
-           for (col =3D 0; col < keypad->cols; col++) {
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/samsung-keypad.c:85:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (col =3D 0; col < keypad->cols; col++) {
-           ^
-   drivers/input/keyboard/samsung-keypad.c:86:7: note: Assuming field 'type=
-' is equal to KEYPAD_TYPE_S5PV210
-                   if (keypad->type =3D=3D KEYPAD_TYPE_S5PV210) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/samsung-keypad.c:86:3: note: Taking true branch
-                   if (keypad->type =3D=3D KEYPAD_TYPE_S5PV210) {
-                   ^
-   drivers/input/keyboard/samsung-keypad.c:88:23: note: The result of the l=
-eft shift is undefined because the left operand is negative
-                           val &=3D ~(1 << col) << 8;
-                                  ~~~~~~~~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/a +121 drivers/gpu/drm/arm/display/komeda/komeda_kms.c
+>> drivers/gpu/drm/msm/dsi/dsi_host.c:898:43: warning: Possible null pointe=
+r dereference: phy_shared_timings [nullPointer]
+    data =3D DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(phy_shared_timings->clk_post=
+) |
+                                             ^
+   drivers/gpu/drm/msm/dsi/dsi_host.c:2442:35: note: Calling function 'dsi_=
+ctrl_config', 3rd argument 'NULL' value is 0
+    dsi_ctrl_config(msm_host, false, NULL, NULL);
+                                     ^
+   drivers/gpu/drm/msm/dsi/dsi_host.c:898:43: note: Null pointer dereference
+    data =3D DSI_CLKOUT_TIMING_CTRL_T_CLK_POST(phy_shared_timings->clk_post=
+) |
+                                             ^
+   drivers/gpu/drm/msm/dsi/dsi_host.c:899:36: warning: Possible null pointe=
+r dereference: phy_shared_timings [nullPointer]
+     DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE(phy_shared_timings->clk_pre);
+                                      ^
+   drivers/gpu/drm/msm/dsi/dsi_host.c:2442:35: note: Calling function 'dsi_=
+ctrl_config', 3rd argument 'NULL' value is 0
+    dsi_ctrl_config(msm_host, false, NULL, NULL);
+                                     ^
+   drivers/gpu/drm/msm/dsi/dsi_host.c:899:36: note: Null pointer dereference
+     DSI_CLKOUT_TIMING_CTRL_T_CLK_PRE(phy_shared_timings->clk_pre);
+                                      ^
 
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   96) =
+vim +898 drivers/gpu/drm/msm/dsi/dsi_host.c
 
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20   97) stat=
-ic int komeda_plane_state_list_add(struct drm_plane_state *plane_st,
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20   98) 				=
-       struct list_head *zorder_list)
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20   99) {
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  100) 	str=
-uct komeda_plane_state *new =3D to_kplane_st(plane_st);
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  101) 	str=
-uct komeda_plane_state *node, *last;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  102) =
+a689554ba6ed81 Hai Li           2015-03-31  833  =
 
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  103) 	las=
-t =3D list_empty(zorder_list) ?
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  104) 	   =
-    NULL : list_last_entry(zorder_list, typeof(*last), zlist_node);
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  105) =
+a689554ba6ed81 Hai Li           2015-03-31  834  static void dsi_ctrl_confi=
+g(struct msm_dsi_host *msm_host, bool enable,
+858c595a3f5d66 Dmitry Baryshkov 2021-08-05  835  			struct msm_dsi_phy_shar=
+ed_timings *phy_shared_timings, struct msm_dsi_phy *phy)
+a689554ba6ed81 Hai Li           2015-03-31  836  {
+a689554ba6ed81 Hai Li           2015-03-31  837  	u32 flags =3D msm_host->m=
+ode_flags;
+a689554ba6ed81 Hai Li           2015-03-31  838  	enum mipi_dsi_pixel_forma=
+t mipi_fmt =3D msm_host->format;
+d248b61f611463 Hai Li           2015-08-13  839  	const struct msm_dsi_cfg_=
+handler *cfg_hnd =3D msm_host->cfg_hnd;
+e3ff68812384dd Harigovindan P   2020-01-07  840  	u32 data =3D 0, lane_ctrl=
+ =3D 0;
+a689554ba6ed81 Hai Li           2015-03-31  841  =
 
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  106) 	/* =
-Considering the list sequence is zpos increasing, so if list is empty
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  107) 	 * =
-or the zpos of new node bigger than the last node in list, no need
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  108) 	 * =
-loop and just insert the new one to the tail of the list.
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  109) 	 */
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  110) 	if =
-(!last || (new->base.zpos > last->base.zpos)) {
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  111) 		li=
-st_add_tail(&new->zlist_node, zorder_list);
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  112) 		re=
-turn 0;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  113) 	}
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  114) =
+a689554ba6ed81 Hai Li           2015-03-31  842  	if (!enable) {
+a689554ba6ed81 Hai Li           2015-03-31  843  		dsi_write(msm_host, REG_=
+DSI_CTRL, 0);
+a689554ba6ed81 Hai Li           2015-03-31  844  		return;
+a689554ba6ed81 Hai Li           2015-03-31  845  	}
+a689554ba6ed81 Hai Li           2015-03-31  846  =
 
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  115) 	/* =
-Build the list by zpos increasing */
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  116) 	lis=
-t_for_each_entry(node, zorder_list, zlist_node) {
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  117) 		if=
- (new->base.zpos < node->base.zpos) {
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  118) 			l=
-ist_add_tail(&new->zlist_node, &node->zlist_node);
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  119) 			b=
-reak;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  120) 		} =
-else if (node->base.zpos =3D=3D new->base.zpos) {
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20 @121) 			s=
-truct drm_plane *a =3D node->base.plane;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20 @122) 			s=
-truct drm_plane *b =3D new->base.plane;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  123) =
+a689554ba6ed81 Hai Li           2015-03-31  847  	if (flags & MIPI_DSI_MODE=
+_VIDEO) {
+a689554ba6ed81 Hai Li           2015-03-31  848  		if (flags & MIPI_DSI_MOD=
+E_VIDEO_HSE)
+a689554ba6ed81 Hai Li           2015-03-31  849  			data |=3D DSI_VID_CFG0_=
+PULSE_MODE_HSA_HE;
+0f3b68b66a6deb Nicolas Boichat  2021-07-27  850  		if (flags & MIPI_DSI_MOD=
+E_VIDEO_NO_HFP)
+a689554ba6ed81 Hai Li           2015-03-31  851  			data |=3D DSI_VID_CFG0_=
+HFP_POWER_STOP;
+0f3b68b66a6deb Nicolas Boichat  2021-07-27  852  		if (flags & MIPI_DSI_MOD=
+E_VIDEO_NO_HBP)
+a689554ba6ed81 Hai Li           2015-03-31  853  			data |=3D DSI_VID_CFG0_=
+HBP_POWER_STOP;
+0f3b68b66a6deb Nicolas Boichat  2021-07-27  854  		if (flags & MIPI_DSI_MOD=
+E_VIDEO_NO_HSA)
+a689554ba6ed81 Hai Li           2015-03-31  855  			data |=3D DSI_VID_CFG0_=
+HSA_POWER_STOP;
+a689554ba6ed81 Hai Li           2015-03-31  856  		/* Always set low power =
+stop mode for BLLP
+a689554ba6ed81 Hai Li           2015-03-31  857  		 * to let command engine=
+ send packets
+a689554ba6ed81 Hai Li           2015-03-31  858  		 */
+a689554ba6ed81 Hai Li           2015-03-31  859  		data |=3D DSI_VID_CFG0_E=
+OF_BLLP_POWER_STOP |
+a689554ba6ed81 Hai Li           2015-03-31  860  			DSI_VID_CFG0_BLLP_POWER=
+_STOP;
+a689554ba6ed81 Hai Li           2015-03-31  861  		data |=3D DSI_VID_CFG0_T=
+RAFFIC_MODE(dsi_get_traffic_mode(flags));
+a689554ba6ed81 Hai Li           2015-03-31  862  		data |=3D DSI_VID_CFG0_D=
+ST_FORMAT(dsi_get_vid_fmt(mipi_fmt));
+a689554ba6ed81 Hai Li           2015-03-31  863  		data |=3D DSI_VID_CFG0_V=
+IRT_CHANNEL(msm_host->channel);
+a689554ba6ed81 Hai Li           2015-03-31  864  		dsi_write(msm_host, REG_=
+DSI_VID_CFG0, data);
+a689554ba6ed81 Hai Li           2015-03-31  865  =
 
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  124) 			/=
-* Komeda doesn't support setting a same zpos for
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  125) 			 =
-* different planes.
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  126) 			 =
-*/
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  127) 			D=
-RM_DEBUG_ATOMIC("PLANE: %s and PLANE: %s are configured same zpos: %d.\n",
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  128) 				=
-	 a->name, b->name, node->base.zpos);
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  129) 			r=
-eturn -EINVAL;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  130) 		}
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  131) 	}
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  132) =
+a689554ba6ed81 Hai Li           2015-03-31  866  		/* Do not swap RGB color=
+s */
+a689554ba6ed81 Hai Li           2015-03-31  867  		data =3D DSI_VID_CFG1_RG=
+B_SWAP(SWAP_RGB);
+a689554ba6ed81 Hai Li           2015-03-31  868  		dsi_write(msm_host, REG_=
+DSI_VID_CFG1, 0);
+a689554ba6ed81 Hai Li           2015-03-31  869  	} else {
+a689554ba6ed81 Hai Li           2015-03-31  870  		/* Do not swap RGB color=
+s */
+a689554ba6ed81 Hai Li           2015-03-31  871  		data =3D DSI_CMD_CFG0_RG=
+B_SWAP(SWAP_RGB);
+a689554ba6ed81 Hai Li           2015-03-31  872  		data |=3D DSI_CMD_CFG0_D=
+ST_FORMAT(dsi_get_cmd_fmt(mipi_fmt));
+a689554ba6ed81 Hai Li           2015-03-31  873  		dsi_write(msm_host, REG_=
+DSI_CMD_CFG0, data);
+a689554ba6ed81 Hai Li           2015-03-31  874  =
 
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  133) 	ret=
-urn 0;
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  134) }
-109bd7d5f4c2db Lowry Li (Arm Technology China         2019-05-20  135) =
+a689554ba6ed81 Hai Li           2015-03-31  875  		data =3D DSI_CMD_CFG1_WR=
+_MEM_START(MIPI_DCS_WRITE_MEMORY_START) |
+a689554ba6ed81 Hai Li           2015-03-31  876  			DSI_CMD_CFG1_WR_MEM_CON=
+TINUE(
+a689554ba6ed81 Hai Li           2015-03-31  877  					MIPI_DCS_WRITE_MEMORY=
+_CONTINUE);
+a689554ba6ed81 Hai Li           2015-03-31  878  		/* Always insert DCS com=
+mand */
+a689554ba6ed81 Hai Li           2015-03-31  879  		data |=3D DSI_CMD_CFG1_I=
+NSERT_DCS_COMMAND;
+a689554ba6ed81 Hai Li           2015-03-31  880  		dsi_write(msm_host, REG_=
+DSI_CMD_CFG1, data);
+a689554ba6ed81 Hai Li           2015-03-31  881  	}
+a689554ba6ed81 Hai Li           2015-03-31  882  =
+
+a689554ba6ed81 Hai Li           2015-03-31  883  	dsi_write(msm_host, REG_D=
+SI_CMD_DMA_CTRL,
+a689554ba6ed81 Hai Li           2015-03-31  884  			DSI_CMD_DMA_CTRL_FROM_F=
+RAME_BUFFER |
+a689554ba6ed81 Hai Li           2015-03-31  885  			DSI_CMD_DMA_CTRL_LOW_PO=
+WER);
+a689554ba6ed81 Hai Li           2015-03-31  886  =
+
+a689554ba6ed81 Hai Li           2015-03-31  887  	data =3D 0;
+a689554ba6ed81 Hai Li           2015-03-31  888  	/* Always assume dedicate=
+d TE pin */
+a689554ba6ed81 Hai Li           2015-03-31  889  	data |=3D DSI_TRIG_CTRL_T=
+E;
+a689554ba6ed81 Hai Li           2015-03-31  890  	data |=3D DSI_TRIG_CTRL_M=
+DP_TRIGGER(TRIGGER_NONE);
+a689554ba6ed81 Hai Li           2015-03-31  891  	data |=3D DSI_TRIG_CTRL_D=
+MA_TRIGGER(TRIGGER_SW);
+a689554ba6ed81 Hai Li           2015-03-31  892  	data |=3D DSI_TRIG_CTRL_S=
+TREAM(msm_host->channel);
+d248b61f611463 Hai Li           2015-08-13  893  	if ((cfg_hnd->major =3D=
+=3D MSM_DSI_VER_MAJOR_6G) &&
+d248b61f611463 Hai Li           2015-08-13  894  		(cfg_hnd->minor >=3D MSM=
+_DSI_6G_VER_MINOR_V1_2))
+a689554ba6ed81 Hai Li           2015-03-31  895  		data |=3D DSI_TRIG_CTRL_=
+BLOCK_DMA_WITHIN_FRAME;
+a689554ba6ed81 Hai Li           2015-03-31  896  	dsi_write(msm_host, REG_D=
+SI_TRIG_CTRL, data);
+a689554ba6ed81 Hai Li           2015-03-31  897  =
+
+dceac340155b66 Hai Li           2016-09-15 @898  	data =3D DSI_CLKOUT_TIMIN=
+G_CTRL_T_CLK_POST(phy_shared_timings->clk_post) |
+dceac340155b66 Hai Li           2016-09-15  899  		DSI_CLKOUT_TIMING_CTRL_T=
+_CLK_PRE(phy_shared_timings->clk_pre);
+a689554ba6ed81 Hai Li           2015-03-31  900  	dsi_write(msm_host, REG_D=
+SI_CLKOUT_TIMING_CTRL, data);
+a689554ba6ed81 Hai Li           2015-03-31  901  =
+
+dceac340155b66 Hai Li           2016-09-15  902  	if ((cfg_hnd->major =3D=
+=3D MSM_DSI_VER_MAJOR_6G) &&
+dceac340155b66 Hai Li           2016-09-15  903  	    (cfg_hnd->minor > MSM=
+_DSI_6G_VER_MINOR_V1_0) &&
+dceac340155b66 Hai Li           2016-09-15  904  	    phy_shared_timings->c=
+lk_pre_inc_by_2)
+dceac340155b66 Hai Li           2016-09-15  905  		dsi_write(msm_host, REG_=
+DSI_T_CLK_PRE_EXTEND,
+dceac340155b66 Hai Li           2016-09-15  906  			  DSI_T_CLK_PRE_EXTEND_=
+INC_BY_2_BYTECLK);
+dceac340155b66 Hai Li           2016-09-15  907  =
+
+a689554ba6ed81 Hai Li           2015-03-31  908  	data =3D 0;
+0f3b68b66a6deb Nicolas Boichat  2021-07-27  909  	if (!(flags & MIPI_DSI_MO=
+DE_NO_EOT_PACKET))
+a689554ba6ed81 Hai Li           2015-03-31  910  		data |=3D DSI_EOT_PACKET=
+_CTRL_TX_EOT_APPEND;
+a689554ba6ed81 Hai Li           2015-03-31  911  	dsi_write(msm_host, REG_D=
+SI_EOT_PACKET_CTRL, data);
+a689554ba6ed81 Hai Li           2015-03-31  912  =
+
+a689554ba6ed81 Hai Li           2015-03-31  913  	/* allow only ack-err-sta=
+tus to generate interrupt */
+a689554ba6ed81 Hai Li           2015-03-31  914  	dsi_write(msm_host, REG_D=
+SI_ERR_INT_MASK0, 0x13ff3fe0);
+a689554ba6ed81 Hai Li           2015-03-31  915  =
+
+a689554ba6ed81 Hai Li           2015-03-31  916  	dsi_intr_ctrl(msm_host, D=
+SI_IRQ_MASK_ERROR, 1);
+a689554ba6ed81 Hai Li           2015-03-31  917  =
+
+a689554ba6ed81 Hai Li           2015-03-31  918  	dsi_write(msm_host, REG_D=
+SI_CLK_CTRL, DSI_CLK_CTRL_ENABLE_CLKS);
+a689554ba6ed81 Hai Li           2015-03-31  919  =
+
+a689554ba6ed81 Hai Li           2015-03-31  920  	data =3D DSI_CTRL_CLK_EN;
+a689554ba6ed81 Hai Li           2015-03-31  921  =
+
+a689554ba6ed81 Hai Li           2015-03-31  922  	DBG("lane number=3D%d", m=
+sm_host->lanes);
+26f7d1f4d9ab10 Archit Taneja    2016-02-25  923  	data |=3D ((DSI_CTRL_LANE=
+0 << msm_host->lanes) - DSI_CTRL_LANE0);
+26f7d1f4d9ab10 Archit Taneja    2016-02-25  924  =
+
+a689554ba6ed81 Hai Li           2015-03-31  925  	dsi_write(msm_host, REG_D=
+SI_LANE_SWAP_CTRL,
+26f7d1f4d9ab10 Archit Taneja    2016-02-25  926  		  DSI_LANE_SWAP_CTRL_DLN=
+_SWAP_SEL(msm_host->dlane_swap));
+65c5e5426dfc47 Archit Taneja    2015-04-08  927  =
+
+e3ff68812384dd Harigovindan P   2020-01-07  928  	if (!(flags & MIPI_DSI_CL=
+OCK_NON_CONTINUOUS)) {
+e3ff68812384dd Harigovindan P   2020-01-07  929  		lane_ctrl =3D dsi_read(m=
+sm_host, REG_DSI_LANE_CTRL);
+858c595a3f5d66 Dmitry Baryshkov 2021-08-05  930  =
+
+858c595a3f5d66 Dmitry Baryshkov 2021-08-05  931  		if (msm_dsi_phy_set_cont=
+inuous_clock(phy, enable))
+858c595a3f5d66 Dmitry Baryshkov 2021-08-05  932  			lane_ctrl &=3D ~DSI_LAN=
+E_CTRL_HS_REQ_SEL_PHY;
+858c595a3f5d66 Dmitry Baryshkov 2021-08-05  933  =
+
+65c5e5426dfc47 Archit Taneja    2015-04-08  934  		dsi_write(msm_host, REG_=
+DSI_LANE_CTRL,
+e3ff68812384dd Harigovindan P   2020-01-07  935  			lane_ctrl | DSI_LANE_CT=
+RL_CLKLN_HS_FORCE_REQUEST);
+e3ff68812384dd Harigovindan P   2020-01-07  936  	}
+65c5e5426dfc47 Archit Taneja    2015-04-08  937  =
+
+a689554ba6ed81 Hai Li           2015-03-31  938  	data |=3D DSI_CTRL_ENABLE;
+a689554ba6ed81 Hai Li           2015-03-31  939  =
+
+a689554ba6ed81 Hai Li           2015-03-31  940  	dsi_write(msm_host, REG_D=
+SI_CTRL, data);
+5ac178381d2652 Jonathan Marek   2021-06-17  941  =
+
+5ac178381d2652 Jonathan Marek   2021-06-17  942  	if (msm_host->cphy_mode)
+5ac178381d2652 Jonathan Marek   2021-06-17  943  		dsi_write(msm_host, REG_=
+DSI_CPHY_MODE_CTRL, BIT(0));
+a689554ba6ed81 Hai Li           2015-03-31  944  }
+a689554ba6ed81 Hai Li           2015-03-31  945  =
 
 
-:::::: The code at line 121 was first introduced by commit
-:::::: 109bd7d5f4c2db66541272e5a41aeabd6cfeef95 drm/komeda: Adds zorder sup=
-port
+:::::: The code at line 898 was first introduced by commit
+:::::: dceac340155b66b6c97cb802b03d4778dd82e9be drm/msm/dsi: Return more ti=
+mings from PHY to host
 
-:::::: TO: Lowry Li (Arm Technology China) <Lowry.Li@arm.com>
-:::::: CC: Liviu Dudau <Liviu.Dudau@arm.com>
+:::::: TO: Hai Li <hali@codeaurora.org>
+:::::: CC: Rob Clark <robdclark@gmail.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6821953147407104831==--
+--===============3039343787651848691==--
 
