@@ -1,53 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============6607261053700781205=="
+Content-Type: multipart/mixed; boundary="===============0811704055630553457=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10-2021-12 1196/9999] fs/verity/read_metadata.c:70:28: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sun, 23 Jan 2022 06:22:32 +0800
-Message-ID: <202201230638.Ezq7bcax-lkp@intel.com>
+Subject: net/core/dev.c:7069:1: warning: Address of stack memory associated with local variable 'list' is still referred to by the global variable 'softnet_data' upon returning to the caller. This will be a dangling reference [clang-analyzer-core.StackAddressEsca...
+Date: Fri, 28 Jan 2022 18:17:06 +0800
+Message-ID: <202201281845.nL4DUPcq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6607261053700781205==
+--===============0811704055630553457==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Eric Biggers <ebiggers@google.com>
-CC: Jaegeuk Kim <jaegeuk@google.com>
-CC: Victor Hsieh <victorhsieh@google.com>
-CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+TO: Alexander Lobakin <alobakin@pm.me>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android12-5.10-2021-12
-head:   51e133b6e4eb00703d3b3fe71cc2447ebd9fb4a8
-commit: 0b29c4caec92e23e3a9698f40b619f3ec71a13ab [1196/9999] fs-verity: sup=
-port reading Merkle tree with ioctl
-:::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-c005-20220121 (https://download.01.org/0day-ci/arch=
-ive/20220123/202201230638.Ezq7bcax-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7b3d30=
-728816403d1fd73cc5082e9fb761262bce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   23a46422c56144939c091c76cf389aa863ce9c18
+commit: fec6e49b63989657bc4076dad99fa51d5ece34da skbuff: remove __kfree_skb=
+_flush()
+date:   12 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220121 (https://download.01.org/0day-ci/archi=
+ve/20220128/202201281845.nL4DUPcq-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d4baf3=
+b1322b84816aa623d8e8cb45a49cb68b84)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/0b29c4caec92e23=
-e3a9698f40b619f3ec71a13ab
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
-android12-5.10-2021-12
-        git checkout 0b29c4caec92e23e3a9698f40b619f3ec71a13ab
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dfec6e49b63989657bc4076dad99fa51d5ece34da
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout fec6e49b63989657bc4076dad99fa51d5ece34da
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Ds390 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,321 +51,600 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           goto unwind;
-                           ^
-   kernel/locking/locktorture.c:1040:2: note: Calling 'lock_torture_cleanup'
-           lock_torture_cleanup();
-           ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:784:6: note: Assuming the condition is false
-           if (torture_cleanup_begin())
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:784:2: note: Taking false branch
-           if (torture_cleanup_begin())
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   kernel/locking/locktorture.c:793:6: note: Assuming field 'lwsa' is non-n=
-ull
-           if (!cxt.lwsa && !cxt.lrsa)
-               ^~~~~~~~~
-   kernel/locking/locktorture.c:793:16: note: Left side of '&&' is false
-           if (!cxt.lwsa && !cxt.lrsa)
+   net/core/dev.c:5885:3: note: Taking false branch
+                   if (skb_vlan_tag_present(p))
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   kernel/locking/locktorture.c:796:6: note: Assuming 'writer_tasks' is null
-           if (writer_tasks) {
-               ^~~~~~~~~~~~
-   kernel/locking/locktorture.c:796:2: note: Taking false branch
-           if (writer_tasks) {
+   net/core/dev.c:5887:12: note: Calling 'skb_metadata_dst_cmp'
+                   diffs |=3D skb_metadata_dst_cmp(p, skb);
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/dst_metadata.h:66:6: note: Assuming the condition is false
+           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/net/dst_metadata.h:66:2: note: '?' condition is false
+           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
            ^
-   kernel/locking/locktorture.c:804:6: note: Assuming 'reader_tasks' is null
-           if (reader_tasks) {
-               ^~~~~~~~~~~~
-   kernel/locking/locktorture.c:804:2: note: Taking false branch
-           if (reader_tasks) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/net/dst_metadata.h:66:2: note: '?' condition is false
+           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
            ^
-   kernel/locking/locktorture.c:813:2: note: Calling 'lock_torture_stats_pr=
-int'
-           lock_torture_stats_print();  /* -After- the stats thread is stop=
-ped! */
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:721:6: note: Assuming field 'readlock' is n=
-ull
-           if (cxt.cur_ops->readlock)
-               ^~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:721:2: note: Taking false branch
-           if (cxt.cur_ops->readlock)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   kernel/locking/locktorture.c:724:8: note: Calling 'kmalloc'
-           buf =3D kmalloc(size, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:540:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
+   include/net/dst_metadata.h:66:2: note: Taking false branch
+           if (!(skb_a->_skb_refdst | skb_b->_skb_refdst))
            ^
-   include/linux/slab.h:557:9: note: Value assigned to 'cxt.lwsa'
-           return __kmalloc(size, flags);
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:557:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:724:8: note: Returning from 'kmalloc'
-           buf =3D kmalloc(size, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:725:6: note: Assuming 'buf' is non-null
-           if (!buf) {
-               ^~~~
-   kernel/locking/locktorture.c:725:2: note: Taking false branch
-           if (!buf) {
-           ^
-   kernel/locking/locktorture.c:731:29: note: Passing value via 2nd paramet=
-er 'statp'
-           __torture_print_stats(buf, cxt.lwsa, true);
-                                      ^~~~~~~~
-   kernel/locking/locktorture.c:731:2: note: Calling '__torture_print_stats'
-           __torture_print_stats(buf, cxt.lwsa, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:685:22: note: Assuming 'statp' is null
-           long max =3D 0, min =3D statp ? statp[0].n_lock_acquired : 0;
-                               ^~~~~
-   kernel/locking/locktorture.c:685:22: note: '?' condition is false
-   kernel/locking/locktorture.c:688:13: note: 'write' is true
-           n_stress =3D write ? cxt.nrealwriters_stress : cxt.nrealreaders_=
-stress;
-                      ^~~~~
-   kernel/locking/locktorture.c:688:13: note: '?' condition is true
-   kernel/locking/locktorture.c:689:14: note: Assuming 'i' is < 'n_stress'
-           for (i =3D 0; i < n_stress; i++) {
-                       ^~~~~~~~~~~~
-   kernel/locking/locktorture.c:689:2: note: Loop condition is true.  Enter=
-ing loop body
-           for (i =3D 0; i < n_stress; i++) {
-           ^
-   kernel/locking/locktorture.c:690:7: note: Dereference of null pointer
-                   if (statp[i].n_lock_fail)
-                       ^~~~~~~~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:698:2: warning: Value stored to 'page' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           page +=3D sprintf(page,
-           ^       ~~~~~~~~~~~~~
-   kernel/locking/locktorture.c:698:2: note: Value stored to 'page' is neve=
-r read
-           page +=3D sprintf(page,
-           ^       ~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   26 warnings generated.
->> fs/verity/read_metadata.c:70:28: warning: Dereference of null pointer [c=
-lang-analyzer-core.NullDereference]
-                   if (fatal_signal_pending(current))  {
-                                            ^
-   arch/s390/include/asm/current.h:17:45: note: expanded from macro 'curren=
-t'
-   #define current ((struct task_struct *const)S390_lowcore.current_task)
-                                               ^
-   arch/s390/include/asm/lowcore.h:193:22: note: expanded from macro 'S390_=
-lowcore'
-   #define S390_lowcore (*((struct lowcore *) 0))
-                        ^
-   fs/verity/read_metadata.c:95:6: note: Assuming 'vi' is non-null
-           if (!vi)
-               ^~~
-   fs/verity/read_metadata.c:95:2: note: Taking false branch
-           if (!vi)
-           ^
-   fs/verity/read_metadata.c:102:2: note: Taking false branch
-           if (copy_from_user(&arg, uarg, sizeof(arg)))
-           ^
-   fs/verity/read_metadata.c:105:6: note: Assuming field '__reserved' is 0
-           if (arg.__reserved)
-               ^~~~~~~~~~~~~~
-   fs/verity/read_metadata.c:105:2: note: Taking false branch
-           if (arg.__reserved)
-           ^
-   fs/verity/read_metadata.c:109:6: note: Assuming the condition is false
-           if (arg.offset + arg.length < arg.offset)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/verity/read_metadata.c:109:2: note: Taking false branch
-           if (arg.offset + arg.length < arg.offset)
-           ^
-   fs/verity/read_metadata.c:113:11: note: Assuming '__UNIQUE_ID___x287' is=
- < '__UNIQUE_ID___y288'
-           length =3D min_t(u64, arg.length, INT_MAX);
-                    ^
-   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/verity/read_metadata.c:113:11: note: '?' condition is true
-           length =3D min_t(u64, arg.length, INT_MAX);
-                    ^
-   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/verity/read_metadata.c:117:2: note: Control jumps to 'case 1:' @li=
-ne 118
-           switch (arg.metadata_type) {
-           ^
-   fs/verity/read_metadata.c:119:10: note: Calling 'fsverity_read_merkle_tr=
-ee'
-                   return fsverity_read_merkle_tree(inode, vi, buf, arg.off=
-set,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/verity/read_metadata.c:26:15: note: Assuming '__UNIQUE_ID___x281' is =
->=3D '__UNIQUE_ID___y282'
-           end_offset =3D min(offset + length, vi->tree_params.tree_size);
-                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/verity/read_metadata.c:26:15: note: '?' condition is false
-           end_offset =3D min(offset + length, vi->tree_params.tree_size);
-                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/net/dst_metadata.h:69:2: note: Value assigned to 'a'
+           a =3D (const struct metadata_dst *) skb_dst(skb_a);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/dst_metadata.h:72:6: note: Assuming 'a' is null
+           if (!a !=3D !b || a->type !=3D b->type)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/net/dst_metadata.h:72:12: note: Assuming 'b' is null
+           if (!a !=3D !b || a->type !=3D b->type)
+                     ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/net/dst_metadata.h:72:6: note: Left side of '||' is false
+           if (!a !=3D !b || a->type !=3D b->type)
+               ^
+   include/net/dst_metadata.h:72:18: note: Access to field 'type' results i=
+n a dereference of a null pointer (loaded from variable 'a')
+           if (!a !=3D !b || a->type !=3D b->type)
                            ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/dev.c:1037:2: warning: Call to function 'strcpy' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(name, dev->name);
+           ^~~~~~
+   net/core/dev.c:1037:2: note: Call to function 'strcpy' is insecure as it=
+ does not provide bounding of the memory buffer. Replace unbounded copy fun=
+ctions with analogous functions that support length arguments such as 'strl=
+cpy'. CWE-119
+           strcpy(name, dev->name);
+           ^~~~~~
+   net/core/dev.c:3215:4: warning: Value stored to 'name' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                           name =3D dev_driver_string(dev->dev.parent);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/dev.c:3215:4: note: Value stored to 'name' is never read
+                           name =3D dev_driver_string(dev->dev.parent);
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/dev.c:3217:4: warning: Value stored to 'name' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                           name =3D netdev_name(dev);
+                           ^      ~~~~~~~~~~~~~~~~
+   net/core/dev.c:3217:4: note: Value stored to 'name' is never read
+                           name =3D netdev_name(dev);
+                           ^      ~~~~~~~~~~~~~~~~
+>> net/core/dev.c:7069:1: warning: Address of stack memory associated with =
+local variable 'list' is still referred to by the global variable 'softnet_=
+data' upon returning to the caller.  This will be a dangling reference [cla=
+ng-analyzer-core.StackAddressEscape]
+   }
+   ^
+   net/core/dev.c:7026:28: note: Loop condition is false.  Exiting loop
+           struct softnet_data *sd =3D this_cpu_ptr(&softnet_data);
+                                     ^
+   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
+                                   ^
+   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
+tr'
+   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
+                                   ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   net/core/dev.c:7033:2: note: Loop condition is false.  Exiting loop
+           local_irq_disable();
+           ^
+   include/linux/irqflags.h:224:29: note: expanded from macro 'local_irq_di=
+sable'
+   #define local_irq_disable()     do { raw_local_irq_disable(); } while (0)
+                                   ^
+   net/core/dev.c:7035:2: note: Loop condition is false.  Exiting loop
+           local_irq_enable();
+           ^
+   include/linux/irqflags.h:223:28: note: expanded from macro 'local_irq_en=
+able'
+   #define local_irq_enable()      do { raw_local_irq_enable(); } while (0)
+                                   ^
+   net/core/dev.c:7037:2: note: Loop condition is true.  Entering loop body
+           for (;;) {
+           ^
+   net/core/dev.c:7040:3: note: Assuming the condition is false
+                   if (list_empty(&list)) {
                    ^
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/dev.c:7040:3: note: '?' condition is false
+                   if (list_empty(&list)) {
                    ^
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/verity/read_metadata.c:27:6: note: Assuming 'offset' is < 'end_offset'
-           if (offset >=3D end_offset)
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/verity/read_metadata.c:27:2: note: Taking false branch
-           if (offset >=3D end_offset)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/dev.c:7040:3: note: Assuming the condition is false
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/core/dev.c:7040:3: note: '?' condition is true
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/dev.c:7040:3: note: Taking true branch
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/dev.c:7041:8: note: Left side of '&&' is true
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                               ^
+   net/core/dev.c:7041:4: note: Assuming the condition is false
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/dev.c:7041:4: note: '?' condition is false
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/dev.c:7041:8: note: Left side of '&&' is true
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                               ^
+   net/core/dev.c:7041:4: note: Assuming the condition is true
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/core/dev.c:7041:4: note: '?' condition is false
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/dev.c:7041:4: note: Taking false branch
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/dev.c:7043:4: note:  Execution continues on line 7060
+                           break;
+                           ^
+   net/core/dev.c:7060:2: note: Loop condition is false.  Exiting loop
+           local_irq_disable();
+           ^
+   include/linux/irqflags.h:224:29: note: expanded from macro 'local_irq_di=
+sable'
+   #define local_irq_disable()     do { raw_local_irq_disable(); } while (0)
+                                   ^
+   net/core/dev.c:7065:6: note: Assuming the condition is false
+           if (!list_empty(&sd->poll_list))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/dev.c:7065:2: note: '?' condition is false
+           if (!list_empty(&sd->poll_list))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/dev.c:7065:6: note: Assuming the condition is false
+           if (!list_empty(&sd->poll_list))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/core/dev.c:7065:2: note: '?' condition is false
+           if (!list_empty(&sd->poll_list))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/dev.c:7065:2: note: Taking false branch
+           if (!list_empty(&sd->poll_list))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/dev.c:7069:1: note: Address of stack memory associated with loc=
+al variable 'list' is still referred to by the global variable 'softnet_dat=
+a' upon returning to the caller.  This will be a dangling reference
+   }
+   ^
+>> net/core/dev.c:7069:1: warning: Address of stack memory associated with =
+local variable 'repoll' is still referred to by the global variable 'softne=
+t_data' upon returning to the caller.  This will be a dangling reference [c=
+lang-analyzer-core.StackAddressEscape]
+   }
+   ^
+   net/core/dev.c:7026:28: note: Loop condition is false.  Exiting loop
+           struct softnet_data *sd =3D this_cpu_ptr(&softnet_data);
+                                     ^
+   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
+                                   ^
+   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
+tr'
+   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
+                                   ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   net/core/dev.c:7033:2: note: Loop condition is false.  Exiting loop
+           local_irq_disable();
+           ^
+   include/linux/irqflags.h:224:29: note: expanded from macro 'local_irq_di=
+sable'
+   #define local_irq_disable()     do { raw_local_irq_disable(); } while (0)
+                                   ^
+   net/core/dev.c:7035:2: note: Loop condition is false.  Exiting loop
+           local_irq_enable();
+           ^
+   include/linux/irqflags.h:223:28: note: expanded from macro 'local_irq_en=
+able'
+   #define local_irq_enable()      do { raw_local_irq_enable(); } while (0)
+                                   ^
+   net/core/dev.c:7037:2: note: Loop condition is true.  Entering loop body
+           for (;;) {
+           ^
+   net/core/dev.c:7040:3: note: Assuming the condition is false
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/dev.c:7040:3: note: '?' condition is false
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/dev.c:7040:3: note: Assuming the condition is false
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/core/dev.c:7040:3: note: '?' condition is true
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/dev.c:7040:3: note: Taking true branch
+                   if (list_empty(&list)) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/dev.c:7041:8: note: Left side of '&&' is true
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                               ^
+   net/core/dev.c:7041:4: note: Assuming the condition is false
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/dev.c:7041:4: note: '?' condition is false
+                           if (!sd_has_rps_ipi_waiting(sd) && list_empty(&r=
+epoll))
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +70 fs/verity/read_metadata.c
+vim +7069 net/core/dev.c
 
-d758f506808823a Eric Biggers 2021-01-15  14  =
+29863d41bb6e1d Wei Wang          2021-02-08  7023  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15  15  static int fsverity_read_merkl=
-e_tree(struct inode *inode,
-0b29c4caec92e23 Eric Biggers 2021-01-15  16  				     const struct fsverity=
-_info *vi,
-0b29c4caec92e23 Eric Biggers 2021-01-15  17  				     void __user *buf, u64=
- offset, int length)
-0b29c4caec92e23 Eric Biggers 2021-01-15  18  {
-0b29c4caec92e23 Eric Biggers 2021-01-15  19  	const struct fsverity_operati=
-ons *vops =3D inode->i_sb->s_vop;
-0b29c4caec92e23 Eric Biggers 2021-01-15  20  	u64 end_offset;
-0b29c4caec92e23 Eric Biggers 2021-01-15  21  	unsigned int offs_in_page;
-0b29c4caec92e23 Eric Biggers 2021-01-15  22  	pgoff_t index, last_index;
-0b29c4caec92e23 Eric Biggers 2021-01-15  23  	int retval =3D 0;
-0b29c4caec92e23 Eric Biggers 2021-01-15  24  	int err =3D 0;
-0b29c4caec92e23 Eric Biggers 2021-01-15  25  =
+0766f788eb727e Emese Revfy       2016-06-20  7024  static __latent_entropy =
+void net_rx_action(struct softirq_action *h)
+726ce70e9e4050 Herbert Xu        2014-12-21  7025  {
+726ce70e9e4050 Herbert Xu        2014-12-21  7026  	struct softnet_data *sd=
+ =3D this_cpu_ptr(&softnet_data);
+7acf8a1e8a28b3 Matthew Whitehead 2017-04-19  7027  	unsigned long time_limi=
+t =3D jiffies +
+7acf8a1e8a28b3 Matthew Whitehead 2017-04-19  7028  		usecs_to_jiffies(netde=
+v_budget_usecs);
+726ce70e9e4050 Herbert Xu        2014-12-21  7029  	int budget =3D netdev_b=
+udget;
+726ce70e9e4050 Herbert Xu        2014-12-21  7030  	LIST_HEAD(list);
+726ce70e9e4050 Herbert Xu        2014-12-21  7031  	LIST_HEAD(repoll);
+726ce70e9e4050 Herbert Xu        2014-12-21  7032  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15  26  	end_offset =3D min(offset + l=
-ength, vi->tree_params.tree_size);
-0b29c4caec92e23 Eric Biggers 2021-01-15  27  	if (offset >=3D end_offset)
-0b29c4caec92e23 Eric Biggers 2021-01-15  28  		return 0;
-0b29c4caec92e23 Eric Biggers 2021-01-15  29  	offs_in_page =3D offset_in_pa=
-ge(offset);
-0b29c4caec92e23 Eric Biggers 2021-01-15  30  	last_index =3D (end_offset - =
-1) >> PAGE_SHIFT;
-0b29c4caec92e23 Eric Biggers 2021-01-15  31  =
+726ce70e9e4050 Herbert Xu        2014-12-21  7033  	local_irq_disable();
+726ce70e9e4050 Herbert Xu        2014-12-21  7034  	list_splice_init(&sd->p=
+oll_list, &list);
+726ce70e9e4050 Herbert Xu        2014-12-21  7035  	local_irq_enable();
+726ce70e9e4050 Herbert Xu        2014-12-21  7036  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15  32  	/*
-0b29c4caec92e23 Eric Biggers 2021-01-15  33  	 * Iterate through each Merkl=
-e tree page in the requested range and copy
-0b29c4caec92e23 Eric Biggers 2021-01-15  34  	 * the requested portion to u=
-serspace.  Note that the Merkle tree block
-0b29c4caec92e23 Eric Biggers 2021-01-15  35  	 * size isn't important here,=
- as we are returning a byte stream; i.e.,
-0b29c4caec92e23 Eric Biggers 2021-01-15  36  	 * we can just work with page=
-s even if the tree block size !=3D PAGE_SIZE.
-0b29c4caec92e23 Eric Biggers 2021-01-15  37  	 */
-0b29c4caec92e23 Eric Biggers 2021-01-15  38  	for (index =3D offset >> PAGE=
-_SHIFT; index <=3D last_index; index++) {
-0b29c4caec92e23 Eric Biggers 2021-01-15  39  		unsigned long num_ra_pages =
-=3D
-0b29c4caec92e23 Eric Biggers 2021-01-15  40  			min_t(unsigned long, last_i=
-ndex - index + 1,
-0b29c4caec92e23 Eric Biggers 2021-01-15  41  			      inode->i_sb->s_bdi->i=
-o_pages);
-0b29c4caec92e23 Eric Biggers 2021-01-15  42  		unsigned int bytes_to_copy =
-=3D min_t(u64, end_offset - offset,
-0b29c4caec92e23 Eric Biggers 2021-01-15  43  						   PAGE_SIZE - offs_in_p=
-age);
-0b29c4caec92e23 Eric Biggers 2021-01-15  44  		struct page *page;
-0b29c4caec92e23 Eric Biggers 2021-01-15  45  		const void *virt;
-0b29c4caec92e23 Eric Biggers 2021-01-15  46  =
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7037  	for (;;) {
+726ce70e9e4050 Herbert Xu        2014-12-21  7038  		struct napi_struct *n;
+726ce70e9e4050 Herbert Xu        2014-12-21  7039  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15  47  		page =3D vops->read_merkle_t=
-ree_page(inode, index, num_ra_pages);
-0b29c4caec92e23 Eric Biggers 2021-01-15  48  		if (IS_ERR(page)) {
-0b29c4caec92e23 Eric Biggers 2021-01-15  49  			err =3D PTR_ERR(page);
-0b29c4caec92e23 Eric Biggers 2021-01-15  50  			fsverity_err(inode,
-0b29c4caec92e23 Eric Biggers 2021-01-15  51  				     "Error %d reading Mer=
-kle tree page %lu",
-0b29c4caec92e23 Eric Biggers 2021-01-15  52  				     err, index);
-0b29c4caec92e23 Eric Biggers 2021-01-15  53  			break;
-0b29c4caec92e23 Eric Biggers 2021-01-15  54  		}
-0b29c4caec92e23 Eric Biggers 2021-01-15  55  =
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7040  		if (list_empty(&list))=
+ {
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7041  			if (!sd_has_rps_ipi_w=
+aiting(sd) && list_empty(&repoll))
+fec6e49b639896 Alexander Lobakin 2021-02-13  7042  				return;
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7043  			break;
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7044  		}
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7045  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15  56  		virt =3D kmap(page);
-0b29c4caec92e23 Eric Biggers 2021-01-15  57  		if (copy_to_user(buf, virt +=
- offs_in_page, bytes_to_copy)) {
-0b29c4caec92e23 Eric Biggers 2021-01-15  58  			kunmap(page);
-0b29c4caec92e23 Eric Biggers 2021-01-15  59  			put_page(page);
-0b29c4caec92e23 Eric Biggers 2021-01-15  60  			err =3D -EFAULT;
-0b29c4caec92e23 Eric Biggers 2021-01-15  61  			break;
-0b29c4caec92e23 Eric Biggers 2021-01-15  62  		}
-0b29c4caec92e23 Eric Biggers 2021-01-15  63  		kunmap(page);
-0b29c4caec92e23 Eric Biggers 2021-01-15  64  		put_page(page);
-0b29c4caec92e23 Eric Biggers 2021-01-15  65  =
+6bd373ebbac4b1 Herbert Xu        2014-12-21  7046  		n =3D list_first_entry=
+(&list, struct napi_struct, poll_list);
+6bd373ebbac4b1 Herbert Xu        2014-12-21  7047  		budget -=3D napi_poll(=
+n, &repoll);
+6bd373ebbac4b1 Herbert Xu        2014-12-21  7048  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15  66  		retval +=3D bytes_to_copy;
-0b29c4caec92e23 Eric Biggers 2021-01-15  67  		buf +=3D bytes_to_copy;
-0b29c4caec92e23 Eric Biggers 2021-01-15  68  		offset +=3D bytes_to_copy;
-0b29c4caec92e23 Eric Biggers 2021-01-15  69  =
+726ce70e9e4050 Herbert Xu        2014-12-21  7049  		/* If softirq window i=
+s exhausted then punt.
+726ce70e9e4050 Herbert Xu        2014-12-21  7050  		 * Allow this to run f=
+or 2 jiffies since which will allow
+726ce70e9e4050 Herbert Xu        2014-12-21  7051  		 * an average latency =
+of 1.5/HZ.
+726ce70e9e4050 Herbert Xu        2014-12-21  7052  		 */
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7053  		if (unlikely(budget <=
+=3D 0 ||
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7054  			     time_after_eq(ji=
+ffies, time_limit))) {
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7055  			sd->time_squeeze++;
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7056  			break;
+ceb8d5bf17d366 Herbert Xu        2014-12-21  7057  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  7058  	}
+d75b1ade567ffa Eric Dumazet      2014-11-02  7059  =
 
-0b29c4caec92e23 Eric Biggers 2021-01-15 @70  		if (fatal_signal_pending(cur=
-rent))  {
+d75b1ade567ffa Eric Dumazet      2014-11-02  7060  	local_irq_disable();
+d75b1ade567ffa Eric Dumazet      2014-11-02  7061  =
+
+d75b1ade567ffa Eric Dumazet      2014-11-02  7062  	list_splice_tail_init(&=
+sd->poll_list, &list);
+d75b1ade567ffa Eric Dumazet      2014-11-02  7063  	list_splice_tail(&repol=
+l, &list);
+d75b1ade567ffa Eric Dumazet      2014-11-02  7064  	list_splice(&list, &sd-=
+>poll_list);
+d75b1ade567ffa Eric Dumazet      2014-11-02  7065  	if (!list_empty(&sd->po=
+ll_list))
+d75b1ade567ffa Eric Dumazet      2014-11-02  7066  		__raise_softirq_irqoff=
+(NET_RX_SOFTIRQ);
+d75b1ade567ffa Eric Dumazet      2014-11-02  7067  =
+
+e326bed2f47d03 Eric Dumazet      2010-04-22  7068  	net_rps_action_and_irq_=
+enable(sd);
+^1da177e4c3f41 Linus Torvalds    2005-04-16 @7069  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  7070  =
+
+
+:::::: The code at line 7069 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6607261053700781205==--
+--===============0811704055630553457==--
 
