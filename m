@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7024711110502383033=="
+Content-Type: multipart/mixed; boundary="===============0475590947767190238=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Wed, 26 Jan 2022 20:42:42 +0800
-Message-ID: <20220126124242.GA843@bed3719421c5>
-In-Reply-To: <202201262026.Pkq71lt4-lkp@intel.com>
+Date: Sat, 29 Jan 2022 01:59:39 +0800
+Message-ID: <20220128175939.GA13705@b9c7d76355f5>
+In-Reply-To: <202201290131.vQRFF968-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7024711110502383033==
+--===============0475590947767190238==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,16 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Alessandro Zummo <a.zummo@towertech.it>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: linux-rtc(a)vger.kernel.org
+CC: Ferruh Yigit <fery@cypress.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-lp8788.c:277:8-33: WARNING: Threaded IRQ with no primary ha=
-ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/input/touchscreen/cyttsp4_core.c:2093:6-26: WARNING: Threaded IRQ w=
+ith no primary handler requested without IRQF_ONESHOT (unless it is nested =
+IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -42,29 +43,31 @@ Signed-off-by: kernel test robot <lkp@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   0280e3c58f92b2fe0e8fbbdf8d386449168de4a8
+head:   145d9b498fc827b79c1260b4caa29a8e59d4c2b9
 commit: 5d2db9bb5f8a850d037983f0df72ad59cefa9e3d coccinelle: irqf_oneshot: =
 reduce the severity due to false positives
-:::::: branch date: 18 hours ago
+:::::: branch date: 8 hours ago
 :::::: commit date: 9 months ago
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-lp8788.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ cyttsp4_core.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---- a/drivers/rtc/rtc-lp8788.c
-+++ b/drivers/rtc/rtc-lp8788.c
-@@ -276,7 +276,7 @@ static int lp8788_alarm_irq_register(str
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -2090,8 +2090,9 @@ struct cyttsp4 *cyttsp4_probe(const stru
+ 		/* use edge triggered interrupts */
+ 		irq_flags =3D IRQF_TRIGGER_FALLING | IRQF_ONESHOT;
  =
 
- 	return devm_request_threaded_irq(&pdev->dev, rtc->irq, NULL,
- 				lp8788_alarm_irq_handler,
--				0, LP8788_ALM_IRQ, rtc);
-+				IRQF_ONESHOT, LP8788_ALM_IRQ, rtc);
- }
- =
-
- static int lp8788_rtc_probe(struct platform_device *pdev)
---===============7024711110502383033==--
+-	rc =3D request_threaded_irq(cd->irq, NULL, cyttsp4_irq, irq_flags,
+-		dev_name(dev), cd);
++	rc =3D request_threaded_irq(cd->irq, NULL, cyttsp4_irq,
++				  irq_flags | IRQF_ONESHOT,
++				  dev_name(dev), cd);
+ 	if (rc < 0) {
+ 		dev_err(dev, "%s: Error, could not request irq\n", __func__);
+ 		goto error_request_irq;
+--===============0475590947767190238==--
 
