@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0038195082072912677=="
+Content-Type: multipart/mixed; boundary="===============0441563615117087241=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sat, 29 Jan 2022 05:51:29 +0800
-Message-ID: <20220128215128.GA86242@936fc5f4d8d3>
+Date: Sat, 29 Jan 2022 05:51:25 +0800
+Message-ID: <20220128215125.GA85283@936fc5f4d8d3>
 In-Reply-To: <202201290510.zLzohE2x-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0038195082072912677==
+--===============0441563615117087241==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Lee Jones <lee.jones@linaro.org>
-CC: patches(a)opensource.cirrus.com
+CC: MyungJoo Ham <myungjoo.ham@samsung.com>
+CC: Chanwoo Choi <cw00.choi@samsung.com>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/mfd/wm8350-irq.c:527:7-27: WARNING: Threaded IRQ with no primary ha=
-ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/extcon/extcon-max77843.c:907:8-33: WARNING: Threaded IRQ with no pr=
+imary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -49,21 +49,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- wm8350-irq.c |    3 ++-
+ extcon-max77843.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/mfd/wm8350-irq.c
-+++ b/drivers/mfd/wm8350-irq.c
-@@ -524,7 +524,8 @@ int wm8350_irq_init(struct wm8350 *wm835
- 		irq_clear_status_flags(cur_irq, IRQ_NOREQUEST | IRQ_NOPROBE);
- 	}
+--- a/drivers/extcon/extcon-max77843.c
++++ b/drivers/extcon/extcon-max77843.c
+@@ -905,7 +905,8 @@ static int max77843_muic_probe(struct pl
+ 		muic_irq->virq =3D virq;
  =
 
--	ret =3D request_threaded_irq(irq, NULL, wm8350_irq, flags,
-+	ret =3D request_threaded_irq(irq, NULL, wm8350_irq,
-+				   flags | IRQF_ONESHOT,
- 				   "wm8350", wm8350);
- 	if (ret !=3D 0)
- 		dev_err(wm8350->dev, "Failed to request IRQ: %d\n", ret);
---===============0038195082072912677==--
+ 		ret =3D devm_request_threaded_irq(&pdev->dev, virq, NULL,
+-				max77843_muic_irq_handler, IRQF_NO_SUSPEND,
++				max77843_muic_irq_handler,
++				IRQF_NO_SUSPEND | IRQF_ONESHOT,
+ 				muic_irq->name, info);
+ 		if (ret) {
+ 			dev_err(&pdev->dev,
+--===============0441563615117087241==--
 
