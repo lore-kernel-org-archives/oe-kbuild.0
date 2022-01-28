@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0441563615117087241=="
+Content-Type: multipart/mixed; boundary="===============8706292110256936131=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sat, 29 Jan 2022 05:51:25 +0800
-Message-ID: <20220128215125.GA85283@936fc5f4d8d3>
+Date: Sat, 29 Jan 2022 05:51:22 +0800
+Message-ID: <20220128215122.GA84324@936fc5f4d8d3>
 In-Reply-To: <202201290510.zLzohE2x-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0441563615117087241==
+--===============8706292110256936131==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: MyungJoo Ham <myungjoo.ham@samsung.com>
-CC: Chanwoo Choi <cw00.choi@samsung.com>
+CC: Michael Hennerich <michael.hennerich@analog.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/extcon/extcon-max77843.c:907:8-33: WARNING: Threaded IRQ with no pr=
-imary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/input/misc/ad714x.c:1153:9-34: WARNING: Threaded IRQ with no primar=
+y handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -49,21 +50,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- extcon-max77843.c |    3 ++-
+ ad714x.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/extcon/extcon-max77843.c
-+++ b/drivers/extcon/extcon-max77843.c
-@@ -905,7 +905,8 @@ static int max77843_muic_probe(struct pl
- 		muic_irq->virq =3D virq;
+--- a/drivers/input/misc/ad714x.c
++++ b/drivers/input/misc/ad714x.c
+@@ -1152,7 +1152,8 @@ struct ad714x_chip *ad714x_probe(struct
  =
 
- 		ret =3D devm_request_threaded_irq(&pdev->dev, virq, NULL,
--				max77843_muic_irq_handler, IRQF_NO_SUSPEND,
-+				max77843_muic_irq_handler,
-+				IRQF_NO_SUSPEND | IRQF_ONESHOT,
- 				muic_irq->name, info);
- 		if (ret) {
- 			dev_err(&pdev->dev,
---===============0441563615117087241==--
+ 	error =3D devm_request_threaded_irq(dev, ad714x->irq, NULL,
+ 					  ad714x_interrupt_thread,
+-					  irqflags, "ad714x_captouch", ad714x);
++					  irqflags | IRQF_ONESHOT,
++					  "ad714x_captouch", ad714x);
+ 	if (error) {
+ 		dev_err(dev, "can't allocate irq %d\n", ad714x->irq);
+ 		return ERR_PTR(error);
+--===============8706292110256936131==--
 
