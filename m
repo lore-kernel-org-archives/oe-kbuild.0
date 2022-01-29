@@ -1,104 +1,109 @@
-Content-Type: multipart/mixed; boundary="===============8433646568014287698=="
+Content-Type: multipart/mixed; boundary="===============5874924343489913348=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 678/2855] net/unix/af_unix.c:3464 bpf_iter_unix_batch() warn: sleeping in atomic context
-Date: Sat, 29 Jan 2022 14:52:42 +0800
-Message-ID: <202201291408.fAi0F1UY-lkp@intel.com>
+Subject: drivers/pci/controller/dwc/pcie-kirin.c:321:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+Date: Sat, 29 Jan 2022 14:52:02 +0800
+Message-ID: <202201291228.17gN1FOR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8433646568014287698==
+--===============5874924343489913348==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-CC: Alexei Starovoitov <ast@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Bjorn Helgaas <helgaas@kernel.org>
+CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   b605fdc54c2b28c30ef06d9db99282d8a32ae4be
-commit: 855d8e77ffb05be6e54c34dababccb20318aec00 [678/2855] bpf: af_unix: U=
-se batching algorithm in bpf unix iter.
-:::::: branch date: 26 hours ago
-:::::: commit date: 10 days ago
-config: x86_64-randconfig-m001-20220124 (https://download.01.org/0day-ci/ar=
-chive/20220129/202201291408.fAi0F1UY-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   169387e2aa291a4e3cb856053730fe99d6cec06f
+commit: 61d37547436dce45e3590db72360df0e230ca969 PCI: kirin: Reorganize the=
+ PHY logic inside the driver
+date:   3 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+compiler: riscv32-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/unix/af_unix.c:3464 bpf_iter_unix_batch() warn: sleeping in atomic cont=
-ext
 
-Old smatch warnings:
-net/unix/af_unix.c:1586 unix_stream_connect() warn: variable dereferenced b=
-efore check 'other' (see line 1469)
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +3464 net/unix/af_unix.c
+>> drivers/pci/controller/dwc/pcie-kirin.c:321:2: warning: Assignment of fu=
+nction parameter has no effect outside the function. Did you forget derefer=
+encing it? [uselessAssignmentPtrArg]
+    pdev =3D container_of(dev, struct platform_device, dev);
+    ^
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3436  =
+vim +321 drivers/pci/controller/dwc/pcie-kirin.c
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3437  static struct sock *bpf_=
-iter_unix_batch(struct seq_file *seq,
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3438  					loff_t *pos)
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3439  {
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3440  	struct bpf_unix_iter_st=
-ate *iter =3D seq->private;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3441  	unsigned int expected;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3442  	bool resized =3D false;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3443  	struct sock *sk;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3444  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  305  =
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3445  	if (iter->st_bucket_don=
-e)
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3446  		*pos =3D set_bucket_of=
-fset(get_bucket(*pos) + 1, 1);
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3447  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  306  static int hi3660_pcie_phy_init(struct platform_device *=
+pdev,
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  307  				struct kirin_pcie *pcie)
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  308  {
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  309  	struct device *dev =3D &pdev->dev;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  310  	struct hi3660_pcie_phy *phy;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  311  	int ret;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  312  =
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3448  again:
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3449  	/* Get a new batch */
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3450  	iter->cur_sk =3D 0;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3451  	iter->end_sk =3D 0;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3452  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  313  	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  314  	if (!phy)
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  315  		return -ENOMEM;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  316  =
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3453  	sk =3D unix_get_first(s=
-eq, pos);
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3454  	if (!sk)
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3455  		return NULL; /* Done */
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3456  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  317  	pcie->phy_priv =3D phy;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  318  	phy->dev =3D dev;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  319  =
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3457  	expected =3D bpf_iter_u=
-nix_hold_batch(seq, sk);
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3458  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  320  	/* registers */
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21 @321  	pdev =3D container_of(dev, struct platform_device, dev);
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  322  =
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3459  	if (iter->end_sk =3D=3D=
- expected) {
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3460  		iter->st_bucket_done =
-=3D true;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3461  		return sk;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3462  	}
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3463  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  323  	ret =3D hi3660_pcie_phy_get_clk(phy);
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  324  	if (ret)
+fc5165db245ac4 drivers/pci/dwc/pcie-kirin.c            Xiaowei Song        =
+  2017-06-19  325  		return ret;
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  326  =
 
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13 @3464  	if (!resized && !bpf_it=
-er_unix_realloc_batch(iter, expected * 3 / 2)) {
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3465  		resized =3D true;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3466  		goto again;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3467  	}
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3468  =
-
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3469  	return sk;
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3470  }
-855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3471  =
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  327  	return hi3660_pcie_phy_get_resource(phy);
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  328  }
+61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
+b 2021-10-21  329  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8433646568014287698==--
+--===============5874924343489913348==--
 
