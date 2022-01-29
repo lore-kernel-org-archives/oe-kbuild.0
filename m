@@ -1,48 +1,64 @@
-Content-Type: multipart/mixed; boundary="===============0647861932160299793=="
+Content-Type: multipart/mixed; boundary="===============3069667398490596661=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/ceph/mdsmap.h:56:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sun, 30 Jan 2022 09:10:29 +0800
-Message-ID: <202201300935.qD3VEO2M-lkp@intel.com>
+Subject: Re: [PATCH 08/12] HID: core: for input reports, process the usages by priority list
+Date: Sun, 30 Jan 2022 05:57:07 +0800
+Message-ID: <202201300505.1LcHvClV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0647861932160299793==
+--===============3069667398490596661==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Xiubo Li <xiubli@redhat.com>
-CC: Ilya Dryomov <idryomov@gmail.com>
-CC: Jeff Layton <jlayton@kernel.org>
+In-Reply-To: <20220126161832.3193805-9-benjamin.tissoires@redhat.com>
+References: <20220126161832.3193805-9-benjamin.tissoires@redhat.com>
+TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+TO: Jiri Kosina <jikos@kernel.org>
+TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+TO: Jonathan Corbet <corbet@lwn.net>
+TO: "Ahelenia Ziemia=C5=84ska" <nabijaczleweli@nabijaczleweli.xyz>
+TO: Ping Cheng <pinglinux@gmail.com>
+TO: Aaron Armstrong Skomra <skomra@gmail.com>
+TO: Jason Gerecke <killertofu@gmail.com>
+TO: Peter Hutterer <peter.hutterer@who-t.net>
+CC: linux-input(a)vger.kernel.org
+CC: linux-doc(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f8c7e4ede46fe63ff10000669652648aab09d112
-commit: d517b3983dd3106ca92d6c5d0d09415a4a09481c ceph: reconnect to the exp=
-ort targets on new mdsmaps
-date:   5 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 5 months ago
-config: riscv-randconfig-c006-20220129 (https://download.01.org/0day-ci/arc=
-hive/20220130/202201300935.qD3VEO2M-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
-e44b1f32ffdbc995e6fec806271b4b3ba4)
+Hi Benjamin,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on v5.17-rc1 next-20220128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Benjamin-Tissoires/HID-fix=
+-for-generic-input-processing/20220127-002107
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: riscv-randconfig-c006-20220124 (https://download.01.org/0day-ci/arc=
+hive/20220130/202201300505.1LcHvClV-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2a1b7a=
+a016c0f4b5598806205bdfbab1ea2d92c4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd517b3983dd3106ca92d6c5d0d09415a4a09481c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d517b3983dd3106ca92d6c5d0d09415a4a09481c
+        # https://github.com/0day-ci/linux/commit/5f297c23cba491924689834a0=
+1ef511263c9e547
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Benjamin-Tissoires/HID-fix-for-gen=
+eric-input-processing/20220127-002107
+        git checkout 5f297c23cba491924689834a01ef511263c9e547
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -53,269 +69,337 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2353:2: note: Taking false branch
+           if (hdev->ll_driver->request)
            ^
-   fs/ceph/mds_client.c:4934:8: note: 'session' is non-null
-                   if (!session)
-                        ^~~~~~~
-   fs/ceph/mds_client.c:4934:3: note: Taking false branch
-                   if (!session)
-                   ^
-   fs/ceph/mds_client.c:4937:7: note: Assuming field 's_state' is equal to =
-CEPH_MDS_SESSION_REJECTED
-                   if (session->s_state =3D=3D CEPH_MDS_SESSION_REJECTED)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:4937:3: note: Taking true branch
-                   if (session->s_state =3D=3D CEPH_MDS_SESSION_REJECTED)
-                   ^
-   fs/ceph/mds_client.c:4938:4: note: Calling '__unregister_session'
-                           __unregister_session(mdsc, session);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:786:2: note: Taking false branch
-           dout("__unregister_session mds%d %p\n", s->s_mds, s);
+   drivers/hid/hid-core.c:2356:2: note: Calling '__hid_request'
+           __hid_request(hdev, report, reqtype);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1931:6: note: Assuming 'buf' is non-null
+           if (!buf)
+               ^~~~
+   drivers/hid/hid-core.c:1931:2: note: Taking false branch
+           if (!buf)
            ^
-   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
-                   if (0)                                          \
-                   ^
-   fs/ceph/mds_client.c:786:2: note: Loop condition is false.  Exiting loop
-           dout("__unregister_session mds%d %p\n", s->s_mds, s);
+   drivers/hid/hid-core.c:1936:6: note: Assuming 'reqtype' is equal to HID_=
+REQ_SET_REPORT
+           if (reqtype =3D=3D HID_REQ_SET_REPORT)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1936:2: note: Taking true branch
+           if (reqtype =3D=3D HID_REQ_SET_REPORT)
            ^
-   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
-   #  define dout(fmt, ...)        do {                            \
-                                   ^
-   fs/ceph/mds_client.c:787:2: note: Assuming the condition is false
-           BUG_ON(mdsc->sessions[s->s_mds] !=3D s);
+   drivers/hid/hid-core.c:1937:3: note: Calling 'hid_output_report'
+                   hid_output_report(report, buf);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1844:14: note: Field 'id' is <=3D 0
+           if (report->id > 0)
+                       ^
+   drivers/hid/hid-core.c:1844:2: note: Taking false branch
+           if (report->id > 0)
            ^
-   include/asm-generic/bug.h:161:36: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:787:2: note: Taking false branch
-           BUG_ON(mdsc->sessions[s->s_mds] !=3D s);
-           ^
-   include/asm-generic/bug.h:161:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   fs/ceph/mds_client.c:787:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(mdsc->sessions[s->s_mds] !=3D s);
-           ^
-   include/asm-generic/bug.h:161:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   fs/ceph/mds_client.c:790:2: note: Calling 'ceph_put_mds_session'
-           ceph_put_mds_session(s);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:668:2: note: Taking false branch
-           if (IS_ERR_OR_NULL(s))
-           ^
-   fs/ceph/mds_client.c:671:2: note: Taking false branch
-           dout("mdsc put_session %p %d -> %d\n", s,
-           ^
-   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
-                   if (0)                                          \
-                   ^
-   fs/ceph/mds_client.c:671:2: note: Loop condition is false.  Exiting loop
-           dout("mdsc put_session %p %d -> %d\n", s,
-           ^
-   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
-   #  define dout(fmt, ...)        do {                            \
-                                   ^
-   fs/ceph/mds_client.c:673:2: note: Taking true branch
-           if (refcount_dec_and_test(&s->s_ref)) {
-           ^
-   fs/ceph/mds_client.c:674:7: note: Assuming field 'authorizer' is null
-                   if (s->s_auth.authorizer)
+   drivers/hid/hid-core.c:1848:14: note: Assuming 'n' is < field 'maxfield'
+           for (n =3D 0; n < report->maxfield; n++)
                        ^~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:674:3: note: Taking false branch
-                   if (s->s_auth.authorizer)
+   drivers/hid/hid-core.c:1848:2: note: Loop condition is true.  Entering l=
+oop body
+           for (n =3D 0; n < report->maxfield; n++)
+           ^
+   drivers/hid/hid-core.c:1849:3: note: Calling 'hid_output_field'
+                   hid_output_field(report->device, report->field[n], data);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1811:2: note: 'size' initialized here
+           unsigned size =3D field->report_size;
+           ^~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1814:14: note: Assuming 'n' is < 'count'
+           for (n =3D 0; n < count; n++) {
+                       ^~~~~~~~~
+   drivers/hid/hid-core.c:1814:2: note: Loop condition is true.  Entering l=
+oop body
+           for (n =3D 0; n < count; n++) {
+           ^
+   drivers/hid/hid-core.c:1815:7: note: Assuming field 'logical_minimum' is=
+ < 0
+                   if (field->logical_minimum < 0) /* signed values */
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1815:3: note: Taking true branch
+                   if (field->logical_minimum < 0) /* signed values */
                    ^
-   fs/ceph/mds_client.c:676:3: note: Assuming the condition is false
-                   WARN_ON(mutex_is_locked(&s->s_mutex));
-                   ^
-   include/asm-generic/bug.h:166:23: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                ^~~~~~~~~~~~
-   fs/ceph/mds_client.c:678:3: note: Memory is released
-                   kfree(s);
-                   ^~~~~~~~
-   fs/ceph/mds_client.c:790:2: note: Returning; memory was released via 1st=
- parameter
-           ceph_put_mds_session(s);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:4938:4: note: Returning; memory was released via 2n=
-d parameter
-                           __unregister_session(mdsc, session);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:4943:3: note: Use of memory after it is freed
-                   __close_session(mdsc, session);
-                   ^                     ~~~~~~~
-   fs/ceph/mds_client.c:5083:2: warning: Value stored to 'maplen' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           maplen =3D ceph_decode_32(&p);
-           ^        ~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:5083:2: note: Value stored to 'maplen' is never read
-           maplen =3D ceph_decode_32(&p);
-           ^        ~~~~~~~~~~~~~~~~~~
->> include/linux/ceph/mdsmap.h:56:9: warning: Dereference of null pointer [=
-clang-analyzer-core.NullDereference]
-           return m->m_info[w].state;
+   drivers/hid/hid-core.c:1816:4: note: Calling 'implement'
+                           implement(hid, data, offset + n * size, size,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1426:15: note: Assuming 'n' is <=3D 32
+           if (unlikely(n > 32)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/hid/hid-core.c:1426:2: note: Taking false branch
+           if (unlikely(n > 32)) {
+           ^
+   drivers/hid/hid-core.c:1430:13: note: Assuming 'n' is >=3D 32
+           } else if (n < 32) {
+                      ^~~~~~
+   drivers/hid/hid-core.c:1430:9: note: Taking false branch
+           } else if (n < 32) {
                   ^
-   fs/ceph/mds_client.c:4180:2: note: Taking false branch
-           dout("check_new_map new %u old %u\n",
+   drivers/hid/hid-core.c:1816:4: note: Returning from 'implement'
+                           implement(hid, data, offset + n * size, size,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1814:14: note: Assuming 'n' is < 'count'
+           for (n =3D 0; n < count; n++) {
+                       ^~~~~~~~~
+   drivers/hid/hid-core.c:1814:2: note: Loop condition is true.  Entering l=
+oop body
+           for (n =3D 0; n < count; n++) {
            ^
-   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
-                   if (0)                                          \
+   drivers/hid/hid-core.c:1815:14: note: Field 'logical_minimum' is < 0
+                   if (field->logical_minimum < 0) /* signed values */
+                              ^
+   drivers/hid/hid-core.c:1815:3: note: Taking true branch
+                   if (field->logical_minimum < 0) /* signed values */
                    ^
-   fs/ceph/mds_client.c:4180:2: note: Loop condition is false.  Exiting loop
-           dout("check_new_map new %u old %u\n",
-           ^
-   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
-   #  define dout(fmt, ...)        do {                            \
-                                   ^
-   fs/ceph/mds_client.c:4183:6: note: Assuming field 'm_info' is null
-           if (newmap->m_info) {
-               ^~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:4183:2: note: Taking false branch
-           if (newmap->m_info) {
-           ^
-   fs/ceph/mds_client.c:4190:14: note: Assuming 'i' is >=3D field 'possible=
-_max_rank'
-           for (i =3D 0; i < oldmap->possible_max_rank && i < mdsc->max_ses=
-sions; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:4190:44: note: Left side of '&&' is false
-           for (i =3D 0; i < oldmap->possible_max_rank && i < mdsc->max_ses=
-sions; i++) {
-                                                     ^
-   fs/ceph/mds_client.c:4269:14: note: Assuming 'i' is < field 'possible_ma=
-x_rank'
-           for (i =3D 0; i < newmap->possible_max_rank; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/mds_client.c:4269:2: note: Loop condition is true.  Entering loo=
-p body
-           for (i =3D 0; i < newmap->possible_max_rank; i++) {
-           ^
-   fs/ceph/mds_client.c:4282:14: note: Calling 'ceph_mdsmap_get_state'
-                   newstate =3D ceph_mdsmap_get_state(newmap, i);
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ceph/mdsmap.h:53:2: note: Taking false branch
-           BUG_ON(w < 0);
-           ^
-   include/asm-generic/bug.h:161:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   include/linux/ceph/mdsmap.h:53:2: note: Loop condition is false.  Exitin=
-g loop
-           BUG_ON(w < 0);
-           ^
-   include/asm-generic/bug.h:161:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   include/linux/ceph/mdsmap.h:54:6: note: 'w' is < field 'possible_max_ran=
-k'
-           if (w >=3D m->possible_max_rank)
+   drivers/hid/hid-core.c:1817:31: note: Passing the value 32 via 2nd param=
+eter 'n'
+                                     s32ton(field->value[n], size));
+                                                             ^~~~
+   drivers/hid/hid-core.c:1817:7: note: Calling 's32ton'
+                                     s32ton(field->value[n], size));
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1339:6: note: Assuming 'a' is 0
+           if (a && a !=3D -1)
                ^
-   include/linux/ceph/mdsmap.h:54:2: note: Taking false branch
-           if (w >=3D m->possible_max_rank)
+   drivers/hid/hid-core.c:1339:8: note: Left side of '&&' is false
+           if (a && a !=3D -1)
+                 ^
+   drivers/hid/hid-core.c:1341:21: note: The result of the left shift is un=
+defined due to shifting by '32', which is greater or equal to the width of =
+type 'int'
+           return value & ((1 << n) - 1);
+                              ^  ~
+>> drivers/hid/hid-core.c:1665:30: warning: Although the value stored to 'f=
+ield' is used in the enclosing expression, the value is never actually read=
+ from 'field' [clang-analyzer-deadcode.DeadStores]
+                   hid_input_fetch_field(hid, field =3D report->field[a], d=
+ata);
+                                              ^       ~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1665:30: note: Although the value stored to 'fiel=
+d' is used in the enclosing expression, the value is never actually read fr=
+om 'field'
+                   hid_input_fetch_field(hid, field =3D report->field[a], d=
+ata);
+                                              ^       ~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2198:3: warning: Value stored to 'len' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:2198:3: note: Value stored to 'len' is never read
+                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   include/linux/hid.h:1049:9: warning: Access to field 'name' results in a=
+ dereference of a null pointer (loaded from variable 'input') [clang-analyz=
+er-core.NullDereference]
+                                       input->name, c, type);
+                                       ^
+   drivers/hid/hid-corsair.c:635:6: note: Assuming the condition is false
+           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_KEYBOARD)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-corsair.c:635:2: note: Taking false branch
+           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_KEYBOARD)
            ^
-   include/linux/ceph/mdsmap.h:56:9: note: Dereference of null pointer
-           return m->m_info[w].state;
-                  ^~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/video/backlight/88pm860x_bl.c:130:22: warning: Value stored to '=
-chip' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           struct pm860x_chip *chip =3D data->chip;
-                               ^~~~   ~~~~~~~~~~
-   drivers/video/backlight/88pm860x_bl.c:130:22: note: Value stored to 'chi=
-p' during its initialization is never read
-           struct pm860x_chip *chip =3D data->chip;
-                               ^~~~   ~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/video/backlight/qcom-wled.c:1124:3: warning: Value stored to 'rc=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D regmap_update_bits(wled->regmap, addr,
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/backlight/qcom-wled.c:1124:3: note: Value stored to 'rc' i=
-s never read
-                   rc =3D regmap_update_bits(wled->regmap, addr,
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   drivers/hid/hid-corsair.c:639:6: note: 'gkey' is not equal to 0
+           if (gkey !=3D 0) {
+               ^~~~
+   drivers/hid/hid-corsair.c:639:2: note: Taking true branch
+           if (gkey !=3D 0) {
+           ^
+   drivers/hid/hid-corsair.c:640:3: note: Calling 'hid_map_usage_clear'
+                   hid_map_usage_clear(input, usage, bit, max, EV_KEY,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1077:2: note: Calling 'hid_map_usage'
+           hid_map_usage(hidinput, usage, bit, max, type, c);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1020:2: note: 'input' initialized here
+           struct input_dev *input =3D hidinput->input;
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1024:2: note: Control jumps to 'case 1:'  at line 10=
+33
+           switch (type) {
+           ^
+   include/linux/hid.h:1036:3: note:  Execution continues on line 1047
+                   break;
+                   ^
+   include/linux/hid.h:1047:15: note: Assuming 'c' is <=3D 'limit'
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:1047:15: note: Left side of '||' is false
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/hid.h:1047:28: note: Assuming 'bmap' is null
+           if (unlikely(c > limit || !bmap)) {
+                                     ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:1047:28: note: Assuming pointer value is null
+           if (unlikely(c > limit || !bmap)) {
+                                     ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:1047:2: note: Taking true branch
+           if (unlikely(c > limit || !bmap)) {
+           ^
+   include/linux/hid.h:1048:3: note: Assuming the condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:660:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:643:6: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+               ^~~~~~~~~~~~~~~~~
+   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
+limit'
+   #define __ratelimit(state) ___ratelimit(state, __func__)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1048:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:660:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:643:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/hid.h:1048:3: note: Loop condition is false.  Exiting loop
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:660:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:644:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
 
-vim +56 include/linux/ceph/mdsmap.h
+vim +1665 drivers/hid/hid-core.c
 
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  50  =
+dde5845a529ff7 Jiri Kosina        2006-12-08  1648  =
 
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  51  static=
- inline int ceph_mdsmap_get_state(struct ceph_mdsmap *m, int w)
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  52  {
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  53  	BUG_O=
-N(w < 0);
-b38c9eb4757d5b include/linux/ceph/mdsmap.h Xiubo Li  2019-12-04  54  	if (w=
- >=3D m->possible_max_rank)
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  55  		retu=
-rn CEPH_MDS_STATE_DNE;
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06 @56  	retur=
-n m->m_info[w].state;
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  57  }
-2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  58  =
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1649  /*
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1650   * Analyse a received r=
+eport, and fetch the data from it. The field
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1651   * content is stored fo=
+r next report processing (we do differential
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1652   * reporting to the lay=
+er).
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1653   */
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1654  static void hid_process=
+_report(struct hid_device *hid,
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1655  			       struct hid_re=
+port *report,
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1656  			       __u8 *data,
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1657  			       int interrupt)
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1658  {
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1659  	unsigned int a;
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1660  	struct hid_field_entry=
+ *entry;
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1661  	struct hid_field *fiel=
+d;
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1662  =
 
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1663  	/* first retrieve all =
+incoming values in data */
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1664  	for (a =3D 0; a < repo=
+rt->maxfield; a++)
+5f297c23cba491 Benjamin Tissoires 2022-01-26 @1665  		hid_input_fetch_field=
+(hid, field =3D report->field[a], data);
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1666  =
 
-:::::: The code at line 56 was first introduced by commit
-:::::: 2f2dc053404febedc9c273452d9d518fb31fde72 ceph: MDS client
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1667  	if (!list_empty(&repor=
+t->field_entry_list)) {
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1668  		/* INPUT_REPORT, we h=
+ave a priority list of fields */
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1669  		list_for_each_entry(e=
+ntry,
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1670  				    &report->field_=
+entry_list,
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1671  				    list) {
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1672  			field =3D entry->fie=
+ld;
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1673  =
 
-:::::: TO: Sage Weil <sage@newdream.net>
-:::::: CC: Sage Weil <sage@newdream.net>
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1674  			if (field->flags & H=
+ID_MAIN_ITEM_VARIABLE)
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1675  				hid_process_event(h=
+id,
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1676  						  field,
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1677  						  &field->usage[e=
+ntry->index],
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1678  						  field->new_valu=
+e[entry->index],
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1679  						  interrupt);
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1680  			else
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1681  				hid_input_array_fie=
+ld(hid, field, interrupt);
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1682  		}
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1683  =
+
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1684  		/* we need to do the =
+memcpy at the end for var items */
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1685  		for (a =3D 0; a < rep=
+ort->maxfield; a++) {
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1686  			field =3D report->fi=
+eld[a];
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1687  =
+
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1688  			if (field->flags & H=
+ID_MAIN_ITEM_VARIABLE)
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1689  				memcpy(field->value=
+, field->new_value,
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1690  				       field->repor=
+t_count * sizeof(__s32));
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1691  		}
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1692  	} else {
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1693  		/* FEATURE_REPORT, re=
+gular processing */
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1694  		for (a =3D 0; a < rep=
+ort->maxfield; a++) {
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1695  			field =3D report->fi=
+eld[a];
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1696  =
+
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1697  			if (field->flags & H=
+ID_MAIN_ITEM_VARIABLE)
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1698  				hid_input_var_field=
+(hid, field, interrupt);
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1699  			else
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1700  				hid_input_array_fie=
+ld(hid, field, interrupt);
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1701  		}
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1702  	}
+5f297c23cba491 Benjamin Tissoires 2022-01-26  1703  }
+d95c6e8572e0df Benjamin Tissoires 2022-01-26  1704  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0647861932160299793==--
+--===============3069667398490596661==--
 
