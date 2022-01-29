@@ -1,85 +1,176 @@
-Content-Type: multipart/mixed; boundary="===============4884895975738937097=="
+Content-Type: multipart/mixed; boundary="===============0196399665648234695=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/dma-buf/st-dma-resv.c:58 sanitycheck() warn: inconsistent returns '&resv'.
-Date: Sun, 30 Jan 2022 03:43:47 +0800
-Message-ID: <202201300326.I1J5XhkE-lkp@intel.com>
+Subject: arch/powerpc/sysdev/xive/common.c:1155:3: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+Date: Sat, 29 Jan 2022 21:48:52 +0800
+Message-ID: <202201292139.sVcmuPMe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4884895975738937097==
+--===============0196399665648234695==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+TO: "C=C3=A9dric Le Goater" <clg@kaod.org>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   cb323ee75d24e7acc2f188d123ba6df46159cf09
-commit: 1d51775cd3f51899ce85afab686c7f641ff32d4e dma-buf: add dma_resv self=
-test v4
-date:   3 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 months ago
-config: powerpc64-randconfig-m031-20220125 (https://download.01.org/0day-ci=
-/archive/20220130/202201300326.I1J5XhkE-lkp(a)intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.2.0
+head:   169387e2aa291a4e3cb856053730fe99d6cec06f
+commit: 7dcc37b3eff97379b194adb17eb9a8270512dd1d powerpc/xive: Map one IPI =
+interrupt per node
+date:   10 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 10 months ago
+compiler: powerpc64le-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/dma-buf/st-dma-resv.c:58 sanitycheck() warn: inconsistent returns '=
-&resv'.
 
-Old smatch warnings:
-drivers/dma-buf/st-dma-resv.c:336 test_get_fences() error: uninitialized sy=
-mbol 'i'.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +58 drivers/dma-buf/st-dma-resv.c
+>> drivers/block/floppy.c:2525:4: warning: Assignment of function parameter=
+ has no effect outside the function. [uselessAssignmentArg]
+      max_sector -=3D remaining >> 9;
+      ^
+>> drivers/block/floppy.c:4014:4: warning: %d in format string (no. 1) requ=
+ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
+int]
+      snprintf(temparea, sizeof(temparea),
+      ^
+   drivers/block/floppy.c:4607:3: warning: %d in format string (no. 1) requ=
+ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
+int]
+     sprintf(disk->disk_name, "fd%d_type%d", drive, type);
+     ^
+   drivers/block/floppy.c:4607:3: warning: %d in format string (no. 2) requ=
+ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
+int]
+     sprintf(disk->disk_name, "fd%d_type%d", drive, type);
+     ^
+   drivers/block/floppy.c:4609:3: warning: %d in format string (no. 1) requ=
+ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
+int]
+     sprintf(disk->disk_name, "fd%d", drive);
+     ^
 
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  37  =
+vim +1155 arch/powerpc/sysdev/xive/common.c
 
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  38  static int sanitycheck(=
-void *arg)
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  39  {
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  40  	struct dma_resv resv;
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  41  	struct dma_fence *f;
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  42  	int r;
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  43  =
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1115  =
 
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  44  	f =3D alloc_fence();
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  45  	if (!f)
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  46  		return -ENOMEM;
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  47  =
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1116  static int __i=
+nit xive_request_ipi(void)
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1117  {
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1118  	struct fwnode=
+_handle *fwnode;
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1119  	struct irq_do=
+main *ipi_domain;
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1120  	unsigned int =
+node;
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1121  	int ret =3D -=
+ENOMEM;
+243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1122  =
 
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  48  	dma_fence_signal(f);
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  49  	dma_fence_put(f);
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  50  =
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1123  	fwnode =3D ir=
+q_domain_alloc_named_fwnode("XIVE-IPI");
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1124  	if (!fwnode)
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1125  		goto out;
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1126  =
 
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  51  	dma_resv_init(&resv);
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  52  	r =3D dma_resv_lock(&r=
-esv, NULL);
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  53  	if (r)
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  54  		pr_err("Resv locking =
-failed\n");
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  55  	else
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  56  		dma_resv_unlock(&resv=
-);
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  57  	dma_resv_fini(&resv);
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24 @58  	return r;
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  59  }
-1d51775cd3f518 Christian K=C3=B6nig 2021-09-24  60  =
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1127  	ipi_domain =
+=3D irq_domain_create_linear(fwnode, nr_node_ids,
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1128  					      &xi=
+ve_ipi_irq_domain_ops, NULL);
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1129  	if (!ipi_doma=
+in)
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1130  		goto out_fre=
+e_fwnode;
+243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1131  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1132  	xive_ipis =3D=
+ kcalloc(nr_node_ids, sizeof(*xive_ipis), GFP_KERNEL | __GFP_NOFAIL);
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1133  	if (!xive_ipi=
+s)
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1134  		goto out_fre=
+e_domain;
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1135  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1136  	for_each_node=
+(node) {
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1137  		struct xive_=
+ipi_desc *xid =3D &xive_ipis[node];
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1138  		irq_hw_numbe=
+r_t ipi_hwirq =3D node;
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1139  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1140  		/* Skip node=
+s without CPUs */
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1141  		if (cpumask_=
+empty(cpumask_of_node(node)))
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1142  			continue;
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1143  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1144  		/*
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1145  		 * Map one I=
+PI interrupt per node for all cpus of that node.
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1146  		 * Since the=
+ HW interrupt number doesn't have any meaning,
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1147  		 * simply us=
+e the node number.
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1148  		 */
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1149  		xid->irq =3D=
+ irq_create_mapping(ipi_domain, ipi_hwirq);
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1150  		if (!xid->ir=
+q) {
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1151  			ret =3D -EI=
+NVAL;
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1152  			goto out_fr=
+ee_xive_ipis;
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1153  		}
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1154  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31 @1155  		snprintf(xid=
+->name, sizeof(xid->name), "IPI-%d", node);
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1156  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1157  		ret =3D requ=
+est_irq(xid->irq, xive_muxed_ipi_action,
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1158  				  IRQF_PER=
+CPU | IRQF_NO_THREAD, xid->name, NULL);
+243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1159  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1160  		WARN(ret < 0=
+, "Failed to request IPI %d: %d\n", xid->irq, ret);
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1161  	}
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1162  =
+
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1163  	return ret;
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1164  =
+
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1165  out_free_xive_=
+ipis:
+7dcc37b3eff973 C=C3=A9dric Le Goater       2021-03-31  1166  	kfree(xive_ip=
+is);
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1167  out_free_domai=
+n:
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1168  	irq_domain_re=
+move(ipi_domain);
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1169  out_free_fwnod=
+e:
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1170  	irq_domain_fr=
+ee_fwnode(fwnode);
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1171  out:
+7d348494136c8b C=C3=A9dric Le Goater       2021-03-31  1172  	return ret;
+243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1173  }
+243e25112d06b3 Benjamin Herrenschmidt 2017-04-05  1174  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4884895975738937097==--
+--===============0196399665648234695==--
 
