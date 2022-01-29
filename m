@@ -1,109 +1,74 @@
-Content-Type: multipart/mixed; boundary="===============5874924343489913348=="
+Content-Type: multipart/mixed; boundary="===============7168915036796773502=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/controller/dwc/pcie-kirin.c:321:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
-Date: Sat, 29 Jan 2022 14:52:02 +0800
-Message-ID: <202201291228.17gN1FOR-lkp@intel.com>
+Subject: [linux-next:master 648/2855] kernel/bpf/btf.c:6613 btf_populate_kfunc_set() error: uninitialized symbol 'ret'.
+Date: Sat, 29 Jan 2022 12:12:59 +0800
+Message-ID: <202201291223.4Eukxxfd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5874924343489913348==
+--===============7168915036796773502==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   169387e2aa291a4e3cb856053730fe99d6cec06f
-commit: 61d37547436dce45e3590db72360df0e230ca969 PCI: kirin: Reorganize the=
- PHY logic inside the driver
-date:   3 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 3 months ago
-compiler: riscv32-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b605fdc54c2b28c30ef06d9db99282d8a32ae4be
+commit: dee872e124e8d5de22b68c58f6f6c3f5e8889160 [648/2855] bpf: Populate k=
+func BTF ID sets in struct btf
+:::::: branch date: 24 hours ago
+:::::: commit date: 10 days ago
+config: powerpc64-randconfig-m031-20220125 (https://download.01.org/0day-ci=
+/archive/20220129/202201291223.4Eukxxfd-lkp(a)intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+kernel/bpf/btf.c:6613 btf_populate_kfunc_set() error: uninitialized symbol =
+'ret'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/ret +6613 kernel/bpf/btf.c
 
->> drivers/pci/controller/dwc/pcie-kirin.c:321:2: warning: Assignment of fu=
-nction parameter has no effect outside the function. Did you forget derefer=
-encing it? [uselessAssignmentPtrArg]
-    pdev =3D container_of(dev, struct platform_device, dev);
-    ^
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6598  =
 
-vim +321 drivers/pci/controller/dwc/pcie-kirin.c
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6599  static int btf_pop=
+ulate_kfunc_set(struct btf *btf, enum btf_kfunc_hook hook,
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6600  				  const struct=
+ btf_kfunc_id_set *kset)
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6601  {
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6602  	bool vmlinux_set =
+=3D !btf_is_module(btf);
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6603  	int type, ret;
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6604  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  305  =
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6605  	for (type =3D 0; =
+type < ARRAY_SIZE(kset->sets); type++) {
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6606  		if (!kset->sets[=
+type])
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6607  			continue;
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6608  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  306  static int hi3660_pcie_phy_init(struct platform_device *=
-pdev,
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  307  				struct kirin_pcie *pcie)
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  308  {
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  309  	struct device *dev =3D &pdev->dev;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  310  	struct hi3660_pcie_phy *phy;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  311  	int ret;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  312  =
-
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  313  	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  314  	if (!phy)
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  315  		return -ENOMEM;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  316  =
-
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  317  	pcie->phy_priv =3D phy;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  318  	phy->dev =3D dev;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  319  =
-
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  320  	/* registers */
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21 @321  	pdev =3D container_of(dev, struct platform_device, dev);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  322  =
-
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  323  	ret =3D hi3660_pcie_phy_get_clk(phy);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  324  	if (ret)
-fc5165db245ac4 drivers/pci/dwc/pcie-kirin.c            Xiaowei Song        =
-  2017-06-19  325  		return ret;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  326  =
-
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  327  	return hi3660_pcie_phy_get_resource(phy);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  328  }
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  329  =
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6609  		ret =3D __btf_po=
+pulate_kfunc_set(btf, hook, type, kset->sets[type], vmlinux_set);
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6610  		if (ret)
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6611  			break;
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6612  	}
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14 @6613  	return ret;
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6614  }
+dee872e124e8d5 Kumar Kartikeya Dwivedi 2022-01-14  6615  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5874924343489913348==--
+--===============7168915036796773502==--
 
