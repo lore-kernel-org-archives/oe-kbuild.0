@@ -1,58 +1,67 @@
-Content-Type: multipart/mixed; boundary="===============6223063226975326764=="
+Content-Type: multipart/mixed; boundary="===============0386057882349594729=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6 10/14] media: Re-structure TI platform drivers
-Date: Sat, 29 Jan 2022 20:37:45 +0800
-Message-ID: <202201292035.IqhSdC31-lkp@intel.com>
+Subject: Re: [PATCH v2 11/35] mm: rcu safe vma freeing
+Date: Sat, 29 Jan 2022 20:17:12 +0800
+Message-ID: <202201292049.8ov9aDBO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6223063226975326764==
+--===============0386057882349594729==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220121142904.4091481-11-p.yadav@ti.com>
-References: <20220121142904.4091481-11-p.yadav@ti.com>
-TO: Pratyush Yadav <p.yadav@ti.com>
+In-Reply-To: <20220128131006.67712-12-michel@lespinasse.org>
+References: <20220128131006.67712-12-michel@lespinasse.org>
+TO: Michel Lespinasse <michel@lespinasse.org>
+TO: "Linux-MM" <linux-mm@kvack.org>
+TO: linux-kernel(a)vger.kernel.org
+TO: Andrew Morton <akpm@linux-foundation.org>
+CC: kernel-team(a)fb.com
+CC: Laurent Dufour <ldufour@linux.ibm.com>
+CC: Jerome Glisse <jglisse@google.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Michal Hocko <mhocko@suse.com>
+CC: Vlastimil Babka <vbabka@suse.cz>
+CC: Davidlohr Bueso <dave@stgolabs.net>
 
-Hi Pratyush,
+Hi Michel,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v5.17-rc1 next-20220=
-128]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.17-rc1 next-20220128]
+[cannot apply to tip/x86/mm arm64/for-next/core powerpc/next hnaz-mm/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Pratyush-Yadav/CSI2RX-supp=
-ort-on-J721E/20220121-223208
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: riscv-randconfig-c006-20220125 (https://download.01.org/0day-ci/arc=
-hive/20220129/202201292035.IqhSdC31-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f32dcc=
-b9a43b02ce4e540d6ba5dbbdb188f2dc7d)
+url:    https://github.com/0day-ci/linux/commits/Michel-Lespinasse/Speculat=
+ive-page-faults/20220128-212122
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+145d9b498fc827b79c1260b4caa29a8e59d4c2b9
+:::::: branch date: 23 hours ago
+:::::: commit date: 23 hours ago
+config: x86_64-randconfig-c007-20220124 (https://download.01.org/0day-ci/ar=
+chive/20220129/202201292049.8ov9aDBO-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
+e44b1f32ffdbc995e6fec806271b4b3ba4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/3e49ebcb767893f74b04baf77=
-7762343d75d36b4
+        # https://github.com/0day-ci/linux/commit/e070569f2fa273212280128b7=
+d07f3d39f0fbd27
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Pratyush-Yadav/CSI2RX-support-on-J=
-721E/20220121-223208
-        git checkout 3e49ebcb767893f74b04baf777762343d75d36b4
+        git fetch --no-tags linux-review Michel-Lespinasse/Speculative-page=
+-faults/20220128-212122
+        git checkout e070569f2fa273212280128b7d07f3d39f0fbd27
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -60,414 +69,306 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/dvb-frontends/bcm3510.c:818:7: warning: Although the value=
- stored to 'ret' is used in the enclosing expression, the value is never ac=
-tually read from 'ret' [clang-analyzer-deadcode.DeadStores]
-           if ((ret =3D bcm3510_readB(state,0xe0,&v)) < 0)
-                ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/bcm3510.c:818:7: note: Although the value st=
-ored to 'ret' is used in the enclosing expression, the value is never actua=
-lly read from 'ret'
-           if ((ret =3D bcm3510_readB(state,0xe0,&v)) < 0)
-                ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/dvb-frontends/cx24123.c:518:2: warning: Value stored to 'v=
-co_div' is never read [clang-analyzer-deadcode.DeadStores]
-           vco_div =3D cx24123_bandselect_vals[0].VCOdivider;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cx24123.c:518:2: note: Value stored to 'vco_=
-div' is never read
-           vco_div =3D cx24123_bandselect_vals[0].VCOdivider;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:73:2: warning: Value stored to '=
-temp' is never read [clang-analyzer-deadcode.DeadStores]
-           temp =3D RREG32(rec->mask_clk_reg);
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:73:2: note: Value stored to 'tem=
-p' is never read
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:77:2: warning: Value stored to '=
-temp' is never read [clang-analyzer-deadcode.DeadStores]
-           temp =3D RREG32(rec->mask_data_reg);
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:77:2: note: Value stored to 'tem=
-p' is never read
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:92:2: warning: Value stored to '=
-temp' is never read [clang-analyzer-deadcode.DeadStores]
-           temp =3D RREG32(rec->mask_clk_reg);
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:92:2: note: Value stored to 'tem=
-p' is never read
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:96:2: warning: Value stored to '=
-temp' is never read [clang-analyzer-deadcode.DeadStores]
-           temp =3D RREG32(rec->mask_data_reg);
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:96:2: note: Value stored to 'tem=
-p' is never read
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:312:3: warning: 4th function cal=
-l argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
+   fs/xfs/libxfs/xfs_dir2_data.c:155:7: note: Assuming field 'offset' is 0
+                   if (bf[0].offset)
+                       ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:155:3: note: Taking false branch
+                   if (bf[0].offset)
                    ^
-   include/drm/drm_print.h:526:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
+   fs/xfs/libxfs/xfs_dir2_data.c:159:6: note: Assuming field 'length' is 0
+           if (!bf[1].length) {
+               ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:159:2: note: Taking true branch
+           if (!bf[1].length) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:371:2: note: 'val' declared with=
-out an initial value
-           u8 val;
-           ^~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:373:6: note: Assuming field 'cd_=
-valid' is true
-           if (!amdgpu_connector->router.cd_valid)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:373:2: note: Taking false branch
-           if (!amdgpu_connector->router.cd_valid)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:376:6: note: Assuming field 'rou=
-ter_bus' is non-null
-           if (!amdgpu_connector->router_bus)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:376:2: note: Taking false branch
-           if (!amdgpu_connector->router_bus)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:379:2: note: Calling 'amdgpu_i2c=
-_get_byte'
-           amdgpu_i2c_get_byte(amdgpu_connector->router_bus,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:308:6: note: Assuming the condit=
-ion is false
-           if (i2c_transfer(&i2c_bus->adapter, msgs, 2) =3D=3D 2) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:308:2: note: Taking false branch
-           if (i2c_transfer(&i2c_bus->adapter, msgs, 2) =3D=3D 2) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c:312:3: note: 4th function call a=
-rgument is an uninitialized value
-                   DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
+   fs/xfs/libxfs/xfs_dir2_data.c:160:7: note: Assuming field 'offset' is 0
+                   if (bf[1].offset)
+                       ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:160:3: note: Taking false branch
+                   if (bf[1].offset)
                    ^
-   include/drm/drm_print.h:526:2: note: expanded from macro 'DRM_DEBUG'
-           __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-           ^                             ~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   fs/xfs/libxfs/xfs_dir2_data.c:164:6: note: Assuming field 'length' is 0
+           if (!bf[2].length) {
+               ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:164:2: note: Taking true branch
+           if (!bf[2].length) {
+           ^
+   fs/xfs/libxfs/xfs_dir2_data.c:165:7: note: Assuming field 'offset' is 0
+                   if (bf[2].offset)
+                       ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:165:3: note: Taking false branch
+                   if (bf[2].offset)
+                   ^
+   fs/xfs/libxfs/xfs_dir2_data.c:170:6: note: Assuming the condition is fal=
+se
+           if (be16_to_cpu(bf[0].length) < be16_to_cpu(bf[1].length))
+               ^
+   include/linux/byteorder/generic.h:97:21: note: expanded from macro 'be16=
+_to_cpu'
+   #define be16_to_cpu __be16_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:43:26: note: expanded from =
+macro '__be16_to_cpu'
+   #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
+                            ^
+   include/uapi/linux/swab.h:102:21: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                       ^
+   fs/xfs/libxfs/xfs_dir2_data.c:170:2: note: Taking false branch
+           if (be16_to_cpu(bf[0].length) < be16_to_cpu(bf[1].length))
+           ^
+   fs/xfs/libxfs/xfs_dir2_data.c:172:6: note: Assuming the condition is fal=
+se
+           if (be16_to_cpu(bf[1].length) < be16_to_cpu(bf[2].length))
+               ^
+   include/linux/byteorder/generic.h:97:21: note: expanded from macro 'be16=
+_to_cpu'
+   #define be16_to_cpu __be16_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:43:26: note: expanded from =
+macro '__be16_to_cpu'
+   #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
+                            ^
+   include/uapi/linux/swab.h:102:21: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                       ^
+   fs/xfs/libxfs/xfs_dir2_data.c:172:2: note: Taking false branch
+           if (be16_to_cpu(bf[1].length) < be16_to_cpu(bf[2].length))
+           ^
+   fs/xfs/libxfs/xfs_dir2_data.c:177:9: note: Assuming 'offset' is >=3D 'en=
+d'
+           while (offset < end) {
+                  ^~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:177:2: note: Loop condition is false. Exec=
+ution continues on line 252
+           while (offset < end) {
+           ^
+   fs/xfs/libxfs/xfs_dir2_data.c:252:6: note: 'freeseen' is equal to 7
+           if (freeseen !=3D 7)
+               ^~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:252:2: note: Taking false branch
+           if (freeseen !=3D 7)
+           ^
+   fs/xfs/libxfs/xfs_dir2_data.c:254:6: note: Assuming the condition is true
+           if (hdr->magic =3D=3D cpu_to_be32(XFS_DIR2_BLOCK_MAGIC) ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_dir2_data.c:254:54: note: Left side of '||' is true
+           if (hdr->magic =3D=3D cpu_to_be32(XFS_DIR2_BLOCK_MAGIC) ||
+                                                               ^
+   fs/xfs/libxfs/xfs_dir2_data.c:256:27: note: Access to field 'count' resu=
+lts in a dereference of a null pointer (loaded from variable 'btp')
+                   for (i =3D stale =3D 0; i < be32_to_cpu(btp->count); i++=
+) {
+                                           ^
+   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
+_to_cpu'
+   #define be32_to_cpu __be32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:41:58: note: expanded from =
+macro '__be32_to_cpu'
+   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+                                                            ^~
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/media/platform/ti/cal/cal-video.c:213:2: warning: Value stored t=
-o 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D 0;
-           ^     ~
-   drivers/media/platform/ti/cal/cal-video.c:213:2: note: Value stored to '=
-ret' is never read
-           ret =3D 0;
-           ^     ~
-   Suppressed 3 warnings (3 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/media/platform/ti/vpe/vpe.c:2589:2: warning: Value stored to 'fu=
-nc' is never read [clang-analyzer-deadcode.DeadStores]
-           func =3D read_field_reg(dev, VPE_PID, VPE_PID_FUNC_MASK,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:2589:2: note: Value stored to 'func'=
- is never read
-           func =3D read_field_reg(dev, VPE_PID, VPE_PID_FUNC_MASK,
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:57:13: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << fls_long(n - 1);
-                      ^
-   drivers/media/platform/ti/vpe/vpe.c:1788:8: note: Calling 'vpe_try_fmt'
-           ret =3D vpe_try_fmt(file, priv, f);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_VIDEO_OUTPUT
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:166:6: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE         \
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_VIDEO_OVERLAY
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:167:6: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OVERLAY               \
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:168:6: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY        \
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_VBI_OUTPUT
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:169:6: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-            || (type) =3D=3D V4L2_BUF_TYPE_VBI_OUTPUT                  \
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_SLICED_VBI_OUTPUT
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:170:6: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-            || (type) =3D=3D V4L2_BUF_TYPE_SLICED_VBI_OUTPUT           \
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
-            ^
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
-is not equal to V4L2_BUF_TYPE_SDR_OUTPUT
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
-               ^
-   include/uapi/linux/videodev2.h:171:6: note: expanded from macro 'V4L2_TY=
-PE_IS_OUTPUT'
-            || (type) =3D=3D V4L2_BUF_TYPE_SDR_OUTPUT                  \
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
-alse
-           if (V4L2_TYPE_IS_OUTPUT(f->type))
+   1 warning generated.
+>> arch/x86/mm/pat/memtype.c:1098:24: warning: Dereference of null pointer =
+[clang-analyzer-core.NullDereference]
+                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+                                        ^~~~~~~~~~~~~
+   arch/x86/mm/pat/memtype.c:1092:6: note: Assuming 'vma' is null
+           if (vma && !(vma->vm_flags & VM_PAT))
+               ^~~
+   arch/x86/mm/pat/memtype.c:1092:10: note: Left side of '&&' is false
+           if (vma && !(vma->vm_flags & VM_PAT))
+                   ^
+   arch/x86/mm/pat/memtype.c:1097:6: note: Assuming 'paddr' is 0
+           if (!paddr && !size) {
+               ^~~~~~
+   arch/x86/mm/pat/memtype.c:1097:6: note: Left side of '&&' is true
+   arch/x86/mm/pat/memtype.c:1097:16: note: Assuming 'size' is 0
+           if (!paddr && !size) {
+                         ^~~~~
+   arch/x86/mm/pat/memtype.c:1097:2: note: Taking true branch
+           if (!paddr && !size) {
+           ^
+   arch/x86/mm/pat/memtype.c:1098:24: note: Dereference of null pointer
+                   if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+                                        ^~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   arch/x86/mm/kasan_init_64.c:131:3: warning: Value stored to 'p' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   p =3D early_alloc(PAGE_SIZE, nid, true);
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/kasan_init_64.c:131:3: note: Value stored to 'p' is never re=
+ad
+                   p =3D early_alloc(PAGE_SIZE, nid, true);
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/kasan_init_64.c:276:4: warning: Value stored to 'p' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                           p =3D early_alloc(PAGE_SIZE, NUMA_NO_NODE, true);
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/kasan_init_64.c:276:4: note: Value stored to 'p' is never re=
+ad
+                           p =3D early_alloc(PAGE_SIZE, NUMA_NO_NODE, true);
+                           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/kasan_init_64.c:301:2: warning: Value stored to 'p4d_val' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           p4d_val &=3D __default_kernel_pte_mask;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/kasan_init_64.c:301:2: note: Value stored to 'p4d_val' is ne=
+ver read
+           p4d_val &=3D __default_kernel_pte_mask;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/kasan_init_64.c:312:7: warning: Value stored to 'i' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+           for (i =3D 0; pgtable_l5_enabled() && i < PTRS_PER_P4D; i++)
+                ^   ~
+   arch/x86/mm/kasan_init_64.c:312:7: note: Value stored to 'i' is never re=
+ad
+           for (i =3D 0; pgtable_l5_enabled() && i < PTRS_PER_P4D; i++)
+                ^   ~
+   Suppressed 2 warnings (2 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   fs/ntfs3/xattr.c:966:3: warning: 2nd function call argument is an uninit=
+ialized value [clang-analyzer-core.CallAndMessage]
+                   i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
+                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:960:6: note: Calling 'ntfs_get_ea'
+           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:209:6: note: Assuming the condition is false
+           if (!(ni->ni_flags & NI_FLAG_EA))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:209:2: note: Taking false branch
+           if (!(ni->ni_flags & NI_FLAG_EA))
+           ^
+   fs/ntfs3/xattr.c:212:7: note: 'required' is non-null
+           if (!required)
+                ^~~~~~~~
+   fs/ntfs3/xattr.c:212:2: note: Taking false branch
+           if (!required)
+           ^
+   fs/ntfs3/xattr.c:217:6: note: 'name_len' is <=3D 255
+           if (name_len > 255) {
+               ^~~~~~~~
+   fs/ntfs3/xattr.c:217:2: note: Taking false branch
+           if (name_len > 255) {
+           ^
+   fs/ntfs3/xattr.c:223:6: note: 'err' is not equal to 0
+           if (err)
+               ^~~
+   fs/ntfs3/xattr.c:223:2: note: Taking true branch
+           if (err)
+           ^
+   fs/ntfs3/xattr.c:224:3: note: Control jumps to line 253
+                   goto out;
+                   ^
+   fs/ntfs3/xattr.c:254:7: note: 'required' is non-null
+           if (!required)
+                ^~~~~~~~
+   fs/ntfs3/xattr.c:254:2: note: Taking false branch
+           if (!required)
+           ^
+   fs/ntfs3/xattr.c:257:9: note: 'err' is not equal to 0
+           return err ? err : len;
+                  ^~~
+   fs/ntfs3/xattr.c:257:9: note: '?' condition is true
+   fs/ntfs3/xattr.c:257:2: note: Returning without writing to '*buffer'
+           return err ? err : len;
+           ^
 
-vim +/ret +213 drivers/media/platform/ti/cal/cal-video.c
+vim +1098 arch/x86/mm/pat/memtype.c
 
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  191  =
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1080  =
 
-e6a800d63a1239 drivers/media/platform/ti-vpe/cal-video.c Tomi Valkeinen   2=
-021-06-14  192  static int cal_legacy_try_fmt_vid_cap(struct file *file, vo=
-id *priv,
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  193  				      struct v4l2_format *f)
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  194  {
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  195  	struct cal_ctx *ctx =3D video_drvdata(file);
-51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  196  	const struct cal_format_info *fmtinfo;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  197  	struct v4l2_subdev_frame_size_enum fse;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  198  	int ret, found;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  199  =
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1081  /*
+5180da410db636 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1082   * untrack_pfn is called while unmapping a pfnmap for a region.
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1083   * untrack can be called for a specific region indicated by pfn and=
+ size or
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1084   * can be for the entire vma (in which case pfn, size are zero).
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1085   */
+5180da410db636 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1086  void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1087  		 unsigned long size)
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1088  {
+c1c15b65ec3027 arch/x86/mm/pat.c H. Peter Anvin                2008-12-23  =
+1089  	resource_size_t paddr;
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1090  	unsigned long prot;
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1091  =
 
-51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  200  	fmtinfo =3D find_format_by_pix(ctx, f->fmt.pix.pixelformat=
-);
-51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  201  	if (!fmtinfo) {
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  202  		ctx_dbg(3, ctx, "Fourcc format (0x%08x) not found.\n",
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  203  			f->fmt.pix.pixelformat);
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  204  =
+9049771f7d5490 arch/x86/mm/pat.c Dan Williams                  2016-09-07  =
+1092  	if (vma && !(vma->vm_flags & VM_PAT))
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1093  		return;
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1094  =
 
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  205  		/* Just get the first one enumerated */
-51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  206  		fmtinfo =3D ctx->active_fmt[0];
-51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  207  		f->fmt.pix.pixelformat =3D fmtinfo->fourcc;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  208  	}
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  209  =
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1095  	/* free the chunk starting from pfn or the whole chunk */
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1096  	paddr =3D (resource_size_t)pfn << PAGE_SHIFT;
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1097  	if (!paddr && !size) {
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08 @=
+1098  		if (follow_phys(vma, vma->vm_start, 0, &prot, &paddr)) {
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1099  			WARN_ON_ONCE(1);
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1100  			return;
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1101  		}
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1102  =
 
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  210  	f->fmt.pix.field =3D ctx->v_fmt.fmt.pix.field;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  211  =
-
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  212  	/* check for/find a valid width/height */
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06 @213  	ret =3D 0;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  214  	found =3D false;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  215  	fse.pad =3D 0;
-51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  216  	fse.code =3D fmtinfo->code;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  217  	fse.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  218  	for (fse.index =3D 0; ; fse.index++) {
-27f86b9bff79e1 drivers/media/platform/ti-vpe/cal-video.c Tomi Valkeinen   2=
-021-06-14  219  		ret =3D v4l2_subdev_call(ctx->phy->source, pad, enum_fram=
-e_size,
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  220  				       NULL, &fse);
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  221  		if (ret)
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  222  			break;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  223  =
-
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  224  		if ((f->fmt.pix.width =3D=3D fse.max_width) &&
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  225  		    (f->fmt.pix.height =3D=3D fse.max_height)) {
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  226  			found =3D true;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  227  			break;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  228  		} else if ((f->fmt.pix.width >=3D fse.min_width) &&
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  229  			 (f->fmt.pix.width <=3D fse.max_width) &&
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  230  			 (f->fmt.pix.height >=3D fse.min_height) &&
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  231  			 (f->fmt.pix.height <=3D fse.max_height)) {
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  232  			found =3D true;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  233  			break;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  234  		}
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  235  	}
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  236  =
-
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  237  	if (!found) {
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  238  		/* use existing values as default */
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  239  		f->fmt.pix.width =3D ctx->v_fmt.fmt.pix.width;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  240  		f->fmt.pix.height =3D  ctx->v_fmt.fmt.pix.height;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  241  	}
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  242  =
-
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  243  	/*
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  244  	 * Use current colorspace for now, it will get
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  245  	 * updated properly during s_fmt
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  246  	 */
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  247  	f->fmt.pix.colorspace =3D ctx->v_fmt.fmt.pix.colorspace;
-455466400c4164 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  248  	cal_calc_format_size(ctx, fmtinfo, f);
-455466400c4164 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-12-07  249  	return 0;
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  250  }
-9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
-020-07-06  251  =
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1103  		size =3D vma->vm_end - vma->vm_start;
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1104  	}
+b1a86e15dc0304 arch/x86/mm/pat.c Suresh Siddha                 2012-10-08  =
+1105  	free_pfn_range(paddr, size);
+9049771f7d5490 arch/x86/mm/pat.c Dan Williams                  2016-09-07  =
+1106  	if (vma)
+b3b9c2932c32e0 arch/x86/mm/pat.c Konstantin Khlebnikov         2012-10-08  =
+1107  		vma->vm_flags &=3D ~VM_PAT;
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1108  }
+5899329b19100c arch/x86/mm/pat.c venkatesh.pallipadi(a)intel.com 2008-12-18=
+  1109  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6223063226975326764==--
+--===============0386057882349594729==--
 
