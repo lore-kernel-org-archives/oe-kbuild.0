@@ -1,141 +1,108 @@
-Content-Type: multipart/mixed; boundary="===============2916246776312538738=="
+Content-Type: multipart/mixed; boundary="===============1120760095888432895=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:testing/io_uring-sendto-recvfrom.v1 3/5] fs/io_uring.c:5238 io_recvfrom() error: uninitialized symbol 'flags'.
-Date: Sat, 29 Jan 2022 19:46:23 +0800
-Message-ID: <202201291904.XsrR06KW-lkp@intel.com>
+Subject: [jlayton:ceph-fscrypt 53/53] net/ceph/osd_client.c:5775 osd_sparse_read() warn: statement has no effect 3
+Date: Sat, 29 Jan 2022 18:14:47 +0800
+Message-ID: <202201291840.0djvF8MX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2916246776312538738==
+--===============1120760095888432895==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+TO: Jeff Layton <jlayton@kernel.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block testing/io_uring-sendto-=
-recvfrom.v1
-head:   68d110c39241b887ec388cd3316dbedb85b0cbcf
-commit: 8d597f720657a5156c4b3cbced8d1571ba151f62 [3/5] io_uring: Rename `io=
-_{send,recv}` to `io_{sendto,recvfrom}`
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20129/202201291904.XsrR06KW-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git c=
+eph-fscrypt
+head:   3f014b82b65ebbf30b8e4cd0b307f1f2794d183f
+commit: 3f014b82b65ebbf30b8e4cd0b307f1f2794d183f [53/53] libceph: define a =
+structure to track SPARSE_READ reply processing
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: openrisc-randconfig-m031-20220124 (https://download.01.org/0day-ci/=
+archive/20220129/202201291840.0djvF8MX-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/io_uring.c:5238 io_recvfrom() error: uninitialized symbol 'flags'.
+net/ceph/osd_client.c:5775 osd_sparse_read() warn: statement has no effect 3
 
 Old smatch warnings:
-fs/io_uring.c:8422 io_sqe_files_register() error: we previously assumed 'ct=
-x->file_data' could be null (see line 8394)
+include/linux/ceph/string_table.h:46 ceph_compare_string() error: we previo=
+usly assumed 'cs' could be null (see line 41)
 
-vim +/flags +5238 fs/io_uring.c
+vim +5775 net/ceph/osd_client.c
 
-0fa03c624d8fc9 Jens Axboe        2019-04-19  5189  =
+33d07337962c7b Yan, Zheng  2014-11-04  5746  =
 
-8d597f720657a5 Ammar Faizi       2022-01-07  5190  static int io_recvfrom(s=
-truct io_kiocb *req, unsigned int issue_flags)
-fddafacee287b3 Jens Axboe        2020-01-04  5191  {
-6b754c8b912a16 Pavel Begunkov    2020-07-16  5192  	struct io_buffer *kbuf;
-fddafacee287b3 Jens Axboe        2020-01-04  5193  	struct io_sr_msg *sr =
-=3D &req->sr_msg;
-fddafacee287b3 Jens Axboe        2020-01-04  5194  	struct msghdr msg;
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5195  	void __user *buf =3D sr=
-->buf;
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5196  	struct socket *sock;
-fddafacee287b3 Jens Axboe        2020-01-04  5197  	struct iovec iov;
-fddafacee287b3 Jens Axboe        2020-01-04  5198  	unsigned flags;
-d1fd1c201d7507 Pavel Begunkov    2021-12-05  5199  	int ret, min_ret =3D 0;
-45d189c6062922 Pavel Begunkov    2021-02-10  5200  	bool force_nonblock =3D=
- issue_flags & IO_URING_F_NONBLOCK;
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5201  =
+3f014b82b65ebb Jeff Layton 2022-01-25  5747  static int osd_sparse_read(str=
+uct ceph_connection *con, u64 *len, char **buf)
+3f014b82b65ebb Jeff Layton 2022-01-25  5748  {
+3f014b82b65ebb Jeff Layton 2022-01-25  5749  	struct ceph_osd *o =3D con->p=
+rivate;
+3f014b82b65ebb Jeff Layton 2022-01-25  5750  	struct ceph_sparse_read *sr =
+=3D &o->o_sparse_read;
+3f014b82b65ebb Jeff Layton 2022-01-25  5751  	u32 count =3D __le32_to_cpu(s=
+r->sr_count);
+3f014b82b65ebb Jeff Layton 2022-01-25  5752  	int ret =3D 1;
+3f014b82b65ebb Jeff Layton 2022-01-25  5753  =
 
-dba4a9256bb4d7 Florent Revest    2020-12-04  5202  	sock =3D sock_from_file=
-(req->file);
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5203  	if (unlikely(!sock))
-dba4a9256bb4d7 Florent Revest    2020-12-04  5204  		return -ENOTSOCK;
-fddafacee287b3 Jens Axboe        2020-01-04  5205  =
+3f014b82b65ebb Jeff Layton 2022-01-25  5754  	switch (sr->sr_state) {
+3f014b82b65ebb Jeff Layton 2022-01-25  5755  	case CEPH_SPARSE_READ_COUNT:
+3f014b82b65ebb Jeff Layton 2022-01-25  5756  		/* number of extents */
+3f014b82b65ebb Jeff Layton 2022-01-25  5757  		*len =3D sizeof(sr->sr_count=
+);
+3f014b82b65ebb Jeff Layton 2022-01-25  5758  		*buf =3D (char *)&sr->sr_cou=
+nt;
+3f014b82b65ebb Jeff Layton 2022-01-25  5759  		sr->sr_state =3D CEPH_SPARSE=
+_READ_EXTENTS;
+3f014b82b65ebb Jeff Layton 2022-01-25  5760  		break;
+3f014b82b65ebb Jeff Layton 2022-01-25  5761  	case CEPH_SPARSE_READ_EXTENTS:
+3f014b82b65ebb Jeff Layton 2022-01-25  5762  		/* the extent array */
+3f014b82b65ebb Jeff Layton 2022-01-25  5763  		*len =3D count * sizeof(*sr-=
+>sr_extent);
+3f014b82b65ebb Jeff Layton 2022-01-25  5764  		if (count > 1) {
+3f014b82b65ebb Jeff Layton 2022-01-25  5765  			/* can't use the embedded e=
+xtent array */
+3f014b82b65ebb Jeff Layton 2022-01-25  5766  			sr->sr_extent =3D kmalloc_a=
+rray(count, sizeof(*sr->sr_extent),
+3f014b82b65ebb Jeff Layton 2022-01-25  5767  						   GFP_NOIO);
+3f014b82b65ebb Jeff Layton 2022-01-25  5768  			if (!sr->sr_extent)
+3f014b82b65ebb Jeff Layton 2022-01-25  5769  				return -ENOMEM;
+3f014b82b65ebb Jeff Layton 2022-01-25  5770  		}
+3f014b82b65ebb Jeff Layton 2022-01-25  5771  		*buf =3D (char *)sr->sr_exte=
+nt;
+3f014b82b65ebb Jeff Layton 2022-01-25  5772  		sr->sr_state =3D CEPH_SPARSE=
+_READ_DATA;
+3f014b82b65ebb Jeff Layton 2022-01-25  5773  		break;
+3f014b82b65ebb Jeff Layton 2022-01-25  5774  	case CEPH_SPARSE_READ_DATA:
+3f014b82b65ebb Jeff Layton 2022-01-25 @5775  		u64 off =3D le64_to_cpu(sr->=
+sr_extent[sr->sr_index].off);
+3f014b82b65ebb Jeff Layton 2022-01-25  5776  		u64 len =3D le64_to_cpu(sr->=
+sr_extent[sr->sr_index].len);
+3f014b82b65ebb Jeff Layton 2022-01-25  5777  =
 
-bc02ef3325e3ef Pavel Begunkov    2020-07-16  5206  	if (req->flags & REQ_F_=
-BUFFER_SELECT) {
-51aac424aef980 Pavel Begunkov    2021-10-14  5207  		kbuf =3D io_recv_buffe=
-r_select(req, issue_flags);
-bcda7baaa3f15c Jens Axboe        2020-02-23  5208  		if (IS_ERR(kbuf))
-bcda7baaa3f15c Jens Axboe        2020-02-23  5209  			return PTR_ERR(kbuf);
-bcda7baaa3f15c Jens Axboe        2020-02-23  5210  		buf =3D u64_to_user_pt=
-r(kbuf->addr);
-bcda7baaa3f15c Jens Axboe        2020-02-23  5211  	}
-fddafacee287b3 Jens Axboe        2020-01-04  5212  =
+3f014b82b65ebb Jeff Layton 2022-01-25  5778  		/* ret to 0 if this is the l=
+ast extent */
+3f014b82b65ebb Jeff Layton 2022-01-25  5779  		++sr->sr_index;
+3f014b82b65ebb Jeff Layton 2022-01-25  5780  		if (sr->sr_index >=3D count)
+3f014b82b65ebb Jeff Layton 2022-01-25  5781  			ret =3D 0;
+3f014b82b65ebb Jeff Layton 2022-01-25  5782  		break;
+3f014b82b65ebb Jeff Layton 2022-01-25  5783  	}
+3f014b82b65ebb Jeff Layton 2022-01-25  5784  	return ret;
+3f014b82b65ebb Jeff Layton 2022-01-25  5785  }
+3f014b82b65ebb Jeff Layton 2022-01-25  5786  =
 
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5213  	ret =3D import_single_r=
-ange(READ, buf, sr->len, &iov, &msg.msg_iter);
-14c32eee928662 Pavel Begunkov    2020-07-16  5214  	if (unlikely(ret))
-14c32eee928662 Pavel Begunkov    2020-07-16  5215  		goto out_free;
-fddafacee287b3 Jens Axboe        2020-01-04  5216  =
-
-fddafacee287b3 Jens Axboe        2020-01-04  5217  	msg.msg_name =3D NULL;
-fddafacee287b3 Jens Axboe        2020-01-04  5218  	msg.msg_control =3D NUL=
-L;
-fddafacee287b3 Jens Axboe        2020-01-04  5219  	msg.msg_controllen =3D =
-0;
-fddafacee287b3 Jens Axboe        2020-01-04  5220  	msg.msg_namelen =3D 0;
-fddafacee287b3 Jens Axboe        2020-01-04  5221  	msg.msg_iocb =3D NULL;
-fddafacee287b3 Jens Axboe        2020-01-04  5222  	msg.msg_flags =3D 0;
-fddafacee287b3 Jens Axboe        2020-01-04  5223  =
-
-044118069a23fd Pavel Begunkov    2021-04-01  5224  	flags =3D req->sr_msg.m=
-sg_flags;
-044118069a23fd Pavel Begunkov    2021-04-01  5225  	if (force_nonblock)
-fddafacee287b3 Jens Axboe        2020-01-04  5226  		flags |=3D MSG_DONTWAI=
-T;
-0031275d119efe Stefan Metzmacher 2021-03-20  5227  	if (flags & MSG_WAITALL)
-0031275d119efe Stefan Metzmacher 2021-03-20  5228  		min_ret =3D iov_iter_c=
-ount(&msg.msg_iter);
-0031275d119efe Stefan Metzmacher 2021-03-20  5229  =
-
-0b7b21e42ba2d6 Jens Axboe        2020-01-31  5230  	ret =3D sock_recvmsg(so=
-ck, &msg, flags);
-7297ce3d59449d Pavel Begunkov    2021-11-23  5231  out_free:
-7297ce3d59449d Pavel Begunkov    2021-11-23  5232  	if (ret < min_ret) {
-7297ce3d59449d Pavel Begunkov    2021-11-23  5233  		if (ret =3D=3D -EAGAIN=
- && force_nonblock)
-fddafacee287b3 Jens Axboe        2020-01-04  5234  			return -EAGAIN;
-fddafacee287b3 Jens Axboe        2020-01-04  5235  		if (ret =3D=3D -ERESTA=
-RTSYS)
-fddafacee287b3 Jens Axboe        2020-01-04  5236  			ret =3D -EINTR;
-93d2bcd2cbfed2 Pavel Begunkov    2021-05-16  5237  		req_set_fail(req);
-7297ce3d59449d Pavel Begunkov    2021-11-23 @5238  	} else if ((flags & MSG=
-_WAITALL) && (msg.msg_flags & (MSG_TRUNC | MSG_CTRUNC))) {
-7297ce3d59449d Pavel Begunkov    2021-11-23  5239  		req_set_fail(req);
-7297ce3d59449d Pavel Begunkov    2021-11-23  5240  	}
-d1fd1c201d7507 Pavel Begunkov    2021-12-05  5241  =
-
-d1fd1c201d7507 Pavel Begunkov    2021-12-05  5242  	__io_req_complete(req, =
-issue_flags, ret, io_put_kbuf(req));
-fddafacee287b3 Jens Axboe        2020-01-04  5243  	return 0;
-fddafacee287b3 Jens Axboe        2020-01-04  5244  }
-fddafacee287b3 Jens Axboe        2020-01-04  5245  =
-
-
-:::::: The code@line 5238 was first introduced by commit
-:::::: 7297ce3d59449de49d3c9e1f64ae25488750a1fc io_uring: improve send/recv=
- error handling
-
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2916246776312538738==--
+--===============1120760095888432895==--
 
