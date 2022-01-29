@@ -1,74 +1,104 @@
-Content-Type: multipart/mixed; boundary="===============6361023236023234977=="
+Content-Type: multipart/mixed; boundary="===============8433646568014287698=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/controller/pcie-apple.c:177:33: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Sat, 29 Jan 2022 15:34:06 +0800
-Message-ID: <202201291504.zzu6kNQf-lkp@intel.com>
+Subject: [linux-next:master 678/2855] net/unix/af_unix.c:3464 bpf_iter_unix_batch() warn: sleeping in atomic context
+Date: Sat, 29 Jan 2022 14:52:42 +0800
+Message-ID: <202201291408.fAi0F1UY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6361023236023234977==
+--===============8433646568014287698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Marc Zyngier <maz@kernel.org>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   169387e2aa291a4e3cb856053730fe99d6cec06f
-commit: d8fcbe52d7d382106ab1dfa89c4b6a4952524125 PCI: apple: Add INTx and p=
-er-port interrupt support
-date:   3 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 months ago
-compiler: riscv32-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b605fdc54c2b28c30ef06d9db99282d8a32ae4be
+commit: 855d8e77ffb05be6e54c34dababccb20318aec00 [678/2855] bpf: af_unix: U=
+se batching algorithm in bpf unix iter.
+:::::: branch date: 26 hours ago
+:::::: commit date: 10 days ago
+config: x86_64-randconfig-m001-20220124 (https://download.01.org/0day-ci/ar=
+chive/20220129/202201291408.fAi0F1UY-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+net/unix/af_unix.c:3464 bpf_iter_unix_batch() warn: sleeping in atomic cont=
+ext
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+net/unix/af_unix.c:1586 unix_stream_connect() warn: variable dereferenced b=
+efore check 'other' (see line 1469)
 
->> drivers/pci/controller/pcie-apple.c:177:33: warning: Boolean result is u=
-sed in bitwise operation. Clarify expression with parentheses. [clarifyCond=
-ition]
-    if (hwirq_is_intx(data->hwirq) ^ !!(type & IRQ_TYPE_LEVEL_MASK))
-                                   ^
+vim +3464 net/unix/af_unix.c
 
-vim +177 drivers/pci/controller/pcie-apple.c
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3436  =
 
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  169  =
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3437  static struct sock *bpf_=
+iter_unix_batch(struct seq_file *seq,
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3438  					loff_t *pos)
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3439  {
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3440  	struct bpf_unix_iter_st=
+ate *iter =3D seq->private;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3441  	unsigned int expected;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3442  	bool resized =3D false;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3443  	struct sock *sk;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3444  =
 
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  170  static int apple_port_irq_set_=
-type(struct irq_data *data, unsigned int type)
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  171  {
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  172  	/*
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  173  	 * It doesn't seem that there=
- is any way to configure the
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  174  	 * trigger, so assume INTx ha=
-ve to be level (as per the spec),
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  175  	 * and the rest is edge (whic=
-h looks likely).
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  176  	 */
-d8fcbe52d7d382 Marc Zyngier 2021-09-29 @177  	if (hwirq_is_intx(data->hwirq=
-) ^ !!(type & IRQ_TYPE_LEVEL_MASK))
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  178  		return -EINVAL;
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  179  =
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3445  	if (iter->st_bucket_don=
+e)
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3446  		*pos =3D set_bucket_of=
+fset(get_bucket(*pos) + 1, 1);
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3447  =
 
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  180  	irqd_set_trigger_type(data, t=
-ype);
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  181  	return 0;
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  182  }
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  183  =
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3448  again:
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3449  	/* Get a new batch */
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3450  	iter->cur_sk =3D 0;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3451  	iter->end_sk =3D 0;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3452  =
+
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3453  	sk =3D unix_get_first(s=
+eq, pos);
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3454  	if (!sk)
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3455  		return NULL; /* Done */
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3456  =
+
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3457  	expected =3D bpf_iter_u=
+nix_hold_batch(seq, sk);
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3458  =
+
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3459  	if (iter->end_sk =3D=3D=
+ expected) {
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3460  		iter->st_bucket_done =
+=3D true;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3461  		return sk;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3462  	}
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3463  =
+
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13 @3464  	if (!resized && !bpf_it=
+er_unix_realloc_batch(iter, expected * 3 / 2)) {
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3465  		resized =3D true;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3466  		goto again;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3467  	}
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3468  =
+
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3469  	return sk;
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3470  }
+855d8e77ffb05b Kuniyuki Iwashima 2022-01-13  3471  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6361023236023234977==--
+--===============8433646568014287698==--
 
