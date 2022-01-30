@@ -1,171 +1,112 @@
-Content-Type: multipart/mixed; boundary="===============8181330728007812714=="
+Content-Type: multipart/mixed; boundary="===============5705569961907245394=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v32 25/28] Audit: Add record for multiple task security contexts
-Date: Sat, 05 Feb 2022 12:51:06 +0800
-Message-ID: <202202051254.pWPAs2Ha-lkp@intel.com>
+Subject: arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [uninitvar]
+Date: Sun, 30 Jan 2022 16:53:00 +0800
+Message-ID: <202201301307.UAnZQziX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8181330728007812714==
+--===============5705569961907245394==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220202235323.23929-26-casey@schaufler-ca.com>
-References: <20220202235323.23929-26-casey@schaufler-ca.com>
-TO: Casey Schaufler <casey@schaufler-ca.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
-Hi Casey,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on pcmoore-audit/next]
-[also build test WARNING on nf-next/master nf/master linus/master v5.17-rc2=
- next-20220204]
-[cannot apply to jmorris-security/next-testing]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Casey-Schaufler/integrity-=
-disassociate-ima_filter_rule-from-security_audit_rule/20220203-085302
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git n=
-ext
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021-20220131 (https://download.01.org/0day-ci/arch=
-ive/20220205/202202051254.pWPAs2Ha-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f8c7e4ede46fe63ff10000669652648aab09d112
+commit: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local variab=
+les around longjmp as volatile
+date:   7 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 7 months ago
+compiler: powerpc64le-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/audit.c:2488 audit_log_end() warn: we never enter this loop
 
-vim +2488 kernel/audit.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-25bd76f704528c Casey Schaufler 2022-02-02  2440  =
+>> arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [=
+uninitvar]
+    if (name) {
+        ^
 
-25bd76f704528c Casey Schaufler 2022-02-02  2441  /**
-25bd76f704528c Casey Schaufler 2022-02-02  2442   * audit_log_end - end one=
- audit record
-25bd76f704528c Casey Schaufler 2022-02-02  2443   * @ab: the audit_buffer
-25bd76f704528c Casey Schaufler 2022-02-02  2444   *
-25bd76f704528c Casey Schaufler 2022-02-02  2445   * Let __audit_log_end() h=
-andle the message while the buffer housekeeping
-25bd76f704528c Casey Schaufler 2022-02-02  2446   * is done here.
-25bd76f704528c Casey Schaufler 2022-02-02  2447   * If there are other reco=
-rds that have been deferred for the event
-25bd76f704528c Casey Schaufler 2022-02-02  2448   * create them here.
-25bd76f704528c Casey Schaufler 2022-02-02  2449   */
-25bd76f704528c Casey Schaufler 2022-02-02  2450  void audit_log_end(struct =
-audit_buffer *ab)
-25bd76f704528c Casey Schaufler 2022-02-02  2451  {
-25bd76f704528c Casey Schaufler 2022-02-02  2452  	struct audit_context_entr=
-y *entry;
-25bd76f704528c Casey Schaufler 2022-02-02  2453  	struct audit_context mcon=
-text;
-25bd76f704528c Casey Schaufler 2022-02-02  2454  	struct audit_context *mct=
-x;
-4efd871f917393 Casey Schaufler 2022-02-02  2455  	struct lsmcontext lcontex=
-t;
-25bd76f704528c Casey Schaufler 2022-02-02  2456  	struct audit_buffer *mab;
-25bd76f704528c Casey Schaufler 2022-02-02  2457  	struct list_head *l;
-25bd76f704528c Casey Schaufler 2022-02-02  2458  	struct list_head *n;
-4efd871f917393 Casey Schaufler 2022-02-02  2459  	int rc;
-4efd871f917393 Casey Schaufler 2022-02-02  2460  	int i;
-25bd76f704528c Casey Schaufler 2022-02-02  2461  =
+vim +3745 arch/powerpc/xmon/xmon.c
 
-25bd76f704528c Casey Schaufler 2022-02-02  2462  	if (!ab)
-25bd76f704528c Casey Schaufler 2022-02-02  2463  		return;
-25bd76f704528c Casey Schaufler 2022-02-02  2464  =
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3722  =
 
-25bd76f704528c Casey Schaufler 2022-02-02  2465  	__audit_log_end(ab);
-25bd76f704528c Casey Schaufler 2022-02-02  2466  =
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3723  =
 
-25bd76f704528c Casey Schaufler 2022-02-02  2467  	if (list_empty(&ab->aux_r=
-ecords)) {
-25bd76f704528c Casey Schaufler 2022-02-02  2468  		audit_buffer_free(ab);
-25bd76f704528c Casey Schaufler 2022-02-02  2469  		return;
-25bd76f704528c Casey Schaufler 2022-02-02  2470  	}
-25bd76f704528c Casey Schaufler 2022-02-02  2471  =
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3724  /*=
+ Print an address in numeric and symbolic form (if possible) */
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3725  st=
+atic void xmon_print_symbol(unsigned long address, const char *mid,
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3726  		=
+	      const char *after)
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3727  {
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3728  	c=
+har *modname;
+a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann  2021-04-29  3729  	c=
+onst char *volatile name =3D NULL;
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3730  	u=
+nsigned long offset, size;
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3731  =
 
-25bd76f704528c Casey Schaufler 2022-02-02  2472  	if (ab->ctx =3D=3D NULL) {
-4efd871f917393 Casey Schaufler 2022-02-02  2473  		mcontext.context =3D AUD=
-IT_CTX_SYSCALL;
-25bd76f704528c Casey Schaufler 2022-02-02  2474  		mcontext.stamp =3D ab->s=
-tamp;
-25bd76f704528c Casey Schaufler 2022-02-02  2475  		mctx =3D &mcontext;
-25bd76f704528c Casey Schaufler 2022-02-02  2476  	} else
-25bd76f704528c Casey Schaufler 2022-02-02  2477  		mctx =3D ab->ctx;
-25bd76f704528c Casey Schaufler 2022-02-02  2478  =
+f78541dcec327b arch/powerpc/xmon/xmon.c Paul Mackerras 2005-10-28  3732  	p=
+rintf(REG, address);
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3733  	i=
+f (setjmp(bus_error_jmp) =3D=3D 0) {
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3734  		=
+catch_memory_errors =3D 1;
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3735  		=
+sync();
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3736  		=
+name =3D kallsyms_lookup(address, &size, &offset, &modname,
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3737  		=
+		       tmpstr);
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3738  		=
+sync();
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3739  		=
+/* wait a little while to see if we get a machine check */
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3740  		=
+__delay(200);
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3741  	}
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3742  =
 
-25bd76f704528c Casey Schaufler 2022-02-02  2479  	list_for_each_safe(l, n, =
-&ab->aux_records) {
-25bd76f704528c Casey Schaufler 2022-02-02  2480  		entry =3D list_entry(l, =
-struct audit_context_entry, list);
-25bd76f704528c Casey Schaufler 2022-02-02  2481  		mab =3D audit_log_start(=
-mctx, ab->gfp_mask, entry->type);
-25bd76f704528c Casey Schaufler 2022-02-02  2482  		if (!mab) {
-25bd76f704528c Casey Schaufler 2022-02-02  2483  			audit_panic("alloc erro=
-r in audit_log_end");
-25bd76f704528c Casey Schaufler 2022-02-02  2484  			continue;
-25bd76f704528c Casey Schaufler 2022-02-02  2485  		}
-25bd76f704528c Casey Schaufler 2022-02-02  2486  		switch (entry->type) {
-4efd871f917393 Casey Schaufler 2022-02-02  2487  		case AUDIT_MAC_TASK_CONT=
-EXTS:
-4efd871f917393 Casey Schaufler 2022-02-02 @2488  			for (i =3D 0; i < LSMBL=
-OB_ENTRIES; i++) {
-4efd871f917393 Casey Schaufler 2022-02-02  2489  				if (entry->lsm_subjs.s=
-ecid[i] =3D=3D 0)
-4efd871f917393 Casey Schaufler 2022-02-02  2490  					continue;
-4efd871f917393 Casey Schaufler 2022-02-02  2491  				rc =3D security_secid_=
-to_secctx(&entry->lsm_subjs,
-4efd871f917393 Casey Schaufler 2022-02-02  2492  							      &lcontext, i);
-4efd871f917393 Casey Schaufler 2022-02-02  2493  				if (rc) {
-4efd871f917393 Casey Schaufler 2022-02-02  2494  					if (rc !=3D -EINVAL)
-4efd871f917393 Casey Schaufler 2022-02-02  2495  						audit_panic("error i=
-n audit_log_end");
-4efd871f917393 Casey Schaufler 2022-02-02  2496  					audit_log_format(mab,=
- "%ssubj_%s=3D?",
-4efd871f917393 Casey Schaufler 2022-02-02  2497  							 i ? " " : "",
-4efd871f917393 Casey Schaufler 2022-02-02  2498  							 lsm_slot_to_name(i=
-));
-4efd871f917393 Casey Schaufler 2022-02-02  2499  				} else {
-4efd871f917393 Casey Schaufler 2022-02-02  2500  					audit_log_format(mab,=
- "%ssubj_%s=3D%s",
-4efd871f917393 Casey Schaufler 2022-02-02  2501  							 i ? " " : "",
-4efd871f917393 Casey Schaufler 2022-02-02  2502  							 lsm_slot_to_name(i=
-),
-4efd871f917393 Casey Schaufler 2022-02-02  2503  							 lcontext.context);
-4efd871f917393 Casey Schaufler 2022-02-02  2504  					security_release_secc=
-tx(&lcontext);
-4efd871f917393 Casey Schaufler 2022-02-02  2505  				}
-4efd871f917393 Casey Schaufler 2022-02-02  2506  			}
-4efd871f917393 Casey Schaufler 2022-02-02  2507  			break;
-25bd76f704528c Casey Schaufler 2022-02-02  2508  		default:
-25bd76f704528c Casey Schaufler 2022-02-02  2509  			audit_panic("Unknown ty=
-pe in audit_log_end");
-25bd76f704528c Casey Schaufler 2022-02-02  2510  			break;
-25bd76f704528c Casey Schaufler 2022-02-02  2511  		}
-25bd76f704528c Casey Schaufler 2022-02-02  2512  		__audit_log_end(mab);
-25bd76f704528c Casey Schaufler 2022-02-02  2513  		audit_buffer_free(mab);
-25bd76f704528c Casey Schaufler 2022-02-02  2514  		list_del(&entry->list);
-25bd76f704528c Casey Schaufler 2022-02-02  2515  		kfree(entry);
-25bd76f704528c Casey Schaufler 2022-02-02  2516  	}
-5b52330bbfe63b Paul Moore      2017-03-21  2517  =
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3743  	c=
+atch_memory_errors =3D 0;
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3744  =
 
-b7d1125817c9a4 David Woodhouse 2005-05-19  2518  	audit_buffer_free(ab);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2519  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  2520  =
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16 @3745  	i=
+f (name) {
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3746  		=
+printf("%s%s+%#lx/%#lx", mid, name, offset, size);
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3747  		=
+if (modname)
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3748  		=
+	printf(" [%s]", modname);
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3749  	}
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3750  	p=
+rintf("%s", after);
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3751  }
+^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3752  =
 
+
+:::::: The code at line 3745 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8181330728007812714==--
+--===============5705569961907245394==--
 
