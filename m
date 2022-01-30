@@ -1,46 +1,55 @@
-Content-Type: multipart/mixed; boundary="===============5024548225938829027=="
+Content-Type: multipart/mixed; boundary="===============7962292990790559366=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/netfilter/nf_flow_table_ip.c:312:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Mon, 31 Jan 2022 06:28:42 +0800
-Message-ID: <202201310554.R5dGFZGh-lkp@intel.com>
+Subject: Re: [PATCH v6 10/14] media: Re-structure TI platform drivers
+Date: Mon, 31 Jan 2022 06:28:39 +0800
+Message-ID: <202201310557.YHxquGd1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5024548225938829027==
+--===============7962292990790559366==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Pablo Neira Ayuso <pablo@netfilter.org>
+In-Reply-To: <20220121142904.4091481-11-p.yadav@ti.com>
+References: <20220121142904.4091481-11-p.yadav@ti.com>
+TO: Pratyush Yadav <p.yadav@ti.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: 7a27f6ab41356ecba47ec2bec6d635704c169779 netfilter: flowtable: use =
-dev_fill_forward_path() to obtain egress device
-date:   10 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-c006-20220129 (https://download.01.org/0day-ci/arc=
-hive/20220131/202201310554.R5dGFZGh-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
-e44b1f32ffdbc995e6fec806271b4b3ba4)
+Hi Pratyush,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v5.17-rc1 next-20220=
+128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Pratyush-Yadav/CSI2RX-supp=
+ort-on-J721E/20220121-223208
+base:   git://linuxtv.org/media_tree.git master
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: riscv-randconfig-c006-20220125 (https://download.01.org/0day-ci/arc=
+hive/20220131/202201310557.YHxquGd1-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f32dcc=
+b9a43b02ce4e540d6ba5dbbdb188f2dc7d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7a27f6ab41356ecba47ec2bec6d635704c169779
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7a27f6ab41356ecba47ec2bec6d635704c169779
+        # https://github.com/0day-ci/linux/commit/3e49ebcb767893f74b04baf77=
+7762343d75d36b4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Pratyush-Yadav/CSI2RX-support-on-J=
+721E/20220121-223208
+        git checkout 3e49ebcb767893f74b04baf777762343d75d36b4
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -51,18 +60,111 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/hwmon/lm63.c:1017:17: warning: Value stored to 'dev' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/hwmon/lm63.c:1017:17: note: Value stored to 'dev' during its ini=
-tialization is never read
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   drivers/mux/mmio.c:47:2: note: Taking false branch
+           if (of_device_is_compatible(np, "mmio-mux"))
+           ^
+   drivers/mux/mmio.c:50:12: note: '?' condition is true
+                   regmap =3D dev_get_regmap(dev->parent, NULL) ?: ERR_PTR(=
+-ENODEV);
+                            ^
+   drivers/mux/mmio.c:51:6: note: Calling 'IS_ERR'
+           if (IS_ERR(regmap)) {
+               ^~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:51:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(regmap)) {
+               ^~~~~~~~~~~~~~
+   drivers/mux/mmio.c:51:2: note: Taking false branch
+           if (IS_ERR(regmap)) {
+           ^
+   drivers/mux/mmio.c:58:6: note: Assuming 'ret' is not equal to 0
+           if (ret =3D=3D 0 || ret % 2)
+               ^~~~~~~~
+   drivers/mux/mmio.c:58:6: note: Left side of '||' is false
+   drivers/mux/mmio.c:58:18: note: Assuming the condition is false
+           if (ret =3D=3D 0 || ret % 2)
+                           ^~~~~~~
+   drivers/mux/mmio.c:58:2: note: Taking false branch
+           if (ret =3D=3D 0 || ret % 2)
+           ^
+   drivers/mux/mmio.c:60:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   drivers/mux/mmio.c:60:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/mux/mmio.c:69:6: note: Calling 'IS_ERR'
+           if (IS_ERR(mux_chip))
+               ^~~~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:69:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(mux_chip))
+               ^~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:69:2: note: Taking false branch
+           if (IS_ERR(mux_chip))
+           ^
+   drivers/mux/mmio.c:74:14: note: Assuming 'i' is < 'num_fields'
+           for (i =3D 0; i < num_fields; i++) {
+                       ^~~~~~~~~~~~~~
+   drivers/mux/mmio.c:74:2: note: Loop condition is true.  Entering loop bo=
+dy
+           for (i =3D 0; i < num_fields; i++) {
+           ^
+   drivers/mux/mmio.c:76:3: note: 'field' initialized here
+                   struct reg_field field;
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:83:7: note: Assuming 'ret' is 0
+                   if (!ret)
+                       ^~~~
+   drivers/mux/mmio.c:83:3: note: Taking true branch
+                   if (!ret)
+                   ^
+   drivers/mux/mmio.c:86:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0) {
+                       ^~~~~~~
+   drivers/mux/mmio.c:86:3: note: Taking false branch
+                   if (ret < 0) {
+                   ^
+   drivers/mux/mmio.c:96:7: note: Assuming the condition is false
+                   if (mask !=3D GENMASK(field.msb, field.lsb)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:96:3: note: Taking false branch
+                   if (mask !=3D GENMASK(field.msb, field.lsb)) {
+                   ^
+   drivers/mux/mmio.c:102:15: note: Passed-by-value struct argument contain=
+s uninitialized data (e.g., field: 'id_size')
+                   fields[i] =3D devm_regmap_field_alloc(dev, regmap, field=
+);
+                               ^                                    ~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
@@ -70,389 +172,281 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+>> drivers/media/platform/ti/cal/cal-video.c:213:2: warning: Value stored t=
+o 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   drivers/media/platform/ti/cal/cal-video.c:213:2: note: Value stored to '=
+ret' is never read
+           ret =3D 0;
+           ^     ~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   net/openvswitch/actions.c:136:17: warning: Dereference of null pointer (=
-loaded from variable 'key') [clang-analyzer-core.NullDereference]
-                   da->pkt_key =3D *key;
-                                 ^
-   net/openvswitch/actions.c:1451:8: note: Assuming 'last' is true
-           skb =3D last ? skb : skb_clone(skb, GFP_ATOMIC);
-                 ^~~~
-   net/openvswitch/actions.c:1451:8: note: '?' condition is true
-   net/openvswitch/actions.c:1452:6: note: Assuming 'skb' is non-null
-           if (!skb) {
-               ^~~~
-   net/openvswitch/actions.c:1452:2: note: Taking false branch
-           if (!skb) {
-           ^
-   net/openvswitch/actions.c:1464:10: note: Assuming 'clone_flow_key' is fa=
-lse
-           clone =3D clone_flow_key ? clone_key(key) : key;
-                   ^~~~~~~~~~~~~~
-   net/openvswitch/actions.c:1464:10: note: '?' condition is false
-   net/openvswitch/actions.c:1465:6: note: Assuming 'clone' is null
-           if (clone) {
-               ^~~~~
-   net/openvswitch/actions.c:1465:2: note: Taking false branch
-           if (clone) {
-           ^
-   net/openvswitch/actions.c:1485:33: note: Passing null pointer value via =
-2nd parameter 'key'
-           da =3D add_deferred_actions(skb, key, actions, len);
-                                          ^~~
-   net/openvswitch/actions.c:1485:7: note: Calling 'add_deferred_actions'
-           da =3D add_deferred_actions(skb, key, actions, len);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/openvswitch/actions.c:130:9: note: Loop condition is false.  Exiting=
- loop
-           fifo =3D this_cpu_ptr(action_fifos);
-                  ^
-   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
-                                   ^
-   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
-tr'
-   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
-                                   ^
-   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
-tr'
-   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
-})
-                                                   ^
-   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
-CPU_PTR'
-           __verify_pcpu_ptr(__p);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   net/openvswitch/actions.c:131:7: note: Calling 'action_fifo_put'
-           da =3D action_fifo_put(fifo);
-                ^~~~~~~~~~~~~~~~~~~~~
-   net/openvswitch/actions.c:115:6: note: Assuming the condition is false
-           if (fifo->head >=3D DEFERRED_ACTION_FIFO_SIZE - 1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/openvswitch/actions.c:115:2: note: Taking false branch
-           if (fifo->head >=3D DEFERRED_ACTION_FIFO_SIZE - 1)
-           ^
-   net/openvswitch/actions.c:118:2: note: Returning pointer, which particip=
-ates in a condition later
-           return &fifo->fifo[fifo->head++];
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/openvswitch/actions.c:131:7: note: Returning from 'action_fifo_put'
-           da =3D action_fifo_put(fifo);
-                ^~~~~~~~~~~~~~~~~~~~~
-   net/openvswitch/actions.c:132:6: note: 'da' is non-null
-           if (da) {
-               ^~
-   net/openvswitch/actions.c:132:2: note: Taking true branch
-           if (da) {
-           ^
-   net/openvswitch/actions.c:136:17: note: Dereference of null pointer (loa=
-ded from variable 'key')
-                   da->pkt_key =3D *key;
-                                 ^~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> net/netfilter/nf_flow_table_ip.c:312:2: warning: Undefined or garbage va=
-lue returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^      ~~~
-   net/netfilter/nf_flow_table_ip.c:243:2: note: 'ret' declared without an =
-initial value
-           int ret;
-           ^~~~~~~
-   net/netfilter/nf_flow_table_ip.c:245:23: note: '?' condition is true
-           if (skb->protocol !=3D htons(ETH_P_IP))
-                                ^
-   include/linux/byteorder/generic.h:141:18: note: expanded from macro 'hto=
-ns'
-   #define htons(x) ___htons(x)
-                    ^
-   include/linux/byteorder/generic.h:135:21: note: expanded from macro '___=
-htons'
-   #define ___htons(x) __cpu_to_be16(x)
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:41:43: note: expanded from =
-macro '__cpu_to_be16'
-   #define __cpu_to_be16(x) ((__force __be16)__swab16((x)))
-                                             ^
-   include/uapi/linux/swab.h:105:3: note: expanded from macro '__swab16'
-           (__builtin_constant_p((__u16)(x)) ?     \
+   drivers/media/platform/ti/vpe/vpe.c:2589:2: warning: Value stored to 'fu=
+nc' is never read [clang-analyzer-deadcode.DeadStores]
+           func =3D read_field_reg(dev, VPE_PID, VPE_PID_FUNC_MASK,
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:2589:2: note: Value stored to 'func'=
+ is never read
+           func =3D read_field_reg(dev, VPE_PID, VPE_PID_FUNC_MASK,
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: warning: The result of the left shift is und=
+efined due to shifting by '32', which is greater or equal to the width of t=
+ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << fls_long(n - 1);
+                      ^
+   drivers/media/platform/ti/vpe/vpe.c:1788:8: note: Calling 'vpe_try_fmt'
+           ret =3D vpe_try_fmt(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_VIDEO_OUTPUT
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
             ^
-   net/netfilter/nf_flow_table_ip.c:245:6: note: Assuming the condition is =
-false
-           if (skb->protocol !=3D htons(ETH_P_IP))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_flow_table_ip.c:245:2: note: Taking false branch
-           if (skb->protocol !=3D htons(ETH_P_IP))
-           ^
-   net/netfilter/nf_flow_table_ip.c:248:2: note: Taking false branch
-           if (nf_flow_tuple_ip(skb, state->in, &tuple, &hdrsize) < 0)
-           ^
-   net/netfilter/nf_flow_table_ip.c:252:6: note: Assuming 'tuplehash' is no=
-t equal to NULL
-           if (tuplehash =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~
-   net/netfilter/nf_flow_table_ip.c:252:2: note: Taking false branch
-           if (tuplehash =3D=3D NULL)
-           ^
-   net/netfilter/nf_flow_table_ip.c:256:9: note: Left side of '&&' is false
-           flow =3D container_of(tuplehash, struct flow_offload, tuplehash[=
-dir]);
-                  ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/netfilter/nf_flow_table_ip.c:256:9: note: Taking false branch
-           flow =3D container_of(tuplehash, struct flow_offload, tuplehash[=
-dir]);
-                  ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   net/netfilter/nf_flow_table_ip.c:256:9: note: Loop condition is false.  =
-Exiting loop
-           flow =3D container_of(tuplehash, struct flow_offload, tuplehash[=
-dir]);
-                  ^
-   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/netfilter/nf_flow_table_ip.c:258:2: note: Taking false branch
-           if (unlikely(nf_flow_exceeds_mtu(skb, flow->tuplehash[dir].tuple=
-.mtu)))
-           ^
-   net/netfilter/nf_flow_table_ip.c:263:6: note: Calling 'nf_flow_state_che=
-ck'
-           if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_flow_table_ip.c:25:6: note: Assuming 'proto' is not equ=
-al to IPPROTO_TCP
-           if (proto !=3D IPPROTO_TCP)
-               ^~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_flow_table_ip.c:25:2: note: Taking true branch
-           if (proto !=3D IPPROTO_TCP)
-           ^
-   net/netfilter/nf_flow_table_ip.c:26:3: note: Returning zero, which parti=
-cipates in a condition later
-                   return 0;
-                   ^~~~~~~~
-   net/netfilter/nf_flow_table_ip.c:263:6: note: Returning from 'nf_flow_st=
-ate_check'
-           if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_flow_table_ip.c:263:2: note: Taking false branch
-           if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
-           ^
-   net/netfilter/nf_flow_table_ip.c:266:6: note: Assuming field 'xmit_type'=
- is not equal to FLOW_OFFLOAD_XMIT_NEIGH
-           if (tuplehash->tuple.xmit_type =3D=3D FLOW_OFFLOAD_XMIT_NEIGH ||
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:166:6: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE         \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
+            ^
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_VIDEO_OVERLAY
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:167:6: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OVERLAY               \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
+            ^
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:168:6: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_OVERLAY        \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
+            ^
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_VBI_OUTPUT
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:169:6: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+            || (type) =3D=3D V4L2_BUF_TYPE_VBI_OUTPUT                  \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
+            ^
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_SLICED_VBI_OUTPUT
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:170:6: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+            || (type) =3D=3D V4L2_BUF_TYPE_SLICED_VBI_OUTPUT           \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:165:3: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT                   \
+            ^
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Assuming field 'type' =
+is not equal to V4L2_BUF_TYPE_SDR_OUTPUT
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
+               ^
+   include/uapi/linux/videodev2.h:171:6: note: expanded from macro 'V4L2_TY=
+PE_IS_OUTPUT'
+            || (type) =3D=3D V4L2_BUF_TYPE_SDR_OUTPUT                  \
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/ti/vpe/vpe.c:1725:6: note: Left side of '||' is f=
+alse
+           if (V4L2_TYPE_IS_OUTPUT(f->type))
 
-vim +312 net/netfilter/nf_flow_table_ip.c
+vim +/ret +213 drivers/media/platform/ti/cal/cal-video.c
 
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  227  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  191  =
 
-7d208687176292 Felix Fietkau      2018-02-26  228  unsigned int
-7d208687176292 Felix Fietkau      2018-02-26  229  nf_flow_offload_ip_hook(=
-void *priv, struct sk_buff *skb,
-7d208687176292 Felix Fietkau      2018-02-26  230  			const struct nf_hook_=
-state *state)
-7d208687176292 Felix Fietkau      2018-02-26  231  {
-7d208687176292 Felix Fietkau      2018-02-26  232  	struct flow_offload_tup=
-le_rhash *tuplehash;
-7d208687176292 Felix Fietkau      2018-02-26  233  	struct nf_flowtable *fl=
-ow_table =3D priv;
-7d208687176292 Felix Fietkau      2018-02-26  234  	struct flow_offload_tup=
-le tuple =3D {};
-7d208687176292 Felix Fietkau      2018-02-26  235  	enum flow_offload_tuple=
-_dir dir;
-7d208687176292 Felix Fietkau      2018-02-26  236  	struct flow_offload *fl=
-ow;
-7d208687176292 Felix Fietkau      2018-02-26  237  	struct net_device *outd=
-ev;
-2a79fd3908acd8 Jason A. Donenfeld 2018-05-30  238  	struct rtable *rt;
-b6f27d322a0a7b Felix Fietkau      2018-02-26  239  	unsigned int thoff;
-7d208687176292 Felix Fietkau      2018-02-26  240  	struct iphdr *iph;
-7d208687176292 Felix Fietkau      2018-02-26  241  	__be32 nexthop;
-2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  242  	u32 hdrsize;
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  243  	int ret;
-7d208687176292 Felix Fietkau      2018-02-26  244  =
+e6a800d63a1239 drivers/media/platform/ti-vpe/cal-video.c Tomi Valkeinen   2=
+021-06-14  192  static int cal_legacy_try_fmt_vid_cap(struct file *file, vo=
+id *priv,
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  193  				      struct v4l2_format *f)
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  194  {
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  195  	struct cal_ctx *ctx =3D video_drvdata(file);
+51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  196  	const struct cal_format_info *fmtinfo;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  197  	struct v4l2_subdev_frame_size_enum fse;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  198  	int ret, found;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  199  =
 
-7d208687176292 Felix Fietkau      2018-02-26  245  	if (skb->protocol !=3D =
-htons(ETH_P_IP))
-7d208687176292 Felix Fietkau      2018-02-26  246  		return NF_ACCEPT;
-7d208687176292 Felix Fietkau      2018-02-26  247  =
+51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  200  	fmtinfo =3D find_format_by_pix(ctx, f->fmt.pix.pixelformat=
+);
+51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  201  	if (!fmtinfo) {
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  202  		ctx_dbg(3, ctx, "Fourcc format (0x%08x) not found.\n",
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  203  			f->fmt.pix.pixelformat);
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  204  =
 
-2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  248  	if (nf_flow_tuple_ip(sk=
-b, state->in, &tuple, &hdrsize) < 0)
-7d208687176292 Felix Fietkau      2018-02-26  249  		return NF_ACCEPT;
-7d208687176292 Felix Fietkau      2018-02-26  250  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  205  		/* Just get the first one enumerated */
+51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  206  		fmtinfo =3D ctx->active_fmt[0];
+51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  207  		f->fmt.pix.pixelformat =3D fmtinfo->fourcc;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  208  	}
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  209  =
 
-7d208687176292 Felix Fietkau      2018-02-26  251  	tuplehash =3D flow_offl=
-oad_lookup(flow_table, &tuple);
-7d208687176292 Felix Fietkau      2018-02-26  252  	if (tuplehash =3D=3D NU=
-LL)
-7d208687176292 Felix Fietkau      2018-02-26  253  		return NF_ACCEPT;
-7d208687176292 Felix Fietkau      2018-02-26  254  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  210  	f->fmt.pix.field =3D ctx->v_fmt.fmt.pix.field;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  211  =
 
-7d208687176292 Felix Fietkau      2018-02-26  255  	dir =3D tuplehash->tupl=
-e.dir;
-7d208687176292 Felix Fietkau      2018-02-26  256  	flow =3D container_of(t=
-uplehash, struct flow_offload, tuplehash[dir]);
-7d208687176292 Felix Fietkau      2018-02-26  257  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  212  	/* check for/find a valid width/height */
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06 @213  	ret =3D 0;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  214  	found =3D false;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  215  	fse.pad =3D 0;
+51e8c97df58fcf drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  216  	fse.code =3D fmtinfo->code;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  217  	fse.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  218  	for (fse.index =3D 0; ; fse.index++) {
+27f86b9bff79e1 drivers/media/platform/ti-vpe/cal-video.c Tomi Valkeinen   2=
+021-06-14  219  		ret =3D v4l2_subdev_call(ctx->phy->source, pad, enum_fram=
+e_size,
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  220  				       NULL, &fse);
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  221  		if (ret)
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  222  			break;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  223  =
 
-e75b3e1c9bc5b9 Florian Westphal   2019-05-21  258  	if (unlikely(nf_flow_ex=
-ceeds_mtu(skb, flow->tuplehash[dir].tuple.mtu)))
-7d208687176292 Felix Fietkau      2018-02-26  259  		return NF_ACCEPT;
-7d208687176292 Felix Fietkau      2018-02-26  260  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  224  		if ((f->fmt.pix.width =3D=3D fse.max_width) &&
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  225  		    (f->fmt.pix.height =3D=3D fse.max_height)) {
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  226  			found =3D true;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  227  			break;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  228  		} else if ((f->fmt.pix.width >=3D fse.min_width) &&
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  229  			 (f->fmt.pix.width <=3D fse.max_width) &&
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  230  			 (f->fmt.pix.height >=3D fse.min_height) &&
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  231  			 (f->fmt.pix.height <=3D fse.max_height)) {
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  232  			found =3D true;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  233  			break;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  234  		}
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  235  	}
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  236  =
 
-2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  261  	iph =3D ip_hdr(skb);
-2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  262  	thoff =3D iph->ihl * 4;
-2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  263  	if (nf_flow_state_check=
-(flow, iph->protocol, skb, thoff))
-b6f27d322a0a7b Felix Fietkau      2018-02-26  264  		return NF_ACCEPT;
-b6f27d322a0a7b Felix Fietkau      2018-02-26  265  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  237  	if (!found) {
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  238  		/* use existing values as default */
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  239  		f->fmt.pix.width =3D ctx->v_fmt.fmt.pix.width;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  240  		f->fmt.pix.height =3D  ctx->v_fmt.fmt.pix.height;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  241  	}
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  242  =
 
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  266  	if (tuplehash->tuple.xm=
-it_type =3D=3D FLOW_OFFLOAD_XMIT_NEIGH ||
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  267  	    tuplehash->tuple.xm=
-it_type =3D=3D FLOW_OFFLOAD_XMIT_XFRM) {
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  268  		rt =3D (struct rtable =
-*)tuplehash->tuple.dst_cache;
-e5075c0badaaac Pablo Neira Ayuso  2021-03-17  269  		if (!dst_check(&rt->ds=
-t, 0)) {
-589b474a4b7ce4 Florian Westphal   2019-07-30  270  			flow_offload_teardown=
-(flow);
-589b474a4b7ce4 Florian Westphal   2019-07-30  271  			return NF_ACCEPT;
-589b474a4b7ce4 Florian Westphal   2019-07-30  272  		}
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  273  	}
-589b474a4b7ce4 Florian Westphal   2019-07-30  274  =
-
-2babb46c8c825e Pablo Neira Ayuso  2021-03-17  275  	if (skb_try_make_writab=
-le(skb, thoff + hdrsize))
-2babb46c8c825e Pablo Neira Ayuso  2021-03-17  276  		return NF_DROP;
-2babb46c8c825e Pablo Neira Ayuso  2021-03-17  277  =
-
-1b9cd7690a1ef6 Pablo Neira Ayuso  2021-03-17  278  	flow_offload_refresh(fl=
-ow_table, flow);
-1b9cd7690a1ef6 Pablo Neira Ayuso  2021-03-17  279  =
-
-2babb46c8c825e Pablo Neira Ayuso  2021-03-17  280  	iph =3D ip_hdr(skb);
-f4401262b927b8 Pablo Neira Ayuso  2021-03-17  281  	nf_flow_nat_ip(flow, sk=
-b, thoff, dir, iph);
-7d208687176292 Felix Fietkau      2018-02-26  282  =
-
-7d208687176292 Felix Fietkau      2018-02-26  283  	ip_decrease_ttl(iph);
-de20900fbe1c4f Florian Westphal   2019-08-27  284  	skb->tstamp =3D 0;
-7d208687176292 Felix Fietkau      2018-02-26  285  =
-
-53c2b2899af7e6 Pablo Neira Ayuso  2020-03-24  286  	if (flow_table->flags &=
- NF_FLOWTABLE_COUNTER)
-53c2b2899af7e6 Pablo Neira Ayuso  2020-03-24  287  		nf_ct_acct_update(flow=
-->ct, tuplehash->tuple.dir, skb->len);
-53c2b2899af7e6 Pablo Neira Ayuso  2020-03-24  288  =
-
-5139c0c007250c Pablo Neira Ayuso  2021-03-24  289  	if (unlikely(tuplehash-=
->tuple.xmit_type =3D=3D FLOW_OFFLOAD_XMIT_XFRM)) {
-589b474a4b7ce4 Florian Westphal   2019-07-30  290  		memset(skb->cb, 0, siz=
-eof(struct inet_skb_parm));
-589b474a4b7ce4 Florian Westphal   2019-07-30  291  		IPCB(skb)->iif =3D skb=
-->dev->ifindex;
-589b474a4b7ce4 Florian Westphal   2019-07-30  292  		IPCB(skb)->flags =3D I=
-PSKB_FORWARDED;
-589b474a4b7ce4 Florian Westphal   2019-07-30  293  		return nf_flow_xmit_xf=
-rm(skb, state, &rt->dst);
-589b474a4b7ce4 Florian Westphal   2019-07-30  294  	}
-589b474a4b7ce4 Florian Westphal   2019-07-30  295  =
-
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  296  	switch (tuplehash->tupl=
-e.xmit_type) {
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  297  	case FLOW_OFFLOAD_XMIT_=
-NEIGH:
-5139c0c007250c Pablo Neira Ayuso  2021-03-24  298  		outdev =3D rt->dst.dev;
-7d208687176292 Felix Fietkau      2018-02-26  299  		skb->dev =3D outdev;
-7d208687176292 Felix Fietkau      2018-02-26  300  		nexthop =3D rt_nexthop=
-(rt, flow->tuplehash[!dir].tuple.src_v4.s_addr);
-2a79fd3908acd8 Jason A. Donenfeld 2018-05-30  301  		skb_dst_set_noref(skb,=
- &rt->dst);
-7d208687176292 Felix Fietkau      2018-02-26  302  		neigh_xmit(NEIGH_ARP_T=
-ABLE, outdev, &nexthop, skb);
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  303  		ret =3D NF_STOLEN;
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  304  		break;
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  305  	case FLOW_OFFLOAD_XMIT_=
-DIRECT:
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  306  		ret =3D nf_flow_queue_=
-xmit(state->net, skb, tuplehash, ETH_P_IP);
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  307  		if (ret =3D=3D NF_DROP)
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  308  			flow_offload_teardown=
-(flow);
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  309  		break;
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  310  	}
-7d208687176292 Felix Fietkau      2018-02-26  311  =
-
-7a27f6ab41356e Pablo Neira Ayuso  2021-03-24 @312  	return ret;
-7d208687176292 Felix Fietkau      2018-02-26  313  }
-7d208687176292 Felix Fietkau      2018-02-26  314  EXPORT_SYMBOL_GPL(nf_flo=
-w_offload_ip_hook);
-a908fdec3dda29 Felix Fietkau      2018-02-26  315  =
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  243  	/*
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  244  	 * Use current colorspace for now, it will get
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  245  	 * updated properly during s_fmt
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  246  	 */
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  247  	f->fmt.pix.colorspace =3D ctx->v_fmt.fmt.pix.colorspace;
+455466400c4164 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  248  	cal_calc_format_size(ctx, fmtinfo, f);
+455466400c4164 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-12-07  249  	return 0;
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  250  }
+9d551891473e35 drivers/media/platform/ti-vpe/cal-video.c Laurent Pinchart 2=
+020-07-06  251  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5024548225938829027==--
+--===============7962292990790559366==--
 
