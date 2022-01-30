@@ -1,52 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============2361988823550481659=="
+Content-Type: multipart/mixed; boundary="===============5024548225938829027=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [net-next v8 2/2] net: sched: support hash/classid/cpuid selecting tx queue
-Date: Mon, 31 Jan 2022 08:00:28 +0800
-Message-ID: <202201310739.dE653dha-lkp@intel.com>
+Subject: net/netfilter/nf_flow_table_ip.c:312:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Mon, 31 Jan 2022 06:28:42 +0800
+Message-ID: <202201310554.R5dGFZGh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2361988823550481659==
+--===============5024548225938829027==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220126143206.23023-3-xiangxia.m.yue@gmail.com>
-References: <20220126143206.23023-3-xiangxia.m.yue@gmail.com>
-TO: xiangxia.m.yue(a)gmail.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Pablo Neira Ayuso <pablo@netfilter.org>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/xiangxia-m-yue-gmail-com/n=
-et-sched-allow-user-to-select-txqueue/20220126-223333
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-ab14f1802cfb2d7ca120bbf48e3ba6712314ffc3
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-131/202201310739.dE653dha-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f1c18a=
-cb07aa40f42b87b70462a6d1ab77a4825c)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
+commit: 7a27f6ab41356ecba47ec2bec6d635704c169779 netfilter: flowtable: use =
+dev_fill_forward_path() to obtain egress device
+date:   10 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-c006-20220129 (https://download.01.org/0day-ci/arc=
+hive/20220131/202201310554.R5dGFZGh-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
+e44b1f32ffdbc995e6fec806271b4b3ba4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/fca24c124e1091de78b0488a1=
-528bc3b8515ce28
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review xiangxia-m-yue-gmail-com/net-sched=
--allow-user-to-select-txqueue/20220126-223333
-        git checkout fca24c124e1091de78b0488a1528bc3b8515ce28
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D7a27f6ab41356ecba47ec2bec6d635704c169779
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 7a27f6ab41356ecba47ec2bec6d635704c169779
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,1060 +51,408 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:154:6: note: Assuming field 'length' is 0
-           if (!bf[0].length) {
-               ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:154:2: note: Taking true branch
-           if (!bf[0].length) {
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:155:7: note: Assuming field 'offset' is 0
-                   if (bf[0].offset)
-                       ^~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:155:3: note: Taking false branch
-                   if (bf[0].offset)
-                   ^
-   fs/xfs/libxfs/xfs_dir2_data.c:159:6: note: Assuming field 'length' is 0
-           if (!bf[1].length) {
-               ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:159:2: note: Taking true branch
-           if (!bf[1].length) {
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:160:7: note: Assuming field 'offset' is 0
-                   if (bf[1].offset)
-                       ^~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:160:3: note: Taking false branch
-                   if (bf[1].offset)
-                   ^
-   fs/xfs/libxfs/xfs_dir2_data.c:164:6: note: Assuming field 'length' is 0
-           if (!bf[2].length) {
-               ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:164:2: note: Taking true branch
-           if (!bf[2].length) {
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:165:7: note: Assuming field 'offset' is 0
-                   if (bf[2].offset)
-                       ^~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:165:3: note: Taking false branch
-                   if (bf[2].offset)
-                   ^
-   fs/xfs/libxfs/xfs_dir2_data.c:170:6: note: Assuming the condition is fal=
-se
-           if (be16_to_cpu(bf[0].length) < be16_to_cpu(bf[1].length))
-               ^
-   include/linux/byteorder/generic.h:97:21: note: expanded from macro 'be16=
-_to_cpu'
-   #define be16_to_cpu __be16_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:43:26: note: expanded from =
-macro '__be16_to_cpu'
-   #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
-                            ^
-   include/uapi/linux/swab.h:102:21: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                       ^
-   fs/xfs/libxfs/xfs_dir2_data.c:170:2: note: Taking false branch
-           if (be16_to_cpu(bf[0].length) < be16_to_cpu(bf[1].length))
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:172:6: note: Assuming the condition is fal=
-se
-           if (be16_to_cpu(bf[1].length) < be16_to_cpu(bf[2].length))
-               ^
-   include/linux/byteorder/generic.h:97:21: note: expanded from macro 'be16=
-_to_cpu'
-   #define be16_to_cpu __be16_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:43:26: note: expanded from =
-macro '__be16_to_cpu'
-   #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
-                            ^
-   include/uapi/linux/swab.h:102:21: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                       ^
-   fs/xfs/libxfs/xfs_dir2_data.c:172:2: note: Taking false branch
-           if (be16_to_cpu(bf[1].length) < be16_to_cpu(bf[2].length))
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:177:9: note: Assuming 'offset' is >=3D 'en=
-d'
-           while (offset < end) {
-                  ^~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:177:2: note: Loop condition is false. Exec=
-ution continues on line 252
-           while (offset < end) {
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:252:6: note: 'freeseen' is equal to 7
-           if (freeseen !=3D 7)
-               ^~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:252:2: note: Taking false branch
-           if (freeseen !=3D 7)
-           ^
-   fs/xfs/libxfs/xfs_dir2_data.c:254:6: note: Assuming the condition is true
-           if (hdr->magic =3D=3D cpu_to_be32(XFS_DIR2_BLOCK_MAGIC) ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_dir2_data.c:254:54: note: Left side of '||' is true
-           if (hdr->magic =3D=3D cpu_to_be32(XFS_DIR2_BLOCK_MAGIC) ||
-                                                               ^
-   fs/xfs/libxfs/xfs_dir2_data.c:256:27: note: Access to field 'count' resu=
-lts in a dereference of a null pointer (loaded from variable 'btp')
-                   for (i =3D stale =3D 0; i < be32_to_cpu(btp->count); i++=
-) {
-                                           ^
-   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
-_to_cpu'
-   #define be32_to_cpu __be32_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:41:58: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                                                            ^~
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
->> net/sched/act_skbedit.c:272:26: warning: Dereference of null pointer (lo=
-aded from variable 'priority') [clang-analyzer-core.NullDereference]
-                   params_new->priority =3D *priority;
-                                          ^~~~~~~~~
-   net/sched/act_skbedit.c:147:18: note: 'priority' initialized to a null p=
-ointer value
-           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
-ULL;
-                           ^~~~~~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
+   drivers/hwmon/lm63.c:1017:17: warning: Value stored to 'dev' during its =
+initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   drivers/hwmon/lm63.c:1017:17: note: Value stored to 'dev' during its ini=
+tialization is never read
+           struct device *dev =3D &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   net/openvswitch/actions.c:136:17: warning: Dereference of null pointer (=
+loaded from variable 'key') [clang-analyzer-core.NullDereference]
+                   da->pkt_key =3D *key;
+                                 ^
+   net/openvswitch/actions.c:1451:8: note: Assuming 'last' is true
+           skb =3D last ? skb : skb_clone(skb, GFP_ATOMIC);
+                 ^~~~
+   net/openvswitch/actions.c:1451:8: note: '?' condition is true
+   net/openvswitch/actions.c:1452:6: note: Assuming 'skb' is non-null
+           if (!skb) {
+               ^~~~
+   net/openvswitch/actions.c:1452:2: note: Taking false branch
+           if (!skb) {
            ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
+   net/openvswitch/actions.c:1464:10: note: Assuming 'clone_flow_key' is fa=
+lse
+           clone =3D clone_flow_key ? clone_key(key) : key;
+                   ^~~~~~~~~~~~~~
+   net/openvswitch/actions.c:1464:10: note: '?' condition is false
+   net/openvswitch/actions.c:1465:6: note: Assuming 'clone' is null
+           if (clone) {
+               ^~~~~
+   net/openvswitch/actions.c:1465:2: note: Taking false branch
+           if (clone) {
            ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+   net/openvswitch/actions.c:1485:33: note: Passing null pointer value via =
+2nd parameter 'key'
+           da =3D add_deferred_actions(skb, key, actions, len);
+                                          ^~~
+   net/openvswitch/actions.c:1485:7: note: Calling 'add_deferred_actions'
+           da =3D add_deferred_actions(skb, key, actions, len);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/openvswitch/actions.c:130:9: note: Loop condition is false.  Exiting=
+ loop
+           fifo =3D this_cpu_ptr(action_fifos);
+                  ^
+   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
+                                   ^
+   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
+tr'
+   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
+                                   ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
            ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   net/openvswitch/actions.c:131:7: note: Calling 'action_fifo_put'
+           da =3D action_fifo_put(fifo);
+                ^~~~~~~~~~~~~~~~~~~~~
+   net/openvswitch/actions.c:115:6: note: Assuming the condition is false
+           if (fifo->head >=3D DEFERRED_ACTION_FIFO_SIZE - 1)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/openvswitch/actions.c:115:2: note: Taking false branch
+           if (fifo->head >=3D DEFERRED_ACTION_FIFO_SIZE - 1)
+           ^
+   net/openvswitch/actions.c:118:2: note: Returning pointer, which particip=
+ates in a condition later
+           return &fifo->fifo[fifo->head++];
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/openvswitch/actions.c:131:7: note: Returning from 'action_fifo_put'
+           da =3D action_fifo_put(fifo);
+                ^~~~~~~~~~~~~~~~~~~~~
+   net/openvswitch/actions.c:132:6: note: 'da' is non-null
+           if (da) {
+               ^~
+   net/openvswitch/actions.c:132:2: note: Taking true branch
+           if (da) {
+           ^
+   net/openvswitch/actions.c:136:17: note: Dereference of null pointer (loa=
+ded from variable 'key')
+                   da->pkt_key =3D *key;
+                                 ^~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> net/netfilter/nf_flow_table_ip.c:312:2: warning: Undefined or garbage va=
+lue returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   net/netfilter/nf_flow_table_ip.c:243:2: note: 'ret' declared without an =
+initial value
+           int ret;
+           ^~~~~~~
+   net/netfilter/nf_flow_table_ip.c:245:23: note: '?' condition is true
+           if (skb->protocol !=3D htons(ETH_P_IP))
+                                ^
+   include/linux/byteorder/generic.h:141:18: note: expanded from macro 'hto=
+ns'
+   #define htons(x) ___htons(x)
+                    ^
+   include/linux/byteorder/generic.h:135:21: note: expanded from macro '___=
+htons'
+   #define ___htons(x) __cpu_to_be16(x)
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:41:43: note: expanded from =
+macro '__cpu_to_be16'
+   #define __cpu_to_be16(x) ((__force __be16)__swab16((x)))
+                                             ^
+   include/uapi/linux/swab.h:105:3: note: expanded from macro '__swab16'
+           (__builtin_constant_p((__u16)(x)) ?     \
+            ^
+   net/netfilter/nf_flow_table_ip.c:245:6: note: Assuming the condition is =
+false
+           if (skb->protocol !=3D htons(ETH_P_IP))
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+   net/netfilter/nf_flow_table_ip.c:245:2: note: Taking false branch
+           if (skb->protocol !=3D htons(ETH_P_IP))
            ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+   net/netfilter/nf_flow_table_ip.c:248:2: note: Taking false branch
+           if (nf_flow_tuple_ip(skb, state->in, &tuple, &hdrsize) < 0)
            ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+   net/netfilter/nf_flow_table_ip.c:252:6: note: Assuming 'tuplehash' is no=
+t equal to NULL
+           if (tuplehash =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~
+   net/netfilter/nf_flow_table_ip.c:252:2: note: Taking false branch
+           if (tuplehash =3D=3D NULL)
            ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+   net/netfilter/nf_flow_table_ip.c:256:9: note: Left side of '&&' is false
+           flow =3D container_of(tuplehash, struct flow_offload, tuplehash[=
+dir]);
+                  ^
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   net/netfilter/nf_flow_table_ip.c:256:9: note: Taking false branch
+           flow =3D container_of(tuplehash, struct flow_offload, tuplehash[=
+dir]);
+                  ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                   ^
-   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:229:2: note: Taking false branch
-           if (err < 0)
+   net/netfilter/nf_flow_table_ip.c:256:9: note: Loop condition is false.  =
+Exiting loop
+           flow =3D container_of(tuplehash, struct flow_offload, tuplehash[=
+dir]);
+                  ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
-           if (exists && bind)
-               ^~~~~~
-   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
-   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
-           if (exists && bind)
-                         ^~~~
-   net/sched/act_skbedit.c:232:2: note: Taking false branch
-           if (exists && bind)
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
-           if (!flags) {
-                ^~~~~
-   net/sched/act_skbedit.c:235:2: note: Taking false branch
-           if (!flags) {
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   net/sched/act_skbedit.c:243:7: note: 'exists' is true
-           if (!exists) {
-                ^~~~~~
-   net/sched/act_skbedit.c:243:2: note: Taking false branch
-           if (!exists) {
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
            ^
-   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:255:3: note: Taking false branch
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                   ^
-   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:261:2: note: Taking false branch
-           if (err < 0)
+   net/netfilter/nf_flow_table_ip.c:258:2: note: Taking false branch
+           if (unlikely(nf_flow_exceeds_mtu(skb, flow->tuplehash[dir].tuple=
+.mtu)))
            ^
-   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
-           if (unlikely(!params_new)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/act_skbedit.c:265:2: note: Taking false branch
-           if (unlikely(!params_new)) {
+   net/netfilter/nf_flow_table_ip.c:263:6: note: Calling 'nf_flow_state_che=
+ck'
+           if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_flow_table_ip.c:25:6: note: Assuming 'proto' is not equ=
+al to IPPROTO_TCP
+           if (proto !=3D IPPROTO_TCP)
+               ^~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_flow_table_ip.c:25:2: note: Taking true branch
+           if (proto !=3D IPPROTO_TCP)
            ^
-   net/sched/act_skbedit.c:271:6: note: Assuming the condition is true
-           if (flags & SKBEDIT_F_PRIORITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:271:2: note: Taking true branch
-           if (flags & SKBEDIT_F_PRIORITY)
+   net/netfilter/nf_flow_table_ip.c:26:3: note: Returning zero, which parti=
+cipates in a condition later
+                   return 0;
+                   ^~~~~~~~
+   net/netfilter/nf_flow_table_ip.c:263:6: note: Returning from 'nf_flow_st=
+ate_check'
+           if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/netfilter/nf_flow_table_ip.c:263:2: note: Taking false branch
+           if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
            ^
-   net/sched/act_skbedit.c:272:26: note: Dereference of null pointer (loade=
-d from variable 'priority')
-                   params_new->priority =3D *priority;
-                                          ^~~~~~~~~
->> net/sched/act_skbedit.c:278:22: warning: Dereference of null pointer (lo=
-aded from variable 'mark') [clang-analyzer-core.NullDereference]
-                   params_new->mark =3D *mark;
-                                      ^~~~~
-   net/sched/act_skbedit.c:147:36: note: 'mark' initialized to a null point=
-er value
-           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
-ULL;
-                                             ^~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                   ^
-   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:229:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
-           if (exists && bind)
-               ^~~~~~
-   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
-   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
-           if (exists && bind)
-                         ^~~~
-   net/sched/act_skbedit.c:232:2: note: Taking false branch
-           if (exists && bind)
-           ^
-   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
-           if (!flags) {
-                ^~~~~
-   net/sched/act_skbedit.c:235:2: note: Taking false branch
-           if (!flags) {
-           ^
-   net/sched/act_skbedit.c:243:7: note: 'exists' is true
-           if (!exists) {
-                ^~~~~~
-   net/sched/act_skbedit.c:243:2: note: Taking false branch
-           if (!exists) {
-           ^
-   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:255:3: note: Taking false branch
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                   ^
-   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:261:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
-           if (unlikely(!params_new)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/act_skbedit.c:265:2: note: Taking false branch
-           if (unlikely(!params_new)) {
-           ^
-   net/sched/act_skbedit.c:271:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_PRIORITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:271:2: note: Taking false branch
-           if (flags & SKBEDIT_F_PRIORITY)
-           ^
-   net/sched/act_skbedit.c:273:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:273:2: note: Taking false branch
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-           ^
-   net/sched/act_skbedit.c:277:6: note: Assuming the condition is true
-           if (flags & SKBEDIT_F_MARK)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:277:2: note: Taking true branch
-           if (flags & SKBEDIT_F_MARK)
-           ^
-   net/sched/act_skbedit.c:278:22: note: Dereference of null pointer (loade=
-d from variable 'mark')
-                   params_new->mark =3D *mark;
-                                      ^~~~~
->> net/sched/act_skbedit.c:280:23: warning: Dereference of null pointer (lo=
-aded from variable 'ptype') [clang-analyzer-core.NullDereference]
-                   params_new->ptype =3D *ptype;
-                                       ^~~~~~
-   net/sched/act_skbedit.c:148:30: note: 'ptype' initialized to a null poin=
-ter value
-           u16 *queue_mapping =3D NULL, *ptype =3D NULL;
-                                       ^~~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                   ^
-   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:229:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
-           if (exists && bind)
-               ^~~~~~
-   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
-   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
-           if (exists && bind)
-                         ^~~~
-   net/sched/act_skbedit.c:232:2: note: Taking false branch
-           if (exists && bind)
-           ^
-   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
-           if (!flags) {
-                ^~~~~
-   net/sched/act_skbedit.c:235:2: note: Taking false branch
-           if (!flags) {
-           ^
-   net/sched/act_skbedit.c:243:7: note: 'exists' is true
-           if (!exists) {
-                ^~~~~~
-   net/sched/act_skbedit.c:243:2: note: Taking false branch
-           if (!exists) {
-           ^
-   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:255:3: note: Taking false branch
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                   ^
-   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:261:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
-           if (unlikely(!params_new)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/act_skbedit.c:265:2: note: Taking false branch
-           if (unlikely(!params_new)) {
-           ^
-   net/sched/act_skbedit.c:271:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_PRIORITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:271:2: note: Taking false branch
-           if (flags & SKBEDIT_F_PRIORITY)
-           ^
-   net/sched/act_skbedit.c:273:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:273:2: note: Taking false branch
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-           ^
-   net/sched/act_skbedit.c:277:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_MARK)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:277:2: note: Taking false branch
-           if (flags & SKBEDIT_F_MARK)
-           ^
-   net/sched/act_skbedit.c:279:6: note: Assuming the condition is true
-           if (flags & SKBEDIT_F_PTYPE)
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:279:2: note: Taking true branch
-           if (flags & SKBEDIT_F_PTYPE)
-           ^
-   net/sched/act_skbedit.c:280:23: note: Dereference of null pointer (loade=
-d from variable 'ptype')
-                   params_new->ptype =3D *ptype;
-                                       ^~~~~~
->> net/sched/act_skbedit.c:284:22: warning: Dereference of null pointer (lo=
-aded from variable 'mask') [clang-analyzer-core.NullDereference]
-                   params_new->mask =3D *mask;
-                                      ^~~~~
-   net/sched/act_skbedit.c:147:50: note: 'mask' initialized to a null point=
-er value
-           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
-ULL;
-                                                           ^~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+   net/netfilter/nf_flow_table_ip.c:266:6: note: Assuming field 'xmit_type'=
+ is not equal to FLOW_OFFLOAD_XMIT_NEIGH
+           if (tuplehash->tuple.xmit_type =3D=3D FLOW_OFFLOAD_XMIT_NEIGH ||
 
-vim +/priority +272 net/sched/act_skbedit.c
+vim +312 net/netfilter/nf_flow_table_ip.c
 
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  134  =
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  227  =
 
-c1b52739e45f596 Benjamin LaHaise  2013-01-14  135  static int tcf_skbedit_i=
-nit(struct net *net, struct nlattr *nla,
-a85a970af265f15 WANG Cong         2016-07-25  136  			    struct nlattr *es=
-t, struct tc_action **a,
-abbb0d33632ce93 Vlad Buslov       2019-10-30  137  			    struct tcf_proto =
-*tp, u32 act_flags,
-789871bb2a03814 Vlad Buslov       2018-07-05  138  			    struct netlink_ex=
-t_ack *extack)
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  139  {
-ddf97ccdd7cb7e0 WANG Cong         2016-02-22  140  	struct tc_action_net *t=
-n =3D net_generic(net, skbedit_net_id);
-695176bfe5dec20 Cong Wang         2021-07-29  141  	bool bind =3D act_flags=
- & TCA_ACT_FLAGS_BIND;
-6d7a8df6dfe4d62 Vlad Buslov       2018-09-03  142  	struct tcf_skbedit_para=
-ms *params_new;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  143  	struct nlattr *tb[TCA_S=
-KBEDIT_MAX + 1];
-ec7727bb24b01e9 Davide Caratti    2019-03-20  144  	struct tcf_chain *goto_=
-ch =3D NULL;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  145  	struct tc_skbedit *parm;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  146  	struct tcf_skbedit *d;
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  147  	u32 flags =3D 0, *prior=
-ity =3D NULL, *mark =3D NULL, *mask =3D NULL;
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  148  	u16 *queue_mapping =3D =
-NULL, *ptype =3D NULL;
-fca24c124e1091d Tonghao Zhang     2022-01-26  149  	u16 mapping_mod =3D 1;
-b2313077ed0db35 WANG Cong         2016-06-13  150  	bool exists =3D false;
-b2313077ed0db35 WANG Cong         2016-06-13  151  	int ret =3D 0, err;
-7be8ef2cdbfe41a Dmytro Linkin     2019-08-01  152  	u32 index;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  153  =
+7d208687176292 Felix Fietkau      2018-02-26  228  unsigned int
+7d208687176292 Felix Fietkau      2018-02-26  229  nf_flow_offload_ip_hook(=
+void *priv, struct sk_buff *skb,
+7d208687176292 Felix Fietkau      2018-02-26  230  			const struct nf_hook_=
+state *state)
+7d208687176292 Felix Fietkau      2018-02-26  231  {
+7d208687176292 Felix Fietkau      2018-02-26  232  	struct flow_offload_tup=
+le_rhash *tuplehash;
+7d208687176292 Felix Fietkau      2018-02-26  233  	struct nf_flowtable *fl=
+ow_table =3D priv;
+7d208687176292 Felix Fietkau      2018-02-26  234  	struct flow_offload_tup=
+le tuple =3D {};
+7d208687176292 Felix Fietkau      2018-02-26  235  	enum flow_offload_tuple=
+_dir dir;
+7d208687176292 Felix Fietkau      2018-02-26  236  	struct flow_offload *fl=
+ow;
+7d208687176292 Felix Fietkau      2018-02-26  237  	struct net_device *outd=
+ev;
+2a79fd3908acd8 Jason A. Donenfeld 2018-05-30  238  	struct rtable *rt;
+b6f27d322a0a7b Felix Fietkau      2018-02-26  239  	unsigned int thoff;
+7d208687176292 Felix Fietkau      2018-02-26  240  	struct iphdr *iph;
+7d208687176292 Felix Fietkau      2018-02-26  241  	__be32 nexthop;
+2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  242  	u32 hdrsize;
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  243  	int ret;
+7d208687176292 Felix Fietkau      2018-02-26  244  =
 
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  154  	if (nla =3D=3D NULL)
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  155  		return -EINVAL;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  156  =
+7d208687176292 Felix Fietkau      2018-02-26  245  	if (skb->protocol !=3D =
+htons(ETH_P_IP))
+7d208687176292 Felix Fietkau      2018-02-26  246  		return NF_ACCEPT;
+7d208687176292 Felix Fietkau      2018-02-26  247  =
 
-8cb081746c031fb Johannes Berg     2019-04-26  157  	err =3D nla_parse_neste=
-d_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-8cb081746c031fb Johannes Berg     2019-04-26  158  					  skbedit_policy, N=
-ULL);
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  159  	if (err < 0)
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  160  		return err;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  161  =
+2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  248  	if (nf_flow_tuple_ip(sk=
+b, state->in, &tuple, &hdrsize) < 0)
+7d208687176292 Felix Fietkau      2018-02-26  249  		return NF_ACCEPT;
+7d208687176292 Felix Fietkau      2018-02-26  250  =
 
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  162  	if (tb[TCA_SKBEDIT_PARM=
-S] =3D=3D NULL)
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  163  		return -EINVAL;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  164  =
+7d208687176292 Felix Fietkau      2018-02-26  251  	tuplehash =3D flow_offl=
+oad_lookup(flow_table, &tuple);
+7d208687176292 Felix Fietkau      2018-02-26  252  	if (tuplehash =3D=3D NU=
+LL)
+7d208687176292 Felix Fietkau      2018-02-26  253  		return NF_ACCEPT;
+7d208687176292 Felix Fietkau      2018-02-26  254  =
 
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  165  	if (tb[TCA_SKBEDIT_PRIO=
-RITY] !=3D NULL) {
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  166  		flags |=3D SKBEDIT_F_P=
-RIORITY;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  167  		priority =3D nla_data(=
-tb[TCA_SKBEDIT_PRIORITY]);
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  168  	}
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  169  =
+7d208687176292 Felix Fietkau      2018-02-26  255  	dir =3D tuplehash->tupl=
+e.dir;
+7d208687176292 Felix Fietkau      2018-02-26  256  	flow =3D container_of(t=
+uplehash, struct flow_offload, tuplehash[dir]);
+7d208687176292 Felix Fietkau      2018-02-26  257  =
 
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  170  	if (tb[TCA_SKBEDIT_QUEU=
-E_MAPPING] !=3D NULL) {
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  171  		flags |=3D SKBEDIT_F_Q=
-UEUE_MAPPING;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  172  		queue_mapping =3D nla_=
-data(tb[TCA_SKBEDIT_QUEUE_MAPPING]);
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  173  	}
-1c55d62e77fa16c jamal             2009-10-15  174  =
+e75b3e1c9bc5b9 Florian Westphal   2019-05-21  258  	if (unlikely(nf_flow_ex=
+ceeds_mtu(skb, flow->tuplehash[dir].tuple.mtu)))
+7d208687176292 Felix Fietkau      2018-02-26  259  		return NF_ACCEPT;
+7d208687176292 Felix Fietkau      2018-02-26  260  =
 
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  175  	if (tb[TCA_SKBEDIT_PTYP=
-E] !=3D NULL) {
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  176  		ptype =3D nla_data(tb[=
-TCA_SKBEDIT_PTYPE]);
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  177  		if (!skb_pkt_type_ok(*=
-ptype))
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  178  			return -EINVAL;
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  179  		flags |=3D SKBEDIT_F_P=
-TYPE;
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  180  	}
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  181  =
+2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  261  	iph =3D ip_hdr(skb);
+2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  262  	thoff =3D iph->ihl * 4;
+2fc11745c3ffa3 Pablo Neira Ayuso  2021-03-17  263  	if (nf_flow_state_check=
+(flow, iph->protocol, skb, thoff))
+b6f27d322a0a7b Felix Fietkau      2018-02-26  264  		return NF_ACCEPT;
+b6f27d322a0a7b Felix Fietkau      2018-02-26  265  =
 
-1c55d62e77fa16c jamal             2009-10-15  182  	if (tb[TCA_SKBEDIT_MARK=
-] !=3D NULL) {
-1c55d62e77fa16c jamal             2009-10-15  183  		flags |=3D SKBEDIT_F_M=
-ARK;
-1c55d62e77fa16c jamal             2009-10-15  184  		mark =3D nla_data(tb[T=
-CA_SKBEDIT_MARK]);
-1c55d62e77fa16c jamal             2009-10-15  185  	}
-1c55d62e77fa16c jamal             2009-10-15  186  =
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  266  	if (tuplehash->tuple.xm=
+it_type =3D=3D FLOW_OFFLOAD_XMIT_NEIGH ||
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  267  	    tuplehash->tuple.xm=
+it_type =3D=3D FLOW_OFFLOAD_XMIT_XFRM) {
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  268  		rt =3D (struct rtable =
+*)tuplehash->tuple.dst_cache;
+e5075c0badaaac Pablo Neira Ayuso  2021-03-17  269  		if (!dst_check(&rt->ds=
+t, 0)) {
+589b474a4b7ce4 Florian Westphal   2019-07-30  270  			flow_offload_teardown=
+(flow);
+589b474a4b7ce4 Florian Westphal   2019-07-30  271  			return NF_ACCEPT;
+589b474a4b7ce4 Florian Westphal   2019-07-30  272  		}
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  273  	}
+589b474a4b7ce4 Florian Westphal   2019-07-30  274  =
 
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  187  	if (tb[TCA_SKBEDIT_MASK=
-] !=3D NULL) {
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  188  		flags |=3D SKBEDIT_F_M=
-ASK;
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  189  		mask =3D nla_data(tb[T=
-CA_SKBEDIT_MASK]);
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  190  	}
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  191  =
+2babb46c8c825e Pablo Neira Ayuso  2021-03-17  275  	if (skb_try_make_writab=
+le(skb, thoff + hdrsize))
+2babb46c8c825e Pablo Neira Ayuso  2021-03-17  276  		return NF_DROP;
+2babb46c8c825e Pablo Neira Ayuso  2021-03-17  277  =
 
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  192  	if (tb[TCA_SKBEDIT_FLAG=
-S] !=3D NULL) {
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  193  		u64 *pure_flags =3D nl=
-a_data(tb[TCA_SKBEDIT_FLAGS]);
-fca24c124e1091d Tonghao Zhang     2022-01-26  194  		u64 mapping_hash_type;
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  195  =
+1b9cd7690a1ef6 Pablo Neira Ayuso  2021-03-17  278  	flow_offload_refresh(fl=
+ow_table, flow);
+1b9cd7690a1ef6 Pablo Neira Ayuso  2021-03-17  279  =
 
-fca24c124e1091d Tonghao Zhang     2022-01-26  196  		mapping_hash_type =3D =
-*pure_flags & SKBEDIT_F_TXQ_HASH_MASK;
-fca24c124e1091d Tonghao Zhang     2022-01-26  197  		if (mapping_hash_type)=
- {
-fca24c124e1091d Tonghao Zhang     2022-01-26  198  			u16 *queue_mapping_ma=
-x;
-fca24c124e1091d Tonghao Zhang     2022-01-26  199  =
+2babb46c8c825e Pablo Neira Ayuso  2021-03-17  280  	iph =3D ip_hdr(skb);
+f4401262b927b8 Pablo Neira Ayuso  2021-03-17  281  	nf_flow_nat_ip(flow, sk=
+b, thoff, dir, iph);
+7d208687176292 Felix Fietkau      2018-02-26  282  =
 
-fca24c124e1091d Tonghao Zhang     2022-01-26  200  			/* Hash types are mut=
-ually exclusive. */
-fca24c124e1091d Tonghao Zhang     2022-01-26  201  			if (mapping_hash_type=
- & (mapping_hash_type - 1)) {
-fca24c124e1091d Tonghao Zhang     2022-01-26  202  				NL_SET_ERR_MSG_MOD(e=
-xtack, "Multi types of hash are specified.");
-fca24c124e1091d Tonghao Zhang     2022-01-26  203  				return -EINVAL;
-fca24c124e1091d Tonghao Zhang     2022-01-26  204  			}
-fca24c124e1091d Tonghao Zhang     2022-01-26  205  =
+7d208687176292 Felix Fietkau      2018-02-26  283  	ip_decrease_ttl(iph);
+de20900fbe1c4f Florian Westphal   2019-08-27  284  	skb->tstamp =3D 0;
+7d208687176292 Felix Fietkau      2018-02-26  285  =
 
-fca24c124e1091d Tonghao Zhang     2022-01-26  206  			if (!tb[TCA_SKBEDIT_Q=
-UEUE_MAPPING] ||
-fca24c124e1091d Tonghao Zhang     2022-01-26  207  			    !tb[TCA_SKBEDIT_Q=
-UEUE_MAPPING_MAX]) {
-fca24c124e1091d Tonghao Zhang     2022-01-26  208  				NL_SET_ERR_MSG_MOD(e=
-xtack, "Missing required range of queue_mapping.");
-fca24c124e1091d Tonghao Zhang     2022-01-26  209  				return -EINVAL;
-fca24c124e1091d Tonghao Zhang     2022-01-26  210  			}
-fca24c124e1091d Tonghao Zhang     2022-01-26  211  =
+53c2b2899af7e6 Pablo Neira Ayuso  2020-03-24  286  	if (flow_table->flags &=
+ NF_FLOWTABLE_COUNTER)
+53c2b2899af7e6 Pablo Neira Ayuso  2020-03-24  287  		nf_ct_acct_update(flow=
+->ct, tuplehash->tuple.dir, skb->len);
+53c2b2899af7e6 Pablo Neira Ayuso  2020-03-24  288  =
 
-fca24c124e1091d Tonghao Zhang     2022-01-26  212  			queue_mapping_max =3D
-fca24c124e1091d Tonghao Zhang     2022-01-26  213  				nla_data(tb[TCA_SKBE=
-DIT_QUEUE_MAPPING_MAX]);
-fca24c124e1091d Tonghao Zhang     2022-01-26  214  			if (*queue_mapping_ma=
-x < *queue_mapping) {
-fca24c124e1091d Tonghao Zhang     2022-01-26  215  				NL_SET_ERR_MSG_MOD(e=
-xtack, "The range of queue_mapping is invalid, max < min.");
-fca24c124e1091d Tonghao Zhang     2022-01-26  216  				return -EINVAL;
-fca24c124e1091d Tonghao Zhang     2022-01-26  217  			}
-fca24c124e1091d Tonghao Zhang     2022-01-26  218  =
+5139c0c007250c Pablo Neira Ayuso  2021-03-24  289  	if (unlikely(tuplehash-=
+>tuple.xmit_type =3D=3D FLOW_OFFLOAD_XMIT_XFRM)) {
+589b474a4b7ce4 Florian Westphal   2019-07-30  290  		memset(skb->cb, 0, siz=
+eof(struct inet_skb_parm));
+589b474a4b7ce4 Florian Westphal   2019-07-30  291  		IPCB(skb)->iif =3D skb=
+->dev->ifindex;
+589b474a4b7ce4 Florian Westphal   2019-07-30  292  		IPCB(skb)->flags =3D I=
+PSKB_FORWARDED;
+589b474a4b7ce4 Florian Westphal   2019-07-30  293  		return nf_flow_xmit_xf=
+rm(skb, state, &rt->dst);
+589b474a4b7ce4 Florian Westphal   2019-07-30  294  	}
+589b474a4b7ce4 Florian Westphal   2019-07-30  295  =
 
-fca24c124e1091d Tonghao Zhang     2022-01-26  219  			mapping_mod =3D *queu=
-e_mapping_max - *queue_mapping + 1;
-fca24c124e1091d Tonghao Zhang     2022-01-26  220  			flags |=3D mapping_ha=
-sh_type;
-fca24c124e1091d Tonghao Zhang     2022-01-26  221  		}
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  222  		if (*pure_flags & SKBE=
-DIT_F_INHERITDSFIELD)
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  223  			flags |=3D SKBEDIT_F_=
-INHERITDSFIELD;
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  224  	}
-e7e3728bd776d1d Qiaobin Fu        2018-07-01  225  =
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  296  	switch (tuplehash->tupl=
+e.xmit_type) {
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  297  	case FLOW_OFFLOAD_XMIT_=
+NEIGH:
+5139c0c007250c Pablo Neira Ayuso  2021-03-24  298  		outdev =3D rt->dst.dev;
+7d208687176292 Felix Fietkau      2018-02-26  299  		skb->dev =3D outdev;
+7d208687176292 Felix Fietkau      2018-02-26  300  		nexthop =3D rt_nexthop=
+(rt, flow->tuplehash[!dir].tuple.src_v4.s_addr);
+2a79fd3908acd8 Jason A. Donenfeld 2018-05-30  301  		skb_dst_set_noref(skb,=
+ &rt->dst);
+7d208687176292 Felix Fietkau      2018-02-26  302  		neigh_xmit(NEIGH_ARP_T=
+ABLE, outdev, &nexthop, skb);
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  303  		ret =3D NF_STOLEN;
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  304  		break;
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  305  	case FLOW_OFFLOAD_XMIT_=
+DIRECT:
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  306  		ret =3D nf_flow_queue_=
+xmit(state->net, skb, tuplehash, ETH_P_IP);
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  307  		if (ret =3D=3D NF_DROP)
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  308  			flow_offload_teardown=
+(flow);
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  309  		break;
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24  310  	}
+7d208687176292 Felix Fietkau      2018-02-26  311  =
 
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  226  	parm =3D nla_data(tb[TC=
-A_SKBEDIT_PARMS]);
-7be8ef2cdbfe41a Dmytro Linkin     2019-08-01  227  	index =3D parm->index;
-7be8ef2cdbfe41a Dmytro Linkin     2019-08-01  228  	err =3D tcf_idr_check_a=
-lloc(tn, &index, a, bind);
-0190c1d452a91c3 Vlad Buslov       2018-07-05  229  	if (err < 0)
-0190c1d452a91c3 Vlad Buslov       2018-07-05  230  		return err;
-0190c1d452a91c3 Vlad Buslov       2018-07-05  231  	exists =3D err;
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  232  	if (exists && bind)
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  233  		return 0;
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  234  =
-
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  235  	if (!flags) {
-af5d01842fe1fbf Roman Mashak      2018-05-11  236  		if (exists)
-65a206c01e8e7ff Chris Mi          2017-08-30  237  			tcf_idr_release(*a, b=
-ind);
-0190c1d452a91c3 Vlad Buslov       2018-07-05  238  		else
-7be8ef2cdbfe41a Dmytro Linkin     2019-08-01  239  			tcf_idr_cleanup(tn, i=
-ndex);
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  240  		return -EINVAL;
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  241  	}
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  242  =
-
-5e1567aeb7fe0ca Jamal Hadi Salim  2016-05-10  243  	if (!exists) {
-7be8ef2cdbfe41a Dmytro Linkin     2019-08-01  244  		ret =3D tcf_idr_create=
-(tn, index, est, a,
-40bd094d65fc9f8 Baowen Zheng      2021-12-17  245  				     &act_skbedit_op=
-s, bind, true, act_flags);
-0190c1d452a91c3 Vlad Buslov       2018-07-05  246  		if (ret) {
-7be8ef2cdbfe41a Dmytro Linkin     2019-08-01  247  			tcf_idr_cleanup(tn, i=
-ndex);
-86062033feb8a16 WANG Cong         2014-02-11  248  			return ret;
-0190c1d452a91c3 Vlad Buslov       2018-07-05  249  		}
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  250  =
-
-a85a970af265f15 WANG Cong         2016-07-25  251  		d =3D to_skbedit(*a);
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  252  		ret =3D ACT_P_CREATED;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  253  	} else {
-a85a970af265f15 WANG Cong         2016-07-25  254  		d =3D to_skbedit(*a);
-695176bfe5dec20 Cong Wang         2021-07-29  255  		if (!(act_flags & TCA_=
-ACT_FLAGS_REPLACE)) {
-65a206c01e8e7ff Chris Mi          2017-08-30  256  			tcf_idr_release(*a, b=
-ind);
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  257  			return -EEXIST;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  258  		}
-4e8ddd7f1758ca4 Vlad Buslov       2018-07-05  259  	}
-ec7727bb24b01e9 Davide Caratti    2019-03-20  260  	err =3D tcf_action_chec=
-k_ctrlact(parm->action, tp, &goto_ch, extack);
-ec7727bb24b01e9 Davide Caratti    2019-03-20  261  	if (err < 0)
-ec7727bb24b01e9 Davide Caratti    2019-03-20  262  		goto release_idr;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  263  =
-
-c749cdda9089eb1 Davide Caratti    2018-07-11  264  	params_new =3D kzalloc(=
-sizeof(*params_new), GFP_KERNEL);
-c749cdda9089eb1 Davide Caratti    2018-07-11  265  	if (unlikely(!params_ne=
-w)) {
-ec7727bb24b01e9 Davide Caratti    2019-03-20  266  		err =3D -ENOMEM;
-ec7727bb24b01e9 Davide Caratti    2019-03-20  267  		goto put_chain;
-c749cdda9089eb1 Davide Caratti    2018-07-11  268  	}
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  269  =
-
-c749cdda9089eb1 Davide Caratti    2018-07-11  270  	params_new->flags =3D f=
-lags;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  271  	if (flags & SKBEDIT_F_P=
-RIORITY)
-c749cdda9089eb1 Davide Caratti    2018-07-11 @272  		params_new->priority =
-=3D *priority;
-fca24c124e1091d Tonghao Zhang     2022-01-26  273  	if (flags & SKBEDIT_F_Q=
-UEUE_MAPPING) {
-c749cdda9089eb1 Davide Caratti    2018-07-11  274  		params_new->queue_mapp=
-ing =3D *queue_mapping;
-fca24c124e1091d Tonghao Zhang     2022-01-26  275  		params_new->mapping_mo=
-d =3D mapping_mod;
-fca24c124e1091d Tonghao Zhang     2022-01-26  276  	}
-1c55d62e77fa16c jamal             2009-10-15  277  	if (flags & SKBEDIT_F_M=
-ARK)
-c749cdda9089eb1 Davide Caratti    2018-07-11 @278  		params_new->mark =3D *=
-mark;
-ff202ee1ed8f032 Jamal Hadi Salim  2016-07-02  279  	if (flags & SKBEDIT_F_P=
-TYPE)
-c749cdda9089eb1 Davide Caratti    2018-07-11 @280  		params_new->ptype =3D =
-*ptype;
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  281  	/* default behaviour is=
- to use all the bits */
-c749cdda9089eb1 Davide Caratti    2018-07-11  282  	params_new->mask =3D 0x=
-ffffffff;
-4fe77d82ef80c77 Antonio Quartulli 2016-10-24  283  	if (flags & SKBEDIT_F_M=
-ASK)
-c749cdda9089eb1 Davide Caratti    2018-07-11 @284  		params_new->mask =3D *=
-mask;
-1c55d62e77fa16c jamal             2009-10-15  285  =
-
-6d7a8df6dfe4d62 Vlad Buslov       2018-09-03  286  	spin_lock_bh(&d->tcf_lo=
-ck);
-ec7727bb24b01e9 Davide Caratti    2019-03-20  287  	goto_ch =3D tcf_action_=
-set_ctrlact(*a, parm->action, goto_ch);
-445d3749315f342 Paul E. McKenney  2019-09-23  288  	params_new =3D rcu_repl=
-ace_pointer(d->params, params_new,
-6d7a8df6dfe4d62 Vlad Buslov       2018-09-03  289  					 lockdep_is_held(&d=
-->tcf_lock));
-6d7a8df6dfe4d62 Vlad Buslov       2018-09-03  290  	spin_unlock_bh(&d->tcf_=
-lock);
-6d7a8df6dfe4d62 Vlad Buslov       2018-09-03  291  	if (params_new)
-6d7a8df6dfe4d62 Vlad Buslov       2018-09-03  292  		kfree_rcu(params_new, =
-rcu);
-ec7727bb24b01e9 Davide Caratti    2019-03-20  293  	if (goto_ch)
-ec7727bb24b01e9 Davide Caratti    2019-03-20  294  		tcf_chain_put_by_act(g=
-oto_ch);
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  295  =
-
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  296  	return ret;
-ec7727bb24b01e9 Davide Caratti    2019-03-20  297  put_chain:
-ec7727bb24b01e9 Davide Caratti    2019-03-20  298  	if (goto_ch)
-ec7727bb24b01e9 Davide Caratti    2019-03-20  299  		tcf_chain_put_by_act(g=
-oto_ch);
-ec7727bb24b01e9 Davide Caratti    2019-03-20  300  release_idr:
-ec7727bb24b01e9 Davide Caratti    2019-03-20  301  	tcf_idr_release(*a, bin=
-d);
-ec7727bb24b01e9 Davide Caratti    2019-03-20  302  	return err;
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  303  }
-ca9b0e27e072be4 Alexander Duyck   2008-09-12  304  =
+7a27f6ab41356e Pablo Neira Ayuso  2021-03-24 @312  	return ret;
+7d208687176292 Felix Fietkau      2018-02-26  313  }
+7d208687176292 Felix Fietkau      2018-02-26  314  EXPORT_SYMBOL_GPL(nf_flo=
+w_offload_ip_hook);
+a908fdec3dda29 Felix Fietkau      2018-02-26  315  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2361988823550481659==--
+--===============5024548225938829027==--
 
