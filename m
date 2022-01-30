@@ -1,52 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============3271907235962348480=="
+Content-Type: multipart/mixed; boundary="===============0547926801270514014=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/zswap.c:991:4: warning: Null pointer passed as 1st argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Sun, 30 Jan 2022 20:56:44 +0800
-Message-ID: <202201302002.wZMZsDPr-lkp@intel.com>
+Subject: [xilinx-xlnx:master 107/415] drivers/mtd/spi-nor/core.c:2402:10: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 30 Jan 2022 20:16:13 +0800
+Message-ID: <202201302019.mebp3z4T-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3271907235962348480==
+--===============0547926801270514014==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Tian Tao <tiantao6@hisilicon.com>
-CC: Nathan Chancellor <natechancellor@gmail.com>
-CC: Colin Ian King <colin.king@canonical.com>
-CC: Vitaly Wool <vitaly.wool@konsulko.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f8c7e4ede46fe63ff10000669652648aab09d112
-commit: fc6697a89f56d9773b2fbff718d4cf2a6d63379d mm/zswap: add the flag can=
-_sleep_mapped
-date:   11 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-130/202201302002.wZMZsDPr-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 84654f=
-2733f63dc725a7b3d7c55d56849d2d9358)
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   8f3691e6b43c0f2c74584eebd1cd0b9645e525ae
+commit: 66627bb2d1c558fe2fbae0f371246c39dc3b213b [107/415] mtd: spi-nor: Si=
+mplify odd address handling in read for dual parallel mode
+:::::: branch date: 6 days ago
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20220125 (https://download.01.org/0day-ci/archi=
+ve/20220130/202201302019.mebp3z4T-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
+e44b1f32ffdbc995e6fec806271b4b3ba4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfc6697a89f56d9773b2fbff718d4cf2a6d63379d
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fc6697a89f56d9773b2fbff718d4cf2a6d63379d
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/Xilinx/linux-xlnx/commit/66627bb2d1c558fe2fbae=
+0f371246c39dc3b213b
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx master
+        git checkout 66627bb2d1c558fe2fbae0f371246c39dc3b213b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,482 +49,585 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~
-   mm/zswap.c:775:2: note: Taking true branch
-           if (!type) {
+   is_aspeed, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct fttmr010 {
+   ~~~~~~~^~~~~~~~~~
+   drivers/clocksource/timer-fttmr010.c:99:8: note: Excessive padding in 's=
+truct fttmr010' (39 padding bytes, where 7 is optimal). Optimal fields orde=
+r: clkevt, base, tick_rate, t1_enable_val, timer_shutdown, delay_timer, is_=
+aspeed, consider reordering the fields or adding explicit padding members
+   struct fttmr010 {
+   ~~~~~~~^~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/mtd/nand/raw/nand_ecc.c:357:8: warning: Array subscript is undef=
+ined [clang-analyzer-core.uninitialized.ArraySubscript]
+                       (invparity[rp17] << 1) |
+                        ^
+   drivers/mtd/nand/raw/nand_ecc.c:374:2: note: Calling '__nand_calculate_e=
+cc'
+           __nand_calculate_ecc(buf, chip->ecc.size, code, sm_order);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/nand_ecc.c:134:2: note: 'rp17' declared without an =
+initial value
+           uint32_t rp17;
+           ^~~~~~~~~~~~~
+   drivers/mtd/nand/raw/nand_ecc.c:159:14: note: Assuming the condition is =
+false
+           for (i =3D 0; i < eccsize_mult << 2; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/nand_ecc.c:159:2: note: Loop condition is false. Ex=
+ecution continues on line 232
+           for (i =3D 0; i < eccsize_mult << 2; i++) {
            ^
-   mm/zswap.c:776:7: note: Assuming the condition is false
-                   if (!zpool_has_pool(s)) {
-                       ^~~~~~~~~~~~~~~~~~
-   mm/zswap.c:776:3: note: Taking false branch
-                   if (!zpool_has_pool(s)) {
-                   ^
-   mm/zswap.c:795:6: note: Assuming 'pool' is null
-           if (pool) {
-               ^~~~
-   mm/zswap.c:795:2: note: Taking false branch
-           if (pool) {
-           ^
-   mm/zswap.c:803:7: note: 'pool' is null
-           if (!pool)
-                ^~~~
-   mm/zswap.c:803:2: note: Taking true branch
-           if (!pool)
-           ^
-   mm/zswap.c:804:34: note: Passing null pointer value via 2nd parameter 'c=
-ompressor'
-                   pool =3D zswap_pool_create(type, compressor);
-                                                  ^~~~~~~~~~
-   mm/zswap.c:804:10: note: Calling 'zswap_pool_create'
-                   pool =3D zswap_pool_create(type, compressor);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:592:6: note: Assuming 'zswap_has_pool' is true
-           if (!zswap_has_pool) {
-               ^~~~~~~~~~~~~~~
-   mm/zswap.c:592:2: note: Taking false branch
-           if (!zswap_has_pool) {
-           ^
-   mm/zswap.c:603:9: note: Calling 'kzalloc'
-           pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:542:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:559:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:603:9: note: Returning from 'kzalloc'
-           pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:604:6: note: Assuming 'pool' is non-null
-           if (!pool)
-               ^~~~~
-   mm/zswap.c:604:2: note: Taking false branch
-           if (!pool)
-           ^
-   mm/zswap.c:611:6: note: Assuming field 'zpool' is non-null
-           if (!pool->zpool) {
+   drivers/mtd/nand/raw/nand_ecc.c:250:6: note: 'eccsize_mult' is not equal=
+ to 2
+           if (eccsize_mult =3D=3D 2) {
                ^~~~~~~~~~~~
-   mm/zswap.c:611:2: note: Taking false branch
-           if (!pool->zpool) {
+   drivers/mtd/nand/raw/nand_ecc.c:250:2: note: Taking false branch
+           if (eccsize_mult =3D=3D 2) {
            ^
-   mm/zswap.c:615:2: note: Taking false branch
-           pr_debug("using %s zpool\n", zpool_get_type(pool->zpool));
+   drivers/mtd/nand/raw/nand_ecc.c:311:6: note: 'eccsize_mult' is not equal=
+ to 2
+           if (eccsize_mult =3D=3D 2)
+               ^~~~~~~~~~~~
+   drivers/mtd/nand/raw/nand_ecc.c:311:2: note: Taking false branch
+           if (eccsize_mult =3D=3D 2)
            ^
-   include/linux/printk.h:424:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+   drivers/mtd/nand/raw/nand_ecc.c:320:6: note: Assuming 'sm_order' is false
+           if (sm_order) {
+               ^~~~~~~~
+   drivers/mtd/nand/raw/nand_ecc.c:320:2: note: Taking false branch
+           if (sm_order) {
            ^
-   include/linux/dynamic_debug.h:157:2: note: expanded from macro 'dynamic_=
-pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+   drivers/mtd/nand/raw/nand_ecc.c:340:6: note: 'eccsize_mult' is not equal=
+ to 1
+           if (eccsize_mult =3D=3D 1)
+               ^~~~~~~~~~~~
+   drivers/mtd/nand/raw/nand_ecc.c:340:2: note: Taking false branch
+           if (eccsize_mult =3D=3D 1)
            ^
-   include/linux/dynamic_debug.h:147:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
+   drivers/mtd/nand/raw/nand_ecc.c:357:8: note: Array subscript is undefined
+                       (invparity[rp17] << 1) |
+                        ^         ~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/mtd/spi-nor/core.c:2123:2: warning: Value stored to 'ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           ret =3D nor->params->locking_ops->lock(nor, ofs, len);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2123:2: note: Value stored to 'ret' is never =
+read
+           ret =3D nor->params->locking_ops->lock(nor, ofs, len);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2166:2: warning: Value stored to 'ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           ret =3D nor->params->locking_ops->unlock(nor, ofs, len);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2166:2: note: Value stored to 'ret' is never =
+read
+           ret =3D nor->params->locking_ops->unlock(nor, ofs, len);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mtd/spi-nor/core.c:2402:10: warning: Assigned value is garbage o=
+r undefined [clang-analyzer-core.uninitialized.Assign]
+                   buf[0] =3D two[1]; /* copy odd byte to buffer */
+                          ^ ~~~~~~
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
            ^
-   include/linux/dynamic_debug.h:128:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
            ^
-   mm/zswap.c:615:2: note: Loop condition is false.  Exiting loop
-           pr_debug("using %s zpool\n", zpool_get_type(pool->zpool));
+   drivers/mtd/spi-nor/core.c:2395:6: note: Assuming field 'isparallel' is =
+true
+           if (nor->isparallel && (from & 1)) {
+               ^~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is true
+           if (nor->isparallel && (from & 1)) {
+                                   ^~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:2: note: Taking true branch
+           if (nor->isparallel && (from & 1)) {
            ^
-   include/linux/printk.h:424:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+   drivers/mtd/spi-nor/core.c:2399:9: note: Calling 'spi_nor_read'
+                   ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen,=
+ two);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
            ^
-   include/linux/dynamic_debug.h:157:2: note: expanded from macro 'dynamic_=
-pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
            ^
-   include/linux/dynamic_debug.h:147:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
+   drivers/mtd/spi-nor/core.c:2395:11: note: Field 'isparallel' is true
+           if (nor->isparallel && (from & 1)) {
+                    ^
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+           if (nor->isparallel && (from & 1)) {
+               ^
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is false
+           if (nor->isparallel && (from & 1)) {
+                                   ^~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:2: note: Taking false branch
+           if (nor->isparallel && (from & 1)) {
            ^
-   include/linux/dynamic_debug.h:126:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   mm/zswap.c:617:2: note: Null pointer passed as 2nd argument to string co=
-py function
-           strlcpy(pool->tfm_name, compressor, sizeof(pool->tfm_name));
-           ^                       ~~~~~~~~~~
->> mm/zswap.c:991:4: warning: Null pointer passed as 1st argument to memory=
- copy function [clang-analyzer-unix.cstring.NullArg]
-                           memcpy(tmp, src, entry->length);
-                           ^      ~~~
-   mm/zswap.c:938:12: note: 'tmp' initialized to a null pointer value
-           u8 *src, *tmp =3D NULL;
-                     ^~~
-   mm/zswap.c:945:6: note: Assuming the condition is false
-           if (!zpool_can_sleep_mapped(pool)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:945:2: note: Taking false branch
-           if (!zpool_can_sleep_mapped(pool)) {
+   drivers/mtd/spi-nor/core.c:2409:6: note: 'ret' is not equal to 0
+           if (ret) {
+               ^~~
+   drivers/mtd/spi-nor/core.c:2409:2: note: Taking true branch
+           if (ret) {
            ^
-   mm/zswap.c:959:10: note: Calling 'zswap_entry_find_get'
-           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:391:6: note: Assuming 'entry' is non-null, which participates=
- in a condition later
-           if (entry)
-               ^~~~~
-   mm/zswap.c:391:2: note: Taking true branch
-           if (entry)
-           ^
-   mm/zswap.c:394:2: note: Returning pointer (loaded from 'entry'), which p=
-articipates in a condition later
-           return entry;
-           ^~~~~~~~~~~~
-   mm/zswap.c:959:10: note: Returning from 'zswap_entry_find_get'
-           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:960:7: note: 'entry' is non-null
-           if (!entry) {
-                ^~~~~
-   mm/zswap.c:960:2: note: Taking false branch
-           if (!entry) {
-           ^
-   mm/zswap.c:968:9: note: Assuming 'offset' is equal to field 'offset'
-           BUG_ON(offset !=3D entry->offset);
-                  ^
-   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/zswap.c:968:2: note: Taking false branch
-           BUG_ON(offset !=3D entry->offset);
-           ^
-   include/asm-generic/bug.h:63:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   mm/zswap.c:968:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(offset !=3D entry->offset);
-           ^
-   include/asm-generic/bug.h:63:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   mm/zswap.c:971:10: note: Calling 'zswap_get_swap_cache_page'
-           switch (zswap_get_swap_cache_page(swpentry, &page)) {
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:908:6: note: Assuming 'page_was_allocated' is true
-           if (page_was_allocated)
-               ^~~~~~~~~~~~~~~~~~
-   mm/zswap.c:908:2: note: Taking true branch
-           if (page_was_allocated)
-           ^
-   mm/zswap.c:909:3: note: Returning zero, which participates in a conditio=
-n later
-                   return ZSWAP_SWAPCACHE_NEW;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:971:10: note: Returning from 'zswap_get_swap_cache_page'
-           switch (zswap_get_swap_cache_page(swpentry, &page)) {
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:971:2: note: Control jumps to 'case ZSWAP_SWAPCACHE_NEW:'  at=
- line 982
-           switch (zswap_get_swap_cache_page(swpentry, &page)) {
-           ^
-   mm/zswap.c:984:15: note: Loop condition is false.  Exiting loop
-                   acomp_ctx =3D raw_cpu_ptr(entry->pool->acomp_ctx);
-                               ^
-   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
-tr'
-   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
-                                   ^
-   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
-tr'
-   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
-})
-                                                   ^
-   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
-CPU_PTR'
-           __verify_pcpu_ptr(__p);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   mm/zswap.c:989:7: note: Assuming the condition is true
-                   if (!zpool_can_sleep_mapped(pool)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:989:3: note: Taking true branch
-                   if (!zpool_can_sleep_mapped(pool)) {
+   drivers/mtd/spi-nor/core.c:2399:9: note: Returning from 'spi_nor_read'
+                   ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen,=
+ two);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/spi-nor/core.c:2400:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/mtd/spi-nor/core.c:2400:3: note: Taking false branch
+                   if (ret < 0)
                    ^
-   mm/zswap.c:991:4: note: Null pointer passed as 1st argument to memory co=
-py function
-                           memcpy(tmp, src, entry->length);
-                           ^      ~~~
-   mm/zswap.c:1296:3: warning: 1st function call argument is an uninitializ=
-ed value [clang-analyzer-core.CallAndMessage]
-                   memcpy(tmp, src, entry->length);
-                   ^      ~~~
-   mm/zswap.c:1257:18: note: 'tmp' declared without an initial value
-           u8 *src, *dst, *tmp;
+   drivers/mtd/spi-nor/core.c:2402:10: note: Assigned value is garbage or u=
+ndefined
+                   buf[0] =3D two[1]; /* copy odd byte to buffer */
+                          ^ ~~~~~~
+>> drivers/mtd/spi-nor/core.c:2404:11: warning: The left expression of the =
+compound assignment is an uninitialized value. The computed value will also=
+ be garbage [clang-analyzer-core.uninitialized.Assign]
+                   *retlen +=3D 1; /* We've read only one actual byte */
+                           ^
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+           ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/mtd/spi-nor/core.c:2395:6: note: Assuming field 'isparallel' is =
+true
+           if (nor->isparallel && (from & 1)) {
+               ^~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is true
+           if (nor->isparallel && (from & 1)) {
+                                   ^~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:2: note: Taking true branch
+           if (nor->isparallel && (from & 1)) {
+           ^
+   drivers/mtd/spi-nor/core.c:2399:9: note: Calling 'spi_nor_read'
+                   ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen,=
+ two);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+           ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/mtd/spi-nor/core.c:2395:11: note: Field 'isparallel' is true
+           if (nor->isparallel && (from & 1)) {
+                    ^
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+           if (nor->isparallel && (from & 1)) {
+               ^
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is true
+           if (nor->isparallel && (from & 1)) {
+                                   ^~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:2: note: Taking true branch
+           if (nor->isparallel && (from & 1)) {
+           ^
+   drivers/mtd/spi-nor/core.c:2399:9: note: Calling 'spi_nor_read'
+                   ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen,=
+ two);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+           ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/mtd/spi-nor/core.c:2395:11: note: Field 'isparallel' is true
+           if (nor->isparallel && (from & 1)) {
+                    ^
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+           if (nor->isparallel && (from & 1)) {
+               ^
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is true
+           if (nor->isparallel && (from & 1)) {
+                                   ^~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:2: note: Taking true branch
+           if (nor->isparallel && (from & 1)) {
+           ^
+   drivers/mtd/spi-nor/core.c:2399:9: note: Calling 'spi_nor_read'
+                   ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen,=
+ two);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+           ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/mtd/spi-nor/core.c:2395:11: note: Field 'isparallel' is true
+           if (nor->isparallel && (from & 1)) {
+                    ^
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+           if (nor->isparallel && (from & 1)) {
+               ^
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is true
+           if (nor->isparallel && (from & 1)) {
+                                   ^~~~~~~~
+   drivers/mtd/spi-nor/core.c:2395:2: note: Taking true branch
+           if (nor->isparallel && (from & 1)) {
+           ^
+   drivers/mtd/spi-nor/core.c:2397:3: note: 'local_retlen' declared without=
+ an initial value
+                   size_t local_retlen;
+                   ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2399:9: note: Calling 'spi_nor_read'
+                   ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen,=
+ two);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/mtd/spi-nor/core.c:2394:2: note: Taking false branch
+           dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+           ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   drivers/mtd/spi-nor/core.c:2395:11: note: Field 'isparallel' is true
+           if (nor->isparallel && (from & 1)) {
+                    ^
+   drivers/mtd/spi-nor/core.c:2395:6: note: Left side of '&&' is true
+           if (nor->isparallel && (from & 1)) {
+               ^
+   drivers/mtd/spi-nor/core.c:2395:26: note: Assuming the condition is true
 
-vim +991 mm/zswap.c
+vim +2402 drivers/mtd/spi-nor/core.c
 
-2b2811178e8555 Seth Jennings      2013-07-10   914  =
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2378  =
 
-2b2811178e8555 Seth Jennings      2013-07-10   915  /*
-2b2811178e8555 Seth Jennings      2013-07-10   916   * Attempts to free an =
-entry by adding a page to the swap cache,
-2b2811178e8555 Seth Jennings      2013-07-10   917   * decompressing the en=
-try data into the page, and issuing a
-2b2811178e8555 Seth Jennings      2013-07-10   918   * bio write to write t=
-he page back to the swap device.
-2b2811178e8555 Seth Jennings      2013-07-10   919   *
-2b2811178e8555 Seth Jennings      2013-07-10   920   * This can be thought =
-of as a "resumed writeback" of the page
-2b2811178e8555 Seth Jennings      2013-07-10   921   * to the swap device. =
- We are basically resuming the same swap
-2b2811178e8555 Seth Jennings      2013-07-10   922   * writeback path that =
-was intercepted with the frontswap_store()
-2b2811178e8555 Seth Jennings      2013-07-10   923   * in the first place. =
- After the page has been decompressed into
-2b2811178e8555 Seth Jennings      2013-07-10   924   * the swap cache, the =
-compressed version stored by zswap can be
-2b2811178e8555 Seth Jennings      2013-07-10   925   * freed.
-2b2811178e8555 Seth Jennings      2013-07-10   926   */
-12d79d64bfd391 Dan Streetman      2014-08-06   927  static int zswap_writeb=
-ack_entry(struct zpool *pool, unsigned long handle)
-2b2811178e8555 Seth Jennings      2013-07-10   928  {
-2b2811178e8555 Seth Jennings      2013-07-10   929  	struct zswap_header *z=
-hdr;
-2b2811178e8555 Seth Jennings      2013-07-10   930  	swp_entry_t swpentry;
-2b2811178e8555 Seth Jennings      2013-07-10   931  	struct zswap_tree *tre=
-e;
-2b2811178e8555 Seth Jennings      2013-07-10   932  	pgoff_t offset;
-2b2811178e8555 Seth Jennings      2013-07-10   933  	struct zswap_entry *en=
-try;
-2b2811178e8555 Seth Jennings      2013-07-10   934  	struct page *page;
-1ec3b5fe6eec78 Barry Song         2020-12-14   935  	struct scatterlist inp=
-ut, output;
-1ec3b5fe6eec78 Barry Song         2020-12-14   936  	struct crypto_acomp_ct=
-x *acomp_ctx;
-1ec3b5fe6eec78 Barry Song         2020-12-14   937  =
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2379  static int spi_nor_read(struct mtd_info *mtd, loff_t from, size_t =
+len,
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2380  			size_t *retlen, u_char *buf)
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2381  {
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2382  	struct spi_nor *nor =3D mtd_to_spi_nor(mtd);
+a719a75a7761e4 drivers/mtd/spi-nor/spi-nor.c Sergei Shtylyov      2019-10-3=
+0  2383  	ssize_t ret;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2384  	u32 offset =3D from;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2385  	u32 stack_shift =3D 0;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2386  	u32 read_len =3D 0;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2387  	u32 rem_bank_len =3D 0;
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2388  	u8 bank;
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2389  	u8 cur_bank;
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2390  	u8 nxt_bank;
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2391  	u32 bank_size;
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2392  =
 
-fc6697a89f56d9 Tian Tao           2021-02-25   938  	u8 *src, *tmp =3D NULL;
-2b2811178e8555 Seth Jennings      2013-07-10   939  	unsigned int dlen;
-0ab0abcf511545 Weijie Yang        2013-11-12   940  	int ret;
-2b2811178e8555 Seth Jennings      2013-07-10   941  	struct writeback_contr=
-ol wbc =3D {
-2b2811178e8555 Seth Jennings      2013-07-10   942  		.sync_mode =3D WB_SYN=
-C_NONE,
-2b2811178e8555 Seth Jennings      2013-07-10   943  	};
-2b2811178e8555 Seth Jennings      2013-07-10   944  =
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2393  #define OFFSET_16_MB 0x1000000
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2394  	dev_dbg(nor->dev, "from 0x%08x, len %zd\n", (u32)from, len);
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2395  	if (nor->isparallel && (from & 1)) {
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2396  		u8 two[2];
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2397  		size_t local_retlen;
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2398  =
 
-fc6697a89f56d9 Tian Tao           2021-02-25   945  	if (!zpool_can_sleep_m=
-apped(pool)) {
-fc6697a89f56d9 Tian Tao           2021-02-25   946  		tmp =3D kmalloc(PAGE_=
-SIZE, GFP_ATOMIC);
-fc6697a89f56d9 Tian Tao           2021-02-25   947  		if (!tmp)
-fc6697a89f56d9 Tian Tao           2021-02-25   948  			return -ENOMEM;
-fc6697a89f56d9 Tian Tao           2021-02-25   949  	}
-fc6697a89f56d9 Tian Tao           2021-02-25   950  =
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2399  		ret =3D spi_nor_read(mtd, (from & ~1), 2, &local_retlen, two);
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2400  		if (ret < 0)
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2401  			return ret;
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6 @2402  		buf[0] =3D two[1]; /* copy odd byte to buffer */
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2403  		++buf;
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6 @2404  		*retlen +=3D 1; /* We've read only one actual byte */
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2405  		--len;
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2406  		++from;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2407  	}
+52bbd2dcb42c21 drivers/mtd/spi-nor/spi-nor.c Michael Walle        2020-01-1=
+3  2408  	ret =3D spi_nor_lock_and_prep(nor);
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2409  	if (ret) {
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2410  		return ret;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2411  	}
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2412  =
 
-2b2811178e8555 Seth Jennings      2013-07-10   951  	/* extract swpentry fr=
-om data */
-12d79d64bfd391 Dan Streetman      2014-08-06   952  	zhdr =3D zpool_map_han=
-dle(pool, handle, ZPOOL_MM_RO);
-2b2811178e8555 Seth Jennings      2013-07-10   953  	swpentry =3D zhdr->swp=
-entry; /* here */
-2b2811178e8555 Seth Jennings      2013-07-10   954  	tree =3D zswap_trees[s=
-wp_type(swpentry)];
-2b2811178e8555 Seth Jennings      2013-07-10   955  	offset =3D swp_offset(=
-swpentry);
-2b2811178e8555 Seth Jennings      2013-07-10   956  =
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2413  	while (len) {
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2414  		if (nor->addr_width =3D=3D 3) {
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2415  			bank =3D (u32)from / (OFFSET_16_MB << nor->shift);
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2416  			rem_bank_len =3D ((OFFSET_16_MB << nor->shift) *
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2417  							(bank + 1)) - from;
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2418  		}
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2419  		offset =3D from;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2420  		if (nor->isparallel =3D=3D 1)
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2421  			offset /=3D 2;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2422  		if (nor->isstacked =3D=3D 1) {
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2423  			stack_shift =3D 1;
+7a5bf064a1debd drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2424  			if (offset >=3D (mtd->size / 2)) {
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2425  				offset =3D offset - (mtd->size / 2);
+13b76c42d920f3 drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-02-0=
+9  2426  				nor->spimem->spi->master->flags |=3D
+13b76c42d920f3 drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-02-0=
+9  2427  					SPI_MASTER_U_PAGE;
+7a5bf064a1debd drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2428  			} else {
+13b76c42d920f3 drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-02-0=
+9  2429  				nor->spimem->spi->master->flags &=3D
+13b76c42d920f3 drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2021-02-0=
+9  2430  					~SPI_MASTER_U_PAGE;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2431  			}
+7a5bf064a1debd drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2432  		}
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2433  		if (nor->addr_width =3D=3D 4) {
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2434  			/*
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2435  			 * Some flash devices like N25Q512 have multiple dies
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2436  			 * in it. Read operation in these devices is bounded
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2437  			 * by its die segment. In a continuous read, across
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2438  			 * multiple dies, when the last byte of the selected
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2439  			 * die segment is read, the next byte read is the
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2440  			 * first byte of the same die segment. This is Die
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2441  			 * cross over issue. So to handle this issue, split
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2442  			 * a read transaction, that spans across multiple
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2443  			 * banks, into one read per bank. Bank size is 16MB
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2444  			 * for single and dual stacked mode and 32MB for dual
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2445  			 * parallel mode.
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2446  			 */
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2447  			if (nor->spi && nor->spi->multi_die) {
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2448  				bank_size =3D (OFFSET_16_MB << nor->shift);
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2449  				cur_bank =3D offset / bank_size;
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2450  				nxt_bank =3D (offset + len) / bank_size;
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2451  				if (cur_bank !=3D nxt_bank)
+2698c74f3b991d drivers/mtd/spi-nor/core.c    Leon Leijssen        2021-01-1=
+1  2452  					rem_bank_len =3D ((bank_size *
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2453  							(cur_bank + 1)) -
+2698c74f3b991d drivers/mtd/spi-nor/core.c    Leon Leijssen        2021-01-1=
+1  2454  							offset) << nor->shift;
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2455  				else
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2456  					rem_bank_len =3D (mtd->size >>
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2457  							stack_shift) -
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2458  							(offset << nor->shift);
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2459  			} else {
+7a5bf064a1debd drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2460  				rem_bank_len =3D (mtd->size >> stack_shift) -
+7a5bf064a1debd drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2461  						(offset << nor->shift);
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2462  			}
+82d4d84c0e52d7 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2463  		}
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2464  		if (nor->addr_width =3D=3D 3) {
+26d248f9f56a75 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-02-0=
+8  2465  			ret =3D spi_nor_write_ear(nor, offset);
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2466  			if (ret) {
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2467  				dev_err(nor->dev, "While writing ear register\n");
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2468  				goto read_err;
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2469  			}
+bd78733fffb572 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2470  		}
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2471  		if (len < rem_bank_len)
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2472  			read_len =3D len;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2473  		else
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2474  			read_len =3D rem_bank_len;
+e99ca98f1d7190 drivers/mtd/spi-nor/spi-nor.c Ricardo Ribalda      2016-12-0=
+2  2475  =
 
-2b2811178e8555 Seth Jennings      2013-07-10   957  	/* find and ref zswap =
-entry */
-2b2811178e8555 Seth Jennings      2013-07-10   958  	spin_lock(&tree->lock);
-0ab0abcf511545 Weijie Yang        2013-11-12   959  	entry =3D zswap_entry_=
-find_get(&tree->rbroot, offset);
-2b2811178e8555 Seth Jennings      2013-07-10   960  	if (!entry) {
-2b2811178e8555 Seth Jennings      2013-07-10   961  		/* entry was invalida=
-ted */
-2b2811178e8555 Seth Jennings      2013-07-10   962  		spin_unlock(&tree->lo=
-ck);
-068619e32ff622 Vitaly Wool        2019-09-23   963  		zpool_unmap_handle(po=
-ol, handle);
-fc6697a89f56d9 Tian Tao           2021-02-25   964  		kfree(tmp);
-2b2811178e8555 Seth Jennings      2013-07-10   965  		return 0;
-2b2811178e8555 Seth Jennings      2013-07-10   966  	}
-2b2811178e8555 Seth Jennings      2013-07-10   967  	spin_unlock(&tree->loc=
-k);
-2b2811178e8555 Seth Jennings      2013-07-10   968  	BUG_ON(offset !=3D ent=
-ry->offset);
-2b2811178e8555 Seth Jennings      2013-07-10   969  =
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2476  		/* Wait till previous write/erase is done. */
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2477  		ret =3D spi_nor_wait_till_ready(nor);
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2478  		if (ret)
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2479  			goto read_err;
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2480  =
 
-2b2811178e8555 Seth Jennings      2013-07-10   970  	/* try to allocate swa=
-p cache page */
-2b2811178e8555 Seth Jennings      2013-07-10   971  	switch (zswap_get_swap=
-_cache_page(swpentry, &page)) {
-67d13fe846c57a Weijie Yang        2013-11-12   972  	case ZSWAP_SWAPCACHE_F=
-AIL: /* no memory or invalidate happened */
-2b2811178e8555 Seth Jennings      2013-07-10   973  		ret =3D -ENOMEM;
-2b2811178e8555 Seth Jennings      2013-07-10   974  		goto fail;
-2b2811178e8555 Seth Jennings      2013-07-10   975  =
+f413bd6c939d9e drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2020-01-1=
+9  2481  		offset =3D spi_nor_convert_addr(nor, offset);
+e99ca98f1d7190 drivers/mtd/spi-nor/spi-nor.c Ricardo Ribalda      2016-12-0=
+2  2482  =
 
-67d13fe846c57a Weijie Yang        2013-11-12   976  	case ZSWAP_SWAPCACHE_E=
-XIST:
-2b2811178e8555 Seth Jennings      2013-07-10   977  		/* page is already in=
- the swap cache, ignore for now */
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01   978  		put_page(page);
-2b2811178e8555 Seth Jennings      2013-07-10   979  		ret =3D -EEXIST;
-2b2811178e8555 Seth Jennings      2013-07-10   980  		goto fail;
-2b2811178e8555 Seth Jennings      2013-07-10   981  =
+66627bb2d1c558 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2021-08-2=
+6  2483  		ret =3D spi_nor_read_data(nor, (offset), read_len, buf);
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2484  		if (ret =3D=3D 0) {
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2485  			/* We shouldn't see 0-length reads */
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2486  			ret =3D -EIO;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2487  			goto read_err;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2488  		}
+59451e1233bd31 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2489  		if (ret < 0)
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2490  			goto read_err;
+59451e1233bd31 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2491  =
 
-2b2811178e8555 Seth Jennings      2013-07-10   982  	case ZSWAP_SWAPCACHE_N=
-EW: /* page is locked */
-2b2811178e8555 Seth Jennings      2013-07-10   983  		/* decompress */
-1ec3b5fe6eec78 Barry Song         2020-12-14   984  		acomp_ctx =3D raw_cpu=
-_ptr(entry->pool->acomp_ctx);
-1ec3b5fe6eec78 Barry Song         2020-12-14   985  =
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2492  		WARN_ON(ret > len);
+2dd087b16946cf drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2493  		*retlen +=3D ret;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2494  		buf +=3D ret;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2495  		from +=3D ret;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2496  		len -=3D ret;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2497  	}
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2498  	ret =3D 0;
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2499  =
 
-2b2811178e8555 Seth Jennings      2013-07-10   986  		dlen =3D PAGE_SIZE;
-068619e32ff622 Vitaly Wool        2019-09-23   987  		src =3D (u8 *)zhdr + =
-sizeof(struct zswap_header);
-1ec3b5fe6eec78 Barry Song         2020-12-14   988  =
-
-fc6697a89f56d9 Tian Tao           2021-02-25   989  		if (!zpool_can_sleep_=
-mapped(pool)) {
-fc6697a89f56d9 Tian Tao           2021-02-25   990  =
-
-fc6697a89f56d9 Tian Tao           2021-02-25  @991  			memcpy(tmp, src, ent=
-ry->length);
-fc6697a89f56d9 Tian Tao           2021-02-25   992  			src =3D tmp;
-fc6697a89f56d9 Tian Tao           2021-02-25   993  =
-
-fc6697a89f56d9 Tian Tao           2021-02-25   994  			zpool_unmap_handle(p=
-ool, handle);
-fc6697a89f56d9 Tian Tao           2021-02-25   995  		}
-fc6697a89f56d9 Tian Tao           2021-02-25   996  =
-
-1ec3b5fe6eec78 Barry Song         2020-12-14   997  		mutex_lock(acomp_ctx-=
->mutex);
-1ec3b5fe6eec78 Barry Song         2020-12-14   998  		sg_init_one(&input, s=
-rc, entry->length);
-1ec3b5fe6eec78 Barry Song         2020-12-14   999  		sg_init_table(&output=
-, 1);
-1ec3b5fe6eec78 Barry Song         2020-12-14  1000  		sg_set_page(&output, =
-page, PAGE_SIZE, 0);
-1ec3b5fe6eec78 Barry Song         2020-12-14  1001  		acomp_request_set_par=
-ams(acomp_ctx->req, &input, &output, entry->length, dlen);
-1ec3b5fe6eec78 Barry Song         2020-12-14  1002  		ret =3D crypto_wait_r=
-eq(crypto_acomp_decompress(acomp_ctx->req), &acomp_ctx->wait);
-1ec3b5fe6eec78 Barry Song         2020-12-14  1003  		dlen =3D acomp_ctx->r=
-eq->dlen;
-1ec3b5fe6eec78 Barry Song         2020-12-14  1004  		mutex_unlock(acomp_ct=
-x->mutex);
-1ec3b5fe6eec78 Barry Song         2020-12-14  1005  =
-
-2b2811178e8555 Seth Jennings      2013-07-10  1006  		BUG_ON(ret);
-2b2811178e8555 Seth Jennings      2013-07-10  1007  		BUG_ON(dlen !=3D PAGE=
-_SIZE);
-2b2811178e8555 Seth Jennings      2013-07-10  1008  =
-
-2b2811178e8555 Seth Jennings      2013-07-10  1009  		/* page is up to date=
- */
-2b2811178e8555 Seth Jennings      2013-07-10  1010  		SetPageUptodate(page);
-2b2811178e8555 Seth Jennings      2013-07-10  1011  	}
-2b2811178e8555 Seth Jennings      2013-07-10  1012  =
-
-b349acc76b7f65 Weijie Yang        2013-11-12  1013  	/* move it to the tail=
- of the inactive list after end_writeback */
-b349acc76b7f65 Weijie Yang        2013-11-12  1014  	SetPageReclaim(page);
-b349acc76b7f65 Weijie Yang        2013-11-12  1015  =
-
-2b2811178e8555 Seth Jennings      2013-07-10  1016  	/* start writeback */
-2b2811178e8555 Seth Jennings      2013-07-10  1017  	__swap_writepage(page,=
- &wbc, end_swap_bio_write);
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  1018  	put_page(page);
-2b2811178e8555 Seth Jennings      2013-07-10  1019  	zswap_written_back_pag=
-es++;
-2b2811178e8555 Seth Jennings      2013-07-10  1020  =
-
-2b2811178e8555 Seth Jennings      2013-07-10  1021  	spin_lock(&tree->lock);
-2b2811178e8555 Seth Jennings      2013-07-10  1022  	/* drop local referenc=
-e */
-0ab0abcf511545 Weijie Yang        2013-11-12  1023  	zswap_entry_put(tree, =
-entry);
-2b2811178e8555 Seth Jennings      2013-07-10  1024  =
-
-2b2811178e8555 Seth Jennings      2013-07-10  1025  	/*
-0ab0abcf511545 Weijie Yang        2013-11-12  1026  	* There are two possib=
-le situations for entry here:
-0ab0abcf511545 Weijie Yang        2013-11-12  1027  	* (1) refcount is 1(no=
-rmal case),  entry is valid and on the tree
-0ab0abcf511545 Weijie Yang        2013-11-12  1028  	* (2) refcount is 0, e=
-ntry is freed and not on the tree
-0ab0abcf511545 Weijie Yang        2013-11-12  1029  	*     because invalida=
-te happened during writeback
-0ab0abcf511545 Weijie Yang        2013-11-12  1030  	*  search the tree and=
- free the entry if find entry
-2b2811178e8555 Seth Jennings      2013-07-10  1031  	*/
-0ab0abcf511545 Weijie Yang        2013-11-12  1032  	if (entry =3D=3D zswap=
-_rb_search(&tree->rbroot, offset))
-0ab0abcf511545 Weijie Yang        2013-11-12  1033  		zswap_entry_put(tree,=
- entry);
-2b2811178e8555 Seth Jennings      2013-07-10  1034  	spin_unlock(&tree->loc=
-k);
-2b2811178e8555 Seth Jennings      2013-07-10  1035  =
-
-0ab0abcf511545 Weijie Yang        2013-11-12  1036  	goto end;
-0ab0abcf511545 Weijie Yang        2013-11-12  1037  =
-
-0ab0abcf511545 Weijie Yang        2013-11-12  1038  	/*
-0ab0abcf511545 Weijie Yang        2013-11-12  1039  	* if we get here due t=
-o ZSWAP_SWAPCACHE_EXIST
-c0c641d77b9ab0 Randy Dunlap       2021-02-25  1040  	* a load may be happen=
-ing concurrently.
-c0c641d77b9ab0 Randy Dunlap       2021-02-25  1041  	* it is safe and okay =
-to not free the entry.
-0ab0abcf511545 Weijie Yang        2013-11-12  1042  	* if we free the entry=
- in the following put
-c0c641d77b9ab0 Randy Dunlap       2021-02-25  1043  	* it is also okay to r=
-eturn !0
-0ab0abcf511545 Weijie Yang        2013-11-12  1044  	*/
-2b2811178e8555 Seth Jennings      2013-07-10  1045  fail:
-2b2811178e8555 Seth Jennings      2013-07-10  1046  	spin_lock(&tree->lock);
-0ab0abcf511545 Weijie Yang        2013-11-12  1047  	zswap_entry_put(tree, =
-entry);
-2b2811178e8555 Seth Jennings      2013-07-10  1048  	spin_unlock(&tree->loc=
-k);
-0ab0abcf511545 Weijie Yang        2013-11-12  1049  =
-
-0ab0abcf511545 Weijie Yang        2013-11-12  1050  end:
-fc6697a89f56d9 Tian Tao           2021-02-25  1051  	if (zpool_can_sleep_ma=
-pped(pool))
-068619e32ff622 Vitaly Wool        2019-09-23  1052  		zpool_unmap_handle(po=
-ol, handle);
-fc6697a89f56d9 Tian Tao           2021-02-25  1053  	else
-fc6697a89f56d9 Tian Tao           2021-02-25  1054  		kfree(tmp);
-fc6697a89f56d9 Tian Tao           2021-02-25  1055  =
-
-2b2811178e8555 Seth Jennings      2013-07-10  1056  	return ret;
-2b2811178e8555 Seth Jennings      2013-07-10  1057  }
-2b2811178e8555 Seth Jennings      2013-07-10  1058  =
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2500  read_err:
+52bbd2dcb42c21 drivers/mtd/spi-nor/spi-nor.c Michael Walle        2020-01-1=
+3  2501  	spi_nor_unlock_and_unprep(nor);
+26f9bcad29a6c2 drivers/mtd/spi-nor/spi-nor.c Michal Suchanek      2016-05-0=
+5  2502  	return ret;
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2503  }
+b199489d37b21c drivers/mtd/spi-nor/spi-nor.c Huang Shijie         2014-02-2=
+4  2504  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3271907235962348480==--
+--===============0547926801270514014==--
 
