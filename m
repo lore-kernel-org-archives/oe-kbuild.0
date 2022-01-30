@@ -1,112 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============5705569961907245394=="
+Content-Type: multipart/mixed; boundary="===============2105746652463941771=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [uninitvar]
-Date: Sun, 30 Jan 2022 16:53:00 +0800
-Message-ID: <202201301307.UAnZQziX-lkp@intel.com>
+Subject: Re: [net-next v2 10/10] net-procfs: Show page pool stats in proc
+Date: Sun, 30 Jan 2022 13:33:20 +0800
+Message-ID: <202201301344.ROilifQC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5705569961907245394==
+--===============2105746652463941771==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+In-Reply-To: <1643499540-8351-11-git-send-email-jdamato@fastly.com>
+References: <1643499540-8351-11-git-send-email-jdamato@fastly.com>
+TO: Joe Damato <jdamato@fastly.com>
+TO: netdev(a)vger.kernel.org
+TO: kuba(a)kernel.org
+TO: ilias.apalodimas(a)linaro.org
+TO: davem(a)davemloft.net
+TO: hawk(a)kernel.org
+CC: Joe Damato <jdamato@fastly.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f8c7e4ede46fe63ff10000669652648aab09d112
-commit: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local variab=
-les around longjmp as volatile
-date:   7 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 7 months ago
-compiler: powerpc64le-linux-gcc (GCC) 11.2.0
+Hi Joe,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/Joe-Damato/page_pool-Add-p=
+age_pool-stat-counters/20220130-074147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+ff58831fa02deb42fd731f830d8d9ec545573c7c
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/202=
+20130/202201301344.ROilifQC-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/0day-ci/linux/commit/5f0fd838269d51e7a97662eaf=
+54868a248b8bd42
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Joe-Damato/page_pool-Add-page_pool=
+-stat-counters/20220130-074147
+        git checkout 5f0fd838269d51e7a97662eaf54868a248b8bd42
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash net/core/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+sparse warnings: (new ones prefixed by >>)
+>> net/core/net-procfs.c:399:1: sparse: sparse: unused label 'out_ptype'
 
->> arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [=
-uninitvar]
-    if (name) {
-        ^
+vim +/out_ptype +399 net/core/net-procfs.c
 
-vim +3745 arch/powerpc/xmon/xmon.c
+5f0fd838269d51 Joe Damato 2022-01-29  398  =
 
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3722  =
+900ff8c6321418 Cong Wang  2013-02-18 @399  out_ptype:
+900ff8c6321418 Cong Wang  2013-02-18  400  	remove_proc_entry("ptype", net-=
+>proc_net);
+900ff8c6321418 Cong Wang  2013-02-18  401  out_softnet:
+900ff8c6321418 Cong Wang  2013-02-18  402  	remove_proc_entry("softnet_stat=
+", net->proc_net);
+900ff8c6321418 Cong Wang  2013-02-18  403  out_dev:
+900ff8c6321418 Cong Wang  2013-02-18  404  	remove_proc_entry("dev", net->p=
+roc_net);
+900ff8c6321418 Cong Wang  2013-02-18  405  	goto out;
+900ff8c6321418 Cong Wang  2013-02-18  406  }
+900ff8c6321418 Cong Wang  2013-02-18  407  =
 
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3723  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3724  /*=
- Print an address in numeric and symbolic form (if possible) */
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3725  st=
-atic void xmon_print_symbol(unsigned long address, const char *mid,
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3726  		=
-	      const char *after)
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3727  {
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3728  	c=
-har *modname;
-a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann  2021-04-29  3729  	c=
-onst char *volatile name =3D NULL;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3730  	u=
-nsigned long offset, size;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3731  =
-
-f78541dcec327b arch/powerpc/xmon/xmon.c Paul Mackerras 2005-10-28  3732  	p=
-rintf(REG, address);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3733  	i=
-f (setjmp(bus_error_jmp) =3D=3D 0) {
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3734  		=
-catch_memory_errors =3D 1;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3735  		=
-sync();
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3736  		=
-name =3D kallsyms_lookup(address, &size, &offset, &modname,
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3737  		=
-		       tmpstr);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3738  		=
-sync();
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3739  		=
-/* wait a little while to see if we get a machine check */
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3740  		=
-__delay(200);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3741  	}
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3742  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3743  	c=
-atch_memory_errors =3D 0;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3744  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16 @3745  	i=
-f (name) {
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3746  		=
-printf("%s%s+%#lx/%#lx", mid, name, offset, size);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3747  		=
-if (modname)
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3748  		=
-	printf(" [%s]", modname);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3749  	}
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3750  	p=
-rintf("%s", after);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3751  }
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3752  =
-
-
-:::::: The code at line 3745 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5705569961907245394==--
+--===============2105746652463941771==--
 
