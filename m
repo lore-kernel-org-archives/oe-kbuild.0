@@ -1,50 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============7675204621969105078=="
+Content-Type: multipart/mixed; boundary="===============2291162702424182259=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/ufs/ufshcd-pci.c:83:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 31 Jan 2022 14:09:08 +0800
-Message-ID: <202201311445.oLOuio87-lkp@intel.com>
+Subject: [linux-next:master 507/2855] drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1463:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 31 Jan 2022 13:48:22 +0800
+Message-ID: <202201311314.uEd32s1e-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7675204621969105078==
+--===============2291162702424182259==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Adrian Hunter <adrian.hunter@intel.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Evan Quan <evan.quan@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Lijo Lazar <lijo.lazar@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: b2c57925df1ffc9c930629a39c1680035f735ffb scsi: ufs: ufs-pci: Add su=
-pport for Intel LKF
-date:   11 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-c002-20220130 (https://download.01.org/0day-ci/archi=
-ve/20220131/202201311445.oLOuio87-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b605fdc54c2b28c30ef06d9db99282d8a32ae4be
+commit: 837d542a09cd533055423dfca7e621a9c1d13c5b [507/2855] drm/amd/pm: rel=
+ocate the power related headers
+:::::: branch date: 3 days ago
+:::::: commit date: 2 weeks ago
+config: riscv-randconfig-c006-20220125 (https://download.01.org/0day-ci/arc=
+hive/20220131/202201311314.uEd32s1e-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
 e44b1f32ffdbc995e6fec806271b4b3ba4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db2c57925df1ffc9c930629a39c1680035f735ffb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b2c57925df1ffc9c930629a39c1680035f735ffb
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D837d542a09cd533055423dfca7e621a9c1d13c5b
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 837d542a09cd533055423dfca7e621a9c1d13c5b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,282 +52,365 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-            ^
-   fs/btrfs/transaction.c:986:6: note: Left side of '||' is true
-           if (TRANS_ABORTED(trans) ||
-               ^
-   fs/btrfs/transaction.h:152:41: note: expanded from macro 'TRANS_ABORTED'
-   #define TRANS_ABORTED(trans)            (unlikely(READ_ONCE((trans)->abo=
-rted)))
-                                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:282:59: note: expanded from macro '__nati=
-ve_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-                                                                    ^
-   fs/btrfs/transaction.c:986:6: note: Taking false branch
-           if (TRANS_ABORTED(trans) ||
-               ^
-   fs/btrfs/transaction.h:152:41: note: expanded from macro 'TRANS_ABORTED'
-   #define TRANS_ABORTED(trans)            (unlikely(READ_ONCE((trans)->abo=
-rted)))
-                                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:163:3: note: Taking false branch
+                   if (sa_bo->fence =3D=3D NULL || !radeon_fence_signaled(s=
+a_bo->fence)) {
                    ^
-   fs/btrfs/transaction.c:986:6: note: Loop condition is false.  Exiting lo=
-op
-           if (TRANS_ABORTED(trans) ||
-               ^
-   fs/btrfs/transaction.h:152:41: note: expanded from macro 'TRANS_ABORTED'
-   #define TRANS_ABORTED(trans)            (unlikely(READ_ONCE((trans)->abo=
-rted)))
-                                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   drivers/gpu/drm/radeon/radeon_sa.c:166:3: note: Calling 'radeon_sa_bo_re=
+move_locked'
+                   radeon_sa_bo_remove_locked(sa_bo);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:145:6: note: Assuming the condition i=
+s true
+           if (sa_manager->hole =3D=3D &sa_bo->olist) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:145:2: note: Taking true branch
+           if (sa_manager->hole =3D=3D &sa_bo->olist) {
            ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
+   drivers/gpu/drm/radeon/radeon_sa.c:151:2: note: Memory is released
+           kfree(sa_bo);
+           ^~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:166:3: note: Returning; memory was re=
+leased via 1st parameter
+                   radeon_sa_bo_remove_locked(sa_bo);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:162:2: note: Loop condition is false.=
+ Execution continues on line 162
+           list_for_each_entry_safe_from(sa_bo, tmp, &sa_manager->olist, ol=
+ist) {
            ^
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/list.h:749:2: note: expanded from macro 'list_for_each_ent=
+ry_safe_from'
+           for (n =3D list_next_entry(pos, member);                        =
+          \
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   drivers/gpu/drm/radeon/radeon_sa.c:84:3: note: Returning; memory was rel=
+eased
+                   radeon_sa_bo_try_free(sa_manager);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:85:7: note: Assuming the condition is=
+ false
+                   if (!list_empty(&sa_manager->olist)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/radeon_sa.c:85:3: note: Taking false branch
+                   if (!list_empty(&sa_manager->olist)) {
+                   ^
+   drivers/gpu/drm/radeon/radeon_sa.c:89:2: note: Use of memory after it is=
+ freed
+           list_for_each_entry_safe(sa_bo, tmp, &sa_manager->olist, olist) {
            ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   fs/btrfs/transaction.c:986:6: note: Assuming the condition is true
-           if (TRANS_ABORTED(trans) ||
-               ^
-   fs/btrfs/transaction.h:152:32: note: expanded from macro 'TRANS_ABORTED'
-   #define TRANS_ABORTED(trans)            (unlikely(READ_ONCE((trans)->abo=
-rted)))
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/btrfs/transaction.c:986:6: note: Left side of '||' is false
-           if (TRANS_ABORTED(trans) ||
-               ^
-   fs/btrfs/transaction.h:152:31: note: expanded from macro 'TRANS_ABORTED'
-   #define TRANS_ABORTED(trans)            (unlikely(READ_ONCE((trans)->abo=
-rted)))
-                                           ^
-   fs/btrfs/transaction.c:987:6: note: Assuming the condition is false
-               test_bit(BTRFS_FS_STATE_ERROR, &info->fs_state)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/transaction.c:986:2: note: Taking false branch
-           if (TRANS_ABORTED(trans) ||
-           ^
-   fs/btrfs/transaction.c:1001:9: note: Returning; memory was released
-           return __btrfs_end_transaction(trans, 0);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/transaction.c:1921:2: note: Returning; memory was released
-           btrfs_end_transaction(trans);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/transaction.c:1927:2: note: Taking true branch
-           if (ac->newtrans->type & __TRANS_FREEZABLE)
-           ^
-   fs/btrfs/transaction.c:1933:6: note: Assuming 'wait_for_unblock' is 0
-           if (wait_for_unblock)
-               ^~~~~~~~~~~~~~~~
-   fs/btrfs/transaction.c:1933:2: note: Taking false branch
-           if (wait_for_unblock)
-           ^
-   fs/btrfs/transaction.c:1936:3: note: Use of memory after it is freed
-                   wait_current_trans_commit_start(fs_info, cur_trans);
-                   ^                                        ~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   include/linux/list.h:718:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> drivers/scsi/ufs/ufshcd-pci.c:83:2: warning: Value stored to 'err' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           err =3D __intel_dsm(intel_host, dev, INTEL_DSM_FNS, &intel_host-=
->dsm_fns);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/scsi/ufs/ufshcd-pci.c:83:2: note: Value stored to 'err' is never=
- read
-           err =3D __intel_dsm(intel_host, dev, INTEL_DSM_FNS, &intel_host-=
->dsm_fns);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/scsi/initio.c:403:8: warning: Although the value stored to 'rb' =
-is used in the enclosing expression, the value is never actually read from =
-'rb' [clang-analyzer-deadcode.DeadStores]
-                   if ((rb =3D inb(base + TUL_NVRAM)) & SE2DI)
-                        ^
-   drivers/scsi/initio.c:403:8: note: Although the value stored to 'rb' is =
-used in the enclosing expression, the value is never actually read from 'rb'
-   drivers/scsi/initio.c:1170:9: warning: Although the value stored to 'scb=
-' is used in the enclosing expression, the value is never actually read fro=
-m 'scb' [clang-analyzer-deadcode.DeadStores]
-                           if ((scb =3D host->active) !=3D NULL)
-                                ^     ~~~~~~~~~~~~
-   drivers/scsi/initio.c:1170:9: note: Although the value stored to 'scb' i=
-s used in the enclosing expression, the value is never actually read from '=
-scb'
-                           if ((scb =3D host->active) !=3D NULL)
-                                ^     ~~~~~~~~~~~~
-   1 warning generated.
-   drivers/scsi/a100u2w.c:1142:2: warning: Value stored to 'biosaddr' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           biosaddr =3D (biosaddr << 4);
-           ^          ~~~~~~~~~~~~~~~
-   drivers/scsi/a100u2w.c:1142:2: note: Value stored to 'biosaddr' is never=
- read
-           biosaddr =3D (biosaddr << 4);
-           ^          ~~~~~~~~~~~~~~~
-   3 warnings generated.
-   drivers/media/i2c/adv7175.c:416:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7175_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7175.c:416:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7175_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7175.c:417:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7175_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7175.c:417:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7175_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   18 warnings generated.
-   drivers/media/i2c/adv7842.c:1566:32: warning: The result of the left shi=
-ft is undefined because the left operand is negative [clang-analyzer-core.U=
-ndefinedBinaryOperatorResult]
-                   freq =3D ((hdmi_read(sd, 0x51) << 1) + (hdmi_read(sd, 0x=
-52) >> 7)) * 1000000;
-                                                ^
-   drivers/media/i2c/adv7842.c:2708:36: note: Assuming the condition is fal=
-se
-           v4l2_info(sd, "Chip power: %s\n", no_power(sd) ? "off" : "on");
-                                             ^
-   include/media/v4l2-common.h:67:39: note: expanded from macro 'v4l2_info'
-           v4l2_printk(KERN_INFO, dev, fmt , ## arg)
-                                                ^~~
-   include/media/v4l2-common.h:58:44: note: expanded from macro 'v4l2_print=
-k'
-           printk(level "%s: " fmt, (dev)->name , ## arg)
-                                                     ^~~
-   drivers/media/i2c/adv7842.c:2708:36: note: '?' condition is false
-           v4l2_info(sd, "Chip power: %s\n", no_power(sd) ? "off" : "on");
-                                             ^
-   drivers/media/i2c/adv7842.c:2710:4: note: Assuming field 'hdmi_port_a' i=
-s false
-                           state->hdmi_port_a ? "A" : "B");
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:161:6: warnin=
+g: Access to field 'hwmgr_func' results in a dereference of a null pointer =
+(loaded from variable 'hwmgr') [clang-analyzer-core.NullDereference]
+           if (hwmgr->hwmgr_func->notify_cac_buffer_info)
+               ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:181:6: note: =
+Assuming 'hwmgr' is null
+           if (hwmgr && hwmgr->pm_en) {
+               ^~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:181:12: note:=
+ Left side of '&&' is false
+           if (hwmgr && hwmgr->pm_en) {
+                     ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:187:6: note: =
+Assuming field 'smu_prv_buffer_size' is not equal to 0
+           if (adev->pm.smu_prv_buffer_size !=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:187:2: note: =
+Taking true branch
+           if (adev->pm.smu_prv_buffer_size !=3D 0)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:188:3: note: =
+Calling 'pp_reserve_vram_for_smu'
+                   pp_reserve_vram_for_smu(adev);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:150:2: note: =
+'hwmgr' initialized to a null pointer value
+           struct pp_hwmgr *hwmgr =3D adev->powerplay.pp_handle;
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:152:6: note: =
+Assuming the condition is false
+           if (amdgpu_bo_create_kernel(adev, adev->pm.smu_prv_buffer_size,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:152:2: note: =
+Taking false branch
+           if (amdgpu_bo_create_kernel(adev, adev->pm.smu_prv_buffer_size,
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:161:6: note: =
+Access to field 'hwmgr_func' results in a dereference of a null pointer (lo=
+aded from variable 'hwmgr')
+           if (hwmgr->hwmgr_func->notify_cac_buffer_info)
+               ^~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1463:3: warning: Va=
+lue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D amdgpu_kv_copy_bytes_to_smc(adev,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1463:3: note: Value=
+ stored to 'ret' is never read
+                   ret =3D amdgpu_kv_copy_bytes_to_smc(adev,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1662:13: warning: T=
+he result of the left shift is undefined due to shifting by '255', which is=
+ greater or equal to the width of type 'int' [clang-analyzer-core.Undefined=
+BinaryOperatorResult]
+                                                             (1 << pi->acp_=
+boot_level));
+                                                                ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1950:6: note: Assum=
+ing field 'bapm_enable' is false
+           if (pi->bapm_enable) {
+               ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1950:2: note: Takin=
+g false branch
+           if (pi->bapm_enable) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:6: note: Assum=
+ing field 'asic_type' is not equal to CHIP_KABINI
+           if (adev->asic_type =3D=3D CHIP_KABINI || adev->asic_type =3D=3D=
+ CHIP_MULLINS) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:6: note: Left =
+side of '||' is false
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:40: note: Assu=
+ming field 'asic_type' is not equal to CHIP_MULLINS
+           if (adev->asic_type =3D=3D CHIP_KABINI || adev->asic_type =3D=3D=
+ CHIP_MULLINS) {
+                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:2: note: Takin=
+g false branch
+           if (adev->asic_type =3D=3D CHIP_KABINI || adev->asic_type =3D=3D=
+ CHIP_MULLINS) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1988:7: note: Assum=
+ing field 'enable_dpm' is true
+                   if (pi->enable_dpm) {
+                       ^~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1988:3: note: Takin=
+g true branch
+                   if (pi->enable_dpm) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1992:8: note: Assum=
+ing 'ret' is 0
+                           if (ret) {
+                               ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1992:4: note: Takin=
+g false branch
+                           if (ret) {
                            ^
-   include/media/v4l2-common.h:67:39: note: expanded from macro 'v4l2_info'
-           v4l2_printk(KERN_INFO, dev, fmt , ## arg)
-                                                ^~~
-   include/media/v4l2-common.h:58:44: note: expanded from macro 'v4l2_print=
-k'
-           printk(level "%s: " fmt, (dev)->name , ## arg)
-                                                     ^~~
-   drivers/media/i2c/adv7842.c:2710:4: note: '?' condition is false
-                           state->hdmi_port_a ? "A" : "B");
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:2004:8: note: Assum=
+ing 'ret' is 0
+                           if (ret) {
+                               ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:2004:4: note: Takin=
+g false branch
+                           if (ret) {
                            ^
-   drivers/media/i2c/adv7842.c:2712:7: note: Assuming the condition is false
-                     ((reg_rep_0x7d & 0x04) && (reg_rep_0x77 & 0x04)) ?
-                       ^
-   include/media/v4l2-common.h:67:39: note: expanded from macro 'v4l2_info'
-           v4l2_printk(KERN_INFO, dev, fmt , ## arg)
-                                                ^~~
-   include/media/v4l2-common.h:58:44: note: expanded from macro 'v4l2_print=
-k'
-           printk(level "%s: " fmt, (dev)->name , ## arg)
-                                                     ^~~
-   drivers/media/i2c/adv7842.c:2712:28: note: Left side of '&&' is false
-                     ((reg_rep_0x7d & 0x04) && (reg_rep_0x77 & 0x04)) ?
-                                            ^
-   drivers/media/i2c/adv7842.c:2714:7: note: Assuming the condition is false
-                     ((reg_rep_0x7d & 0x08) && (reg_rep_0x77 & 0x08)) ?
-                       ^
-   include/media/v4l2-common.h:67:39: note: expanded from macro 'v4l2_info'
-           v4l2_printk(KERN_INFO, dev, fmt , ## arg)
-                                                ^~~
-   include/media/v4l2-common.h:58:44: note: expanded from macro 'v4l2_print=
-k'
-           printk(level "%s: " fmt, (dev)->name , ## arg)
-                                                     ^~~
-   drivers/media/i2c/adv7842.c:2714:28: note: Left side of '&&' is false
-                     ((reg_rep_0x7d & 0x08) && (reg_rep_0x77 & 0x08)) ?
-                                            ^
-   drivers/media/i2c/adv7842.c:2717:5: note: Assuming the condition is false
-                     reg_io_0x21 & 0x02 ? "enabled" : "disabled",
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:2008:4: note: Calli=
+ng 'kv_update_acp_boot_level'
+                           kv_update_acp_boot_level(adev);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1656:6: note: Assum=
+ing field 'caps_stable_p_state' is false
+           if (!pi->caps_stable_p_state) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1656:2: note: Takin=
+g true branch
+           if (!pi->caps_stable_p_state) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1657:20: note: Call=
+ing 'kv_get_acp_boot_level'
+                   acp_boot_level =3D kv_get_acp_boot_level(adev);
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1640:14: note: Assu=
+ming 'i' is >=3D field 'count'
+           for (i =3D 0; i < table->count; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1640:2: note: Loop =
+condition is false. Execution continues on line 1645
+           for (i =3D 0; i < table->count; i++) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1645:6: note: 'i' i=
+s >=3D field 'count'
+           if (i >=3D table->count)
+               ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1645:2: note: Takin=
+g true branch
+           if (i >=3D table->count)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1646:3: note: The v=
+alue 255 is assigned to 'i'
+                   i =3D table->count - 1;
+                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1648:2: note: Retur=
+ning the value 255 (loaded from 'i')
+           return i;
+           ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1657:20: note: Retu=
+rning from 'kv_get_acp_boot_level'
+                   acp_boot_level =3D kv_get_acp_boot_level(adev);
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1657:3: note: The v=
+alue 255 is assigned to 'acp_boot_level'
+                   acp_boot_level =3D kv_get_acp_boot_level(adev);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1658:7: note: Assum=
+ing 'acp_boot_level' is not equal to field 'acp_boot_level'
+                   if (acp_boot_level !=3D pi->acp_boot_level) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1658:3: note: Takin=
+g true branch
+                   if (acp_boot_level !=3D pi->acp_boot_level) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1659:4: note: The v=
+alue 255 is assigned to field 'acp_boot_level'
+                           pi->acp_boot_level =3D acp_boot_level;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1662:13: note: The =
+result of the left shift is undefined due to shifting by '255', which is gr=
+eater or equal to the width of type 'int'
+                                                             (1 << pi->acp_=
+boot_level));
+                                                                ^  ~~~~~~~~=
+~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/regulator/rk808-regulator.c:255:10: warning: Assigned value is g=
+arbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           old_sel >>=3D ffs(mask) - 1;
+                   ^
+   drivers/regulator/rk808-regulator.c:302:6: note: Assuming 'gpio' is null
+           if (!gpio)
+               ^~~~~
+   drivers/regulator/rk808-regulator.c:302:2: note: Taking true branch
 
-vim +/err +83 drivers/scsi/ufs/ufshcd-pci.c
+vim +/ret +1463 drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c
 
-b2c57925df1ffc Adrian Hunter 2021-03-12  78  =
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1452  =
 
-b2c57925df1ffc Adrian Hunter 2021-03-12  79  static void intel_dsm_init(str=
-uct intel_host *intel_host, struct device *dev)
-b2c57925df1ffc Adrian Hunter 2021-03-12  80  {
-b2c57925df1ffc Adrian Hunter 2021-03-12  81  	int err;
-b2c57925df1ffc Adrian Hunter 2021-03-12  82  =
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1453  static int kv_init_fps_limits(struct amdgpu_device *adev)
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1454  {
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1455  	struct kv_power_info *pi =3D kv_get_pi(adev);
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1456  	int ret =3D 0;
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1457  =
 
-b2c57925df1ffc Adrian Hunter 2021-03-12 @83  	err =3D __intel_dsm(intel_hos=
-t, dev, INTEL_DSM_FNS, &intel_host->dsm_fns);
-b2c57925df1ffc Adrian Hunter 2021-03-12  84  	dev_dbg(dev, "DSM fns %#x, er=
-ror %d\n", intel_host->dsm_fns, err);
-b2c57925df1ffc Adrian Hunter 2021-03-12  85  }
-b2c57925df1ffc Adrian Hunter 2021-03-12  86  =
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1458  	if (pi->caps_fps) {
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1459  		u16 tmp;
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1460  =
 
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1461  		tmp =3D 45;
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1462  		pi->fps_high_t =3D cpu_to_be16(tmp);
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+@1463  		ret =3D amdgpu_kv_copy_bytes_to_smc(adev,
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1464  					   pi->dpm_table_start +
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1465  					   offsetof(SMU7_Fusion_DpmTable, FpsHighT),
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1466  					   (u8 *)&pi->fps_high_t,
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1467  					   sizeof(u16), pi->sram_end);
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1468  =
+
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1469  		tmp =3D 30;
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1470  		pi->fps_low_t =3D cpu_to_be16(tmp);
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1471  =
+
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1472  		ret =3D amdgpu_kv_copy_bytes_to_smc(adev,
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1473  					   pi->dpm_table_start +
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1474  					   offsetof(SMU7_Fusion_DpmTable, FpsLowT),
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1475  					   (u8 *)&pi->fps_low_t,
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1476  					   sizeof(u16), pi->sram_end);
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1477  =
+
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1478  	}
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1479  	return ret;
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1480  }
+a2e73f56fa6282 drivers/gpu/drm/amd/amdgpu/kv_dpm.c Alex Deucher 2015-04-20 =
+ 1481  =
+
+
+:::::: The code at line 1463 was first introduced by commit
+:::::: a2e73f56fa6282481927ec43aa9362c03c2e2104 drm/amdgpu: Add support for=
+ CIK parts
+
+:::::: TO: Alex Deucher <alexander.deucher@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7675204621969105078==--
+--===============2291162702424182259==--
 
