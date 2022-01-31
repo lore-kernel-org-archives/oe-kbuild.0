@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6834926140615751188=="
+Content-Type: multipart/mixed; boundary="===============8866411895626732230=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Tue, 01 Feb 2022 05:54:27 +0800
-Message-ID: <20220131215427.GA88644@a436543d8a13>
+Date: Tue, 01 Feb 2022 05:54:19 +0800
+Message-ID: <20220131215419.GA87685@a436543d8a13>
 In-Reply-To: <202202010548.Fq56IWo0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6834926140615751188==
+--===============8866411895626732230==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Alessandro Zummo <a.zummo@towertech.it>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: linux-rtc(a)vger.kernel.org
+CC: Felipe Balbi <balbi@kernel.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: linux-usb(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-max8998.c:283:7-32: WARNING: Threaded IRQ with no primary h=
-andler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/usb/phy/phy-generic.c:300:8-33: WARNING: Threaded IRQ with no prima=
+ry handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,22 +50,20 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-max8998.c |    3 ++-
+ phy-generic.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/rtc/rtc-max8998.c
-+++ b/drivers/rtc/rtc-max8998.c
-@@ -281,7 +281,8 @@ static int max8998_rtc_probe(struct plat
- 	}
- =
-
- 	ret =3D devm_request_threaded_irq(&pdev->dev, info->irq, NULL,
--				max8998_rtc_alarm_irq, 0, "rtc-alarm0", info);
-+				max8998_rtc_alarm_irq, IRQF_ONESHOT,
-+				"rtc-alarm0", info);
- =
-
- 	if (ret < 0)
- 		dev_err(&pdev->dev, "Failed to request alarm IRQ: %d: %d\n",
---===============6834926140615751188==--
+--- a/drivers/usb/phy/phy-generic.c
++++ b/drivers/usb/phy/phy-generic.c
+@@ -300,7 +300,8 @@ static int usb_phy_generic_probe(struct
+ 		err =3D devm_request_threaded_irq(&pdev->dev,
+ 						gpiod_to_irq(nop->gpiod_vbus),
+ 						NULL, nop_gpio_vbus_thread,
+-						VBUS_IRQ_FLAGS, "vbus_detect",
++						VBUS_IRQ_FLAGS | IRQF_ONESHOT,
++						"vbus_detect",
+ 						nop);
+ 		if (err) {
+ 			dev_err(&pdev->dev, "can't request irq %i, err: %d\n",
+--===============8866411895626732230==--
 
