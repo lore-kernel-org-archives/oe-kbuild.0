@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7723160808006819160=="
+Content-Type: multipart/mixed; boundary="===============5805705343000809035=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/netfilter/nf_tables_api.c:2034:18: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Tue, 01 Feb 2022 16:53:56 +0800
-Message-ID: <202202011655.PUMkk8kx-lkp@intel.com>
+Subject: net/wireless/scan.c:666:2: warning: Address of stack memory associated with local variable 'ap_list' is still referred to by the stack variable 'coloc_ap_list' upon returning to the caller. This will be a dangling reference [clang-analyzer-core.StackAddr...
+Date: Tue, 01 Feb 2022 15:22:02 +0800
+Message-ID: <202202011503.h9YEP25L-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7723160808006819160==
+--===============5805705343000809035==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Yajun Deng <yajun.deng@linux.dev>
+TO: Ilan Peer <ilan.peer@intel.com>
+CC: Johannes Berg <johannes.berg@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: f9b282b36dfa9b6c6d6b3e8816cdf0e4defff482 net: netlink: add the case=
- when nlh is NULL
-date:   6 months ago
+commit: 8a16ffdc4cf37c1e6204054b0fb44052c8a48f0d cfg80211: Remove wrong RNR=
+ IE validation check
+date:   10 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20220129 (https://download.01.org/0day-ci/arc=
-hive/20220201/202202011655.PUMkk8kx-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
-e44b1f32ffdbc995e6fec806271b4b3ba4)
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20220121 (https://download.01.org/0day-ci/archi=
+ve/20220201/202202011503.h9YEP25L-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d4baf3=
+b1322b84816aa623d8e8cb45a49cb68b84)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df9b282b36dfa9b6c6d6b3e8816cdf0e4defff482
+t/commit/?id=3D8a16ffdc4cf37c1e6204054b0fb44052c8a48f0d
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout f9b282b36dfa9b6c6d6b3e8816cdf0e4defff482
+        git checkout 8a16ffdc4cf37c1e6204054b0fb44052c8a48f0d
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,498 +52,406 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                            ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   net/netfilter/nf_tables_api.c:1940:19: note: '?' condition is false
-           hook->priority =3D ntohl(nla_get_be32(ha[NFTA_HOOK_PRIORITY]));
-                            ^
-   include/linux/byteorder/generic.h:140:18: note: expanded from macro 'nto=
-hl'
-   #define ntohl(x) ___ntohl(x)
-                    ^
-   include/linux/byteorder/generic.h:136:21: note: expanded from macro '___=
-ntohl'
-   #define ___ntohl(x) __be32_to_cpu(x)
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                            ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   net/netfilter/nf_tables_api.c:1943:6: note: Assuming 'type' is non-null
-           if (!type)
-               ^~~~~
-   net/netfilter/nf_tables_api.c:1943:2: note: Taking false branch
-           if (!type)
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/page_pool.c:472:12: note: Field 'disconnect' is null
+           if (pool->disconnect)
+                     ^
+   net/core/page_pool.c:472:2: note: '?' condition is false
+           if (pool->disconnect)
            ^
-   net/netfilter/nf_tables_api.c:1946:6: note: Assuming the condition is fa=
-lse
-           if (nla[NFTA_CHAIN_TYPE]) {
-               ^~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1946:2: note: Taking false branch
-           if (nla[NFTA_CHAIN_TYPE]) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   net/netfilter/nf_tables_api.c:1954:6: note: Assuming the condition is fa=
-lse
-           if (hook->num >=3D NFT_MAX_HOOKS || !(type->hook_mask & (1 << ho=
-ok->num)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1954:6: note: Left side of '||' is false
-   net/netfilter/nf_tables_api.c:1954:36: note: Assuming the condition is f=
-alse
-           if (hook->num >=3D NFT_MAX_HOOKS || !(type->hook_mask & (1 << ho=
-ok->num)))
-                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   net/netfilter/nf_tables_api.c:1954:2: note: Taking false branch
-           if (hook->num >=3D NFT_MAX_HOOKS || !(type->hook_mask & (1 << ho=
-ok->num)))
+   net/core/page_pool.c:472:2: note: Taking false branch
+           if (pool->disconnect)
            ^
-   net/netfilter/nf_tables_api.c:1957:6: note: Assuming field 'type' is not=
- equal to NFT_CHAIN_T_NAT
-           if (type->type =3D=3D NFT_CHAIN_T_NAT &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1957:36: note: Left side of '&&' is false
-           if (type->type =3D=3D NFT_CHAIN_T_NAT &&
-                                             ^
-   net/netfilter/nf_tables_api.c:1961:2: note: Taking false branch
-           if (!try_module_get(type->owner)) {
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/page_pool.c:477:2: note: Assuming the condition is true
+           if (pool->p.flags & PP_FLAG_DMA_MAP)
            ^
-   net/netfilter/nf_tables_api.c:1970:2: note: Taking true branch
-           if (nft_base_chain_netdev(family, hook->num)) {
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/page_pool.c:477:2: note: '?' condition is false
+           if (pool->p.flags & PP_FLAG_DMA_MAP)
            ^
-   net/netfilter/nf_tables_api.c:1971:9: note: Calling 'nft_chain_parse_net=
-dev'
-                   err =3D nft_chain_parse_netdev(net, ha, &hook->list);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1895:6: note: Assuming the condition is tr=
-ue
-           if (tb[NFTA_HOOK_DEV]) {
-               ^~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1895:2: note: Taking true branch
-           if (tb[NFTA_HOOK_DEV]) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/page_pool.c:477:2: note: '?' condition is false
+           if (pool->p.flags & PP_FLAG_DMA_MAP)
            ^
-   net/netfilter/nf_tables_api.c:1896:10: note: Calling 'nft_netdev_hook_al=
-loc'
-                   hook =3D nft_netdev_hook_alloc(net, tb[NFTA_HOOK_DEV]);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1798:9: note: Memory is allocated
-           hook =3D kmalloc(sizeof(struct nft_hook), GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1799:6: note: Assuming 'hook' is non-null
-           if (!hook) {
-               ^~~~~
-   net/netfilter/nf_tables_api.c:1799:2: note: Taking false branch
-           if (!hook) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   net/netfilter/nf_tables_api.c:1810:6: note: Assuming 'dev' is non-null
-           if (!dev) {
-               ^~~~
-   net/netfilter/nf_tables_api.c:1810:2: note: Taking false branch
-           if (!dev) {
+   net/core/page_pool.c:477:2: note: Taking false branch
+           if (pool->p.flags & PP_FLAG_DMA_MAP)
            ^
-   net/netfilter/nf_tables_api.c:1896:10: note: Returned allocated memory
-                   hook =3D nft_netdev_hook_alloc(net, tb[NFTA_HOOK_DEV]);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1897:3: note: Taking true branch
-                   if (IS_ERR(hook))
-                   ^
-   net/netfilter/nf_tables_api.c:1971:9: note: Returned allocated memory
-                   err =3D nft_chain_parse_netdev(net, ha, &hook->list);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1972:7: note: 'err' is >=3D 0
-                   if (err < 0) {
-                       ^~~
-   net/netfilter/nf_tables_api.c:1972:3: note: Taking false branch
-                   if (err < 0) {
-                   ^
-   net/netfilter/nf_tables_api.c:1981:9: note: Potential leak of memory poi=
-nted to by 'err'
-           return 0;
-                  ^
->> net/netfilter/nf_tables_api.c:2034:18: warning: Assigned value is garbag=
-e or undefined [clang-analyzer-core.uninitialized.Assign]
-           basechain->type =3D hook->type;
-                           ^
-   net/netfilter/nf_tables_api.c:2091:6: note: Assuming the condition is fa=
-lse
-           if (table->use =3D=3D UINT_MAX)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2091:2: note: Taking false branch
-           if (table->use =3D=3D UINT_MAX)
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/page_pool.c:480:2: note: Memory is released
+           kfree(pool);
+           ^~~~~~~~~~~
+   net/core/page_pool.c:518:3: note: Returning; memory was released via 1st=
+ parameter
+                   page_pool_free(pool);
+                   ^~~~~~~~~~~~~~~~~~~~
+   net/core/page_pool.c:560:7: note: Returning; memory was released via 1st=
+ parameter
+           if (!page_pool_release(pool))
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/page_pool.c:560:2: note: '?' condition is false
+           if (!page_pool_release(pool))
            ^
-   net/netfilter/nf_tables_api.c:2094:6: note: Assuming the condition is tr=
-ue
-           if (nla[NFTA_CHAIN_HOOK]) {
-               ^~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2094:2: note: Taking true branch
-           if (nla[NFTA_CHAIN_HOOK]) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/page_pool.c:560:7: note: Use of memory after it is freed
+           if (!page_pool_release(pool))
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> net/wireless/scan.c:666:2: warning: Address of stack memory associated w=
+ith local variable 'ap_list' is still referred to by the stack variable 'co=
+loc_ap_list' upon returning to the caller.  This will be a dangling referen=
+ce [clang-analyzer-core.StackAddressEscape]
+           return n_coloc;
            ^
-   net/netfilter/nf_tables_api.c:2097:7: note: Assuming the condition is fa=
-lse
-                   if (flags & NFT_CHAIN_BINDING)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:2097:3: note: Taking false branch
-                   if (flags & NFT_CHAIN_BINDING)
-                   ^
-   net/netfilter/nf_tables_api.c:2100:9: note: Calling 'nft_chain_parse_hoo=
-k'
-                   err =3D nft_chain_parse_hook(net, nla, &hook, family, ex=
-tack,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   net/netfilter/nf_tables_api.c:1926:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&nft_net->commit_mutex);
+   net/wireless/scan.c:734:6: note: Assuming the condition is false
+           if (!rdev->wiphy.bands[NL80211_BAND_6GHZ])
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/wireless/scan.c:734:2: note: '?' condition is false
+           if (!rdev->wiphy.bands[NL80211_BAND_6GHZ])
            ^
-   include/linux/lockdep.h:310:11: note: expanded from macro 'lockdep_asser=
-t_held'
-                   WARN_ON(debug_locks &&                                  \
-                           ^~~~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   net/netfilter/nf_tables_api.c:1926:2: note: Left side of '&&' is false
-           lockdep_assert_held(&nft_net->commit_mutex);
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/wireless/scan.c:734:2: note: '?' condition is false
+           if (!rdev->wiphy.bands[NL80211_BAND_6GHZ])
            ^
-   include/linux/lockdep.h:310:23: note: expanded from macro 'lockdep_asser=
-t_held'
-                   WARN_ON(debug_locks &&                                  \
-                                       ^
-   net/netfilter/nf_tables_api.c:1926:2: note: Loop condition is false.  Ex=
-iting loop
-           lockdep_assert_held(&nft_net->commit_mutex);
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/lockdep.h:309:32: note: expanded from macro 'lockdep_asser=
-t_held'
-   #define lockdep_assert_held(l)  do {                                    \
-                                   ^
-   net/netfilter/nf_tables_api.c:1932:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/netfilter/nf_tables_api.c:1932:2: note: Taking false branch
-           if (err < 0)
+   net/wireless/scan.c:734:2: note: Taking false branch
+           if (!rdev->wiphy.bands[NL80211_BAND_6GHZ])
            ^
-   net/netfilter/nf_tables_api.c:1935:6: note: Assuming the condition is fa=
-lse
-           if (ha[NFTA_HOOK_HOOKNUM] =3D=3D NULL ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1935:6: note: Left side of '||' is false
-   net/netfilter/nf_tables_api.c:1936:6: note: Assuming the condition is fa=
-lse
-               ha[NFTA_HOOK_PRIORITY] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1935:2: note: Taking false branch
-           if (ha[NFTA_HOOK_HOOKNUM] =3D=3D NULL ||
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/wireless/scan.c:739:7: note: 'iftd' is non-null
+           if (!iftd || !iftd->he_cap.has_he)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/wireless/scan.c:739:6: note: Left side of '||' is false
+           if (!iftd || !iftd->he_cap.has_he)
+               ^
+   net/wireless/scan.c:739:15: note: Assuming field 'has_he' is true
+           if (!iftd || !iftd->he_cap.has_he)
+                        ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/wireless/scan.c:739:2: note: '?' condition is false
+           if (!iftd || !iftd->he_cap.has_he)
            ^
-   net/netfilter/nf_tables_api.c:1939:14: note: '?' condition is false
-           hook->num =3D ntohl(nla_get_be32(ha[NFTA_HOOK_HOOKNUM]));
-                       ^
-   include/linux/byteorder/generic.h:140:18: note: expanded from macro 'nto=
-hl'
-   #define ntohl(x) ___ntohl(x)
-                    ^
-   include/linux/byteorder/generic.h:136:21: note: expanded from macro '___=
-ntohl'
-   #define ___ntohl(x) __be32_to_cpu(x)
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                            ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   net/netfilter/nf_tables_api.c:1940:19: note: '?' condition is false
-           hook->priority =3D ntohl(nla_get_be32(ha[NFTA_HOOK_PRIORITY]));
-                            ^
-   include/linux/byteorder/generic.h:140:18: note: expanded from macro 'nto=
-hl'
-   #define ntohl(x) ___ntohl(x)
-                    ^
-   include/linux/byteorder/generic.h:136:21: note: expanded from macro '___=
-ntohl'
-   #define ___ntohl(x) __be32_to_cpu(x)
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                            ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   net/netfilter/nf_tables_api.c:1943:6: note: Assuming 'type' is non-null
-           if (!type)
-               ^~~~~
-   net/netfilter/nf_tables_api.c:1943:2: note: Taking false branch
-           if (!type)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/wireless/scan.c:739:7: note: 'iftd' is non-null
+           if (!iftd || !iftd->he_cap.has_he)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/wireless/scan.c:739:6: note: Left side of '||' is false
+           if (!iftd || !iftd->he_cap.has_he)
+               ^
+   net/wireless/scan.c:739:2: note: '?' condition is false
+           if (!iftd || !iftd->he_cap.has_he)
            ^
-   net/netfilter/nf_tables_api.c:1946:6: note: Assuming the condition is tr=
-ue
-           if (nla[NFTA_CHAIN_TYPE]) {
-               ^~~~~~~~~~~~~~~~~~~~
-   net/netfilter/nf_tables_api.c:1946:2: note: Taking true branch
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/wireless/scan.c:739:2: note: Taking false branch
+           if (!iftd || !iftd->he_cap.has_he)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +2034 net/netfilter/nf_tables_api.c
+vim +666 net/wireless/scan.c
 
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1915  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  579  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1916  static int nft_chain_par=
-se_hook(struct net *net,
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1917  				const struct nlattr =
-* const nla[],
-36596dadf54a92 Pablo Neira Ayuso 2018-01-09  1918  				struct nft_chain_hoo=
-k *hook, u8 family,
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1919  				struct netlink_ext_a=
-ck *extack, bool autoload)
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1920  {
-d59d2f82f984df Pablo Neira Ayuso 2021-04-23  1921  	struct nftables_pernet =
-*nft_net =3D nft_pernet(net);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1922  	struct nlattr *ha[NFTA_=
-HOOK_MAX + 1];
-32537e91847a56 Pablo Neira Ayuso 2018-03-27  1923  	const struct nft_chain_=
-type *type;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1924  	int err;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1925  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  580  static int cfg80211_parse_coloc=
+ated_ap(const struct cfg80211_bss_ies *ies,
+c8cb5b854b40f2 Tova Mussai 2020-09-18  581  				       struct list_head *li=
+st)
+c8cb5b854b40f2 Tova Mussai 2020-09-18  582  {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  583  	struct ieee80211_neighbor_ap_i=
+nfo *ap_info;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  584  	const struct element *elem, *s=
+sid_elem;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  585  	const u8 *pos, *end;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  586  	u32 s_ssid_tmp;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  587  	int n_coloc =3D 0, ret;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  588  	LIST_HEAD(ap_list);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  589  =
 
-0854db2aaef3fc Florian Westphal  2021-04-01  1926  	lockdep_assert_held(&nf=
-t_net->commit_mutex);
-f102d66b335a41 Florian Westphal  2018-07-11  1927  	lockdep_nfnl_nft_mutex_=
-not_held();
-f102d66b335a41 Florian Westphal  2018-07-11  1928  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  590  	elem =3D cfg80211_find_elem(WL=
+AN_EID_REDUCED_NEIGHBOR_REPORT, ies->data,
+c8cb5b854b40f2 Tova Mussai 2020-09-18  591  				  ies->len);
+8a16ffdc4cf37c Ilan Peer   2021-04-08  592  	if (!elem)
+c8cb5b854b40f2 Tova Mussai 2020-09-18  593  		return 0;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  594  =
 
-8cb081746c031f Johannes Berg     2019-04-26  1929  	err =3D nla_parse_neste=
-d_deprecated(ha, NFTA_HOOK_MAX,
-8cb081746c031f Johannes Berg     2019-04-26  1930  					  nla[NFTA_CHAIN_HO=
-OK],
-fceb6435e85298 Johannes Berg     2017-04-12  1931  					  nft_hook_policy, =
-NULL);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1932  	if (err < 0)
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1933  		return err;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1934  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  595  	pos =3D elem->data;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  596  	end =3D pos + elem->datalen;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  597  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1935  	if (ha[NFTA_HOOK_HOOKNU=
-M] =3D=3D NULL ||
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1936  	    ha[NFTA_HOOK_PRIORI=
-TY] =3D=3D NULL)
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1937  		return -EINVAL;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1938  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  598  	ret =3D cfg80211_calc_short_ss=
+id(ies, &ssid_elem, &s_ssid_tmp);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  599  	if (ret)
+c8cb5b854b40f2 Tova Mussai 2020-09-18  600  		return ret;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  601  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1939  	hook->num =3D ntohl(nla=
-_get_be32(ha[NFTA_HOOK_HOOKNUM]));
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1940  	hook->priority =3D ntoh=
-l(nla_get_be32(ha[NFTA_HOOK_PRIORITY]));
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1941  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  602  	/* RNR IE may contain more tha=
+n one NEIGHBOR_AP_INFO */
+c8cb5b854b40f2 Tova Mussai 2020-09-18  603  	while (pos + sizeof(*ap_info) =
+<=3D end) {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  604  		enum nl80211_band band;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  605  		int freq;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  606  		u8 length, i, count;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  607  =
 
-826035498ec14b Pablo Neira Ayuso 2020-01-21  1942  	type =3D __nft_chain_ty=
-pe_get(family, NFT_CHAIN_T_DEFAULT);
-826035498ec14b Pablo Neira Ayuso 2020-01-21  1943  	if (!type)
-826035498ec14b Pablo Neira Ayuso 2020-01-21  1944  		return -EOPNOTSUPP;
-826035498ec14b Pablo Neira Ayuso 2020-01-21  1945  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  608  		ap_info =3D (void *)pos;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  609  		count =3D u8_get_bits(ap_info=
+->tbtt_info_hdr,
+c8cb5b854b40f2 Tova Mussai 2020-09-18  610  				    IEEE80211_AP_INFO_TBTT_=
+HDR_COUNT) + 1;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  611  		length =3D ap_info->tbtt_info=
+_len;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  612  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1946  	if (nla[NFTA_CHAIN_TYPE=
-]) {
-452238e8d5ffd8 Florian Westphal  2018-07-11  1947  		type =3D nf_tables_cha=
-in_type_lookup(net, nla[NFTA_CHAIN_TYPE],
-445509eb9b0027 Pablo Neira Ayuso 2018-08-03  1948  						   family, autoloa=
-d);
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1949  		if (IS_ERR(type)) {
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1950  			NL_SET_BAD_ATTR(extac=
-k, nla[NFTA_CHAIN_TYPE]);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1951  			return PTR_ERR(type);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1952  		}
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1953  	}
-d25e2e9388eda6 Pablo Neira Ayuso 2020-10-14  1954  	if (hook->num >=3D NFT_=
-MAX_HOOKS || !(type->hook_mask & (1 << hook->num)))
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1955  		return -EOPNOTSUPP;
-84ba7dd71add05 Florian Westphal  2017-12-08  1956  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  613  		pos +=3D sizeof(*ap_info);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  614  =
 
-84ba7dd71add05 Florian Westphal  2017-12-08  1957  	if (type->type =3D=3D N=
-FT_CHAIN_T_NAT &&
-84ba7dd71add05 Florian Westphal  2017-12-08  1958  	    hook->priority <=3D=
- NF_IP_PRI_CONNTRACK)
-84ba7dd71add05 Florian Westphal  2017-12-08  1959  		return -EOPNOTSUPP;
-84ba7dd71add05 Florian Westphal  2017-12-08  1960  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  615  		if (!ieee80211_operating_clas=
+s_to_band(ap_info->op_class,
+c8cb5b854b40f2 Tova Mussai 2020-09-18  616  						       &band))
+c8cb5b854b40f2 Tova Mussai 2020-09-18  617  			break;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  618  =
 
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1961  	if (!try_module_get(typ=
-e->owner)) {
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1962  		if (nla[NFTA_CHAIN_TYP=
-E])
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1963  			NL_SET_BAD_ATTR(extac=
-k, nla[NFTA_CHAIN_TYPE]);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1964  		return -ENOENT;
-983c4fcb81d6bd Pablo Neira Ayuso 2021-05-19  1965  	}
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1966  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  619  		freq =3D ieee80211_channel_to=
+_frequency(ap_info->channel, band);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  620  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1967  	hook->type =3D type;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1968  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  621  		if (end - pos < count * ap_in=
+fo->tbtt_info_len)
+c8cb5b854b40f2 Tova Mussai 2020-09-18  622  			break;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  623  =
 
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1969  	INIT_LIST_HEAD(&hook->l=
-ist);
-d3519cb89f6d59 Pablo Neira Ayuso 2020-10-08  1970  	if (nft_base_chain_netd=
-ev(family, hook->num)) {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1971  		err =3D nft_chain_pars=
-e_netdev(net, ha, &hook->list);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16 @1972  		if (err < 0) {
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1973  			module_put(type->owne=
-r);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1974  			return err;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1975  		}
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1976  	} else if (ha[NFTA_HOOK=
-_DEV] || ha[NFTA_HOOK_DEVS]) {
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1977  		module_put(type->owner=
-);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1978  		return -EOPNOTSUPP;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1979  	}
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1980  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  624  		/*
+c8cb5b854b40f2 Tova Mussai 2020-09-18  625  		 * TBTT info must include bss=
+ param + BSSID +
+c8cb5b854b40f2 Tova Mussai 2020-09-18  626  		 * (short SSID or same_ssid b=
+it to be set).
+c8cb5b854b40f2 Tova Mussai 2020-09-18  627  		 * ignore other options, and =
+move to the
+c8cb5b854b40f2 Tova Mussai 2020-09-18  628  		 * next AP info
+c8cb5b854b40f2 Tova Mussai 2020-09-18  629  		 */
+c8cb5b854b40f2 Tova Mussai 2020-09-18  630  		if (band !=3D NL80211_BAND_6G=
+HZ ||
+c8cb5b854b40f2 Tova Mussai 2020-09-18  631  		    (length !=3D IEEE80211_TB=
+TT_INFO_OFFSET_BSSID_BSS_PARAM &&
+c8cb5b854b40f2 Tova Mussai 2020-09-18  632  		     length < IEEE80211_TBTT_=
+INFO_OFFSET_BSSID_SSSID_BSS_PARAM)) {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  633  			pos +=3D count * ap_info->tb=
+tt_info_len;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  634  			continue;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  635  		}
+c8cb5b854b40f2 Tova Mussai 2020-09-18  636  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1981  	return 0;
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1982  }
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1983  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  637  		for (i =3D 0; i < count; i++)=
+ {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  638  			struct cfg80211_colocated_ap=
+ *entry;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  639  =
 
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1984  static void nft_chain_re=
-lease_hook(struct nft_chain_hook *hook)
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1985  {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1986  	struct nft_hook *h, *ne=
-xt;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1987  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  640  			entry =3D kzalloc(sizeof(*en=
+try) + IEEE80211_MAX_SSID_LEN,
+c8cb5b854b40f2 Tova Mussai 2020-09-18  641  					GFP_ATOMIC);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  642  =
 
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1988  	list_for_each_entry_saf=
-e(h, next, &hook->list, list) {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1989  		list_del(&h->list);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1990  		kfree(h);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  1991  	}
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1992  	module_put(hook->type->=
-owner);
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1993  }
-508f8ccdab0ef5 Pablo Neira Ayuso 2016-08-02  1994  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  643  			if (!entry)
+c8cb5b854b40f2 Tova Mussai 2020-09-18  644  				break;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  645  =
 
-0cbc06b3faba75 Florian Westphal  2018-05-25  1995  struct nft_rules_old {
-0cbc06b3faba75 Florian Westphal  2018-05-25  1996  	struct rcu_head h;
-0cbc06b3faba75 Florian Westphal  2018-05-25  1997  	struct nft_rule **start;
-0cbc06b3faba75 Florian Westphal  2018-05-25  1998  };
-0cbc06b3faba75 Florian Westphal  2018-05-25  1999  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  646  			entry->center_freq =3D freq;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  647  =
 
-0cbc06b3faba75 Florian Westphal  2018-05-25  2000  static struct nft_rule *=
-*nf_tables_chain_alloc_rules(const struct nft_chain *chain,
-0cbc06b3faba75 Florian Westphal  2018-05-25  2001  						     unsigned int =
-alloc)
-0cbc06b3faba75 Florian Westphal  2018-05-25  2002  {
-0cbc06b3faba75 Florian Westphal  2018-05-25  2003  	if (alloc > INT_MAX)
-0cbc06b3faba75 Florian Westphal  2018-05-25  2004  		return NULL;
-0cbc06b3faba75 Florian Westphal  2018-05-25  2005  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  648  			if (!cfg80211_parse_ap_info(=
+entry, pos, length,
+c8cb5b854b40f2 Tova Mussai 2020-09-18  649  						    ssid_elem, s_ssid_tmp=
+)) {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  650  				n_coloc++;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  651  				list_add_tail(&entry->list,=
+ &ap_list);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  652  			} else {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  653  				kfree(entry);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  654  			}
+c8cb5b854b40f2 Tova Mussai 2020-09-18  655  =
 
-0cbc06b3faba75 Florian Westphal  2018-05-25  2006  	alloc +=3D 1;	/* NULL, =
-ends rules */
-0cbc06b3faba75 Florian Westphal  2018-05-25  2007  	if (sizeof(struct nft_r=
-ule *) > INT_MAX / alloc)
-0cbc06b3faba75 Florian Westphal  2018-05-25  2008  		return NULL;
-0cbc06b3faba75 Florian Westphal  2018-05-25  2009  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  656  			pos +=3D ap_info->tbtt_info_=
+len;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  657  		}
+c8cb5b854b40f2 Tova Mussai 2020-09-18  658  	}
+c8cb5b854b40f2 Tova Mussai 2020-09-18  659  =
 
-0cbc06b3faba75 Florian Westphal  2018-05-25  2010  	alloc *=3D sizeof(struc=
-t nft_rule *);
-0cbc06b3faba75 Florian Westphal  2018-05-25  2011  	alloc +=3D sizeof(struc=
-t nft_rules_old);
-0cbc06b3faba75 Florian Westphal  2018-05-25  2012  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  660  	if (pos !=3D end) {
+c8cb5b854b40f2 Tova Mussai 2020-09-18  661  		cfg80211_free_coloc_ap_list(&=
+ap_list);
+c8cb5b854b40f2 Tova Mussai 2020-09-18  662  		return 0;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  663  	}
+c8cb5b854b40f2 Tova Mussai 2020-09-18  664  =
 
-0cbc06b3faba75 Florian Westphal  2018-05-25  2013  	return kvmalloc(alloc, =
-GFP_KERNEL);
-0cbc06b3faba75 Florian Westphal  2018-05-25  2014  }
-0cbc06b3faba75 Florian Westphal  2018-05-25  2015  =
-
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2016  static void nft_basechai=
-n_hook_init(struct nf_hook_ops *ops, u8 family,
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2017  				    const struct nft=
-_chain_hook *hook,
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2018  				    struct nft_chain=
- *chain)
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2019  {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2020  	ops->pf			=3D family;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2021  	ops->hooknum		=3D hook-=
->num;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2022  	ops->priority		=3D hook=
-->priority;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2023  	ops->priv		=3D chain;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2024  	ops->hook		=3D hook->ty=
-pe->hooks[ops->hooknum];
-c5c6accd7b7e10 Florian Westphal  2021-06-08  2025  	ops->hook_ops_type	=3D =
-NF_HOOK_OP_NF_TABLES;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2026  }
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2027  =
-
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2028  static int nft_basechain=
-_init(struct nft_base_chain *basechain, u8 family,
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2029  			      struct nft_chai=
-n_hook *hook, u32 flags)
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2030  {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2031  	struct nft_chain *chain;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2032  	struct nft_hook *h;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2033  =
-
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16 @2034  	basechain->type =3D hoo=
-k->type;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2035  	INIT_LIST_HEAD(&basecha=
-in->hook_list);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2036  	chain =3D &basechain->c=
-hain;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2037  =
-
-d3519cb89f6d59 Pablo Neira Ayuso 2020-10-08  2038  	if (nft_base_chain_netd=
-ev(family, hook->num)) {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2039  		list_splice_init(&hook=
-->list, &basechain->hook_list);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2040  		list_for_each_entry(h,=
- &basechain->hook_list, list)
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2041  			nft_basechain_hook_in=
-it(&h->ops, family, hook, chain);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2042  =
-
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2043  		basechain->ops.hooknum=
-	=3D hook->num;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2044  		basechain->ops.priorit=
-y	=3D hook->priority;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2045  	} else {
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2046  		nft_basechain_hook_ini=
-t(&basechain->ops, family, hook, chain);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2047  	}
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2048  =
-
-67c49de4ad862c Pablo Neira Ayuso 2020-06-30  2049  	chain->flags |=3D NFT_C=
-HAIN_BASE | flags;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2050  	basechain->policy =3D N=
-F_ACCEPT;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2051  	if (chain->flags & NFT_=
-CHAIN_HW_OFFLOAD &&
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2052  	    nft_chain_offload_p=
-riority(basechain) < 0)
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2053  		return -EOPNOTSUPP;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2054  =
-
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2055  	flow_block_init(&basech=
-ain->flow_block);
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2056  =
-
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2057  	return 0;
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2058  }
-d54725cd11a57c Pablo Neira Ayuso 2019-10-16  2059  =
+c8cb5b854b40f2 Tova Mussai 2020-09-18  665  	list_splice_tail(&ap_list, lis=
+t);
+c8cb5b854b40f2 Tova Mussai 2020-09-18 @666  	return n_coloc;
+c8cb5b854b40f2 Tova Mussai 2020-09-18  667  }
+c8cb5b854b40f2 Tova Mussai 2020-09-18  668  =
 
 
-:::::: The code at line 2034 was first introduced by commit
-:::::: d54725cd11a57c30f650260cfb0a92c268bdc3e0 netfilter: nf_tables: suppo=
-rt for multiple devices per netdev hook
+:::::: The code at line 666 was first introduced by commit
+:::::: c8cb5b854b40f2ce52ccd032fa19750f4181d5fc nl80211/cfg80211: support 6=
+ GHz scanning
 
-:::::: TO: Pablo Neira Ayuso <pablo@netfilter.org>
-:::::: CC: Pablo Neira Ayuso <pablo@netfilter.org>
+:::::: TO: Tova Mussai <tova.mussai@intel.com>
+:::::: CC: Johannes Berg <johannes.berg@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7723160808006819160==--
+--===============5805705343000809035==--
 
