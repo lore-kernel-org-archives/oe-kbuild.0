@@ -1,197 +1,335 @@
-Content-Type: multipart/mixed; boundary="===============4307169871235851130=="
+Content-Type: multipart/mixed; boundary="===============7633771088408903762=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:bpf/bpf-next/master 59/159] drivers/net/ethernet/marvell/mvneta.c:2145 mvneta_xdp_submit_frame() warn: variable dereferenced before check 'tx_desc' (see line 2136)
-Date: Tue, 01 Feb 2022 19:43:42 +0800
-Message-ID: <202202011945.tqWQ7nWl-lkp@intel.com>
+Subject: drivers/scsi/be2iscsi/be_main.c:2955:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Tue, 01 Feb 2022 18:52:49 +0800
+Message-ID: <202202011818.EZC1FDYu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4307169871235851130==
+--===============7633771088408903762==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
-head:   5ee32ea24ce7075736e03b4b0b5954a8a323cd73
-commit: c41ced023a9892572bd0ec8c3af0bd99faefd31f [59/159] net: mvneta: add =
-frags support to XDP_TX
-:::::: branch date: 3 hours ago
-:::::: commit date: 11 days ago
-config: nios2-randconfig-m031-20220130 (https://download.01.org/0day-ci/arc=
-hive/20220201/202202011945.tqWQ7nWl-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
+commit: ad7d61f159db73974f1b0352f21afe04b0bbd920 printk: index: Add indexin=
+g support to dev_printk
+date:   7 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20220130 (https://download.01.org/0day-ci/archi=
+ve/20220201/202202011818.EZC1FDYu-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
+e44b1f32ffdbc995e6fec806271b4b3ba4)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dad7d61f159db73974f1b0352f21afe04b0bbd920
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ad7d61f159db73974f1b0352f21afe04b0bbd920
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/marvell/mvneta.c:2145 mvneta_xdp_submit_frame() warn: =
-variable dereferenced before check 'tx_desc' (see line 2136)
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
-ialized symbol 'sp'.
-drivers/net/ethernet/marvell/mvneta.c:2409 mvneta_swbm_build_skb() error: u=
-ninitialized symbol 'num_frags'.
-include/linux/skbuff.h:2971 __netdev_alloc_skb_ip_align() warn: should this=
- be a bitwise op?
+clang-analyzer warnings: (new ones prefixed by >>)
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:3: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:2780:5: note: Loop condition is false.  =
+Exiting loop
+                                   beiscsi_log(phba, KERN_INFO, BEISCSI_LOG=
+_INIT,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1023:53: note: expanded from macro 'beis=
+csi_log'
+   #define beiscsi_log(phba, level, mask, fmt, arg...) \
+                                                       ^
+   drivers/scsi/be2iscsi/be_main.c:2799:8: note: Assuming field 'virtual_ad=
+dress' is null
+                           if (mem_descr->mem_array[0].virtual_address) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2799:4: note: Taking false branch
+                           if (mem_descr->mem_array[0].virtual_address) {
+                           ^
+   drivers/scsi/be2iscsi/be_main.c:2807:5: note: Left side of '||' is false
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:7: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                       ^
+   drivers/scsi/be2iscsi/be_main.c:2807:5: note: Taking false branch
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:3: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:2807:5: note: Loop condition is false.  =
+Exiting loop
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1023:53: note: expanded from macro 'beis=
+csi_log'
+   #define beiscsi_log(phba, level, mask, fmt, arg...) \
+                                                       ^
+   drivers/scsi/be2iscsi/be_main.c:2819:8: note: Assuming pointer value is =
+null
+                           if (!mem_descr->mem_array[0].virtual_address)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2819:8: note: Assuming field 'virtual_ad=
+dress' is null
+                           if (!mem_descr->mem_array[0].virtual_address)
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2819:4: note: Taking true branch
+                           if (!mem_descr->mem_array[0].virtual_address)
+                           ^
+   drivers/scsi/be2iscsi/be_main.c:2820:5: note: Left side of '||' is false
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:7: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                       ^
+   drivers/scsi/be2iscsi/be_main.c:2820:5: note: Taking false branch
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:3: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:2820:5: note: Loop condition is false.  =
+Exiting loop
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1023:53: note: expanded from macro 'beis=
+csi_log'
+   #define beiscsi_log(phba, level, mask, fmt, arg...) \
+                                                       ^
+   drivers/scsi/be2iscsi/be_main.c:2825:4: note: Null pointer value stored =
+to field 'handle_base'
+                           pasync_ctx->async_data.handle_base =3D
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2831:4: note: Null pointer value stored =
+to 'pasync_data_h'
+                           pasync_data_h =3D
+                           ^~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2839:8: note: Assuming field 'virtual_ad=
+dress' is null
+                           if (mem_descr->mem_array[0].virtual_address) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2839:4: note: Taking false branch
+                           if (mem_descr->mem_array[0].virtual_address) {
+                           ^
+   drivers/scsi/be2iscsi/be_main.c:2847:5: note: Left side of '||' is false
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:7: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                       ^
+   drivers/scsi/be2iscsi/be_main.c:2847:5: note: Taking false branch
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1026:3: note: expanded from macro 'beisc=
+si_log'
+                   if (((mask) & log_value) || (level[1] <=3D '3')) \
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:2847:5: note: Loop condition is false.  =
+Exiting loop
+                                   beiscsi_log(phba, KERN_WARNING,
+                                   ^
+   drivers/scsi/be2iscsi/be_main.h:1023:53: note: expanded from macro 'beis=
+csi_log'
+   #define beiscsi_log(phba, level, mask, fmt, arg...) \
+                                                       ^
+   drivers/scsi/be2iscsi/be_main.c:2865:20: note: Assuming the condition is=
+ true
+                           for (index =3D 0; index < BEISCSI_ASYNC_HDQ_SIZE
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2865:4: note: Loop condition is true.  E=
+ntering loop body
+                           for (index =3D 0; index < BEISCSI_ASYNC_HDQ_SIZE
+                           ^
+   drivers/scsi/be2iscsi/be_main.c:2887:24: note: Access to field 'cri' res=
+ults in a dereference of a null pointer (loaded from variable 'pasync_data_=
+h')
+                                   pasync_data_h->cri =3D -1;
+                                   ~~~~~~~~~~~~~      ^
+>> drivers/scsi/be2iscsi/be_main.c:2955:6: warning: Branch condition evalua=
+tes to a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (sgl->va)
+               ^
+   drivers/scsi/be2iscsi/be_main.c:3699:6: note: 'status' is equal to 0
+           if (status !=3D 0) {
+               ^~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3699:2: note: Taking false branch
+           if (status !=3D 0) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3706:6: note: 'status' is equal to 0
+           if (status !=3D 0)
+               ^~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3706:2: note: Taking false branch
+           if (status !=3D 0)
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3710:6: note: Assuming 'status' is equal=
+ to 0
+           if (status !=3D 0) {
+               ^~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3710:2: note: Taking false branch
+           if (status !=3D 0) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3717:6: note: 'status' is equal to 0
+           if (status !=3D 0) {
+               ^~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3717:2: note: Taking false branch
+           if (status !=3D 0) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3723:2: note: Loop condition is true.  E=
+ntering loop body
+           for (ulp_num =3D 0; ulp_num < BEISCSI_ULP_COUNT; ulp_num++) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3724:7: note: Assuming the condition is =
+false
+                   if (test_bit(ulp_num, &phba->fw_config.ulp_supported)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3724:3: note: Taking false branch
+                   if (test_bit(ulp_num, &phba->fw_config.ulp_supported)) {
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:3723:2: note: Loop condition is true.  E=
+ntering loop body
+           for (ulp_num =3D 0; ulp_num < BEISCSI_ULP_COUNT; ulp_num++) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3724:7: note: Assuming the condition is =
+false
+                   if (test_bit(ulp_num, &phba->fw_config.ulp_supported)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3724:3: note: Taking false branch
+                   if (test_bit(ulp_num, &phba->fw_config.ulp_supported)) {
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:3723:2: note: Loop condition is false. E=
+xecution continues on line 3760
+           for (ulp_num =3D 0; ulp_num < BEISCSI_ULP_COUNT; ulp_num++) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3760:11: note: Calling 'beiscsi_post_pag=
+es'
+           status =3D beiscsi_post_pages(phba);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3276:2: note: Loop condition is true.  E=
+ntering loop body
+           for (ulp_num =3D 0; ulp_num < BEISCSI_ULP_COUNT; ulp_num++)
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3277:3: note: Taking false branch
+                   if (test_bit(ulp_num, &phba->fw_config.ulp_supported))
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:3276:2: note: Loop condition is true.  E=
+ntering loop body
+           for (ulp_num =3D 0; ulp_num < BEISCSI_ULP_COUNT; ulp_num++)
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3277:3: note: Taking false branch
+                   if (test_bit(ulp_num, &phba->fw_config.ulp_supported))
+                   ^
+   drivers/scsi/be2iscsi/be_main.c:3276:2: note: Loop condition is false. E=
+xecution continues on line 3280
+           for (ulp_num =3D 0; ulp_num < BEISCSI_ULP_COUNT; ulp_num++)
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3282:14: note: Assuming 'i' is < field '=
+num_elements'
+           for (i =3D 0; i < mem_descr->num_elements; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3282:2: note: Loop condition is true.  E=
+ntering loop body
+           for (i =3D 0; i < mem_descr->num_elements; i++) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3283:3: note: Calling 'hwi_build_be_sgl_=
+arr'
+                   hwi_build_be_sgl_arr(phba, pm_arr, &sgl);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2955:6: note: Branch condition evaluates=
+ to a garbage value
+           if (sgl->va)
+               ^~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:2967:6: warning: Branch condition evalua=
+tes to a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (sgl->va)
+               ^
+   drivers/scsi/be2iscsi/be_main.c:3699:6: note: 'status' is equal to 0
+           if (status !=3D 0) {
+               ^~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3699:2: note: Taking false branch
+           if (status !=3D 0) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3706:6: note: 'status' is equal to 0
+           if (status !=3D 0)
+               ^~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3706:2: note: Taking false branch
+           if (status !=3D 0)
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3710:6: note: Assuming 'status' is equal=
+ to 0
+           if (status !=3D 0) {
+               ^~~~~~~~~~~
+   drivers/scsi/be2iscsi/be_main.c:3710:2: note: Taking false branch
+           if (status !=3D 0) {
+           ^
+   drivers/scsi/be2iscsi/be_main.c:3717:6: note: 'status' is equal to 0
+           if (status !=3D 0) {
 
-vim +/tx_desc +2145 drivers/net/ethernet/marvell/mvneta.c
+vim +2955 drivers/scsi/be2iscsi/be_main.c
 
-ca0e014609f05f Lorenzo Bianconi 2020-07-17  2079  =
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2950  =
 
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2080  static int
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2081  mvneta_xdp_submit_frame(s=
-truct mvneta_port *pp, struct mvneta_tx_queue *txq,
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2082  			struct xdp_frame *xdpf=
-, int *nxmit_byte, bool dma_map)
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2083  {
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2084  	struct skb_shared_info *=
-sinfo =3D xdp_get_shared_info_from_frame(xdpf);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2085  	struct device *dev =3D p=
-p->dev->dev.parent;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2086  	struct mvneta_tx_desc *t=
-x_desc =3D NULL;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2087  	int i, num_frames =3D 1;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2088  	struct page *page;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2089  =
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2951  static void
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2952  hwi_build_be_sgl_arr(s=
+truct beiscsi_hba *phba,
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2953  		     struct mem_arra=
+y *pmem, struct be_dma_mem *sgl)
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2954  {
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05 @2955  	if (sgl->va)
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2956  		be_sgl_destroy_conti=
+guous(sgl);
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2957  =
 
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2090  	if (unlikely(xdp_frame_h=
-as_frags(xdpf)))
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2091  		num_frames +=3D sinfo->=
-nr_frags;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2092  =
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2958  	be_sgl_create_contigu=
+ous(pmem->virtual_address,
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2959  				 pmem->bus_address=
+.u.a64.address,
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2960  				 pmem->size, sgl);
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2961  }
+6733b39a1301b0 Jayamohan Kallickal 2009-09-05  2962  =
 
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2093  	if (txq->count + num_fra=
-mes >=3D txq->size)
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2094  		return MVNETA_XDP_DROPP=
-ED;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2095  =
 
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2096  	for (i =3D 0; i < num_fr=
-ames; i++) {
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2097  		struct mvneta_tx_buf *b=
-uf =3D &txq->buf[txq->txq_put_index];
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2098  		skb_frag_t *frag =3D NU=
-LL;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2099  		int len =3D xdpf->len;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2100  		dma_addr_t dma_addr;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2101  =
+:::::: The code at line 2955 was first introduced by commit
+:::::: 6733b39a1301b0b020bbcbf3295852e93e624cb1 [SCSI] be2iscsi: add 10Gbps=
+ iSCSI - BladeEngine 2 driver
 
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2102  		if (unlikely(i)) { /* p=
-aged area */
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2103  			frag =3D &sinfo->frags=
-[i - 1];
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2104  			len =3D skb_frag_size(=
-frag);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2105  		}
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2106  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2107  		tx_desc =3D mvneta_txq_=
-next_desc_get(txq);
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2108  		if (dma_map) {
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2109  			/* ndo_xdp_xmit */
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2110  			void *data;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2111  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2112  			data =3D unlikely(frag=
-) ? skb_frag_address(frag)
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2113  					      : xdpf->data;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2114  			dma_addr =3D dma_map_s=
-ingle(dev, data, len,
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2115  						  DMA_TO_DEVICE);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2116  			if (dma_mapping_error(=
-dev, dma_addr)) {
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2117  				mvneta_txq_desc_put(t=
-xq);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2118  				goto unmap;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2119  			}
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2120  =
-
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2121  			buf->type =3D MVNETA_T=
-YPE_XDP_NDO;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2122  		} else {
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2123  			page =3D unlikely(frag=
-) ? skb_frag_page(frag)
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2124  					      : virt_to_page=
-(xdpf->data);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2125  			dma_addr =3D page_pool=
-_get_dma_addr(page);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2126  			if (unlikely(frag))
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2127  				dma_addr +=3D skb_fra=
-g_off(frag);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2128  			else
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2129  				dma_addr +=3D sizeof(=
-*xdpf) + xdpf->headroom;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2130  			dma_sync_single_for_de=
-vice(dev, dma_addr, len,
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2131  						   DMA_BIDIRECTIONA=
-L);
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2132  			buf->type =3D MVNETA_T=
-YPE_XDP_TX;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2133  		}
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2134  		buf->xdpf =3D unlikely(=
-i) ? NULL : xdpf;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2135  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21 @2136  		tx_desc->command =3D un=
-likely(i) ? 0 : MVNETA_TXD_F_DESC;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2137  		tx_desc->buf_phys_addr =
-=3D dma_addr;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2138  		tx_desc->data_size =3D =
-len;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2139  		*nxmit_byte +=3D len;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2140  =
-
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2141  		mvneta_txq_inc_put(txq);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2142  	}
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2143  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2144  	/*last descriptor */
-c41ced023a9892 Lorenzo Bianconi 2022-01-21 @2145  	if (likely(tx_desc))
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2146  		tx_desc->command |=3D M=
-VNETA_TXD_L_DESC | MVNETA_TXD_Z_PAD;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2147  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2148  	txq->pending +=3D num_fr=
-ames;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2149  	txq->count +=3D num_fram=
-es;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2150  =
-
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2151  	return MVNETA_XDP_TX;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2152  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2153  unmap:
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2154  	for (i--; i >=3D 0; i--)=
- {
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2155  		mvneta_txq_desc_put(txq=
-);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2156  		tx_desc =3D txq->descs =
-+ txq->next_desc_to_proc;
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2157  		dma_unmap_single(dev, t=
-x_desc->buf_phys_addr,
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2158  				 tx_desc->data_size,
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2159  				 DMA_TO_DEVICE);
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2160  	}
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2161  =
-
-c41ced023a9892 Lorenzo Bianconi 2022-01-21  2162  	return MVNETA_XDP_DROPPE=
-D;
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2163  }
-b0a43db9087a21 Lorenzo Bianconi 2019-10-19  2164  =
-
+:::::: TO: Jayamohan Kallickal <jayamohank@serverengines.com>
+:::::: CC: James Bottomley <James.Bottomley@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4307169871235851130==--
+--===============7633771088408903762==--
 
