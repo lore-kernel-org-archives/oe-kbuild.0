@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1150208386240378187=="
+Content-Type: multipart/mixed; boundary="===============6838573965168577354=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/scsi_error.c:805:27: warning: Access to field 'host' results in a dereference of an undefined pointer value (loaded from field 'device') [clang-analyzer-core.NullDereference]
-Date: Wed, 02 Feb 2022 08:47:11 +0800
-Message-ID: <202202020852.MzuGCqT8-lkp@intel.com>
+Subject: sound/soc/sof/intel/hda-ipc.c:150:3: warning: Value stored to 'msg_ext' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 02 Feb 2022 07:55:51 +0800
+Message-ID: <202202020733.Npgk5OGk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1150208386240378187==
+--===============6838573965168577354==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-CC: Miguel Ojeda <ojeda@kernel.org>
-CC: Nick Desaulniers <ndesaulniers@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+CC: Takashi Iwai <tiwai@suse.de>
+CC: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+CC: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+CC: Bard Liao <bard.liao@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
-ch to static_assert
-date:   3 months ago
+commit: 8d4ba1be3d2257606e04aff412829d8972670750 ASoC: SOF: pci: split PCI =
+into different drivers
+date:   11 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220121 (https://download.01.org/0day-ci/archi=
-ve/20220202/202202020852.MzuGCqT8-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d4baf3=
-b1322b84816aa623d8e8cb45a49cb68b84)
+:::::: commit date: 11 months ago
+config: riscv-randconfig-c006-20220131 (https://download.01.org/0day-ci/arc=
+hive/20220202/202202020733.Npgk5OGk-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2cdbac=
+a3943a4d6259119f185656328bd3805b68)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
+t/commit/?id=3D8d4ba1be3d2257606e04aff412829d8972670750
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
+        git checkout 8d4ba1be3d2257606e04aff412829d8972670750
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,862 +55,506 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mmc/host/davinci_mmc.c:627:6: note: 'mmc_freq' is <=3D 'mmc_req_=
-freq'
-           if (mmc_freq > mmc_req_freq)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/mmc/host/davinci_mmc.c:627:2: note: '?' condition is false
-           if (mmc_freq > mmc_req_freq)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mmc/host/davinci_mmc.c:627:2: note: Taking false branch
-           if (mmc_freq > mmc_req_freq)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mmc/host/davinci_mmc.c:630:2: note: '?' condition is false
-           if (mmc_req_freq <=3D 400000)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mmc/host/davinci_mmc.c:630:6: note: 'mmc_req_freq' is <=3D 400000
-           if (mmc_req_freq <=3D 400000)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/mmc/host/davinci_mmc.c:630:2: note: '?' condition is true
-           if (mmc_req_freq <=3D 400000)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mmc/host/davinci_mmc.c:630:2: note: Taking true branch
-           if (mmc_req_freq <=3D 400000)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mmc/host/davinci_mmc.c:631:37: note: The result of the '/' expre=
-ssion is undefined
-                   host->ns_in_one_cycle =3D (1000000) / (((mmc_pclk
-                                           ~~~~~~~~~~^~~~~~~~~~~~~
-   drivers/mmc/host/davinci_mmc.c:873:3: warning: Value stored to 'status' =
+                           ^
+   sound/core/seq/seq_prioq.c:292:16: note: Access to field 'next' results =
+in a dereference of a null pointer (loaded from variable 'prev')
+                                   prev->next =3D cell->next;
+                                   ~~~~       ^
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   sound/soc/xtensa/xtfpga-i2s.c:285:11: warning: Value stored to 'channels=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           unsigned channels =3D params_channels(params);
+                    ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/xtensa/xtfpga-i2s.c:285:11: note: Value stored to 'channels' d=
+uring its initialization is never read
+           unsigned channels =3D params_channels(params);
+                    ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   sound/hda/hdmi_chmap.c:331:3: warning: Value stored to 'channel' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   channel =3D chmap->ops.pin_get_slot_channel(
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/hda/hdmi_chmap.c:331:3: note: Value stored to 'channel' is never r=
+ead
+                   channel =3D chmap->ops.pin_get_slot_channel(
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   sound/soc/generic/audio-graph-card.c:618:17: warning: Value stored to 'd=
+ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:618:17: note: Value stored to 'dev'=
+ during its initialization is never read
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:634:17: warning: Value stored to 'd=
+ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:634:17: note: Value stored to 'dev'=
+ during its initialization is never read
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:653:17: warning: Value stored to 'd=
+ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:653:17: note: Value stored to 'dev'=
+ during its initialization is never read
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   sound/soc/bcm/bcm2835-i2s.c:356:2: warning: Value stored to 'data_delay'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+           data_delay =3D 0;
+           ^            ~
+   sound/soc/bcm/bcm2835-i2s.c:356:2: note: Value stored to 'data_delay' is=
+ never read
+           data_delay =3D 0;
+           ^            ~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> sound/soc/sof/intel/hda-ipc.c:150:3: warning: Value stored to 'msg_ext' =
 is never read [clang-analyzer-deadcode.DeadStores]
-                   status =3D readl(host->base + DAVINCI_MMCST0);
-                   ^
-   drivers/mmc/host/davinci_mmc.c:873:3: note: Value stored to 'status' is =
+                   msg_ext =3D hipcie & HDA_DSP_REG_HIPCIE_MSG_MASK;
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/intel/hda-ipc.c:150:3: note: Value stored to 'msg_ext' is =
 never read
-   Suppressed 15 warnings (15 in non-user code).
+                   msg_ext =3D hipcie & HDA_DSP_REG_HIPCIE_MSG_MASK;
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/intel/hda-ipc.c:187:3: warning: Value stored to 'msg' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   msg =3D hipct & HDA_DSP_REG_HIPCT_MSG_MASK;
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/intel/hda-ipc.c:187:3: note: Value stored to 'msg' is neve=
+r read
+                   msg =3D hipct & HDA_DSP_REG_HIPCT_MSG_MASK;
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   3 warnings generated.
+>> sound/soc/sof/intel/hda-dai.c:265:22: warning: Value stored to 'sdev' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct snd_sof_dev *sdev =3D
+                               ^~~~
+   sound/soc/sof/intel/hda-dai.c:265:22: note: Value stored to 'sdev' durin=
+g its initialization is never read
+           struct snd_sof_dev *sdev =3D
+                               ^~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   21 warnings generated.
->> drivers/scsi/scsi_error.c:805:27: warning: Access to field 'host' result=
-s in a dereference of an undefined pointer value (loaded from field 'device=
-') [clang-analyzer-core.NullDereference]
-           struct Scsi_Host *host =3D scmd->device->host;
-                                    ^
-   drivers/scsi/scsi_error.c:2204:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (true) {
+   4 warnings generated.
+>> sound/soc/sof/intel/cnl.c:50:3: warning: Value stored to 'msg_ext' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   msg_ext =3D hipci & CNL_DSP_REG_HIPCIDR_MSG_MASK;
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/intel/cnl.c:50:3: note: Value stored to 'msg_ext' is never=
+ read
+                   msg_ext =3D hipci & CNL_DSP_REG_HIPCIDR_MSG_MASK;
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/sof/intel/cnl.c:77:3: warning: Value stored to 'msg' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   msg =3D hipctdr & CNL_DSP_REG_HIPCTDR_MSG_MASK;
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sof/intel/cnl.c:77:3: note: Value stored to 'msg' is never read
+                   msg =3D hipctdr & CNL_DSP_REG_HIPCTDR_MSG_MASK;
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   sound/soc/codecs/wm8903.c:434:3: warning: Value stored to 'best' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   best =3D 0;
+                   ^      ~
+   sound/soc/codecs/wm8903.c:434:3: note: Value stored to 'best' is never r=
+ead
+                   best =3D 0;
+                   ^      ~
+   sound/soc/codecs/wm8903.c:1552:2: warning: Value stored to 'best_val' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           best_val =3D ((clk_sys * 10) / bclk_divs[0].ratio) - bclk;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8903.c:1552:2: note: Value stored to 'best_val' is ne=
+ver read
+           best_val =3D ((clk_sys * 10) / bclk_divs[0].ratio) - bclk;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8903.c:1559:3: warning: Value stored to 'best_val' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   best_val =3D cur_val;
+                   ^          ~~~~~~~
+   sound/soc/codecs/wm8903.c:1559:3: note: Value stored to 'best_val' is ne=
+ver read
+                   best_val =3D cur_val;
+                   ^          ~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   sound/soc/codecs/wm8960.c:508:18: warning: Access to field 'lout1' resul=
+ts in a dereference of a null pointer (loaded from variable 'wm8960') [clan=
+g-analyzer-core.NullDereference]
+                           wm8960->lout1 =3D w;
+                                         ^
+   sound/soc/codecs/wm8960.c:1349:6: note: Assuming field 'capless' is false
+           if (pdata->capless)
+               ^~~~~~~~~~~~~~
+   sound/soc/codecs/wm8960.c:1349:2: note: Taking false branch
+           if (pdata->capless)
            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Loop condition is false.  Exitin=
-g loop
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:210:3: note: expanded from macro 'set_current_stat=
-e'
-                   debug_normal_state_change((state_value));               \
-                   ^
-   include/linux/sched.h:159:42: note: expanded from macro 'debug_normal_st=
-ate_change'
-   # define debug_normal_state_change(cond)        do { } while (0)
-                                                   ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   sound/soc/codecs/wm8960.c:1356:2: note: Calling 'wm8960_add_widgets'
+           wm8960_add_widgets(component);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8960.c:472:2: note: 'wm8960' initialized here
+           struct wm8960_priv *wm8960 =3D snd_soc_component_get_drvdata(com=
+ponent);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8960.c:485:6: note: Assuming 'pdata' is null
+           if (pdata && pdata->capless) {
+               ^~~~~
+   sound/soc/codecs/wm8960.c:485:12: note: Left side of '&&' is false
+           if (pdata && pdata->capless) {
+                     ^
+   sound/soc/codecs/wm8960.c:504:2: note: Left side of '&&' is false
+           list_for_each_entry(w, &component->card->widgets, list) {
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is true
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:303:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   drivers/scsi/scsi_error.c:2211:3: note: '?' condition is true
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   sound/soc/codecs/wm8960.c:504:2: note: Taking false branch
+           list_for_each_entry(w, &component->card->widgets, list) {
            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
 =3D0 to see all)
-   include/linux/compiler_types.h:314:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
---
+   sound/soc/codecs/wm8960.c:504:2: note: Loop condition is false.  Exiting=
+ loop
+           list_for_each_entry(w, &component->card->widgets, list) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:2095:2: note: '?' condition is true
-           if (!scsi_eh_stu(shost, work_q, done_q))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/scsi_error.c:2095:2: note: Taking true branch
-           if (!scsi_eh_stu(shost, work_q, done_q))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/scsi_error.c:2096:7: note: Assuming the condition is false
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/scsi_error.c:2096:3: note: '?' condition is false
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:2096:7: note: Assuming the condition is true
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/scsi_error.c:2096:3: note: '?' condition is true
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/scsi_error.c:2096:3: note: Taking true branch
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/scsi_error.c:2097:9: note: Calling 'scsi_eh_target_reset'
-                           if (!scsi_eh_target_reset(shost, work_q, done_q))
-                                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/scsi_error.c:1563:9: note: Assuming the condition is false
-           while (!list_empty(&tmp_list)) {
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_error.c:1563:2: note: Loop condition is false. Executi=
-on continues on line 1607
-           while (!list_empty(&tmp_list)) {
-           ^
-   drivers/scsi/scsi_error.c:1607:9: note: Calling 'scsi_eh_test_devices'
-           return scsi_eh_test_devices(&check_list, work_q, done_q, 0);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_error.c:1357:9: note: Assuming the condition is true
-           while (!list_empty(cmd_list)) {
-                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/scsi_error.c:1357:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (!list_empty(cmd_list)) {
-           ^
-   drivers/scsi/scsi_error.c:1359:8: note: Assigned value is garbage or und=
-efined
-                   sdev =3D scmd->device;
-                        ^ ~~~~~~~~~~~~
->> drivers/scsi/scsi_error.c:1576:4: warning: Address of stack memory assoc=
-iated with local variable 'check_list' is still referred to by the stack va=
-riable 'eh_work_q' upon returning to the caller.  This will be a dangling r=
-eference [clang-analyzer-core.StackAddressEscape]
-                           return list_empty(work_q);
-                           ^
-   drivers/scsi/scsi_error.c:2204:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (true) {
-           ^
-   drivers/scsi/scsi_error.c:2211:3: note: Loop condition is false.  Exitin=
-g loop
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:210:3: note: expanded from macro 'set_current_stat=
-e'
-                   debug_normal_state_change((state_value));               \
-                   ^
-   include/linux/sched.h:159:42: note: expanded from macro 'debug_normal_st=
-ate_change'
-   # define debug_normal_state_change(cond)        do { } while (0)
-                                                   ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is true
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:303:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   drivers/scsi/scsi_error.c:2211:3: note: '?' condition is true
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:314:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
---
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/scsi_error.c:2095:2: note: Taking true branch
-           if (!scsi_eh_stu(shost, work_q, done_q))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/scsi_error.c:2096:3: note: '?' condition is false
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:2096:3: note: '?' condition is true
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/scsi_error.c:2096:3: note: Taking true branch
-                   if (!scsi_eh_bus_device_reset(shost, work_q, done_q))
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/scsi_error.c:2097:9: note: Calling 'scsi_eh_target_reset'
-                           if (!scsi_eh_target_reset(shost, work_q, done_q))
-                                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/scsi/scsi_error.c:1563:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (!list_empty(&tmp_list)) {
-           ^
-   drivers/scsi/scsi_error.c:1568:3: note: '?' condition is false
-                   if (scsi_host_eh_past_deadline(shost)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:1568:3: note: Assuming the condition is false
-                   if (scsi_host_eh_past_deadline(shost)) {
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/scsi/scsi_error.c:1568:3: note: '?' condition is true
-                   if (scsi_host_eh_past_deadline(shost)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/scsi/scsi_error.c:1568:3: note: Taking true branch
-                   if (scsi_host_eh_past_deadline(shost)) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/scsi/scsi_error.c:1572:4: note: Loop condition is false.  Exitin=
-g loop
-                           SCSI_LOG_ERROR_RECOVERY(3,
-                           ^
-   drivers/scsi/scsi_logging.h:65:9: note: expanded from macro 'SCSI_LOG_ER=
-ROR_RECOVERY'
-           SCSI_CHECK_LOGGING(SCSI_LOG_ERROR_SHIFT, SCSI_LOG_ERROR_BITS, LE=
-VEL,CMD);
-           ^
-   drivers/scsi/scsi_logging.h:56:53: note: expanded from macro 'SCSI_CHECK=
-_LOGGING'
-   #define SCSI_CHECK_LOGGING(SHIFT, BITS, LEVEL, CMD) do { } while (0)
-                                                       ^
-   drivers/scsi/scsi_error.c:1576:4: note: Address of stack memory associat=
-ed with local variable 'check_list' is still referred to by the stack varia=
-ble 'eh_work_q' upon returning to the caller.  This will be a dangling refe=
-rence
-                           return list_empty(work_q);
-                           ^
->> drivers/scsi/scsi_error.c:1576:4: warning: Address of stack memory assoc=
-iated with local variable 'tmp_list' is still referred to by the stack vari=
-able 'eh_work_q' upon returning to the caller.  This will be a dangling ref=
-erence [clang-analyzer-core.StackAddressEscape]
-                           return list_empty(work_q);
-                           ^
-   drivers/scsi/scsi_error.c:2204:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (true) {
-           ^
-   drivers/scsi/scsi_error.c:2211:3: note: Loop condition is false.  Exitin=
-g loop
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:210:3: note: expanded from macro 'set_current_stat=
-e'
-                   debug_normal_state_change((state_value));               \
-                   ^
-   include/linux/sched.h:159:42: note: expanded from macro 'debug_normal_st=
-ate_change'
-   # define debug_normal_state_change(cond)        do { } while (0)
-                                                   ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is true
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:303:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   drivers/scsi/scsi_error.c:2211:3: note: '?' condition is true
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:314:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/scsi/scsi_error.c:2211:3: note: Left side of '||' is false
-                   set_current_state(TASK_INTERRUPTIBLE);
-                   ^
-   include/linux/sched.h:211:3: note: expanded from macro 'set_current_stat=
-e'
-                   smp_store_mb(current->__state, (state_value));          \
-                   ^
-   include/asm-generic/barrier.h:148:40: note: expanded from macro 'smp_sto=
-re_mb'
-   #define smp_store_mb(var, value)  do { WRITE_ONCE(var, value); barrier()=
-; } while (0)
-                                          ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
 
-vim +805 drivers/scsi/scsi_error.c
+vim +/msg_ext +150 sound/soc/sof/intel/hda-ipc.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  796  =
+6e9cde974863dc Liam Girdwood         2019-04-12  127  =
 
-292148f8bb2b5d Brian King         2007-01-30  797  /**
-292148f8bb2b5d Brian King         2007-01-30  798   * scsi_try_host_reset -=
- ask host adapter to reset itself
-c2b3ebd0d21a10 Geert Uytterhoeven 2013-05-17  799   * @scmd:	SCSI cmd to se=
-nd host reset.
-dc8875e1078961 Randy Dunlap       2007-11-15  800   */
-b8e162f9e7e2da Bart Van Assche    2021-04-15  801  static enum scsi_disposi=
-tion scsi_try_host_reset(struct scsi_cmnd *scmd)
-292148f8bb2b5d Brian King         2007-01-30  802  {
-292148f8bb2b5d Brian King         2007-01-30  803  	unsigned long flags;
-b8e162f9e7e2da Bart Van Assche    2021-04-15  804  	enum scsi_disposition r=
-tn;
-0bf8c869701039 Jesper Juhl        2011-03-21 @805  	struct Scsi_Host *host =
-=3D scmd->device->host;
-0bf8c869701039 Jesper Juhl        2011-03-21  806  	struct scsi_host_templa=
-te *hostt =3D host->hostt;
-292148f8bb2b5d Brian King         2007-01-30  807  =
+6e9cde974863dc Liam Girdwood         2019-04-12  128  /* IPC handler thread=
+ */
+6e9cde974863dc Liam Girdwood         2019-04-12  129  irqreturn_t hda_dsp_i=
+pc_irq_thread(int irq, void *context)
+6e9cde974863dc Liam Girdwood         2019-04-12  130  {
+6e9cde974863dc Liam Girdwood         2019-04-12  131  	struct snd_sof_dev *=
+sdev =3D context;
+6e9cde974863dc Liam Girdwood         2019-04-12  132  	u32 hipci;
+6e9cde974863dc Liam Girdwood         2019-04-12  133  	u32 hipcie;
+6e9cde974863dc Liam Girdwood         2019-04-12  134  	u32 hipct;
+6e9cde974863dc Liam Girdwood         2019-04-12  135  	u32 hipcte;
+6e9cde974863dc Liam Girdwood         2019-04-12  136  	u32 msg;
+6e9cde974863dc Liam Girdwood         2019-04-12  137  	u32 msg_ext;
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  138  	bool ipc_irq =3D fal=
+se;
+6e9cde974863dc Liam Girdwood         2019-04-12  139  =
 
-91921e016a2199 Hannes Reinecke    2014-06-25  808  	SCSI_LOG_ERROR_RECOVERY=
-(3,
-91921e016a2199 Hannes Reinecke    2014-06-25  809  		shost_printk(KERN_INFO=
-, host, "Snd Host RST\n"));
-292148f8bb2b5d Brian King         2007-01-30  810  =
+6e9cde974863dc Liam Girdwood         2019-04-12  140  	/* read IPC status */
+6e9cde974863dc Liam Girdwood         2019-04-12  141  	hipcie =3D snd_sof_d=
+sp_read(sdev, HDA_DSP_BAR,
+6e9cde974863dc Liam Girdwood         2019-04-12  142  				  HDA_DSP_REG_HIP=
+CIE);
+6e9cde974863dc Liam Girdwood         2019-04-12  143  	hipct =3D snd_sof_ds=
+p_read(sdev, HDA_DSP_BAR, HDA_DSP_REG_HIPCT);
+5dbeb828742198 Pierre-Louis Bossart  2019-06-03  144  	hipci =3D snd_sof_ds=
+p_read(sdev, HDA_DSP_BAR, HDA_DSP_REG_HIPCI);
+5dbeb828742198 Pierre-Louis Bossart  2019-06-03  145  	hipcte =3D snd_sof_d=
+sp_read(sdev, HDA_DSP_BAR, HDA_DSP_REG_HIPCTE);
+6e9cde974863dc Liam Girdwood         2019-04-12  146  =
 
-0bf8c869701039 Jesper Juhl        2011-03-21  811  	if (!hostt->eh_host_res=
-et_handler)
-292148f8bb2b5d Brian King         2007-01-30  812  		return FAILED;
-292148f8bb2b5d Brian King         2007-01-30  813  =
+6e9cde974863dc Liam Girdwood         2019-04-12  147  	/* is this a reply m=
+essage from the DSP */
+09a173a63fbb89 Pierre-Louis Bossart  2019-06-03  148  	if (hipcie & HDA_DSP=
+_REG_HIPCIE_DONE) {
+6e9cde974863dc Liam Girdwood         2019-04-12  149  		msg =3D hipci & HDA=
+_DSP_REG_HIPCI_MSG_MASK;
+6e9cde974863dc Liam Girdwood         2019-04-12 @150  		msg_ext =3D hipcie =
+& HDA_DSP_REG_HIPCIE_MSG_MASK;
+6e9cde974863dc Liam Girdwood         2019-04-12  151  =
 
-0bf8c869701039 Jesper Juhl        2011-03-21  814  	rtn =3D hostt->eh_host_=
-reset_handler(scmd);
-292148f8bb2b5d Brian King         2007-01-30  815  =
+6e9cde974863dc Liam Girdwood         2019-04-12  152  		dev_vdbg(sdev->dev,
+6e9cde974863dc Liam Girdwood         2019-04-12  153  			 "ipc: firmware re=
+sponse, msg:0x%x, msg_ext:0x%x\n",
+6e9cde974863dc Liam Girdwood         2019-04-12  154  			 msg, msg_ext);
+6e9cde974863dc Liam Girdwood         2019-04-12  155  =
 
-292148f8bb2b5d Brian King         2007-01-30  816  	if (rtn =3D=3D SUCCESS)=
- {
-0bf8c869701039 Jesper Juhl        2011-03-21  817  		if (!hostt->skip_settl=
-e_delay)
-292148f8bb2b5d Brian King         2007-01-30  818  			ssleep(HOST_RESET_SET=
-TLE_TIME);
-0bf8c869701039 Jesper Juhl        2011-03-21  819  		spin_lock_irqsave(host=
-->host_lock, flags);
-0bf8c869701039 Jesper Juhl        2011-03-21  820  		scsi_report_bus_reset(=
-host, scmd_channel(scmd));
-0bf8c869701039 Jesper Juhl        2011-03-21  821  		spin_unlock_irqrestore=
-(host->host_lock, flags);
-292148f8bb2b5d Brian King         2007-01-30  822  	}
-292148f8bb2b5d Brian King         2007-01-30  823  =
+6e9cde974863dc Liam Girdwood         2019-04-12  156  		/* mask Done interr=
+upt */
+6e9cde974863dc Liam Girdwood         2019-04-12  157  		snd_sof_dsp_update_=
+bits(sdev, HDA_DSP_BAR,
+6e9cde974863dc Liam Girdwood         2019-04-12  158  					HDA_DSP_REG_HIPC=
+CTL,
+6e9cde974863dc Liam Girdwood         2019-04-12  159  					HDA_DSP_REG_HIPC=
+CTL_DONE, 0);
+6e9cde974863dc Liam Girdwood         2019-04-12  160  =
 
-292148f8bb2b5d Brian King         2007-01-30  824  	return rtn;
-292148f8bb2b5d Brian King         2007-01-30  825  }
-292148f8bb2b5d Brian King         2007-01-30  826  =
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  161  		/*
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  162  		 * Make sure the in=
+terrupt thread cannot be preempted between
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  163  		 * waking up the se=
+nder and re-enabling the interrupt. Also
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  164  		 * protect against =
+a theoretical race with sof_ipc_tx_message():
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  165  		 * if the DSP is fa=
+st enough to receive an IPC message, reply to
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  166  		 * it, and the host=
+ interrupt processing calls this function on
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  167  		 * a different core=
+ from the one, where the sending is taking
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  168  		 * place, the messa=
+ge might not yet be marked as expecting a
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  169  		 * reply.
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  170  		 */
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  171  		spin_lock_irq(&sdev=
+->ipc_lock);
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  172  =
+
+9b65b2a80e700c Amery Song            2020-03-12  173  		/* handle immediate=
+ reply from DSP core */
+6e9cde974863dc Liam Girdwood         2019-04-12  174  		hda_dsp_ipc_get_rep=
+ly(sdev);
+6e9cde974863dc Liam Girdwood         2019-04-12  175  		snd_sof_ipc_reply(s=
+dev, msg);
+6e9cde974863dc Liam Girdwood         2019-04-12  176  =
+
+6e9cde974863dc Liam Girdwood         2019-04-12  177  		/* set the done bit=
+ */
+6e9cde974863dc Liam Girdwood         2019-04-12  178  		hda_dsp_ipc_dsp_don=
+e(sdev);
+6e9cde974863dc Liam Girdwood         2019-04-12  179  =
+
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  180  		spin_unlock_irq(&sd=
+ev->ipc_lock);
+1183e9a634db06 Guennadi Liakhovetski 2019-05-24  181  =
+
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  182  		ipc_irq =3D true;
+6e9cde974863dc Liam Girdwood         2019-04-12  183  	}
+6e9cde974863dc Liam Girdwood         2019-04-12  184  =
+
+6e9cde974863dc Liam Girdwood         2019-04-12  185  	/* is this a new mes=
+sage from DSP */
+09a173a63fbb89 Pierre-Louis Bossart  2019-06-03  186  	if (hipct & HDA_DSP_=
+REG_HIPCT_BUSY) {
+6e9cde974863dc Liam Girdwood         2019-04-12 @187  		msg =3D hipct & HDA=
+_DSP_REG_HIPCT_MSG_MASK;
+6e9cde974863dc Liam Girdwood         2019-04-12  188  		msg_ext =3D hipcte =
+& HDA_DSP_REG_HIPCTE_MSG_MASK;
+6e9cde974863dc Liam Girdwood         2019-04-12  189  =
+
+6e9cde974863dc Liam Girdwood         2019-04-12  190  		dev_vdbg(sdev->dev,
+6e9cde974863dc Liam Girdwood         2019-04-12  191  			 "ipc: firmware in=
+itiated, msg:0x%x, msg_ext:0x%x\n",
+6e9cde974863dc Liam Girdwood         2019-04-12  192  			 msg, msg_ext);
+6e9cde974863dc Liam Girdwood         2019-04-12  193  =
+
+6e9cde974863dc Liam Girdwood         2019-04-12  194  		/* mask BUSY interr=
+upt */
+6e9cde974863dc Liam Girdwood         2019-04-12  195  		snd_sof_dsp_update_=
+bits(sdev, HDA_DSP_BAR,
+6e9cde974863dc Liam Girdwood         2019-04-12  196  					HDA_DSP_REG_HIPC=
+CTL,
+6e9cde974863dc Liam Girdwood         2019-04-12  197  					HDA_DSP_REG_HIPC=
+CTL_BUSY, 0);
+6e9cde974863dc Liam Girdwood         2019-04-12  198  =
+
+6e9cde974863dc Liam Girdwood         2019-04-12  199  		/* handle messages =
+from DSP */
+6e9cde974863dc Liam Girdwood         2019-04-12  200  		if ((hipct & SOF_IP=
+C_PANIC_MAGIC_MASK) =3D=3D SOF_IPC_PANIC_MAGIC) {
+6e9cde974863dc Liam Girdwood         2019-04-12  201  			/* this is a PANIC=
+ message !! */
+6e9cde974863dc Liam Girdwood         2019-04-12  202  			snd_sof_dsp_panic(=
+sdev, HDA_DSP_PANIC_OFFSET(msg_ext));
+6e9cde974863dc Liam Girdwood         2019-04-12  203  		} else {
+6e9cde974863dc Liam Girdwood         2019-04-12  204  			/* normal message =
+- process normally */
+6e9cde974863dc Liam Girdwood         2019-04-12  205  			snd_sof_ipc_msgs_r=
+x(sdev);
+6e9cde974863dc Liam Girdwood         2019-04-12  206  		}
+6e9cde974863dc Liam Girdwood         2019-04-12  207  =
+
+6e9cde974863dc Liam Girdwood         2019-04-12  208  		hda_dsp_ipc_host_do=
+ne(sdev);
+6e9cde974863dc Liam Girdwood         2019-04-12  209  =
+
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  210  		ipc_irq =3D true;
+6e9cde974863dc Liam Girdwood         2019-04-12  211  	}
+6e9cde974863dc Liam Girdwood         2019-04-12  212  =
+
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  213  	if (!ipc_irq) {
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  214  		/*
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  215  		 * This interrupt i=
+s not shared so no need to return IRQ_NONE.
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  216  		 */
+717dedb1dcee92 Kai Vehmanen          2019-07-22  217  		dev_dbg_ratelimited=
+(sdev->dev,
+717dedb1dcee92 Kai Vehmanen          2019-07-22  218  				    "nothing to d=
+o in IPC IRQ thread\n");
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  219  	}
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  220  =
+
+66e65339b824a5 Pierre-Louis Bossart  2019-06-03  221  	return IRQ_HANDLED;
+6e9cde974863dc Liam Girdwood         2019-04-12  222  }
+6e9cde974863dc Liam Girdwood         2019-04-12  223  =
 
 
-:::::: The code at line 805 was first introduced by commit
-:::::: 0bf8c869701039b12c3520cb1bb1689595ab108b Reduce sequential pointer d=
-erefs in scsi_error.c and reduce size as well
+:::::: The code at line 150 was first introduced by commit
+:::::: 6e9cde974863dc9d9c6cdb178f625e410c5be3d0 ASoC: SOF: Intel: Add Intel=
+ specific HDA IPC mechanisms.
 
-:::::: TO: Jesper Juhl <jj@chaosbits.net>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1150208386240378187==--
+--===============6838573965168577354==--
 
