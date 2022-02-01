@@ -1,51 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============8872564065286105788=="
+Content-Type: multipart/mixed; boundary="===============5713308643664331082=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/riscv/include/asm/spinlock.h:24:2: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Tue, 01 Feb 2022 21:25:36 +0800
-Message-ID: <202202012114.Gf0Lurwz-lkp@intel.com>
+Subject: [linux-next:master 2805/2969] drivers/video/fbdev/core/fbcvt.c:233:3: warning: Value stored to 'off' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 01 Feb 2022 20:54:47 +0800
+Message-ID: <202202012059.SzDTjaPu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8872564065286105788==
+--===============5713308643664331082==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@kernel.org>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dan Carpenter <error27@gmail.com>
+CC: Helge Deller <deller@gmx.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: 531ae4b06a737ed5539cd75dc6f6b9a28f900bba locking/rtmutex: Split API=
- from implementation
-date:   6 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20220121 (https://download.01.org/0day-ci/arc=
-hive/20220201/202202012114.Gf0Lurwz-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d4baf3=
-b1322b84816aa623d8e8cb45a49cb68b84)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   887a333c44eb67973622e530e43cd5e4cf9af927
+commit: 78482af095abd9f4f29f1aa3fe575d25c6ae3028 [2805/2969] video: fbdev: =
+fbcvt.c: fix printing in fb_cvt_print_name()
+:::::: branch date: 32 hours ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20201/202202012059.SzDTjaPu-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2cdbac=
+a3943a4d6259119f185656328bd3805b68)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D531ae4b06a737ed5539cd75dc6f6b9a28f900bba
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 531ae4b06a737ed5539cd75dc6f6b9a28f900bba
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D78482af095abd9f4f29f1aa3fe575d25c6ae3028
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 78482af095abd9f4f29f1aa3fe575d25c6ae3028
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,275 +49,375 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                       ^
-   fs/ext4/indirect.c:1254:3: note: Taking false branch
-                   if (n =3D=3D 1) {
-                   ^
-   fs/ext4/indirect.c:1265:17: note: Calling 'ext4_find_shared'
-                   partial =3D p =3D ext4_find_shared(inode, n, offsets, ch=
-ain, &nr);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   fs/ext4/indirect.c:795:18: note: 'k' is <=3D 1
-           for (k =3D depth; k > 1 && !offsets[k-1]; k--)
-                           ^
-   fs/ext4/indirect.c:795:24: note: Left side of '&&' is false
-           for (k =3D depth; k > 1 && !offsets[k-1]; k--)
-                                 ^
-   fs/ext4/indirect.c:797:12: note: Calling 'ext4_get_branch'
-           partial =3D ext4_get_branch(inode, k, offsets, chain, &err);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/indirect.c:155:25: note: Left side of '&&' is false
-           add_chain(chain, NULL, EXT4_I(inode)->i_data + *offsets);
-                                  ^
-   include/trace/events/ext4.h:22:24: note: expanded from macro 'EXT4_I'
-   #define EXT4_I(inode) (container_of(inode, struct ext4_inode_info, vfs_i=
-node))
-                          ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/ext4/indirect.c:155:25: note: Taking false branch
-           add_chain(chain, NULL, EXT4_I(inode)->i_data + *offsets);
-                                  ^
-   include/trace/events/ext4.h:22:24: note: expanded from macro 'EXT4_I'
-   #define EXT4_I(inode) (container_of(inode, struct ext4_inode_info, vfs_i=
-node))
-                          ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   fs/ext4/indirect.c:155:25: note: Loop condition is false.  Exiting loop
-           add_chain(chain, NULL, EXT4_I(inode)->i_data + *offsets);
-                                  ^
-   include/trace/events/ext4.h:22:24: note: expanded from macro 'EXT4_I'
-   #define EXT4_I(inode) (container_of(inode, struct ext4_inode_info, vfs_i=
-node))
-                          ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   drivers/net/ppp/ppp_generic.c:684:3: note: Loop condition is false.  Exi=
+ting loop
+                   RCU_INIT_POINTER(pchb->bridge, NULL);
+                   ^
+   include/linux/rcupdate.h:860:3: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                   ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   fs/ext4/indirect.c:155:47: note: The right operand of '+' is a garbage v=
-alue
-           add_chain(chain, NULL, EXT4_I(inode)->i_data + *offsets);
-                                                        ^ ~~~~~~~~
-   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (4 in non-user code, 2 with check filters).
+   drivers/net/ppp/ppp_generic.c:684:3: note: Loop condition is false.  Exi=
+ting loop
+                   RCU_INIT_POINTER(pchb->bridge, NULL);
+                   ^
+   include/linux/rcupdate.h:860:3: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                   ^
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^
+   include/asm-generic/rwonce.h:53:35: note: expanded from macro '__WRITE_O=
+NCE'
+   #define __WRITE_ONCE(x, val)                                            \
+                                                                           ^
+   drivers/net/ppp/ppp_generic.c:684:3: note: Loop condition is false.  Exi=
+ting loop
+                   RCU_INIT_POINTER(pchb->bridge, NULL);
+                   ^
+   include/linux/rcupdate.h:860:3: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+                   ^
+   include/asm-generic/rwonce.h:58:33: note: expanded from macro 'WRITE_ONC=
+E'
+   #define WRITE_ONCE(x, val)                                              \
+                                                                           ^
+   drivers/net/ppp/ppp_generic.c:684:3: note: Loop condition is false.  Exi=
+ting loop
+                   RCU_INIT_POINTER(pchb->bridge, NULL);
+                   ^
+   include/linux/rcupdate.h:858:2: note: expanded from macro 'RCU_INIT_POIN=
+TER'
+           do { \
+           ^
+   drivers/net/ppp/ppp_generic.c:689:6: note: 'pchbb' is equal to 'pch'
+           if (pchbb =3D=3D pch)
+               ^~~~~
+   drivers/net/ppp/ppp_generic.c:689:2: note: Taking true branch
+           if (pchbb =3D=3D pch)
+           ^
+   drivers/net/ppp/ppp_generic.c:690:7: note: Assuming the condition is true
+                   if (refcount_dec_and_test(&pch->file.refcnt))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:690:3: note: Taking true branch
+                   if (refcount_dec_and_test(&pch->file.refcnt))
+                   ^
+   drivers/net/ppp/ppp_generic.c:691:4: note: Calling 'ppp_destroy_channel'
+                           ppp_destroy_channel(pch);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:3533:6: note: Assuming field 'dead' is not=
+ equal to 0
+           if (!pch->file.dead) {
+               ^~~~~~~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:3533:2: note: Taking false branch
+           if (!pch->file.dead) {
+           ^
+   drivers/net/ppp/ppp_generic.c:3540:2: note: Memory is released
+           kfree(pch);
+           ^~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:691:4: note: Returning; memory was release=
+d via 1st parameter
+                           ppp_destroy_channel(pch);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:693:6: note: Assuming the condition is fal=
+se
+           if (refcount_dec_and_test(&pchb->file.refcnt))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:693:2: note: Taking false branch
+           if (refcount_dec_and_test(&pchb->file.refcnt))
+           ^
+   drivers/net/ppp/ppp_generic.c:2986:2: note: Returning; memory was releas=
+ed via 1st parameter
+           ppp_unbridge_channels(pch);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ppp/ppp_generic.c:2988:17: note: Use of memory after it is f=
+reed
+           pch->file.dead =3D 1;
+           ~~~~~~~~~~~~~~ ^
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
->> arch/riscv/include/asm/spinlock.h:24:2: warning: Dereference of null poi=
-nter [clang-analyzer-core.NullDereference]
-           smp_store_release(&lock->lock, 0);
-           ^
-   include/asm-generic/barrier.h:138:33: note: expanded from macro 'smp_sto=
-re_release'
-   #define smp_store_release(p, v) __smp_store_release(p, v)
-                                   ^
-   arch/riscv/include/asm/barrier.h:34:2: note: expanded from macro '__smp_=
-store_release'
-           WRITE_ONCE(*p, v);                                              \
-           ^
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-           ^
-   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
-NCE'
-           *(volatile typeof(x) *)&(x) =3D (val);                          =
-  \
-                                       ^
-   kernel/locking/rtmutex_api.c:419:2: note: Loop condition is false.  Exit=
-ing loop
-           raw_spin_lock_irqsave(&task->pi_lock, flags);
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   kernel/locking/rtmutex_api.c:422:6: note: Assuming 'waiter' is non-null
-           if (!waiter || rt_mutex_waiter_equal(waiter, task_to_waiter(task=
-))) {
-               ^~~~~~~
-   kernel/locking/rtmutex_api.c:422:6: note: Left side of '||' is false
-   kernel/locking/rtmutex_api.c:422:2: note: Taking false branch
-           if (!waiter || rt_mutex_waiter_equal(waiter, task_to_waiter(task=
-))) {
-           ^
-   kernel/locking/rtmutex_api.c:427:2: note: Loop condition is false.  Exit=
-ing loop
-           raw_spin_unlock_irqrestore(&task->pi_lock, flags);
-           ^
-   include/linux/spinlock.h:288:2: note: expanded from macro 'raw_spin_unlo=
-ck_irqrestore'
-           do {                                                    \
-           ^
-   kernel/locking/rtmutex_api.c:432:2: note: Calling 'rt_mutex_adjust_prio_=
-chain'
-           rt_mutex_adjust_prio_chain(task, RT_MUTEX_MIN_CHAINWALK, NULL,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:466:6: note: Assuming the condition is false
-           if (++depth > max_lock_depth) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:466:2: note: Taking false branch
-           if (++depth > max_lock_depth) {
-           ^
-   kernel/locking/rtmutex.c:510:6: note: Assuming 'waiter' is non-null
-           if (!waiter)
-               ^~~~~~~
-   kernel/locking/rtmutex.c:510:2: note: Taking false branch
-           if (!waiter)
-           ^
-   kernel/locking/rtmutex.c:517:6: note: 'orig_waiter' is null
-           if (orig_waiter && !rt_mutex_owner(orig_lock))
-               ^~~~~~~~~~~
-   kernel/locking/rtmutex.c:517:18: note: Left side of '&&' is false
-           if (orig_waiter && !rt_mutex_owner(orig_lock))
-                           ^
-   kernel/locking/rtmutex.c:529:6: note: Assuming 'next_lock' is equal to f=
-ield 'lock'
-           if (next_lock !=3D waiter->lock)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:529:2: note: Taking false branch
-           if (next_lock !=3D waiter->lock)
-           ^
-   kernel/locking/rtmutex.c:537:6: note: 'top_waiter' is null
-           if (top_waiter) {
-               ^~~~~~~~~~
-   kernel/locking/rtmutex.c:537:2: note: Taking false branch
-           if (top_waiter) {
-           ^
-   kernel/locking/rtmutex.c:561:6: note: Calling 'rt_mutex_waiter_equal'
-           if (rt_mutex_waiter_equal(waiter, task_to_waiter(task))) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:274:6: note: Assuming 'left->prio' is not equal=
- to 'right->prio'
-           if (left->prio !=3D right->prio)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:274:2: note: Taking true branch
-           if (left->prio !=3D right->prio)
-           ^
-   kernel/locking/rtmutex.c:275:3: note: Returning without writing to 'left=
-->lock'
-                   return 0;
-                   ^
-   kernel/locking/rtmutex.c:275:3: note: Returning zero, which participates=
- in a condition later
-                   return 0;
-                   ^~~~~~~~
-   kernel/locking/rtmutex.c:561:6: note: Returning from 'rt_mutex_waiter_eq=
-ual'
-           if (rt_mutex_waiter_equal(waiter, task_to_waiter(task))) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:561:2: note: Taking false branch
-           if (rt_mutex_waiter_equal(waiter, task_to_waiter(task))) {
-           ^
-   kernel/locking/rtmutex.c:571:2: note: Value assigned to 'lock'
-           lock =3D waiter->lock;
-           ^~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:577:6: note: Assuming the condition is false
-           if (!raw_spin_trylock(&lock->wait_lock)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:577:2: note: Taking false branch
-           if (!raw_spin_trylock(&lock->wait_lock)) {
-           ^
-   kernel/locking/rtmutex.c:592:6: note: Assuming 'lock' is equal to 'orig_=
-lock'
-           if (lock =3D=3D orig_lock || rt_mutex_owner(lock) =3D=3D top_tas=
-k) {
-               ^~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:592:24: note: Left side of '||' is true
+>> drivers/video/fbdev/core/fbcvt.c:233:3: warning: Value stored to 'off' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   off +=3D scnprintf(buf + off, size - off,
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:233:3: note: Value stored to 'off' is n=
+ever read
+                   off +=3D scnprintf(buf + off, size - off,
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:252:4: warning: Value stored to 'off' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           off +=3D scnprintf(buf + off, size - off, "-R");
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:252:4: note: Value stored to 'off' is n=
+ever read
+                           off +=3D scnprintf(buf + off, size - off, "-R");
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   fs/ocfs2/inode.c:411:2: warning: Value stored to 'status' is never read =
+[clang-analyzer-deadcode.DeadStores]
+           status =3D -EINVAL;
+           ^        ~~~~~~~
+   fs/ocfs2/inode.c:411:2: note: Value stored to 'status' is never read
+           status =3D -EINVAL;
+           ^        ~~~~~~~
+   fs/ocfs2/inode.c:525:2: warning: Value stored to 'status' is never read =
+[clang-analyzer-deadcode.DeadStores]
+           status =3D -EINVAL;
+           ^        ~~~~~~~
+   fs/ocfs2/inode.c:525:2: note: Value stored to 'status' is never read
+           status =3D -EINVAL;
+           ^        ~~~~~~~
+   fs/ocfs2/inode.c:1387:2: warning: Value stored to 'rc' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           rc =3D -EINVAL;
+           ^    ~~~~~~~
+   fs/ocfs2/inode.c:1387:2: note: Value stored to 'rc' is never read
+           rc =3D -EINVAL;
+           ^    ~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   fs/ocfs2/localalloc.c:428:3: warning: Value stored to 'status' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   status =3D -ENOMEM;
+                   ^        ~~~~~~~
+   fs/ocfs2/localalloc.c:428:3: note: Value stored to 'status' is never read
+                   status =3D -ENOMEM;
+                   ^        ~~~~~~~
+   fs/ocfs2/localalloc.c:976:18: warning: Although the value stored to 'bit=
+_off' is used in the enclosing expression, the value is never actually read=
+ from 'bit_off' [clang-analyzer-deadcode.DeadStores]
+           start =3D count =3D bit_off =3D 0;
+                           ^         ~
+   fs/ocfs2/localalloc.c:976:18: note: Although the value stored to 'bit_of=
+f' is used in the enclosing expression, the value is never actually read fr=
+om 'bit_off'
+           start =3D count =3D bit_off =3D 0;
+                           ^         ~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   fs/ocfs2/namei.c:1537:3: warning: Value stored to 'status' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   status =3D ocfs2_add_entry(handle, new_dentry, old_inode,
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ocfs2/namei.c:1537:3: note: Value stored to 'status' is never read
+                   status =3D ocfs2_add_entry(handle, new_dentry, old_inode,
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ocfs2/namei.c:1596:3: warning: Value stored to 'status' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   status =3D ocfs2_update_entry(old_inode, handle,
 
-vim +24 arch/riscv/include/asm/spinlock.h
+vim +/off +233 drivers/video/fbdev/core/fbcvt.c
 
-fab957c11efe2f Palmer Dabbelt 2017-07-10  21  =
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  213  =
 
-fab957c11efe2f Palmer Dabbelt 2017-07-10  22  static inline void arch_spin_=
-unlock(arch_spinlock_t *lock)
-fab957c11efe2f Palmer Dabbelt 2017-07-10  23  {
-0123f4d76ca63b Andrea Parri   2018-03-09 @24  	smp_store_release(&lock->loc=
-k, 0);
-fab957c11efe2f Palmer Dabbelt 2017-07-10  25  }
-fab957c11efe2f Palmer Dabbelt 2017-07-10  26  =
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  214  static void fb_cvt_print_name(struct fb_cvt_data *cvt)
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  215  {
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  216  	u32 pixcount, pixcount_mod;
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  217  	int size =3D 256;
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  218  	int off =3D 0;
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  219  	u8 *buf;
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  220  =
 
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  221  	buf =3D kzalloc(size, GFP_KERNEL);
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  222  	if (!buf)
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  223  		return;
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  224  =
 
-:::::: The code at line 24 was first introduced by commit
-:::::: 0123f4d76ca63b7b895f40089be0ce4809e392d8 riscv/spinlock: Strengthen =
-implementations with fences
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  225  	pixcount =3D (cvt->xres * (cvt->yres/cvt->interlace))/1000000;
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  226  	pixcount_mod =3D (cvt->xres * (cvt->yres/cvt->interlace)) % 10000=
+00;
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  227  	pixcount_mod /=3D 1000;
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  228  =
 
-:::::: TO: Andrea Parri <parri.andrea@gmail.com>
-:::::: CC: Palmer Dabbelt <palmer@sifive.com>
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  229  	off +=3D scnprintf(buf + off, size - off, "fbcvt: %dx%d@%d: CVT N=
+ame - ",
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  230  			    cvt->xres, cvt->yres, cvt->refresh);
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  231  =
+
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  232  	if (cvt->status) {
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16 @233  		off +=3D scnprintf(buf + off, size - off,
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  234  				 "Not a CVT standard - %d.%03d Mega Pixel Image\n",
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  235  				 pixcount, pixcount_mod);
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  236  	} else {
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  237  		if (pixcount)
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  238  			off +=3D scnprintf(buf + off, size - off, "%d", pixcount);
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  239  =
+
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  240  		off +=3D scnprintf(buf + off, size - off, ".%03dM", pixcount_mod=
+);
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  241  =
+
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  242  		if (cvt->aspect_ratio =3D=3D 0)
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  243  			off +=3D scnprintf(buf + off, size - off, "3");
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  244  		else if (cvt->aspect_ratio =3D=3D 3)
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  245  			off +=3D scnprintf(buf + off, size - off, "4");
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  246  		else if (cvt->aspect_ratio =3D=3D 1 || cvt->aspect_ratio =3D=3D =
+4)
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  247  			off +=3D scnprintf(buf + off, size - off, "9");
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  248  		else if (cvt->aspect_ratio =3D=3D 2)
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  249  			off +=3D scnprintf(buf + off, size - off, "A");
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  250  =
+
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  251  		if (cvt->flags & FB_CVT_FLAG_REDUCED_BLANK)
+78482af095abd9 drivers/video/fbdev/core/fbcvt.c Dan Carpenter      2021-09-=
+16  252  			off +=3D scnprintf(buf + off, size - off, "-R");
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  253  	}
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  254  =
+
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  255  	printk(KERN_INFO "%s\n", buf);
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  256  	kfree(buf);
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  257  }
+96fe6a2109db29 drivers/video/fbcvt.c            Antonino A. Daplas 2005-09-=
+09  258  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8872564065286105788==--
+--===============5713308643664331082==--
 
