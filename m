@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7232494256216336403=="
+Content-Type: multipart/mixed; boundary="===============2742245066276221692=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/mpls/af_mpls.c:704:16: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-Date: Thu, 03 Feb 2022 02:04:53 +0800
-Message-ID: <202202030216.RyyRnPqe-lkp@intel.com>
+Subject: drivers/rapidio/devices/rio_mport_cdev.c:587:17: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Thu, 03 Feb 2022 00:12:51 +0800
+Message-ID: <202202030030.z983zmzV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7232494256216336403==
+--===============2742245066276221692==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,20 +15,24 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Benjamin Poirier <bpoirier@nvidia.com>
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9f7fb8de5d9bac17b6392a14af40baf555d9129b
-commit: 7d4741eacdefa5f0475431645b56baf00784df1f net: mpls: Fix notificatio=
-ns when deleting a device
-date:   9 weeks ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 9 weeks ago
-config: arm-randconfig-c002-20220121 (https://download.01.org/0day-ci/archi=
-ve/20220203/202202030216.RyyRnPqe-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d4baf3=
-b1322b84816aa623d8e8cb45a49cb68b84)
+commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
+ch to static_assert
+date:   3 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20220201 (https://download.01.org/0day-ci/archi=
+ve/20220203/202202030030.z983zmzV-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e84=
+4b69f15bb7dffaf9365cd2b355d2eb7579)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -36,11 +40,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7d4741eacdefa5f0475431645b56baf00784df1f
+t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 7d4741eacdefa5f0475431645b56baf00784df1f
+        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -51,327 +55,312 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                 ^
-   net/mac80211/airtime.c:677:8: note: '?' condition is false
-                   else if (duration > 150 * 1024) /* <=3D VHT20 MCS5 1S or=
- MCS2 2S */
-                        ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                  ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
                               ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   net/mac80211/airtime.c:677:8: note: Taking false branch
-                   else if (duration > 150 * 1024) /* <=3D VHT20 MCS5 1S or=
- MCS2 2S */
-                        ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/mac80211/airtime.c:679:8: note: '?' condition is false
-                   else if (duration > 70 * 1024) /* <=3D VHT20 MCS5 2S */
-                        ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/mac80211/airtime.c:679:8: note: '?' condition is false
-                   else if (duration > 70 * 1024) /* <=3D VHT20 MCS5 2S */
-                        ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
            ^
-   net/mac80211/airtime.c:679:8: note: Taking false branch
-                   else if (duration > 70 * 1024) /* <=3D VHT20 MCS5 2S */
-                        ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/mac80211/airtime.c:681:12: note: Assuming field 'encoding' is not eq=
-ual to RX_ENC_HE
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                            ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/mac80211/airtime.c:681:39: note: Left side of '||' is true
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                                                       ^
-   net/mac80211/airtime.c:681:8: note: '?' condition is false
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                        ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/mac80211/airtime.c:681:17: note: Field 'encoding' is not equal to RX=
-_ENC_HE
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                                 ^
-   net/mac80211/airtime.c:681:39: note: Left side of '||' is true
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                                                       ^
-   net/mac80211/airtime.c:681:8: note: '?' condition is true
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                        ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/rcupdate.h:316:2: note: expanded from macro 'RCU_LOCKDEP_W=
+ARN'
+           do {                                                            \
            ^
-   net/mac80211/airtime.c:681:8: note: Taking true branch
-                   else if (stat.encoding !=3D RX_ENC_HE ||
-                        ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/mac80211/airtime.c:690:25: note: The left operand of '>>' is a garba=
-ge value
-                   duration +=3D (overhead >> agg_shift);
-                                ~~~~~~~~ ^
-   Suppressed 16 warnings (16 in non-user code).
+   kernel/bpf/lpm_trie.c:693:2: note: Loop condition is false. Execution co=
+ntinues on line 704
+           for (node =3D search_root; node;) {
+           ^
+   kernel/bpf/lpm_trie.c:704:24: note: Access to field 'prefixlen' results =
+in a dereference of a null pointer (loaded from variable 'next_node')
+           next_key->prefixlen =3D next_node->prefixlen;
+                                 ^~~~~~~~~
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
+   3 warnings generated.
+   drivers/rapidio/rio-scan.c:561:10: warning: Although the value stored to=
+ 'tmp' is used in the enclosing expression, the value is never actually rea=
+d from 'tmp' [clang-analyzer-deadcode.DeadStores]
+           while ((tmp =3D rio_get_host_deviceid_lock(port, hopcount))
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/rio-scan.c:561:10: note: Although the value stored to 't=
+mp' is used in the enclosing expression, the value is never actually read f=
+rom 'tmp'
+           while ((tmp =3D rio_get_host_deviceid_lock(port, hopcount))
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   21 warnings generated.
->> net/mpls/af_mpls.c:704:16: warning: The left expression of the compound =
-assignment is an uninitialized value. The computed value will also be garba=
-ge [clang-analyzer-core.uninitialized.Assign]
-                   nh->nh_flags |=3D RTNH_F_DEAD;
-                                ^
-   net/mpls/af_mpls.c:977:7: note: Assuming the condition is false
-           if ((index =3D=3D LABEL_NOT_SPECIFIED) &&
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/mpls/af_mpls.c:977:37: note: Left side of '&&' is false
-           if ((index =3D=3D LABEL_NOT_SPECIFIED) &&
-                                              ^
-   net/mpls/af_mpls.c:977:2: note: '?' condition is false
-           if ((index =3D=3D LABEL_NOT_SPECIFIED) &&
+   5 warnings generated.
+   drivers/rapidio/devices/rio_mport_cdev.c:300:2: warning: Undefined or ga=
+rbage value returned to caller [clang-analyzer-core.uninitialized.UndefRetu=
+rn]
+           return ret;
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+   drivers/rapidio/devices/rio_mport_cdev.c:2070:6: note: Assuming the cond=
+ition is false
+           if (atomic_read(&md->active) =3D=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:2070:2: note: Taking false bran=
+ch
+           if (atomic_read(&md->active) =3D=3D 0)
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2073:2: note: Control jumps to =
+'case 2149084421:'  at line 2074
+           switch (cmd) {
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2075:10: note: Calling 'rio_mpo=
+rt_maint_rd'
+                   return rio_mport_maint_rd(data, (void __user *)arg, 1);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:266:6: note: 'ret' declared wit=
+hout an initial value
+           int ret, i;
+               ^~~
+   drivers/rapidio/devices/rio_mport_cdev.c:268:2: note: Taking false branch
+           if (unlikely(copy_from_user(&maint_io, arg, sizeof(maint_io))))
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:271:7: note: Assuming the condi=
+tion is false
+           if ((maint_io.offset % 4) ||
+                ^~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:271:6: note: Left side of '||' =
+is false
+           if ((maint_io.offset % 4) ||
+               ^
+   drivers/rapidio/devices/rio_mport_cdev.c:272:7: note: Assuming field 'le=
+ngth' is not equal to 0
+               (maint_io.length =3D=3D 0) || (maint_io.length % 4) ||
+                ^~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:271:6: note: Left side of '||' =
+is false
+           if ((maint_io.offset % 4) ||
+               ^
+   drivers/rapidio/devices/rio_mport_cdev.c:272:33: note: Assuming the cond=
+ition is false
+               (maint_io.length =3D=3D 0) || (maint_io.length % 4) ||
+                                          ^~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:271:6: note: Left side of '||' =
+is false
+           if ((maint_io.offset % 4) ||
+               ^
+   drivers/rapidio/devices/rio_mport_cdev.c:273:6: note: Assuming the condi=
+tion is false
+               (maint_io.length + maint_io.offset) > RIO_MAINT_SPACE_SZ)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:271:2: note: Taking false branch
+           if ((maint_io.offset % 4) ||
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:277:6: note: Assuming 'buffer' =
+is not equal to NULL
+           if (buffer =3D=3D NULL)
+               ^~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:277:2: note: Taking false branch
+           if (buffer =3D=3D NULL)
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:282:14: note: Assuming 'i' is >=
+=3D 'length'
+           for (i =3D 0; i < length; i++) {
+                       ^~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:282:2: note: Loop condition is =
+false. Execution continues on line 295
+           for (i =3D 0; i < length; i++) {
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:295:6: note: Assuming the condi=
+tion is true
+           if (unlikely(copy_to_user((void __user *)(uintptr_t)maint_io.buf=
+fer,
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:295:2: note: Taking false branch
+           if (unlikely(copy_to_user((void __user *)(uintptr_t)maint_io.buf=
+fer,
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:300:2: note: Undefined or garba=
+ge value returned to caller
+           return ret;
+           ^      ~~~
+>> drivers/rapidio/devices/rio_mport_cdev.c:587:17: warning: Use of memory =
+after it is freed [clang-analyzer-unix.Malloc]
+                   mutex_unlock(&req->map->md->buf_mutex);
                                  ^
-   net/mpls/af_mpls.c:977:37: note: Left side of '&&' is false
-           if ((index =3D=3D LABEL_NOT_SPECIFIED) &&
-                                              ^
-   net/mpls/af_mpls.c:977:2: note: '?' condition is false
-           if ((index =3D=3D LABEL_NOT_SPECIFIED) &&
+   drivers/rapidio/devices/rio_mport_cdev.c:603:2: note: Calling 'kref_put'
+           kref_put(&req->refcount, dma_req_free);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/kref.h:65:3: note: Calling 'dma_req_free'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:579:6: note: Assuming field 'pa=
+ge_list' is null
+           if (req->page_list) {
+               ^~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:579:2: note: Taking false branch
+           if (req->page_list) {
            ^
-   net/mpls/af_mpls.c:977:2: note: Taking false branch
-           if ((index =3D=3D LABEL_NOT_SPECIFIED) &&
+   drivers/rapidio/devices/rio_mport_cdev.c:584:6: note: Assuming field 'ma=
+p' is non-null
+           if (req->map) {
+               ^~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:584:2: note: Taking true branch
+           if (req->map) {
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/mpls/af_mpls.c:982:2: note: '?' condition is false
-           if (!mpls_label_ok(net, &index, extack))
+   drivers/rapidio/devices/rio_mport_cdev.c:586:3: note: Calling 'kref_put'
+                   kref_put(&req->map->ref, mport_release_mapping);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/mpls/af_mpls.c:982:2: note: '?' condition is false
-           if (!mpls_label_ok(net, &index, extack))
+   include/linux/kref.h:65:3: note: Calling 'mport_release_mapping'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:2149:2: note: Taking false bran=
+ch
+           rmcd_debug(MMAP, "type %d mapping @ %p (phys =3D %pad) for %s",
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/rapidio/devices/rio_mport_cdev.c:73:3: note: expanded from macro=
+ 'rmcd_debug'
+                   no_printk(KERN_DEBUG pr_fmt(DRV_PREFIX fmt "\n"), ##arg)
+                   ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
            ^
-   net/mpls/af_mpls.c:982:2: note: Taking false branch
-           if (!mpls_label_ok(net, &index, extack))
+   drivers/rapidio/devices/rio_mport_cdev.c:2155:2: note: Control jumps to =
+'case MAP_OUTBOUND:'  at line 2163
+           switch (map->dir) {
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/mpls/af_mpls.c:987:2: note: Assuming the condition is true
-           if (cfg->rc_nlflags & NLM_F_APPEND) {
+   drivers/rapidio/devices/rio_mport_cdev.c:2165:3: note:  Execution contin=
+ues on line 2167
+                   break;
+                   ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2167:2: note: Memory is released
+           kfree(map);
+           ^~~~~~~~~~
+   include/linux/kref.h:65:3: note: Returning; memory was released
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:586:3: note: Returning; memory =
+was released
+                   kref_put(&req->map->ref, mport_release_mapping);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:587:17: note: Use of memory aft=
+er it is freed
+                   mutex_unlock(&req->map->md->buf_mutex);
+                                 ^~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:2185:16: warning: Use of memory=
+ after it is freed [clang-analyzer-unix.Malloc]
+           mutex_unlock(&map->md->buf_mutex);
+                         ^~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:2182:2: note: Taking false bran=
+ch
+           rmcd_debug(MMAP, "%pad", &map->phys_addr);
            ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/mpls/af_mpls.c:987:2: note: '?' condition is false
-           if (cfg->rc_nlflags & NLM_F_APPEND) {
+   drivers/rapidio/devices/rio_mport_cdev.c:73:3: note: expanded from macro=
+ 'rmcd_debug'
+                   no_printk(KERN_DEBUG pr_fmt(DRV_PREFIX fmt "\n"), ##arg)
+                   ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/mpls/af_mpls.c:987:2: note: '?' condition is false
-           if (cfg->rc_nlflags & NLM_F_APPEND) {
+   drivers/rapidio/devices/rio_mport_cdev.c:2184:2: note: Calling 'kref_put'
+           kref_put(&map->ref, mport_release_mapping);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/kref.h:65:3: note: Calling 'mport_release_mapping'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/rapidio/devices/rio_mport_cdev.c:2149:2: note: Taking false bran=
+ch
+           rmcd_debug(MMAP, "type %d mapping @ %p (phys =3D %pad) for %s",
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:73:3: note: expanded from macro=
+ 'rmcd_debug'
+                   no_printk(KERN_DEBUG pr_fmt(DRV_PREFIX fmt "\n"), ##arg)
+                   ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2155:2: note: Control jumps to =
+'case MAP_OUTBOUND:'  at line 2163
+           switch (map->dir) {
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2165:3: note:  Execution contin=
+ues on line 2167
+                   break;
+                   ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2167:2: note: Memory is released
+           kfree(map);
+           ^~~~~~~~~~
+   include/linux/kref.h:65:3: note: Returning; memory was released
+                   release(kref);
 
-vim +704 net/mpls/af_mpls.c
+vim +587 drivers/rapidio/devices/rio_mport_cdev.c
 
-01faef2cebae02 Roopa Prabhu    2015-07-21  678  =
+e8de370188d098 Alexandre Bounine 2016-03-22  569  =
 
-cf4b24f0024fc2 Robert Shearman 2015-10-27  679  static int mpls_nh_assign_d=
-ev(struct net *net, struct mpls_route *rt,
-cf4b24f0024fc2 Robert Shearman 2015-10-27  680  			      struct mpls_nh *nh=
-, int oif)
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  681  {
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  682  	struct net_device *dev =3D=
- NULL;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  683  	int err =3D -ENODEV;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  684  =
+bbd876adb8c729 Ioan Nicu         2018-04-10  570  static void dma_req_free(=
+struct kref *ref)
+e8de370188d098 Alexandre Bounine 2016-03-22  571  {
+bbd876adb8c729 Ioan Nicu         2018-04-10  572  	struct mport_dma_req *re=
+q =3D container_of(ref, struct mport_dma_req,
+bbd876adb8c729 Ioan Nicu         2018-04-10  573  			refcount);
+e8de370188d098 Alexandre Bounine 2016-03-22  574  	struct mport_cdev_priv *=
+priv =3D req->priv;
+e8de370188d098 Alexandre Bounine 2016-03-22  575  =
 
-cf4b24f0024fc2 Robert Shearman 2015-10-27  685  	dev =3D find_outdev(net, r=
-t, nh, oif);
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  686  	if (IS_ERR(dev)) {
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  687  		err =3D PTR_ERR(dev);
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  688  		dev =3D NULL;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  689  		goto errout;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  690  	}
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  691  =
+e8de370188d098 Alexandre Bounine 2016-03-22  576  	dma_unmap_sg(req->dmach-=
+>device->dev,
+e8de370188d098 Alexandre Bounine 2016-03-22  577  		     req->sgt.sgl, req-=
+>sgt.nents, req->dir);
+e8de370188d098 Alexandre Bounine 2016-03-22  578  	sg_free_table(&req->sgt);
+e8de370188d098 Alexandre Bounine 2016-03-22  579  	if (req->page_list) {
+67446283d89467 John Hubbard      2020-06-04  580  		unpin_user_pages(req->p=
+age_list, req->nr_pages);
+e8de370188d098 Alexandre Bounine 2016-03-22  581  		kfree(req->page_list);
+e8de370188d098 Alexandre Bounine 2016-03-22  582  	}
+e8de370188d098 Alexandre Bounine 2016-03-22  583  =
 
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  692  	/* Ensure this is a suppor=
-ted device */
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  693  	err =3D -EINVAL;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  694  	if (!mpls_dev_get(dev))
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  695  		goto errout;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  696  =
+e8de370188d098 Alexandre Bounine 2016-03-22  584  	if (req->map) {
+e8de370188d098 Alexandre Bounine 2016-03-22  585  		mutex_lock(&req->map->m=
+d->buf_mutex);
+e8de370188d098 Alexandre Bounine 2016-03-22  586  		kref_put(&req->map->ref=
+, mport_release_mapping);
+e8de370188d098 Alexandre Bounine 2016-03-22 @587  		mutex_unlock(&req->map-=
+>md->buf_mutex);
+e8de370188d098 Alexandre Bounine 2016-03-22  588  	}
+e8de370188d098 Alexandre Bounine 2016-03-22  589  =
 
-a3e948e83a302c Robert Shearman 2015-12-10  697  	if ((nh->nh_via_table =3D=
-=3D NEIGH_LINK_TABLE) &&
-a3e948e83a302c Robert Shearman 2015-12-10  698  	    (dev->addr_len !=3D nh=
-->nh_via_alen))
-a3e948e83a302c Robert Shearman 2015-12-10  699  		goto errout;
-a3e948e83a302c Robert Shearman 2015-12-10  700  =
+e8de370188d098 Alexandre Bounine 2016-03-22  590  	kref_put(&priv->dma_ref,=
+ mport_release_dma);
+e8de370188d098 Alexandre Bounine 2016-03-22  591  =
 
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  701  	RCU_INIT_POINTER(nh->nh_de=
-v, dev);
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  702  =
-
-c89359a42e2a49 Roopa Prabhu    2015-12-01  703  	if (!(dev->flags & IFF_UP)=
-) {
-c89359a42e2a49 Roopa Prabhu    2015-12-01 @704  		nh->nh_flags |=3D RTNH_F_=
-DEAD;
-c89359a42e2a49 Roopa Prabhu    2015-12-01  705  	} else {
-c89359a42e2a49 Roopa Prabhu    2015-12-01  706  		unsigned int flags;
-c89359a42e2a49 Roopa Prabhu    2015-12-01  707  =
-
-c89359a42e2a49 Roopa Prabhu    2015-12-01  708  		flags =3D dev_get_flags(d=
-ev);
-c89359a42e2a49 Roopa Prabhu    2015-12-01  709  		if (!(flags & (IFF_RUNNIN=
-G | IFF_LOWER_UP)))
-c89359a42e2a49 Roopa Prabhu    2015-12-01  710  			nh->nh_flags |=3D RTNH_F=
-_LINKDOWN;
-c89359a42e2a49 Roopa Prabhu    2015-12-01  711  	}
-c89359a42e2a49 Roopa Prabhu    2015-12-01  712  =
-
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  713  	return 0;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  714  =
-
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  715  errout:
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  716  	return err;
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  717  }
-f8efb73c97e2fa Roopa Prabhu    2015-10-23  718  =
+e8de370188d098 Alexandre Bounine 2016-03-22  592  	kfree(req);
+e8de370188d098 Alexandre Bounine 2016-03-22  593  }
+e8de370188d098 Alexandre Bounine 2016-03-22  594  =
 
 
-:::::: The code at line 704 was first introduced by commit
-:::::: c89359a42e2a49656451569c382eed63e781153c mpls: support for dead rout=
-es
+:::::: The code at line 587 was first introduced by commit
+:::::: e8de370188d098bb49483c287b44925957c3c9b6 rapidio: add mport char dev=
+ice driver
 
-:::::: TO: Roopa Prabhu <roopa@cumulusnetworks.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Alexandre Bounine <alexandre.bounine@idt.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7232494256216336403==--
+--===============2742245066276221692==--
 
