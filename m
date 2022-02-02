@@ -1,264 +1,326 @@
-Content-Type: multipart/mixed; boundary="===============6554567297229439692=="
+Content-Type: multipart/mixed; boundary="===============7824518145892485360=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/ref_tracker.c:24:9: sparse: sparse: static assertion failed: "pointer type mismatch in container_of()"
-Date: Wed, 02 Feb 2022 22:21:02 +0800
-Message-ID: <202202022257.hWV6TwxY-lkp@intel.com>
+Subject: Re: [PATCH RFC bpf-next v2 2/5] bpf: Introduce inherit list for dir tag.
+Date: Wed, 02 Feb 2022 22:00:39 +0800
+Message-ID: <202202022147.xPerjqdl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6554567297229439692==
+--===============7824518145892485360==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Vlastimil Babka <vbabka@suse.cz>
-CC: Marco Elver <elver@google.com>
-CC: Colin Ian King <colin.king@canonical.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20220201205534.1962784-3-haoluo@google.com>
+References: <20220201205534.1962784-3-haoluo@google.com>
+TO: Hao Luo <haoluo@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: 2dba5eb1c73b6ba2988ced07250edeac0f8cbf5a lib/stackdepot: allow opti=
-onal init and stack_table allocation by kvmalloc()
-date:   11 days ago
-:::::: branch date: 3 days ago
-:::::: commit date: 11 days ago
-config: nds32-randconfig-s031-20220202 (https://download.01.org/0day-ci/arc=
-hive/20220202/202202022257.hWV6TwxY-lkp(a)intel.com/config)
-compiler: nds32le-linux-gcc (GCC) 11.2.0
-reproduce:
+Hi Hao,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/Hao-Luo/Extend-cgroup-inte=
+rface-with-bpf/20220202-045743
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
+ster
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+202/202202022147.xPerjqdl-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e84=
+4b69f15bb7dffaf9365cd2b355d2eb7579)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2dba5eb1c73b6ba2988ced07250edeac0f8cbf5a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2dba5eb1c73b6ba2988ced07250edeac0f8cbf5a
+        # https://github.com/0day-ci/linux/commit/f6c6ca7ed744371ccc22d4c3b=
+945ebdb3651efaf
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Hao-Luo/Extend-cgroup-interface-wi=
+th-bpf/20220202-045743
+        git checkout f6c6ca7ed744371ccc22d4c3b945ebdb3651efaf
         # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dn=
-ds32 SHELL=3D/bin/bash
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   lib/ref_tracker.c: note: in included file (through include/linux/ww_mute=
-x.h, include/linux/seqlock.h, include/linux/mmzone.h, ...):
-   include/linux/rtmutex.h:68:58: sparse: sparse: Expected ) in function de=
-clarator
-   include/linux/rtmutex.h:68:58: sparse: sparse: got $
-   lib/ref_tracker.c: note: in included file:
-   include/linux/stacktrace.h:91:54: sparse: sparse: Expected ) in function=
- declarator
-   include/linux/stacktrace.h:91:54: sparse: sparse: got $
-   include/linux/stacktrace.h:93:62: sparse: sparse: Expected ) in function=
- declarator
-   include/linux/stacktrace.h:93:62: sparse: sparse: got $
-   include/linux/stacktrace.h:103:69: sparse: sparse: Expected ) in functio=
-n declarator
-   include/linux/stacktrace.h:103:69: sparse: sparse: got $
-   include/linux/stacktrace.h:108:1: sparse: sparse: Expected ; at the end =
-of type declaration
-   include/linux/stacktrace.h:108:1: sparse: sparse: got }
-   lib/ref_tracker.c:15:1: sparse: sparse: Expected ; at the end of type de=
-claration
-   lib/ref_tracker.c:15:1: sparse: sparse: got }
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
->> lib/ref_tracker.c:24:9: sparse: sparse: static assertion failed: "pointe=
-r type mismatch in container_of()"
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: static assertion failed: "pointe=
-r type mismatch in container_of()"
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: static assertion failed: "pointe=
-r type mismatch in container_of()"
-   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:132:27: sparse: sparse: using member 'head' in incompl=
-ete struct ref_tracker
-   lib/ref_tracker.c:132:27: sparse: sparse: static assertion failed: "poin=
-ter type mismatch in container_of()"
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
->> lib/ref_tracker.c:24:9: sparse: sparse: unknown member
->> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
->> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
->> lib/ref_tracker.c:24:9: sparse: sparse: unknown member
->> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:25:34: sparse: sparse: using member 'head' in incomple=
-te struct ref_tracker
-   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
->> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
->> lib/ref_tracker.c:24:9: sparse: sparse: unknown member
->> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: unknown member
-   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:29:9: sparse: sparse: unknown member
-   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:31:28: sparse: sparse: using member 'alloc_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:32:50: sparse: sparse: using member 'alloc_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:34:34: sparse: sparse: using member 'head' in incomple=
-te struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:29:9: sparse: sparse: unknown member
-   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: unknown member
-   lib/ref_tracker.c:51:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:54:36: sparse: sparse: using member 'alloc_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:55:58: sparse: sparse: using member 'alloc_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
-e struct ref_tracker
-   lib/ref_tracker.c:51:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:51:9: sparse: sparse: unknown member
-   lib/ref_tracker.c:51:9: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:85:16: sparse: sparse: using member 'alloc_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:88:26: sparse: sparse: using member 'head' in incomple=
-te struct ref_tracker
-   lib/ref_tracker.c:112:20: sparse: sparse: using member 'dead' in incompl=
-ete struct ref_tracker
-   lib/ref_tracker.c:114:28: sparse: sparse: using member 'alloc_stack_hand=
-le' in incomplete struct ref_tracker
-   lib/ref_tracker.c:116:50: sparse: sparse: using member 'alloc_stack_hand=
-le' in incomplete struct ref_tracker
-   lib/ref_tracker.c:118:28: sparse: sparse: using member 'free_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:120:50: sparse: sparse: using member 'free_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:126:16: sparse: sparse: using member 'dead' in incompl=
-ete struct ref_tracker
-   lib/ref_tracker.c:128:16: sparse: sparse: using member 'free_stack_handl=
-e' in incomplete struct ref_tracker
-   lib/ref_tracker.c:130:32: sparse: sparse: using member 'head' in incompl=
-ete struct ref_tracker
-   lib/ref_tracker.c:132:27: sparse: sparse: unknown member
-   lib/ref_tracker.c:132:27: sparse: sparse: cast from unknown type
-   lib/ref_tracker.c:133:34: sparse: sparse: using member 'head' in incompl=
-ete struct ref_tracker
-   lib/ref_tracker.c: note: in included file (through include/linux/irqflag=
-s.h, include/asm-generic/cmpxchg.h, arch/nds32/include/generated/asm/cmpxch=
-g.h, ...):
-   arch/nds32/include/asm/irqflags.h:15:17: sparse: sparse: undefined ident=
-ifier '__builtin_nds32_mfsr'
-   lib/ref_tracker.c: note: in included file (through arch/nds32/include/as=
-m/irqflags.h, include/linux/irqflags.h, include/asm-generic/cmpxchg.h, ...):
-   arch/nds32/include/asm/nds32.h:32:9: sparse: sparse: undefined identifie=
-r '__builtin_nds32_gie_dis'
-   arch/nds32/include/asm/nds32.h:26:9: sparse: sparse: undefined identifie=
-r '__builtin_nds32_gie_en'
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/ntfs3/fsntfs.c:1203:4: note: Taking false branch
+                           if (buf) {
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/ntfs3/fsntfs.c:1208:4: note: '?' condition is false
+                           if (!nb) {
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/ntfs3/fsntfs.c:1208:9: note: 'nb' is null
+                           if (!nb) {
+                                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/ntfs3/fsntfs.c:1208:4: note: '?' condition is true
+                           if (!nb) {
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/ntfs3/fsntfs.c:1208:4: note: Taking true branch
+                           if (!nb) {
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/ntfs3/fsntfs.c:1219:8: note: Assuming 'bytes' is not equal to 0
+                           if (!bytes)
+                               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/ntfs3/fsntfs.c:1219:4: note: '?' condition is false
+                           if (!bytes)
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/ntfs3/fsntfs.c:1219:9: note: 'bytes' is not equal to 0
+                           if (!bytes)
+                                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/ntfs3/fsntfs.c:1219:4: note: '?' condition is false
+                           if (!bytes)
+                           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/ntfs3/fsntfs.c:1219:4: note: Taking false branch
+                           if (!bytes)
+                           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/ntfs3/fsntfs.c:1191:3: note: Loop condition is false.  Exiting loop
+                   do {
+                   ^
+   fs/ntfs3/fsntfs.c:1227:18: note: The right operand of '+' is a garbage v=
+alue
+                   vcn_next =3D vcn + clen;
+                                  ^ ~~~~
+   2 warnings generated.
+>> kernel/bpf/inode.c:71:2: warning: Use of memory after it is freed [clang=
+-analyzer-unix.Malloc]
+           list_for_each_entry(e, &list->list, list) {
+           ^
+   include/linux/list.h:640:13: note: expanded from macro 'list_for_each_en=
+try'
+                pos =3D list_next_entry(pos, member))
+                      ^
+   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^
+   kernel/bpf/inode.c:571:2: note: Assuming the condition is false
+           if (inode_tag(dir)) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   kernel/bpf/inode.c:571:2: note: '?' condition is false
+           if (inode_tag(dir)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   kernel/bpf/inode.c:571:2: note: '?' condition is true
+           if (inode_tag(dir)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   kernel/bpf/inode.c:571:2: note: Taking true branch
+           if (inode_tag(dir)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/bpf/inode.c:573:3: note: Calling 'untag_dir_inode'
+                   untag_dir_inode(dir);
+                   ^~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/inode.c:561:10: note: Assuming field 'type' is equal to BPF_D=
+IR_KERNFS_REP
+           WARN_ON(tag->type !=3D BPF_DIR_KERNFS_REP);
+                   ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   kernel/bpf/inode.c:561:2: note: '?' condition is false
+           WARN_ON(tag->type !=3D BPF_DIR_KERNFS_REP);
+           ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   kernel/bpf/inode.c:561:2: note: '?' condition is false
+           WARN_ON(tag->type !=3D BPF_DIR_KERNFS_REP);
+           ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   kernel/bpf/inode.c:561:2: note: Taking false branch
+           WARN_ON(tag->type !=3D BPF_DIR_KERNFS_REP);
+           ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   kernel/bpf/inode.c:565:2: note: Calling 'kref_put'
+           kref_put(&tag->inherit_objects->refcnt, free_obj_list);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Assuming the condition is false
+           if (refcount_dec_and_test(&kref->refcount)) {
 
-vim +24 lib/ref_tracker.c
+vim +71 kernel/bpf/inode.c
 
-4e66934eaadc83 Eric Dumazet 2021-12-04  16  =
+b2197755b2633e Daniel Borkmann 2015-10-29  64  =
 
-4e66934eaadc83 Eric Dumazet 2021-12-04  17  void ref_tracker_dir_exit(struc=
-t ref_tracker_dir *dir)
-4e66934eaadc83 Eric Dumazet 2021-12-04  18  {
-4e66934eaadc83 Eric Dumazet 2021-12-04  19  	struct ref_tracker *tracker, *=
-n;
-4e66934eaadc83 Eric Dumazet 2021-12-04  20  	unsigned long flags;
-4e66934eaadc83 Eric Dumazet 2021-12-04  21  	bool leak =3D false;
-4e66934eaadc83 Eric Dumazet 2021-12-04  22  =
+f6c6ca7ed74437 Hao Luo         2022-02-01  65  static void free_obj_list(st=
+ruct kref *kref)
+f6c6ca7ed74437 Hao Luo         2022-02-01  66  {
+f6c6ca7ed74437 Hao Luo         2022-02-01  67  	struct obj_list *list;
+f6c6ca7ed74437 Hao Luo         2022-02-01  68  	struct bpf_inherit_entry *e;
+f6c6ca7ed74437 Hao Luo         2022-02-01  69  =
 
-4e66934eaadc83 Eric Dumazet 2021-12-04  23  	spin_lock_irqsave(&dir->lock, =
-flags);
-4e66934eaadc83 Eric Dumazet 2021-12-04 @24  	list_for_each_entry_safe(track=
-er, n, &dir->quarantine, head) {
-4e66934eaadc83 Eric Dumazet 2021-12-04  25  		list_del(&tracker->head);
-4e66934eaadc83 Eric Dumazet 2021-12-04  26  		kfree(tracker);
-4e66934eaadc83 Eric Dumazet 2021-12-04  27  		dir->quarantine_avail++;
-4e66934eaadc83 Eric Dumazet 2021-12-04  28  	}
-4e66934eaadc83 Eric Dumazet 2021-12-04  29  	list_for_each_entry_safe(track=
-er, n, &dir->list, head) {
-4e66934eaadc83 Eric Dumazet 2021-12-04  30  		pr_err("leaked reference.\n");
-4e66934eaadc83 Eric Dumazet 2021-12-04  31  		if (tracker->alloc_stack_hand=
-le)
-4e66934eaadc83 Eric Dumazet 2021-12-04  32  			stack_depot_print(tracker->a=
-lloc_stack_handle);
-4e66934eaadc83 Eric Dumazet 2021-12-04  33  		leak =3D true;
-4e66934eaadc83 Eric Dumazet 2021-12-04  34  		list_del(&tracker->head);
-4e66934eaadc83 Eric Dumazet 2021-12-04  35  		kfree(tracker);
-4e66934eaadc83 Eric Dumazet 2021-12-04  36  	}
-4e66934eaadc83 Eric Dumazet 2021-12-04  37  	spin_unlock_irqrestore(&dir->l=
-ock, flags);
-4e66934eaadc83 Eric Dumazet 2021-12-04  38  	WARN_ON_ONCE(leak);
-4e66934eaadc83 Eric Dumazet 2021-12-04  39  	WARN_ON_ONCE(refcount_read(&di=
-r->untracked) !=3D 1);
-4e66934eaadc83 Eric Dumazet 2021-12-04  40  }
-4e66934eaadc83 Eric Dumazet 2021-12-04  41  EXPORT_SYMBOL(ref_tracker_dir_e=
-xit);
-4e66934eaadc83 Eric Dumazet 2021-12-04  42  =
+f6c6ca7ed74437 Hao Luo         2022-02-01  70  	list =3D container_of(kref,=
+ struct obj_list, refcnt);
+f6c6ca7ed74437 Hao Luo         2022-02-01 @71  	list_for_each_entry(e, &lis=
+t->list, list) {
+f6c6ca7ed74437 Hao Luo         2022-02-01  72  		list_del_rcu(&e->list);
+f6c6ca7ed74437 Hao Luo         2022-02-01  73  		bpf_any_put(e->obj, e->typ=
+e);
+f6c6ca7ed74437 Hao Luo         2022-02-01  74  		kfree(e);
+f6c6ca7ed74437 Hao Luo         2022-02-01  75  	}
+f6c6ca7ed74437 Hao Luo         2022-02-01  76  	kfree(list);
+f6c6ca7ed74437 Hao Luo         2022-02-01  77  }
+f6c6ca7ed74437 Hao Luo         2022-02-01  78  =
 
-
-:::::: The code at line 24 was first introduced by commit
-:::::: 4e66934eaadc83b27ada8d42b60894018f3bfabf lib: add reference counting=
- tracking infrastructure
-
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6554567297229439692==--
+--===============7824518145892485360==--
 
