@@ -1,115 +1,264 @@
-Content-Type: multipart/mixed; boundary="===============7250866587675007123=="
+Content-Type: multipart/mixed; boundary="===============6554567297229439692=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3] block: sed-opal: Add ioctl to return device status
-Date: Wed, 02 Feb 2022 22:41:37 +0800
-Message-ID: <202202022253.Nh8enpBH-lkp@intel.com>
+Subject: lib/ref_tracker.c:24:9: sparse: sparse: static assertion failed: "pointer type mismatch in container_of()"
+Date: Wed, 02 Feb 2022 22:21:02 +0800
+Message-ID: <202202022257.hWV6TwxY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7250866587675007123==
+--===============6554567297229439692==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220125215248.6489-1-luca.boccassi@gmail.com>
-References: <20220125215248.6489-1-luca.boccassi@gmail.com>
-TO: luca.boccassi(a)gmail.com
-TO: linux-block(a)vger.kernel.org
-CC: dougmill(a)linux.vnet.ibm.com
-CC: hch(a)infradead.org
-CC: sbauer(a)plzdonthack.me
-CC: Jonathan.Derrick(a)solidigmtechnology.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Marco Elver <elver@google.com>
+CC: Colin Ian King <colin.king@canonical.com>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v5.17-rc2 next-20220202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/luca-boccassi-gmail-com/bl=
-ock-sed-opal-Add-ioctl-to-return-device-status/20220126-055454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: openrisc-randconfig-m031-20220201 (https://download.01.org/0day-ci/=
-archive/20220202/202202022253.Nh8enpBH-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
+commit: 2dba5eb1c73b6ba2988ced07250edeac0f8cbf5a lib/stackdepot: allow opti=
+onal init and stack_table allocation by kvmalloc()
+date:   11 days ago
+:::::: branch date: 3 days ago
+:::::: commit date: 11 days ago
+config: nds32-randconfig-s031-20220202 (https://download.01.org/0day-ci/arc=
+hive/20220202/202202022257.hWV6TwxY-lkp(a)intel.com/config)
+compiler: nds32le-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D2dba5eb1c73b6ba2988ced07250edeac0f8cbf5a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2dba5eb1c73b6ba2988ced07250edeac0f8cbf5a
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dn=
+ds32 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-block/sed-opal.c:2703 sed_ioctl() error: uninitialized symbol 'p'.
 
-Old smatch warnings:
-block/sed-opal.c:2706 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2709 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2712 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2715 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2718 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2721 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2724 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2727 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2730 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2733 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2736 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2739 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2742 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2745 sed_ioctl() error: uninitialized symbol 'p'.
-block/sed-opal.c:2748 sed_ioctl() error: uninitialized symbol 'p'.
+sparse warnings: (new ones prefixed by >>)
+   lib/ref_tracker.c: note: in included file (through include/linux/ww_mute=
+x.h, include/linux/seqlock.h, include/linux/mmzone.h, ...):
+   include/linux/rtmutex.h:68:58: sparse: sparse: Expected ) in function de=
+clarator
+   include/linux/rtmutex.h:68:58: sparse: sparse: got $
+   lib/ref_tracker.c: note: in included file:
+   include/linux/stacktrace.h:91:54: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:91:54: sparse: sparse: got $
+   include/linux/stacktrace.h:93:62: sparse: sparse: Expected ) in function=
+ declarator
+   include/linux/stacktrace.h:93:62: sparse: sparse: got $
+   include/linux/stacktrace.h:103:69: sparse: sparse: Expected ) in functio=
+n declarator
+   include/linux/stacktrace.h:103:69: sparse: sparse: got $
+   include/linux/stacktrace.h:108:1: sparse: sparse: Expected ; at the end =
+of type declaration
+   include/linux/stacktrace.h:108:1: sparse: sparse: got }
+   lib/ref_tracker.c:15:1: sparse: sparse: Expected ; at the end of type de=
+claration
+   lib/ref_tracker.c:15:1: sparse: sparse: got }
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+>> lib/ref_tracker.c:24:9: sparse: sparse: static assertion failed: "pointe=
+r type mismatch in container_of()"
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: static assertion failed: "pointe=
+r type mismatch in container_of()"
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: static assertion failed: "pointe=
+r type mismatch in container_of()"
+   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:132:27: sparse: sparse: using member 'head' in incompl=
+ete struct ref_tracker
+   lib/ref_tracker.c:132:27: sparse: sparse: static assertion failed: "poin=
+ter type mismatch in container_of()"
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+>> lib/ref_tracker.c:24:9: sparse: sparse: unknown member
+>> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+>> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
+>> lib/ref_tracker.c:24:9: sparse: sparse: unknown member
+>> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:25:34: sparse: sparse: using member 'head' in incomple=
+te struct ref_tracker
+   lib/ref_tracker.c:24:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+>> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
+>> lib/ref_tracker.c:24:9: sparse: sparse: unknown member
+>> lib/ref_tracker.c:24:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: unknown member
+   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:29:9: sparse: sparse: unknown member
+   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:31:28: sparse: sparse: using member 'alloc_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:32:50: sparse: sparse: using member 'alloc_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:34:34: sparse: sparse: using member 'head' in incomple=
+te struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:29:9: sparse: sparse: unknown member
+   lib/ref_tracker.c:29:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: unknown member
+   lib/ref_tracker.c:51:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:54:36: sparse: sparse: using member 'alloc_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:55:58: sparse: sparse: using member 'alloc_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: using member 'head' in incomplet=
+e struct ref_tracker
+   lib/ref_tracker.c:51:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:51:9: sparse: sparse: unknown member
+   lib/ref_tracker.c:51:9: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:85:16: sparse: sparse: using member 'alloc_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:88:26: sparse: sparse: using member 'head' in incomple=
+te struct ref_tracker
+   lib/ref_tracker.c:112:20: sparse: sparse: using member 'dead' in incompl=
+ete struct ref_tracker
+   lib/ref_tracker.c:114:28: sparse: sparse: using member 'alloc_stack_hand=
+le' in incomplete struct ref_tracker
+   lib/ref_tracker.c:116:50: sparse: sparse: using member 'alloc_stack_hand=
+le' in incomplete struct ref_tracker
+   lib/ref_tracker.c:118:28: sparse: sparse: using member 'free_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:120:50: sparse: sparse: using member 'free_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:126:16: sparse: sparse: using member 'dead' in incompl=
+ete struct ref_tracker
+   lib/ref_tracker.c:128:16: sparse: sparse: using member 'free_stack_handl=
+e' in incomplete struct ref_tracker
+   lib/ref_tracker.c:130:32: sparse: sparse: using member 'head' in incompl=
+ete struct ref_tracker
+   lib/ref_tracker.c:132:27: sparse: sparse: unknown member
+   lib/ref_tracker.c:132:27: sparse: sparse: cast from unknown type
+   lib/ref_tracker.c:133:34: sparse: sparse: using member 'head' in incompl=
+ete struct ref_tracker
+   lib/ref_tracker.c: note: in included file (through include/linux/irqflag=
+s.h, include/asm-generic/cmpxchg.h, arch/nds32/include/generated/asm/cmpxch=
+g.h, ...):
+   arch/nds32/include/asm/irqflags.h:15:17: sparse: sparse: undefined ident=
+ifier '__builtin_nds32_mfsr'
+   lib/ref_tracker.c: note: in included file (through arch/nds32/include/as=
+m/irqflags.h, include/linux/irqflags.h, include/asm-generic/cmpxchg.h, ...):
+   arch/nds32/include/asm/nds32.h:32:9: sparse: sparse: undefined identifie=
+r '__builtin_nds32_gie_dis'
+   arch/nds32/include/asm/nds32.h:26:9: sparse: sparse: undefined identifie=
+r '__builtin_nds32_gie_en'
 
-vim +/p +2703 block/sed-opal.c
+vim +24 lib/ref_tracker.c
 
-0bf8b38e88d576 dougmill(a)linux.vnet.ibm.com 2022-01-25  2682  =
+4e66934eaadc83 Eric Dumazet 2021-12-04  16  =
 
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2683  int sed_ioctl(=
-struct opal_dev *dev, unsigned int cmd, void __user *arg)
-455a7b238cd6bc Scott Bauer                 2017-02-03  2684  {
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2685  	void *p;
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2686  	int ret =3D -=
-ENOTTY;
-455a7b238cd6bc Scott Bauer                 2017-02-03  2687  =
+4e66934eaadc83 Eric Dumazet 2021-12-04  17  void ref_tracker_dir_exit(struc=
+t ref_tracker_dir *dir)
+4e66934eaadc83 Eric Dumazet 2021-12-04  18  {
+4e66934eaadc83 Eric Dumazet 2021-12-04  19  	struct ref_tracker *tracker, *=
+n;
+4e66934eaadc83 Eric Dumazet 2021-12-04  20  	unsigned long flags;
+4e66934eaadc83 Eric Dumazet 2021-12-04  21  	bool leak =3D false;
+4e66934eaadc83 Eric Dumazet 2021-12-04  22  =
 
-455a7b238cd6bc Scott Bauer                 2017-02-03  2688  	if (!capable(=
-CAP_SYS_ADMIN))
-455a7b238cd6bc Scott Bauer                 2017-02-03  2689  		return -EACC=
-ES;
-4f1244c8298606 Christoph Hellwig           2017-02-17  2690  	if (!dev)
-4f1244c8298606 Christoph Hellwig           2017-02-17  2691  		return -ENOT=
-SUPP;
-0bf8b38e88d576 dougmill(a)linux.vnet.ibm.com 2022-01-25  2692  	if (!(dev->=
-flags & OPAL_FL_SUPPORTED))
-455a7b238cd6bc Scott Bauer                 2017-02-03  2693  		return -ENOT=
-SUPP;
-455a7b238cd6bc Scott Bauer                 2017-02-03  2694  =
+4e66934eaadc83 Eric Dumazet 2021-12-04  23  	spin_lock_irqsave(&dir->lock, =
+flags);
+4e66934eaadc83 Eric Dumazet 2021-12-04 @24  	list_for_each_entry_safe(track=
+er, n, &dir->quarantine, head) {
+4e66934eaadc83 Eric Dumazet 2021-12-04  25  		list_del(&tracker->head);
+4e66934eaadc83 Eric Dumazet 2021-12-04  26  		kfree(tracker);
+4e66934eaadc83 Eric Dumazet 2021-12-04  27  		dir->quarantine_avail++;
+4e66934eaadc83 Eric Dumazet 2021-12-04  28  	}
+4e66934eaadc83 Eric Dumazet 2021-12-04  29  	list_for_each_entry_safe(track=
+er, n, &dir->list, head) {
+4e66934eaadc83 Eric Dumazet 2021-12-04  30  		pr_err("leaked reference.\n");
+4e66934eaadc83 Eric Dumazet 2021-12-04  31  		if (tracker->alloc_stack_hand=
+le)
+4e66934eaadc83 Eric Dumazet 2021-12-04  32  			stack_depot_print(tracker->a=
+lloc_stack_handle);
+4e66934eaadc83 Eric Dumazet 2021-12-04  33  		leak =3D true;
+4e66934eaadc83 Eric Dumazet 2021-12-04  34  		list_del(&tracker->head);
+4e66934eaadc83 Eric Dumazet 2021-12-04  35  		kfree(tracker);
+4e66934eaadc83 Eric Dumazet 2021-12-04  36  	}
+4e66934eaadc83 Eric Dumazet 2021-12-04  37  	spin_unlock_irqrestore(&dir->l=
+ock, flags);
+4e66934eaadc83 Eric Dumazet 2021-12-04  38  	WARN_ON_ONCE(leak);
+4e66934eaadc83 Eric Dumazet 2021-12-04  39  	WARN_ON_ONCE(refcount_read(&di=
+r->untracked) !=3D 1);
+4e66934eaadc83 Eric Dumazet 2021-12-04  40  }
+4e66934eaadc83 Eric Dumazet 2021-12-04  41  EXPORT_SYMBOL(ref_tracker_dir_e=
+xit);
+4e66934eaadc83 Eric Dumazet 2021-12-04  42  =
 
-0bf8b38e88d576 dougmill(a)linux.vnet.ibm.com 2022-01-25  2695  	if (cmd & I=
-OC_IN) {
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2696  		p =3D memdup=
-_user(arg, _IOC_SIZE(cmd));
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2697  		if (IS_ERR(p=
-))
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2698  			return PTR_=
-ERR(p);
-0bf8b38e88d576 dougmill(a)linux.vnet.ibm.com 2022-01-25  2699  	}
-455a7b238cd6bc Scott Bauer                 2017-02-03  2700  =
 
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2701  	switch (cmd) {
-e225c20eb0fd0b Scott Bauer                 2017-02-14  2702  	case IOC_OPAL=
-_SAVE:
-e225c20eb0fd0b Scott Bauer                 2017-02-14 @2703  		ret =3D opal=
-_save(dev, p);
+:::::: The code at line 24 was first introduced by commit
+:::::: 4e66934eaadc83b27ada8d42b60894018f3bfabf lib: add reference counting=
+ tracking infrastructure
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7250866587675007123==--
+--===============6554567297229439692==--
 
