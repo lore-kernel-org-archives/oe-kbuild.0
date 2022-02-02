@@ -1,331 +1,431 @@
-Content-Type: multipart/mixed; boundary="===============8544898794326043101=="
+Content-Type: multipart/mixed; boundary="===============6357850801645263455=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH RFC bpf-next v2 2/5] bpf: Introduce inherit list for dir tag.
-Date: Wed, 02 Feb 2022 17:15:14 +0800
-Message-ID: <202202021722.Gftmgh6J-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/ice/ice_flow.c:804 ice_flow_xtract_fld() warn: should '((((1))) << sib)' be a 64 bit type?
+Date: Wed, 02 Feb 2022 16:44:46 +0800
+Message-ID: <202202021629.O7Wu8n6K-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8544898794326043101==
+--===============6357850801645263455==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220201205534.1962784-3-haoluo@google.com>
-References: <20220201205534.1962784-3-haoluo@google.com>
-TO: Hao Luo <haoluo@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Qi Zhang <qi.z.zhang@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+CC: Ting Xu <ting.xu@intel.com>
+CC: Yahui Cao <yahui.cao@intel.com>
 
-Hi Hao,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Hao-Luo/Extend-cgroup-inte=
-rface-with-bpf/20220202-045743
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9f7fb8de5d9bac17b6392a14af40baf555d9129b
+commit: 0577313e53887493232206f1afe2a6584fa5e585 ice: Add more advanced pro=
+tocol support in flow filter
+date:   11 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: i386-randconfig-m021-20220131 (https://download.01.org/0day-ci/arch=
-ive/20220202/202202021722.Gftmgh6J-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+:::::: commit date: 11 months ago
+config: powerpc-randconfig-m031-20220130 (https://download.01.org/0day-ci/a=
+rchive/20220202/202202021629.O7Wu8n6K-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/bpf/inode.c:71 free_obj_list() error: dereferencing freed memory 'e'
-kernel/bpf/inode.c:251 populate_dir() error: uninitialized symbol 'ret'.
+New smatch warnings:
+drivers/net/ethernet/intel/ice/ice_flow.c:804 ice_flow_xtract_fld() warn: s=
+hould '((((1))) << sib)' be a 64 bit type?
 
-vim +/e +71 kernel/bpf/inode.c
+Old smatch warnings:
+drivers/net/ethernet/intel/ice/ice_flow.c:823 ice_flow_xtract_fld() warn: s=
+hould '((((1))) << sib)' be a 64 bit type?
+drivers/net/ethernet/intel/ice/ice_flow.c:923 ice_flow_xtract_fld() error: =
+testing array offset 'sib' after use.
+drivers/net/ethernet/intel/ice/ice_flow.c:1959 ice_add_rss_cfg_sync() error=
+: we previously assumed 'prof' could be null (see line 1941)
 
-b2197755b2633e Daniel Borkmann   2015-10-29   64  =
+vim +804 drivers/net/ethernet/intel/ice/ice_flow.c
 
-f6c6ca7ed74437 Hao Luo           2022-02-01   65  static void free_obj_list=
-(struct kref *kref)
-f6c6ca7ed74437 Hao Luo           2022-02-01   66  {
-f6c6ca7ed74437 Hao Luo           2022-02-01   67  	struct obj_list *list;
-f6c6ca7ed74437 Hao Luo           2022-02-01   68  	struct bpf_inherit_entry=
- *e;
-f6c6ca7ed74437 Hao Luo           2022-02-01   69  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  744  =
 
-f6c6ca7ed74437 Hao Luo           2022-02-01   70  	list =3D container_of(kr=
-ef, struct obj_list, refcnt);
-f6c6ca7ed74437 Hao Luo           2022-02-01  @71  	list_for_each_entry(e, &=
-list->list, list) {
-f6c6ca7ed74437 Hao Luo           2022-02-01   72  		list_del_rcu(&e->list);
-f6c6ca7ed74437 Hao Luo           2022-02-01   73  		bpf_any_put(e->obj, e->=
-type);
-f6c6ca7ed74437 Hao Luo           2022-02-01   74  		kfree(e);
-f6c6ca7ed74437 Hao Luo           2022-02-01   75  	}
-f6c6ca7ed74437 Hao Luo           2022-02-01   76  	kfree(list);
-f6c6ca7ed74437 Hao Luo           2022-02-01   77  }
-f6c6ca7ed74437 Hao Luo           2022-02-01   78  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  745  /**
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  746   * ice_flow_xtract_fl=
+d - Create an extraction sequence entry for the given field
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  747   * @hw: pointer to th=
+e HW struct
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  748   * @params: informati=
+on about the flow to be processed
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  749   * @seg: packet segme=
+nt index of the field to be extracted
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  750   * @fld: ID of field =
+to be extracted
+b199dddbd39953 Qi Zhang              2021-03-09  751   * @match: bit field =
+of all fields
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  752   *
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  753   * This function dete=
+rmines the protocol ID, offset, and size of the given
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  754   * field. It then all=
+ocates one or more extraction sequence entries for the
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  755   * given field, and f=
+ill the entries with protocol ID and offset information.
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  756   */
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  757  static enum ice_status
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  758  ice_flow_xtract_fld(s=
+truct ice_hw *hw, struct ice_flow_prof_params *params,
+b199dddbd39953 Qi Zhang              2021-03-09  759  		    u8 seg, enum ic=
+e_flow_field fld, u64 match)
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  760  {
+b199dddbd39953 Qi Zhang              2021-03-09  761  	enum ice_flow_field =
+sib =3D ICE_FLOW_FIELD_IDX_MAX;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  762  	enum ice_prot_id pro=
+t_id =3D ICE_PROT_ID_INVAL;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  763  	u8 fv_words =3D hw->=
+blk[params->blk].es.fvw;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  764  	struct ice_flow_fld_=
+info *flds;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  765  	u16 cnt, ese_bits, i;
+b199dddbd39953 Qi Zhang              2021-03-09  766  	u16 sib_mask =3D 0;
+b199dddbd39953 Qi Zhang              2021-03-09  767  	u16 mask;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  768  	u16 off;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  769  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29   79  static void *bpf_fd_probe=
-_obj(u32 ufd, enum bpf_type *type)
-b2197755b2633e Daniel Borkmann   2015-10-29   80  {
-b2197755b2633e Daniel Borkmann   2015-10-29   81  	void *raw;
-b2197755b2633e Daniel Borkmann   2015-10-29   82  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  770  	flds =3D params->pro=
+f->segs[seg].fields;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  771  =
 
-c9da161c6517ba Daniel Borkmann   2015-11-24   83  	raw =3D bpf_map_get_with=
-_uref(ufd);
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   84  	if (!IS_ERR(raw)) {
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   85  		*type =3D BPF_TYPE_MAP;
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   86  		return raw;
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   87  	}
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   88  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  772  	switch (fld) {
+390bd141808d50 Qi Zhang              2021-03-09  773  	case ICE_FLOW_FIELD_=
+IDX_ETH_DA:
+390bd141808d50 Qi Zhang              2021-03-09  774  	case ICE_FLOW_FIELD_=
+IDX_ETH_SA:
+390bd141808d50 Qi Zhang              2021-03-09  775  	case ICE_FLOW_FIELD_=
+IDX_S_VLAN:
+390bd141808d50 Qi Zhang              2021-03-09  776  	case ICE_FLOW_FIELD_=
+IDX_C_VLAN:
+390bd141808d50 Qi Zhang              2021-03-09  777  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_MAC_OF_OR_S : ICE_PROT_MAC_IL;
+390bd141808d50 Qi Zhang              2021-03-09  778  		break;
+390bd141808d50 Qi Zhang              2021-03-09  779  	case ICE_FLOW_FIELD_=
+IDX_ETH_TYPE:
+390bd141808d50 Qi Zhang              2021-03-09  780  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_ETYPE_OL : ICE_PROT_ETYPE_IL;
+390bd141808d50 Qi Zhang              2021-03-09  781  		break;
+b199dddbd39953 Qi Zhang              2021-03-09  782  	case ICE_FLOW_FIELD_=
+IDX_IPV4_DSCP:
+b199dddbd39953 Qi Zhang              2021-03-09  783  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_IPV4_OF_OR_S : ICE_PROT_IPV4_IL;
+b199dddbd39953 Qi Zhang              2021-03-09  784  		break;
+b199dddbd39953 Qi Zhang              2021-03-09  785  	case ICE_FLOW_FIELD_=
+IDX_IPV6_DSCP:
+b199dddbd39953 Qi Zhang              2021-03-09  786  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_IPV6_OF_OR_S : ICE_PROT_IPV6_IL;
+b199dddbd39953 Qi Zhang              2021-03-09  787  		break;
+b199dddbd39953 Qi Zhang              2021-03-09  788  	case ICE_FLOW_FIELD_=
+IDX_IPV4_TTL:
+b199dddbd39953 Qi Zhang              2021-03-09  789  	case ICE_FLOW_FIELD_=
+IDX_IPV4_PROT:
+b199dddbd39953 Qi Zhang              2021-03-09  790  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_IPV4_OF_OR_S : ICE_PROT_IPV4_IL;
+b199dddbd39953 Qi Zhang              2021-03-09  791  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29   89  	raw =3D bpf_prog_get(ufd=
-);
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   90  	if (!IS_ERR(raw)) {
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   91  		*type =3D BPF_TYPE_PROG;
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   92  		return raw;
-b2197755b2633e Daniel Borkmann   2015-10-29   93  	}
-b2197755b2633e Daniel Borkmann   2015-10-29   94  =
+b199dddbd39953 Qi Zhang              2021-03-09  792  		/* TTL and PROT sha=
+re the same extraction seq. entry.
+b199dddbd39953 Qi Zhang              2021-03-09  793  		 * Each is consider=
+ed a sibling to the other in terms of sharing
+b199dddbd39953 Qi Zhang              2021-03-09  794  		 * the same extract=
+ion sequence entry.
+b199dddbd39953 Qi Zhang              2021-03-09  795  		 */
+b199dddbd39953 Qi Zhang              2021-03-09  796  		if (fld =3D=3D ICE_=
+FLOW_FIELD_IDX_IPV4_TTL)
+b199dddbd39953 Qi Zhang              2021-03-09  797  			sib =3D ICE_FLOW_F=
+IELD_IDX_IPV4_PROT;
+b199dddbd39953 Qi Zhang              2021-03-09  798  		else if (fld =3D=3D=
+ ICE_FLOW_FIELD_IDX_IPV4_PROT)
+b199dddbd39953 Qi Zhang              2021-03-09  799  			sib =3D ICE_FLOW_F=
+IELD_IDX_IPV4_TTL;
+b199dddbd39953 Qi Zhang              2021-03-09  800  =
 
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   95  	raw =3D bpf_link_get_fro=
-m_fd(ufd);
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   96  	if (!IS_ERR(raw)) {
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02   97  		*type =3D BPF_TYPE_LINK;
-b2197755b2633e Daniel Borkmann   2015-10-29   98  		return raw;
-b2197755b2633e Daniel Borkmann   2015-10-29   99  	}
-b2197755b2633e Daniel Borkmann   2015-10-29  100  =
+b199dddbd39953 Qi Zhang              2021-03-09  801  		/* If the sibling f=
+ield is also included, that field's
+b199dddbd39953 Qi Zhang              2021-03-09  802  		 * mask needs to be=
+ included.
+b199dddbd39953 Qi Zhang              2021-03-09  803  		 */
+b199dddbd39953 Qi Zhang              2021-03-09 @804  		if (match & BIT(sib=
+))
+b199dddbd39953 Qi Zhang              2021-03-09  805  			sib_mask =3D ice_f=
+lds_info[sib].mask;
+b199dddbd39953 Qi Zhang              2021-03-09  806  		break;
+b199dddbd39953 Qi Zhang              2021-03-09  807  	case ICE_FLOW_FIELD_=
+IDX_IPV6_TTL:
+b199dddbd39953 Qi Zhang              2021-03-09  808  	case ICE_FLOW_FIELD_=
+IDX_IPV6_PROT:
+b199dddbd39953 Qi Zhang              2021-03-09  809  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_IPV6_OF_OR_S : ICE_PROT_IPV6_IL;
+b199dddbd39953 Qi Zhang              2021-03-09  810  =
 
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02  101  	return ERR_PTR(-EINVAL);
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02  102  }
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02  103  =
+b199dddbd39953 Qi Zhang              2021-03-09  811  		/* TTL and PROT sha=
+re the same extraction seq. entry.
+b199dddbd39953 Qi Zhang              2021-03-09  812  		 * Each is consider=
+ed a sibling to the other in terms of sharing
+b199dddbd39953 Qi Zhang              2021-03-09  813  		 * the same extract=
+ion sequence entry.
+b199dddbd39953 Qi Zhang              2021-03-09  814  		 */
+b199dddbd39953 Qi Zhang              2021-03-09  815  		if (fld =3D=3D ICE_=
+FLOW_FIELD_IDX_IPV6_TTL)
+b199dddbd39953 Qi Zhang              2021-03-09  816  			sib =3D ICE_FLOW_F=
+IELD_IDX_IPV6_PROT;
+b199dddbd39953 Qi Zhang              2021-03-09  817  		else if (fld =3D=3D=
+ ICE_FLOW_FIELD_IDX_IPV6_PROT)
+b199dddbd39953 Qi Zhang              2021-03-09  818  			sib =3D ICE_FLOW_F=
+IELD_IDX_IPV6_TTL;
+b199dddbd39953 Qi Zhang              2021-03-09  819  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  104  static const struct inode=
-_operations bpf_dir_iops;
-b2197755b2633e Daniel Borkmann   2015-10-29  105  =
+b199dddbd39953 Qi Zhang              2021-03-09  820  		/* If the sibling f=
+ield is also included, that field's
+b199dddbd39953 Qi Zhang              2021-03-09  821  		 * mask needs to be=
+ included.
+b199dddbd39953 Qi Zhang              2021-03-09  822  		 */
+b199dddbd39953 Qi Zhang              2021-03-09  823  		if (match & BIT(sib=
+))
+b199dddbd39953 Qi Zhang              2021-03-09  824  			sib_mask =3D ice_f=
+lds_info[sib].mask;
+b199dddbd39953 Qi Zhang              2021-03-09  825  		break;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  826  	case ICE_FLOW_FIELD_=
+IDX_IPV4_SA:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  827  	case ICE_FLOW_FIELD_=
+IDX_IPV4_DA:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  828  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_IPV4_OF_OR_S : ICE_PROT_IPV4_IL;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  829  		break;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  830  	case ICE_FLOW_FIELD_=
+IDX_IPV6_SA:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  831  	case ICE_FLOW_FIELD_=
+IDX_IPV6_DA:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  832  		prot_id =3D seg =3D=
+=3D 0 ? ICE_PROT_IPV6_OF_OR_S : ICE_PROT_IPV6_IL;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  833  		break;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  834  	case ICE_FLOW_FIELD_=
+IDX_TCP_SRC_PORT:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  835  	case ICE_FLOW_FIELD_=
+IDX_TCP_DST_PORT:
+390bd141808d50 Qi Zhang              2021-03-09  836  	case ICE_FLOW_FIELD_=
+IDX_TCP_FLAGS:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  837  		prot_id =3D ICE_PRO=
+T_TCP_IL;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  838  		break;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  839  	case ICE_FLOW_FIELD_=
+IDX_UDP_SRC_PORT:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  840  	case ICE_FLOW_FIELD_=
+IDX_UDP_DST_PORT:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  841  		prot_id =3D ICE_PRO=
+T_UDP_IL_OR_S;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  842  		break;
+1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  843  	case ICE_FLOW_FIELD_=
+IDX_SCTP_SRC_PORT:
+1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  844  	case ICE_FLOW_FIELD_=
+IDX_SCTP_DST_PORT:
+1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  845  		prot_id =3D ICE_PRO=
+T_SCTP_IL;
+1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  846  		break;
+0577313e538874 Qi Zhang              2021-03-09  847  	case ICE_FLOW_FIELD_=
+IDX_GTPC_TEID:
+0577313e538874 Qi Zhang              2021-03-09  848  	case ICE_FLOW_FIELD_=
+IDX_GTPU_IP_TEID:
+0577313e538874 Qi Zhang              2021-03-09  849  	case ICE_FLOW_FIELD_=
+IDX_GTPU_UP_TEID:
+0577313e538874 Qi Zhang              2021-03-09  850  	case ICE_FLOW_FIELD_=
+IDX_GTPU_DWN_TEID:
+0577313e538874 Qi Zhang              2021-03-09  851  	case ICE_FLOW_FIELD_=
+IDX_GTPU_EH_TEID:
+0577313e538874 Qi Zhang              2021-03-09  852  	case ICE_FLOW_FIELD_=
+IDX_GTPU_EH_QFI:
+0577313e538874 Qi Zhang              2021-03-09  853  		/* GTP is accessed =
+through UDP OF protocol */
+0577313e538874 Qi Zhang              2021-03-09  854  		prot_id =3D ICE_PRO=
+T_UDP_OF;
+0577313e538874 Qi Zhang              2021-03-09  855  		break;
+0577313e538874 Qi Zhang              2021-03-09  856  	case ICE_FLOW_FIELD_=
+IDX_PPPOE_SESS_ID:
+0577313e538874 Qi Zhang              2021-03-09  857  		prot_id =3D ICE_PRO=
+T_PPPOE;
+0577313e538874 Qi Zhang              2021-03-09  858  		break;
+0577313e538874 Qi Zhang              2021-03-09  859  	case ICE_FLOW_FIELD_=
+IDX_PFCP_SEID:
+0577313e538874 Qi Zhang              2021-03-09  860  		prot_id =3D ICE_PRO=
+T_UDP_IL_OR_S;
+0577313e538874 Qi Zhang              2021-03-09  861  		break;
+0577313e538874 Qi Zhang              2021-03-09  862  	case ICE_FLOW_FIELD_=
+IDX_L2TPV3_SESS_ID:
+0577313e538874 Qi Zhang              2021-03-09  863  		prot_id =3D ICE_PRO=
+T_L2TPV3;
+0577313e538874 Qi Zhang              2021-03-09  864  		break;
+0577313e538874 Qi Zhang              2021-03-09  865  	case ICE_FLOW_FIELD_=
+IDX_ESP_SPI:
+0577313e538874 Qi Zhang              2021-03-09  866  		prot_id =3D ICE_PRO=
+T_ESP_F;
+0577313e538874 Qi Zhang              2021-03-09  867  		break;
+0577313e538874 Qi Zhang              2021-03-09  868  	case ICE_FLOW_FIELD_=
+IDX_AH_SPI:
+0577313e538874 Qi Zhang              2021-03-09  869  		prot_id =3D ICE_PRO=
+T_ESP_2;
+0577313e538874 Qi Zhang              2021-03-09  870  		break;
+0577313e538874 Qi Zhang              2021-03-09  871  	case ICE_FLOW_FIELD_=
+IDX_NAT_T_ESP_SPI:
+0577313e538874 Qi Zhang              2021-03-09  872  		prot_id =3D ICE_PRO=
+T_UDP_IL_OR_S;
+0577313e538874 Qi Zhang              2021-03-09  873  		break;
+390bd141808d50 Qi Zhang              2021-03-09  874  	case ICE_FLOW_FIELD_=
+IDX_ARP_SIP:
+390bd141808d50 Qi Zhang              2021-03-09  875  	case ICE_FLOW_FIELD_=
+IDX_ARP_DIP:
+390bd141808d50 Qi Zhang              2021-03-09  876  	case ICE_FLOW_FIELD_=
+IDX_ARP_SHA:
+390bd141808d50 Qi Zhang              2021-03-09  877  	case ICE_FLOW_FIELD_=
+IDX_ARP_DHA:
+390bd141808d50 Qi Zhang              2021-03-09  878  	case ICE_FLOW_FIELD_=
+IDX_ARP_OP:
+390bd141808d50 Qi Zhang              2021-03-09  879  		prot_id =3D ICE_PRO=
+T_ARP_OF;
+390bd141808d50 Qi Zhang              2021-03-09  880  		break;
+390bd141808d50 Qi Zhang              2021-03-09  881  	case ICE_FLOW_FIELD_=
+IDX_ICMP_TYPE:
+390bd141808d50 Qi Zhang              2021-03-09  882  	case ICE_FLOW_FIELD_=
+IDX_ICMP_CODE:
+390bd141808d50 Qi Zhang              2021-03-09  883  		/* ICMP type and co=
+de share the same extraction seq. entry */
+390bd141808d50 Qi Zhang              2021-03-09  884  		prot_id =3D (params=
+->prof->segs[seg].hdrs & ICE_FLOW_SEG_HDR_IPV4) ?
+390bd141808d50 Qi Zhang              2021-03-09  885  				ICE_PROT_ICMP_IL =
+: ICE_PROT_ICMPV6_IL;
+b199dddbd39953 Qi Zhang              2021-03-09  886  		sib =3D fld =3D=3D =
+ICE_FLOW_FIELD_IDX_ICMP_TYPE ?
+b199dddbd39953 Qi Zhang              2021-03-09  887  			ICE_FLOW_FIELD_IDX=
+_ICMP_CODE :
+b199dddbd39953 Qi Zhang              2021-03-09  888  			ICE_FLOW_FIELD_IDX=
+_ICMP_TYPE;
+390bd141808d50 Qi Zhang              2021-03-09  889  		break;
+a4e82a81f57387 Tony Nguyen           2020-05-06  890  	case ICE_FLOW_FIELD_=
+IDX_GRE_KEYID:
+a4e82a81f57387 Tony Nguyen           2020-05-06  891  		prot_id =3D ICE_PRO=
+T_GRE_OF;
+a4e82a81f57387 Tony Nguyen           2020-05-06  892  		break;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  893  	default:
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  894  		return ICE_ERR_NOT_=
+IMPL;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  895  	}
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  896  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  106  static const struct inode=
-_operations bpf_prog_iops =3D { };
-b2197755b2633e Daniel Borkmann   2015-10-29  107  static const struct inode=
-_operations bpf_map_iops  =3D { };
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02  108  static const struct inode=
-_operations bpf_link_iops  =3D { };
-b2197755b2633e Daniel Borkmann   2015-10-29  109  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  897  	/* Each extraction s=
+equence entry is a word in size, and extracts a
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  898  	 * word-aligned offs=
+et from a protocol header.
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  899  	 */
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  900  	ese_bits =3D ICE_FLO=
+W_FV_EXTRACT_SZ * BITS_PER_BYTE;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  901  =
 
-f6c6ca7ed74437 Hao Luo           2022-02-01  110  static int bpf_mkprog(str=
-uct dentry *dentry, umode_t mode, void *arg);
-f6c6ca7ed74437 Hao Luo           2022-02-01  111  static int bpf_mkmap(stru=
-ct dentry *dentry, umode_t mode, void *arg);
-f6c6ca7ed74437 Hao Luo           2022-02-01  112  static int bpf_mklink(str=
-uct dentry *dentry, umode_t mode, void *arg);
-f6c6ca7ed74437 Hao Luo           2022-02-01  113  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  902  	flds[fld].xtrct.prot=
+_id =3D prot_id;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  903  	flds[fld].xtrct.off =
+=3D (ice_flds_info[fld].off / ese_bits) *
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  904  		ICE_FLOW_FV_EXTRACT=
+_SZ;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  905  	flds[fld].xtrct.disp=
+ =3D (u8)(ice_flds_info[fld].off % ese_bits);
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  906  	flds[fld].xtrct.idx =
+=3D params->es_cnt;
+b199dddbd39953 Qi Zhang              2021-03-09  907  	flds[fld].xtrct.mask=
+ =3D ice_flds_info[fld].mask;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  908  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  114  static struct inode *bpf_=
-get_inode(struct super_block *sb,
-b2197755b2633e Daniel Borkmann   2015-10-29  115  				   const struct inode=
- *dir,
-b2197755b2633e Daniel Borkmann   2015-10-29  116  				   umode_t mode)
-b2197755b2633e Daniel Borkmann   2015-10-29  117  {
-b2197755b2633e Daniel Borkmann   2015-10-29  118  	struct inode *inode;
-b2197755b2633e Daniel Borkmann   2015-10-29  119  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  909  	/* Adjust the next f=
+ield-entry index after accommodating the number of
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  910  	 * entries this fiel=
+d consumes
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  911  	 */
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  912  	cnt =3D DIV_ROUND_UP=
+(flds[fld].xtrct.disp + ice_flds_info[fld].size,
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  913  			   ese_bits);
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  914  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  120  	switch (mode & S_IFMT) {
-b2197755b2633e Daniel Borkmann   2015-10-29  121  	case S_IFDIR:
-b2197755b2633e Daniel Borkmann   2015-10-29  122  	case S_IFREG:
-0f98621bef5d2b Daniel Borkmann   2016-10-29  123  	case S_IFLNK:
-b2197755b2633e Daniel Borkmann   2015-10-29  124  		break;
-b2197755b2633e Daniel Borkmann   2015-10-29  125  	default:
-b2197755b2633e Daniel Borkmann   2015-10-29  126  		return ERR_PTR(-EINVAL);
-b2197755b2633e Daniel Borkmann   2015-10-29  127  	}
-b2197755b2633e Daniel Borkmann   2015-10-29  128  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  915  	/* Fill in the extra=
+ction sequence entries needed for this field */
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  916  	off =3D flds[fld].xt=
+rct.off;
+b199dddbd39953 Qi Zhang              2021-03-09  917  	mask =3D flds[fld].x=
+trct.mask;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  918  	for (i =3D 0; i < cn=
+t; i++) {
+b199dddbd39953 Qi Zhang              2021-03-09  919  		/* Only consume an =
+extraction sequence entry if there is no
+b199dddbd39953 Qi Zhang              2021-03-09  920  		 * sibling field as=
+sociated with this field or the sibling entry
+b199dddbd39953 Qi Zhang              2021-03-09  921  		 * already extracts=
+ the word shared with this field.
+b199dddbd39953 Qi Zhang              2021-03-09  922  		 */
+b199dddbd39953 Qi Zhang              2021-03-09  923  		if (sib =3D=3D ICE_=
+FLOW_FIELD_IDX_MAX ||
+b199dddbd39953 Qi Zhang              2021-03-09  924  		    flds[sib].xtrct=
+.prot_id =3D=3D ICE_PROT_ID_INVAL ||
+b199dddbd39953 Qi Zhang              2021-03-09  925  		    flds[sib].xtrct=
+.off !=3D off) {
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  926  			u8 idx;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  927  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  129  	inode =3D new_inode(sb);
-b2197755b2633e Daniel Borkmann   2015-10-29  130  	if (!inode)
-b2197755b2633e Daniel Borkmann   2015-10-29  131  		return ERR_PTR(-ENOSPC);
-b2197755b2633e Daniel Borkmann   2015-10-29  132  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  928  			/* Make sure the n=
+umber of extraction sequence required
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  929  			 * does not exceed=
+ the block's capability
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  930  			 */
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  931  			if (params->es_cnt=
+ >=3D fv_words)
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  932  				return ICE_ERR_MA=
+X_LIMIT;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  933  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  133  	inode->i_ino =3D get_nex=
-t_ino();
-078cd8279e6599 Deepa Dinamani    2016-09-14  134  	inode->i_atime =3D curre=
-nt_time(inode);
-b2197755b2633e Daniel Borkmann   2015-10-29  135  	inode->i_mtime =3D inode=
-->i_atime;
-b2197755b2633e Daniel Borkmann   2015-10-29  136  	inode->i_ctime =3D inode=
-->i_atime;
-b2197755b2633e Daniel Borkmann   2015-10-29  137  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  934  			/* some blocks req=
+uire a reversed field vector layout */
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  935  			if (hw->blk[params=
+->blk].es.reverse)
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  936  				idx =3D fv_words =
+- params->es_cnt - 1;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  937  			else
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  938  				idx =3D params->e=
+s_cnt;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  939  =
 
-21cb47be6fb9ec Christian Brauner 2021-01-21  138  	inode_init_owner(&init_u=
-ser_ns, inode, dir, mode);
-b2197755b2633e Daniel Borkmann   2015-10-29  139  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  940  			params->es[idx].pr=
+ot_id =3D prot_id;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  941  			params->es[idx].of=
+f =3D off;
+b199dddbd39953 Qi Zhang              2021-03-09  942  			params->mask[idx] =
+=3D mask | sib_mask;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  943  			params->es_cnt++;
+b199dddbd39953 Qi Zhang              2021-03-09  944  		}
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  945  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  140  	return inode;
-b2197755b2633e Daniel Borkmann   2015-10-29  141  }
-b2197755b2633e Daniel Borkmann   2015-10-29  142  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  946  		off +=3D ICE_FLOW_F=
+V_EXTRACT_SZ;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  947  	}
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  948  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  143  static int bpf_inode_type=
-(const struct inode *inode, enum bpf_type *type)
-b2197755b2633e Daniel Borkmann   2015-10-29  144  {
-b2197755b2633e Daniel Borkmann   2015-10-29  145  	*type =3D BPF_TYPE_UNSPE=
-C;
-b2197755b2633e Daniel Borkmann   2015-10-29  146  	if (inode->i_op =3D=3D &=
-bpf_prog_iops)
-b2197755b2633e Daniel Borkmann   2015-10-29  147  		*type =3D BPF_TYPE_PROG;
-b2197755b2633e Daniel Borkmann   2015-10-29  148  	else if (inode->i_op =3D=
-=3D &bpf_map_iops)
-b2197755b2633e Daniel Borkmann   2015-10-29  149  		*type =3D BPF_TYPE_MAP;
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02  150  	else if (inode->i_op =3D=
-=3D &bpf_link_iops)
-70ed506c3bbcfa Andrii Nakryiko   2020-03-02  151  		*type =3D BPF_TYPE_LINK;
-b2197755b2633e Daniel Borkmann   2015-10-29  152  	else
-b2197755b2633e Daniel Borkmann   2015-10-29  153  		return -EACCES;
-b2197755b2633e Daniel Borkmann   2015-10-29  154  =
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  949  	return 0;
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  950  }
+31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  951  =
 
-b2197755b2633e Daniel Borkmann   2015-10-29  155  	return 0;
-b2197755b2633e Daniel Borkmann   2015-10-29  156  }
-b2197755b2633e Daniel Borkmann   2015-10-29  157  =
 
-3a2ad553a70d36 Hao Luo           2022-02-01  158  static struct bpf_dir_tag=
- *inode_tag(const struct inode *inode)
-3a2ad553a70d36 Hao Luo           2022-02-01  159  {
-3a2ad553a70d36 Hao Luo           2022-02-01  160  	if (unlikely(!S_ISDIR(in=
-ode->i_mode)))
-3a2ad553a70d36 Hao Luo           2022-02-01  161  		return NULL;
-3a2ad553a70d36 Hao Luo           2022-02-01  162  =
+:::::: The code at line 804 was first introduced by commit
+:::::: b199dddbd399536d5470e10e6bfd7d0e1b5fb71a ice: Support non word align=
+ed input set field
 
-3a2ad553a70d36 Hao Luo           2022-02-01  163  	return inode->i_private;
-3a2ad553a70d36 Hao Luo           2022-02-01  164  }
-3a2ad553a70d36 Hao Luo           2022-02-01  165  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  166  /* tag_dir_inode - tag a =
-newly created directory.
-3a2ad553a70d36 Hao Luo           2022-02-01  167   * @tag: tag of parent di=
-rectory
-3a2ad553a70d36 Hao Luo           2022-02-01  168   * @dentry: dentry of the=
- new directory
-3a2ad553a70d36 Hao Luo           2022-02-01  169   * @inode: inode of the n=
-ew directory
-3a2ad553a70d36 Hao Luo           2022-02-01  170   *
-3a2ad553a70d36 Hao Luo           2022-02-01  171   * Called from bpf_mkdir.
-3a2ad553a70d36 Hao Luo           2022-02-01  172   */
-3a2ad553a70d36 Hao Luo           2022-02-01  173  static int tag_dir_inode(=
-const struct bpf_dir_tag *tag,
-3a2ad553a70d36 Hao Luo           2022-02-01  174  			 const struct dentry *=
-dentry, struct inode *inode)
-3a2ad553a70d36 Hao Luo           2022-02-01  175  {
-3a2ad553a70d36 Hao Luo           2022-02-01  176  	struct bpf_dir_tag *t;
-3a2ad553a70d36 Hao Luo           2022-02-01  177  	struct kernfs_node *kn;
-3a2ad553a70d36 Hao Luo           2022-02-01  178  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  179  	WARN_ON(tag->type !=3D B=
-PF_DIR_KERNFS_REP);
-3a2ad553a70d36 Hao Luo           2022-02-01  180  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  181  	/* kn is put at tag deal=
-location. */
-3a2ad553a70d36 Hao Luo           2022-02-01  182  	kn =3D kernfs_find_and_g=
-et_ns(tag->private, dentry->d_name.name, NULL);
-3a2ad553a70d36 Hao Luo           2022-02-01  183  	if (unlikely(!kn))
-3a2ad553a70d36 Hao Luo           2022-02-01  184  		return -ENOENT;
-3a2ad553a70d36 Hao Luo           2022-02-01  185  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  186  	if (unlikely(kernfs_type=
-(kn) !=3D KERNFS_DIR)) {
-3a2ad553a70d36 Hao Luo           2022-02-01  187  		kernfs_put(kn);
-3a2ad553a70d36 Hao Luo           2022-02-01  188  		return -EPERM;
-3a2ad553a70d36 Hao Luo           2022-02-01  189  	}
-3a2ad553a70d36 Hao Luo           2022-02-01  190  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  191  	t =3D kzalloc(sizeof(str=
-uct bpf_dir_tag), GFP_KERNEL | __GFP_NOWARN);
-3a2ad553a70d36 Hao Luo           2022-02-01  192  	if (unlikely(!t)) {
-3a2ad553a70d36 Hao Luo           2022-02-01  193  		kernfs_put(kn);
-3a2ad553a70d36 Hao Luo           2022-02-01  194  		return -ENOMEM;
-3a2ad553a70d36 Hao Luo           2022-02-01  195  	}
-3a2ad553a70d36 Hao Luo           2022-02-01  196  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  197  	t->type =3D tag->type;
-f6c6ca7ed74437 Hao Luo           2022-02-01  198  	t->inherit_objects =3D t=
-ag->inherit_objects;
-f6c6ca7ed74437 Hao Luo           2022-02-01  199  	kref_get(&t->inherit_obj=
-ects->refcnt);
-3a2ad553a70d36 Hao Luo           2022-02-01  200  	t->private =3D kn;
-3a2ad553a70d36 Hao Luo           2022-02-01  201  =
-
-3a2ad553a70d36 Hao Luo           2022-02-01  202  	inode->i_private =3D t;
-3a2ad553a70d36 Hao Luo           2022-02-01  203  	return 0;
-3a2ad553a70d36 Hao Luo           2022-02-01  204  }
-3a2ad553a70d36 Hao Luo           2022-02-01  205  =
-
-f6c6ca7ed74437 Hao Luo           2022-02-01  206  /* populate_dir - populat=
-e directory with bpf objects in a tag's
-f6c6ca7ed74437 Hao Luo           2022-02-01  207   * inherit_objects.
-f6c6ca7ed74437 Hao Luo           2022-02-01  208   * @dir: dentry of the di=
-rectory.
-f6c6ca7ed74437 Hao Luo           2022-02-01  209   * @inode: inode of the d=
-irecotry.
-f6c6ca7ed74437 Hao Luo           2022-02-01  210   *
-f6c6ca7ed74437 Hao Luo           2022-02-01  211   * Called from mkdir. Mus=
-t be called after dentry has been finalized.
-f6c6ca7ed74437 Hao Luo           2022-02-01  212   */
-f6c6ca7ed74437 Hao Luo           2022-02-01  213  static int populate_dir(s=
-truct dentry *dir, struct inode *inode)
-f6c6ca7ed74437 Hao Luo           2022-02-01  214  {
-f6c6ca7ed74437 Hao Luo           2022-02-01  215  	struct bpf_dir_tag *tag =
-=3D inode_tag(inode);
-f6c6ca7ed74437 Hao Luo           2022-02-01  216  	struct bpf_inherit_entry=
- *e;
-f6c6ca7ed74437 Hao Luo           2022-02-01  217  	struct dentry *child;
-f6c6ca7ed74437 Hao Luo           2022-02-01  218  	int ret;
-f6c6ca7ed74437 Hao Luo           2022-02-01  219  =
-
-f6c6ca7ed74437 Hao Luo           2022-02-01  220  	rcu_read_lock();
-f6c6ca7ed74437 Hao Luo           2022-02-01  221  	list_for_each_entry_rcu(=
-e, &tag->inherit_objects->list, list) {
-f6c6ca7ed74437 Hao Luo           2022-02-01  222  		child =3D lookup_one_le=
-n_unlocked(e->name.name, dir,
-f6c6ca7ed74437 Hao Luo           2022-02-01  223  						strlen(e->name.name=
-));
-f6c6ca7ed74437 Hao Luo           2022-02-01  224  		if (unlikely(IS_ERR(chi=
-ld))) {
-f6c6ca7ed74437 Hao Luo           2022-02-01  225  			ret =3D PTR_ERR(child);
-f6c6ca7ed74437 Hao Luo           2022-02-01  226  			break;
-f6c6ca7ed74437 Hao Luo           2022-02-01  227  		}
-f6c6ca7ed74437 Hao Luo           2022-02-01  228  =
-
-f6c6ca7ed74437 Hao Luo           2022-02-01  229  		switch (e->type) {
-f6c6ca7ed74437 Hao Luo           2022-02-01  230  		case BPF_TYPE_PROG:
-f6c6ca7ed74437 Hao Luo           2022-02-01  231  			ret =3D bpf_mkprog(chi=
-ld, e->mode, e->obj);
-f6c6ca7ed74437 Hao Luo           2022-02-01  232  			break;
-f6c6ca7ed74437 Hao Luo           2022-02-01  233  		case BPF_TYPE_MAP:
-f6c6ca7ed74437 Hao Luo           2022-02-01  234  			ret =3D bpf_mkmap(chil=
-d, e->mode, e->obj);
-f6c6ca7ed74437 Hao Luo           2022-02-01  235  			break;
-f6c6ca7ed74437 Hao Luo           2022-02-01  236  		case BPF_TYPE_LINK:
-f6c6ca7ed74437 Hao Luo           2022-02-01  237  			ret =3D bpf_mklink(chi=
-ld, e->mode, e->obj);
-f6c6ca7ed74437 Hao Luo           2022-02-01  238  			break;
-f6c6ca7ed74437 Hao Luo           2022-02-01  239  		default:
-f6c6ca7ed74437 Hao Luo           2022-02-01  240  			ret =3D -EPERM;
-f6c6ca7ed74437 Hao Luo           2022-02-01  241  			break;
-f6c6ca7ed74437 Hao Luo           2022-02-01  242  		}
-f6c6ca7ed74437 Hao Luo           2022-02-01  243  		dput(child);
-f6c6ca7ed74437 Hao Luo           2022-02-01  244  		if (ret)
-f6c6ca7ed74437 Hao Luo           2022-02-01  245  			break;
-f6c6ca7ed74437 Hao Luo           2022-02-01  246  =
-
-f6c6ca7ed74437 Hao Luo           2022-02-01  247  		/* To match bpf_any_put=
- in bpf_free_inode. */
-f6c6ca7ed74437 Hao Luo           2022-02-01  248  		bpf_any_get(e->obj, e->=
-type);
-f6c6ca7ed74437 Hao Luo           2022-02-01  249  	}
-f6c6ca7ed74437 Hao Luo           2022-02-01  250  	rcu_read_unlock();
-f6c6ca7ed74437 Hao Luo           2022-02-01 @251  	return ret;
-f6c6ca7ed74437 Hao Luo           2022-02-01  252  }
-f6c6ca7ed74437 Hao Luo           2022-02-01  253  =
-
+:::::: TO: Qi Zhang <qi.z.zhang@intel.com>
+:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8544898794326043101==--
+--===============6357850801645263455==--
 
