@@ -1,46 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============1398786540648466900=="
+Content-Type: multipart/mixed; boundary="===============0432568172178688601=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/smc/af_smc.c:523:2: warning: Null pointer passed as 2nd argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Wed, 02 Feb 2022 15:33:39 +0800
-Message-ID: <202202021513.brUoKj8S-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.10 3142/9999] drivers/pci/controller/pcie-rcar-host.c:480:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 02 Feb 2022 14:42:50 +0800
+Message-ID: <202202021401.1aIjCufA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1398786540648466900==
+--===============0432568172178688601==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+CC: "GNU/Weeb Mailing List" <gwml@gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Karsten Graul <kgraul@linux.ibm.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9f7fb8de5d9bac17b6392a14af40baf555d9129b
-commit: e5c4744cfb598f98672f8d21d59ef2c1fa9c9b5f net/smc: add SMC-Rv2 conne=
-ction establishment
-date:   4 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20220201 (https://download.01.org/0day-ci/archi=
-ve/20220202/202202021513.brUoKj8S-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6b1e84=
-4b69f15bb7dffaf9365cd2b355d2eb7579)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android13-5.10
+head:   fcc2bfb27307c6ab51031df9bae07a3ab5606959
+commit: 00a2ac03d0c60813ebf06a8c6f1cdb5b9e92d169 [3142/9999] UPSTREAM: PCI:=
+ rcar: Convert to MSI domains
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20220130 (https://download.01.org/0day-ci/archi=
+ve/20220202/202202021401.1aIjCufA-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2cdbac=
+a3943a4d6259119f185656328bd3805b68)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De5c4744cfb598f98672f8d21d59ef2c1fa9c9b5f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e5c4744cfb598f98672f8d21d59ef2c1fa9c9b5f
+        # https://github.com/ammarfaizi2/linux-block/commit/00a2ac03d0c6081=
+3ebf06a8c6f1cdb5b9e92d169
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
+android13-5.10
+        git checkout 00a2ac03d0c60813ebf06a8c6f1cdb5b9e92d169
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -51,8 +53,172 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+           if (IS_ENABLED(CONFIG_DEBUG_FS))
+           ^
+   drivers/gpio/gpio-adnp.c:464:6: note: 'is_irq_controller' is true
+           if (is_irq_controller) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-adnp.c:464:2: note: Taking true branch
+           if (is_irq_controller) {
+           ^
+   drivers/gpio/gpio-adnp.c:467:9: note: Calling 'adnp_irq_setup'
+                   err =3D adnp_irq_setup(adnp);
+                         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-adnp.c:385:28: note: The result of the left shift is u=
+ndefined due to shifting by '4294967292', which is greater or equal to the =
+width of type 'int'
+           unsigned int num_regs =3D 1 << adnp->reg_shift, i;
+                                     ^  ~~~~~~~~~~~~~~~
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/char/applicom.c:574:5: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D do_ac_read(i, buf, &st_loc, &mai=
+lbox);
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/char/applicom.c:574:5: note: Value stored to 'ret' is never read
+                                   ret =3D do_ac_read(i, buf, &st_loc, &mai=
+lbox);
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/char/applicom.c:734:4: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:734:4: note: Value stored to 'ret' is never read
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:755:4: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:755:4: note: Value stored to 'ret' is never read
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:781:4: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:781:4: note: Value stored to 'ret' is never read
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:836:3: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   ret =3D -ENOTTY;
+                   ^     ~~~~~~~
+   drivers/char/applicom.c:836:3: note: Value stored to 'ret' is never read
+                   ret =3D -ENOTTY;
+                   ^     ~~~~~~~
+   Suppressed 4 warnings (4 with check filters).
+   3 warnings generated.
+   drivers/char/ppdev.c:118:15: warning: Value stored to 'minor' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int minor =3D iminor(file_inode(file));
+                        ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ppdev.c:118:15: note: Value stored to 'minor' during its in=
+itialization is never read
+           unsigned int minor =3D iminor(file_inode(file));
+                        ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ppdev.c:196:15: warning: Value stored to 'minor' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int minor =3D iminor(file_inode(file));
+                        ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ppdev.c:196:15: note: Value stored to 'minor' during its in=
+itialization is never read
+           unsigned int minor =3D iminor(file_inode(file));
+                        ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ppdev.c:708:15: warning: Value stored to 'minor' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int minor =3D iminor(inode);
+                        ^~~~~   ~~~~~~~~~~~~~
+   drivers/char/ppdev.c:708:15: note: Value stored to 'minor' during its in=
+itialization is never read
+           unsigned int minor =3D iminor(inode);
+                        ^~~~~   ~~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/pci/controller/pci-tegra.c:2252:17: warning: Value stored to 'de=
+v' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct device *dev =3D port->pcie->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/pci/controller/pci-tegra.c:2252:17: note: Value stored to 'dev' =
+during its initialization is never read
+           struct device *dev =3D port->pcie->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/pci/controller/pci-rcar-gen2.c:225:3: warning: Value stored to '=
+window_size' is never read [clang-analyzer-deadcode.DeadStores]
+                   window_size =3D SZ_256M;
                    ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+   drivers/pci/controller/pci-rcar-gen2.c:225:3: note: Value stored to 'win=
+dow_size' is never read
+   2 warnings generated.
+>> drivers/pci/controller/pcie-rcar-host.c:480:17: warning: Value stored to=
+ 'dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct device *dev =3D pcie->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/pci/controller/pcie-rcar-host.c:480:17: note: Value stored to 'd=
+ev' during its initialization is never read
+           struct device *dev =3D pcie->dev;
+                          ^~~   ~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/pci/controller/pci-v3-semi.c:604:6: warning: Value stored to 'pc=
+i_end' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           u64 pci_end =3D cpu_end - entry->offset;
+               ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pci-v3-semi.c:604:6: note: Value stored to 'pci_e=
+nd' during its initialization is never read
+           u64 pci_end =3D cpu_end - entry->offset;
+               ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/rapidio/devices/rio_mport_cdev.c:300:2: warning: Undefined or ga=
+rbage value returned to caller [clang-analyzer-core.uninitialized.UndefRetu=
+rn]
+           return ret;
+           ^
+   drivers/rapidio/devices/rio_mport_cdev.c:2069:6: note: Left side of '||'=
+ is false
+           if (atomic_read(&md->active) =3D=3D 0)
+               ^
+   arch/arm/include/asm/atomic.h:25:24: note: expanded from macro 'atomic_r=
+ead'
+   #define atomic_read(v)  READ_ONCE((v)->counter)
+                           ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
            compiletime_assert_rwonce_type(x);                              \
            ^
    include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
@@ -60,19 +226,20 @@ me_assert_rwonce_type'
            compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
 ong long),  \
                               ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+   include/linux/compiler_types.h:285:3: note: expanded from macro '__nativ=
 e_word'
            (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
  || \
             ^
-   net/mpls/af_mpls.c:2553:3: note: Left side of '||' is false
-                   RCU_INIT_POINTER(labels[MPLS_LABEL_IPV6NULL], rt2);
-                   ^
-   include/linux/rcupdate.h:853:3: note: expanded from macro 'RCU_INIT_POIN=
-TER'
-                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
-                   ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+   drivers/rapidio/devices/rio_mport_cdev.c:2069:6: note: Left side of '||'=
+ is false
+           if (atomic_read(&md->active) =3D=3D 0)
+               ^
+   arch/arm/include/asm/atomic.h:25:24: note: expanded from macro 'atomic_r=
+ead'
+   #define atomic_read(v)  READ_ONCE((v)->counter)
+                           ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
            compiletime_assert_rwonce_type(x);                              \
            ^
    include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
@@ -80,19 +247,20 @@ me_assert_rwonce_type'
            compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
 ong long),  \
                               ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+   include/linux/compiler_types.h:285:3: note: expanded from macro '__nativ=
 e_word'
            (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
  || \
             ^
-   net/mpls/af_mpls.c:2553:3: note: Left side of '||' is true
-                   RCU_INIT_POINTER(labels[MPLS_LABEL_IPV6NULL], rt2);
-                   ^
-   include/linux/rcupdate.h:853:3: note: expanded from macro 'RCU_INIT_POIN=
-TER'
-                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
-                   ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+   drivers/rapidio/devices/rio_mport_cdev.c:2069:6: note: Left side of '||'=
+ is true
+           if (atomic_read(&md->active) =3D=3D 0)
+               ^
+   arch/arm/include/asm/atomic.h:25:24: note: expanded from macro 'atomic_r=
+ead'
+   #define atomic_read(v)  READ_ONCE((v)->counter)
+                           ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
            compiletime_assert_rwonce_type(x);                              \
            ^
    include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
@@ -100,18 +268,19 @@ me_assert_rwonce_type'
            compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
 ong long),  \
                               ^
-   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
+   include/linux/compiler_types.h:286:28: note: expanded from macro '__nati=
 ve_word'
             sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
                                      ^
-   net/mpls/af_mpls.c:2553:3: note: Taking false branch
-                   RCU_INIT_POINTER(labels[MPLS_LABEL_IPV6NULL], rt2);
-                   ^
-   include/linux/rcupdate.h:853:3: note: expanded from macro 'RCU_INIT_POIN=
-TER'
-                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
-                   ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+   drivers/rapidio/devices/rio_mport_cdev.c:2069:6: note: Taking false bran=
+ch
+           if (atomic_read(&md->active) =3D=3D 0)
+               ^
+   arch/arm/include/asm/atomic.h:25:24: note: expanded from macro 'atomic_r=
+ead'
+   #define atomic_read(v)  READ_ONCE((v)->counter)
+                           ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
            compiletime_assert_rwonce_type(x);                              \
            ^
    include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
@@ -119,27 +288,28 @@ e_assert_rwonce_type'
            compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
 ong long),  \
            ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:323:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:311:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:303:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   net/mpls/af_mpls.c:2553:3: note: Loop condition is false.  Exiting loop
-                   RCU_INIT_POINTER(labels[MPLS_LABEL_IPV6NULL], rt2);
-                   ^
-   include/linux/rcupdate.h:853:3: note: expanded from macro 'RCU_INIT_POIN=
-TER'
-                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
-                   ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+   drivers/rapidio/devices/rio_mport_cdev.c:2069:6: note: Loop condition is=
+ false.  Exiting loop
+           if (atomic_read(&md->active) =3D=3D 0)
+               ^
+   arch/arm/include/asm/atomic.h:25:24: note: expanded from macro 'atomic_r=
+ead'
+   #define atomic_read(v)  READ_ONCE((v)->counter)
+                           ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
            compiletime_assert_rwonce_type(x);                              \
            ^
    include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
@@ -147,184 +317,104 @@ e_assert_rwonce_type'
            compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
 ong long),  \
            ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:323:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:311:2: note: expanded from macro '_compil=
 etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/mpls/af_mpls.c:2553:3: note: Dereference of null pointer
-                   RCU_INIT_POINTER(labels[MPLS_LABEL_IPV6NULL], rt2);
-                   ^
-   include/linux/rcupdate.h:853:3: note: expanded from macro 'RCU_INIT_POIN=
-TER'
-                   WRITE_ONCE(p, RCU_INITIALIZER(v)); \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-           ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
-NCE'
-           *(volatile typeof(x) *)&(x) =3D (val);                          =
-  \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> net/smc/af_smc.c:523:2: warning: Null pointer passed as 2nd argument to =
-memory copy function [clang-analyzer-unix.cstring.NullArg]
-           memcpy(link->peer_gid, ini->peer_gid, SMC_GID_SIZE);
-           ^
-   net/smc/af_smc.c:1850:29: note: Left side of '&&' is false
-           struct smc_sock *new_smc =3D container_of(work, struct smc_sock,
-                                      ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/smc/af_smc.c:1850:29: note: Taking false branch
-           struct smc_sock *new_smc =3D container_of(work, struct smc_sock,
-                                      ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   net/smc/af_smc.c:1850:29: note: Loop condition is false.  Exiting loop
-           struct smc_sock *new_smc =3D container_of(work, struct smc_sock,
-                                      ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/smc/af_smc.c:1852:15: note: Assuming the condition is false
-           u8 version =3D smc_ism_is_v2_capable() ? SMC_V2 : SMC_V1;
-                        ^~~~~~~~~~~~~~~~~~~~~~~
-   net/smc/af_smc.c:1852:15: note: '?' condition is false
-   net/smc/af_smc.c:1860:6: note: Assuming field 'skc_state' is equal to SM=
-C_LISTEN
-           if (new_smc->listen_smc->sk.sk_state !=3D SMC_LISTEN)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/smc/af_smc.c:1860:2: note: Taking false branch
-           if (new_smc->listen_smc->sk.sk_state !=3D SMC_LISTEN)
-           ^
-   net/smc/af_smc.c:1863:6: note: Assuming field 'use_fallback' is false
-           if (new_smc->use_fallback) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   net/smc/af_smc.c:1863:2: note: Taking false branch
-           if (new_smc->use_fallback) {
-           ^
-   net/smc/af_smc.c:1869:6: note: Assuming field 'syn_smc' is true
-           if (!tcp_sk(newclcsock->sk)->syn_smc) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/smc/af_smc.c:1869:2: note: Taking false branch
-           if (!tcp_sk(newclcsock->sk)->syn_smc) {
-           ^
-   net/smc/af_smc.c:1879:6: note: Assuming 'buf' is non-null
-           if (!buf) {
-               ^~~~
-   net/smc/af_smc.c:1879:2: note: Taking false branch
-           if (!buf) {
-           ^
-   net/smc/af_smc.c:1886:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   net/smc/af_smc.c:1886:2: note: Taking false branch
-           if (rc)
-           ^
-   net/smc/af_smc.c:1888:12: note: Assuming field 'version' is not equal to=
- SMC_V1
-           version =3D pclc->hdr.version =3D=3D SMC_V1 ? SMC_V1 : version;
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/smc/af_smc.c:1888:12: note: '?' condition is false
-   net/smc/af_smc.c:1891:2: note: Taking false branch
-           if (using_ipsec(new_smc)) {
-           ^
-   net/smc/af_smc.c:1897:6: note: Assuming 'ini' is non-null
-           if (!ini) {
-               ^~~~
-   net/smc/af_smc.c:1897:2: note: Taking false branch
-           if (!ini) {
-           ^
-   net/smc/af_smc.c:1904:6: note: 'rc' is 0
-           if (rc)
-               ^~
-   net/smc/af_smc.c:1904:2: note: Taking false branch
-           if (rc)
-           ^
-   net/smc/af_smc.c:1914:6: note: 'rc' is 0
-           if (rc)
-               ^~
 
-vim +523 net/smc/af_smc.c
+vim +/dev +480 drivers/pci/controller/pcie-rcar-host.c
 
-413498440e30bfe Hans Wippel   2018-06-28  517  =
+581d9434aa56b46 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2016-=
+01-05  474  =
 
-0cfdd8f92cac01a Ursula Braun  2017-01-09  518  static void smc_link_save_pe=
-er_info(struct smc_link *link,
-e5c4744cfb598f9 Karsten Graul 2021-10-16  519  				    struct smc_clc_msg_a=
-ccept_confirm *clc,
-e5c4744cfb598f9 Karsten Graul 2021-10-16  520  				    struct smc_init_info=
- *ini)
-0cfdd8f92cac01a Ursula Braun  2017-01-09  521  {
-3d9725a6a1330be Ursula Braun  2020-09-10  522  	link->peer_qpn =3D ntoh24(c=
-lc->r0.qpn);
-e5c4744cfb598f9 Karsten Graul 2021-10-16 @523  	memcpy(link->peer_gid, ini-=
->peer_gid, SMC_GID_SIZE);
-e5c4744cfb598f9 Karsten Graul 2021-10-16  524  	memcpy(link->peer_mac, ini-=
->peer_mac, sizeof(link->peer_mac));
-3d9725a6a1330be Ursula Braun  2020-09-10  525  	link->peer_psn =3D ntoh24(c=
-lc->r0.psn);
-3d9725a6a1330be Ursula Braun  2020-09-10  526  	link->peer_mtu =3D clc->r0.=
-qp_mtu;
-0cfdd8f92cac01a Ursula Braun  2017-01-09  527  }
-0cfdd8f92cac01a Ursula Braun  2017-01-09  528  =
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  475  static irqreturn_t rcar_pcie_msi_irq(int irq, void *data)
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  476  {
+78a0d7f2f5a3135 drivers/pci/controller/pcie-rcar-host.c Lad Prabhakar 2020-=
+05-07  477  	struct rcar_pcie_host *host =3D data;
+78a0d7f2f5a3135 drivers/pci/controller/pcie-rcar-host.c Lad Prabhakar 2020-=
+05-07  478  	struct rcar_pcie *pcie =3D &host->pcie;
+78a0d7f2f5a3135 drivers/pci/controller/pcie-rcar-host.c Lad Prabhakar 2020-=
+05-07  479  	struct rcar_msi *msi =3D &host->msi;
+4ef80d72a6f1a37 drivers/pci/host/pcie-rcar.c            Bjorn Helgaas 2016-=
+10-10 @480  	struct device *dev =3D pcie->dev;
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  481  	unsigned long reg;
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  482  =
 
+b77188495de64ab drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+06-30  483  	reg =3D rcar_pci_read_reg(pcie, PCIEMSIFR);
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  484  =
+
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  485  	/* MSI & INTx share an interrupt - we only handle MSI here */
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  486  	if (!reg)
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  487  		return IRQ_NONE;
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  488  =
+
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  489  	while (reg) {
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  490  		unsigned int index =3D find_first_bit(&reg, 32);
+a27beb5820d1a52 drivers/pci/controller/pcie-rcar.c      Wolfram Sang  2019-=
+03-17  491  		unsigned int msi_irq;
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  492  =
+
+00a2ac03d0c6081 drivers/pci/controller/pcie-rcar-host.c Marc Zyngier  2021-=
+03-30  493  		msi_irq =3D irq_find_mapping(msi->domain->parent, index);
+a27beb5820d1a52 drivers/pci/controller/pcie-rcar.c      Wolfram Sang  2019-=
+03-17  494  		if (msi_irq) {
+a27beb5820d1a52 drivers/pci/controller/pcie-rcar.c      Wolfram Sang  2019-=
+03-17  495  			generic_handle_irq(msi_irq);
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  496  		} else {
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  497  			/* Unknown MSI, just clear it */
+4ef80d72a6f1a37 drivers/pci/host/pcie-rcar.c            Bjorn Helgaas 2016-=
+10-10  498  			dev_dbg(dev, "unexpected MSI\n");
+00a2ac03d0c6081 drivers/pci/controller/pcie-rcar-host.c Marc Zyngier  2021-=
+03-30  499  			rcar_pci_write_reg(pcie, BIT(index), PCIEMSIFR);
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  500  		}
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  501  =
+
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  502  		/* see if there's any more pending in this vector */
+b77188495de64ab drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+06-30  503  		reg =3D rcar_pci_read_reg(pcie, PCIEMSIFR);
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  504  	}
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  505  =
+
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  506  	return IRQ_HANDLED;
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  507  }
+290c1fb35860540 drivers/pci/host/pcie-rcar.c            Phil Edworthy 2014-=
+05-12  508  =
+
+
+:::::: The code at line 480 was first introduced by commit
+:::::: 4ef80d72a6f1a379e471960f48e051ab5e102fc0 PCI: rcar: Add local struct=
+ device pointers
+
+:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1398786540648466900==--
+--===============0432568172178688601==--
 
