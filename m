@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6081638775166992232=="
+Content-Type: multipart/mixed; boundary="===============6157549074918274142=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/soc/imx/imx8m-blk-ctrl.c:33:8: warning: Excessive padding in 'struct imx8m_blk_ctrl_domain_data' (8 padding bytes, where 0 is optimal).
-Date: Sun, 06 Feb 2022 09:48:30 +0800
-Message-ID: <202202060816.6rq608xQ-lkp@intel.com>
+Subject: include/linux/ceph/mdsmap.h:56:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Wed, 02 Feb 2022 18:16:05 +0800
+Message-ID: <202202021820.DpghlOur-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6081638775166992232==
+--===============6157549074918274142==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,24 +15,22 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Adam Ford <aford173@gmail.com>
-CC: Shawn Guo <shawnguo@kernel.org>
-CC: Fabio Estevam <festevam@gmail.com>
-CC: Lucas Stach <l.stach@pengutronix.de>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Xiubo Li <xiubli@redhat.com>
+CC: Ilya Dryomov <idryomov@gmail.com>
+CC: Jeff Layton <jlayton@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
-commit: 042b67799e2991e301df8269e166d8bc5944495e soc: imx: imx8m-blk-ctrl: =
-Fix imx8mm mipi reset
-date:   9 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-c006-20220206 (https://download.01.org/0day-ci/arc=
-hive/20220206/202202060816.6rq608xQ-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project dee058=
-c670593b999fec19c458dbbd882ad9de56)
+head:   9f7fb8de5d9bac17b6392a14af40baf555d9129b
+commit: d517b3983dd3106ca92d6c5d0d09415a4a09481c ceph: reconnect to the exp=
+ort targets on new mdsmaps
+date:   5 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 months ago
+config: riscv-randconfig-c006-20220129 (https://download.01.org/0day-ci/arc=
+hive/20220202/202202021820.DpghlOur-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 33b45e=
+e44b1f32ffdbc995e6fec806271b4b3ba4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -40,11 +38,11 @@ make.cross -O ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D042b67799e2991e301df8269e166d8bc5944495e
+t/commit/?id=3Dd517b3983dd3106ca92d6c5d0d09415a4a09481c
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 042b67799e2991e301df8269e166d8bc5944495e
+        git checkout d517b3983dd3106ca92d6c5d0d09415a4a09481c
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -55,318 +53,267 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                        ^~~~~
-   drivers/mtd/nand/raw/nand_toshiba.c:62:15: note: Assuming 'i' is < field=
- 'steps'
-                   for (i =3D 0; i < chip->ecc.steps; i++) {
-                               ^~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/nand_toshiba.c:62:3: note: Loop condition is true. =
- Entering loop body
-                   for (i =3D 0; i < chip->ecc.steps; i++) {
-                   ^
-   drivers/mtd/nand/raw/nand_toshiba.c:63:29: note: The left operand of '&'=
- is a garbage value
-                           bitflips =3D ecc_status[i] & TOSHIBA_NAND_ECC_ST=
-ATUS_MASK;
-                                      ~~~~~~~~~~~~~ ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/mtd/chips/cfi_cmdset_0020.c:714:29: warning: The right operand o=
-f '+' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                           memcpy(buffer, elem_base + thislen, buflen);
-                                                    ^ ~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:667:22: note: 'thislen' declared wit=
-hout an initial value
-           size_t   totlen =3D 0, thislen;
-                                ^~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:672:6: note: Assuming field 'writesi=
-ze' is not equal to 0
-           if (!ECCBUF_SIZE) {
-               ^~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:672:2: note: Taking false branch
-           if (!ECCBUF_SIZE) {
            ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:678:11: note: Calling 'kmalloc'
-           buffer =3D kmalloc(ECCBUF_SIZE, GFP_KERNEL);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:578:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:595:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:678:11: note: Returning from 'kmallo=
-c'
-           buffer =3D kmalloc(ECCBUF_SIZE, GFP_KERNEL);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:679:6: note: Assuming 'buffer' is no=
-n-null
-           if (!buffer)
-               ^~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:679:2: note: Taking false branch
-           if (!buffer)
-           ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:682:12: note: Assuming 'i' is < 'cou=
-nt'
-           for (i=3D0; i<count; i++) {
-                     ^~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:682:2: note: Loop condition is true.=
-  Entering loop body
-           for (i=3D0; i<count; i++) {
-           ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:685:7: note: Assuming 'elem_len' is =
-not equal to 0
-                   if (!elem_len) /* FIXME: Might be unnecessary. Check tha=
-t */
-                       ^~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:685:3: note: Taking false branch
-                   if (!elem_len) /* FIXME: Might be unnecessary. Check tha=
-t */
+   fs/ceph/mds_client.c:4934:8: note: 'session' is non-null
+                   if (!session)
+                        ^~~~~~~
+   fs/ceph/mds_client.c:4934:3: note: Taking false branch
+                   if (!session)
                    ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:687:7: note: 'buflen' is 0
-                   if (buflen) { /* cut off head */
-                       ^~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:687:3: note: Taking false branch
-                   if (buflen) { /* cut off head */
+   fs/ceph/mds_client.c:4937:7: note: Assuming field 's_state' is equal to =
+CEPH_MDS_SESSION_REJECTED
+                   if (session->s_state =3D=3D CEPH_MDS_SESSION_REJECTED)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:4937:3: note: Taking true branch
+                   if (session->s_state =3D=3D CEPH_MDS_SESSION_REJECTED)
                    ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:703:7: note: Assuming the condition =
-is false
-                   if (ECCBUF_DIV(elem_len)) { /* write clean aligned data =
-*/
-                       ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:660:24: note: expanded from macro 'E=
-CCBUF_DIV'
-   #define ECCBUF_DIV(x) ((x) & ~(ECCBUF_SIZE - 1))
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:703:3: note: Taking false branch
-                   if (ECCBUF_DIV(elem_len)) { /* write clean aligned data =
-*/
-                   ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:712:7: note: Assuming 'buflen' is no=
-t equal to 0
-                   if (buflen) {
-                       ^~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:712:3: note: Taking true branch
-                   if (buflen) {
-                   ^
-   drivers/mtd/chips/cfi_cmdset_0020.c:714:29: note: The right operand of '=
-+' is a garbage value
-                           memcpy(buffer, elem_base + thislen, buflen);
-                                                    ^ ~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:1035:16: warning: Value stored to 't=
-imeo' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           unsigned long timeo =3D jiffies + HZ;
-                         ^~~~~   ~~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:1035:16: note: Value stored to 'time=
-o' during its initialization is never read
-           unsigned long timeo =3D jiffies + HZ;
-                         ^~~~~   ~~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:1181:16: warning: Value stored to 't=
-imeo' during its initialization is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           unsigned long timeo =3D jiffies + HZ;
-                         ^~~~~   ~~~~~~~~~~~~
-   drivers/mtd/chips/cfi_cmdset_0020.c:1181:16: note: Value stored to 'time=
-o' during its initialization is never read
-           unsigned long timeo =3D jiffies + HZ;
-                         ^~~~~   ~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/soc/imx/imx8m-blk-ctrl.c:33:8: warning: Excessive padding in 'st=
-ruct imx8m_blk_ctrl_domain_data' (8 padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   name, =
-
-   clk_names, =
-
-   gpc_name, =
-
-   num_clks, =
-
-   rst_mask, =
-
-   clk_mask, =
-
-   mipi_phy_rst_mask, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct imx8m_blk_ctrl_domain_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/soc/imx/imx8m-blk-ctrl.c:33:8: note: Excessive padding in 'struc=
-t imx8m_blk_ctrl_domain_data' (8 padding bytes, where 0 is optimal). Optima=
-l fields order: name, clk_names, gpc_name, num_clks, rst_mask, clk_mask, mi=
-pi_phy_rst_mask, consider reordering the fields or adding explicit padding =
-members
-   struct imx8m_blk_ctrl_domain_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/media/i2c/ov9650.c:606:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D ov965x_write(ov965x, REG_COM8, reg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:606:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D ov965x_write(ov965x, REG_COM8, reg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:877:12: warning: The result of the left shift=
- is undefined due to shifting by '32', which is greater or equal to the wid=
-th of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   m =3D 0x01 << fls(gain >> 4);
-                            ^
-   drivers/media/i2c/ov9650.c:905:27: note: Calling 'ctrl_to_sd'
-           struct v4l2_subdev *sd =3D ctrl_to_sd(ctrl);
-                                    ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:417:2: note: Returning without writing to 'ct=
-rl->id', which participates in a condition later
-           return &container_of(ctrl->handler, struct ov965x, ctrls.handler=
-)->sd;
+   fs/ceph/mds_client.c:4938:4: note: Calling '__unregister_session'
+                           __unregister_session(mdsc, session);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:786:2: note: Taking false branch
+           dout("__unregister_session mds%d %p\n", s->s_mds, s);
            ^
-   drivers/media/i2c/ov9650.c:417:2: note: Returning without writing to 'ct=
-rl->val', which participates in a condition later
-   drivers/media/i2c/ov9650.c:905:27: note: Returning from 'ctrl_to_sd'
-           struct v4l2_subdev *sd =3D ctrl_to_sd(ctrl);
-                                    ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:909:14: note: Assuming 'debug' is < 1
-           v4l2_dbg(1, debug, sd, "g_ctrl: %s\n", ctrl->name);
-                       ^
-   include/media/v4l2-common.h:73:7: note: expanded from macro 'v4l2_dbg'
-                   if (debug >=3D (level))                                 =
+   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
+                   if (0)                                          \
+                   ^
+   fs/ceph/mds_client.c:786:2: note: Loop condition is false.  Exiting loop
+           dout("__unregister_session mds%d %p\n", s->s_mds, s);
+           ^
+   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
+   #  define dout(fmt, ...)        do {                            \
+                                   ^
+   fs/ceph/mds_client.c:787:2: note: Assuming the condition is false
+           BUG_ON(mdsc->sessions[s->s_mds] !=3D s);
+           ^
+   include/asm-generic/bug.h:161:36: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                      ^~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:787:2: note: Taking false branch
+           BUG_ON(mdsc->sessions[s->s_mds] !=3D s);
+           ^
+   include/asm-generic/bug.h:161:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   fs/ceph/mds_client.c:787:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(mdsc->sessions[s->s_mds] !=3D s);
+           ^
+   include/asm-generic/bug.h:161:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   fs/ceph/mds_client.c:790:2: note: Calling 'ceph_put_mds_session'
+           ceph_put_mds_session(s);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:668:2: note: Taking false branch
+           if (IS_ERR_OR_NULL(s))
+           ^
+   fs/ceph/mds_client.c:671:2: note: Taking false branch
+           dout("mdsc put_session %p %d -> %d\n", s,
+           ^
+   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
+                   if (0)                                          \
+                   ^
+   fs/ceph/mds_client.c:671:2: note: Loop condition is false.  Exiting loop
+           dout("mdsc put_session %p %d -> %d\n", s,
+           ^
+   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
+   #  define dout(fmt, ...)        do {                            \
+                                   ^
+   fs/ceph/mds_client.c:673:2: note: Taking true branch
+           if (refcount_dec_and_test(&s->s_ref)) {
+           ^
+   fs/ceph/mds_client.c:674:7: note: Assuming field 'authorizer' is null
+                   if (s->s_auth.authorizer)
+                       ^~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:674:3: note: Taking false branch
+                   if (s->s_auth.authorizer)
+                   ^
+   fs/ceph/mds_client.c:676:3: note: Assuming the condition is false
+                   WARN_ON(mutex_is_locked(&s->s_mutex));
+                   ^
+   include/asm-generic/bug.h:166:23: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
   \
-                       ^~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:909:2: note: Taking false branch
-           v4l2_dbg(1, debug, sd, "g_ctrl: %s\n", ctrl->name);
+                                ^~~~~~~~~~~~
+   fs/ceph/mds_client.c:678:3: note: Memory is released
+                   kfree(s);
+                   ^~~~~~~~
+   fs/ceph/mds_client.c:790:2: note: Returning; memory was released via 1st=
+ parameter
+           ceph_put_mds_session(s);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:4938:4: note: Returning; memory was released via 2n=
+d parameter
+                           __unregister_session(mdsc, session);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:4943:3: note: Use of memory after it is freed
+                   __close_session(mdsc, session);
+                   ^                     ~~~~~~~
+   fs/ceph/mds_client.c:5083:2: warning: Value stored to 'maplen' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           maplen =3D ceph_decode_32(&p);
+           ^        ~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:5083:2: note: Value stored to 'maplen' is never read
+           maplen =3D ceph_decode_32(&p);
+           ^        ~~~~~~~~~~~~~~~~~~
+>> include/linux/ceph/mdsmap.h:56:9: warning: Dereference of null pointer [=
+clang-analyzer-core.NullDereference]
+           return m->m_info[w].state;
+                  ^
+   fs/ceph/mds_client.c:4180:2: note: Taking false branch
+           dout("check_new_map new %u old %u\n",
            ^
-   include/media/v4l2-common.h:73:3: note: expanded from macro 'v4l2_dbg'
-                   if (debug >=3D (level))                                 =
-  \
+   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
+                   if (0)                                          \
                    ^
-   drivers/media/i2c/ov9650.c:909:2: note: Loop condition is false.  Exitin=
-g loop
-           v4l2_dbg(1, debug, sd, "g_ctrl: %s\n", ctrl->name);
+   fs/ceph/mds_client.c:4180:2: note: Loop condition is false.  Exiting loop
+           dout("check_new_map new %u old %u\n",
            ^
-   include/media/v4l2-common.h:72:2: note: expanded from macro 'v4l2_dbg'
-           do {                                                            \
-           ^
-   drivers/media/i2c/ov9650.c:912:8: note: Calling '__g_volatile_ctrl'
-           ret =3D __g_volatile_ctrl(ov965x, ctrl);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:863:6: note: Assuming field 'power' is not eq=
-ual to 0
-           if (!ov965x->power)
+   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
+   #  define dout(fmt, ...)        do {                            \
+                                   ^
+   fs/ceph/mds_client.c:4183:6: note: Assuming field 'm_info' is null
+           if (newmap->m_info) {
                ^~~~~~~~~~~~~~
-   drivers/media/i2c/ov9650.c:863:2: note: Taking false branch
-           if (!ov965x->power)
+   fs/ceph/mds_client.c:4183:2: note: Taking false branch
+           if (newmap->m_info) {
            ^
-   drivers/media/i2c/ov9650.c:866:2: note: Control jumps to 'case 9963794:'=
-  at line 867
-           switch (ctrl->id) {
+   fs/ceph/mds_client.c:4190:14: note: Assuming 'i' is >=3D field 'possible=
+_max_rank'
+           for (i =3D 0; i < oldmap->possible_max_rank && i < mdsc->max_ses=
+sions; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:4190:44: note: Left side of '&&' is false
+           for (i =3D 0; i < oldmap->possible_max_rank && i < mdsc->max_ses=
+sions; i++) {
+                                                     ^
+   fs/ceph/mds_client.c:4269:14: note: Assuming 'i' is < field 'possible_ma=
+x_rank'
+           for (i =3D 0; i < newmap->possible_max_rank; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/mds_client.c:4269:2: note: Loop condition is true.  Entering loo=
+p body
+           for (i =3D 0; i < newmap->possible_max_rank; i++) {
            ^
-   drivers/media/i2c/ov9650.c:868:7: note: Assuming field 'val' is not equa=
-l to 0
+   fs/ceph/mds_client.c:4282:14: note: Calling 'ceph_mdsmap_get_state'
+                   newstate =3D ceph_mdsmap_get_state(newmap, i);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/mdsmap.h:53:2: note: Taking false branch
+           BUG_ON(w < 0);
+           ^
+   include/asm-generic/bug.h:161:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   include/linux/ceph/mdsmap.h:53:2: note: Loop condition is false.  Exitin=
+g loop
+           BUG_ON(w < 0);
+           ^
+   include/asm-generic/bug.h:161:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   include/linux/ceph/mdsmap.h:54:6: note: 'w' is < field 'possible_max_ran=
+k'
+           if (w >=3D m->possible_max_rank)
+               ^
+   include/linux/ceph/mdsmap.h:54:2: note: Taking false branch
+           if (w >=3D m->possible_max_rank)
+           ^
+   include/linux/ceph/mdsmap.h:56:9: note: Dereference of null pointer
+           return m->m_info[w].state;
+                  ^~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   lib/percpu_test.c:115:2: warning: Value stored to 'ul' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           ul =3D 3;
+           ^    ~
+   lib/percpu_test.c:115:2: note: Value stored to 'ul' is never read
+           ul =3D 3;
+           ^    ~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +33 drivers/soc/imx/imx8m-blk-ctrl.c
+vim +56 include/linux/ceph/mdsmap.h
 
-2684ac05a8c4d2 Lucas Stach 2021-10-02  32  =
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  50  =
 
-2684ac05a8c4d2 Lucas Stach 2021-10-02 @33  struct imx8m_blk_ctrl_domain_dat=
-a {
-2684ac05a8c4d2 Lucas Stach 2021-10-02  34  	const char *name;
-2684ac05a8c4d2 Lucas Stach 2021-10-02  35  	const char * const *clk_names;
-2684ac05a8c4d2 Lucas Stach 2021-10-02  36  	int num_clks;
-2684ac05a8c4d2 Lucas Stach 2021-10-02  37  	const char *gpc_name;
-2684ac05a8c4d2 Lucas Stach 2021-10-02  38  	u32 rst_mask;
-2684ac05a8c4d2 Lucas Stach 2021-10-02  39  	u32 clk_mask;
-042b67799e2991 Adam Ford   2021-11-28  40  =
-
-042b67799e2991 Adam Ford   2021-11-28  41  	/*
-042b67799e2991 Adam Ford   2021-11-28  42  	 * i.MX8M Mini and Nano have a =
-third DISPLAY_BLK_CTRL register
-042b67799e2991 Adam Ford   2021-11-28  43  	 * which is used to control the=
- reset for the MIPI Phy.
-042b67799e2991 Adam Ford   2021-11-28  44  	 * Since it's only present in c=
-ertain circumstances,
-042b67799e2991 Adam Ford   2021-11-28  45  	 * an if-statement should be us=
-ed before setting and clearing this
-042b67799e2991 Adam Ford   2021-11-28  46  	 * register.
-042b67799e2991 Adam Ford   2021-11-28  47  	 */
-042b67799e2991 Adam Ford   2021-11-28  48  	u32 mipi_phy_rst_mask;
-2684ac05a8c4d2 Lucas Stach 2021-10-02  49  };
-2684ac05a8c4d2 Lucas Stach 2021-10-02  50  =
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  51  static=
+ inline int ceph_mdsmap_get_state(struct ceph_mdsmap *m, int w)
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  52  {
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  53  	BUG_O=
+N(w < 0);
+b38c9eb4757d5b include/linux/ceph/mdsmap.h Xiubo Li  2019-12-04  54  	if (w=
+ >=3D m->possible_max_rank)
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  55  		retu=
+rn CEPH_MDS_STATE_DNE;
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06 @56  	retur=
+n m->m_info[w].state;
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  57  }
+2f2dc053404feb fs/ceph/mdsmap.h            Sage Weil 2009-10-06  58  =
 
 
-:::::: The code at line 33 was first introduced by commit
-:::::: 2684ac05a8c4d2d5c49e6c11eb6206b30a284813 soc: imx: add i.MX8M blk-ct=
-rl driver
+:::::: The code at line 56 was first introduced by commit
+:::::: 2f2dc053404febedc9c273452d9d518fb31fde72 ceph: MDS client
 
-:::::: TO: Lucas Stach <l.stach@pengutronix.de>
-:::::: CC: Shawn Guo <shawnguo@kernel.org>
+:::::: TO: Sage Weil <sage@newdream.net>
+:::::: CC: Sage Weil <sage@newdream.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6081638775166992232==--
+--===============6157549074918274142==--
 
