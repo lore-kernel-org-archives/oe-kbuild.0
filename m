@@ -1,32 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============6654969850767254333=="
+Content-Type: multipart/mixed; boundary="===============1962744250867940972=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:1460:36: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Thu, 03 Feb 2022 13:23:16 +0800
-Message-ID: <202202031358.8M4dKkHT-lkp@intel.com>
+Subject: drivers/scsi/pm8001/pm8001_hwi.c:4489:51: warning: Same expression on both sides of '&'. [knownConditionTrueFalse]
+Date: Thu, 03 Feb 2022 10:39:13 +0800
+Message-ID: <202202030851.HLJaotH4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6654969850767254333==
+--===============1962744250867940972==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Sean Wang <sean.wang@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
+TO: Ruksar Devadi <Ruksar.devadi@microchip.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Viswas G <Viswas.G@microchip.com>
+CC: Ashokkumar N <Ashokkumar.N@microchip.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   88808fbbead481aedb46640a5ace69c58287f56a
-commit: 48fab5bbef4092d925ab3214773ad12e68807223 mt76: mt7921: introduce mt=
-7921s support
-date:   4 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 months ago
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+head:   9f7fb8de5d9bac17b6392a14af40baf555d9129b
+commit: 4f5deeb40f9cf721030a1bdfecb19584fca9091e scsi: pm80xx: Completing p=
+ending I/O after fatal error
+date:   10 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 10 months ago
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -34,195 +35,131 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:1460:36: warning: B=
-oolean result is used in bitwise operation. Clarify expression with parenth=
-eses. [clarifyCondition]
-    req->seq_num =3D mvif->scan_seq_num | ext_phy << 7;
-                                      ^
-   drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c:1581:36: warning: B=
-oolean result is used in bitwise operation. Clarify expression with parenth=
-eses. [clarifyCondition]
-    req->seq_num =3D mvif->scan_seq_num | ext_phy << 7;
-                                      ^
+>> drivers/scsi/pm8001/pm8001_hwi.c:4489:51: warning: Same expression on bo=
+th sides of '&'. [knownConditionTrueFalse]
+    payload.dtype_dlr_retry =3D cpu_to_le32((retryFlag & 0x01) |
+                                                     ^
+   drivers/scsi/pm8001/pm8001_hwi.c:4454:17: note: 'retryFlag' is assigned =
+value '1' here.
+    u8 retryFlag =3D 0x1;
+                   ^
+   drivers/scsi/pm8001/pm8001_hwi.c:4489:51: note: Same expression on both =
+sides of '&'.
+    payload.dtype_dlr_retry =3D cpu_to_le32((retryFlag & 0x01) |
+                                                     ^
 
-vim +1460 drivers/net/wireless/mediatek/mt76/mt76_connac_mcu.c
+vim +4489 drivers/scsi/pm8001/pm8001_hwi.c
 
-d0e274af2f2e44 Lorenzo Bianconi 2021-01-26  1435  =
+dbf9bfe615717d1 jack wang       2009-10-14  4440  =
 
-399090ef96059d Lorenzo Bianconi 2021-01-26  1436  #define MT76_CONNAC_SCAN_=
-CHANNEL_TIME		60
-399090ef96059d Lorenzo Bianconi 2021-01-26  1437  int mt76_connac_mcu_hw_sc=
-an(struct mt76_phy *phy, struct ieee80211_vif *vif,
-399090ef96059d Lorenzo Bianconi 2021-01-26  1438  			    struct ieee80211_s=
-can_request *scan_req)
-399090ef96059d Lorenzo Bianconi 2021-01-26  1439  {
-399090ef96059d Lorenzo Bianconi 2021-01-26  1440  	struct mt76_vif *mvif =
-=3D (struct mt76_vif *)vif->drv_priv;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1441  	struct cfg80211_scan_req=
-uest *sreq =3D &scan_req->req;
-9db419f0cb39a6 Sean Wang        2021-04-06  1442  	int n_ssids =3D 0, err, =
-i, duration;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1443  	int ext_channels_num =3D=
- max_t(int, sreq->n_channels - 32, 0);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1444  	struct ieee80211_channel=
- **scan_list =3D sreq->channels;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1445  	struct mt76_dev *mdev =
-=3D phy->dev;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1446  	bool ext_phy =3D phy =3D=
-=3D mdev->phy2;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1447  	struct mt76_connac_mcu_s=
-can_channel *chan;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1448  	struct mt76_connac_hw_sc=
-an_req *req;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1449  	struct sk_buff *skb;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1450  =
+083645bab221290 Lee Jones       2020-07-21  4441  /*
+f74cf271e692848 Sakthivel K     2013-02-27  4442   * see comments on pm8001=
+_mpi_reg_resp.
+dbf9bfe615717d1 jack wang       2009-10-14  4443   */
+dbf9bfe615717d1 jack wang       2009-10-14  4444  static int pm8001_chip_re=
+g_dev_req(struct pm8001_hba_info *pm8001_ha,
+dbf9bfe615717d1 jack wang       2009-10-14  4445  	struct pm8001_device *pm=
+8001_dev, u32 flag)
+dbf9bfe615717d1 jack wang       2009-10-14  4446  {
+dbf9bfe615717d1 jack wang       2009-10-14  4447  	struct reg_dev_req paylo=
+ad;
+dbf9bfe615717d1 jack wang       2009-10-14  4448  	u32	opc;
+dbf9bfe615717d1 jack wang       2009-10-14  4449  	u32 stp_sspsmp_sata =3D =
+0x4;
+dbf9bfe615717d1 jack wang       2009-10-14  4450  	struct inbound_queue_tab=
+le *circularQ;
+dbf9bfe615717d1 jack wang       2009-10-14  4451  	u32 linkrate, phy_id;
+72d0baa089ebd05 jack_wang       2009-11-05  4452  	int rc, tag =3D 0xdeadbe=
+ef;
+dbf9bfe615717d1 jack wang       2009-10-14  4453  	struct pm8001_ccb_info *=
+ccb;
+dbf9bfe615717d1 jack wang       2009-10-14  4454  	u8 retryFlag =3D 0x1;
+dbf9bfe615717d1 jack wang       2009-10-14  4455  	u16 firstBurstSize =3D 0;
+dbf9bfe615717d1 jack wang       2009-10-14  4456  	u16 ITNT =3D 2000;
+dbf9bfe615717d1 jack wang       2009-10-14  4457  	struct domain_device *de=
+v =3D pm8001_dev->sas_device;
+dbf9bfe615717d1 jack wang       2009-10-14  4458  	struct domain_device *pa=
+rent_dev =3D dev->parent;
+dbf9bfe615717d1 jack wang       2009-10-14  4459  	circularQ =3D &pm8001_ha=
+->inbnd_q_tbl[0];
+dbf9bfe615717d1 jack wang       2009-10-14  4460  =
 
-399090ef96059d Lorenzo Bianconi 2021-01-26  1451  	skb =3D mt76_mcu_msg_all=
-oc(mdev, NULL, sizeof(*req));
-399090ef96059d Lorenzo Bianconi 2021-01-26  1452  	if (!skb)
-399090ef96059d Lorenzo Bianconi 2021-01-26  1453  		return -ENOMEM;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1454  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1455  	set_bit(MT76_HW_SCANNING=
-, &phy->state);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1456  	mvif->scan_seq_num =3D (=
-mvif->scan_seq_num + 1) & 0x7f;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1457  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1458  	req =3D (struct mt76_con=
-nac_hw_scan_req *)skb_put(skb, sizeof(*req));
-399090ef96059d Lorenzo Bianconi 2021-01-26  1459  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26 @1460  	req->seq_num =3D mvif->s=
-can_seq_num | ext_phy << 7;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1461  	req->bss_idx =3D mvif->i=
-dx;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1462  	req->scan_type =3D sreq-=
->n_ssids ? 1 : 0;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1463  	req->probe_req_num =3D s=
-req->n_ssids ? 2 : 0;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1464  	req->version =3D 1;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1465  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1466  	for (i =3D 0; i < sreq->=
-n_ssids; i++) {
-399090ef96059d Lorenzo Bianconi 2021-01-26  1467  		if (!sreq->ssids[i].ssi=
-d_len)
-399090ef96059d Lorenzo Bianconi 2021-01-26  1468  			continue;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1469  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1470  		req->ssids[i].ssid_len =
-=3D cpu_to_le32(sreq->ssids[i].ssid_len);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1471  		memcpy(req->ssids[i].ss=
-id, sreq->ssids[i].ssid,
-399090ef96059d Lorenzo Bianconi 2021-01-26  1472  		       sreq->ssids[i].s=
-sid_len);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1473  		n_ssids++;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1474  	}
-399090ef96059d Lorenzo Bianconi 2021-01-26  1475  	req->ssid_type =3D n_ssi=
-ds ? BIT(2) : BIT(0);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1476  	req->ssid_type_ext =3D n=
-_ssids ? BIT(0) : 0;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1477  	req->ssids_num =3D n_ssi=
-ds;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1478  =
-
-9db419f0cb39a6 Sean Wang        2021-04-06  1479  	duration =3D is_mt7921(p=
-hy->dev) ? 0 : MT76_CONNAC_SCAN_CHANNEL_TIME;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1480  	/* increase channel time=
- for passive scan */
-399090ef96059d Lorenzo Bianconi 2021-01-26  1481  	if (!sreq->n_ssids)
-399090ef96059d Lorenzo Bianconi 2021-01-26  1482  		duration *=3D 2;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1483  	req->timeout_value =3D c=
-pu_to_le16(sreq->n_channels * duration);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1484  	req->channel_min_dwell_t=
-ime =3D cpu_to_le16(duration);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1485  	req->channel_dwell_time =
-=3D cpu_to_le16(duration);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1486  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1487  	req->channels_num =3D mi=
-n_t(u8, sreq->n_channels, 32);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1488  	req->ext_channels_num =
-=3D min_t(u8, ext_channels_num, 32);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1489  	for (i =3D 0; i < req->c=
-hannels_num + req->ext_channels_num; i++) {
-399090ef96059d Lorenzo Bianconi 2021-01-26  1490  		if (i >=3D 32)
-399090ef96059d Lorenzo Bianconi 2021-01-26  1491  			chan =3D &req->ext_cha=
-nnels[i - 32];
-399090ef96059d Lorenzo Bianconi 2021-01-26  1492  		else
-399090ef96059d Lorenzo Bianconi 2021-01-26  1493  			chan =3D &req->channel=
-s[i];
-399090ef96059d Lorenzo Bianconi 2021-01-26  1494  =
-
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1495  		switch (scan_list[i]->b=
-and) {
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1496  		case NL80211_BAND_2GHZ:
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1497  			chan->band =3D 1;
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1498  			break;
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1499  		case NL80211_BAND_6GHZ:
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1500  			chan->band =3D 3;
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1501  			break;
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1502  		default:
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1503  			chan->band =3D 2;
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1504  			break;
-212e5197eec24e Lorenzo Bianconi 2021-08-24  1505  		}
-399090ef96059d Lorenzo Bianconi 2021-01-26  1506  		chan->channel_num =3D s=
-can_list[i]->hw_value;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1507  	}
-399090ef96059d Lorenzo Bianconi 2021-01-26  1508  	req->channel_type =3D sr=
-eq->n_channels ? 4 : 0;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1509  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1510  	if (sreq->ie_len > 0) {
-399090ef96059d Lorenzo Bianconi 2021-01-26  1511  		memcpy(req->ies, sreq->=
-ie, sreq->ie_len);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1512  		req->ies_len =3D cpu_to=
-_le16(sreq->ie_len);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1513  	}
-399090ef96059d Lorenzo Bianconi 2021-01-26  1514  =
-
-4da64fe086d95d Sean Wang        2021-04-06  1515  	if (is_mt7921(phy->dev))
-4da64fe086d95d Sean Wang        2021-04-06  1516  		req->scan_func |=3D SCA=
-N_FUNC_SPLIT_SCAN;
-4da64fe086d95d Sean Wang        2021-04-06  1517  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1518  	memcpy(req->bssid, sreq-=
->bssid, ETH_ALEN);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1519  	if (sreq->flags & NL8021=
-1_SCAN_FLAG_RANDOM_ADDR) {
-399090ef96059d Lorenzo Bianconi 2021-01-26  1520  		get_random_mask_addr(re=
-q->random_mac, sreq->mac_addr,
-399090ef96059d Lorenzo Bianconi 2021-01-26  1521  				     sreq->mac_addr_m=
-ask);
-4da64fe086d95d Sean Wang        2021-04-06  1522  		req->scan_func |=3D SCA=
-N_FUNC_RANDOM_MAC;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1523  	}
-399090ef96059d Lorenzo Bianconi 2021-01-26  1524  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1525  	err =3D mt76_mcu_skb_sen=
-d_msg(mdev, skb, MCU_CMD_START_HW_SCAN, false);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1526  	if (err < 0)
-399090ef96059d Lorenzo Bianconi 2021-01-26  1527  		clear_bit(MT76_HW_SCANN=
-ING, &phy->state);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1528  =
-
-399090ef96059d Lorenzo Bianconi 2021-01-26  1529  	return err;
-399090ef96059d Lorenzo Bianconi 2021-01-26  1530  }
-399090ef96059d Lorenzo Bianconi 2021-01-26  1531  EXPORT_SYMBOL_GPL(mt76_co=
-nnac_mcu_hw_scan);
-399090ef96059d Lorenzo Bianconi 2021-01-26  1532  =
+dbf9bfe615717d1 jack wang       2009-10-14  4461  	memset(&payload, 0, size=
+of(payload));
+dbf9bfe615717d1 jack wang       2009-10-14  4462  	rc =3D pm8001_tag_alloc(=
+pm8001_ha, &tag);
+dbf9bfe615717d1 jack wang       2009-10-14  4463  	if (rc)
+dbf9bfe615717d1 jack wang       2009-10-14  4464  		return rc;
+dbf9bfe615717d1 jack wang       2009-10-14  4465  	ccb =3D &pm8001_ha->ccb_=
+info[tag];
+dbf9bfe615717d1 jack wang       2009-10-14  4466  	ccb->device =3D pm8001_d=
+ev;
+dbf9bfe615717d1 jack wang       2009-10-14  4467  	ccb->ccb_tag =3D tag;
+dbf9bfe615717d1 jack wang       2009-10-14  4468  	payload.tag =3D cpu_to_l=
+e32(tag);
+dbf9bfe615717d1 jack wang       2009-10-14  4469  	if (flag =3D=3D 1)
+dbf9bfe615717d1 jack wang       2009-10-14  4470  		stp_sspsmp_sata =3D 0x0=
+2; /*direct attached sata */
+dbf9bfe615717d1 jack wang       2009-10-14  4471  	else {
+aa9f8328fc51460 James Bottomley 2013-05-07  4472  		if (pm8001_dev->dev_typ=
+e =3D=3D SAS_SATA_DEV)
+dbf9bfe615717d1 jack wang       2009-10-14  4473  			stp_sspsmp_sata =3D 0x=
+00; /* stp*/
+aa9f8328fc51460 James Bottomley 2013-05-07  4474  		else if (pm8001_dev->de=
+v_type =3D=3D SAS_END_DEVICE ||
+aa9f8328fc51460 James Bottomley 2013-05-07  4475  			pm8001_dev->dev_type =
+=3D=3D SAS_EDGE_EXPANDER_DEVICE ||
+aa9f8328fc51460 James Bottomley 2013-05-07  4476  			pm8001_dev->dev_type =
+=3D=3D SAS_FANOUT_EXPANDER_DEVICE)
+dbf9bfe615717d1 jack wang       2009-10-14  4477  			stp_sspsmp_sata =3D 0x=
+01; /*ssp or smp*/
+dbf9bfe615717d1 jack wang       2009-10-14  4478  	}
+924a3541eab0d28 John Garry      2019-06-10  4479  	if (parent_dev && dev_is=
+_expander(parent_dev->dev_type))
+dbf9bfe615717d1 jack wang       2009-10-14  4480  		phy_id =3D parent_dev->=
+ex_dev.ex_phy->phy_id;
+dbf9bfe615717d1 jack wang       2009-10-14  4481  	else
+dbf9bfe615717d1 jack wang       2009-10-14  4482  		phy_id =3D pm8001_dev->=
+attached_phy;
+dbf9bfe615717d1 jack wang       2009-10-14  4483  	opc =3D OPC_INB_REG_DEV;
+dbf9bfe615717d1 jack wang       2009-10-14  4484  	linkrate =3D (pm8001_dev=
+->sas_device->linkrate < dev->port->linkrate) ?
+dbf9bfe615717d1 jack wang       2009-10-14  4485  			pm8001_dev->sas_device=
+->linkrate : dev->port->linkrate;
+dbf9bfe615717d1 jack wang       2009-10-14  4486  	payload.phyid_portid =3D
+dbf9bfe615717d1 jack wang       2009-10-14  4487  		cpu_to_le32(((pm8001_de=
+v->sas_device->port->id) & 0x0F) |
+dbf9bfe615717d1 jack wang       2009-10-14  4488  		((phy_id & 0x0F) << 4));
+dbf9bfe615717d1 jack wang       2009-10-14 @4489  	payload.dtype_dlr_retry =
+=3D cpu_to_le32((retryFlag & 0x01) |
+dbf9bfe615717d1 jack wang       2009-10-14  4490  		((linkrate & 0x0F) * 0x=
+1000000) |
+dbf9bfe615717d1 jack wang       2009-10-14  4491  		((stp_sspsmp_sata & 0x0=
+3) * 0x10000000));
+dbf9bfe615717d1 jack wang       2009-10-14  4492  	payload.firstburstsize_I=
+TNexustimeout =3D
+dbf9bfe615717d1 jack wang       2009-10-14  4493  		cpu_to_le32(ITNT | (fir=
+stBurstSize * 0x10000));
+afc5ca9ddc6c223 jack wang       2009-12-07  4494  	memcpy(payload.sas_addr,=
+ pm8001_dev->sas_device->sas_addr,
+dbf9bfe615717d1 jack wang       2009-10-14  4495  		SAS_ADDR_SIZE);
+91a43fa61f102e0 peter chang     2019-11-14  4496  	rc =3D pm8001_mpi_build_=
+cmd(pm8001_ha, circularQ, opc, &payload,
+91a43fa61f102e0 peter chang     2019-11-14  4497  			sizeof(payload), 0);
+72d0baa089ebd05 jack_wang       2009-11-05  4498  	return rc;
+dbf9bfe615717d1 jack wang       2009-10-14  4499  }
+dbf9bfe615717d1 jack wang       2009-10-14  4500  =
 
 
-:::::: The code at line 1460 was first introduced by commit
-:::::: 399090ef96059da9cc6459e2d68347a27254bbf5 mt76: mt76_connac: move hw_=
-scan and sched_scan routine in mt76_connac_mcu module
+:::::: The code at line 4489 was first introduced by commit
+:::::: dbf9bfe615717d1145f263c0049fe2328e6ed395 [SCSI] pm8001: add SAS/SATA=
+ HBA driver
 
-:::::: TO: Lorenzo Bianconi <lorenzo@kernel.org>
-:::::: CC: Felix Fietkau <nbd@nbd.name>
+:::::: TO: jack wang <jack_wang@usish.com>
+:::::: CC: James Bottomley <James.Bottomley@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6654969850767254333==--
+--===============1962744250867940972==--
 
