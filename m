@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0061073378546015783=="
+Content-Type: multipart/mixed; boundary="===============5798765851678477151=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Fri, 04 Feb 2022 19:48:52 +0800
-Message-ID: <20220204114852.GA64177@d619e4db7457>
+Date: Fri, 04 Feb 2022 19:48:47 +0800
+Message-ID: <20220204114846.GA63218@d619e4db7457>
 In-Reply-To: <202202041928.A0VF4zkK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0061073378546015783==
+--===============5798765851678477151==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,17 +17,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Maximilian Luz <luzmaximilian@gmail.com>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: Mark Gross <mgross@linux.intel.com>
-CC: platform-driver-x86(a)vger.kernel.org
+CC: Lee Jones <lee.jones@linaro.org>
+CC: patches(a)opensource.cirrus.com
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/platform/surface/surface_hotplug.c:180:10-35: WARNING: Threaded IRQ=
- with no primary handler requested without IRQF_ONESHOT (unless it is neste=
-d IRQ)
+drivers/mfd/arizona-irq.c:374:7-27: WARNING: Threaded IRQ with no primary h=
+andler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -52,22 +49,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- surface_hotplug.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ arizona-irq.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/platform/surface/surface_hotplug.c
-+++ b/drivers/platform/surface/surface_hotplug.c
-@@ -178,7 +178,8 @@ static int shps_setup_irq(struct platfor
- 		return -ENOMEM;
+--- a/drivers/mfd/arizona-irq.c
++++ b/drivers/mfd/arizona-irq.c
+@@ -372,7 +372,7 @@ int arizona_irq_init(struct arizona *ari
+ 	}
  =
 
- 	status =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, shps_handle_i=
-rq,
--					   flags, irq_name, pdev);
-+					   flags | IRQF_ONESHOT, irq_name,
-+					   pdev);
- 	if (status)
- 		return status;
-=20
---===============0061073378546015783==--
+ 	ret =3D request_threaded_irq(arizona->irq, NULL, arizona_irq_thread,
+-				   flags, "arizona", arizona);
++				   flags | IRQF_ONESHOT, "arizona", arizona);
+ =
+
+ 	if (ret !=3D 0) {
+ 		dev_err(arizona->dev, "Failed to request primary IRQ %d: %d\n",
+--===============5798765851678477151==--
 
