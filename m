@@ -1,93 +1,116 @@
-Content-Type: multipart/mixed; boundary="===============8681197152542417221=="
+Content-Type: multipart/mixed; boundary="===============3081566949893535577=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3382/3941] fs/nilfs2/segbuf.c:358 nilfs_segbuf_submit_bio() warn: ignoring unreachable code.
-Date: Fri, 04 Feb 2022 09:30:10 +0800
-Message-ID: <202202040524.emaVEveV-lkp@intel.com>
+Subject: drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() error: we previously assumed 'req' could be null (see line 623)
+Date: Sun, 06 Feb 2022 20:31:49 +0800
+Message-ID: <202202062034.T1pUQtL9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8681197152542417221==
+--===============3081566949893535577==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dikshita Agarwal <dikshita@codeaurora.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   2d3d8c7643a56bfe2e808f97d5a4360d49f3b45b
-commit: 457432443d41104c22b07af9b1db0175e7ab04b7 [3382/3941] remove-bdi_con=
-gested-and-wb_congested-and-related-functions-fix
-:::::: branch date: 17 hours ago
-:::::: commit date: 2 days ago
-config: nios2-randconfig-m031-20220130 (https://download.01.org/0day-ci/arc=
-hive/20220204/202202040524.emaVEveV-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
+commit: 16545aa3dee5a01f3f42aa566a051096c87f4b6f media: venus: Set buffer t=
+o FW based on FW min count requirement.
+date:   4 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 4 months ago
+config: microblaze-randconfig-m031-20220206 (https://download.01.org/0day-c=
+i/archive/20220206/202202062034.T1pUQtL9-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/nilfs2/segbuf.c:358 nilfs_segbuf_submit_bio() warn: ignoring unreachable=
- code.
+smatch warnings:
+drivers/media/platform/qcom/venus/helpers.c:627 venus_helper_get_bufreq() e=
+rror: we previously assumed 'req' could be null (see line 623)
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
-ialized symbol 'sp'.
+vim +/req +627 drivers/media/platform/qcom/venus/helpers.c
 
-vim +358 fs/nilfs2/segbuf.c
+7371093f983d35d Stanimir Varbanov 2020-08-26  614  =
 
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  338  =
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  615  int venus_helper_get_buf=
+req(struct venus_inst *inst, u32 type,
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  616  			    struct hfi_buffer=
+_requirements *req)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  617  {
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  618  	u32 ptype =3D HFI_PROPE=
+RTY_CONFIG_BUFFER_REQUIREMENTS;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  619  	union hfi_get_property =
+hprop;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  620  	unsigned int i;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  621  	int ret;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  622  =
 
-9284ad2a9016ad Ryusuke Konishi    2009-11-25  339  static int nilfs_segbuf_=
-submit_bio(struct nilfs_segment_buffer *segbuf,
-b2d4586627ad26 Mike Christie      2016-06-05  340  				   struct nilfs_writ=
-e_info *wi, int mode,
-b2d4586627ad26 Mike Christie      2016-06-05  341  				   int mode_flags)
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  342  {
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  343  	struct bio *bio =3D wi-=
->bio;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  344  	int err;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  345  =
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15 @623  	if (req)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  624  		memset(req, 0, sizeof(=
+*req));
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  625  =
 
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  346  	bio->bi_end_io =3D nilf=
-s_end_bio_write;
-9284ad2a9016ad Ryusuke Konishi    2009-11-25  347  	bio->bi_private =3D seg=
-buf;
-b2d4586627ad26 Mike Christie      2016-06-05  348  	bio_set_op_attrs(bio, m=
-ode, mode_flags);
-4e49ea4a3d2763 Mike Christie      2016-06-05  349  	submit_bio(bio);
-4bf93b50fd0411 Vyacheslav Dubeyko 2013-08-22  350  	segbuf->sb_nbio++;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  351  =
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  626  	if (type =3D=3D HFI_BUF=
+FER_OUTPUT || type =3D=3D HFI_BUFFER_OUTPUT2)
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10 @627  		req->count_min =3D ins=
+t->fw_min_cnt;
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  628  =
 
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  352  	wi->bio =3D NULL;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  353  	wi->rest_blocks -=3D wi=
-->end - wi->start;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  354  	wi->nr_vecs =3D min(wi-=
->max_pages, wi->rest_blocks);
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  355  	wi->start =3D wi->end;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  356  	return 0;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  357  =
+7371093f983d35d Stanimir Varbanov 2020-08-26  629  	ret =3D platform_get_bu=
+freq(inst, type, req);
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  630  	if (!ret) {
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  631  		if (type =3D=3D HFI_BU=
+FFER_OUTPUT || type =3D=3D HFI_BUFFER_OUTPUT2)
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  632  			inst->fw_min_cnt =3D =
+req->count_min;
+7371093f983d35d Stanimir Varbanov 2020-08-26  633  		return 0;
+16545aa3dee5a01 Dikshita Agarwal  2021-08-10  634  	}
+7371093f983d35d Stanimir Varbanov 2020-08-26  635  =
 
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06 @358  	wi->bio =3D NULL;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  359  	return err;
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  360  }
-64b5a32e0b3680 Ryusuke Konishi    2009-04-06  361  =
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  636  	ret =3D hfi_session_get=
+_property(inst, ptype, &hprop);
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  637  	if (ret)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  638  		return ret;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  639  =
 
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  640  	ret =3D -EINVAL;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  641  =
 
-:::::: The code at line 358 was first introduced by commit
-:::::: 64b5a32e0b3680a9655b3f2e668a646068e71d33 nilfs2: segment buffer
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  642  	for (i =3D 0; i < HFI_B=
+UFFER_TYPE_MAX; i++) {
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  643  		if (hprop.bufreq[i].ty=
+pe !=3D type)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  644  			continue;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  645  =
 
-:::::: TO: Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  646  		if (req)
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  647  			memcpy(req, &hprop.bu=
+freq[i], sizeof(*req));
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  648  		ret =3D 0;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  649  		break;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  650  	}
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  651  =
+
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  652  	return ret;
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  653  }
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  654  EXPORT_SYMBOL_GPL(venus_=
+helper_get_bufreq);
+af2c3834c8ca7cc Stanimir Varbanov 2017-06-15  655  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8681197152542417221==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============3081566949893535577==--
 
