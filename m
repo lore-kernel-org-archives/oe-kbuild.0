@@ -1,560 +1,320 @@
-Content-Type: multipart/mixed; boundary="===============6838573965168577354=="
+Content-Type: multipart/mixed; boundary="===============0754563013354426971=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/sof/intel/hda-ipc.c:150:3: warning: Value stored to 'msg_ext' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 02 Feb 2022 07:55:51 +0800
-Message-ID: <202202020733.Npgk5OGk-lkp@intel.com>
+Subject: [oracle-dtrace:v2/5.17-rc2 8/10] fs/eventpoll.c:1224:3: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+Date: Sun, 06 Feb 2022 09:48:18 +0800
+Message-ID: <202202060630.0kkTUrko-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6838573965168577354==
+--===============0754563013354426971==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Takashi Iwai <tiwai@suse.de>
-CC: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-CC: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
-CC: Bard Liao <bard.liao@intel.com>
+TO: Nick Alcock <nick.alcock@oracle.com>
+CC: Kris Van Hees <kris.van.hees@oracle.com>
+CC: Tomas Jedlicka <tomas.jedlicka@oracle.com>
+CC: Eugene Loh <eugene.loh@oracle.com>
+CC: David Mc Lean <david.mclean@oracle.com>
+CC: Vincent Lim <vincent.lim@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   26291c54e111ff6ba87a164d85d4a4e134b7315c
-commit: 8d4ba1be3d2257606e04aff412829d8972670750 ASoC: SOF: pci: split PCI =
-into different drivers
-date:   11 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-c006-20220131 (https://download.01.org/0day-ci/arc=
-hive/20220202/202202020733.Npgk5OGk-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 2cdbac=
-a3943a4d6259119f185656328bd3805b68)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8d4ba1be3d2257606e04aff412829d8972670750
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8d4ba1be3d2257606e04aff412829d8972670750
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://github.com/oracle/dtrace-linux-kernel v2/5.17-rc2
+head:   47946e7b2e2319f39cbb7f8aaa294298c2dec5b4
+commit: 16ad67b61ac4f3dd93b3fa6875a011fff7b88500 [8/10] waitfd: new syscall=
+ implementing waitpid() over fds
+:::::: branch date: 28 hours ago
+:::::: commit date: 28 hours ago
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                           ^
-   sound/core/seq/seq_prioq.c:292:16: note: Access to field 'next' results =
-in a dereference of a null pointer (loaded from variable 'prev')
-                                   prev->next =3D cell->next;
-                                   ~~~~       ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/soc/xtensa/xtfpga-i2s.c:285:11: warning: Value stored to 'channels=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           unsigned channels =3D params_channels(params);
-                    ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/xtensa/xtfpga-i2s.c:285:11: note: Value stored to 'channels' d=
-uring its initialization is never read
-           unsigned channels =3D params_channels(params);
-                    ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/hda/hdmi_chmap.c:331:3: warning: Value stored to 'channel' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   channel =3D chmap->ops.pin_get_slot_channel(
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/hda/hdmi_chmap.c:331:3: note: Value stored to 'channel' is never r=
-ead
-                   channel =3D chmap->ops.pin_get_slot_channel(
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   sound/soc/generic/audio-graph-card.c:618:17: warning: Value stored to 'd=
-ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           struct device *dev =3D simple_priv_to_dev(priv);
-                          ^~~
-   sound/soc/generic/audio-graph-card.c:618:17: note: Value stored to 'dev'=
- during its initialization is never read
-           struct device *dev =3D simple_priv_to_dev(priv);
-                          ^~~
-   sound/soc/generic/audio-graph-card.c:634:17: warning: Value stored to 'd=
-ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           struct device *dev =3D simple_priv_to_dev(priv);
-                          ^~~
-   sound/soc/generic/audio-graph-card.c:634:17: note: Value stored to 'dev'=
- during its initialization is never read
-           struct device *dev =3D simple_priv_to_dev(priv);
-                          ^~~
-   sound/soc/generic/audio-graph-card.c:653:17: warning: Value stored to 'd=
-ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           struct device *dev =3D simple_priv_to_dev(priv);
-                          ^~~
-   sound/soc/generic/audio-graph-card.c:653:17: note: Value stored to 'dev'=
- during its initialization is never read
-           struct device *dev =3D simple_priv_to_dev(priv);
-                          ^~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/soc/bcm/bcm2835-i2s.c:356:2: warning: Value stored to 'data_delay'=
- is never read [clang-analyzer-deadcode.DeadStores]
-           data_delay =3D 0;
-           ^            ~
-   sound/soc/bcm/bcm2835-i2s.c:356:2: note: Value stored to 'data_delay' is=
- never read
-           data_delay =3D 0;
-           ^            ~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> sound/soc/sof/intel/hda-ipc.c:150:3: warning: Value stored to 'msg_ext' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   msg_ext =3D hipcie & HDA_DSP_REG_HIPCIE_MSG_MASK;
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/intel/hda-ipc.c:150:3: note: Value stored to 'msg_ext' is =
-never read
-                   msg_ext =3D hipcie & HDA_DSP_REG_HIPCIE_MSG_MASK;
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/sof/intel/hda-ipc.c:187:3: warning: Value stored to 'msg' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                   msg =3D hipct & HDA_DSP_REG_HIPCT_MSG_MASK;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/intel/hda-ipc.c:187:3: note: Value stored to 'msg' is neve=
-r read
-                   msg =3D hipct & HDA_DSP_REG_HIPCT_MSG_MASK;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> sound/soc/sof/intel/hda-dai.c:265:22: warning: Value stored to 'sdev' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct snd_sof_dev *sdev =3D
-                               ^~~~
-   sound/soc/sof/intel/hda-dai.c:265:22: note: Value stored to 'sdev' durin=
-g its initialization is never read
-           struct snd_sof_dev *sdev =3D
-                               ^~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> sound/soc/sof/intel/cnl.c:50:3: warning: Value stored to 'msg_ext' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   msg_ext =3D hipci & CNL_DSP_REG_HIPCIDR_MSG_MASK;
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/intel/cnl.c:50:3: note: Value stored to 'msg_ext' is never=
- read
-                   msg_ext =3D hipci & CNL_DSP_REG_HIPCIDR_MSG_MASK;
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> sound/soc/sof/intel/cnl.c:77:3: warning: Value stored to 'msg' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   msg =3D hipctdr & CNL_DSP_REG_HIPCTDR_MSG_MASK;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sof/intel/cnl.c:77:3: note: Value stored to 'msg' is never read
-                   msg =3D hipctdr & CNL_DSP_REG_HIPCTDR_MSG_MASK;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   sound/soc/codecs/wm8903.c:434:3: warning: Value stored to 'best' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   best =3D 0;
-                   ^      ~
-   sound/soc/codecs/wm8903.c:434:3: note: Value stored to 'best' is never r=
-ead
-                   best =3D 0;
-                   ^      ~
-   sound/soc/codecs/wm8903.c:1552:2: warning: Value stored to 'best_val' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           best_val =3D ((clk_sys * 10) / bclk_divs[0].ratio) - bclk;
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wm8903.c:1552:2: note: Value stored to 'best_val' is ne=
-ver read
-           best_val =3D ((clk_sys * 10) / bclk_divs[0].ratio) - bclk;
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wm8903.c:1559:3: warning: Value stored to 'best_val' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   best_val =3D cur_val;
-                   ^          ~~~~~~~
-   sound/soc/codecs/wm8903.c:1559:3: note: Value stored to 'best_val' is ne=
-ver read
-                   best_val =3D cur_val;
-                   ^          ~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   sound/soc/codecs/wm8960.c:508:18: warning: Access to field 'lout1' resul=
-ts in a dereference of a null pointer (loaded from variable 'wm8960') [clan=
-g-analyzer-core.NullDereference]
-                           wm8960->lout1 =3D w;
-                                         ^
-   sound/soc/codecs/wm8960.c:1349:6: note: Assuming field 'capless' is false
-           if (pdata->capless)
-               ^~~~~~~~~~~~~~
-   sound/soc/codecs/wm8960.c:1349:2: note: Taking false branch
-           if (pdata->capless)
-           ^
-   sound/soc/codecs/wm8960.c:1356:2: note: Calling 'wm8960_add_widgets'
-           wm8960_add_widgets(component);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wm8960.c:472:2: note: 'wm8960' initialized here
-           struct wm8960_priv *wm8960 =3D snd_soc_component_get_drvdata(com=
-ponent);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/wm8960.c:485:6: note: Assuming 'pdata' is null
-           if (pdata && pdata->capless) {
-               ^~~~~
-   sound/soc/codecs/wm8960.c:485:12: note: Left side of '&&' is false
-           if (pdata && pdata->capless) {
-                     ^
-   sound/soc/codecs/wm8960.c:504:2: note: Left side of '&&' is false
-           list_for_each_entry(w, &component->card->widgets, list) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   sound/soc/codecs/wm8960.c:504:2: note: Taking false branch
-           list_for_each_entry(w, &component->card->widgets, list) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   sound/soc/codecs/wm8960.c:504:2: note: Loop condition is false.  Exiting=
- loop
-           list_for_each_entry(w, &component->card->widgets, list) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/msg_ext +150 sound/soc/sof/intel/hda-ipc.c
+>> fs/eventpoll.c:1224:3: warning: Assignment of function parameter has no =
+effect outside the function. Did you forget dereferencing it? [uselessAssig=
+nmentPtrArg]
+     key =3D (void *)epi->fixed_event;
+     ^
+>> fs/eventpoll.c:1259:18: warning: Boolean result is used in bitwise opera=
+tion. Clarify expression with parentheses. [clarifyCondition]
+    if (fixed_event & !(epi->event.events & fixed_event))
+                    ^
 
-6e9cde974863dc Liam Girdwood         2019-04-12  127  =
+vim +1224 fs/eventpoll.c
 
-6e9cde974863dc Liam Girdwood         2019-04-12  128  /* IPC handler thread=
- */
-6e9cde974863dc Liam Girdwood         2019-04-12  129  irqreturn_t hda_dsp_i=
-pc_irq_thread(int irq, void *context)
-6e9cde974863dc Liam Girdwood         2019-04-12  130  {
-6e9cde974863dc Liam Girdwood         2019-04-12  131  	struct snd_sof_dev *=
-sdev =3D context;
-6e9cde974863dc Liam Girdwood         2019-04-12  132  	u32 hipci;
-6e9cde974863dc Liam Girdwood         2019-04-12  133  	u32 hipcie;
-6e9cde974863dc Liam Girdwood         2019-04-12  134  	u32 hipct;
-6e9cde974863dc Liam Girdwood         2019-04-12  135  	u32 hipcte;
-6e9cde974863dc Liam Girdwood         2019-04-12  136  	u32 msg;
-6e9cde974863dc Liam Girdwood         2019-04-12  137  	u32 msg_ext;
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  138  	bool ipc_irq =3D fal=
-se;
-6e9cde974863dc Liam Girdwood         2019-04-12  139  =
+a218cc4914209a Roman Penyaev      2019-03-07  1118  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  140  	/* read IPC status */
-6e9cde974863dc Liam Girdwood         2019-04-12  141  	hipcie =3D snd_sof_d=
-sp_read(sdev, HDA_DSP_BAR,
-6e9cde974863dc Liam Girdwood         2019-04-12  142  				  HDA_DSP_REG_HIP=
-CIE);
-6e9cde974863dc Liam Girdwood         2019-04-12  143  	hipct =3D snd_sof_ds=
-p_read(sdev, HDA_DSP_BAR, HDA_DSP_REG_HIPCT);
-5dbeb828742198 Pierre-Louis Bossart  2019-06-03  144  	hipci =3D snd_sof_ds=
-p_read(sdev, HDA_DSP_BAR, HDA_DSP_REG_HIPCI);
-5dbeb828742198 Pierre-Louis Bossart  2019-06-03  145  	hipcte =3D snd_sof_d=
-sp_read(sdev, HDA_DSP_BAR, HDA_DSP_REG_HIPCTE);
-6e9cde974863dc Liam Girdwood         2019-04-12  146  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1119  /*
+7699acd1341c63 Davide Libenzi     2007-05-10  1120   * This is the callback=
+ that is passed to the wait queue wakeup
+bf6a41db7726e6 Daniel Baluta      2011-01-30  1121   * mechanism. It is cal=
+led by the stored file descriptors when they
+7699acd1341c63 Davide Libenzi     2007-05-10  1122   * have events to repor=
+t.
+a218cc4914209a Roman Penyaev      2019-03-07  1123   *
+a6c67fee9cf095 Randy Dunlap       2021-03-01  1124   * This callback takes =
+a read lock in order not to contend with concurrent
+a6c67fee9cf095 Randy Dunlap       2021-03-01  1125   * events from another =
+file descriptor, thus all modifications to ->rdllist
+a218cc4914209a Roman Penyaev      2019-03-07  1126   * or ->ovflist are loc=
+kless.  Read lock is paired with the write lock from
+a218cc4914209a Roman Penyaev      2019-03-07  1127   * ep_scan_ready_list()=
+, which stops all list modifications and guarantees
+a218cc4914209a Roman Penyaev      2019-03-07  1128   * that lists state is =
+seen correctly.
+a218cc4914209a Roman Penyaev      2019-03-07  1129   *
+a218cc4914209a Roman Penyaev      2019-03-07  1130   * Another thing worth =
+to mention is that ep_poll_callback() can be called
+a218cc4914209a Roman Penyaev      2019-03-07  1131   * concurrently for the=
+ same @epi from different CPUs if poll table was inited
+a218cc4914209a Roman Penyaev      2019-03-07  1132   * with several wait qu=
+eues entries.  Plural wakeup from different CPUs of a
+a218cc4914209a Roman Penyaev      2019-03-07  1133   * single wait queue is=
+ serialized by wq.lock, but the case when multiple wait
+a218cc4914209a Roman Penyaev      2019-03-07  1134   * queues are used shou=
+ld be detected accordingly.  This is detected using
+a218cc4914209a Roman Penyaev      2019-03-07  1135   * cmpxchg() operation.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1136   */
+ac6424b981bce1 Ingo Molnar        2017-06-20  1137  static int ep_poll_call=
+back(wait_queue_entry_t *wait, unsigned mode, int sync, void *key)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1138  {
+7699acd1341c63 Davide Libenzi     2007-05-10  1139  	int pwake =3D 0;
+7699acd1341c63 Davide Libenzi     2007-05-10  1140  	struct epitem *epi =3D=
+ ep_item_from_wait(wait);
+7699acd1341c63 Davide Libenzi     2007-05-10  1141  	struct eventpoll *ep =
+=3D epi->ep;
+3ad6f93e98d6df Al Viro            2017-07-03  1142  	__poll_t pollflags =3D=
+ key_to_poll(key);
+a218cc4914209a Roman Penyaev      2019-03-07  1143  	unsigned long flags;
+df0108c5da561c Jason Baron        2016-01-20  1144  	int ewake =3D 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1145  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  147  	/* is this a reply m=
-essage from the DSP */
-09a173a63fbb89 Pierre-Louis Bossart  2019-06-03  148  	if (hipcie & HDA_DSP=
-_REG_HIPCIE_DONE) {
-6e9cde974863dc Liam Girdwood         2019-04-12  149  		msg =3D hipci & HDA=
-_DSP_REG_HIPCI_MSG_MASK;
-6e9cde974863dc Liam Girdwood         2019-04-12 @150  		msg_ext =3D hipcie =
-& HDA_DSP_REG_HIPCIE_MSG_MASK;
-6e9cde974863dc Liam Girdwood         2019-04-12  151  =
+a218cc4914209a Roman Penyaev      2019-03-07  1146  	read_lock_irqsave(&ep-=
+>lock, flags);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1147  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  152  		dev_vdbg(sdev->dev,
-6e9cde974863dc Liam Girdwood         2019-04-12  153  			 "ipc: firmware re=
-sponse, msg:0x%x, msg_ext:0x%x\n",
-6e9cde974863dc Liam Girdwood         2019-04-12  154  			 msg, msg_ext);
-6e9cde974863dc Liam Girdwood         2019-04-12  155  =
+bf3b9f6372c45b Sridhar Samudrala  2017-03-24  1148  	ep_set_busy_poll_napi_=
+id(epi);
+bf3b9f6372c45b Sridhar Samudrala  2017-03-24  1149  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  156  		/* mask Done interr=
-upt */
-6e9cde974863dc Liam Girdwood         2019-04-12  157  		snd_sof_dsp_update_=
-bits(sdev, HDA_DSP_BAR,
-6e9cde974863dc Liam Girdwood         2019-04-12  158  					HDA_DSP_REG_HIPC=
-CTL,
-6e9cde974863dc Liam Girdwood         2019-04-12  159  					HDA_DSP_REG_HIPC=
-CTL_DONE, 0);
-6e9cde974863dc Liam Girdwood         2019-04-12  160  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1150  	/*
+7699acd1341c63 Davide Libenzi     2007-05-10  1151  	 * If the event mask d=
+oes not contain any poll(2) event, we consider the
+7699acd1341c63 Davide Libenzi     2007-05-10  1152  	 * descriptor to be di=
+sabled. This condition is likely the effect of the
+7699acd1341c63 Davide Libenzi     2007-05-10  1153  	 * EPOLLONESHOT bit th=
+at disables the descriptor when an event is received,
+7699acd1341c63 Davide Libenzi     2007-05-10  1154  	 * until the next EPOL=
+L_CTL_MOD will be issued.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1155  	 */
+7699acd1341c63 Davide Libenzi     2007-05-10  1156  	if (!(epi->event.event=
+s & ~EP_PRIVATE_BITS))
+d47de16c722196 Davide Libenzi     2007-05-15  1157  		goto out_unlock;
+d47de16c722196 Davide Libenzi     2007-05-15  1158  =
 
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  161  		/*
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  162  		 * Make sure the in=
-terrupt thread cannot be preempted between
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  163  		 * waking up the se=
-nder and re-enabling the interrupt. Also
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  164  		 * protect against =
-a theoretical race with sof_ipc_tx_message():
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  165  		 * if the DSP is fa=
-st enough to receive an IPC message, reply to
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  166  		 * it, and the host=
- interrupt processing calls this function on
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  167  		 * a different core=
- from the one, where the sending is taking
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  168  		 * place, the messa=
-ge might not yet be marked as expecting a
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  169  		 * reply.
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  170  		 */
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  171  		spin_lock_irq(&sdev=
-->ipc_lock);
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  172  =
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1159  	/*
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1160  	 * Check the events co=
+ming with the callback. At this stage, not
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1161  	 * every device report=
+s the events in the "key" parameter of the
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1162  	 * callback. We need t=
+o be able to handle both cases here, hence the
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1163  	 * test for "key" !=3D=
+ NULL before the event match test.
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1164  	 */
+3ad6f93e98d6df Al Viro            2017-07-03  1165  	if (pollflags && !(pol=
+lflags & epi->event.events))
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1166  		goto out_unlock;
+2dfa4eeab0fc7e Davide Libenzi     2009-03-31  1167  =
 
-9b65b2a80e700c Amery Song            2020-03-12  173  		/* handle immediate=
- reply from DSP core */
-6e9cde974863dc Liam Girdwood         2019-04-12  174  		hda_dsp_ipc_get_rep=
-ly(sdev);
-6e9cde974863dc Liam Girdwood         2019-04-12  175  		snd_sof_ipc_reply(s=
-dev, msg);
-6e9cde974863dc Liam Girdwood         2019-04-12  176  =
+d47de16c722196 Davide Libenzi     2007-05-15  1168  	/*
+bf6a41db7726e6 Daniel Baluta      2011-01-30  1169  	 * If we are transferr=
+ing events to userspace, we can hold no locks
+d47de16c722196 Davide Libenzi     2007-05-15  1170  	 * (because we're acce=
+ssing user memory, and because of linux f_op->poll()
+bf6a41db7726e6 Daniel Baluta      2011-01-30  1171  	 * semantics). All the=
+ events that happen during that period of time are
+d47de16c722196 Davide Libenzi     2007-05-15  1172  	 * chained in ep->ovfl=
+ist and requeued later on.
+d47de16c722196 Davide Libenzi     2007-05-15  1173  	 */
+c5a282e9635e9c Davidlohr Bueso    2019-01-03  1174  	if (READ_ONCE(ep->ovfl=
+ist) !=3D EP_UNACTIVE_PTR) {
+0c54a6a44bf3d4 Khazhismel Kumykov 2020-05-07  1175  		if (chain_epi_lockles=
+s(epi))
+c3e320b61581ef Roman Penyaev      2019-03-07  1176  			ep_pm_stay_awake_rcu=
+(epi);
+0c54a6a44bf3d4 Khazhismel Kumykov 2020-05-07  1177  	} else if (!ep_is_link=
+ed(epi)) {
+0c54a6a44bf3d4 Khazhismel Kumykov 2020-05-07  1178  		/* In the usual case,=
+ add event to ready list. */
+0c54a6a44bf3d4 Khazhismel Kumykov 2020-05-07  1179  		if (list_add_tail_loc=
+kless(&epi->rdllink, &ep->rdllist))
+eea1d585917c53 Eric Wong          2013-04-30  1180  			ep_pm_stay_awake_rcu=
+(epi);
+4d7e30d98939a0 Arve Hj=C3=B8nnev=C3=A5g     2012-05-01  1181  	}
+7699acd1341c63 Davide Libenzi     2007-05-10  1182  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  177  		/* set the done bit=
- */
-6e9cde974863dc Liam Girdwood         2019-04-12  178  		hda_dsp_ipc_dsp_don=
-e(sdev);
-6e9cde974863dc Liam Girdwood         2019-04-12  179  =
+7699acd1341c63 Davide Libenzi     2007-05-10  1183  	/*
+7699acd1341c63 Davide Libenzi     2007-05-10  1184  	 * Wake up ( if active=
+ ) both the eventpoll wait list and the ->poll()
+7699acd1341c63 Davide Libenzi     2007-05-10  1185  	 * wait list.
+7699acd1341c63 Davide Libenzi     2007-05-10  1186  	 */
+df0108c5da561c Jason Baron        2016-01-20  1187  	if (waitqueue_active(&=
+ep->wq)) {
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1188  		if ((epi->event.event=
+s & EPOLLEXCLUSIVE) &&
+3ad6f93e98d6df Al Viro            2017-07-03  1189  					!(pollflags & POLL=
+FREE)) {
+3ad6f93e98d6df Al Viro            2017-07-03  1190  			switch (pollflags & =
+EPOLLINOUT_BITS) {
+a9a08845e9acbd Linus Torvalds     2018-02-11  1191  			case EPOLLIN:
+a9a08845e9acbd Linus Torvalds     2018-02-11  1192  				if (epi->event.even=
+ts & EPOLLIN)
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1193  					ewake =3D 1;
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1194  				break;
+a9a08845e9acbd Linus Torvalds     2018-02-11  1195  			case EPOLLOUT:
+a9a08845e9acbd Linus Torvalds     2018-02-11  1196  				if (epi->event.even=
+ts & EPOLLOUT)
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1197  					ewake =3D 1;
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1198  				break;
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1199  			case 0:
+df0108c5da561c Jason Baron        2016-01-20  1200  				ewake =3D 1;
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1201  				break;
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1202  			}
+b6a515c8a0f6c2 Jason Baron        2016-02-05  1203  		}
+a218cc4914209a Roman Penyaev      2019-03-07  1204  		wake_up(&ep->wq);
+df0108c5da561c Jason Baron        2016-01-20  1205  	}
+7699acd1341c63 Davide Libenzi     2007-05-10  1206  	if (waitqueue_active(&=
+ep->poll_wait))
+7699acd1341c63 Davide Libenzi     2007-05-10  1207  		pwake++;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1208  =
 
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  180  		spin_unlock_irq(&sd=
-ev->ipc_lock);
-1183e9a634db06 Guennadi Liakhovetski 2019-05-24  181  =
+d47de16c722196 Davide Libenzi     2007-05-15  1209  out_unlock:
+a218cc4914209a Roman Penyaev      2019-03-07  1210  	read_unlock_irqrestore=
+(&ep->lock, flags);
+7699acd1341c63 Davide Libenzi     2007-05-10  1211  =
 
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  182  		ipc_irq =3D true;
-6e9cde974863dc Liam Girdwood         2019-04-12  183  	}
-6e9cde974863dc Liam Girdwood         2019-04-12  184  =
+7699acd1341c63 Davide Libenzi     2007-05-10  1212  	/* We have to call thi=
+s outside the lock */
+7699acd1341c63 Davide Libenzi     2007-05-10  1213  	if (pwake)
+efcdd350d1f8a9 Jason Baron        2020-04-06  1214  		ep_poll_safewake(ep, =
+epi);
+7699acd1341c63 Davide Libenzi     2007-05-10  1215  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  185  	/* is this a new mes=
-sage from DSP */
-09a173a63fbb89 Pierre-Louis Bossart  2019-06-03  186  	if (hipct & HDA_DSP_=
-REG_HIPCT_BUSY) {
-6e9cde974863dc Liam Girdwood         2019-04-12 @187  		msg =3D hipct & HDA=
-_DSP_REG_HIPCT_MSG_MASK;
-6e9cde974863dc Liam Girdwood         2019-04-12  188  		msg_ext =3D hipcte =
-& HDA_DSP_REG_HIPCTE_MSG_MASK;
-6e9cde974863dc Liam Girdwood         2019-04-12  189  =
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1216  	if (!(epi->event.event=
+s & EPOLLEXCLUSIVE))
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1217  		ewake =3D 1;
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1218  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  190  		dev_vdbg(sdev->dev,
-6e9cde974863dc Liam Girdwood         2019-04-12  191  			 "ipc: firmware in=
-itiated, msg:0x%x, msg_ext:0x%x\n",
-6e9cde974863dc Liam Girdwood         2019-04-12  192  			 msg, msg_ext);
-6e9cde974863dc Liam Girdwood         2019-04-12  193  =
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1219  	/*
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1220  	 * If this fd type has=
+ a hardwired event which should override the key
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1221  	 * (e.g. if it is wait=
+ing on a non-file waitqueue), jam it in here.
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1222  	 */
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1223  	if (epi->fixed_event)
+16ad67b61ac4f3 Nick Alcock        2018-11-14 @1224  		key =3D (void *)epi->=
+fixed_event;
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1225  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  194  		/* mask BUSY interr=
-upt */
-6e9cde974863dc Liam Girdwood         2019-04-12  195  		snd_sof_dsp_update_=
-bits(sdev, HDA_DSP_BAR,
-6e9cde974863dc Liam Girdwood         2019-04-12  196  					HDA_DSP_REG_HIPC=
-CTL,
-6e9cde974863dc Liam Girdwood         2019-04-12  197  					HDA_DSP_REG_HIPC=
-CTL_BUSY, 0);
-6e9cde974863dc Liam Girdwood         2019-04-12  198  =
+3ad6f93e98d6df Al Viro            2017-07-03  1226  	if (pollflags & POLLFR=
+EE) {
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1227  		/*
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1228  		 * If we race with ep=
+_remove_wait_queue() it can miss
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1229  		 * ->whead =3D NULL a=
+nd do another remove_wait_queue() after
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1230  		 * us, so we can't us=
+e __remove_wait_queue().
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1231  		 */
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1232  		list_del_init(&wait->=
+entry);
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1233  		/*
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1234  		 * ->whead !=3D NULL =
+protects us from the race with ep_free()
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1235  		 * or ep_remove(), ep=
+_remove_wait_queue() takes whead->lock
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1236  		 * held by the caller=
+. Once we nullify it, nothing protects
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1237  		 * ep/epi or even wai=
+t.
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1238  		 */
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1239  		smp_store_release(&ep=
+_pwq_from_wait(wait)->whead, NULL);
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1240  	}
+df0108c5da561c Jason Baron        2016-01-20  1241  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  199  		/* handle messages =
-from DSP */
-6e9cde974863dc Liam Girdwood         2019-04-12  200  		if ((hipct & SOF_IP=
-C_PANIC_MAGIC_MASK) =3D=3D SOF_IPC_PANIC_MAGIC) {
-6e9cde974863dc Liam Girdwood         2019-04-12  201  			/* this is a PANIC=
- message !! */
-6e9cde974863dc Liam Girdwood         2019-04-12  202  			snd_sof_dsp_panic(=
-sdev, HDA_DSP_PANIC_OFFSET(msg_ext));
-6e9cde974863dc Liam Girdwood         2019-04-12  203  		} else {
-6e9cde974863dc Liam Girdwood         2019-04-12  204  			/* normal message =
-- process normally */
-6e9cde974863dc Liam Girdwood         2019-04-12  205  			snd_sof_ipc_msgs_r=
-x(sdev);
-6e9cde974863dc Liam Girdwood         2019-04-12  206  		}
-6e9cde974863dc Liam Girdwood         2019-04-12  207  =
+138e4ad67afd5c Oleg Nesterov      2017-09-01  1242  	return ewake;
+7699acd1341c63 Davide Libenzi     2007-05-10  1243  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1244  =
 
-6e9cde974863dc Liam Girdwood         2019-04-12  208  		hda_dsp_ipc_host_do=
-ne(sdev);
-6e9cde974863dc Liam Girdwood         2019-04-12  209  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1245  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1246   * This is the callback=
+ that is used to add our wait queue to the
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1247   * target file wakeup l=
+ists.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1248   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1249  static void ep_ptable_q=
+ueue_proc(struct file *file, wait_queue_head_t *whead,
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1250  				 poll_table *pt, un=
+signed long fixed_event)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1251  {
+364f374f22ba1b Al Viro            2020-09-02  1252  	struct ep_pqueue *epq =
+=3D container_of(pt, struct ep_pqueue, pt);
+364f374f22ba1b Al Viro            2020-09-02  1253  	struct epitem *epi =3D=
+ epq->epi;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1254  	struct eppoll_entry *p=
+wq;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1255  =
 
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  210  		ipc_irq =3D true;
-6e9cde974863dc Liam Girdwood         2019-04-12  211  	}
-6e9cde974863dc Liam Girdwood         2019-04-12  212  =
+364f374f22ba1b Al Viro            2020-09-02  1256  	if (unlikely(!epi))	//=
+ an earlier allocation has failed
+364f374f22ba1b Al Viro            2020-09-02  1257  		return;
+364f374f22ba1b Al Viro            2020-09-02  1258  =
 
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  213  	if (!ipc_irq) {
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  214  		/*
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  215  		 * This interrupt i=
-s not shared so no need to return IRQ_NONE.
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  216  		 */
-717dedb1dcee92 Kai Vehmanen          2019-07-22  217  		dev_dbg_ratelimited=
-(sdev->dev,
-717dedb1dcee92 Kai Vehmanen          2019-07-22  218  				    "nothing to d=
-o in IPC IRQ thread\n");
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  219  	}
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  220  =
+16ad67b61ac4f3 Nick Alcock        2018-11-14 @1259  	if (fixed_event & !(ep=
+i->event.events & fixed_event))
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1260  		return;
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1261  =
 
-66e65339b824a5 Pierre-Louis Bossart  2019-06-03  221  	return IRQ_HANDLED;
-6e9cde974863dc Liam Girdwood         2019-04-12  222  }
-6e9cde974863dc Liam Girdwood         2019-04-12  223  =
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1262  	if (fixed_event)
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1263  		epi->fixed_event =3D =
+fixed_event;
+16ad67b61ac4f3 Nick Alcock        2018-11-14  1264  =
 
+364f374f22ba1b Al Viro            2020-09-02  1265  	pwq =3D kmem_cache_all=
+oc(pwq_cache, GFP_KERNEL);
+364f374f22ba1b Al Viro            2020-09-02  1266  	if (unlikely(!pwq)) {
+364f374f22ba1b Al Viro            2020-09-02  1267  		epq->epi =3D NULL;
+364f374f22ba1b Al Viro            2020-09-02  1268  		return;
+364f374f22ba1b Al Viro            2020-09-02  1269  	}
+364f374f22ba1b Al Viro            2020-09-02  1270  =
 
-:::::: The code at line 150 was first introduced by commit
-:::::: 6e9cde974863dc9d9c6cdb178f625e410c5be3d0 ASoC: SOF: Intel: Add Intel=
- specific HDA IPC mechanisms.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1271  	init_waitqueue_func_en=
+try(&pwq->wait, ep_poll_callback);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1272  	pwq->whead =3D whead;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1273  	pwq->base =3D epi;
+df0108c5da561c Jason Baron        2016-01-20  1274  	if (epi->event.events =
+& EPOLLEXCLUSIVE)
+df0108c5da561c Jason Baron        2016-01-20  1275  		add_wait_queue_exclus=
+ive(whead, &pwq->wait);
+df0108c5da561c Jason Baron        2016-01-20  1276  	else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1277  		add_wait_queue(whead,=
+ &pwq->wait);
+80285b75c68348 Al Viro            2020-09-02  1278  	pwq->next =3D epi->pwq=
+list;
+80285b75c68348 Al Viro            2020-09-02  1279  	epi->pwqlist =3D pwq;
+296e236e96ddde Davide Libenzi     2009-03-31  1280  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1281  =
 
-:::::: TO: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6838573965168577354==--
+--===============0754563013354426971==--
 
