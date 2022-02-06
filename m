@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0873564857460763542=="
+Content-Type: multipart/mixed; boundary="===============0464636779521711244=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ax25/ax25_dev.c:122:3: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Mon, 07 Feb 2022 06:10:55 +0800
-Message-ID: <202202070601.GmVurdtI-lkp@intel.com>
+Subject: arch/arm/include/asm/uaccess.h:573:2: warning: Null pointer passed as 2nd argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
+Date: Mon, 07 Feb 2022 05:29:59 +0800
+Message-ID: <202202070505.FUigqEY0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0873564857460763542==
+--===============0464636779521711244==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,33 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Duoming Zhou <duoming@zju.edu.cn>
+TO: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   90c9e950c0def5c354b4a6154a2ddda3e5f214ac
-commit: d01ffb9eee4af165d83b08dd73ebdf9fe94a519b ax25: add refcount in ax25=
-_dev to avoid UAF bugs
-date:   9 days ago
+commit: 2d3e5caf96b9449af951e63476657acd759c1a30 net/ipv4: Replace one-elem=
+ent array with flexible-array member
+date:   6 months ago
 :::::: branch date: 27 hours ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20207/202202070601.GmVurdtI-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6daaf5=
-a44925592c764c59219b0024ee06317028)
+:::::: commit date: 6 months ago
+config: arm-randconfig-c002-20220205 (https://download.01.org/0day-ci/archi=
+ve/20220207/202202070505.FUigqEY0-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 78c6b9=
+0000292eb37aac5dead6ab26611cd76f42)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd01ffb9eee4af165d83b08dd73ebdf9fe94a519b
+t/commit/?id=3D2d3e5caf96b9449af951e63476657acd759c1a30
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout d01ffb9eee4af165d83b08dd73ebdf9fe94a519b
+        git checkout 2d3e5caf96b9449af951e63476657acd759c1a30
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,294 +51,295 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/reiserfs/fix_node.c:2655:3: note: Taking false branch
-                   if (ret !=3D CARRY_ON)
+   include/linux/list.h:563:2: note: expanded from macro 'list_prev_entry'
+           list_entry((pos)->member.prev, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   sound/core/device.c:228:2: note: Loop condition is false. Execution cont=
+inues on line 237
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
+) {
+           ^
+   include/linux/list.h:762:2: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
+           ^
+   sound/core/device.c:237:2: note: Left side of '&&' is false
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
+           ^
+   include/linux/list.h:762:13: note: expanded from macro 'list_for_each_en=
+try_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
+                      ^
+   include/linux/list.h:533:2: note: expanded from macro 'list_last_entry'
+           list_entry((ptr)->prev, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   sound/core/device.c:237:2: note: Taking false branch
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
+           ^
+   include/linux/list.h:762:13: note: expanded from macro 'list_for_each_en=
+try_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
+                      ^
+   include/linux/list.h:533:2: note: expanded from macro 'list_last_entry'
+           list_entry((ptr)->prev, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   fs/reiserfs/fix_node.c:2663:7: note: 'ret' is equal to CARRY_ON
-                   if (ret !=3D CARRY_ON)
-                       ^~~
-   fs/reiserfs/fix_node.c:2663:3: note: Taking false branch
-                   if (ret !=3D CARRY_ON)
-                   ^
-   fs/reiserfs/fix_node.c:2670:8: note: Field 'pe_buffer' is non-null
-                   if (!PATH_H_PBUFFER(tb->tb_path, h)) {
-                        ^
-   fs/reiserfs/reiserfs.h:2169:4: note: expanded from macro 'PATH_H_PBUFFER'
-                           PATH_OFFSET_PBUFFER(path, path->path_length - (h=
-))
-                           ^
-   fs/reiserfs/reiserfs.h:2148:86: note: expanded from macro 'PATH_OFFSET_P=
-BUFFER'
-   #define PATH_OFFSET_PBUFFER(path, n_offset)   (PATH_OFFSET_PELEMENT(path=
-, n_offset)->pe_buffer)
-                                                                           =
-             ^
-   fs/reiserfs/fix_node.c:2670:3: note: Taking false branch
-                   if (!PATH_H_PBUFFER(tb->tb_path, h)) {
-                   ^
-   fs/reiserfs/fix_node.c:2677:14: note: Assuming field 'pe_buffer' is null
-                   } else if (!PATH_H_PBUFFER(tb->tb_path, h + 1)) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/reiserfs/fix_node.c:2677:10: note: Taking true branch
-                   } else if (!PATH_H_PBUFFER(tb->tb_path, h + 1)) {
-                          ^
-   fs/reiserfs/fix_node.c:2684:8: note: Assuming the condition is true
-                           if (tb->blknum[h] > 1) {
-                               ^~~~~~~~~~~~~~~~~
-   fs/reiserfs/fix_node.c:2684:4: note: Taking true branch
-                           if (tb->blknum[h] > 1) {
-                           ^
-   fs/reiserfs/fix_node.c:2686:5: note: Taking false branch
-                                   RFALSE(h =3D=3D MAX_HEIGHT - 1,
-                                   ^
-   fs/reiserfs/reiserfs.h:918:39: note: expanded from macro 'RFALSE'
-   #define RFALSE(cond, format, args...) __RASSERT(!(cond), "!(" #cond ")",=
- format, ##args)
-                                         ^
-   fs/reiserfs/reiserfs.h:909:2: note: expanded from macro '__RASSERT'
-           if (!(cond))                                                    \
+   sound/core/device.c:237:2: note: Loop condition is false.  Exiting loop
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
            ^
-   fs/reiserfs/fix_node.c:2686:5: note: Loop condition is false.  Exiting l=
-oop
-                                   RFALSE(h =3D=3D MAX_HEIGHT - 1,
-                                   ^
-   fs/reiserfs/reiserfs.h:918:39: note: expanded from macro 'RFALSE'
-   #define RFALSE(cond, format, args...) __RASSERT(!(cond), "!(" #cond ")",=
- format, ##args)
-                                         ^
-   fs/reiserfs/reiserfs.h:907:51: note: expanded from macro '__RASSERT'
-   #define __RASSERT(cond, scond, format, args...)                 \
-                                                                   ^
-   fs/reiserfs/fix_node.c:2630:14: note: 'h' is < MAX_HEIGHT
-           for (h =3D 0; h < MAX_HEIGHT && tb->insert_size[h]; h++) {
-                       ^
-   fs/reiserfs/fix_node.c:2630:14: note: Left side of '&&' is true
-   fs/reiserfs/fix_node.c:2630:2: note: Loop condition is true.  Entering l=
-oop body
-           for (h =3D 0; h < MAX_HEIGHT && tb->insert_size[h]; h++) {
+   include/linux/list.h:762:13: note: expanded from macro 'list_for_each_en=
+try_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
+                      ^
+   include/linux/list.h:533:2: note: expanded from macro 'list_last_entry'
+           list_entry((ptr)->prev, type, member)
            ^
-   fs/reiserfs/fix_node.c:2631:9: note: Calling 'get_direct_parent'
-                   ret =3D get_direct_parent(tb, h);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/reiserfs/fix_node.c:2098:6: note: Assuming 'path_offset' is > FIRST_P=
-ATH_ELEMENT_OFFSET
-           if (path_offset <=3D FIRST_PATH_ELEMENT_OFFSET) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/reiserfs/fix_node.c:2098:2: note: Taking false branch
-           if (path_offset <=3D FIRST_PATH_ELEMENT_OFFSET) {
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   fs/reiserfs/fix_node.c:2115:6: note: Assuming the condition is false
-           if (!B_IS_IN_TREE
-               ^~~~~~~~~~~~~
-   fs/reiserfs/fix_node.c:2115:2: note: Taking false branch
-           if (!B_IS_IN_TREE
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   fs/reiserfs/fix_node.c:2119:6: note: Assuming the condition is false
-           if ((position =3D
-               ^~~~~~~~~~~
-   fs/reiserfs/fix_node.c:2119:2: note: Taking false branch
-           if ((position =3D
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   fs/reiserfs/fix_node.c:2126:6: note: Access to field 'b_blocknr' results=
- in a dereference of a null pointer (loaded from field 'pe_buffer')
-               PATH_OFFSET_PBUFFER(path, path_offset)->b_blocknr)
-               ^
-   fs/reiserfs/reiserfs.h:2148:47: note: expanded from macro 'PATH_OFFSET_P=
-BUFFER'
-   #define PATH_OFFSET_PBUFFER(path, n_offset)   (PATH_OFFSET_PELEMENT(path=
-, n_offset)->pe_buffer)
-                                                 ^                         =
-             ~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   sound/core/device.c:237:2: note: Use of memory after it is freed
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
+           ^
+   include/linux/list.h:763:7: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+                   n =3D list_prev_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:563:2: note: expanded from macro 'list_prev_entry'
+           list_entry((pos)->member.prev, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:494:25: note: expanded from macro 'container_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> net/ax25/ax25_dev.c:122:3: warning: Use of memory after it is freed [cla=
-ng-analyzer-unix.Malloc]
-                   ax25_dev_put(ax25_dev);
-                   ^            ~~~~~~~~
-   net/ax25/ax25_dev.c:98:6: note: Assuming the condition is false
-           if ((ax25_dev =3D ax25_dev_ax25dev(dev)) =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:98:2: note: Taking false branch
-           if ((ax25_dev =3D ax25_dev_ax25dev(dev)) =3D=3D NULL)
+   6 warnings generated.
+>> arch/arm/include/asm/uaccess.h:573:2: warning: Null pointer passed as 2n=
+d argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
+           memcpy((void __force *)to, from, n);
            ^
-   net/ax25/ax25_dev.c:112:26: note: Assuming 's' is not equal to NULL
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-                                   ^~~~~~~~~
-   net/ax25/ax25_dev.c:112:2: note: Loop condition is true.  Entering loop =
-body
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
+   net/ipv4/igmp.c:2522:2: note: Assuming the condition is false
+           ASSERT_RTNL();
            ^
-   net/ax25/ax25_dev.c:113:7: note: Assuming 'dev' is not equal to field 'f=
-orward'
-                   if (s->forward =3D=3D dev)
-                       ^~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:113:3: note: Taking false branch
-                   if (s->forward =3D=3D dev)
+   include/linux/rtnetlink.h:110:12: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+                     ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+                           ^~~~~~~~~
+   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   bool __ret_do_once =3D !!(condition);                   =
+  \
+                                           ^~~~~~~~~
+   net/ipv4/igmp.c:2522:2: note: '__ret_do_once' is false
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   if (unlikely(__ret_do_once && !__already_done)) {       \
+                                ^~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/ipv4/igmp.c:2522:2: note: Left side of '&&' is false
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^
+   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^
+   include/linux/once_lite.h:17:30: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   if (unlikely(__ret_do_once && !__already_done)) {       \
+                                              ^
+   net/ipv4/igmp.c:2522:2: note: Taking false branch
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^
+   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^
+   include/linux/once_lite.h:17:3: note: expanded from macro 'DO_ONCE_LITE_=
+IF'
+                   if (unlikely(__ret_do_once && !__already_done)) {       \
                    ^
-   net/ax25/ax25_dev.c:112:26: note: Assuming 's' is equal to NULL
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-                                   ^~~~~~~~~
-   net/ax25/ax25_dev.c:112:2: note: Loop condition is false. Execution cont=
-inues on line 116
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
+   net/ipv4/igmp.c:2524:7: note: Calling 'ipv4_is_multicast'
+           if (!ipv4_is_multicast(addr))
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/in.h:45:9: note: Assuming the condition is true
+           return (addr & htonl(0xf0000000)) =3D=3D htonl(0xe0000000);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/in.h:45:2: note: Returning the value 1, which participates=
+ in a condition later
+           return (addr & htonl(0xf0000000)) =3D=3D htonl(0xe0000000);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/igmp.c:2524:7: note: Returning from 'ipv4_is_multicast'
+           if (!ipv4_is_multicast(addr))
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/igmp.c:2524:2: note: Taking false branch
+           if (!ipv4_is_multicast(addr))
            ^
-   net/ax25/ax25_dev.c:116:6: note: Assuming the condition is true
-           if ((s =3D ax25_dev_list) =3D=3D ax25_dev) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:116:2: note: Taking true branch
-           if ((s =3D ax25_dev_list) =3D=3D ax25_dev) {
+   net/ipv4/igmp.c:2530:11: note: Calling 'ip_mc_find_dev'
+           in_dev =3D ip_mc_find_dev(net, &imr);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/igmp.c:1815:11: note: Field 'imr_ifindex' is 0
+           if (imr->imr_ifindex) {
+                    ^
+   net/ipv4/igmp.c:1815:2: note: Taking false branch
+           if (imr->imr_ifindex) {
            ^
-   net/ax25/ax25_dev.c:118:3: note: Calling 'ax25_dev_put'
-                   ax25_dev_put(ax25_dev);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/net/ax25.h:302:6: note: Assuming the condition is true
-           if (refcount_dec_and_test(&ax25_dev->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/ax25.h:302:2: note: Taking true branch
-           if (refcount_dec_and_test(&ax25_dev->refcount)) {
+   net/ipv4/igmp.c:1819:6: note: Assuming field 's_addr' is not equal to 0
+           if (imr->imr_address.s_addr) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/igmp.c:1819:2: note: Taking true branch
+           if (imr->imr_address.s_addr) {
            ^
-   include/net/ax25.h:303:3: note: Memory is released
-                   kfree(ax25_dev);
-                   ^~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:118:3: note: Returning; memory was released via 1st =
-parameter
-                   ax25_dev_put(ax25_dev);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:122:3: note: Use of memory after it is freed
-                   ax25_dev_put(ax25_dev);
-                   ^            ~~~~~~~~
-   net/ax25/ax25_dev.c:133:4: warning: Use of memory after it is freed [cla=
-ng-analyzer-unix.Malloc]
-                           ax25_dev_put(ax25_dev);
-                           ^            ~~~~~~~~
-   net/ax25/ax25_dev.c:98:6: note: Assuming the condition is false
-           if ((ax25_dev =3D ax25_dev_ax25dev(dev)) =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:98:2: note: Taking false branch
-           if ((ax25_dev =3D ax25_dev_ax25dev(dev)) =3D=3D NULL)
-           ^
-   net/ax25/ax25_dev.c:112:26: note: Assuming 's' is not equal to NULL
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-                                   ^~~~~~~~~
-   net/ax25/ax25_dev.c:112:2: note: Loop condition is true.  Entering loop =
-body
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-           ^
-   net/ax25/ax25_dev.c:113:7: note: Assuming 'dev' is not equal to field 'f=
-orward'
-                   if (s->forward =3D=3D dev)
-                       ^~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:113:3: note: Taking false branch
-                   if (s->forward =3D=3D dev)
+   net/ipv4/igmp.c:1821:7: note: Assuming 'dev' is non-null
+                   if (!dev)
+                       ^~~~
+   net/ipv4/igmp.c:1821:3: note: Taking false branch
+                   if (!dev)
                    ^
-   net/ax25/ax25_dev.c:112:26: note: Assuming 's' is not equal to NULL
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-                                   ^~~~~~~~~
-   net/ax25/ax25_dev.c:112:2: note: Loop condition is true.  Entering loop =
-body
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
+   net/ipv4/igmp.c:1825:7: note: 'dev' is non-null
+           if (!dev) {
+                ^~~
+   net/ipv4/igmp.c:1825:2: note: Taking false branch
+           if (!dev) {
            ^
-   net/ax25/ax25_dev.c:113:7: note: Assuming 'dev' is not equal to field 'f=
-orward'
-                   if (s->forward =3D=3D dev)
-                       ^~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:113:3: note: Taking false branch
-                   if (s->forward =3D=3D dev)
-                   ^
-   net/ax25/ax25_dev.c:112:26: note: Assuming 's' is equal to NULL
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-                                   ^~~~~~~~~
-   net/ax25/ax25_dev.c:112:2: note: Loop condition is false. Execution cont=
-inues on line 116
-           for (s =3D ax25_dev_list; s !=3D NULL; s =3D s->next)
-           ^
-   net/ax25/ax25_dev.c:116:6: note: Assuming the condition is false
-           if ((s =3D ax25_dev_list) =3D=3D ax25_dev) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ax25/ax25_dev.c:116:2: note: Taking false branch
-           if ((s =3D ax25_dev_list) =3D=3D ax25_dev) {
-           ^
-   net/ax25/ax25_dev.c:126:9: note: 's' is not equal to NULL
-           while (s !=3D NULL && s->next !=3D NULL) {
-                  ^
-   net/ax25/ax25_dev.c:126:9: note: Left side of '&&' is true
-   net/ax25/ax25_dev.c:126:25: note: Field 'next' is not equal to NULL
+   net/ipv4/igmp.c:1834:6: note: 'dev' is non-null
+           if (dev) {
+               ^~~
+   net/ipv4/igmp.c:1834:2: note: Taking true branch
+           if (dev) {
 
-vim +122 net/ax25/ax25_dev.c
+vim +573 arch/arm/include/asm/uaccess.h
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  108  =
+3fba7e23f754a9 arch/arm/include/asm/uaccess.h Russell King   2015-08-19  56=
+2  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  109  	/*
-^1da177e4c3f41 Linus Torvalds 2005-04-16  110  	 *	Remove any packet forwar=
-ding that points to this device.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  111  	 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  112  	for (s =3D ax25_dev_list; s=
- !=3D NULL; s =3D s->next)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  113  		if (s->forward =3D=3D dev)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  114  			s->forward =3D NULL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  115  =
+9641c7cc5a7f6d include/asm-arm/uaccess.h      Russell King   2006-06-21  56=
+3  #else
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  56=
+4  static inline unsigned long
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  56=
+5  raw_copy_from_user(void *to, const void __user *from, unsigned long n)
+32b143637e8180 arch/arm/include/asm/uaccess.h Kees Cook      2017-02-16  56=
+6  {
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  56=
+7  	memcpy(to, (const void __force *)from, n);
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  56=
+8  	return 0;
+32b143637e8180 arch/arm/include/asm/uaccess.h Kees Cook      2017-02-16  56=
+9  }
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+0  static inline unsigned long
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+1  raw_copy_to_user(void __user *to, const void *from, unsigned long n)
+32b143637e8180 arch/arm/include/asm/uaccess.h Kees Cook      2017-02-16  57=
+2  {
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21 @57=
+3  	memcpy((void __force *)to, from, n);
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+4  	return 0;
+^1da177e4c3f41 include/asm-arm/uaccess.h      Linus Torvalds 2005-04-16  57=
+5  }
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+6  #define __clear_user(addr, n)		(memset((void __force *)addr, 0, n), 0)
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+7  #endif
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+8  #define INLINE_COPY_TO_USER
+4de5b63e76b2e6 arch/arm/include/asm/uaccess.h Al Viro        2017-03-21  57=
+9  #define INLINE_COPY_FROM_USER
+^1da177e4c3f41 include/asm-arm/uaccess.h      Linus Torvalds 2005-04-16  58=
+0  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  116  	if ((s =3D ax25_dev_list) =
-=3D=3D ax25_dev) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  117  		ax25_dev_list =3D s->next;
-d01ffb9eee4af1 Duoming Zhou   2022-01-28  118  		ax25_dev_put(ax25_dev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  119  		spin_unlock_bh(&ax25_dev_l=
-ock);
-c433570458e49b Cong Wang      2018-12-29  120  		dev->ax25_ptr =3D NULL;
-66ce07f7802b68 Eric Dumazet   2021-12-06  121  		dev_put_track(dev, &ax25_d=
-ev->dev_tracker);
-d01ffb9eee4af1 Duoming Zhou   2022-01-28 @122  		ax25_dev_put(ax25_dev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  123  		return;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  124  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  125  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  126  	while (s !=3D NULL && s->ne=
-xt !=3D NULL) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  127  		if (s->next =3D=3D ax25_de=
-v) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  128  			s->next =3D ax25_dev->nex=
-t;
-d01ffb9eee4af1 Duoming Zhou   2022-01-28  129  			ax25_dev_put(ax25_dev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  130  			spin_unlock_bh(&ax25_dev_=
-lock);
-c433570458e49b Cong Wang      2018-12-29  131  			dev->ax25_ptr =3D NULL;
-66ce07f7802b68 Eric Dumazet   2021-12-06  132  			dev_put_track(dev, &ax25_=
-dev->dev_tracker);
-d01ffb9eee4af1 Duoming Zhou   2022-01-28  133  			ax25_dev_put(ax25_dev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  134  			return;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  135  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  136  =
+:::::: The code at line 573 was first introduced by commit
+:::::: 4de5b63e76b2e672478e49622dabe2666b7f727f arm: switch to RAW_COPY_USER
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  137  		s =3D s->next;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  138  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  139  	spin_unlock_bh(&ax25_dev_lo=
-ck);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  140  	dev->ax25_ptr =3D NULL;
-d01ffb9eee4af1 Duoming Zhou   2022-01-28  141  	ax25_dev_put(ax25_dev);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  142  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  143  =
-
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0873564857460763542==--
+--===============0464636779521711244==--
 
