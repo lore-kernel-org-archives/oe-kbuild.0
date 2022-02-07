@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2246627840462054194=="
+Content-Type: multipart/mixed; boundary="===============1062926408551240190=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/spi/spi-dw-dma.c:85:26-27: WARNING opportunity for max()
-Date: Sat, 12 Feb 2022 10:49:57 +0800
-Message-ID: <202202121022.hDlOynHu-lkp@intel.com>
+Subject: lib/bch.c:842:7-8: WARNING opportunity for swap()
+Date: Mon, 07 Feb 2022 19:12:31 +0800
+Message-ID: <202202071945.JZbBdwbE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2246627840462054194==
+--===============1062926408551240190==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,15 +19,15 @@ CC: Julia Lawall <Julia.Lawall@inria.fr>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
-commit: 5f66f73b9ff4dcabd4e2405ba9c32e80e02f9408 coccinelle: misc: add minm=
-ax script
-date:   10 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 10 months ago
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/2022021=
-2/202202121022.hDlOynHu-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+head:   dfd42facf1e4ada021b939b4e19c935dcdd55566
+commit: 7845daa8bd72efa8bbc1de122edfce6e058bbe41 coccinelle: misc: add swap=
+ script
+date:   9 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-c022-20220117 (https://download.01.org/0day-ci/ar=
+chive/20220207/202202071945.JZbBdwbE-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -35,14 +35,14 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/spi/spi-dw-dma.c:85:26-27: WARNING opportunity for max()
---
->> drivers/spi/spi-fsl-lpspi.c:446:12-14: WARNING opportunity for min()
+>> lib/bch.c:842:7-8: WARNING opportunity for swap()
+   lib/bch.c:849:7-8: WARNING opportunity for swap()
+   lib/bch.c:518:22-23: WARNING opportunity for swap()
 
 Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2246627840462054194==--
+--===============1062926408551240190==--
 
