@@ -1,110 +1,103 @@
-Content-Type: multipart/mixed; boundary="===============6286963197021507063=="
+Content-Type: multipart/mixed; boundary="===============8050583926346450469=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: vmlinux.o: warning: objtool: rcu_user_enter()+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-Date: Mon, 07 Feb 2022 23:18:05 +0800
-Message-ID: <202202072352.s2ULx5sU-lkp@intel.com>
+Subject: drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:374 opa_vnic_get_sc() warn: potential spectre issue 'info->vport.pcp_to_sc_mc' [r]
+Date: Mon, 07 Feb 2022 22:26:56 +0800
+Message-ID: <202202072248.AsWTLOdA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6286963197021507063==
+--===============8050583926346450469==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-
-Hi Peter,
-
-FYI, the error/warning still remains.
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   dfd42facf1e4ada021b939b4e19c935dcdd55566
-commit: db2b0c5d7b6f19b3c2cab08c531b65342eb5252b objtool: Support pv_opsind=
-irect calls for noinstr
-date:   5 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-s022-20220207 (https://download.01.org/0day-ci/ar=
-chive/20220207/202202072352.s2ULx5sU-lkp(a)intel.com/config)
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   9 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-m001-20220207 (https://download.01.org/0day-ci/ar=
+chive/20220207/202202072248.AsWTLOdA-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Ddb2b0c5d7b6f19b3c2cab08c531b65342eb5252b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout db2b0c5d7b6f19b3c2cab08c531b65342eb5252b
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:374 opa_vnic_get_sc() warn=
+: potential spectre issue 'info->vport.pcp_to_sc_mc' [r]
+drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:376 opa_vnic_get_sc() warn=
+: potential spectre issue 'info->vport.pcp_to_sc_uc' [r]
+drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:384 opa_vnic_get_sc() warn=
+: possible spectre second half.  'sc'
 
-   vmlinux.o: warning: objtool: __rdgsbase_inactive()+0x34: call to ftrace_=
-likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive()+0x39: call to ftrace_=
-likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret()+0x72: call to ftrace_likel=
-y_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug()+0x39: call to ftrace_like=
-ly_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi()+0x31: call to ftrace_likely_updat=
-e() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler()+0x46: call to ftrace_li=
-kely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu()+0x31: call to ftra=
-ce_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check()+0x9a3: call to queue_tas=
-k_work() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check()+0x72: call to ftrace_li=
-kely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_enter()+0x1a: call to ftra=
-ce_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_dynticks_eqs_exit()+0x1a: call to ftrac=
-e_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_exit.constprop.0()+0x37: call to ft=
-race_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_eqs_enter.constprop.0()+0x3c: call to f=
-trace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: rcu_user_enter()+0x34: call to ftrace_likel=
-y_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_irq_exit()+0x34: call to ftrace_likely_=
-update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_nmi_enter()+0x2e: call to ftrace_likely=
-_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: rcu_irq_enter()+0x34: call to ftrace_likely=
-_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter()+0x48: call to ftrace_l=
-ikely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit()+0x54: call to ftrace_li=
-kely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode()+0x45: call to ftrace=
-_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode()+0x4b: call t=
-o ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare()+0x45=
-: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode()+0x45: call =
-to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit()+0x3c: call to ftrace_likely=
-_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter()+0x68: ca=
-ll to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __context_tracking_enter()+0x31: call to ft=
-race_likely_update() leaves .noinstr.text section
+vim +374 drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c
+
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  361  =
+
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  362  /* opa_vnic_get_=
+sc - return the service class */
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  363  static u8 opa_vn=
+ic_get_sc(struct __opa_veswport_info *info,
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  364  			  struct sk_b=
+uff *skb)
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  365  {
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  366  	struct ethhdr *=
+mac_hdr =3D (struct ethhdr *)skb_mac_header(skb);
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  367  	u16 vlan_tci;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  368  	u8 sc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  369  =
+
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  370  	if (!__vlan_get=
+_tag(skb, &vlan_tci)) {
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  371  		u8 pcp =3D OPA=
+_VNIC_VLAN_PCP(vlan_tci);
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  372  =
+
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  373  		if (is_multica=
+st_ether_addr(mac_hdr->h_dest))
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @374  			sc =3D info->=
+vport.pcp_to_sc_mc[pcp];
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  375  		else
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @376  			sc =3D info->=
+vport.pcp_to_sc_uc[pcp];
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  377  	} else {
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  378  		if (is_multica=
+st_ether_addr(mac_hdr->h_dest))
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  379  			sc =3D info->=
+vport.non_vlan_sc_mc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  380  		else
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  381  			sc =3D info->=
+vport.non_vlan_sc_uc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  382  	}
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  383  =
+
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @384  	return sc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  385  }
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  386  =
+
+
+:::::: The code at line 374 was first introduced by commit
+:::::: 7d6f728c677e9d01b42d3cc9eb9ef40a2de92ea3 IB/opa-vnic: Virtual Networ=
+k Interface Controller (VNIC) netdev
+
+:::::: TO: Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.co=
+m>
+:::::: CC: Doug Ledford <dledford@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6286963197021507063==--
+--===============8050583926346450469==--
 
