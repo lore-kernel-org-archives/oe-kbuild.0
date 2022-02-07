@@ -1,530 +1,188 @@
-Content-Type: multipart/mixed; boundary="===============4586260552682344113=="
+Content-Type: multipart/mixed; boundary="===============0147848086947388217=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/erofs/xattr.c:205:10: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Tue, 08 Feb 2022 00:29:29 +0800
-Message-ID: <202202080056.UcPjy4YE-lkp@intel.com>
+Subject: [linux-next:master 451/4212] drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c:381 igt_async_migrate() error: uninitialized symbol 'err'.
+Date: Mon, 07 Feb 2022 23:28:27 +0800
+Message-ID: <202202072312.jXrx1N2k-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4586260552682344113==
+--===============0147848086947388217==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Gao Xiang <hsiangkao@linux.alibaba.com>
-CC: Liu Bo <bo.liu@linux.alibaba.com>
-CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   dfd42facf1e4ada021b939b4e19c935dcdd55566
-commit: bb88e8da00253bea0e7f0f4cdfd7910572d7799f erofs: use meta buffers fo=
-r xattr operations
-date:   5 weeks ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20220206 (https://download.01.org/0day-ci/archi=
-ve/20220208/202202080056.UcPjy4YE-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6daaf5=
-a44925592c764c59219b0024ee06317028)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dbb88e8da00253bea0e7f0f4cdfd7910572d7799f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout bb88e8da00253bea0e7f0f4cdfd7910572d7799f
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b3c0a155ef77550d48f6eb7c6fdd6075764a5622
+commit: 950505cabe517ad40759cae6f88f33f0bdfbb7c8 [451/4212] drm/i915: Async=
+hronous migration selftest
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-m031-20220131 (https://download.01.org/0day-ci/ar=
+chive/20220207/202202072312.jXrx1N2k-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c:381 igt_async_migrate=
+() error: uninitialized symbol 'err'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/linux/list.h:37:2: note: Use of memory after it is freed
-           WRITE_ONCE(list->next, list);
-           ^
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-           ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
-NCE'
-           *(volatile typeof(x) *)&(x) =3D (val);                          =
-  \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(&info->caching_block_groups)) {
-           ^
-   fs/btrfs/block-group.c:3902:3: note: Calling 'btrfs_put_caching_control'
-                   btrfs_put_caching_control(caching_ctl);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/block-group.c:382:2: note: Taking true branch
-           if (refcount_dec_and_test(&ctl->count))
-           ^
-   fs/btrfs/block-group.c:383:3: note: Memory is released
-                   kfree(ctl);
-                   ^~~~~~~~~~
-   fs/btrfs/block-group.c:3902:3: note: Returning; memory was released via =
-1st parameter
-                   btrfs_put_caching_control(caching_ctl);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(&info->caching_block_groups)) {
-           ^
-   fs/btrfs/block-group.c:3901:3: note: Calling 'list_del'
-                   list_del(&caching_ctl->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:148:2: note: Calling '__list_del_entry'
-           __list_del_entry(entry);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:6: note: Assuming the condition is false
-           if (!__list_del_entry_valid(entry))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:2: note: Taking false branch
-           if (!__list_del_entry_valid(entry))
-           ^
-   include/linux/list.h:137:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
-   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           entry->next =3D LIST_POISON1;
-                       ^
-   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(&info->caching_block_groups)) {
-           ^
-   fs/btrfs/block-group.c:3902:3: note: Calling 'btrfs_put_caching_control'
-                   btrfs_put_caching_control(caching_ctl);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/block-group.c:382:2: note: Taking true branch
-           if (refcount_dec_and_test(&ctl->count))
-           ^
-   fs/btrfs/block-group.c:383:3: note: Memory is released
-                   kfree(ctl);
-                   ^~~~~~~~~~
-   fs/btrfs/block-group.c:3902:3: note: Returning; memory was released via =
-1st parameter
-                   btrfs_put_caching_control(caching_ctl);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(&info->caching_block_groups)) {
-           ^
-   fs/btrfs/block-group.c:3901:3: note: Calling 'list_del'
-                   list_del(&caching_ctl->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> fs/erofs/xattr.c:205:10: warning: Dereference of null pointer [clang-ana=
-lyzer-core.NullDereference]
-           entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
-                   ^
-   fs/erofs/xattr.c:629:6: note: Assuming 'rcu' is false
-           if (rcu)
-               ^~~
-   fs/erofs/xattr.c:629:2: note: Taking false branch
-           if (rcu)
-           ^
-   fs/erofs/xattr.c:632:2: note: Control jumps to 'case 16384:'  at line 636
-           switch (type) {
-           ^
-   fs/erofs/xattr.c:638:3: note:  Execution continues on line 643
-                   break;
-                   ^
-   fs/erofs/xattr.c:643:7: note: Calling 'erofs_getxattr'
-           rc =3D erofs_getxattr(inode, prefix, "", NULL, 0);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:400:7: note: 'name' is non-null
-           if (!name)
-                ^~~~
-   fs/erofs/xattr.c:400:2: note: Taking false branch
-           if (!name)
-           ^
-   fs/erofs/xattr.c:404:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   fs/erofs/xattr.c:404:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/erofs/xattr.c:409:14: note: Field 'len' is <=3D EROFS_NAME_LEN
-           if (it.name.len > EROFS_NAME_LEN)
-                       ^
-   fs/erofs/xattr.c:409:2: note: Taking false branch
-           if (it.name.len > EROFS_NAME_LEN)
-           ^
-   fs/erofs/xattr.c:419:8: note: Calling 'inline_getxattr'
-           ret =3D inline_getxattr(inode, &it);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:344:8: note: Calling 'inline_xattr_iter_begin'
-           ret =3D inline_xattr_iter_begin(&it->it, inode);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:166:6: note: Assuming 'xattr_header_sz' is < field 'xat=
-tr_isize'
-           if (xattr_header_sz >=3D vi->xattr_isize) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:166:2: note: Taking false branch
-           if (xattr_header_sz >=3D vi->xattr_isize) {
-           ^
-   fs/erofs/xattr.c:178:2: note: Taking false branch
-           if (IS_ERR(it->kaddr))
-           ^
-   fs/erofs/xattr.c:344:8: note: Returning from 'inline_xattr_iter_begin'
-           ret =3D inline_xattr_iter_begin(&it->it, inode);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:345:6: note: 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~
-   fs/erofs/xattr.c:345:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   fs/erofs/xattr.c:349:2: note: Loop condition is true.  Entering loop body
-           while (remaining) {
-           ^
-   fs/erofs/xattr.c:350:9: note: Calling 'xattr_foreach'
-                   ret =3D xattr_foreach(&it->it, &find_xattr_handlers, &re=
-maining);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   fs/erofs/xattr.c:196:8: note: Calling 'xattr_iter_fixup'
-           err =3D xattr_iter_fixup(it);
-                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:146:6: note: Assuming the condition is false
-           if (it->ofs < EROFS_BLKSIZ)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:146:2: note: Taking false branch
-           if (it->ofs < EROFS_BLKSIZ)
-           ^
-   fs/erofs/xattr.c:150:2: note: Value assigned to 'it.it.kaddr'
-           it->kaddr =3D erofs_read_metabuf(&it->buf, it->sb, it->blkaddr,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:152:6: note: Assuming the condition is true
-           if (IS_ERR(it->kaddr))
-               ^~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:152:2: note: Taking true branch
-           if (IS_ERR(it->kaddr))
-           ^
-   fs/erofs/xattr.c:153:3: note: Returning value, which participates in a c=
-ondition later
-                   return PTR_ERR(it->kaddr);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:196:8: note: Returning from 'xattr_iter_fixup'
-           err =3D xattr_iter_fixup(it);
-                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/xattr.c:197:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   fs/erofs/xattr.c:197:2: note: Taking false branch
-           if (err)
-           ^
-   fs/erofs/xattr.c:205:10: note: Dereference of null pointer
-           entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:194 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 183)
 
-vim +205 fs/erofs/xattr.c
+vim +/err +381 drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-182  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  301  =
 
-bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
-183  /*
-bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
-184   * Regardless of success or failure, `xattr_foreach' will end up with
-bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
-185   * `ofs' pointing to the next xattr item rather than an arbitrary posi=
-tion.
-bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
-186   */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-187  static int xattr_foreach(struct xattr_iter *it,
-447a3621b3835b6 drivers/staging/erofs/xattr.c Julian Merida    2019-03-18  =
-188  			 const struct xattr_iter_handlers *op,
-447a3621b3835b6 drivers/staging/erofs/xattr.c Julian Merida    2019-03-18  =
-189  			 unsigned int *tlimit)
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-190  {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-191  	struct erofs_xattr_entry entry;
-7dd68b147d60e5e drivers/staging/erofs/xattr.c Thomas Wei=C3=9Fschuh 2018-09=
--10  192  	unsigned int value_sz, processed, slice;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-193  	int err;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-194  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  302  /*
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  303   * This subtest test=
+s that unbinding at migration is indeed performed
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  304   * async. We launch =
+a spinner and a number of migrations depending on
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  305   * that spinner to h=
+ave terminated. Before each migration we bind a
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  306   * vma, which should=
+ then be async unbound by the migration operation.
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  307   * If we are able to=
+ schedule migrations without blocking while the
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  308   * spinner is still =
+running, those unbinds are indeed async and non-
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  309   * blocking.
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  310   *
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  311   * Note that each as=
+ync bind operation is awaiting the previous migration
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  312   * due to the moving=
+ fence resulting from the migration.
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  313   */
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  314  static int igt_async=
+_migrate(struct intel_gt *gt)
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  315  {
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  316  	struct intel_engine=
+_cs *engine;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  317  	enum intel_engine_i=
+d id;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  318  	struct i915_ppgtt *=
+ppgtt;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  319  	struct igt_spinner =
+spin;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  320  	int err;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  321  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-195  	/* 0. fixup blkaddr, ofs, ipage */
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-196  	err =3D xattr_iter_fixup(it);
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-197  	if (err)
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-198  		return err;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-199  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  322  	ppgtt =3D i915_ppgt=
+t_create(gt, 0);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  323  	if (IS_ERR(ppgtt))
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  324  		return PTR_ERR(ppg=
+tt);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  325  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-200  	/*
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-201  	 * 1. read xattr entry to the memory,
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-202  	 *    since we do EROFS_XATTR_ALIGN
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-203  	 *    therefore entry should be in the page
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-204  	 */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26 @=
-205  	entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
-561fb35a9d04ca7 drivers/staging/erofs/xattr.c Bhanusree Pola   2019-03-22  =
-206  	if (tlimit) {
-b6796abd3cc155e fs/erofs/xattr.c              Gao Xiang        2019-09-04  =
-207  		unsigned int entry_sz =3D erofs_xattr_entry_size(&entry);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-208  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  326  	if (igt_spinner_ini=
+t(&spin, gt)) {
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  327  		err =3D -ENOMEM;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  328  		goto out_spin;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  329  	}
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  330  =
 
-9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
-209  		/* xattr on-disk corruption: xattr entry beyond xattr_isize */
-8d8a09b093d7073 fs/erofs/xattr.c              Gao Xiang        2019-08-30  =
-210  		if (*tlimit < entry_sz) {
-9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
-211  			DBG_BUGON(1);
-a6b9b1d5eae61a6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-14  =
-212  			return -EFSCORRUPTED;
-9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
-213  		}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-214  		*tlimit -=3D entry_sz;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-215  	}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-216  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  331  	for_each_engine(eng=
+ine, gt, id) {
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  332  		struct ttm_operati=
+on_ctx ctx =3D {
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  333  			.interruptible =
+=3D true
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  334  		};
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  335  		struct dma_fence *=
+spin_fence;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  336  		struct intel_conte=
+xt *ce;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  337  		struct i915_reques=
+t *rq;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  338  		struct i915_deps d=
+eps;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  339  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-217  	it->ofs +=3D sizeof(struct erofs_xattr_entry);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-218  	value_sz =3D le16_to_cpu(entry.e_value_size);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-219  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  340  		ce =3D intel_conte=
+xt_create(engine);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  341  		if (IS_ERR(ce)) {
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  342  			err =3D PTR_ERR(c=
+e);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  343  			goto out_ce;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  344  		}
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  345  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-220  	/* handle entry */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-221  	err =3D op->entry(it, &entry);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-222  	if (err) {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-223  		it->ofs +=3D entry.e_name_len + value_sz;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-224  		goto out;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-225  	}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-226  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  346  		/*
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  347  		 * Use MI_NOOP, ma=
+king the spinner non-preemptible. If there
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  348  		 * is a code path =
+where we fail async operation due to the
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  349  		 * running spinner=
+, we will block and fail to end the
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  350  		 * spinner resulti=
+ng in a deadlock. But with a non-
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  351  		 * preemptible spi=
+nner, hangcheck will terminate the spinner
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  352  		 * for us, and we =
+will later detect that and fail the test.
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  353  		 */
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  354  		rq =3D igt_spinner=
+_create_request(&spin, ce, MI_NOOP);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  355  		intel_context_put(=
+ce);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  356  		if (IS_ERR(rq)) {
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  357  			err =3D PTR_ERR(r=
+q);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  358  			goto out_ce;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  359  		}
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  360  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-227  	/* 2. handle xattr name (ofs will finally be at the end of name) */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-228  	processed =3D 0;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-229  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  361  		i915_deps_init(&de=
+ps, GFP_KERNEL);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  362  		err =3D i915_deps_=
+add_dependency(&deps, &rq->fence, &ctx);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  363  		spin_fence =3D dma=
+_fence_get(&rq->fence);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  364  		i915_request_add(r=
+q);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  365  		if (err)
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  366  			goto out_ce;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  367  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-230  	while (processed < entry.e_name_len) {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-231  		if (it->ofs >=3D EROFS_BLKSIZ) {
-9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
-232  			DBG_BUGON(it->ofs > EROFS_BLKSIZ);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-233  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  368  		err =3D __igt_lmem=
+_pages_migrate(gt, &ppgtt->vm, &deps, &spin,
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  369  					       spin_fen=
+ce);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  370  		i915_deps_fini(&de=
+ps);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  371  		dma_fence_put(spin=
+_fence);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  372  		if (err)
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  373  			goto out_ce;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  374  	}
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  375  =
 
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-234  			err =3D xattr_iter_fixup(it);
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-235  			if (err)
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-236  				goto out;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-237  			it->ofs =3D 0;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-238  		}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-239  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  376  out_ce:
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  377  	igt_spinner_fini(&s=
+pin);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  378  out_spin:
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  379  	i915_vm_put(&ppgtt-=
+>vm);
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  380  =
 
-bb88e8da00253be fs/erofs/xattr.c              Gao Xiang        2022-01-02  =
-240  		slice =3D min_t(unsigned int, EROFS_BLKSIZ - it->ofs,
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-241  			      entry.e_name_len - processed);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-242  =
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10 @381  	return err;
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  382  }
+950505cabe517ad Thomas Hellstr=C3=B6m 2022-01-10  383  =
 
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-243  		/* handle name */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-244  		err =3D op->name(it, processed, it->kaddr + it->ofs, slice);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-245  		if (err) {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-246  			it->ofs +=3D entry.e_name_len - processed + value_sz;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-247  			goto out;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-248  		}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-249  =
-
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-250  		it->ofs +=3D slice;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-251  		processed +=3D slice;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-252  	}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-253  =
-
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-254  	/* 3. handle xattr value */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-255  	processed =3D 0;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-256  =
-
-561fb35a9d04ca7 drivers/staging/erofs/xattr.c Bhanusree Pola   2019-03-22  =
-257  	if (op->alloc_buffer) {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-258  		err =3D op->alloc_buffer(it, value_sz);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-259  		if (err) {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-260  			it->ofs +=3D value_sz;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-261  			goto out;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-262  		}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-263  	}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-264  =
-
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-265  	while (processed < value_sz) {
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-266  		if (it->ofs >=3D EROFS_BLKSIZ) {
-9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
-267  			DBG_BUGON(it->ofs > EROFS_BLKSIZ);
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-268  =
-
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-269  			err =3D xattr_iter_fixup(it);
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-270  			if (err)
-cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
-271  				goto out;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-272  			it->ofs =3D 0;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-273  		}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-274  =
-
-bb88e8da00253be fs/erofs/xattr.c              Gao Xiang        2022-01-02  =
-275  		slice =3D min_t(unsigned int, EROFS_BLKSIZ - it->ofs,
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-276  			      value_sz - processed);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-277  		op->value(it, processed, it->kaddr + it->ofs, slice);
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-278  		it->ofs +=3D slice;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-279  		processed +=3D slice;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-280  	}
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-281  =
-
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-282  out:
-bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
-283  	/* xattrs should be 4-byte aligned (on-disk constraint) */
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-284  	it->ofs =3D EROFS_XATTR_ALIGN(it->ofs);
-6614f76530c102a drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
-285  	return err < 0 ? err : 0;
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-286  }
-b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
-287  =
-
-
-:::::: The code@line 205 was first introduced by commit
-:::::: b17500a0fdbae10a8ce274dd523106f16d114339 staging: erofs: introduce x=
-attr & acl support
-
-:::::: TO: Gao Xiang <gaoxiang25@huawei.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4586260552682344113==--
+--===============0147848086947388217==--
 
