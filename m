@@ -1,272 +1,530 @@
-Content-Type: multipart/mixed; boundary="===============5342126937009854354=="
+Content-Type: multipart/mixed; boundary="===============4586260552682344113=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10 2329/9999] mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
-Date: Tue, 08 Feb 2022 02:21:11 +0800
-Message-ID: <202202080246.O2b72nnd-lkp@intel.com>
+Subject: fs/erofs/xattr.c:205:10: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Tue, 08 Feb 2022 00:29:29 +0800
+Message-ID: <202202080056.UcPjy4YE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5342126937009854354==
+--===============4586260552682344113==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Vinayak Menon <vinmenon@codeaurora.org>
-CC: Todd Kjos <tkjos@google.com>
+TO: Gao Xiang <hsiangkao@linux.alibaba.com>
+CC: Liu Bo <bo.liu@linux.alibaba.com>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android12-5.10
-head:   7e6f112bebea24927f411a52c2da95f448777e27
-commit: 35eacb5c87b9b5e9683e25a24282cde1a2d4a1d5 [2329/9999] ANDROID: mm: a=
-llow vmas with vm_ops to be speculatively handled
-:::::: branch date: 2 days ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-m021-20211118 (https://download.01.org/0day-ci/arch=
-ive/20220208/202202080246.O2b72nnd-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   dfd42facf1e4ada021b939b4e19c935dcdd55566
+commit: bb88e8da00253bea0e7f0f4cdfd7910572d7799f erofs: use meta buffers fo=
+r xattr operations
+date:   5 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20220206 (https://download.01.org/0day-ci/archi=
+ve/20220208/202202080056.UcPjy4YE-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6daaf5=
+a44925592c764c59219b0024ee06317028)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dbb88e8da00253bea0e7f0f4cdfd7910572d7799f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout bb88e8da00253bea0e7f0f4cdfd7910572d7799f
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
 
-vim +4691 mm/memory.c
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/list.h:37:2: note: Use of memory after it is freed
+           WRITE_ONCE(list->next, list);
+           ^
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
+oop body
+           while (!list_empty(&info->caching_block_groups)) {
+           ^
+   fs/btrfs/block-group.c:3902:3: note: Calling 'btrfs_put_caching_control'
+                   btrfs_put_caching_control(caching_ctl);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/block-group.c:382:2: note: Taking true branch
+           if (refcount_dec_and_test(&ctl->count))
+           ^
+   fs/btrfs/block-group.c:383:3: note: Memory is released
+                   kfree(ctl);
+                   ^~~~~~~~~~
+   fs/btrfs/block-group.c:3902:3: note: Returning; memory was released via =
+1st parameter
+                   btrfs_put_caching_control(caching_ctl);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
+oop body
+           while (!list_empty(&info->caching_block_groups)) {
+           ^
+   fs/btrfs/block-group.c:3901:3: note: Calling 'list_del'
+                   list_del(&caching_ctl->list);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:6: note: Assuming the condition is false
+           if (!__list_del_entry_valid(entry))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           entry->next =3D LIST_POISON1;
+                       ^
+   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
+oop body
+           while (!list_empty(&info->caching_block_groups)) {
+           ^
+   fs/btrfs/block-group.c:3902:3: note: Calling 'btrfs_put_caching_control'
+                   btrfs_put_caching_control(caching_ctl);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/block-group.c:382:2: note: Taking true branch
+           if (refcount_dec_and_test(&ctl->count))
+           ^
+   fs/btrfs/block-group.c:383:3: note: Memory is released
+                   kfree(ctl);
+                   ^~~~~~~~~~
+   fs/btrfs/block-group.c:3902:3: note: Returning; memory was released via =
+1st parameter
+                   btrfs_put_caching_control(caching_ctl);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/block-group.c:3898:2: note: Loop condition is true.  Entering l=
+oop body
+           while (!list_empty(&info->caching_block_groups)) {
+           ^
+   fs/btrfs/block-group.c:3901:3: note: Calling 'list_del'
+                   list_del(&caching_ctl->list);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:149:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> fs/erofs/xattr.c:205:10: warning: Dereference of null pointer [clang-ana=
+lyzer-core.NullDereference]
+           entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
+                   ^
+   fs/erofs/xattr.c:629:6: note: Assuming 'rcu' is false
+           if (rcu)
+               ^~~
+   fs/erofs/xattr.c:629:2: note: Taking false branch
+           if (rcu)
+           ^
+   fs/erofs/xattr.c:632:2: note: Control jumps to 'case 16384:'  at line 636
+           switch (type) {
+           ^
+   fs/erofs/xattr.c:638:3: note:  Execution continues on line 643
+                   break;
+                   ^
+   fs/erofs/xattr.c:643:7: note: Calling 'erofs_getxattr'
+           rc =3D erofs_getxattr(inode, prefix, "", NULL, 0);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:400:7: note: 'name' is non-null
+           if (!name)
+                ^~~~
+   fs/erofs/xattr.c:400:2: note: Taking false branch
+           if (!name)
+           ^
+   fs/erofs/xattr.c:404:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   fs/erofs/xattr.c:404:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/erofs/xattr.c:409:14: note: Field 'len' is <=3D EROFS_NAME_LEN
+           if (it.name.len > EROFS_NAME_LEN)
+                       ^
+   fs/erofs/xattr.c:409:2: note: Taking false branch
+           if (it.name.len > EROFS_NAME_LEN)
+           ^
+   fs/erofs/xattr.c:419:8: note: Calling 'inline_getxattr'
+           ret =3D inline_getxattr(inode, &it);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:344:8: note: Calling 'inline_xattr_iter_begin'
+           ret =3D inline_xattr_iter_begin(&it->it, inode);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:166:6: note: Assuming 'xattr_header_sz' is < field 'xat=
+tr_isize'
+           if (xattr_header_sz >=3D vi->xattr_isize) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:166:2: note: Taking false branch
+           if (xattr_header_sz >=3D vi->xattr_isize) {
+           ^
+   fs/erofs/xattr.c:178:2: note: Taking false branch
+           if (IS_ERR(it->kaddr))
+           ^
+   fs/erofs/xattr.c:344:8: note: Returning from 'inline_xattr_iter_begin'
+           ret =3D inline_xattr_iter_begin(&it->it, inode);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:345:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   fs/erofs/xattr.c:345:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   fs/erofs/xattr.c:349:2: note: Loop condition is true.  Entering loop body
+           while (remaining) {
+           ^
+   fs/erofs/xattr.c:350:9: note: Calling 'xattr_foreach'
+                   ret =3D xattr_foreach(&it->it, &find_xattr_handlers, &re=
+maining);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   fs/erofs/xattr.c:196:8: note: Calling 'xattr_iter_fixup'
+           err =3D xattr_iter_fixup(it);
+                 ^~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:146:6: note: Assuming the condition is false
+           if (it->ofs < EROFS_BLKSIZ)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:146:2: note: Taking false branch
+           if (it->ofs < EROFS_BLKSIZ)
+           ^
+   fs/erofs/xattr.c:150:2: note: Value assigned to 'it.it.kaddr'
+           it->kaddr =3D erofs_read_metabuf(&it->buf, it->sb, it->blkaddr,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:152:6: note: Assuming the condition is true
+           if (IS_ERR(it->kaddr))
+               ^~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:152:2: note: Taking true branch
+           if (IS_ERR(it->kaddr))
+           ^
+   fs/erofs/xattr.c:153:3: note: Returning value, which participates in a c=
+ondition later
+                   return PTR_ERR(it->kaddr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:196:8: note: Returning from 'xattr_iter_fixup'
+           err =3D xattr_iter_fixup(it);
+                 ^~~~~~~~~~~~~~~~~~~~
+   fs/erofs/xattr.c:197:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   fs/erofs/xattr.c:197:2: note: Taking false branch
+           if (err)
+           ^
+   fs/erofs/xattr.c:205:10: note: Dereference of null pointer
+           entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-a00cc7d9dd93d6 Matthew Wilcox        2017-02-24  4562  =
+vim +205 fs/erofs/xattr.c
 
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4563  /*
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4564   * These routines al=
-so need to handle stuff like marking pages dirty
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4565   * and/or accessed f=
-or architectures that don't do it in hardware (most
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4566   * RISC architecture=
-s).  The early dirtying is also good on the i386.
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4567   *
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4568   * There is also a h=
-ook called "update_mmu_cache()" that architectures
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4569   * with external mmu=
- caches can use to update those (ie the Sparc or
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4570   * PowerPC hashed pa=
-ge tables that act as extended TLBs).
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4571   *
-c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4572   * We enter with non=
--exclusive mmap_lock (to exclude vma changes, but allow
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4573   * concurrent faults=
-).
-9a95f3cf7b33d6 Paul Cassella         2014-08-06  4574   *
-c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4575   * The mmap_lock may=
- have been released depending on flags and our return value.
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4576   * See filemap_fault=
-() and __lock_page_or_retry().
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4577   */
-2b7403035459c7 Souptick Joarder      2018-08-23  4578  static vm_fault_t ha=
-ndle_pte_fault(struct vm_fault *vmf)
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4579  {
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4580  	pte_t entry;
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4581  	vm_fault_t ret =3D =
-0;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4582  =
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+182  =
 
-82b0f8c39a3869 Jan Kara              2016-12-14  4583  	if (unlikely(pmd_no=
-ne(*vmf->pmd))) {
-1c5371744061fc Peter Zijlstra        2018-04-17  4584  		/*
-1c5371744061fc Peter Zijlstra        2018-04-17  4585  		 * In the case of =
-the speculative page fault handler we abort
-1c5371744061fc Peter Zijlstra        2018-04-17  4586  		 * the speculative=
- path immediately as the pmd is probably
-1c5371744061fc Peter Zijlstra        2018-04-17  4587  		 * in the way to b=
-e converted in a huge one. We will try
-1c5371744061fc Peter Zijlstra        2018-04-17  4588  		 * again holding t=
-he mmap_sem (which implies that the collapse
-1c5371744061fc Peter Zijlstra        2018-04-17  4589  		 * operation is do=
-ne).
-1c5371744061fc Peter Zijlstra        2018-04-17  4590  		 */
-1c5371744061fc Peter Zijlstra        2018-04-17  4591  		if (vmf->flags & F=
-AULT_FLAG_SPECULATIVE)
-1c5371744061fc Peter Zijlstra        2018-04-17  4592  			return VM_FAULT_R=
-ETRY;
-e37c6982706333 Christian Borntraeger 2014-12-07  4593  		/*
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4594  		 * Leave __pte_all=
-oc() until later: because vm_ops->fault may
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4595  		 * want to allocat=
-e huge page, and if we expose page table
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4596  		 * for an instant,=
- it will be difficult to retract from
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4597  		 * concurrent faul=
-ts and from rmap lookups.
-e37c6982706333 Christian Borntraeger 2014-12-07  4598  		 */
-82b0f8c39a3869 Jan Kara              2016-12-14  4599  		vmf->pte =3D NULL;
-1c5371744061fc Peter Zijlstra        2018-04-17  4600  	} else if (!(vmf->f=
-lags & FAULT_FLAG_SPECULATIVE)) {
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4601  		/*
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4602  		 * If a huge pmd m=
-aterialized under us just retry later.  Use
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4603  		 * pmd_trans_unsta=
-ble() via pmd_devmap_trans_unstable() instead
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4604  		 * of pmd_trans_hu=
-ge() to ensure the pmd didn't become
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4605  		 * pmd_trans_huge =
-under us and then back to pmd_none, as a
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4606  		 * result of MADV_=
-DONTNEED running immediately after a huge pmd
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4607  		 * fault in a diff=
-erent thread of this mm, in turn leading to a
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4608  		 * misleading pmd_=
-trans_huge() retval. All we have to ensure is
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4609  		 * that it is a re=
-gular pmd that we can walk with
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4610  		 * pte_offset_map(=
-) and we can do that through an atomic read
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4611  		 * in C, which is =
-what pmd_trans_unstable() provides.
-0aa300a25229b9 Kirill A. Shutemov    2020-12-19  4612  		 */
-d0f0931de936a0 Ross Zwisler          2017-06-02  4613  		if (pmd_devmap_tra=
-ns_unstable(vmf->pmd))
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4614  			return 0;
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4615  		/*
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4616  		 * A regular pmd i=
-s established and it can't morph into a huge
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4617  		 * pmd from under =
-us anymore at this point because we hold the
-c1e8d7c6a7a682 Michel Lespinasse     2020-06-08  4618  		 * mmap_lock read =
-mode and khugepaged takes it in write mode.
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4619  		 * So now it's saf=
-e to run pte_offset_map().
-1c5371744061fc Peter Zijlstra        2018-04-17  4620  		 * This is not app=
-licable to the speculative page fault handler
-1c5371744061fc Peter Zijlstra        2018-04-17  4621  		 * but in that cas=
-e, the pte is fetched earlier in
-1c5371744061fc Peter Zijlstra        2018-04-17  4622  		 * handle_speculat=
-ive_fault().
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4623  		 */
-82b0f8c39a3869 Jan Kara              2016-12-14  4624  		vmf->pte =3D pte_o=
-ffset_map(vmf->pmd, vmf->address);
-2994302bc8a171 Jan Kara              2016-12-14  4625  		vmf->orig_pte =3D =
-*vmf->pte;
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4626  =
+bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
+183  /*
+bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
+184   * Regardless of success or failure, `xattr_foreach' will end up with
+bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
+185   * `ofs' pointing to the next xattr item rather than an arbitrary posi=
+tion.
+bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
+186   */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+187  static int xattr_foreach(struct xattr_iter *it,
+447a3621b3835b6 drivers/staging/erofs/xattr.c Julian Merida    2019-03-18  =
+188  			 const struct xattr_iter_handlers *op,
+447a3621b3835b6 drivers/staging/erofs/xattr.c Julian Merida    2019-03-18  =
+189  			 unsigned int *tlimit)
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+190  {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+191  	struct erofs_xattr_entry entry;
+7dd68b147d60e5e drivers/staging/erofs/xattr.c Thomas Wei=C3=9Fschuh 2018-09=
+-10  192  	unsigned int value_sz, processed, slice;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+193  	int err;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+194  =
 
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4627  		/*
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4628  		 * some architectu=
-res can have larger ptes than wordsize,
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4629  		 * e.g.ppc44x-defc=
-onfig has CONFIG_PTE_64BIT=3Dy and
-b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4630  		 * CONFIG_32BIT=3D=
-y, so READ_ONCE cannot guarantee atomic
-b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4631  		 * accesses.  The =
-code below just needs a consistent view
-b03a0fe0c5e4b4 Paul E. McKenney      2017-10-23  4632  		 * for the ifs and=
- we later double check anyway with the
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4633  		 * ptl lock held. =
-So here a barrier will do.
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4634  		 */
-e37c6982706333 Christian Borntraeger 2014-12-07  4635  		barrier();
-2994302bc8a171 Jan Kara              2016-12-14  4636  		if (pte_none(vmf->=
-orig_pte)) {
-82b0f8c39a3869 Jan Kara              2016-12-14  4637  			pte_unmap(vmf->pt=
-e);
-82b0f8c39a3869 Jan Kara              2016-12-14  4638  			vmf->pte =3D NULL;
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4639  		}
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4640  	}
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4641  =
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+195  	/* 0. fixup blkaddr, ofs, ipage */
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+196  	err =3D xattr_iter_fixup(it);
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+197  	if (err)
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+198  		return err;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+199  =
 
-82b0f8c39a3869 Jan Kara              2016-12-14  4642  	if (!vmf->pte) {
-82b0f8c39a3869 Jan Kara              2016-12-14  4643  		if (vma_is_anonymo=
-us(vmf->vma))
-82b0f8c39a3869 Jan Kara              2016-12-14  4644  			return do_anonymo=
-us_page(vmf);
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4645  		else if ((vmf->fla=
-gs & FAULT_FLAG_SPECULATIVE) &&
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4646  				!vmf_allows_spec=
-ulation(vmf))
-1c5371744061fc Peter Zijlstra        2018-04-17  4647  			return VM_FAULT_R=
-ETRY;
-b5330628546616 Oleg Nesterov         2015-09-08  4648  		else
-82b0f8c39a3869 Jan Kara              2016-12-14  4649  			return do_fault(v=
-mf);
-65500d234e74fc Hugh Dickins          2005-10-29  4650  	}
-7267ec008b5cd8 Kirill A. Shutemov    2016-07-26  4651  =
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+200  	/*
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+201  	 * 1. read xattr entry to the memory,
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+202  	 *    since we do EROFS_XATTR_ALIGN
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+203  	 *    therefore entry should be in the page
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+204  	 */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26 @=
+205  	entry =3D *(struct erofs_xattr_entry *)(it->kaddr + it->ofs);
+561fb35a9d04ca7 drivers/staging/erofs/xattr.c Bhanusree Pola   2019-03-22  =
+206  	if (tlimit) {
+b6796abd3cc155e fs/erofs/xattr.c              Gao Xiang        2019-09-04  =
+207  		unsigned int entry_sz =3D erofs_xattr_entry_size(&entry);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+208  =
 
-2994302bc8a171 Jan Kara              2016-12-14  4652  	if (!pte_present(vm=
-f->orig_pte))
-2994302bc8a171 Jan Kara              2016-12-14  4653  		return do_swap_pag=
-e(vmf);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4654  =
+9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
+209  		/* xattr on-disk corruption: xattr entry beyond xattr_isize */
+8d8a09b093d7073 fs/erofs/xattr.c              Gao Xiang        2019-08-30  =
+210  		if (*tlimit < entry_sz) {
+9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
+211  			DBG_BUGON(1);
+a6b9b1d5eae61a6 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-14  =
+212  			return -EFSCORRUPTED;
+9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
+213  		}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+214  		*tlimit -=3D entry_sz;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+215  	}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+216  =
 
-2994302bc8a171 Jan Kara              2016-12-14  4655  	if (pte_protnone(vm=
-f->orig_pte) && vma_is_accessible(vmf->vma))
-2994302bc8a171 Jan Kara              2016-12-14  4656  		return do_numa_pag=
-e(vmf);
-d10e63f29488b0 Mel Gorman            2012-10-25  4657  =
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+217  	it->ofs +=3D sizeof(struct erofs_xattr_entry);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+218  	value_sz =3D le16_to_cpu(entry.e_value_size);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+219  =
 
-b23ffc113b308e Laurent Dufour        2018-04-17  4658  	if (!pte_spinlock(v=
-mf))
-b23ffc113b308e Laurent Dufour        2018-04-17  4659  		return VM_FAULT_RE=
-TRY;
-2994302bc8a171 Jan Kara              2016-12-14  4660  	entry =3D vmf->orig=
-_pte;
-7df676974359f9 Bibo Mao              2020-05-27  4661  	if (unlikely(!pte_s=
-ame(*vmf->pte, entry))) {
-7df676974359f9 Bibo Mao              2020-05-27  4662  		update_mmu_tlb(vmf=
-->vma, vmf->address, vmf->pte);
-8f4e2101fd7df9 Hugh Dickins          2005-10-29  4663  		goto unlock;
-7df676974359f9 Bibo Mao              2020-05-27  4664  	}
-82b0f8c39a3869 Jan Kara              2016-12-14  4665  	if (vmf->flags & FA=
-ULT_FLAG_WRITE) {
-f6f3732162b5ae Linus Torvalds        2017-12-15  4666  		if (!pte_write(ent=
-ry))
-2994302bc8a171 Jan Kara              2016-12-14  4667  			return do_wp_page=
-(vmf);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4668  		entry =3D pte_mkdi=
-rty(entry);
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4669  	}
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4670  	entry =3D pte_mkyou=
-ng(entry);
-82b0f8c39a3869 Jan Kara              2016-12-14  4671  	if (ptep_set_access=
-_flags(vmf->vma, vmf->address, vmf->pte, entry,
-82b0f8c39a3869 Jan Kara              2016-12-14  4672  				vmf->flags & FAU=
-LT_FLAG_WRITE)) {
-82b0f8c39a3869 Jan Kara              2016-12-14  4673  		update_mmu_cache(v=
-mf->vma, vmf->address, vmf->pte);
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4674  	} else {
-b7333b58f358f3 Yang Shi              2020-08-14  4675  		/* Skip spurious T=
-LB flush for retried page fault */
-b7333b58f358f3 Yang Shi              2020-08-14  4676  		if (vmf->flags & F=
-AULT_FLAG_TRIED)
-b7333b58f358f3 Yang Shi              2020-08-14  4677  			goto unlock;
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4678  		if (vmf->flags & F=
-AULT_FLAG_SPECULATIVE)
-35eacb5c87b9b5 Vinayak Menon         2021-03-18  4679  			ret =3D VM_FAULT_=
-RETRY;
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4680  		/*
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4681  		 * This is needed =
-only for protection faults but the arch code
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4682  		 * is not yet tell=
-ing us if this is a protection fault or not.
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4683  		 * This still avoi=
-ds useless tlb flushes for .text page faults
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4684  		 * with threads.
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4685  		 */
-82b0f8c39a3869 Jan Kara              2016-12-14  4686  		if (vmf->flags & F=
-AULT_FLAG_WRITE)
-82b0f8c39a3869 Jan Kara              2016-12-14  4687  			flush_tlb_fix_spu=
-rious_fault(vmf->vma, vmf->address);
-1a44e149084d77 Andrea Arcangeli      2005-10-29  4688  	}
-8f4e2101fd7df9 Hugh Dickins          2005-10-29  4689  unlock:
-82b0f8c39a3869 Jan Kara              2016-12-14  4690  	pte_unmap_unlock(vm=
-f->pte, vmf->ptl);
-35eacb5c87b9b5 Vinayak Menon         2021-03-18 @4691  	return ret;
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4692  }
-^1da177e4c3f41 Linus Torvalds        2005-04-16  4693  =
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+220  	/* handle entry */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+221  	err =3D op->entry(it, &entry);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+222  	if (err) {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+223  		it->ofs +=3D entry.e_name_len + value_sz;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+224  		goto out;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+225  	}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+226  =
 
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+227  	/* 2. handle xattr name (ofs will finally be at the end of name) */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+228  	processed =3D 0;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+229  =
+
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+230  	while (processed < entry.e_name_len) {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+231  		if (it->ofs >=3D EROFS_BLKSIZ) {
+9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
+232  			DBG_BUGON(it->ofs > EROFS_BLKSIZ);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+233  =
+
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+234  			err =3D xattr_iter_fixup(it);
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+235  			if (err)
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+236  				goto out;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+237  			it->ofs =3D 0;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+238  		}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+239  =
+
+bb88e8da00253be fs/erofs/xattr.c              Gao Xiang        2022-01-02  =
+240  		slice =3D min_t(unsigned int, EROFS_BLKSIZ - it->ofs,
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+241  			      entry.e_name_len - processed);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+242  =
+
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+243  		/* handle name */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+244  		err =3D op->name(it, processed, it->kaddr + it->ofs, slice);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+245  		if (err) {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+246  			it->ofs +=3D entry.e_name_len - processed + value_sz;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+247  			goto out;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+248  		}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+249  =
+
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+250  		it->ofs +=3D slice;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+251  		processed +=3D slice;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+252  	}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+253  =
+
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+254  	/* 3. handle xattr value */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+255  	processed =3D 0;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+256  =
+
+561fb35a9d04ca7 drivers/staging/erofs/xattr.c Bhanusree Pola   2019-03-22  =
+257  	if (op->alloc_buffer) {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+258  		err =3D op->alloc_buffer(it, value_sz);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+259  		if (err) {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+260  			it->ofs +=3D value_sz;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+261  			goto out;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+262  		}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+263  	}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+264  =
+
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+265  	while (processed < value_sz) {
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+266  		if (it->ofs >=3D EROFS_BLKSIZ) {
+9ddc7004f6aae68 drivers/staging/erofs/xattr.c Gao Xiang        2019-08-13  =
+267  			DBG_BUGON(it->ofs > EROFS_BLKSIZ);
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+268  =
+
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+269  			err =3D xattr_iter_fixup(it);
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+270  			if (err)
+cadf1ccf1b0021d drivers/staging/erofs/xattr.c Gao Xiang        2018-08-21  =
+271  				goto out;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+272  			it->ofs =3D 0;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+273  		}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+274  =
+
+bb88e8da00253be fs/erofs/xattr.c              Gao Xiang        2022-01-02  =
+275  		slice =3D min_t(unsigned int, EROFS_BLKSIZ - it->ofs,
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+276  			      value_sz - processed);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+277  		op->value(it, processed, it->kaddr + it->ofs, slice);
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+278  		it->ofs +=3D slice;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+279  		processed +=3D slice;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+280  	}
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+281  =
+
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+282  out:
+bdf30cef10558d2 drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
+283  	/* xattrs should be 4-byte aligned (on-disk constraint) */
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+284  	it->ofs =3D EROFS_XATTR_ALIGN(it->ofs);
+6614f76530c102a drivers/staging/erofs/xattr.c Gao Xiang        2018-09-19  =
+285  	return err < 0 ? err : 0;
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+286  }
+b17500a0fdbae10 drivers/staging/erofs/xattr.c Gao Xiang        2018-07-26  =
+287  =
+
+
+:::::: The code@line 205 was first introduced by commit
+:::::: b17500a0fdbae10a8ce274dd523106f16d114339 staging: erofs: introduce x=
+attr & acl support
+
+:::::: TO: Gao Xiang <gaoxiang25@huawei.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5342126937009854354==--
+--===============4586260552682344113==--
 
