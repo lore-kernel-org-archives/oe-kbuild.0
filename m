@@ -1,395 +1,239 @@
-Content-Type: multipart/mixed; boundary="===============6754329127861355035=="
+Content-Type: multipart/mixed; boundary="===============1767242339672467463=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15 561/872] sound/soc/xilinx/xlnx_pl_snd_card.c:391:3-9: ERROR: missing put_device; call of_find_device_by_node on line 399, but without a corresponding object release within this function.
-Date: Wed, 09 Feb 2022 00:10:21 +0800
-Message-ID: <202202082343.teK89qWC-lkp@intel.com>
+Subject: Re: [PATCH nf-next] netfilter: conntrack: pptp: use single option structure
+Date: Tue, 08 Feb 2022 23:29:42 +0800
+Message-ID: <202202082301.DuvjSsUQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6754329127861355035==
+--===============1767242339672467463==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Maruthi Srinivas Bayyavarapu <maruthi.srinivas.bayyavarapu@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Hyun Kwon <hyun.kwon@xilinx.com>
+In-Reply-To: <20220120150913.8719-1-fw@strlen.de>
+References: <20220120150913.8719-1-fw@strlen.de>
+TO: Florian Westphal <fw@strlen.de>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
-head:   1183ce490adb103e5e569b8ebd74c50c885ddc05
-commit: c078611ad13fd9b920a3aa5a206a014322742227 [561/872] ASoC: xlnx: add =
-PL sound card support
-:::::: branch date: 7 days ago
-:::::: commit date: 7 days ago
-config: ia64-randconfig-c023-20220208 (https://download.01.org/0day-ci/arch=
-ive/20220208/202202082343.teK89qWC-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+Hi Florian,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on nf-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/Florian-Westphal/netfilter=
+-conntrack-pptp-use-single-option-structure/20220120-230953
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pablo/nf-next.git m=
+aster
+:::::: branch date: 3 weeks ago
+:::::: commit date: 3 weeks ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220208/202202082301.DuvjSsUQ-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/0day-ci/linux/commit/ffa8a2dcecaa350f84e574775=
+0956010d5514ab2
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Florian-Westphal/netfilter-conntra=
+ck-pptp-use-single-option-structure/20220120-230953
+        git checkout ffa8a2dcecaa350f84e5747750956010d5514ab2
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> sound/soc/xilinx/xlnx_pl_snd_card.c:391:3-9: ERROR: missing put_device; =
-call of_find_device_by_node on line 399, but without a corresponding object=
- release within this function.
-   sound/soc/xilinx/xlnx_pl_snd_card.c:407:4-10: ERROR: missing put_device;=
- call of_find_device_by_node on line 399, but without a corresponding objec=
-t release within this function.
-   sound/soc/xilinx/xlnx_pl_snd_card.c:475:3-9: ERROR: missing put_device; =
-call of_find_device_by_node on line 399, but without a corresponding object=
- release within this function.
-   sound/soc/xilinx/xlnx_pl_snd_card.c:489:3-9: ERROR: missing put_device; =
-call of_find_device_by_node on line 399, but without a corresponding object=
- release within this function.
-   sound/soc/xilinx/xlnx_pl_snd_card.c:495:3-9: ERROR: missing put_device; =
-call of_find_device_by_node on line 399, but without a corresponding object=
- release within this function.
-   sound/soc/xilinx/xlnx_pl_snd_card.c:507:3-9: ERROR: missing put_device; =
-call of_find_device_by_node on line 399, but without a corresponding object=
- release within this function.
-   sound/soc/xilinx/xlnx_pl_snd_card.c:514:1-7: ERROR: missing put_device; =
-call of_find_device_by_node on line 399, but without a corresponding object=
- release within this function.
+sparse warnings: (new ones prefixed by >>)
+   net/netfilter/nf_conntrack_pptp.c:48:31: sparse: sparse: symbol 'nf_nat_=
+pptp_hook' redeclared with different type (different address spaces):
+>> net/netfilter/nf_conntrack_pptp.c:48:31: sparse:    struct nf_nat_pptp_h=
+ook const *[addressable] [toplevel] nf_nat_pptp_hook
+   net/netfilter/nf_conntrack_pptp.c: note: in included file:
+   include/linux/netfilter/nf_conntrack_pptp.h:320:44: sparse: note: previo=
+usly declared as:
+>> include/linux/netfilter/nf_conntrack_pptp.h:320:44: sparse:    struct nf=
+_nat_pptp_hook const [noderef] __rcu *extern [addressable] [toplevel] nf_na=
+t_pptp_hook
+   net/netfilter/nf_conntrack_pptp.c:103:16: sparse: sparse: incompatible t=
+ypes in comparison expression (different address spaces):
+>> net/netfilter/nf_conntrack_pptp.c:103:16: sparse:    struct nf_nat_pptp_=
+hook const [noderef] __rcu *
+>> net/netfilter/nf_conntrack_pptp.c:103:16: sparse:    struct nf_nat_pptp_=
+hook const *
+   net/netfilter/nf_conntrack_pptp.c:220:16: sparse: sparse: incompatible t=
+ypes in comparison expression (different address spaces):
+   net/netfilter/nf_conntrack_pptp.c:220:16: sparse:    struct nf_nat_pptp_=
+hook const [noderef] __rcu *
+   net/netfilter/nf_conntrack_pptp.c:220:16: sparse:    struct nf_nat_pptp_=
+hook const *
+   net/netfilter/nf_conntrack_pptp.c:364:16: sparse: sparse: incompatible t=
+ypes in comparison expression (different address spaces):
+   net/netfilter/nf_conntrack_pptp.c:364:16: sparse:    struct nf_nat_pptp_=
+hook const [noderef] __rcu *
+   net/netfilter/nf_conntrack_pptp.c:364:16: sparse:    struct nf_nat_pptp_=
+hook const *
+   net/netfilter/nf_conntrack_pptp.c:459:16: sparse: sparse: incompatible t=
+ypes in comparison expression (different address spaces):
+   net/netfilter/nf_conntrack_pptp.c:459:16: sparse:    struct nf_nat_pptp_=
+hook const [noderef] __rcu *
+   net/netfilter/nf_conntrack_pptp.c:459:16: sparse:    struct nf_nat_pptp_=
+hook const *
 
-vim +391 sound/soc/xilinx/xlnx_pl_snd_card.c
+vim +48 net/netfilter/nf_conntrack_pptp.c
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  337  =
+f09943fefe6b70 Patrick McHardy   2006-12-02   47  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  338  static int xln=
-x_snd_probe(struct platform_device *pdev)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  339  {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  340  	u32 i, max_li=
-nks =3D 0, start_count =3D 0;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  341  	size_t sz;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  342  	char *buf;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  343  	int ret, audi=
-o_interface;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  344  	struct snd_so=
-c_dai_link *dai;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  345  	struct pl_car=
-d_data *prv;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  346  	struct platfo=
-rm_device *iface_pdev;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  347  =
+ffa8a2dcecaa35 Florian Westphal  2022-01-20  @48  const struct nf_nat_pptp_=
+hook *nf_nat_pptp_hook;
+ffa8a2dcecaa35 Florian Westphal  2022-01-20   49  EXPORT_SYMBOL_GPL(nf_nat_=
+pptp_hook);
+f09943fefe6b70 Patrick McHardy   2006-12-02   50  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  348  	struct snd_so=
-c_card *card;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  349  	struct device=
-_node **node =3D pdev->dev.platform_data;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  350  =
+e9d376f0fa66bd Jason Baron       2009-02-05   51  #if defined(DEBUG) || def=
+ined(CONFIG_DYNAMIC_DEBUG)
+f09943fefe6b70 Patrick McHardy   2006-12-02   52  /* PptpControlMessageType=
+ names */
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   53  static const char *const =
+pptp_msg_name_array[PPTP_MSG_MAX + 1] =3D {
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   54  	[0]				=3D "UNKNOWN_MESS=
+AGE",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   55  	[PPTP_START_SESSION_REQU=
+EST]	=3D "START_SESSION_REQUEST",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   56  	[PPTP_START_SESSION_REPL=
+Y]	=3D "START_SESSION_REPLY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   57  	[PPTP_STOP_SESSION_REQUE=
+ST]	=3D "STOP_SESSION_REQUEST",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   58  	[PPTP_STOP_SESSION_REPLY=
+]	=3D "STOP_SESSION_REPLY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   59  	[PPTP_ECHO_REQUEST]		=3D=
+ "ECHO_REQUEST",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   60  	[PPTP_ECHO_REPLY]		=3D "=
+ECHO_REPLY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   61  	[PPTP_OUT_CALL_REQUEST]	=
+	=3D "OUT_CALL_REQUEST",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   62  	[PPTP_OUT_CALL_REPLY]		=
+=3D "OUT_CALL_REPLY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   63  	[PPTP_IN_CALL_REQUEST]		=
+=3D "IN_CALL_REQUEST",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   64  	[PPTP_IN_CALL_REPLY]		=
+=3D "IN_CALL_REPLY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   65  	[PPTP_IN_CALL_CONNECT]		=
+=3D "IN_CALL_CONNECT",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   66  	[PPTP_CALL_CLEAR_REQUEST=
+]	=3D "CALL_CLEAR_REQUEST",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   67  	[PPTP_CALL_DISCONNECT_NO=
+TIFY]	=3D "CALL_DISCONNECT_NOTIFY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   68  	[PPTP_WAN_ERROR_NOTIFY]	=
+	=3D "WAN_ERROR_NOTIFY",
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   69  	[PPTP_SET_LINK_INFO]		=
+=3D "SET_LINK_INFO"
+f09943fefe6b70 Patrick McHardy   2006-12-02   70  };
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   71  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  351  	if (!node)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  352  		return -ENOD=
-EV;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  353  =
+4946ea5c123703 Pablo Neira Ayuso 2020-05-27   72  const char *pptp_msg_name=
+(u_int16_t msg)
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   73  {
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   74  	if (msg > PPTP_MSG_MAX)
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   75  		return pptp_msg_name_ar=
+ray[0];
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   76  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  354  	if (node[XLNX=
-_PLAYBACK] && node[XLNX_CAPTURE]) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  355  		max_links =
-=3D 2;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  356  		start_count =
-=3D XLNX_PLAYBACK;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  357  	} else if (no=
-de[XLNX_PLAYBACK]) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  358  		max_links =
-=3D 1;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  359  		start_count =
-=3D XLNX_PLAYBACK;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  360  	} else if (no=
-de[XLNX_CAPTURE]) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  361  		max_links =
-=3D 1;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  362  		start_count =
-=3D XLNX_CAPTURE;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  363  	}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  364  =
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   77  	return pptp_msg_name_arr=
+ay[msg];
+4c559f15efcc43 Pablo Neira Ayuso 2020-05-14   78  }
+f09943fefe6b70 Patrick McHardy   2006-12-02   79  EXPORT_SYMBOL(pptp_msg_na=
+me);
+f09943fefe6b70 Patrick McHardy   2006-12-02   80  #endif
+f09943fefe6b70 Patrick McHardy   2006-12-02   81  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  365  	card =3D devm=
-_kzalloc(&pdev->dev, sizeof(struct snd_soc_card),
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  366  			    GFP_KER=
-NEL);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  367  	if (!card)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  368  		return -ENOM=
-EM;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  369  =
+f09943fefe6b70 Patrick McHardy   2006-12-02   82  #define SECS *HZ
+f09943fefe6b70 Patrick McHardy   2006-12-02   83  #define MINS * 60 SECS
+f09943fefe6b70 Patrick McHardy   2006-12-02   84  #define HOURS * 60 MINS
+f09943fefe6b70 Patrick McHardy   2006-12-02   85  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  370  	card->dev =3D=
- &pdev->dev;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  371  =
+f09943fefe6b70 Patrick McHardy   2006-12-02   86  #define PPTP_GRE_TIMEOUT =
+		(10 MINS)
+f09943fefe6b70 Patrick McHardy   2006-12-02   87  #define PPTP_GRE_STREAM_T=
+IMEOUT 	(5 HOURS)
+f09943fefe6b70 Patrick McHardy   2006-12-02   88  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  372  	card->dai_lin=
-k =3D devm_kzalloc(card->dev,
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  373  				      size=
-of(*dai) * max_links,
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  374  				      GFP_=
-KERNEL);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  375  	if (!card->da=
-i_link)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  376  		return -ENOM=
-EM;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  377  =
+f09943fefe6b70 Patrick McHardy   2006-12-02   89  static void pptp_expectfn=
+(struct nf_conn *ct,
+f09943fefe6b70 Patrick McHardy   2006-12-02   90  			 struct nf_conntrack_e=
+xpect *exp)
+f09943fefe6b70 Patrick McHardy   2006-12-02   91  {
+ffa8a2dcecaa35 Florian Westphal  2022-01-20   92  	const struct nf_nat_pptp=
+_hook *hook;
+0e6e75af921d1f Alexey Dobriyan   2008-10-08   93  	struct net *net =3D nf_c=
+t_net(ct);
+0d53778e81ac7a Patrick McHardy   2007-07-07   94  	pr_debug("increasing tim=
+eouts\n");
+f09943fefe6b70 Patrick McHardy   2006-12-02   95  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  378  	prv =3D devm_=
-kzalloc(card->dev,
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  379  			   sizeof(s=
-truct pl_card_data),
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  380  			   GFP_KERN=
-EL);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  381  	if (!prv)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  382  		return -ENOM=
-EM;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  383  =
+f09943fefe6b70 Patrick McHardy   2006-12-02   96  	/* increase timeout of G=
+RE data channel conntrack entry */
+f09943fefe6b70 Patrick McHardy   2006-12-02   97  	ct->proto.gre.timeout	  =
+   =3D PPTP_GRE_TIMEOUT;
+f09943fefe6b70 Patrick McHardy   2006-12-02   98  	ct->proto.gre.stream_tim=
+eout =3D PPTP_GRE_STREAM_TIMEOUT;
+f09943fefe6b70 Patrick McHardy   2006-12-02   99  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  384  	card->num_lin=
-ks =3D 0;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  385  	for (i =3D st=
-art_count; i < (start_count + max_links); i++) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  386  		struct devic=
-e_node *pnode =3D of_parse_phandle(node[i],
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  387  							     "x=
-lnx,snd-pcm", 0);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  388  		if (!pnode) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  389  			dev_err(car=
-d->dev, "platform node not found\n");
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  390  			of_node_put=
-(pnode);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06 @391  			return -ENO=
-DEV;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  392  		}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  393  =
+f09943fefe6b70 Patrick McHardy   2006-12-02  100  	/* Can you see how rusty=
+ this code is, compared with the pre-2.6.11
+f09943fefe6b70 Patrick McHardy   2006-12-02  101  	 * one? That's what happ=
+ened to my shiny newnat of 2002 ;( -HW */
+f09943fefe6b70 Patrick McHardy   2006-12-02  102  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  394  		/*
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  395  		 * Check for=
- either playback or capture is enough, as
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  396  		 * same cloc=
-k is used for both.
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  397  		 */
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  398  		if (i =3D=3D=
- XLNX_PLAYBACK) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06 @399  			iface_pdev =
-=3D of_find_device_by_node(pnode);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  400  			if (!iface_=
-pdev) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  401  				of_node_pu=
-t(pnode);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  402  				return -EN=
-ODEV;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  403  			}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  404  =
+ffa8a2dcecaa35 Florian Westphal  2022-01-20 @103  	hook =3D rcu_dereference=
+(nf_nat_pptp_hook);
+ffa8a2dcecaa35 Florian Westphal  2022-01-20  104  	if (hook && ct->master->=
+status & IPS_NAT_MASK)
+ffa8a2dcecaa35 Florian Westphal  2022-01-20  105  		hook->expectfn(ct, exp);
+f09943fefe6b70 Patrick McHardy   2006-12-02  106  	else {
+f09943fefe6b70 Patrick McHardy   2006-12-02  107  		struct nf_conntrack_tup=
+le inv_t;
+f09943fefe6b70 Patrick McHardy   2006-12-02  108  		struct nf_conntrack_exp=
+ect *exp_other;
+f09943fefe6b70 Patrick McHardy   2006-12-02  109  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  405  			prv->mclk =
-=3D devm_clk_get(&iface_pdev->dev, "aud_mclk");
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  406  			if (IS_ERR(=
-prv->mclk))
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  407  				return PTR=
-_ERR(prv->mclk);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  408  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  409  		}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  410  		of_node_put(=
-pnode);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  411  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  412  		if (max_link=
-s =3D=3D 2)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  413  			dai =3D &ca=
-rd->dai_link[i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  414  		else
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  415  			dai =3D &ca=
-rd->dai_link[0];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  416  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  417  		audio_interf=
-ace =3D find_link(node[i], i);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  418  		switch (audi=
-o_interface) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  419  		case I2S_AUD=
-IO:
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  420  			*dai =3D xl=
-nx_snd_dai[I2S_AUDIO][i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  421  			dai->platfo=
-rms->of_node =3D pnode;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  422  			dai->cpus->=
-of_node =3D node[i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  423  			card->num_l=
-inks++;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  424  			snd_soc_car=
-d_set_drvdata(card, prv);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  425  			dev_dbg(car=
-d->dev, "%s registered\n",
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  426  				card->dai_=
-link[i].name);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  427  			break;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  428  		case HDMI_AU=
-DIO:
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  429  			*dai =3D xl=
-nx_snd_dai[HDMI_AUDIO][i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  430  			dai->platfo=
-rms->of_node =3D pnode;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  431  			if (i =3D=
-=3D XLNX_CAPTURE)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  432  				dai->codec=
-s->of_node =3D node[i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  433  			card->num_l=
-inks++;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  434  			/* TODO: su=
-pport multiple sampling rates */
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  435  			prv->mclk_r=
-atio =3D 384;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  436  			snd_soc_car=
-d_set_drvdata(card, prv);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  437  			dev_dbg(car=
-d->dev, "%s registered\n",
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  438  				card->dai_=
-link[i].name);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  439  			break;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  440  		case SDI_AUD=
-IO:
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  441  			*dai =3D xl=
-nx_snd_dai[SDI_AUDIO][i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  442  			dai->platfo=
-rms->of_node =3D pnode;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  443  			dai->codecs=
-->of_node =3D node[i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  444  			card->num_l=
-inks++;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  445  			/* TODO: su=
-pport multiple sampling rates */
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  446  			prv->mclk_r=
-atio =3D 384;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  447  			snd_soc_car=
-d_set_drvdata(card, prv);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  448  			dev_dbg(car=
-d->dev, "%s registered\n",
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  449  				card->dai_=
-link[i].name);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  450  			break;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  451  		case SPDIF_A=
-UDIO:
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  452  			*dai =3D xl=
-nx_snd_dai[SPDIF_AUDIO][i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  453  			dai->platfo=
-rms->of_node =3D pnode;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  454  			dai->codecs=
-->of_node =3D node[i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  455  			card->num_l=
-inks++;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  456  			prv->mclk_r=
-atio =3D 384;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  457  			snd_soc_car=
-d_set_drvdata(card, prv);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  458  			dev_dbg(car=
-d->dev, "%s registered\n",
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  459  				card->dai_=
-link[i].name);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  460  			break;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  461  		case DP_AUDI=
-O:
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  462  			*dai =3D xl=
-nx_snd_dai[DP_AUDIO][i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  463  			dai->platfo=
-rms->of_node =3D pnode;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  464  			if (i =3D=
-=3D XLNX_CAPTURE)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  465  				dai->codec=
-s->of_node =3D node[i];
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  466  			card->num_l=
-inks++;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  467  			/* TODO: su=
-pport multiple sampling rates */
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  468  			prv->mclk_r=
-atio =3D 512;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  469  			snd_soc_car=
-d_set_drvdata(card, prv);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  470  			dev_dbg(car=
-d->dev, "%s registered\n",
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  471  				card->dai_=
-link[i].name);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  472  			break;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  473  		default:
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  474  			dev_err(car=
-d->dev, "Invalid audio interface\n");
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  475  			return -ENO=
-DEV;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  476  		}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  477  	}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  478  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  479  	if (card->num=
-_links) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  480  		/*
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  481  		 *  Example =
-: i2s card name =3D xlnx-i2s-snd-card-0
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  482  		 *  length =
-=3D number of chars in "xlnx-i2s-snd-card"
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  483  		 *	    + 1 (=
-'-'), + 1 (card instance num)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  484  		 *	    + 1 (=
-'\0')
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  485  		 */
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  486  		sz =3D strle=
-n(xlnx_snd_card_name[audio_interface]) + 3;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  487  		buf =3D devm=
-_kzalloc(card->dev, sz, GFP_KERNEL);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  488  		if (!buf)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  489  			return -ENO=
-MEM;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  490  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  491  		prv->xlnx_sn=
-d_dev_id =3D ida_simple_get(&xlnx_snd_card_dev, 0,
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  492  						      XL=
-NX_MAX_PL_SND_DEV,
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  493  						      GF=
-P_KERNEL);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  494  		if (prv->xln=
-x_snd_dev_id < 0)
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  495  			return prv-=
->xlnx_snd_dev_id;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  496  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  497  		snprintf(buf=
-, sz, "%s-%d", xlnx_snd_card_name[audio_interface],
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  498  			 prv->xlnx_=
-snd_dev_id);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  499  		card->name =
-=3D buf;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  500  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  501  		ret =3D devm=
-_snd_soc_register_card(card->dev, card);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  502  		if (ret) {
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  503  			dev_err(car=
-d->dev, "%s registration failed\n",
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  504  				card->name=
+f09943fefe6b70 Patrick McHardy   2006-12-02  110  		/* obviously this tuple=
+ inversion only works until you do NAT */
+303e0c5589592e Florian Westphal  2019-01-15  111  		nf_ct_invert_tuple(&inv=
+_t, &exp->tuple);
+0d53778e81ac7a Patrick McHardy   2007-07-07  112  		pr_debug("trying to une=
+xpect other dir: ");
+3c9fba656a185c Jan Engelhardt    2008-04-14  113  		nf_ct_dump_tuple(&inv_t=
 );
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  505  			ida_simple_=
-remove(&xlnx_snd_card_dev,
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  506  					  prv->xl=
-nx_snd_dev_id);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  507  			return ret;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  508  		}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  509  =
+f09943fefe6b70 Patrick McHardy   2006-12-02  114  =
 
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  510  		dev_set_drvd=
-ata(card->dev, prv);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  511  		dev_info(car=
-d->dev, "%s registered\n", card->name);
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  512  	}
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  513  =
-
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  514  	return 0;
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  515  }
-c078611ad13fd9 Maruthi Srinivas Bayyavarapu 2018-09-06  516  =
+5d0aa2ccd4699a Patrick McHardy   2010-02-15  115  		exp_other =3D nf_ct_exp=
+ect_find_get(net, nf_ct_zone(ct), &inv_t);
+f09943fefe6b70 Patrick McHardy   2006-12-02  116  		if (exp_other) {
+f09943fefe6b70 Patrick McHardy   2006-12-02  117  			/* delete other expect=
+ation.  */
+0d53778e81ac7a Patrick McHardy   2007-07-07  118  			pr_debug("found\n");
+6823645d608541 Patrick McHardy   2007-07-07  119  			nf_ct_unexpect_related=
+(exp_other);
+6823645d608541 Patrick McHardy   2007-07-07  120  			nf_ct_expect_put(exp_o=
+ther);
+f09943fefe6b70 Patrick McHardy   2006-12-02  121  		} else {
+0d53778e81ac7a Patrick McHardy   2007-07-07  122  			pr_debug("not found\n"=
+);
+f09943fefe6b70 Patrick McHardy   2006-12-02  123  		}
+f09943fefe6b70 Patrick McHardy   2006-12-02  124  	}
+f09943fefe6b70 Patrick McHardy   2006-12-02  125  }
+f09943fefe6b70 Patrick McHardy   2006-12-02  126  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6754329127861355035==--
+--===============1767242339672467463==--
 
