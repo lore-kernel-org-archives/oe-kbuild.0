@@ -1,373 +1,188 @@
-Content-Type: multipart/mixed; boundary="===============8537782605063585355=="
+Content-Type: multipart/mixed; boundary="===============0695902464988468852=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [miquelraynal:spi-mem-ecc 14/32] drivers/mtd/nand/ecc-mxic.c:466:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 12 Feb 2022 18:39:01 +0800
-Message-ID: <202202121643.7Mdqdg8r-lkp@intel.com>
+Subject: [linux-next:master 451/4439] drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c:381 igt_async_migrate() error: uninitialized symbol 'err'.
+Date: Wed, 09 Feb 2022 05:38:17 +0800
+Message-ID: <202202090528.XFLhyNJX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8537782605063585355==
+--===============0695902464988468852==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
 
-tree:   https://github.com/miquelraynal/linux-0day.git spi-mem-ecc
-head:   3234204f0eca6678d33a93c4b47aebc72ad9783d
-commit: cfe5cf69e97267e9d1de65cc894b7a2310644a15 [14/32] mtd: nand: mxic-ec=
-c: Add Macronix external ECC engine support
-:::::: branch date: 11 days ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-c006-20220208 (https://download.01.org/0day-ci/arc=
-hive/20220212/202202121643.7Mdqdg8r-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
-ae54a55b4dbfeb6ba55f723abbd81bf494)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/miquelraynal/linux-0day/commit/cfe5cf69e97267e=
-9d1de65cc894b7a2310644a15
-        git remote add miquelraynal https://github.com/miquelraynal/linux-0=
-day.git
-        git fetch --no-tags miquelraynal spi-mem-ecc
-        git checkout cfe5cf69e97267e9d1de65cc894b7a2310644a15
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   554f92dbda161fa073844ae6c62db257b8860a0a
+commit: 950505cabe517ad40759cae6f88f33f0bdfbb7c8 [451/4439] drm/i915: Async=
+hronous migration selftest
+:::::: branch date: 16 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-m031-20220131 (https://download.01.org/0day-ci/ar=
+chive/20220209/202202090528.XFLhyNJX-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c:381 igt_async_migrate=
+() error: uninitialized symbol 'err'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/rcupdate.h:594:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:398:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:347:48: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                                  ^
-   drivers/net/net_failover.c:644:16: note: Loop condition is false.  Exiti=
-ng loop
-           primary_dev =3D rtnl_dereference(nfo_info->primary_dev);
-                         ^
-   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
-nce'
-           rcu_dereference_protected(p, lockdep_rtnl_is_held())
-           ^
-   include/linux/rcupdate.h:594:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:398:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:347:32: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                  ^
-   drivers/net/net_failover.c:645:16: note: Left side of '&&' is false
-           standby_dev =3D rtnl_dereference(nfo_info->standby_dev);
-                         ^
-   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
-nce'
-           rcu_dereference_protected(p, lockdep_rtnl_is_held())
-           ^
-   include/linux/rcupdate.h:594:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:398:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:347:48: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                                  ^
-   drivers/net/net_failover.c:645:16: note: Loop condition is false.  Exiti=
-ng loop
-           standby_dev =3D rtnl_dereference(nfo_info->standby_dev);
-                         ^
-   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
-nce'
-           rcu_dereference_protected(p, lockdep_rtnl_is_held())
-           ^
-   include/linux/rcupdate.h:594:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), __UNIQUE_ID(rcu), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:398:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:347:32: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
-                                  ^
-   drivers/net/net_failover.c:647:6: note: Assuming 'slave_dev' is equal to=
- 'primary_dev'
-           if (slave_dev !=3D primary_dev && slave_dev !=3D standby_dev)
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/net_failover.c:647:31: note: Left side of '&&' is false
-           if (slave_dev !=3D primary_dev && slave_dev !=3D standby_dev)
-                                        ^
-   drivers/net/net_failover.c:650:7: note: Assuming 'primary_dev' is null
-           if ((primary_dev && net_failover_xmit_ready(primary_dev)) ||
-                ^~~~~~~~~~~
-   drivers/net/net_failover.c:650:19: note: Left side of '&&' is false
-           if ((primary_dev && net_failover_xmit_ready(primary_dev)) ||
-                            ^
-   drivers/net/net_failover.c:651:7: note: Assuming 'standby_dev' is null
-               (standby_dev && net_failover_xmit_ready(standby_dev))) {
-                ^~~~~~~~~~~
-   drivers/net/net_failover.c:651:19: note: Left side of '&&' is false
-               (standby_dev && net_failover_xmit_ready(standby_dev))) {
-                            ^
-   drivers/net/net_failover.c:660:35: note: Passing null pointer value via =
-1st parameter 'slave_dev'
-           net_failover_lower_state_changed(slave_dev, primary_dev, standby=
-_dev);
-                                            ^~~~~~~~~
-   drivers/net/net_failover.c:660:2: note: Calling 'net_failover_lower_stat=
-e_changed'
-           net_failover_lower_state_changed(slave_dev, primary_dev, standby=
-_dev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/net/net_failover.c:441:23: note: Passing null pointer value via =
-1st parameter 'dev'
-           if (netif_carrier_ok(slave_dev))
-                                ^~~~~~~~~
-   drivers/net/net_failover.c:441:6: note: Calling 'netif_carrier_ok'
-           if (netif_carrier_ok(slave_dev))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/netdevice.h:3925:43: note: Passing null pointer value via =
-2nd parameter 'addr'
-           return !test_bit(__LINK_STATE_NOCARRIER, &dev->state);
-                                                    ^~~~~~~~~~~
-   include/linux/netdevice.h:3925:10: note: Calling 'arch_test_bit'
-           return !test_bit(__LINK_STATE_NOCARRIER, &dev->state);
-                   ^
-   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
-o 'test_bit'
-   #define test_bit arch_test_bit
-                    ^
-   include/asm-generic/bitops/non-atomic.h:118:16: note: Array access (from=
- variable 'addr') results in a null pointer dereference
-           return 1UL & (addr[BIT_WORD(nr)] >> (nr & (BITS_PER_LONG-1)));
-                         ^~~~
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/mtd/nand/ecc-mxic.c:466:17: warning: Value stored to 'dev' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D mxic->dev;
-                          ^~~   ~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:466:17: note: Value stored to 'dev' during i=
-ts initialization is never read
-           struct device *dev =3D mxic->dev;
-                          ^~~   ~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:548:2: warning: Undefined or garbage value r=
-eturned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^      ~~~
-   drivers/mtd/nand/ecc-mxic.c:500:27: note: 'ret' declared without an init=
-ial value
-           int offset, nents, step, ret;
-                                    ^~~
-   drivers/mtd/nand/ecc-mxic.c:502:6: note: Assuming field 'mode' is not eq=
-ual to MTD_OPS_RAW
-           if (req->mode =3D=3D MTD_OPS_RAW)
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:502:2: note: Taking false branch
-           if (req->mode =3D=3D MTD_OPS_RAW)
-           ^
-   drivers/mtd/nand/ecc-mxic.c:508:6: note: Assuming field 'type' is not eq=
-ual to NAND_PAGE_READ
-           if (req->type =3D=3D NAND_PAGE_READ)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:508:2: note: Taking false branch
-           if (req->type =3D=3D NAND_PAGE_READ)
-           ^
-   drivers/mtd/nand/ecc-mxic.c:519:6: note: Assuming 'nents' is not equal t=
-o 0
-           if (!nents)
-               ^~~~~~
-   drivers/mtd/nand/ecc-mxic.c:519:2: note: Taking false branch
-           if (!nents)
-           ^
-   drivers/mtd/nand/ecc-mxic.c:524:17: note: Assuming 'step' is >=3D field =
-'steps'
-           for (step =3D 0; step < ctx->steps; step++) {
-                          ^~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:524:2: note: Loop condition is false. Execut=
-ion continues on line 534
-           for (step =3D 0; step < ctx->steps; step++) {
-           ^
-   drivers/mtd/nand/ecc-mxic.c:539:17: note: Assuming 'step' is >=3D field =
-'steps'
-           for (step =3D 0; step < ctx->steps; step++) {
-                          ^~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:539:2: note: Loop condition is false. Execut=
-ion continues on line 548
-           for (step =3D 0; step < ctx->steps; step++) {
-           ^
-   drivers/mtd/nand/ecc-mxic.c:548:2: note: Undefined or garbage value retu=
-rned to caller
-           return ret;
-           ^      ~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   drivers/mtd/nand/onenand/onenand_base.c:3751:23: warning: The result of =
-the left shift is undefined due to shifting by '4294967265', which is great=
-er or equal to the width of type 'int' [clang-analyzer-core.UndefinedBinary=
-OperatorResult]
-           this->page_mask =3D (1 << (this->erase_shift - this->page_shift)=
-) - 1;
-                                ^
-   drivers/mtd/nand/onenand/onenand_base.c:3818:6: note: Assuming field 're=
-ad_word' is non-null
-           if (!this->read_word)
-               ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3818:2: note: Taking false branch
-           if (!this->read_word)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3820:6: note: Assuming field 'wr=
-ite_word' is non-null
-           if (!this->write_word)
-               ^~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3820:2: note: Taking false branch
-           if (!this->write_word)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3823:6: note: Assuming field 'co=
-mmand' is non-null
-           if (!this->command)
-               ^~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3823:2: note: Taking false branch
-           if (!this->command)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3825:6: note: Assuming field 'wa=
-it' is non-null
-           if (!this->wait)
-               ^~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3825:2: note: Taking false branch
-           if (!this->wait)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3827:6: note: Assuming field 'bb=
-t_wait' is non-null
-           if (!this->bbt_wait)
-               ^~~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3827:2: note: Taking false branch
-           if (!this->bbt_wait)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3829:6: note: Assuming field 'un=
-lock_all' is non-null
-           if (!this->unlock_all)
-               ^~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3829:2: note: Taking false branch
-           if (!this->unlock_all)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3832:6: note: Assuming field 'ch=
-ip_probe' is non-null
-           if (!this->chip_probe)
-               ^~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3832:2: note: Taking false branch
-           if (!this->chip_probe)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3835:6: note: Assuming field 're=
-ad_bufferram' is non-null
-           if (!this->read_bufferram)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/onenand/onenand_base.c:3835:2: note: Taking false branch
-           if (!this->read_bufferram)
-           ^
-   drivers/mtd/nand/onenand/onenand_base.c:3837:6: note: Assuming field 'wr=
-ite_bufferram' is non-null
-           if (!this->write_bufferram)
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:194 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 183)
 
-vim +/dev +466 drivers/mtd/nand/ecc-mxic.c
+vim +/err +381 drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
 
-cfe5cf69e97267 Miquel Raynal 2021-12-16  460  =
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  301  =
 
-cfe5cf69e97267 Miquel Raynal 2021-12-16  461  static int mxic_ecc_count_bit=
-errs(struct mxic_ecc_engine *mxic,
-cfe5cf69e97267 Miquel Raynal 2021-12-16  462  				  struct nand_device *nan=
-d)
-cfe5cf69e97267 Miquel Raynal 2021-12-16  463  {
-cfe5cf69e97267 Miquel Raynal 2021-12-16  464  	struct mxic_ecc_ctx *ctx =3D=
- nand_to_ecc_ctx(nand);
-cfe5cf69e97267 Miquel Raynal 2021-12-16  465  	struct mtd_info *mtd =3D nan=
-ddev_to_mtd(nand);
-cfe5cf69e97267 Miquel Raynal 2021-12-16 @466  	struct device *dev =3D mxic-=
->dev;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  467  	unsigned int max_bf =3D 0;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  468  	bool failure =3D false;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  469  	int step;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  470  =
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  302  /*
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  303   * This subtest tests=
+ that unbinding at migration is indeed performed
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  304   * async. We launch a=
+ spinner and a number of migrations depending on
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  305   * that spinner to ha=
+ve terminated. Before each migration we bind a
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  306   * vma, which should =
+then be async unbound by the migration operation.
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  307   * If we are able to =
+schedule migrations without blocking while the
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  308   * spinner is still r=
+unning, those unbinds are indeed async and non-
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  309   * blocking.
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  310   *
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  311   * Note that each asy=
+nc bind operation is awaiting the previous migration
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  312   * due to the moving =
+fence resulting from the migration.
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  313   */
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  314  static int igt_async_=
+migrate(struct intel_gt *gt)
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  315  {
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  316  	struct intel_engine_=
+cs *engine;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  317  	enum intel_engine_id=
+ id;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  318  	struct i915_ppgtt *p=
+pgtt;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  319  	struct igt_spinner s=
+pin;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  320  	int err;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  321  =
 
-cfe5cf69e97267 Miquel Raynal 2021-12-16  471  	for (step =3D 0; step < ctx-=
->steps; step++) {
-cfe5cf69e97267 Miquel Raynal 2021-12-16  472  		u8 stat =3D ctx->status[ste=
-p];
-cfe5cf69e97267 Miquel Raynal 2021-12-16  473  =
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  322  	ppgtt =3D i915_ppgtt=
+_create(gt, 0);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  323  	if (IS_ERR(ppgtt))
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  324  		return PTR_ERR(ppgt=
+t);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  325  =
 
-cfe5cf69e97267 Miquel Raynal 2021-12-16  474  		if (stat =3D=3D NO_ERR) {
-cfe5cf69e97267 Miquel Raynal 2021-12-16  475  			dev_dbg(dev, "ECC step %d:=
- no error\n", step);
-cfe5cf69e97267 Miquel Raynal 2021-12-16  476  		} else if (stat =3D=3D ERAS=
-ED_CHUNK) {
-cfe5cf69e97267 Miquel Raynal 2021-12-16  477  			dev_dbg(dev, "ECC step %d:=
- erased\n", step);
-cfe5cf69e97267 Miquel Raynal 2021-12-16  478  		} else if (stat =3D=3D UNCO=
-RR_ERR || stat > MAX_CORR_ERR) {
-cfe5cf69e97267 Miquel Raynal 2021-12-16  479  			dev_dbg(dev, "ECC step %d:=
- uncorrectable\n", step);
-cfe5cf69e97267 Miquel Raynal 2021-12-16  480  			mtd->ecc_stats.failed++;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  481  			failure =3D true;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  482  		} else {
-cfe5cf69e97267 Miquel Raynal 2021-12-16  483  			dev_dbg(dev, "ECC step %d:=
- %d bits corrected\n",
-cfe5cf69e97267 Miquel Raynal 2021-12-16  484  				step, stat);
-cfe5cf69e97267 Miquel Raynal 2021-12-16  485  			max_bf =3D max_t(unsigned =
-int, max_bf, stat);
-cfe5cf69e97267 Miquel Raynal 2021-12-16  486  			mtd->ecc_stats.corrected +=
-=3D stat;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  487  		}
-cfe5cf69e97267 Miquel Raynal 2021-12-16  488  	}
-cfe5cf69e97267 Miquel Raynal 2021-12-16  489  =
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  326  	if (igt_spinner_init=
+(&spin, gt)) {
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  327  		err =3D -ENOMEM;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  328  		goto out_spin;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  329  	}
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  330  =
 
-cfe5cf69e97267 Miquel Raynal 2021-12-16  490  	return failure ? -EBADMSG : =
-max_bf;
-cfe5cf69e97267 Miquel Raynal 2021-12-16  491  }
-cfe5cf69e97267 Miquel Raynal 2021-12-16  492  =
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  331  	for_each_engine(engi=
+ne, gt, id) {
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  332  		struct ttm_operatio=
+n_ctx ctx =3D {
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  333  			.interruptible =3D=
+ true
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  334  		};
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  335  		struct dma_fence *s=
+pin_fence;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  336  		struct intel_contex=
+t *ce;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  337  		struct i915_request=
+ *rq;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  338  		struct i915_deps de=
+ps;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  339  =
+
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  340  		ce =3D intel_contex=
+t_create(engine);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  341  		if (IS_ERR(ce)) {
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  342  			err =3D PTR_ERR(ce=
+);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  343  			goto out_ce;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  344  		}
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  345  =
+
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  346  		/*
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  347  		 * Use MI_NOOP, mak=
+ing the spinner non-preemptible. If there
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  348  		 * is a code path w=
+here we fail async operation due to the
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  349  		 * running spinner,=
+ we will block and fail to end the
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  350  		 * spinner resultin=
+g in a deadlock. But with a non-
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  351  		 * preemptible spin=
+ner, hangcheck will terminate the spinner
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  352  		 * for us, and we w=
+ill later detect that and fail the test.
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  353  		 */
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  354  		rq =3D igt_spinner_=
+create_request(&spin, ce, MI_NOOP);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  355  		intel_context_put(c=
+e);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  356  		if (IS_ERR(rq)) {
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  357  			err =3D PTR_ERR(rq=
+);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  358  			goto out_ce;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  359  		}
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  360  =
+
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  361  		i915_deps_init(&dep=
+s, GFP_KERNEL);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  362  		err =3D i915_deps_a=
+dd_dependency(&deps, &rq->fence, &ctx);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  363  		spin_fence =3D dma_=
+fence_get(&rq->fence);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  364  		i915_request_add(rq=
+);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  365  		if (err)
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  366  			goto out_ce;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  367  =
+
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  368  		err =3D __igt_lmem_=
+pages_migrate(gt, &ppgtt->vm, &deps, &spin,
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  369  					       spin_fenc=
+e);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  370  		i915_deps_fini(&dep=
+s);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  371  		dma_fence_put(spin_=
+fence);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  372  		if (err)
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  373  			goto out_ce;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  374  	}
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  375  =
+
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  376  out_ce:
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  377  	igt_spinner_fini(&sp=
+in);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  378  out_spin:
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  379  	i915_vm_put(&ppgtt->=
+vm);
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  380  =
+
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10 @381  	return err;
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  382  }
+950505cabe517a Thomas Hellstr=C3=B6m 2022-01-10  383  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8537782605063585355==--
+--===============0695902464988468852==--
 
