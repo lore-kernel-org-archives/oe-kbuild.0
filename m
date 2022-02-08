@@ -1,229 +1,98 @@
-Content-Type: multipart/mixed; boundary="===============0924599259905741320=="
+Content-Type: multipart/mixed; boundary="===============0273918997421022188=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 03/10] block: Add copy offload support infrastructure
-Date: Wed, 09 Feb 2022 07:31:03 +0800
-Message-ID: <202202090703.U5riBMIn-lkp@intel.com>
+Subject: [ardb:hctr2 3/8] crypto/hctr2.c:151 hctr2_hash_message() error: uninitialized symbol 'err'.
+Date: Wed, 09 Feb 2022 07:10:42 +0800
+Message-ID: <202202090709.CprWuydG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0924599259905741320==
+--===============0273918997421022188==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220207141348.4235-4-nj.shetty@samsung.com>
-References: <20220207141348.4235-4-nj.shetty@samsung.com>
-TO: Nitesh Shetty <nj.shetty@samsung.com>
-TO: mpatocka(a)redhat.com
-CC: javier(a)javigon.com
-CC: chaitanyak(a)nvidia.com
-CC: linux-block(a)vger.kernel.org
-CC: linux-scsi(a)vger.kernel.org
-CC: dm-devel(a)redhat.com
-CC: linux-nvme(a)lists.infradead.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: axboe(a)kernel.dk
-CC: msnitzer(a)redhat.com
-CC: bvanassche(a)acm.org
-CC: martin.petersen(a)oracle.com
-CC: roland(a)purestorage.com
-CC: hare(a)suse.de
-CC: kbusch(a)kernel.org
-CC: hch(a)lst.de
-CC: Frederick.Knight(a)netapp.com
-CC: zach.brown(a)ni.com
-CC: osandov(a)fb.com
-CC: lsf-pc(a)lists.linux-foundation.org
-CC: djwong(a)kernel.org
-CC: josef(a)toxicpanda.com
-CC: clm(a)fb.com
-CC: dsterba(a)suse.com
-CC: tytso(a)mit.edu
-CC: jack(a)suse.com
-CC: joshi.k(a)samsung.com
-CC: arnav.dawn(a)samsung.com
-CC: nj.shetty(a)samsung.com
-CC: SelvaKumar S <selvakuma.s1@samsung.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Nathan Huckleberry <nhuck@google.com>
+CC: Ard Biesheuvel <ardb@kernel.org>
 
-Hi Nitesh,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20220208]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-b=
-io_map_kern-non-static/20220207-231407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: i386-randconfig-m021-20220207 (https://download.01.org/0day-ci/arch=
-ive/20220209/202202090703.U5riBMIn-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git hctr2
+head:   5bb01649223080b7cde5740f441eb5e758ec357f
+commit: 09533ad0ea8fa56420aa6e866b11c0685e862bd1 [3/8] crypto: hctr2 - Add =
+HCTR2 support
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 days ago
+config: openrisc-randconfig-m031-20220208 (https://download.01.org/0day-ci/=
+archive/20220209/202202090709.CprWuydG-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-block/blk-lib.c:272 blk_copy_offload() warn: possible memory leak of 'ctx'
+crypto/hctr2.c:151 hctr2_hash_message() error: uninitialized symbol 'err'.
 
-vim +/ctx +272 block/blk-lib.c
+vim +/err +151 crypto/hctr2.c
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  180  =
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  130  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  181  /*
-12a9801a7301f1 Nitesh Shetty 2022-02-07  182   * blk_copy_offload	- Use dev=
-ice's native copy offload feature
-12a9801a7301f1 Nitesh Shetty 2022-02-07  183   * Go through user provide pa=
-yload, prepare new payload based on device's copy offload limits.
-12a9801a7301f1 Nitesh Shetty 2022-02-07  184   */
-12a9801a7301f1 Nitesh Shetty 2022-02-07  185  int blk_copy_offload(struct b=
-lock_device *src_bdev, int nr_srcs,
-12a9801a7301f1 Nitesh Shetty 2022-02-07  186  		struct range_entry *rlist, =
-struct block_device *dst_bdev, gfp_t gfp_mask)
-12a9801a7301f1 Nitesh Shetty 2022-02-07  187  {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  188  	struct request_queue *sq =3D=
- bdev_get_queue(src_bdev);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  189  	struct request_queue *dq =3D=
- bdev_get_queue(dst_bdev);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  190  	struct bio *read_bio, *write=
-_bio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  191  	struct copy_ctx *ctx;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  192  	struct cio *cio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  193  	struct page *token;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  194  	sector_t src_blk, copy_len, =
-dst_blk;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  195  	sector_t remaining, max_copy=
-_len =3D LONG_MAX;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  196  	int ri =3D 0, ret =3D 0;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  197  =
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  131  static int hctr2_hash_me=
+ssage(struct skcipher_request *req,
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  132  			      struct scatterl=
+ist *sgl,
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  133  			      u8 digest[POLYV=
+AL_DIGEST_SIZE])
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  134  {
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  135  	u8 padding[BLOCKCIPHER_=
+BLOCK_SIZE];
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  136  	struct hctr2_request_ct=
+x *rctx =3D skcipher_request_ctx(req);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  137  	struct shash_desc *hash=
+_desc =3D &rctx->u.hash_desc;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  138  	const unsigned int bulk=
+_len =3D req->cryptlen - BLOCKCIPHER_BLOCK_SIZE;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  139  	struct sg_mapping_iter =
+miter;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  140  	unsigned int remainder =
+=3D bulk_len % BLOCKCIPHER_BLOCK_SIZE;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  141  	int err;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  142  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  198  	cio =3D kzalloc(sizeof(struc=
-t cio), GFP_KERNEL);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  199  	if (!cio)
-12a9801a7301f1 Nitesh Shetty 2022-02-07  200  		return -ENOMEM;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  201  	atomic_set(&cio->refcount, 0=
-);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  202  	cio->rlist =3D rlist;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  203  =
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  143  	sg_miter_start(&miter, =
+sgl, sg_nents(sgl),
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  144  		       SG_MITER_FROM_S=
+G | SG_MITER_ATOMIC);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  145  	while (sg_miter_next(&m=
+iter)) {
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  146  		err =3D crypto_shash_u=
+pdate(hash_desc, miter.addr, miter.length);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  147  		if (err)
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  148  			break;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  149  	}
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  150  	sg_miter_stop(&miter);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24 @151  	if (err)
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  152  		return err;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  153  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  204  	max_copy_len =3D min3(max_co=
-py_len, (sector_t)sq->limits.max_copy_sectors,
-12a9801a7301f1 Nitesh Shetty 2022-02-07  205  			(sector_t)dq->limits.max_c=
-opy_sectors);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  206  	max_copy_len =3D min3(max_co=
-py_len, (sector_t)sq->limits.max_copy_range_sectors,
-12a9801a7301f1 Nitesh Shetty 2022-02-07  207  			(sector_t)dq->limits.max_c=
-opy_range_sectors) << SECTOR_SHIFT;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  208  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  209  	for (ri =3D 0; ri < nr_srcs;=
- ri++) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  210  		cio->rlist[ri].comp_len =3D=
- rlist[ri].len;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  211  		for (remaining =3D rlist[ri=
-].len, src_blk =3D rlist[ri].src, dst_blk =3D rlist[ri].dst;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  212  			remaining > 0;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  213  			remaining -=3D copy_len, s=
-rc_blk +=3D copy_len, dst_blk +=3D copy_len) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  214  			copy_len =3D min(remaining=
-, max_copy_len);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  215  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  216  			token =3D alloc_page(gfp_m=
-ask);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  217  			if (unlikely(!token)) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  218  				ret =3D -ENOMEM;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  219  				goto err_token;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  220  			}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  221  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  222  			read_bio =3D bio_alloc(src=
-_bdev, 1, REQ_OP_READ | REQ_COPY | REQ_NOMERGE,
-12a9801a7301f1 Nitesh Shetty 2022-02-07  223  					gfp_mask);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  224  			if (!read_bio) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  225  				ret =3D -ENOMEM;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  226  				goto err_read_bio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  227  			}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  228  			read_bio->bi_iter.bi_secto=
-r =3D src_blk >> SECTOR_SHIFT;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  229  			read_bio->bi_iter.bi_size =
-=3D copy_len;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  230  			__bio_add_page(read_bio, t=
-oken, PAGE_SIZE, 0);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  231  			ret =3D submit_bio_wait(re=
-ad_bio);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  232  			if (ret) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  233  				bio_put(read_bio);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  234  				goto err_read_bio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  235  			}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  236  			bio_put(read_bio);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  237  			ctx =3D kzalloc(sizeof(str=
-uct copy_ctx), gfp_mask);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  238  			if (!ctx) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  239  				ret =3D -ENOMEM;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  240  				goto err_read_bio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  241  			}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  242  			ctx->cio =3D cio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  243  			ctx->range_idx =3D ri;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  244  			ctx->start_sec =3D rlist[r=
-i].src;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  245  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  246  			write_bio =3D bio_alloc(ds=
-t_bdev, 1, REQ_OP_WRITE | REQ_COPY | REQ_NOMERGE,
-12a9801a7301f1 Nitesh Shetty 2022-02-07  247  					gfp_mask);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  248  			if (!write_bio) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  249  				ret =3D -ENOMEM;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  250  				goto err_read_bio;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  251  			}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  252  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  253  			write_bio->bi_iter.bi_sect=
-or =3D dst_blk >> SECTOR_SHIFT;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  254  			write_bio->bi_iter.bi_size=
- =3D copy_len;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  255  			__bio_add_page(write_bio, =
-token, PAGE_SIZE, 0);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  256  			write_bio->bi_end_io =3D b=
-io_copy_end_io;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  257  			write_bio->bi_private =3D =
-ctx;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  258  			atomic_inc(&cio->refcount);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  259  			submit_bio(write_bio);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  260  		}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  261  	}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  262  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  263  	/* Wait for completion of al=
-l IO's*/
-12a9801a7301f1 Nitesh Shetty 2022-02-07  264  	return cio_await_completion(=
-cio);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  265  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  266  err_read_bio:
-12a9801a7301f1 Nitesh Shetty 2022-02-07  267  	__free_page(token);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  268  err_token:
-12a9801a7301f1 Nitesh Shetty 2022-02-07  269  	rlist[ri].comp_len =3D min_t=
-(sector_t, rlist[ri].comp_len, (rlist[ri].len - remaining));
-12a9801a7301f1 Nitesh Shetty 2022-02-07  270  =
-
-12a9801a7301f1 Nitesh Shetty 2022-02-07  271  	cio->io_err =3D ret;
-12a9801a7301f1 Nitesh Shetty 2022-02-07 @272  	return cio_await_completion(=
-cio);
-12a9801a7301f1 Nitesh Shetty 2022-02-07  273  }
-12a9801a7301f1 Nitesh Shetty 2022-02-07  274  =
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  154  	if (remainder) {
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  155  		memset(padding, 0, BLO=
+CKCIPHER_BLOCK_SIZE);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  156  		padding[0] =3D 0x01;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  157  		err =3D crypto_shash_u=
+pdate(hash_desc, padding, BLOCKCIPHER_BLOCK_SIZE - remainder);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  158  		if (err)
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  159  			return err;
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  160  	}
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  161  	return crypto_shash_fin=
+al(hash_desc, digest);
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  162  }
+09533ad0ea8fa5 Nathan Huckleberry 2022-01-24  163  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0924599259905741320==--
+--===============0273918997421022188==--
 
