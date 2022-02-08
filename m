@@ -1,198 +1,218 @@
-Content-Type: multipart/mixed; boundary="===============2436899426252788009=="
+Content-Type: multipart/mixed; boundary="===============3695470859081867957=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/dac/ad7293.c:524 ad7293_read_raw() error: uninitialized symbol 'data'.
-Date: Tue, 08 Feb 2022 15:06:21 +0800
-Message-ID: <202202081433.mPxuLUuj-lkp@intel.com>
+Subject: [tnguy-next-queue:dev-queue 41/144] include/net/gro.h:58:1: sparse: sparse: directive in macro's argument list
+Date: Tue, 08 Feb 2022 12:58:56 +0800
+Message-ID: <202202081257.bj8Fl3Sn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2436899426252788009==
+--===============3695470859081867957==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Cai Huoqing <cai.huoqing@linux.dev>
+TO: Paolo Abeni <pabeni@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   555f3d7be91a873114c9656069f1a9fa476ec41a
-commit: 0bb12606c05fe9737e3056fe76d6e4b9c2a87b57 iio:dac:ad7293: add suppor=
-t for AD7293
-date:   9 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-m001-20220207 (https://download.01.org/0day-ci/ar=
-chive/20220208/202202081433.mPxuLUuj-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.gi=
+t dev-queue
+head:   813d4b9de3b79e60cb9f25b5f60de6ddd24f2d0b
+commit: de5a1f3ce4c862150dc442530dba19e1d1dc6bc2 [41/144] net: gro: minor o=
+ptimization for dev_gro_receive()
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 days ago
+config: nios2-randconfig-s031-20220207 (https://download.01.org/0day-ci/arc=
+hive/20220208/202202081257.bj8Fl3Sn-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.=
+git/commit/?id=3Dde5a1f3ce4c862150dc442530dba19e1d1dc6bc2
+        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linu=
+x/kernel/git/tnguy/next-queue.git
+        git fetch --no-tags tnguy-next-queue dev-queue
+        git checkout de5a1f3ce4c862150dc442530dba19e1d1dc6bc2
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dn=
+ios2 SHELL=3D/bin/bash net/core/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/dac/ad7293.c:524 ad7293_read_raw() error: uninitialized symbol =
-'data'.
 
-vim +/data +524 drivers/iio/dac/ad7293.c
+sparse warnings: (new ones prefixed by >>)
+   net/core/gro.c: note: in included file:
+>> include/net/gro.h:58:1: sparse: sparse: directive in macro's argument li=
+st
+   include/net/gro.h:59:1: sparse: sparse: directive in macro's argument li=
+st
+   net/core/gro.c: note: in included file (through include/net/checksum.h, =
+include/linux/skbuff.h, include/linux/ip.h, include/net/gro.h):
+   arch/nios2/include/asm/checksum.h:30:24: sparse: sparse: restricted __ws=
+um degrades to integer
+--
+   net/core/dev.c: note: in included file:
+>> include/net/gro.h:58:1: sparse: sparse: directive in macro's argument li=
+st
+   include/net/gro.h:59:1: sparse: sparse: directive in macro's argument li=
+st
+   net/core/dev.c:3207:23: sparse: sparse: incorrect type in argument 4 (di=
+fferent base types) @@     expected restricted __wsum [usertype] csum @@   =
+  got unsigned int @@
+   net/core/dev.c:3207:23: sparse:     expected restricted __wsum [usertype=
+] csum
+   net/core/dev.c:3207:23: sparse:     got unsigned int
+   net/core/dev.c:3207:23: sparse: sparse: cast from restricted __wsum
+   net/core/dev.c: note: in included file (through include/uapi/linux/swab.=
+h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
+ents for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
+ents for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
+ents for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
+ents for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many argum=
+ents for function __builtin_custom_ini
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  475  =
+vim +58 include/net/gro.h
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  476  static int ad7293_read_raw(=
-struct iio_dev *indio_dev,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  477  			   struct iio_chan_spec =
-const *chan,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  478  			   int *val, int *val2, =
-long info)
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  479  {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  480  	struct ad7293_state *st =
-=3D iio_priv(indio_dev);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  481  	int ret;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  482  	u16 data;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  483  =
+e75ec151c1088c Alexander Lobakin 2021-03-18  12  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  484  	switch (info) {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  485  	case IIO_CHAN_INFO_RAW:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  486  		switch (chan->type) {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  487  		case IIO_VOLTAGE:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  488  			if (chan->output)
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  489  				ret =3D  ad7293_ch_read=
-_raw(st, AD7293_DAC,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  490  							  chan->channel, &da=
-ta);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  491  			else
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  492  				ret =3D  ad7293_ch_read=
-_raw(st, AD7293_ADC_VINX,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  493  							  chan->channel, &da=
-ta);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  494  =
+4721031c3559db Eric Dumazet      2021-11-15  13  struct napi_gro_cb {
+4721031c3559db Eric Dumazet      2021-11-15  14  	/* Virtual address of skb=
+_shinfo(skb)->frags[0].page + offset. */
+4721031c3559db Eric Dumazet      2021-11-15  15  	void	*frag0;
+4721031c3559db Eric Dumazet      2021-11-15  16  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  495  			break;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  496  		case IIO_CURRENT:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  497  			ret =3D  ad7293_ch_read_=
-raw(st, AD7293_ADC_ISENSE,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  498  						  chan->channel, &dat=
-a);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  499  =
+4721031c3559db Eric Dumazet      2021-11-15  17  	/* Length of frag0. */
+4721031c3559db Eric Dumazet      2021-11-15  18  	unsigned int frag0_len;
+4721031c3559db Eric Dumazet      2021-11-15  19  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  500  			break;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  501  		case IIO_TEMP:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  502  			ret =3D  ad7293_ch_read_=
-raw(st, AD7293_ADC_TSENSE,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  503  						  chan->channel, &dat=
-a);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  504  =
+4721031c3559db Eric Dumazet      2021-11-15  20  	/* This indicates where w=
+e are processing relative to skb->data. */
+4721031c3559db Eric Dumazet      2021-11-15  21  	int	data_offset;
+4721031c3559db Eric Dumazet      2021-11-15  22  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  505  			break;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  506  		default:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  507  			return -EINVAL;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  508  		}
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  509  =
+4721031c3559db Eric Dumazet      2021-11-15  23  	/* This is non-zero if th=
+e packet cannot be merged with the new skb. */
+4721031c3559db Eric Dumazet      2021-11-15  24  	u16	flush;
+4721031c3559db Eric Dumazet      2021-11-15  25  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  510  		if (ret)
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  511  			return ret;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  512  =
+4721031c3559db Eric Dumazet      2021-11-15  26  	/* Save the IP ID here an=
+d check when we get to the transport layer */
+4721031c3559db Eric Dumazet      2021-11-15  27  	u16	flush_id;
+4721031c3559db Eric Dumazet      2021-11-15  28  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  513  		*val =3D data;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  514  =
+4721031c3559db Eric Dumazet      2021-11-15  29  	/* Number of segments agg=
+regated. */
+4721031c3559db Eric Dumazet      2021-11-15  30  	u16	count;
+4721031c3559db Eric Dumazet      2021-11-15  31  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  515  		return IIO_VAL_INT;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  516  	case IIO_CHAN_INFO_OFFSET:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  517  		switch (chan->type) {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  518  		case IIO_VOLTAGE:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  519  			if (chan->output) {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  520  				ret =3D ad7293_get_offs=
-et(st,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  521  							chan->channel + AD72=
-93_VOUT_MIN_OFFSET_CH,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  522  							&data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  523  =
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  32  	/* Used in ipv6_gro_recei=
+ve() and foo-over-udp */
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  33  	u16	proto;
+4721031c3559db Eric Dumazet      2021-11-15  34  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02 @524  				data =3D FIELD_GET(AD72=
-93_REG_VOUT_OFFSET_MSK, data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  525  			} else {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  526  				ret =3D ad7293_get_offs=
-et(st, chan->channel, &data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  527  			}
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  528  =
+4721031c3559db Eric Dumazet      2021-11-15  35  	/* jiffies when first pac=
+ket was created/queued */
+4721031c3559db Eric Dumazet      2021-11-15  36  	unsigned long age;
+4721031c3559db Eric Dumazet      2021-11-15  37  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  529  			break;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  530  		case IIO_CURRENT:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  531  			ret =3D ad7293_get_offse=
-t(st,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  532  						chan->channel + AD729=
-3_ISENSE_MIN_OFFSET_CH,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  533  						&data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  534  =
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  38  	/* portion of the cb set =
+to zero at every gro iteration */
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  39  	struct_group(zeroed,
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  40  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  535  			break;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  536  		case IIO_TEMP:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  537  			ret =3D ad7293_get_offse=
-t(st,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  538  						chan->channel + AD729=
-3_TSENSE_MIN_OFFSET_CH,
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  539  						&data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  540  =
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  41  		/* Start offset for remo=
+te checksum offload */
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  42  		u16	gro_remcsum_start;
+4721031c3559db Eric Dumazet      2021-11-15  43  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  541  			break;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  542  		default:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  543  			return -EINVAL;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  544  		}
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  545  		if (ret)
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  546  			return ret;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  547  =
+4721031c3559db Eric Dumazet      2021-11-15  44  		/* This is non-zero if t=
+he packet may be of the same flow. */
+4721031c3559db Eric Dumazet      2021-11-15  45  		u8	same_flow:1;
+4721031c3559db Eric Dumazet      2021-11-15  46  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  548  		*val =3D data;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  549  =
+4721031c3559db Eric Dumazet      2021-11-15  47  		/* Used in tunnel GRO re=
+ceive */
+4721031c3559db Eric Dumazet      2021-11-15  48  		u8	encap_mark:1;
+4721031c3559db Eric Dumazet      2021-11-15  49  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  550  		return IIO_VAL_INT;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  551  	case IIO_CHAN_INFO_SCALE:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  552  		switch (chan->type) {
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  553  		case IIO_VOLTAGE:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  554  			ret =3D ad7293_adc_get_s=
-cale(st, chan->channel, &data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  555  			if (ret)
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  556  				return ret;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  557  =
+4721031c3559db Eric Dumazet      2021-11-15  50  		/* GRO checksum is valid=
+ */
+4721031c3559db Eric Dumazet      2021-11-15  51  		u8	csum_valid:1;
+4721031c3559db Eric Dumazet      2021-11-15  52  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  558  			*val =3D data;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  559  =
+4721031c3559db Eric Dumazet      2021-11-15  53  		/* Number of checksums v=
+ia CHECKSUM_UNNECESSARY */
+4721031c3559db Eric Dumazet      2021-11-15  54  		u8	csum_cnt:3;
+4721031c3559db Eric Dumazet      2021-11-15  55  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  560  			return IIO_VAL_INT;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  561  		case IIO_CURRENT:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  562  			ret =3D ad7293_isense_ge=
-t_scale(st, chan->channel, &data);
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  563  			if (ret)
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  564  				return ret;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  565  =
+4721031c3559db Eric Dumazet      2021-11-15  56  		/* Free the skb? */
+4721031c3559db Eric Dumazet      2021-11-15  57  		u8	free:2;
+4721031c3559db Eric Dumazet      2021-11-15 @58  #define NAPI_GRO_FREE		  1
+4721031c3559db Eric Dumazet      2021-11-15  59  #define NAPI_GRO_FREE_STOL=
+EN_HEAD 2
+4721031c3559db Eric Dumazet      2021-11-15  60  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  566  			*val =3D data;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  567  =
+4721031c3559db Eric Dumazet      2021-11-15  61  		/* Used in foo-over-udp,=
+ set in udp[46]_gro_receive */
+4721031c3559db Eric Dumazet      2021-11-15  62  		u8	is_ipv6:1;
+4721031c3559db Eric Dumazet      2021-11-15  63  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  568  			return IIO_VAL_INT;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  569  		case IIO_TEMP:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  570  			*val =3D 1;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  571  			*val2 =3D 8;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  572  =
+4721031c3559db Eric Dumazet      2021-11-15  64  		/* Used in GRE, set in f=
+ou/gue_gro_receive */
+4721031c3559db Eric Dumazet      2021-11-15  65  		u8	is_fou:1;
+4721031c3559db Eric Dumazet      2021-11-15  66  =
 
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  573  			return IIO_VAL_FRACTIONA=
-L;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  574  		default:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  575  			return -EINVAL;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  576  		}
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  577  	default:
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  578  		return -EINVAL;
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  579  	}
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  580  }
-0bb12606c05fe9 Antoniu Miclaus 2021-12-02  581  =
+4721031c3559db Eric Dumazet      2021-11-15  67  		/* Used to determine if =
+flush_id can be ignored */
+4721031c3559db Eric Dumazet      2021-11-15  68  		u8	is_atomic:1;
+4721031c3559db Eric Dumazet      2021-11-15  69  =
 
+4721031c3559db Eric Dumazet      2021-11-15  70  		/* Number of gro_receive=
+ callbacks this packet already went through */
+4721031c3559db Eric Dumazet      2021-11-15  71  		u8 recursion_counter:4;
+4721031c3559db Eric Dumazet      2021-11-15  72  =
+
+4721031c3559db Eric Dumazet      2021-11-15  73  		/* GRO is done by frag_l=
+ist pointer chaining. */
+4721031c3559db Eric Dumazet      2021-11-15  74  		u8	is_flist:1;
+de5a1f3ce4c862 Paolo Abeni       2022-02-04  75  	);
+4721031c3559db Eric Dumazet      2021-11-15  76  =
+
+4721031c3559db Eric Dumazet      2021-11-15  77  	/* used to support CHECKS=
+UM_COMPLETE for tunneling protocols */
+4721031c3559db Eric Dumazet      2021-11-15  78  	__wsum	csum;
+4721031c3559db Eric Dumazet      2021-11-15  79  =
+
+4721031c3559db Eric Dumazet      2021-11-15  80  	/* used in skb_gro_receiv=
+e() slow path */
+4721031c3559db Eric Dumazet      2021-11-15  81  	struct sk_buff *last;
+4721031c3559db Eric Dumazet      2021-11-15  82  };
+4721031c3559db Eric Dumazet      2021-11-15  83  =
+
+
+:::::: The code at line 58 was first introduced by commit
+:::::: 4721031c3559db8eae61df305f10c00099a7c1d0 net: move gro definitions t=
+o include/net/gro.h
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2436899426252788009==--
+--===============3695470859081867957==--
 
