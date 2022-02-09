@@ -1,583 +1,264 @@
-Content-Type: multipart/mixed; boundary="===============5190723768338248796=="
+Content-Type: multipart/mixed; boundary="===============2236232338081038501=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH net-next 5/5] mctp: Add SIOCMCTP{ALLOC, DROP}TAG ioctls for tag control
-Date: Thu, 10 Feb 2022 01:43:35 +0800
-Message-ID: <202202100128.Jug3BevE-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15 576/907] drivers/dma/xilinx/xilinx_frmbuf.c:727 xilinx_xdma_get_drm_vid_fmts() warn: passing a valid pointer to 'PTR_ERR'
+Date: Thu, 10 Feb 2022 01:32:53 +0800
+Message-ID: <202202100121.5zLIr9Ko-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5190723768338248796==
+--===============2236232338081038501==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220208094617.3675511-6-jk@codeconstruct.com.au>
-References: <20220208094617.3675511-6-jk@codeconstruct.com.au>
-TO: Jeremy Kerr <jk@codeconstruct.com.au>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Jeffrey Mouroux <jeff.mouroux@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Radhey Pandey <radheys@xilinx.com>
+CC: John Nichols <jnichol@xilinx.com>
+CC: Hyun Kwon <hyun.kwon@xilinx.com>
 
-Hi Jeremy,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Jeremy-Kerr/MCTP-tag-contr=
-ol-interface/20220208-195325
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-c3e676b98326a419f30dd5d956c68fc33323f4fd
-:::::: branch date: 30 hours ago
-:::::: commit date: 30 hours ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20210/202202100128.Jug3BevE-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
-ae54a55b4dbfeb6ba55f723abbd81bf494)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/a1d553f399d7457bd3e455cd3=
-f5e10dddb4bc2bf
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jeremy-Kerr/MCTP-tag-control-inter=
-face/20220208-195325
-        git checkout a1d553f399d7457bd3e455cd3f5e10dddb4bc2bf
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
+head:   423a108a01e05e84b59a4c4885c16bf3cd8c90c7
+commit: c869e53ce34decde8d196cb8032d248031278784 [576/907] dmaengine: xilin=
+x_frmbuf: New driver for Video Framebuffer IP
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 days ago
+config: arm-randconfig-m031-20220208 (https://download.01.org/0day-ci/archi=
+ve/20220210/202202100121.5zLIr9Ko-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-
-
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:335:2: note: Taking false branch
-           if (skb->len < sizeof(struct mctp_hdr) + 1)
-           ^
-   net/mctp/route.c:342:6: note: Assuming field 'ver' is equal to 1
-           if (mh->ver !=3D 1)
-               ^~~~~~~~~~~~
-   net/mctp/route.c:342:2: note: Taking false branch
-           if (mh->ver !=3D 1)
-           ^
-   net/mctp/route.c:355:6: note: Assuming the condition is true
-           if (flags & MCTP_HDR_FLAG_SOM) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:355:2: note: Taking true branch
-           if (flags & MCTP_HDR_FLAG_SOM) {
-           ^
-   net/mctp/route.c:356:7: note: 'key' is null
-                   if (key) {
-                       ^~~
-   net/mctp/route.c:356:3: note: Taking false branch
-                   if (key) {
-                   ^
-   net/mctp/route.c:365:8: note: 'key' is null
-                           if (key) {
-                               ^~~
-   net/mctp/route.c:365:4: note: Taking false branch
-                           if (key) {
-                           ^
-   net/mctp/route.c:374:8: note: 'key' is null
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                        ^~~
-   net/mctp/route.c:374:7: note: Left side of '&&' is true
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                       ^
-   net/mctp/route.c:374:16: note: 'msk' is null
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                                ^~~
-   net/mctp/route.c:374:7: note: Left side of '&&' is true
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                       ^
-   net/mctp/route.c:374:24: note: Assuming the condition is true
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                                        ^~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:374:3: note: Taking true branch
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                   ^
-   net/mctp/route.c:377:8: note: 'msk' is non-null
-                   if (!msk) {
-                        ^~~
-   net/mctp/route.c:377:3: note: Taking false branch
-                   if (!msk) {
-                   ^
-   net/mctp/route.c:385:7: note: Assuming the condition is false
-                   if (flags & MCTP_HDR_FLAG_EOM) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:385:3: note: Taking false branch
-                   if (flags & MCTP_HDR_FLAG_EOM) {
-                   ^
-   net/mctp/route.c:402:8: note: 'key' is null
-                   if (!key) {
-                        ^~~
-   net/mctp/route.c:402:3: note: Taking true branch
-                   if (!key) {
-                   ^
-   net/mctp/route.c:403:10: note: Calling 'mctp_key_alloc'
-                           key =3D mctp_key_alloc(msk, mh->dest, mh->src,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:140:6: note: Assuming 'key' is non-null
-           if (!key)
-               ^~~~
-   net/mctp/route.c:140:2: note: Taking false branch
-           if (!key)
-           ^
-   net/mctp/route.c:148:2: note: Loop condition is false.  Exiting loop
-           spin_lock_init(&key->lock);
-           ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   net/mctp/route.c:403:10: note: Returning from 'mctp_key_alloc'
-                           key =3D mctp_key_alloc(msk, mh->dest, mh->src,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:405:9: note: 'key' is non-null
-                           if (!key) {
-                                ^~~
-   net/mctp/route.c:405:4: note: Taking false branch
-                           if (!key) {
-                           ^
-   net/mctp/route.c:422:8: note: Assuming 'rc' is not equal to 0
-                           if (rc)
-                               ^~
-   net/mctp/route.c:422:4: note: Taking true branch
-                           if (rc)
-                           ^
-   net/mctp/route.c:423:5: note: Memory is released
-                                   kfree(key);
-                                   ^~~~~~~~~~
-   net/mctp/route.c:425:4: note: Use of memory after it is freed
-                           trace_mctp_key_acquire(key);
-                           ^                      ~~~
->> net/mctp/route.c:458:4: warning: Value stored to 'msk' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                           msk =3D container_of(key->sk, struct mctp_sock, =
-sk);
-                           ^
-   net/mctp/route.c:458:4: note: Value stored to 'msk' is never read
-   Suppressed 11 warnings (10 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/char/ipmi/ipmi_ssif.c:198:8: warning: Excessive padding in 'stru=
-ct ssif_info' (35 padding bytes, where 3 is optimal). =
-
-   Optimal fields order: =
-
-   intf, =
-
-   waiting_msg, =
-
-   curr_msg, =
-
-   ssif_debug, =
-
-   addr_info, =
-
-   client, =
-
-   done_handler, =
-
-   thread, =
-
-   i2c_data, =
-
-   watch_timeout, =
-
-   multi_data, =
-
-   lock, =
-
-   retry_timer, =
-
-   watch_timer, =
-
-   handlers, =
-
-   wake_thread, =
-
-   ssif_state, =
-
-   addr_source, =
-
-   rtc_us_timer, =
-
-   data_len, =
-
-   i2c_read_write, =
-
-   i2c_command, =
-
-   i2c_size, =
-
-   retries_left, =
-
-   multi_support, =
-
-   supports_pec, =
-
-   multi_len, =
-
-   multi_pos, =
-
-   stats, =
-
-   msg_flags, =
-
-   global_enables, =
-
-   has_event_buffer, =
-
-   supports_alert, =
-
-   got_alert, =
-
-   waiting_alert, =
-
-   req_events, =
-
-   req_flags, =
-
-   stopping, =
-
-   max_xmit_msg_size, =
-
-   max_recv_msg_size, =
-
-   cmd8_works, =
-
-   recv, =
-
-   data, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-
-vim +/msk +458 net/mctp/route.c
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  315  =
-
-889b7da23abf92f Jeremy Kerr   2021-07-29  316  static int mctp_route_input(=
-struct mctp_route *route, struct sk_buff *skb)
-889b7da23abf92f Jeremy Kerr   2021-07-29  317  {
-833ef3b91de692e Jeremy Kerr   2021-07-29  318  	struct net *net =3D dev_net=
-(skb->dev);
-833ef3b91de692e Jeremy Kerr   2021-07-29  319  	struct mctp_sk_key *key;
-833ef3b91de692e Jeremy Kerr   2021-07-29  320  	struct mctp_sock *msk;
-833ef3b91de692e Jeremy Kerr   2021-07-29  321  	struct mctp_hdr *mh;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  322  	unsigned long f;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  323  	u8 tag, flags;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  324  	int rc;
-833ef3b91de692e Jeremy Kerr   2021-07-29  325  =
-
-833ef3b91de692e Jeremy Kerr   2021-07-29  326  	msk =3D NULL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  327  	rc =3D -EINVAL;
-833ef3b91de692e Jeremy Kerr   2021-07-29  328  =
-
-833ef3b91de692e Jeremy Kerr   2021-07-29  329  	/* we may be receiving a lo=
-cally-routed packet; drop source sk
-833ef3b91de692e Jeremy Kerr   2021-07-29  330  	 * accounting
-833ef3b91de692e Jeremy Kerr   2021-07-29  331  	 */
-833ef3b91de692e Jeremy Kerr   2021-07-29  332  	skb_orphan(skb);
-833ef3b91de692e Jeremy Kerr   2021-07-29  333  =
-
-833ef3b91de692e Jeremy Kerr   2021-07-29  334  	/* ensure we have enough da=
-ta for a header and a type */
-833ef3b91de692e Jeremy Kerr   2021-07-29  335  	if (skb->len < sizeof(struc=
-t mctp_hdr) + 1)
-4a992bbd3650947 Jeremy Kerr   2021-07-29  336  		goto out;
-833ef3b91de692e Jeremy Kerr   2021-07-29  337  =
-
-833ef3b91de692e Jeremy Kerr   2021-07-29  338  	/* grab header, advance dat=
-a ptr */
-833ef3b91de692e Jeremy Kerr   2021-07-29  339  	mh =3D mctp_hdr(skb);
-833ef3b91de692e Jeremy Kerr   2021-07-29  340  	skb_pull(skb, sizeof(struct=
- mctp_hdr));
-833ef3b91de692e Jeremy Kerr   2021-07-29  341  =
-
-833ef3b91de692e Jeremy Kerr   2021-07-29  342  	if (mh->ver !=3D 1)
-4a992bbd3650947 Jeremy Kerr   2021-07-29  343  		goto out;
-833ef3b91de692e Jeremy Kerr   2021-07-29  344  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  345  	flags =3D mh->flags_seq_tag=
- & (MCTP_HDR_FLAG_SOM | MCTP_HDR_FLAG_EOM);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  346  	tag =3D mh->flags_seq_tag &=
- (MCTP_HDR_TAG_MASK | MCTP_HDR_FLAG_TO);
-833ef3b91de692e Jeremy Kerr   2021-07-29  347  =
-
-833ef3b91de692e Jeremy Kerr   2021-07-29  348  	rcu_read_lock();
-4a992bbd3650947 Jeremy Kerr   2021-07-29  349  =
-
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  350  	/* lookup socket / reasm co=
-ntext, exactly matching (src,dest,tag).
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  351  	 * we hold a ref on the key=
-, and key->lock held.
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  352  	 */
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  353  	key =3D mctp_lookup_key(net=
-, skb, mh->src, &f);
-833ef3b91de692e Jeremy Kerr   2021-07-29  354  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  355  	if (flags & MCTP_HDR_FLAG_S=
-OM) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  356  		if (key) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  357  			msk =3D container_of(key-=
->sk, struct mctp_sock, sk);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  358  		} else {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  359  			/* first response to a br=
-oadcast? do a more general
-4a992bbd3650947 Jeremy Kerr   2021-07-29  360  			 * key lookup to find the=
- socket, but don't use this
-4a992bbd3650947 Jeremy Kerr   2021-07-29  361  			 * key for reassembly - w=
-e'll create a more specific
-4a992bbd3650947 Jeremy Kerr   2021-07-29  362  			 * one for future packets=
- if required (ie, !EOM).
-4a992bbd3650947 Jeremy Kerr   2021-07-29  363  			 */
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  364  			key =3D mctp_lookup_key(n=
-et, skb, MCTP_ADDR_ANY, &f);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  365  			if (key) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  366  				msk =3D container_of(key=
-->sk,
-4a992bbd3650947 Jeremy Kerr   2021-07-29  367  						   struct mctp_sock, s=
-k);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  368  				spin_unlock_irqrestore(&=
-key->lock, f);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  369  				mctp_key_unref(key);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  370  				key =3D NULL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  371  			}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  372  		}
-833ef3b91de692e Jeremy Kerr   2021-07-29  373  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  374  		if (!key && !msk && (tag &=
- MCTP_HDR_FLAG_TO))
-833ef3b91de692e Jeremy Kerr   2021-07-29  375  			msk =3D mctp_lookup_bind(=
-net, skb);
-833ef3b91de692e Jeremy Kerr   2021-07-29  376  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  377  		if (!msk) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  378  			rc =3D -ENOENT;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  379  			goto out_unlock;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  380  		}
-833ef3b91de692e Jeremy Kerr   2021-07-29  381  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  382  		/* single-packet message? =
-deliver to socket, clean up any
-4a992bbd3650947 Jeremy Kerr   2021-07-29  383  		 * pending key.
-4a992bbd3650947 Jeremy Kerr   2021-07-29  384  		 */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  385  		if (flags & MCTP_HDR_FLAG_=
-EOM) {
-833ef3b91de692e Jeremy Kerr   2021-07-29  386  			sock_queue_rcv_skb(&msk->=
-sk, skb);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  387  			if (key) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  388  				/* we've hit a pending r=
-eassembly; not much we
-4a992bbd3650947 Jeremy Kerr   2021-07-29  389  				 * can do but drop it
-4a992bbd3650947 Jeremy Kerr   2021-07-29  390  				 */
-a1d553f399d7457 Matt Johnston 2022-02-08  391  				__mctp_key_done_in(key, =
-net, f,
-4f9e1ba6de45aa8 Jeremy Kerr   2021-09-29  392  						   MCTP_TRACE_KEY_REPL=
-IED);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  393  				key =3D NULL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  394  			}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  395  			rc =3D 0;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  396  			goto out_unlock;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  397  		}
-833ef3b91de692e Jeremy Kerr   2021-07-29  398  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  399  		/* broadcast response or a=
- bind() - create a key for further
-4a992bbd3650947 Jeremy Kerr   2021-07-29  400  		 * packets for this message
-4a992bbd3650947 Jeremy Kerr   2021-07-29  401  		 */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  402  		if (!key) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  403  			key =3D mctp_key_alloc(ms=
-k, mh->dest, mh->src,
-4a992bbd3650947 Jeremy Kerr   2021-07-29  404  					     tag, GFP_ATOMIC);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  405  			if (!key) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  406  				rc =3D -ENOMEM;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  407  				goto out_unlock;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  408  			}
-833ef3b91de692e Jeremy Kerr   2021-07-29  409  =
-
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  410  			/* we can queue without t=
-he key lock here, as the
-4a992bbd3650947 Jeremy Kerr   2021-07-29  411  			 * key isn't observable y=
-et
-4a992bbd3650947 Jeremy Kerr   2021-07-29  412  			 */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  413  			mctp_frag_queue(key, skb);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  414  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  415  			/* if the key_add fails, =
-we've raced with another
-4a992bbd3650947 Jeremy Kerr   2021-07-29  416  			 * SOM packet with the sa=
-me src, dest and tag. There's
-4a992bbd3650947 Jeremy Kerr   2021-07-29  417  			 * no way to distinguish =
-future packets, so all we
-4a992bbd3650947 Jeremy Kerr   2021-07-29  418  			 * can do is drop; we'll =
-free the skb on exit from
-4a992bbd3650947 Jeremy Kerr   2021-07-29  419  			 * this function.
-4a992bbd3650947 Jeremy Kerr   2021-07-29  420  			 */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  421  			rc =3D mctp_key_add(key, =
-msk);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  422  			if (rc)
-4a992bbd3650947 Jeremy Kerr   2021-07-29  423  				kfree(key);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  424  =
-
-4f9e1ba6de45aa8 Jeremy Kerr   2021-09-29  425  			trace_mctp_key_acquire(ke=
-y);
-4f9e1ba6de45aa8 Jeremy Kerr   2021-09-29  426  =
-
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  427  			/* we don't need to relea=
-se key->lock on exit */
-0b93aed2842d950 Matt Johnston 2021-10-14  428  			mctp_key_unref(key);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  429  			key =3D NULL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  430  =
-
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  431  		} else {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  432  			if (key->reasm_head || ke=
-y->reasm_dead) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  433  				/* duplicate start? drop=
- everything */
-a1d553f399d7457 Matt Johnston 2022-02-08  434  				__mctp_key_done_in(key, =
-net, f,
-4f9e1ba6de45aa8 Jeremy Kerr   2021-09-29  435  						   MCTP_TRACE_KEY_INVA=
-LIDATED);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  436  				rc =3D -EEXIST;
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  437  				key =3D NULL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  438  			} else {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  439  				rc =3D mctp_frag_queue(k=
-ey, skb);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  440  			}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  441  		}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  442  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  443  	} else if (key) {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  444  		/* this packet continues a=
- previous message; reassemble
-4a992bbd3650947 Jeremy Kerr   2021-07-29  445  		 * using the message-speci=
-fic key
-4a992bbd3650947 Jeremy Kerr   2021-07-29  446  		 */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  447  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  448  		/* we need to be continuin=
-g an existing reassembly... */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  449  		if (!key->reasm_head)
-4a992bbd3650947 Jeremy Kerr   2021-07-29  450  			rc =3D -EINVAL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  451  		else
-4a992bbd3650947 Jeremy Kerr   2021-07-29  452  			rc =3D mctp_frag_queue(ke=
-y, skb);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  453  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  454  		/* end of message? deliver=
- to socket, and we're done with
-4a992bbd3650947 Jeremy Kerr   2021-07-29  455  		 * the reassembly/response=
- key
-4a992bbd3650947 Jeremy Kerr   2021-07-29  456  		 */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  457  		if (!rc && flags & MCTP_HD=
-R_FLAG_EOM) {
-a1d553f399d7457 Matt Johnston 2022-02-08 @458  			msk =3D container_of(key-=
->sk, struct mctp_sock, sk);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  459  			sock_queue_rcv_skb(key->s=
-k, key->reasm_head);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  460  			key->reasm_head =3D NULL;
-a1d553f399d7457 Matt Johnston 2022-02-08  461  			__mctp_key_done_in(key, n=
-et, f, MCTP_TRACE_KEY_REPLIED);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  462  			key =3D NULL;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  463  		}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  464  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  465  	} else {
-4a992bbd3650947 Jeremy Kerr   2021-07-29  466  		/* not a start, no matchin=
-g key */
-4a992bbd3650947 Jeremy Kerr   2021-07-29  467  		rc =3D -ENOENT;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  468  	}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  469  =
-
-4a992bbd3650947 Jeremy Kerr   2021-07-29  470  out_unlock:
-833ef3b91de692e Jeremy Kerr   2021-07-29  471  	rcu_read_unlock();
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  472  	if (key) {
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  473  		spin_unlock_irqrestore(&ke=
-y->lock, f);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  474  		mctp_key_unref(key);
-73c618456dc5cf2 Jeremy Kerr   2021-09-29  475  	}
-4a992bbd3650947 Jeremy Kerr   2021-07-29  476  out:
-4a992bbd3650947 Jeremy Kerr   2021-07-29  477  	if (rc)
-889b7da23abf92f Jeremy Kerr   2021-07-29  478  		kfree_skb(skb);
-4a992bbd3650947 Jeremy Kerr   2021-07-29  479  	return rc;
-4a992bbd3650947 Jeremy Kerr   2021-07-29  480  }
-4a992bbd3650947 Jeremy Kerr   2021-07-29  481  =
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/dma/xilinx/xilinx_frmbuf.c:727 xilinx_xdma_get_drm_vid_fmts() warn:=
+ passing a valid pointer to 'PTR_ERR'
+drivers/dma/xilinx/xilinx_frmbuf.c:744 xilinx_xdma_get_v4l2_vid_fmts() warn=
+: passing a valid pointer to 'PTR_ERR'
+drivers/dma/xilinx/xilinx_frmbuf.c:761 xilinx_xdma_get_fid() warn: passing =
+a valid pointer to 'PTR_ERR'
+drivers/dma/xilinx/xilinx_frmbuf.c:789 xilinx_xdma_set_fid() warn: passing =
+a valid pointer to 'PTR_ERR'
+drivers/dma/xilinx/xilinx_frmbuf.c:812 xilinx_xdma_get_earlycb() warn: pass=
+ing a valid pointer to 'PTR_ERR'
+drivers/dma/xilinx/xilinx_frmbuf.c:838 xilinx_xdma_set_earlycb() warn: pass=
+ing a valid pointer to 'PTR_ERR'
+
+vim +/PTR_ERR +727 drivers/dma/xilinx/xilinx_frmbuf.c
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  718  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  719  int xilinx_xdma_get_drm_vid=
+_fmts(struct dma_chan *chan, u32 *fmt_cnt,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  720  				 u32 **fmts)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  721  {
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  722  	struct xilinx_frmbuf_devic=
+e *xdev;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  723  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  724  	xdev =3D frmbuf_find_dev(c=
+han);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  725  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  726  	if (IS_ERR(xdev))
+c869e53ce34dec Jeffrey Mouroux 2017-07-13 @727  		return PTR_ERR(xdev);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  728  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  729  	*fmt_cnt =3D xdev->drm_fmt=
+_cnt;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  730  	*fmts =3D xdev->drm_memory=
+_fmts;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  731  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  732  	return 0;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  733  }
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  734  EXPORT_SYMBOL(xilinx_xdma_g=
+et_drm_vid_fmts);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  735  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  736  int xilinx_xdma_get_v4l2_vi=
+d_fmts(struct dma_chan *chan, u32 *fmt_cnt,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  737  				  u32 **fmts)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  738  {
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  739  	struct xilinx_frmbuf_devic=
+e *xdev;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  740  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  741  	xdev =3D frmbuf_find_dev(c=
+han);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  742  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  743  	if (IS_ERR(xdev))
+c869e53ce34dec Jeffrey Mouroux 2017-07-13 @744  		return PTR_ERR(xdev);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  745  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  746  	*fmt_cnt =3D xdev->v4l2_fm=
+t_cnt;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  747  	*fmts =3D xdev->v4l2_memor=
+y_fmts;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  748  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  749  	return 0;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  750  }
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  751  EXPORT_SYMBOL(xilinx_xdma_g=
+et_v4l2_vid_fmts);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  752  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  753  int xilinx_xdma_get_fid(str=
+uct dma_chan *chan,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  754  			struct dma_async_tx_desc=
+riptor *async_tx, u32 *fid)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  755  {
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  756  	struct xilinx_frmbuf_devic=
+e *xdev;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  757  	struct xilinx_frmbuf_tx_de=
+scriptor *desc;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  758  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  759  	xdev =3D frmbuf_find_dev(c=
+han);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  760  	if (IS_ERR(xdev))
+c869e53ce34dec Jeffrey Mouroux 2017-07-13 @761  		return PTR_ERR(xdev);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  762  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  763  	if (!async_tx || !fid)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  764  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  765  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  766  	if (xdev->chan.direction !=
+=3D DMA_DEV_TO_MEM)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  767  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  768  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  769  	desc =3D to_dma_tx_descrip=
+tor(async_tx);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  770  	if (!desc)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  771  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  772  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  773  	*fid =3D desc->fid;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  774  	return 0;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  775  }
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  776  EXPORT_SYMBOL(xilinx_xdma_g=
+et_fid);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  777  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  778  int xilinx_xdma_set_fid(str=
+uct dma_chan *chan,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  779  			struct dma_async_tx_desc=
+riptor *async_tx, u32 fid)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  780  {
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  781  	struct xilinx_frmbuf_devic=
+e *xdev;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  782  	struct xilinx_frmbuf_tx_de=
+scriptor *desc;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  783  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  784  	if (fid > 1 || !async_tx)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  785  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  786  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  787  	xdev =3D frmbuf_find_dev(c=
+han);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  788  	if (IS_ERR(xdev))
+c869e53ce34dec Jeffrey Mouroux 2017-07-13 @789  		return PTR_ERR(xdev);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  790  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  791  	if (xdev->chan.direction !=
+=3D DMA_MEM_TO_DEV)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  792  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  793  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  794  	desc =3D to_dma_tx_descrip=
+tor(async_tx);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  795  	if (!desc)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  796  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  797  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  798  	desc->fid =3D fid;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  799  	return 0;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  800  }
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  801  EXPORT_SYMBOL(xilinx_xdma_s=
+et_fid);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  802  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  803  int xilinx_xdma_get_earlycb=
+(struct dma_chan *chan,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  804  			    struct dma_async_tx_=
+descriptor *async_tx,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  805  			    bool *enable)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  806  {
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  807  	struct xilinx_frmbuf_devic=
+e *xdev;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  808  	struct xilinx_frmbuf_tx_de=
+scriptor *desc;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  809  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  810  	xdev =3D frmbuf_find_dev(c=
+han);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  811  	if (IS_ERR(xdev))
+c869e53ce34dec Jeffrey Mouroux 2017-07-13 @812  		return PTR_ERR(xdev);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  813  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  814  	if (!async_tx || !enable)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  815  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  816  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  817  	desc =3D to_dma_tx_descrip=
+tor(async_tx);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  818  	if (!desc)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  819  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  820  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  821  	*enable =3D desc->earlycb;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  822  	return 0;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  823  }
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  824  EXPORT_SYMBOL(xilinx_xdma_g=
+et_earlycb);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  825  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  826  int xilinx_xdma_set_earlycb=
+(struct dma_chan *chan,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  827  			    struct dma_async_tx_=
+descriptor *async_tx,
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  828  			    bool enable)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  829  {
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  830  	struct xilinx_frmbuf_devic=
+e *xdev;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  831  	struct xilinx_frmbuf_tx_de=
+scriptor *desc;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  832  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  833  	if (!async_tx)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  834  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  835  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  836  	xdev =3D frmbuf_find_dev(c=
+han);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  837  	if (IS_ERR(xdev))
+c869e53ce34dec Jeffrey Mouroux 2017-07-13 @838  		return PTR_ERR(xdev);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  839  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  840  	desc =3D to_dma_tx_descrip=
+tor(async_tx);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  841  	if (!desc)
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  842  		return -EINVAL;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  843  =
+
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  844  	desc->earlycb =3D enable;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  845  	return 0;
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  846  }
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  847  EXPORT_SYMBOL(xilinx_xdma_s=
+et_earlycb);
+c869e53ce34dec Jeffrey Mouroux 2017-07-13  848  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5190723768338248796==--
+--===============2236232338081038501==--
 
