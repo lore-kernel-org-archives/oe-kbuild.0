@@ -1,88 +1,104 @@
-Content-Type: multipart/mixed; boundary="===============7603673213890865898=="
+Content-Type: multipart/mixed; boundary="===============7496128125492061131=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 644/4439] drivers/gpu/drm/dp/drm_dp_cec.c:133:12-13: WARNING opportunity for min()
-Date: Wed, 09 Feb 2022 14:12:55 +0800
-Message-ID: <202202091405.JTtJXwo1-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.4 4074/9999] drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffer overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
+Date: Wed, 09 Feb 2022 13:00:21 +0800
+Message-ID: <202202091253.1qQEI9Nh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7603673213890865898==
+--===============7496128125492061131==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: John Stultz <john.stultz@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   554f92dbda161fa073844ae6c62db257b8860a0a
-commit: adb9d5a2cc77e8aefe98fe4c11656c5b7025c248 [644/4439] drm/dp: Move Di=
-splayPort helpers into separate helper module
-:::::: branch date: 25 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/202=
-20209/202202091405.JTtJXwo1-lkp(a)intel.com/config)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android12-5.4
+head:   3307e1a058380163f1a11c8f7632706168f9fcb1
+commit: e3919bfeb0066ab9b5f9765e5610b95672990e64 [4074/9999] ANDROID: dma-b=
+uf: system_heap: Add deferred freeing to the system heap
+:::::: branch date: 2 weeks ago
+:::::: commit date: 12 months ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220209/202202091253.1qQEI9Nh-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffe=
+r overflow 'pools' 3 <=3D 3 (assuming for loop doesn't break)
+
+vim +351 drivers/dma-buf/heaps/system_heap.c
+
+44008f99d9ca07 John Stultz 2019-06-06  325  =
+
+e3919bfeb0066a John Stultz 2020-12-09  326  static void system_heap_buf_fre=
+e(struct deferred_freelist_item *item,
+e3919bfeb0066a John Stultz 2020-12-09  327  				 enum df_reason reason)
+fc004422dadc12 John Stultz 2020-09-25  328  {
+e3919bfeb0066a John Stultz 2020-12-09  329  	struct system_heap_buffer *buf=
+fer;
+fc004422dadc12 John Stultz 2020-09-25  330  	struct sg_table *table;
+fc004422dadc12 John Stultz 2020-09-25  331  	struct scatterlist *sg;
+44008f99d9ca07 John Stultz 2019-06-06  332  	int i, j;
+44008f99d9ca07 John Stultz 2019-06-06  333  =
+
+e3919bfeb0066a John Stultz 2020-12-09  334  	buffer =3D container_of(item, =
+struct system_heap_buffer, deferred_free);
+44008f99d9ca07 John Stultz 2019-06-06  335  	/* Zero the buffer pages befor=
+e adding back to the pool */
+e3919bfeb0066a John Stultz 2020-12-09  336  	if (reason =3D=3D DF_NORMAL)
+e3919bfeb0066a John Stultz 2020-12-09  337  		if (system_heap_zero_buffer(b=
+uffer))
+e3919bfeb0066a John Stultz 2020-12-09  338  			reason =3D DF_UNDER_PRESSURE=
+; // On failure, just free
+fc004422dadc12 John Stultz 2020-09-25  339  =
+
+fc004422dadc12 John Stultz 2020-09-25  340  	table =3D &buffer->sg_table;
+703f43c5810e08 John Stultz 2020-09-26  341  	for_each_sg(table->sgl, sg, ta=
+ble->nents, i) {
+703f43c5810e08 John Stultz 2020-09-26  342  		struct page *page =3D sg_page=
+(sg);
+703f43c5810e08 John Stultz 2020-09-26  343  =
+
+e3919bfeb0066a John Stultz 2020-12-09  344  		if (reason =3D=3D DF_UNDER_PR=
+ESSURE) {
+e3919bfeb0066a John Stultz 2020-12-09  345  			__free_pages(page, compound_=
+order(page));
+e3919bfeb0066a John Stultz 2020-12-09  346  		} else {
+44008f99d9ca07 John Stultz 2019-06-06  347  			for (j =3D 0; j < NUM_ORDERS=
+; j++) {
+44008f99d9ca07 John Stultz 2019-06-06  348  				if (compound_order(page) =
+=3D=3D orders[j])
+44008f99d9ca07 John Stultz 2019-06-06  349  					break;
+44008f99d9ca07 John Stultz 2019-06-06  350  			}
+44008f99d9ca07 John Stultz 2019-06-06 @351  			dmabuf_page_pool_free(pools[=
+j], page);
+703f43c5810e08 John Stultz 2020-09-26  352  		}
+e3919bfeb0066a John Stultz 2020-12-09  353  	}
+fc004422dadc12 John Stultz 2020-09-25  354  	sg_free_table(table);
+c02e6ccc5a4aab John Stultz 2019-12-03  355  	kfree(buffer);
+c02e6ccc5a4aab John Stultz 2019-12-03  356  }
+c02e6ccc5a4aab John Stultz 2019-12-03  357  =
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/dp/drm_dp_cec.c:133:12-13: WARNING opportunity for min()
+:::::: The code@line 351 was first introduced by commit
+:::::: 44008f99d9ca0793e2562967e1da01fa74ee4a41 ANDROID: dma-buf: system_he=
+ap: Add pagepool support to system heap
 
-vim +133 drivers/gpu/drm/dp/drm_dp_cec.c
-
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  117  =
-
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  118  s=
-tatic int drm_dp_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  119  	=
-			    u32 signal_free_time, struct cec_msg *msg)
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  120  {
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  121  	=
-struct drm_dp_aux *aux =3D cec_get_drvdata(adap);
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  122  	=
-unsigned int retries =3D min(5, attempts - 1);
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  123  	=
-ssize_t err;
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  124  =
-
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  125  	=
-err =3D drm_dp_dpcd_write(aux, DP_CEC_TX_MESSAGE_BUFFER,
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  126  	=
-			msg->msg, msg->len);
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  127  	=
-if (err < 0)
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  128  	=
-	return err;
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  129  =
-
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  130  	=
-err =3D drm_dp_dpcd_writeb(aux, DP_CEC_TX_MESSAGE_INFO,
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  131  	=
-			 (msg->len - 1) | (retries << 4) |
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  132  	=
-			 DP_CEC_TX_MESSAGE_SEND);
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11 @133  	=
-return err < 0 ? err : 0;
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  134  }
-2c6d1fffa1d9b0 drivers/gpu/drm/drm_dp_cec.c Hans Verkuil 2018-07-11  135  =
-
-
-:::::: The code@line 133 was first introduced by commit
-:::::: 2c6d1fffa1d9b0a5b5ac1a23be9ad64abe60910d drm: add support for Displa=
-yPort CEC-Tunneling-over-AUX
-
-:::::: TO: Hans Verkuil <hans.verkuil@cisco.com>
-:::::: CC: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7603673213890865898==--
+--===============7496128125492061131==--
 
