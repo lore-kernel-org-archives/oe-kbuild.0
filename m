@@ -1,63 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============4771930478804284355=="
+Content-Type: multipart/mixed; boundary="===============6993312486087717752=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] input: ps2-gpio: don't send rx data before the stop bit
-Date: Sat, 12 Feb 2022 18:39:41 +0800
-Message-ID: <202202121815.P1KN65lf-lkp@intel.com>
+Subject: drivers/video/fbdev/core/fbcon.c:1037:2: warning: Value stored to 'cap' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 10 Feb 2022 07:49:53 +0800
+Message-ID: <202202100713.8BFbxVCE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4771930478804284355==
+--===============6993312486087717752==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220211212258.80345-4-danilokrummrich@dk-develop.de>
-References: <20220211212258.80345-4-danilokrummrich@dk-develop.de>
-TO: Danilo Krummrich <danilokrummrich@dk-develop.de>
-TO: dmitry.torokhov(a)gmail.com
-TO: linux-input(a)vger.kernel.org
-TO: linux-kernel(a)vger.kernel.org
-CC: linus.walleij(a)linaro.org
-CC: Danilo Krummrich <danilokrummrich@dk-develop.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Helge Deller <deller@gmx.de>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Hi Danilo,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on hid/for-next linux/master linus/master v5.17-rc=
-3 next-20220211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Danilo-Krummrich/input-ps2=
--gpio-use-ktime-for-IRQ-timekeeping/20220212-062327
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: mips-randconfig-c004-20220211 (https://download.01.org/0day-ci/arch=
-ive/20220212/202202121815.P1KN65lf-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
-634519e6497be42f5fe323f9a04ed67127)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f4bc5bbb5fef3cf421ba3485d6d383c27ec473ed
+commit: a3f781a9d6114c1d1e01defb7aa234dec45d2a5f fbcon: Add option to enabl=
+e legacy hardware acceleration
+date:   7 days ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 days ago
+config: riscv-randconfig-c006-20220209 (https://download.01.org/0day-ci/arc=
+hive/20220210/202202100713.8BFbxVCE-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
+ae54a55b4dbfeb6ba55f723abbd81bf494)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/0day-ci/linux/commit/01c1b8646b0bd235aef95354f=
-4852676493ac784
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/input-ps2-gpio-us=
-e-ktime-for-IRQ-timekeeping/20220212-062327
-        git checkout 01c1b8646b0bd235aef95354f4852676493ac784
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da3f781a9d6114c1d1e01defb7aa234dec45d2a5f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a3f781a9d6114c1d1e01defb7aa234dec45d2a5f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -65,428 +52,538 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/extcon/extcon-fsa9480.c:281:2: note: Taking false branch
-           if (IS_ERR(info->edev)) {
+                            ^  ~~~~~~~~~
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   net/caif/cfrfml.c:223:14: warning: Access to field 'transmit' results in=
+ a dereference of a null pointer (loaded from field 'dn') [clang-analyzer-c=
+ore.NullDereference]
+           caif_assert(layr->dn->transmit !=3D NULL);
+                       ^
+   include/net/caif/caif_layer.h:29:8: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
+                 ^~~~~~
+   net/caif/cfrfml.c:222:14: note: Assuming field 'dn' is equal to null
+           caif_assert(layr->dn !=3D NULL);
+                       ^
+   include/net/caif/caif_layer.h:29:8: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
+                 ^~~~~~
+   net/caif/cfrfml.c:222:2: note: Taking true branch
+           caif_assert(layr->dn !=3D NULL);
            ^
-   drivers/extcon/extcon-fsa9480.c:288:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/extcon/extcon-fsa9480.c:288:2: note: Taking false branch
-           if (ret) {
+   include/net/caif/caif_layer.h:29:2: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
            ^
-   drivers/extcon/extcon-fsa9480.c:294:2: note: Taking false branch
-           if (IS_ERR(info->regmap)) {
+   net/caif/cfrfml.c:222:2: note: Loop condition is false.  Exiting loop
+           caif_assert(layr->dn !=3D NULL);
            ^
-   drivers/extcon/extcon-fsa9480.c:316:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/extcon/extcon-fsa9480.c:316:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/extcon/extcon-fsa9480.c:322:2: note: Calling 'fsa9480_detect_dev'
-           fsa9480_detect_dev(info);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/extcon/extcon-fsa9480.c:227:6: note: Assuming 'val1' is >=3D 0
-           if (val1 < 0 || val2 < 0) {
-               ^~~~~~~~
-   drivers/extcon/extcon-fsa9480.c:227:6: note: Left side of '||' is false
-   drivers/extcon/extcon-fsa9480.c:227:18: note: Assuming 'val2' is >=3D 0
-           if (val1 < 0 || val2 < 0) {
-                           ^~~~~~~~
-   drivers/extcon/extcon-fsa9480.c:227:2: note: Taking false branch
-           if (val1 < 0 || val2 < 0) {
-           ^
-   drivers/extcon/extcon-fsa9480.c:233:2: note: Loop condition is false.  E=
-xiting loop
-           dev_info(usbsw->dev, "dev1: 0x%x, dev2: 0x%x\n", val1, val2);
-           ^
-   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
-           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
-#__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
+   include/net/caif/caif_layer.h:30:3: note: expanded from macro 'caif_asse=
+rt'
+                   pr_err("caif:Assert detected:'%s'\n", #assert); \
                    ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
+   include/linux/printk.h:489:2: note: expanded from macro 'pr_err'
+           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/printk.h:417:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:396:34: note: expanded from macro '__printk_index=
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
 _emit'
    #define __printk_index_emit(...) do {} while (0)
                                     ^
-   drivers/extcon/extcon-fsa9480.c:236:2: note: Calling 'fsa9480_handle_cha=
-nge'
-           fsa9480_handle_change(usbsw, usbsw->cable & ~val, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/extcon/extcon-fsa9480.c:205:2: note: Loop condition is true.  En=
-tering loop body
-           while (mask) {
+   net/caif/cfrfml.c:222:2: note: Taking true branch
+           caif_assert(layr->dn !=3D NULL);
            ^
-   drivers/extcon/extcon-fsa9480.c:206:3: note: 'dev' initialized to 63
-                   int dev =3D fls64(mask) - 1;
-                   ^~~~~~~
-   drivers/extcon/extcon-fsa9480.c:207:3: note: Assigned value is garbage o=
-r undefined
-                   u64 cables =3D cable_types[dev];
-                   ^            ~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/configfs/symlink.c:70:3: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(s,"../");
-                   ^~~~~~
-   fs/configfs/symlink.c:70:3: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-                   strcpy(s,"../");
-                   ^~~~~~
-   Suppressed 6 warnings (6 in non-user code).
+   include/net/caif/caif_layer.h:31:3: note: expanded from macro 'caif_asse=
+rt'
+                   WARN_ON(!(assert));                             \
+                   ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   net/caif/cfrfml.c:222:2: note: Loop condition is false.  Exiting loop
+           caif_assert(layr->dn !=3D NULL);
+           ^
+   include/net/caif/caif_layer.h:31:3: note: expanded from macro 'caif_asse=
+rt'
+                   WARN_ON(!(assert));                             \
+                   ^
+   include/asm-generic/bug.h:123:3: note: expanded from macro 'WARN_ON'
+                   __WARN();                                               \
+                   ^
+   include/asm-generic/bug.h:96:19: note: expanded from macro '__WARN'
+   #define __WARN()                __WARN_FLAGS(BUGFLAG_TAINT(TAINT_WARN))
+                                   ^
+   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FL=
+AGS'
+   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
+                               ^
+   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLA=
+GS'
+   #define __BUG_FLAGS(flags)                                      \
+                                                                   ^
+   net/caif/cfrfml.c:222:2: note: Loop condition is false.  Exiting loop
+           caif_assert(layr->dn !=3D NULL);
+           ^
+   include/net/caif/caif_layer.h:27:33: note: expanded from macro 'caif_ass=
+ert'
+   #define caif_assert(assert)                                     \
+                                                                   ^
+   net/caif/cfrfml.c:223:14: note: Access to field 'transmit' results in a =
+dereference of a null pointer (loaded from field 'dn')
+           caif_assert(layr->dn->transmit !=3D NULL);
+                       ^
+   include/net/caif/caif_layer.h:29:8: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
+                 ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   fs/xfs/libxfs/xfs_refcount.c:114:19: warning: Value stored to 'agno' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           xfs_agnumber_t                  agno =3D cur->bc_ag.pag->pag_agn=
-o;
-                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_refcount.c:114:19: note: Value stored to 'agno' during=
- its initialization is never read
-           xfs_agnumber_t                  agno =3D cur->bc_ag.pag->pag_agn=
-o;
-                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   11 warnings generated.
+>> drivers/video/fbdev/core/fbcon.c:1037:2: warning: Value stored to 'cap' =
+is never read [clang-analyzer-deadcode.DeadStores]
+           cap =3D info->flags;
+           ^     ~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcon.c:1037:2: note: Value stored to 'cap' is =
+never read
+           cap =3D info->flags;
+           ^     ~~~~~~~~~~~
+   Suppressed 10 warnings (2 in non-user code, 8 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/input/serio/ps2-gpio.c:215:4: warning: Value stored to 'rxflags'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                           rxflags |=3D SERIO_PARITY;
-                           ^
-   drivers/input/serio/ps2-gpio.c:215:4: note: Value stored to 'rxflags' is=
- never read
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/sysv/dir.c:339:2: warning: Value stored to 'err' is never read [clang=
--analyzer-deadcode.DeadStores]
-           err =3D dir_commit_chunk(page, pos, SYSV_DIRSIZE);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/sysv/dir.c:339:2: note: Value stored to 'err' is never read
-           err =3D dir_commit_chunk(page, pos, SYSV_DIRSIZE);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/usb/serial/usb_wwan.c:151:2: warning: Value stored to 'i' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           i =3D 0;
-           ^   ~
-   drivers/usb/serial/usb_wwan.c:151:2: note: Value stored to 'i' is never =
-read
-           i =3D 0;
-           ^   ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   11 warnings generated.
+   include/linux/skbuff.h:2636:9: warning: Access to field 'head' results i=
+n a dereference of a null pointer (loaded from variable 'skb') [clang-analy=
+zer-core.NullDereference]
+           return skb->head + skb->mac_header;
+                  ^
+   net/core/flow_dissector.c:935:6: note: Assuming 'data' is non-null
+           if (!data) {
+               ^~~~~
+   net/core/flow_dissector.c:935:2: note: Taking false branch
+           if (!data) {
+           ^
+   net/core/flow_dissector.c:977:6: note: Assuming 'skb' is null
+           if (skb) {
+               ^~~
+   net/core/flow_dissector.c:977:2: note: Taking false branch
+           if (skb) {
+           ^
+   net/core/flow_dissector.c:986:15: note: Assuming 'net' is null
+           WARN_ON_ONCE(!net);
+                        ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   net/core/flow_dissector.c:986:2: note: Taking true branch
+           WARN_ON_ONCE(!net);
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   net/core/flow_dissector.c:986:2: note: Loop condition is false.  Exiting=
+ loop
+           WARN_ON_ONCE(!net);
+           ^
+   include/asm-generic/bug.h:106:3: note: expanded from macro 'WARN_ON_ONCE'
+                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
+                   ^
+   arch/riscv/include/asm/bug.h:79:29: note: expanded from macro '__WARN_FL=
+AGS'
+   #define __WARN_FLAGS(flags) __BUG_FLAGS(BUGFLAG_WARNING|(flags))
+                               ^
+   arch/riscv/include/asm/bug.h:53:32: note: expanded from macro '__BUG_FLA=
+GS'
+   #define __BUG_FLAGS(flags)                                      \
+                                                                   ^
+   net/core/flow_dissector.c:987:6: note: 'net' is null
+           if (net) {
+               ^~~
+   net/core/flow_dissector.c:987:2: note: Taking false branch
+           if (net) {
+           ^
+   net/core/flow_dissector.c:1026:6: note: Assuming the condition is true
+           if (dissector_uses_key(flow_dissector,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/flow_dissector.c:1026:2: note: Taking true branch
+           if (dissector_uses_key(flow_dissector,
+           ^
+   net/core/flow_dissector.c:1028:32: note: Passing null pointer value via =
+1st parameter 'skb'
+                   struct ethhdr *eth =3D eth_hdr(skb);
+                                                ^~~
+   net/core/flow_dissector.c:1028:24: note: Calling 'eth_hdr'
+                   struct ethhdr *eth =3D eth_hdr(skb);
+                                        ^~~~~~~~~~~~
+   include/linux/if_ether.h:24:41: note: Passing null pointer value via 1st=
+ parameter 'skb'
+           return (struct ethhdr *)skb_mac_header(skb);
+                                                  ^~~
+   include/linux/if_ether.h:24:26: note: Calling 'skb_mac_header'
+           return (struct ethhdr *)skb_mac_header(skb);
 
-vim +/rxflags +215 drivers/input/serio/ps2-gpio.c
+vim +/cap +1037 drivers/video/fbdev/core/fbcon.c
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  151  =
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1019  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  152  static irqreturn_t ps2_gpi=
-o_irq_rx(struct ps2_gpio_data *drvdata)
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  153  {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  154  	unsigned char byte, cnt;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  155  	int data;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  156  	int rxflags =3D 0;
-dc1a5808b83032 Danilo Krummrich 2022-02-11  157  	static ktime_t t_last, t_=
-now;
-dc1a5808b83032 Danilo Krummrich 2022-02-11  158  	s64 us_delta;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  159  =
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1020  static void fbcon_init(struct vc_data *vc, int init)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1021  {
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1022  	struct fb_info *info;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1023  	struct fbcon_ops *ops;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1024  	struct vc_data **default_mode =3D vc->vc_display_fg;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1025  	struct vc_data *svc =3D *default_mode;
+50233393f0cf9b drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1026  	struct fbcon_display *t, *p =3D &fb_display[vc->vc_num];
+a1ac250a82a5e9 drivers/video/fbdev/core/fbcon.c Peilin Ye                 2=
+020-11-12  1027  	int logo =3D 1, new_rows, new_cols, rows, cols;
+87ab9f6b741734 drivers/video/fbdev/core/fbcon.c Helge Deller              2=
+022-02-02  1028  	int cap, ret;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1029  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  160  	byte =3D drvdata->rx_byte;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  161  	cnt =3D drvdata->rx_cnt;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  162  =
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1030  	if (WARN_ON(info_idx =3D=3D -1))
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1031  	    return;
+306958e8e8d150 drivers/video/console/fbcon.c    Adrian Bunk               2=
+005-05-01  1032  =
 
-dc1a5808b83032 Danilo Krummrich 2022-02-11  163  	t_now =3D ktime_get();
-dc1a5808b83032 Danilo Krummrich 2022-02-11  164  	if (t_last =3D=3D 0)
-dc1a5808b83032 Danilo Krummrich 2022-02-11  165  		t_last =3D t_now;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  166  =
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1033  	if (con2fb_map[vc->vc_num] =3D=3D -1)
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1034  		con2fb_map[vc->vc_num] =3D info_idx;
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1035  =
 
-dc1a5808b83032 Danilo Krummrich 2022-02-11  167  	/* We need to consider sp=
-urious interrupts happening right after a TX xfer
-dc1a5808b83032 Danilo Krummrich 2022-02-11  168  	 * finished.
-dc1a5808b83032 Danilo Krummrich 2022-02-11  169  	 */
-dc1a5808b83032 Danilo Krummrich 2022-02-11  170  	if (unlikely(ktime_us_del=
-ta(t_now, drvdata->tx_end) <
-dc1a5808b83032 Danilo Krummrich 2022-02-11  171  		     PS2_IRQ_MIN_INTERVA=
-L_US))
-dc1a5808b83032 Danilo Krummrich 2022-02-11  172  		goto end;
-dc1a5808b83032 Danilo Krummrich 2022-02-11  173  =
+1f4ed2fb01f80f drivers/video/fbdev/core/fbcon.c Daniel Vetter             2=
+019-05-28  1036  	info =3D registered_fb[con2fb_map[vc->vc_num]];
+87ab9f6b741734 drivers/video/fbdev/core/fbcon.c Helge Deller              2=
+022-02-02 @1037  	cap =3D info->flags;
+306958e8e8d150 drivers/video/console/fbcon.c    Adrian Bunk               2=
+005-05-01  1038  =
 
-dc1a5808b83032 Danilo Krummrich 2022-02-11  174  	us_delta =3D ktime_us_del=
-ta(t_now, t_last);
-dc1a5808b83032 Danilo Krummrich 2022-02-11  175  	if (us_delta > PS2_IRQ_MA=
-X_INTERVAL_US && cnt) {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  176  		dev_err(drvdata->dev,
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  177  			"RX: timeout, probably =
-we missed an interrupt\n");
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  178  		goto err;
-dc1a5808b83032 Danilo Krummrich 2022-02-11  179  	} else if (us_delta < PS2=
-_IRQ_MIN_INTERVAL_US && t_now !=3D t_last) {
-dc1a5808b83032 Danilo Krummrich 2022-02-11  180  		/* Ignore spurious IRQs.=
- */
-dc1a5808b83032 Danilo Krummrich 2022-02-11  181  		goto end;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  182  	}
-dc1a5808b83032 Danilo Krummrich 2022-02-11  183  	t_last =3D t_now;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  184  =
+3c5a1b111373e6 drivers/video/fbdev/core/fbcon.c Andreas Schwab            2=
+019-05-06  1039  	if (logo_shown < 0 && console_loglevel <=3D CONSOLE_LOGLE=
+VEL_QUIET)
+10993504d64735 drivers/video/fbdev/core/fbcon.c Prarit Bhargava           2=
+019-02-08  1040  		logo_shown =3D FBCON_LOGO_DONTSHOW;
+10993504d64735 drivers/video/fbdev/core/fbcon.c Prarit Bhargava           2=
+019-02-08  1041  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  185  	data =3D gpiod_get_value(=
-drvdata->gpio_data);
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  186  	if (unlikely(data < 0)) {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  187  		dev_err(drvdata->dev, "R=
-X: failed to get data gpio val: %d\n",
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  188  			data);
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  189  		goto err;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  190  	}
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  191  =
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1042  	if (vc !=3D svc || logo_shown =3D=3D FBCON_LOGO_DONTSHOW =
+||
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1043  	    (info->fix.type =3D=3D FB_TYPE_TEXT))
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1044  		logo =3D 0;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1045  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  192  	switch (cnt) {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  193  	case PS2_START_BIT:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  194  		/* start bit should be l=
-ow */
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  195  		if (unlikely(data)) {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  196  			dev_err(drvdata->dev, "=
-RX: start bit should be low\n");
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  197  			goto err;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  198  		}
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  199  		break;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  200  	case PS2_DATA_BIT0:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  201  	case PS2_DATA_BIT1:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  202  	case PS2_DATA_BIT2:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  203  	case PS2_DATA_BIT3:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  204  	case PS2_DATA_BIT4:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  205  	case PS2_DATA_BIT5:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  206  	case PS2_DATA_BIT6:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  207  	case PS2_DATA_BIT7:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  208  		/* processing data bits =
-*/
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  209  		if (data)
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  210  			byte |=3D (data << (cnt=
- - 1));
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  211  		break;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  212  	case PS2_PARITY_BIT:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  213  		/* check odd parity */
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  214  		if (!((hweight8(byte) & =
-1) ^ data)) {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28 @215  			rxflags |=3D SERIO_PARI=
-TY;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  216  			dev_warn(drvdata->dev, =
-"RX: parity error\n");
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  217  			if (!drvdata->write_ena=
-ble)
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  218  				goto err;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  219  		}
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  220  		break;
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  221  	case PS2_STOP_BIT:
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  222  		/* stop bit should be hi=
-gh */
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  223  		if (unlikely(!data)) {
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  224  			dev_err(drvdata->dev, "=
-RX: stop bit should be high\n");
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  225  			goto err;
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  226  		}
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  227  =
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1046  	if (var_to_display(p, &info->var, info))
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1047  		return;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1048  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  228  		/* Do not send spurious =
-ACK's and NACK's when write fn is
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  229  		 * not provided.
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  230  		 */
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  231  		if (!drvdata->write_enab=
-le) {
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  232  			if (byte =3D=3D PS2_DEV=
-_RET_NACK)
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  233  				goto err;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  234  			else if (byte =3D=3D PS=
-2_DEV_RET_ACK)
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  235  				break;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  236  		}
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  237  =
+d1baa4ffa677bf drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+007-07-17  1049  	if (!info->fbcon_par)
+d1baa4ffa677bf drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+007-07-17  1050  		con2fb_acquire_newinfo(vc, info, vc->vc_num, -1);
+d1baa4ffa677bf drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+007-07-17  1051  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  238  		serio_interrupt(drvdata-=
->serio, byte, rxflags);
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  239  		dev_dbg(drvdata->dev, "R=
-X: sending byte 0x%x\n", byte);
-01c1b8646b0bd2 Danilo Krummrich 2022-02-11  240  =
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1052  	/* If we are not the first console on this
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1053  	   fb, copy the font from that console */
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1054  	t =3D &fb_display[fg_console];
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1055  	if (!p->fontdata) {
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1056  		if (t->fontdata) {
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1057  			struct vc_data *fvc =3D vc_cons[fg_console].d;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1058  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  241  		cnt =3D byte =3D 0;
-dc1a5808b83032 Danilo Krummrich 2022-02-11  242  =
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1059  			vc->vc_font.data =3D (void *)(p->fontdata =3D
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1060  						    fvc->vc_font.data);
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1061  			vc->vc_font.width =3D fvc->vc_font.width;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1062  			vc->vc_font.height =3D fvc->vc_font.height;
+a1ac250a82a5e9 drivers/video/fbdev/core/fbcon.c Peilin Ye                 2=
+020-11-12  1063  			vc->vc_font.charcount =3D fvc->vc_font.charcount;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1064  			p->userfont =3D t->userfont;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1065  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  243  		goto end; /* success */
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  244  	default:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  245  		dev_err(drvdata->dev, "R=
-X: got out of sync with the device\n");
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  246  		goto err;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  247  	}
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  248  =
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1066  			if (p->userfont)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1067  				REFCOUNT(p->fontdata)++;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1068  		} else {
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1069  			const struct font_desc *font =3D NULL;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1070  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  249  	cnt++;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  250  	goto end; /* success */
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  251  =
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1071  			if (!fontname[0] || !(font =3D find_font(fontname)))
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1072  				font =3D get_default_font(info->var.xres,
+2d2699d9849248 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+007-05-08  1073  							info->var.yres,
+2d2699d9849248 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+007-05-08  1074  							info->pixmap.blit_x,
+2d2699d9849248 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+007-05-08  1075  							info->pixmap.blit_y);
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1076  			vc->vc_font.width =3D font->width;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1077  			vc->vc_font.height =3D font->height;
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1078  			vc->vc_font.data =3D (void *)(p->fontdata =3D font->dat=
+a);
+a1ac250a82a5e9 drivers/video/fbdev/core/fbcon.c Peilin Ye                 2=
+020-11-12  1079  			vc->vc_font.charcount =3D font->charcount;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1080  		}
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1081  	}
+e614b18dcedb24 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-06-26  1082  =
 
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  252  err:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  253  	cnt =3D byte =3D 0;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  254  	__ps2_gpio_write(drvdata-=
->serio, PS2_CMD_RESEND);
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  255  end:
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  256  	drvdata->rx_cnt =3D cnt;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  257  	drvdata->rx_byte =3D byte;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  258  	return IRQ_HANDLED;
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  259  }
-9ee0a0558819e6 Danilo Krummrich 2017-08-28  260  =
+b8c909454f046b drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-09-09  1083  	vc->vc_can_do_color =3D (fb_get_color_depth(&info->var, &=
+info->fix)!=3D1);
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1084  	vc->vc_complement_mask =3D vc->vc_can_do_color ? 0x7700 :=
+ 0x0800;
+a1ac250a82a5e9 drivers/video/fbdev/core/fbcon.c Peilin Ye                 2=
+020-11-12  1085  	if (vc->vc_font.charcount =3D=3D 256) {
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1086  		vc->vc_hi_font_mask =3D 0;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1087  	} else {
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1088  		vc->vc_hi_font_mask =3D 0x100;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1089  		if (vc->vc_can_do_color)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1090  			vc->vc_complement_mask <<=3D 1;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1091  	}
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1092  =
 
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1093  	if (!*svc->vc_uni_pagedir_loc)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1094  		con_set_default_unimap(svc);
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1095  	if (!*vc->vc_uni_pagedir_loc)
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1096  		con_copy_unimap(vc, svc);
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1097  =
+
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-11-08  1098  	ops =3D info->fbcon_par;
+f235f664a8afab drivers/video/console/fbcon.c    Scot Doyle                2=
+015-10-09  1099  	ops->cur_blink_jiffies =3D msecs_to_jiffies(vc->vc_cur_bl=
+ink_ms);
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2=
+017-11-25  1100  =
+
+2428e59b530928 drivers/video/console/fbcon.c    Marcin Slusarz            2=
+008-02-06  1101  	p->con_rotate =3D initial_rotation;
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2=
+017-11-25  1102  	if (p->con_rotate =3D=3D -1)
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2=
+017-11-25  1103  		p->con_rotate =3D info->fbcon_rotate_hint;
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2=
+017-11-25  1104  	if (p->con_rotate =3D=3D -1)
+f2f4946b0adfd6 drivers/video/fbdev/core/fbcon.c Hans de Goede             2=
+017-11-25  1105  		p->con_rotate =3D FB_ROTATE_UR;
+c9e6a36492504e drivers/video/fbdev/core/fbcon.c Hans de Goede             2=
+017-11-25  1106  =
+
+b73deed32d0874 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+006-01-09  1107  	set_blitting_type(vc, info);
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-11-08  1108  =
+
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1109  	cols =3D vc->vc_cols;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1110  	rows =3D vc->vc_rows;
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-11-08  1111  	new_cols =3D FBCON_SWAP(ops->rotate, info->var.xres, info=
+->var.yres);
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-11-08  1112  	new_rows =3D FBCON_SWAP(ops->rotate, info->var.yres, info=
+->var.xres);
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-11-08  1113  	new_cols /=3D vc->vc_font.width;
+e4fc27618b7523 drivers/video/console/fbcon.c    Antonino A. Daplas        2=
+005-11-08  1114  	new_rows /=3D vc->vc_font.height;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1115  =
+
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1116  	/*
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1117  	 * We must always set the mode. The mode of the previous =
+console
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1118  	 * driver could be in the same resolution but we are usin=
+g different
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1119  	 * hardware so we have to initialize the hardware.
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1120  	 *
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1121  	 * We need to do it in fbcon_init() to prevent screen cor=
+ruption.
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1122  	 */
+6ca8dfd78187d8 drivers/video/console/fbcon.c    Jiri Slaby                2=
+016-06-23  1123  	if (con_is_visible(vc) && vc->vc_mode =3D=3D KD_TEXT) {
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1124  		if (info->fbops->fb_set_par &&
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1125  		    !(ops->flags & FBCON_FLAGS_INIT)) {
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1126  			ret =3D info->fbops->fb_set_par(info);
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1127  =
+
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1128  			if (ret)
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1129  				printk(KERN_ERR "fbcon_init: detected "
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1130  					"unhandled fb_set_par error, "
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1131  					"error code %d\n", ret);
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1132  		}
+0fcf6ada2b8eb4 drivers/video/console/fbcon.c    Florian Tobias Schandinat 2=
+009-09-22  1133  =
+
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1134  		ops->flags |=3D FBCON_FLAGS_INIT;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1135  	}
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1136  =
+
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1137  	ops->graphics =3D 0;
+^1da177e4c3f41 drivers/video/console/fbcon.c    Linus Torvalds            2=
+005-04-16  1138  =
+
+
+:::::: The code at line 1037 was first introduced by commit
+:::::: 87ab9f6b7417349aa197a6c7098d4fdd4beebb74 Revert "fbcon: Disable acce=
+lerated scrolling"
+
+:::::: TO: Helge Deller <deller@gmx.de>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4771930478804284355==--
+--===============6993312486087717752==--
 
