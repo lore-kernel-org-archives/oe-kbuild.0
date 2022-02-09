@@ -1,107 +1,168 @@
-Content-Type: multipart/mixed; boundary="===============0816572056638729200=="
+Content-Type: multipart/mixed; boundary="===============8921822362939966356=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15 400/872] drivers/usb/gadget/function/f_tcm.c:340:2-12: alloc with no test, possible model on line 345
-Date: Wed, 09 Feb 2022 17:21:42 +0800
-Message-ID: <202202091733.OwkhhpPA-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.4 7717/9999] drivers/dma-buf/dma-buf.c:728 dma_buf_attach() warn: ignoring unreachable code.
+Date: Wed, 09 Feb 2022 17:11:22 +0800
+Message-ID: <202202091736.oG3SM40Z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0816572056638729200==
+--===============8921822362939966356==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Quanyang Wang <quanyang.wang@windriver.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Manish Narani <manish.narani@xilinx.com>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Hridya Valsaraju <hridya@google.com>
+CC: Todd Kjos <tkjos@google.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
-head:   1183ce490adb103e5e569b8ebd74c50c885ddc05
-commit: 52817ef9c056b35660cd1fd8cd02c3d3603c8059 [400/872] Revert "usb: fun=
-ction: f_tcm: Add support for getting alt interface number"
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20220=
-209/202202091733.OwkhhpPA-lkp(a)intel.com/config)
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android12-5.4
+head:   3307e1a058380163f1a11c8f7632706168f9fcb1
+commit: e618a51f562f1f038f31b6a4b4a250c062d70eab [7717/9999] ANDROID: Delet=
+e the DMA-BUF attachment sysfs statistics
+:::::: branch date: 2 weeks ago
+:::::: commit date: 7 months ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220209/202202091736.oG3SM40Z-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/dma-buf/dma-buf.c:728 dma_buf_attach() warn: ignoring unreachable c=
+ode.
+
+vim +728 drivers/dma-buf/dma-buf.c
+
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  677  =
+
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  678  =
+/**
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  679  =
+ * dma_buf_attach - Add the device to dma_buf's attachments list; optionall=
+y,
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  680  =
+ * calls attach() of dma_buf_ops to allow device-specific attach functional=
+ity
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  681  =
+ * @dmabuf:	[in]	buffer to attach device to.
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  682  =
+ * @dev:	[in]	device to be attached.
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  683  =
+ *
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  684  =
+ * Returns struct dma_buf_attachment pointer for this attachment. Attachmen=
+ts
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  685  =
+ * must be cleaned up by calling dma_buf_detach().
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  686  =
+ *
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  687  =
+ * Returns:
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  688  =
+ *
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  689  =
+ * A pointer to newly created &dma_buf_attachment on success, or a negative
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  690  =
+ * error code wrapped into a pointer on failure.
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  691  =
+ *
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  692  =
+ * Note that this can fail if the backing storage of @dmabuf is in a place =
+not
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  693  =
+ * accessible to @dev, and cannot be moved to a more suitable place. This is
+2904a8c1311f02 drivers/dma-buf/dma-buf.c Daniel Vetter    2016-12-09  694  =
+ * indicated with the error code -EBUSY.
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  695  =
+ */
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  696  =
+struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  697  =
+					  struct device *dev)
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  698  {
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  699  =
+	struct dma_buf_attachment *attach;
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  700  =
+	int ret;
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  701  =
+
+d1aa06a1eaf5f7 drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26  702  =
+	if (WARN_ON(!dmabuf || !dev))
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  703  =
+		return ERR_PTR(-EINVAL);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  704  =
+
+db7942b6292306 drivers/dma-buf/dma-buf.c Markus Elfring   2017-05-08  705  =
+	attach =3D kzalloc(sizeof(*attach), GFP_KERNEL);
+34d84ec4881d13 drivers/dma-buf/dma-buf.c Markus Elfring   2017-05-08  706  =
+	if (!attach)
+a9fbc3b73127ef drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26  707  =
+		return ERR_PTR(-ENOMEM);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  708  =
+
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  709  =
+	attach->dev =3D dev;
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  710  =
+	attach->dmabuf =3D dmabuf;
+2ed9201bdd9a8e drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26  711  =
+
+2ed9201bdd9a8e drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26  712  =
+	mutex_lock(&dmabuf->lock);
+2ed9201bdd9a8e drivers/base/dma-buf.c    Laurent Pinchart 2012-01-26  713  =
+
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  714  =
+	if (dmabuf->ops->attach) {
+a19741e5e5a9f1 drivers/dma-buf/dma-buf.c Christian K=C3=B6nig  2018-05-28  =
+715  		ret =3D dmabuf->ops->attach(dmabuf, attach);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  716  =
+		if (ret)
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  717  =
+			goto err_attach;
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  718  =
+	}
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  719  =
+	list_add(&attach->node, &dmabuf->attachments);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  720  =
+
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  721  =
+	return attach;
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  722  =
+
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  723  =
+err_attach:
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  724  =
+	kfree(attach);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  725  =
+	mutex_unlock(&dmabuf->lock);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  726  =
+	return ERR_PTR(ret);
+90935b28546d2c drivers/dma-buf/dma-buf.c Hridya Valsaraju 2021-02-01  727  =
+
+90935b28546d2c drivers/dma-buf/dma-buf.c Hridya Valsaraju 2021-02-01 @728  =
+	dma_buf_detach(dmabuf, attach);
+90935b28546d2c drivers/dma-buf/dma-buf.c Hridya Valsaraju 2021-02-01  729  =
+	return ERR_PTR(ret);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  730  }
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  731  =
+EXPORT_SYMBOL_GPL(dma_buf_attach);
+d15bd7ee445d07 drivers/base/dma-buf.c    Sumit Semwal     2011-12-26  732  =
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/usb/gadget/function/f_tcm.c:340:2-12: alloc with no test, possib=
-le model on line 345
+:::::: The code at line 728 was first introduced by commit
+:::::: 90935b28546d2cfb7541d76c71e749496f77968b BACKPORT: FROMLIST: dmabuf:=
+ Add the capability to expose DMA-BUF stats in sysfs
 
-vim +340 drivers/usb/gadget/function/f_tcm.c
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26  331  =
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26  332  static int alloc_cmd_reso=
-urce(struct f_uas *fu, int num, struct usb_ep *ep,
-c6628548acf083 Rajnikant Bhojani 2022-01-26  333  			      void  (*complete=
-)(struct usb_ep *ep,
-c6628548acf083 Rajnikant Bhojani 2022-01-26  334  						struct usb_request =
-*req))
-c6628548acf083 Rajnikant Bhojani 2022-01-26  335  {
-c6628548acf083 Rajnikant Bhojani 2022-01-26  336  	int i;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  337  =
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26  338  	fu->ncmd =3D num;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  339  	for (i =3D 0; i < fu->nc=
-md; i++) {
-c6628548acf083 Rajnikant Bhojani 2022-01-26 @340  		fu->cmd[i] =3D kcalloc(=
-fu->ncmd, sizeof(struct usbg_cdb),
-c6628548acf083 Rajnikant Bhojani 2022-01-26  341  				GFP_KERNEL);
-c6628548acf083 Rajnikant Bhojani 2022-01-26  342  		if (!fu->cmd)
-c6628548acf083 Rajnikant Bhojani 2022-01-26  343  			goto err_cmd;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  344  =
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26 @345  		fu->cmd[i]->req =3D usb=
-_ep_alloc_request(ep, GFP_KERNEL);
-c6628548acf083 Rajnikant Bhojani 2022-01-26  346  		if (!fu->cmd[i]->req)
-c6628548acf083 Rajnikant Bhojani 2022-01-26  347  			goto err_cmd;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  348  =
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26  349  		fu->cmd[i]->buf =3D kma=
-lloc(fu->ep_out->maxpacket, GFP_KERNEL);
-c6628548acf083 Rajnikant Bhojani 2022-01-26  350  		if (!fu->cmd[i]->buf)
-c6628548acf083 Rajnikant Bhojani 2022-01-26  351  			goto err_cmd;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  352  =
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26  353  		fu->cmd[i]->req->comple=
-te =3D complete;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  354  		fu->cmd[i]->req->buf =
-=3D fu->cmd[i]->buf;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  355  		fu->cmd[i]->req->length=
- =3D fu->ep_out->maxpacket;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  356  		fu->cmd[i]->req->contex=
-t =3D fu;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  357  	}
-c6628548acf083 Rajnikant Bhojani 2022-01-26  358  =
-
-c6628548acf083 Rajnikant Bhojani 2022-01-26  359  	return 0;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  360  err_cmd:
-c6628548acf083 Rajnikant Bhojani 2022-01-26  361  	free_cmd_resource(fu, ep=
-);
-c6628548acf083 Rajnikant Bhojani 2022-01-26  362  	return -ENOMEM;
-c6628548acf083 Rajnikant Bhojani 2022-01-26  363  }
-c6628548acf083 Rajnikant Bhojani 2022-01-26  364  =
-
-
-:::::: The code at line 340 was first introduced by commit
-:::::: c6628548acf08392524df4bdbeee080f6f5ecc43 usb: gadget: f_tcm: queue m=
-ultiple commands request
-
-:::::: TO: Rajnikant Bhojani <rajnikant.bhojani@xilinx.com>
-:::::: CC: Michal Simek <michal.simek@xilinx.com>
+:::::: TO: Hridya Valsaraju <hridya@google.com>
+:::::: CC: Suren Baghdasaryan <surenb@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0816572056638729200==--
+--===============8921822362939966356==--
 
