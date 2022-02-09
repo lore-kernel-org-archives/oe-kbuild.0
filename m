@@ -1,616 +1,332 @@
-Content-Type: multipart/mixed; boundary="===============4385015288430440131=="
+Content-Type: multipart/mixed; boundary="===============7338896964175333507=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15 861/907] drivers/spi/spi-xilinx.c:848 xilinx_spi_probe() error: uninitialized symbol 'cs_num'.
-Date: Thu, 10 Feb 2022 05:37:25 +0800
-Message-ID: <202202100523.DlADsBpH-lkp@intel.com>
+Subject: drivers/net/veth.c:58:8: warning: Excessive padding in 'struct veth_rq' (67 padding bytes, where 3 is optimal).
+Date: Thu, 10 Feb 2022 05:17:03 +0800
+Message-ID: <202202100537.lUTZlC9O-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4385015288430440131==
+--===============7338896964175333507==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
-CC: Tejas Prajapati Rameshchandra <tejaspra@xilinx.com>
-CC: Naga Sureshkumar Relli <nagasure@xilinx.com>
-CC: Shubhrajyoti Datta <shubhrajyoti.datta@xilinx.com>
-CC: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Paolo Abeni <pabeni@redhat.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
-head:   423a108a01e05e84b59a4c4885c16bf3cd8c90c7
-commit: 3973536c456079bf3d09e9a97bf33d29422b183f [861/907] spi: spi-xilinx:=
- Updated axi-qspi controller driver
-:::::: branch date: 12 hours ago
-:::::: commit date: 8 days ago
-config: arm-randconfig-m031-20220208 (https://download.01.org/0day-ci/archi=
-ve/20220210/202202100523.DlADsBpH-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f4bc5bbb5fef3cf421ba3485d6d383c27ec473ed
+commit: d3256efd8e8b234a6251e4d4580bd2c3c31fdc4c veth: allow enabling NAPI =
+even without XDP
+date:   10 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-c006-20220208 (https://download.01.org/0day-ci/arc=
+hive/20220210/202202100537.lUTZlC9O-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
+ae54a55b4dbfeb6ba55f723abbd81bf494)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dd3256efd8e8b234a6251e4d4580bd2c3c31fdc4c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d3256efd8e8b234a6251e4d4580bd2c3c31fdc4c
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/spi/spi-xilinx.c:848 xilinx_spi_probe() error: uninitialized symbol=
- 'cs_num'.
 
-vim +/cs_num +848 drivers/spi/spi-xilinx.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/ceph/messenger_v1.c:1224:11: note: Field 'state' is not equal to CEP=
+H_CON_S_V1_BANNER
+           if (con->state =3D=3D CEPH_CON_S_V1_BANNER) {
+                    ^
+   net/ceph/messenger_v1.c:1224:2: note: Taking false branch
+           if (con->state =3D=3D CEPH_CON_S_V1_BANNER) {
+           ^
+   net/ceph/messenger_v1.c:1248:11: note: Field 'state' is not equal to CEP=
+H_CON_S_V1_CONNECT_MSG
+           if (con->state =3D=3D CEPH_CON_S_V1_CONNECT_MSG) {
+                    ^
+   net/ceph/messenger_v1.c:1248:2: note: Taking false branch
+           if (con->state =3D=3D CEPH_CON_S_V1_CONNECT_MSG) {
+           ^
+   net/ceph/messenger_v1.c:1258:2: note: Taking false branch
+           WARN_ON(con->state !=3D CEPH_CON_S_OPEN);
+           ^
+   include/asm-generic/bug.h:120:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   net/ceph/messenger_v1.c:1260:6: note: Assuming field 'in_base_pos' is >=
+=3D 0
+           if (con->v1.in_base_pos < 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1260:2: note: Taking false branch
+           if (con->v1.in_base_pos < 0) {
+           ^
+   net/ceph/messenger_v1.c:1272:6: note: Assuming field 'in_tag' is not equ=
+al to CEPH_MSGR_TAG_READY
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_READY) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1272:2: note: Taking false branch
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_READY) {
+           ^
+   net/ceph/messenger_v1.c:1298:6: note: Assuming field 'in_tag' is not equ=
+al to CEPH_MSGR_TAG_MSG
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_MSG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1298:2: note: Taking false branch
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_MSG) {
+           ^
+   net/ceph/messenger_v1.c:1321:6: note: Assuming field 'in_tag' is not equ=
+al to CEPH_MSGR_TAG_ACK
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_ACK ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1321:6: note: Left side of '||' is false
+   net/ceph/messenger_v1.c:1322:6: note: Assuming field 'in_tag' is not equ=
+al to CEPH_MSGR_TAG_SEQ
+               con->v1.in_tag =3D=3D CEPH_MSGR_TAG_SEQ) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1321:2: note: Taking false branch
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_ACK ||
+           ^
+   net/ceph/messenger_v1.c:1333:6: note: Assuming field 'in_tag' is equal t=
+o CEPH_MSGR_TAG_KEEPALIVE2_ACK
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_KEEPALIVE2_ACK) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1333:2: note: Taking true branch
+           if (con->v1.in_tag =3D=3D CEPH_MSGR_TAG_KEEPALIVE2_ACK) {
+           ^
+   net/ceph/messenger_v1.c:1334:9: note: Calling 'read_keepalive_ack'
+                   ret =3D read_keepalive_ack(con);
+                         ^~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1197:12: note: Calling 'read_partial'
+           int ret =3D read_partial(con, size, size, &ceph_ts);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:608:9: note: Assuming 'end' is <=3D field 'in_ba=
+se_pos'
+           while (con->v1.in_base_pos < end) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:608:2: note: Loop condition is false. Execution =
+continues on line 616
+           while (con->v1.in_base_pos < end) {
+           ^
+   net/ceph/messenger_v1.c:616:2: note: Returning without writing to 'objec=
+t->tv_sec'
+           return 1;
+           ^
+   net/ceph/messenger_v1.c:1197:12: note: Returning from 'read_partial'
+           int ret =3D read_partial(con, size, size, &ceph_ts);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ceph/messenger_v1.c:1198:6: note: 'ret' is > 0
+           if (ret <=3D 0)
+               ^~~
+   net/ceph/messenger_v1.c:1198:2: note: Taking false branch
+           if (ret <=3D 0)
+           ^
+   net/ceph/messenger_v1.c:1200:2: note: Calling 'ceph_decode_timespec64'
+           ceph_decode_timespec64(&con->last_keepalive_ack, &ceph_ts);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ceph/decode.h:208:13: note: Assigned value is garbage or u=
+ndefined
+           ts->tv_sec =3D (time64_t)le32_to_cpu(tv->tv_sec);
+                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+>> drivers/net/veth.c:58:8: warning: Excessive padding in 'struct veth_rq' =
+(67 padding bytes, where 3 is optimal). =
 
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-07  =
+   Optimal fields order: =
 
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-08  /* This driver supports single master mode only. Hence Tx FIFO Empty
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-09   * is the only interrupt we care about.
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-10   * Receive FIFO Overrun, Transmit FIFO Underrun, Mode Fault, and Slave =
-Mode
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-11   * Fault are not to happen.
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-12   */
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-13  static irqreturn_t xilinx_spi_irq(int irq, void *dev_id)
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-14  {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-15  	struct spi_master *master =3D dev_id;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-16  	struct xilinx_spi *xspi =3D spi_master_get_devdata(dev_id);
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-17  	u32 ipif_isr;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-18  	irqreturn_t status =3D IRQ_NONE;
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-19  =
+   xdp_rxq, =
 
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-20  	/* Get the IPIF interrupts, and clear them immediately */
-86fc593599c11b6 drivers/spi/xilinx_spi.c Richard R=C3=B6jfors      2009-11-=
-13  621  	ipif_isr =3D xspi->read_fn(xspi->regs + XIPIF_V123B_IISR_OFFSET);
-86fc593599c11b6 drivers/spi/xilinx_spi.c Richard R=C3=B6jfors      2009-11-=
-13  622  	xspi->write_fn(ipif_isr, xspi->regs + XIPIF_V123B_IISR_OFFSET);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-23  	if (ipif_isr & XSPI_INTR_TX_EMPTY)  {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-24  		/* Transmission completed */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-25  		xspi->rx_fifo(xspi);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-26  		if (xspi->bytes_to_transfer) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-27  			/* There is more data to send */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-28  			xspi->tx_fifo(xspi);
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-29  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-30  		status =3D IRQ_HANDLED;
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-31  	}
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-32  =
+   xdp_ring, =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-33  	if (!xspi->bytes_to_receive && !xspi->bytes_to_transfer) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-34  		spi_finalize_current_transfer(master);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-35  		/* Disable the interrupts here. */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-36  		xspi->write_fn(0x0, xspi->regs + XIPIF_V123B_DGIER_OFFSET);
-4c9a761402d780b drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-37  	}
-4c9a761402d780b drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-38  =
+   stats, =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-39  	return status;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-40  }
-7cb2abd05fe1f9a drivers/spi/spi-xilinx.c Mark Brown           2013-07-05  6=
-41  static int xilinx_spi_probe(struct platform_device *pdev)
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-42  {
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-43  	struct xilinx_spi *xspi;
-ad3fdbcaf98dc12 drivers/spi/spi-xilinx.c Michal Simek         2013-07-08  6=
-44  	struct resource *res;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-45  	int ret;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-46  	u32 num_cs =3D 0, bits_per_word =3D 8;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-47  	u32 cs_num;
-d81c0bbbf840865 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  6=
-48  	struct spi_master *master;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-49  	struct device_node *nc;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-50  	u32 tmp, rx_bus_width, fifo_size;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-51  	bool startup_block;
-d81c0bbbf840865 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  6=
-52  =
+   xdp_napi, =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-53  	if (of_property_read_u32(pdev->dev.of_node, "num-cs", &num_cs))
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-54  		dev_info(&pdev->dev,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-55  			 "Missing num-cs optional property, assuming default as <1>\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-56  	if (!num_cs)
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-57  		num_cs =3D 1;
-d81c0bbbf840865 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  6=
-58  =
+   napi, =
 
-eb25f16c6f44693 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-59  	if (num_cs > XILINX_SPI_MAX_CS) {
-eb25f16c6f44693 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-60  		dev_err(&pdev->dev, "Invalid number of spi slaves\n");
-eb25f16c6f44693 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-61  		return -EINVAL;
-eb25f16c6f44693 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-62  	}
-eb25f16c6f44693 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  6=
-63  =
+   dev, =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-64  	startup_block =3D of_property_read_bool(pdev->dev.of_node,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-65  					      "xlnx,startup-block");
-7cb2abd05fe1f9a drivers/spi/spi-xilinx.c Mark Brown           2013-07-05  6=
-66  	master =3D spi_alloc_master(&pdev->dev, sizeof(struct xilinx_spi));
-d5af91a1faca68e drivers/spi/xilinx_spi.c Richard R=C3=B6jfors      2009-11-=
-13  667  	if (!master)
-d81c0bbbf840865 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  6=
-68  		return -ENODEV;
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-69  =
+   xdp_prog, =
 
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-70  	xspi =3D spi_master_get_devdata(master);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-71  	master->dev.of_node =3D pdev->dev.of_node;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-72  	platform_set_drvdata(pdev, master);
-ad3fdbcaf98dc12 drivers/spi/spi-xilinx.c Michal Simek         2013-07-08  6=
-73  	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-ad3fdbcaf98dc12 drivers/spi/spi-xilinx.c Michal Simek         2013-07-08  6=
-74  	xspi->regs =3D devm_ioremap_resource(&pdev->dev, res);
-c40537d008ab1b4 drivers/spi/spi-xilinx.c Mark Brown           2013-07-01  6=
-75  	if (IS_ERR(xspi->regs)) {
-c40537d008ab1b4 drivers/spi/spi-xilinx.c Mark Brown           2013-07-01  6=
-76  		ret =3D PTR_ERR(xspi->regs);
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-77  		goto put_master;
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  6=
-78  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-79  	ret =3D of_property_read_u32(pdev->dev.of_node, "fifo-size",
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-80  				   &fifo_size);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-81  	if (ret < 0) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-82  		dev_err(&pdev->dev,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-83  			"Missing fifo size\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-84  		return -EINVAL;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-85  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-86  	if (of_property_read_u32(pdev->dev.of_node, "bits-per-word",
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-87  				 &bits_per_word))
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-88  		dev_info(&pdev->dev,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-89  			 "Missing bits-per-word optional property, assuming default as <8>\n=
-");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-90  =
+   xdp_mem, =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-91  	xspi->rx_bus_width =3D XSPI_ONE_BITS_PER_WORD;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-92  	for_each_available_child_of_node(pdev->dev.of_node, nc) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-93  		if (startup_block) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-94  			ret =3D of_property_read_u32(nc, "reg",
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-95  						   &cs_num);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-96  			if (ret < 0)
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-97  				return -EINVAL;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-98  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  6=
-99  		ret =3D of_property_read_u32(nc, "spi-rx-bus-width",
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-00  					   &rx_bus_width);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-01  		if (!ret) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-02  			xspi->rx_bus_width =3D rx_bus_width;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-03  			break;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-04  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-05  	}
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  7=
-06  =
+   rx_notify_masked, =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-07  	xspi->axi_clk =3D devm_clk_get(&pdev->dev, "axi_clk");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-08  	if (IS_ERR(xspi->axi_clk)) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-09  		if (PTR_ERR(xspi->axi_clk) !=3D -ENOENT) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-10  			ret =3D PTR_ERR(xspi->axi_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-11  			goto put_master;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-12  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-13  =
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct veth_rq {
+   ~~~~~~~^~~~~~~~~
+   drivers/net/veth.c:58:8: note: Excessive padding in 'struct veth_rq' (67=
+ padding bytes, where 3 is optimal). Optimal fields order: xdp_rxq, xdp_rin=
+g, stats, xdp_napi, napi, dev, xdp_prog, xdp_mem, rx_notify_masked, conside=
+r reordering the fields or adding explicit padding members
+   struct veth_rq {
+   ~~~~~~~^~~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/net/vxlan.c:2300:6: warning: Branch condition evaluates to a gar=
+bage value [clang-analyzer-core.uninitialized.Branch]
+           if (!md->gbp)
+               ^
+   drivers/net/vxlan.c:2613:6: note: Assuming 'rdst' is null
+           if (rdst) {
+               ^~~~
+   drivers/net/vxlan.c:2613:2: note: Taking false branch
+           if (rdst) {
+           ^
+   drivers/net/vxlan.c:2649:8: note: 'info' is non-null
+                   if (!info) {
+                        ^~~~
+   drivers/net/vxlan.c:2649:3: note: Taking false branch
+                   if (!info) {
+                   ^
+   drivers/net/vxlan.c:2655:20: note: Field 'sa_family' is equal to AF_INET
+                   if (remote_ip.sa.sa_family =3D=3D AF_INET) {
+                                    ^
+   drivers/net/vxlan.c:2655:3: note: Taking true branch
+                   if (remote_ip.sa.sa_family =3D=3D AF_INET) {
+                   ^
+   drivers/net/vxlan.c:2663:14: note: '?' condition is false
+                   dst_port =3D info->key.tp_dst ? : vxlan->cfg.dst_port;
+                              ^
+   drivers/net/vxlan.c:2667:29: note: '?' condition is true
+                   if (info->key.tun_flags & TUNNEL_VXLAN_OPT) {
+                                             ^
+   include/uapi/linux/if_tunnel.h:176:26: note: expanded from macro 'TUNNEL=
+_VXLAN_OPT'
+   #define TUNNEL_VXLAN_OPT        __cpu_to_be16(0x1000)
+                                   ^
+   include/uapi/linux/byteorder/little_endian.h:41:43: note: expanded from =
+macro '__cpu_to_be16'
+   #define __cpu_to_be16(x) ((__force __be16)__swab16((x)))
+                                             ^
+   include/uapi/linux/swab.h:105:3: note: expanded from macro '__swab16'
+           (__builtin_constant_p((__u16)(x)) ?     \
+            ^
+   drivers/net/vxlan.c:2667:7: note: Assuming the condition is false
+                   if (info->key.tun_flags & TUNNEL_VXLAN_OPT) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/vxlan.c:2667:3: note: Taking false branch
+                   if (info->key.tun_flags & TUNNEL_VXLAN_OPT) {
+                   ^
+   drivers/net/vxlan.c:2675:38: note: '?' condition is true
+                   udp_sum =3D !!(info->key.tun_flags & TUNNEL_CSUM);
+                                                      ^
+   include/uapi/linux/if_tunnel.h:164:22: note: expanded from macro 'TUNNEL=
+_CSUM'
+   #define TUNNEL_CSUM             __cpu_to_be16(0x01)
+                                   ^
+   include/uapi/linux/byteorder/little_endian.h:41:43: note: expanded from =
+macro '__cpu_to_be16'
+   #define __cpu_to_be16(x) ((__force __be16)__swab16((x)))
+                                             ^
+   include/uapi/linux/swab.h:105:3: note: expanded from macro '__swab16'
+           (__builtin_constant_p((__u16)(x)) ?     \
+            ^
+   drivers/net/vxlan.c:2675:14: note: Assuming the condition is false
+                   udp_sum =3D !!(info->key.tun_flags & TUNNEL_CSUM);
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/vxlan.c:2681:14: note: Field 'sa_family' is equal to AF_INET
+           if (dst->sa.sa_family =3D=3D AF_INET) {
+                       ^
+   drivers/net/vxlan.c:2681:2: note: Taking true branch
+           if (dst->sa.sa_family =3D=3D AF_INET) {
+           ^
+   drivers/net/vxlan.c:2682:30: note: Left side of '||' is false
+                   struct vxlan_sock *sock4 =3D rcu_dereference(vxlan->vn4_=
+sock);
+                                              ^
+   include/linux/rcupdate.h:571:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:513:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:374:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-14  		/*
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-15  		 * Clock framework support is optional, continue on,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-16  		 * anyways if we don't find a matching clock
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-17  		 */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-18  		xspi->axi_clk =3D NULL;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-19  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-20  =
+vim +58 drivers/net/veth.c
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-21  	ret =3D clk_prepare(xspi->axi_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-22  	if (ret) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-23  		dev_err(&pdev->dev, "Failed to prepare AXI clock\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-24  		goto put_master;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-25  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-26  =
+4195e54aaf1c8d Toshiaki Makita 2018-10-11  57  =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-27  	xspi->axi4_clk =3D devm_clk_get(&pdev->dev, "axi4_clk");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-28  	if (IS_ERR(xspi->axi4_clk)) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-29  		if (PTR_ERR(xspi->axi4_clk) !=3D -ENOENT) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-30  			ret =3D PTR_ERR(xspi->axi4_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-31  			goto clk_unprepare_axi_clk;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-32  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-33  =
+638264dc90227c Toshiaki Makita 2018-08-03 @58  struct veth_rq {
+948d4f214fde43 Toshiaki Makita 2018-08-03  59  	struct napi_struct	xdp_napi;
+d3256efd8e8b23 Paolo Abeni     2021-04-09  60  	struct napi_struct __rcu *n=
+api; /* points to xdp_napi when the latter is initialized */
+948d4f214fde43 Toshiaki Makita 2018-08-03  61  	struct net_device	*dev;
+948d4f214fde43 Toshiaki Makita 2018-08-03  62  	struct bpf_prog __rcu	*xdp_=
+prog;
+d1396004dd8686 Toshiaki Makita 2018-08-03  63  	struct xdp_mem_info	xdp_mem;
+4195e54aaf1c8d Toshiaki Makita 2018-10-11  64  	struct veth_rq_stats	stats;
+948d4f214fde43 Toshiaki Makita 2018-08-03  65  	bool			rx_notify_masked;
+948d4f214fde43 Toshiaki Makita 2018-08-03  66  	struct ptr_ring		xdp_ring;
+948d4f214fde43 Toshiaki Makita 2018-08-03  67  	struct xdp_rxq_info	xdp_rxq;
+e314dbdc1c0dc6 Pavel Emelyanov 2007-09-25  68  };
+e314dbdc1c0dc6 Pavel Emelyanov 2007-09-25  69  =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-34  		/*
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-35  		 * Clock framework support is optional, continue on,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-36  		 * anyways if we don't find a matching clock
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-37  		 */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-38  		xspi->axi4_clk =3D NULL;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-39  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-40  =
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-41  	ret =3D clk_prepare(xspi->axi4_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-42  	if (ret) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-43  		dev_err(&pdev->dev, "Failed to prepare AXI4 clock\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-44  		goto clk_unprepare_axi_clk;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-45  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-46  =
+:::::: The code at line 58 was first introduced by commit
+:::::: 638264dc90227cca00d20c26680171addce18e51 veth: Support per queue XDP=
+ ring
 
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-47  	xspi->spi_clk =3D devm_clk_get(&pdev->dev, "spi_clk");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-48  	if (IS_ERR(xspi->spi_clk)) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-49  		if (PTR_ERR(xspi->spi_clk) !=3D -ENOENT) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-50  			ret =3D PTR_ERR(xspi->spi_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-51  			goto clk_unprepare_axi4_clk;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-52  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-53  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-54  		/*
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-55  		 * Clock framework support is optional, continue on,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-56  		 * anyways if we don't find a matching clock
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-57  		 */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-58  		xspi->spi_clk =3D NULL;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-59  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-60  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-61  	ret =3D clk_prepare(xspi->spi_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-62  	if (ret) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-63  		dev_err(&pdev->dev, "Failed to prepare SPI clock\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-64  		goto clk_unprepare_axi4_clk;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-65  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-66  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-67  	pm_runtime_set_autosuspend_delay(&pdev->dev, SPI_AUTOSUSPEND_TIMEOUT);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-68  	pm_runtime_use_autosuspend(&pdev->dev);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-69  	pm_runtime_enable(&pdev->dev);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-70  	ret =3D pm_runtime_get_sync(&pdev->dev);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-71  	if (ret < 0)
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-72  		goto clk_unprepare_all;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-73  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-74  	xspi->dev =3D &pdev->dev;
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-75  =
-
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-76  	/*
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-77  	 * Detect endianess on the IP via loop bit in CR. Detection
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-78  	 * must be done before reset is sent because incorrect reset
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-79  	 * value generates error interrupt.
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-80  	 * Setup little endian helper functions first and try to use them
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-81  	 * and check if bit was correctly setup or not.
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-82  	 */
-0635287a308d38b drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  7=
-83  	xspi->read_fn =3D xspi_read32;
-0635287a308d38b drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  7=
-84  	xspi->write_fn =3D xspi_write32;
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-85  =
-
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-86  	xspi->write_fn(XSPI_CR_LOOP, xspi->regs + XSPI_CR_OFFSET);
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-87  	tmp =3D xspi->read_fn(xspi->regs + XSPI_CR_OFFSET);
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-88  	tmp &=3D XSPI_CR_LOOP;
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-89  	if (tmp !=3D XSPI_CR_LOOP) {
-0635287a308d38b drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  7=
-90  		xspi->read_fn =3D xspi_read32_be;
-0635287a308d38b drivers/spi/spi-xilinx.c Mark Brown           2015-01-30  7=
-91  		xspi->write_fn =3D xspi_write32_be;
-86fc593599c11b6 drivers/spi/xilinx_spi.c Richard R=C3=B6jfors      2009-11-=
-13  792  	}
-082339bc63cccf8 drivers/spi/spi-xilinx.c Michal Simek         2013-06-04  7=
-93  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-94  	xspi->buffer_size =3D fifo_size;
-7b3b7432ae7848a drivers/spi/spi-xilinx.c Michal Simek         2013-07-09  7=
-95  	xspi->irq =3D platform_get_irq(pdev, 0);
-4db9bf548bb00d8 drivers/spi/spi-xilinx.c Lars-Peter Clausen   2016-07-15  7=
-96  	if (xspi->irq < 0 && xspi->irq !=3D -ENXIO) {
-4db9bf548bb00d8 drivers/spi/spi-xilinx.c Lars-Peter Clausen   2016-07-15  7=
-97  		ret =3D xspi->irq;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  7=
-98  		goto clk_unprepare_all;
-4db9bf548bb00d8 drivers/spi/spi-xilinx.c Lars-Peter Clausen   2016-07-15  7=
-99  	} else if (xspi->irq >=3D 0) {
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  8=
-00  		/* Register for SPI Interrupt */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-01  		ret =3D devm_request_irq(&pdev->dev, xspi->irq, xilinx_spi_irq,
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-02  				       0, dev_name(&pdev->dev), master);
-d5af91a1faca68e drivers/spi/xilinx_spi.c Richard R=C3=B6jfors      2009-11-=
-13  803  		if (ret)
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-04  			goto clk_unprepare_all;
-5fe11cc09ce81b0 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  8=
-05  	}
-5fe11cc09ce81b0 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  8=
-06  =
-
-5fe11cc09ce81b0 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  8=
-07  	/* SPI controller initializations */
-5fe11cc09ce81b0 drivers/spi/spi-xilinx.c Ricardo Ribalda      2015-01-28  8=
-08  	xspi_init_hw(xspi);
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  8=
-09  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-10  	pm_runtime_put(&pdev->dev);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-11  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-12  	master->bus_num =3D pdev->id;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-13  	master->num_chipselect =3D num_cs;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-14  	master->setup =3D xspi_setup;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-15  	master->set_cs =3D xspi_chipselect;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-16  	master->transfer_one =3D xspi_start_transfer;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-17  	master->prepare_transfer_hardware =3D xspi_prepare_transfer_hardware;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-18  	master->unprepare_transfer_hardware =3D xspi_unprepare_transfer_hardwa=
-re;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-19  	master->bits_per_word_mask =3D SPI_BPW_MASK(8);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-20  	master->mode_bits =3D SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-21  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-22  	xspi->bytes_per_word =3D bits_per_word / 8;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-23  	xspi->tx_fifo =3D xspi_fill_tx_fifo_8;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-24  	xspi->rx_fifo =3D xspi_read_rx_fifo_8;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-25  	if (xspi->rx_bus_width =3D=3D XSPI_RX_ONE_WIRE) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-26  		if (xspi->bytes_per_word =3D=3D XSPI_TWO_BITS_PER_WORD) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-27  			xspi->tx_fifo =3D xspi_fill_tx_fifo_16;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-28  			xspi->rx_fifo =3D xspi_read_rx_fifo_16;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-29  		} else if (xspi->bytes_per_word =3D=3D XSPI_FOUR_BITS_PER_WORD) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-30  			xspi->tx_fifo =3D xspi_fill_tx_fifo_32;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-31  			xspi->rx_fifo =3D xspi_read_rx_fifo_32;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-32  		}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-33  	} else if (xspi->rx_bus_width =3D=3D XSPI_RX_FOUR_WIRE) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-34  		master->mode_bits |=3D SPI_TX_QUAD | SPI_RX_QUAD;
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-35  	} else {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-36  		dev_err(&pdev->dev, "Dual Mode not supported\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-37  		goto clk_unprepare_all;
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  8=
-38  	}
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-39  	xspi->cs_inactive =3D 0xffffffff;
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  8=
-40  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-41  	/*
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-42  	 * This is the work around for the startup block issue in
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-43  	 * the spi controller. SPI clock is passing through STARTUP
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-44  	 * block to FLASH. STARTUP block don't provide clock as soon
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-45  	 * as QSPI provides command. So first command fails.
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-46  	 */
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-47  	if (startup_block)
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26 @8=
-48  		xilinx_spi_startup_block(xspi, cs_num);
-8fd8821b62397f8 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-49  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-50  	ret =3D spi_register_master(master);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-51  	if (ret) {
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-52  		dev_err(&pdev->dev, "spi_register_master failed\n");
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-53  		goto clk_unprepare_all;
-eae6cb31d890e28 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-54  	}
-eae6cb31d890e28 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-55  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-56  	return ret;
-eae6cb31d890e28 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-57  =
-
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-58  clk_unprepare_all:
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-59  	pm_runtime_disable(&pdev->dev);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-60  	pm_runtime_set_suspended(&pdev->dev);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-61  	clk_unprepare(xspi->spi_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-62  clk_unprepare_axi4_clk:
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-63  	clk_unprepare(xspi->axi4_clk);
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-64  clk_unprepare_axi_clk:
-3973536c456079b drivers/spi/spi-xilinx.c Amit Kumar Mahapatra 2020-01-26  8=
-65  	clk_unprepare(xspi->axi_clk);
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  8=
-66  put_master:
-ae918c02d365c88 drivers/spi/xilinx_spi.c Andrei Konovalov     2007-07-17  8=
-67  	spi_master_put(master);
-eae6cb31d890e28 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-68  =
-
-d81c0bbbf840865 drivers/spi/spi-xilinx.c Mark Brown           2013-07-03  8=
-69  	return ret;
-eae6cb31d890e28 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-70  }
-eae6cb31d890e28 drivers/spi/xilinx_spi.c Grant Likely         2010-10-14  8=
-71  =
-
+:::::: TO: Toshiaki Makita <makita.toshiaki@lab.ntt.co.jp>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4385015288430440131==--
+--===============7338896964175333507==--
 
