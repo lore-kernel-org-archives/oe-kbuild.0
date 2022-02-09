@@ -1,329 +1,231 @@
-Content-Type: multipart/mixed; boundary="===============5250627697504659274=="
+Content-Type: multipart/mixed; boundary="===============4880726456751205639=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:axboe/linux-block/for-next 14/27] fs/io-wq.c:1058:3: warning: The expression is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-Date: Sat, 12 Feb 2022 18:39:06 +0800
-Message-ID: <202202121637.Gfbmvobl-lkp@intel.com>
+Subject: drivers/clk/socfpga/clk-periph-s10.c:113 s10_register_periph() warn: possible memory leak of 'periph_clk'
+Date: Wed, 09 Feb 2022 16:28:57 +0800
+Message-ID: <202202091618.xh1ozzTU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5250627697504659274==
+--===============4880726456751205639==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Hao Xu <haoxu@linux.alibaba.com>
-CC: Jens Axboe <axboe@kernel.dk>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
-tree:   https://github.com/ammarfaizi2/linux-block axboe/linux-block/for-ne=
-xt
-head:   9c63ffcf47865ad2d20e09d6d6531c4611674cf1
-commit: 785d7c2aaac454a6c36028e424f18405c999acac [14/27] io-wq: decouple wo=
-rk_list protection from the big wqe->lock
-:::::: branch date: 11 hours ago
-:::::: commit date: 16 hours ago
-config: mips-randconfig-c004-20220211 (https://download.01.org/0day-ci/arch=
-ive/20220212/202202121637.Gfbmvobl-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
-774697c85d6a352dcea013f46a99f9fe31)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/785d7c2aaac454a=
-6c36028e424f18405c999acac
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block axboe/linux-block/for-next
-        git checkout 785d7c2aaac454a6c36028e424f18405c999acac
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e6251ab4551f51fa4cee03523e08051898c3ce82
+commit: 1e688dd2a3d6759d416616ff07afc4bb836c4213 powerpc/bug: Provide bette=
+r flexibility to WARN_ON/__WARN_FLAGS() with asm goto
+date:   6 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 months ago
+config: powerpc-randconfig-m031-20220208 (https://download.01.org/0day-ci/a=
+rchive/20220209/202202091618.xh1ozzTU-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/clk/socfpga/clk-periph-s10.c:113 s10_register_periph() warn: possib=
+le memory leak of 'periph_clk'
+drivers/clk/socfpga/clk-periph-s10.c:149 n5x_register_periph() warn: possib=
+le memory leak of 'periph_clk'
+drivers/clk/socfpga/clk-periph-s10.c:184 s10_register_cnt_periph() warn: po=
+ssible memory leak of 'periph_clk'
+drivers/clk/bcm/clk-iproc-armpll.c:253 iproc_armpll_setup() warn: possible =
+memory leak of 'pll'
+drivers/clk/socfpga/clk-pll-s10.c:201 s10_register_pll() warn: possible mem=
+ory leak of 'pll_clk'
+drivers/clk/socfpga/clk-pll-s10.c:241 agilex_register_pll() warn: possible =
+memory leak of 'pll_clk'
+drivers/clk/socfpga/clk-pll-s10.c:280 n5x_register_pll() warn: possible mem=
+ory leak of 'pll_clk'
+drivers/clk/bcm/clk-iproc-asiu.c:198 iproc_asiu_setup() warn: possible memo=
+ry leak of 'asiu'
+drivers/usb/gadget/udc/aspeed-vhub/ep0.c:155 ast_vhub_ep0_handle_setup() er=
+ror: we previously assumed 'ep->dev' could be null (see line 130)
+drivers/clk/bcm/clk-iproc-pll.c:745 iproc_pll_clk_setup() warn: possible me=
+mory leak of 'pll'
+drivers/clk/bcm/clk-iproc-pll.c:868 iproc_pll_clk_setup() warn: possible me=
+mory leak of 'clk_data'
+kernel/rcu/update.c:546 early_boot_test_call_rcu() warn: possible memory le=
+ak of 'rhp'
+net/kcm/kcmsock.c:645 kcm_write_msgs() error: we previously assumed 'psock'=
+ could be null (see line 585)
+sound/soc/samsung/i2s.c:576 i2s_set_sysclk() warn: passing zero to 'PTR_ERR'
+drivers/clk/imx/clk-imx8mm.c:420 imx8mm_clocks_probe() warn: passing zero t=
+o 'PTR_ERR'
+drivers/clk/imx/clk-imx8mq.c:399 imx8mq_clocks_probe() warn: passing zero t=
+o 'PTR_ERR'
+drivers/iio/adc/meson_saradc.c:676 meson_sar_adc_clk_init() warn: passing z=
+ero to 'PTR_ERR'
+drivers/mmc/host/meson-mx-sdio.c:603 meson_mx_mmc_register_clks() warn: pas=
+sing zero to 'PTR_ERR'
+drivers/mmc/host/meson-gx-mmc.c:467 meson_mmc_clk_init() warn: passing zero=
+ to 'PTR_ERR'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   while (!err && left) {
-                          ^
-   kernel/sysctl.c:1440:3: note: Loop condition is true.  Entering loop body
-                   while (!err && left) {
-                   ^
-   kernel/sysctl.c:1447:10: note: Calling 'proc_get_long'
-                           err =3D proc_get_long(&p, &left, &val_a, &neg, t=
-r_a,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   kernel/sysctl.c:411:2: note: Taking false branch
-           if (!*size)
-           ^
-   kernel/sysctl.c:415:6: note: Assuming the condition is false
-           if (len > TMPBUFLEN - 1)
-               ^~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:415:2: note: Taking false branch
-           if (len > TMPBUFLEN - 1)
-           ^
-   kernel/sysctl.c:422:6: note: Assuming the condition is false
-           if (*p =3D=3D '-' && *size > 1) {
-               ^~~~~~~~~
-   kernel/sysctl.c:422:16: note: Left side of '&&' is false
-           if (*p =3D=3D '-' && *size > 1) {
-                         ^
-   kernel/sysctl.c:426:3: note: The value 0 is assigned to 'neg', which par=
-ticipates in a condition later
-                   *neg =3D false;
-                   ^~~~~~~~~~~~
-   kernel/sysctl.c:427:2: note: Taking false branch
-           if (!isdigit(*p))
-           ^
-   kernel/sysctl.c:430:2: note: Taking false branch
-           if (strtoul_lenient(p, &p, 0, val))
-           ^
-   kernel/sysctl.c:438:6: note: Assuming the condition is false
-           if (len =3D=3D TMPBUFLEN - 1)
-               ^~~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:438:2: note: Taking false branch
-           if (len =3D=3D TMPBUFLEN - 1)
-           ^
-   kernel/sysctl.c:441:6: note: Assuming the condition is false
-           if (len < *size && perm_tr_len && !memchr(perm_tr, *p, perm_tr_l=
-en))
-               ^~~~~~~~~~~
-   kernel/sysctl.c:441:18: note: Left side of '&&' is false
-           if (len < *size && perm_tr_len && !memchr(perm_tr, *p, perm_tr_l=
-en))
-                           ^
-   kernel/sysctl.c:444:6: note: 'tr' is non-null
-           if (tr && (len < *size))
-               ^~
-   kernel/sysctl.c:444:6: note: Left side of '&&' is true
-   kernel/sysctl.c:444:2: note: Taking false branch
-           if (tr && (len < *size))
-           ^
-   kernel/sysctl.c:450:2: note: Returning without writing to '*tr'
-           return 0;
-           ^
-   kernel/sysctl.c:450:2: note: Returning zero, which participates in a con=
-dition later
-           return 0;
-           ^~~~~~~~
-   kernel/sysctl.c:1447:10: note: Returning from 'proc_get_long'
-                           err =3D proc_get_long(&p, &left, &val_a, &neg, t=
-r_a,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   kernel/sysctl.c:1454:9: note: Assuming 'left' is <=3D 1
-                           if ((left <=3D 1) && skipped) {
-                                ^~~~~~~~~
-   kernel/sysctl.c:1454:8: note: Left side of '&&' is true
-                           if ((left <=3D 1) && skipped) {
-                               ^
-   kernel/sysctl.c:1454:23: note: 'skipped' is 0
-                           if ((left <=3D 1) && skipped) {
-                                              ^~~~~~~
-   kernel/sysctl.c:1454:4: note: Taking false branch
-                           if ((left <=3D 1) && skipped) {
-                           ^
-   kernel/sysctl.c:1459:8: note: 'err' is 0
-                           if (err)
-                               ^~~
-   kernel/sysctl.c:1459:4: note: Taking false branch
-                           if (err)
-                           ^
-   kernel/sysctl.c:1461:8: note: Assuming 'val_a' is < 'bitmap_len'
-                           if (val_a >=3D bitmap_len || neg) {
-                               ^~~~~~~~~~~~~~~~~~~
-   kernel/sysctl.c:1461:8: note: Left side of '||' is false
-   kernel/sysctl.c:1461:31: note: 'neg' is false
-                           if (val_a >=3D bitmap_len || neg) {
-                                                      ^~~
-   kernel/sysctl.c:1461:4: note: Taking false branch
-                           if (val_a >=3D bitmap_len || neg) {
-                           ^
-   kernel/sysctl.c:1467:8: note: Assuming 'left' is 0
-                           if (left) {
-                               ^~~~
-   kernel/sysctl.c:1467:4: note: Taking false branch
-                           if (left) {
-                           ^
-   kernel/sysctl.c:1472:10: note: The left operand of '=3D=3D' is a garbage=
- value
-                           if (c =3D=3D '-') {
-                               ~ ^
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> fs/io-wq.c:1058:3: warning: The expression is an uninitialized value. Th=
-e computed value will also be garbage [clang-analyzer-core.uninitialized.As=
-sign]
-                   match->nr_pending++;
-                   ^
-   fs/io-wq.c:979:2: note: Calling 'io_wqe_enqueue'
-           io_wqe_enqueue(wqe, work);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:933:6: note: Assuming the condition is false
-           if (test_bit(IO_WQ_BIT_EXIT, &wqe->wq->state) ||
-               ^
-   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
-o 'test_bit'
-   #define test_bit arch_test_bit
-                    ^
-   fs/io-wq.c:933:6: note: Left side of '||' is false
-           if (test_bit(IO_WQ_BIT_EXIT, &wqe->wq->state) ||
-               ^
-   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
-o 'test_bit'
-   #define test_bit arch_test_bit
-                    ^
-   fs/io-wq.c:934:7: note: Assuming the condition is false
-               (work->flags & IO_WQ_WORK_CANCEL)) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:933:2: note: Taking false branch
-           if (test_bit(IO_WQ_BIT_EXIT, &wqe->wq->state) ||
-           ^
-   fs/io-wq.c:940:2: note: Calling 'io_wqe_insert_work'
-           io_wqe_insert_work(wqe, work);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:902:6: note: Assuming the condition is false
-           if (!io_wq_is_hashed(work)) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:902:2: note: Taking false branch
-           if (!io_wq_is_hashed(work)) {
-           ^
-   fs/io-wq.c:911:6: note: Assuming 'tail' is non-null
-           if (!tail)
-               ^~~~~
-   fs/io-wq.c:911:2: note: Taking false branch
-           if (!tail)
-           ^
-   fs/io-wq.c:914:2: note: Calling 'wq_list_add_after'
-           wq_list_add_after(&work->list, &tail->list, &acct->work_list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.h:51:6: note: Assuming 'next' is non-null
-           if (!next)
-               ^~~~~
-   fs/io-wq.h:51:2: note: Taking false branch
-           if (!next)
-           ^
-   fs/io-wq.h:53:1: note: Returning without writing to 'list->first', which=
- participates in a condition later
-   }
-   ^
-   fs/io-wq.c:914:2: note: Returning from 'wq_list_add_after'
-           wq_list_add_after(&work->list, &tail->list, &acct->work_list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:940:2: note: Returning from 'io_wqe_insert_work'
-           io_wqe_insert_work(wqe, work);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:946:14: note: Assuming the condition is true
-           do_create =3D !io_wqe_activate_free_worker(wqe, acct);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:951:6: note: 'do_create' is true
-           if (do_create && ((work_flags & IO_WQ_WORK_CONCURRENT) ||
-               ^~~~~~~~~
-   fs/io-wq.c:951:6: note: Left side of '&&' is true
-   fs/io-wq.c:951:21: note: Assuming the condition is false
-           if (do_create && ((work_flags & IO_WQ_WORK_CONCURRENT) ||
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:951:20: note: Left side of '||' is false
-           if (do_create && ((work_flags & IO_WQ_WORK_CONCURRENT) ||
-                             ^
-   fs/io-wq.c:952:6: note: Assuming the condition is true
-               !atomic_read(&acct->nr_running))) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:951:2: note: Taking true branch
-           if (do_create && ((work_flags & IO_WQ_WORK_CONCURRENT) ||
-           ^
-   fs/io-wq.c:956:3: note: Taking false branch
-                   if (likely(did_create))
-                   ^
-   fs/io-wq.c:960:7: note: Assuming field 'nr_workers' is 0
-                   if (acct->nr_workers) {
-                       ^~~~~~~~~~~~~~~~
-   fs/io-wq.c:960:3: note: Taking false branch
-                   if (acct->nr_workers) {
-                   ^
-   fs/io-wq.c:971:3: note: Calling 'io_acct_cancel_pending_work'
-                   io_acct_cancel_pending_work(wqe, acct, &match);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:1051:2: note: Loop condition is true.  Entering loop body
-           wq_list_for_each(node, prev, &acct->work_list) {
-           ^
-   fs/io-wq.h:33:2: note: expanded from macro 'wq_list_for_each'
-           for (pos =3D (head)->first, prv =3D NULL; pos; prv =3D pos, pos =
-=3D (pos)->next)
-           ^
-   fs/io-wq.c:1053:8: note: Calling 'io_wq_work_match_item'
-                   if (!match->fn(work, match->data))
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io-wq.c:919:9: note: Assuming 'work' is equal to 'data'
-           return work =3D=3D data;
-                  ^~~~~~~~~~~~
-   fs/io-wq.c:919:2: note: Returning the value 1, which participates in a c=
-ondition later
+Old smatch warnings:
+drivers/clk/imx/clk-imx8mm.c:636 imx8mm_clocks_probe() warn: 'base' not rel=
+eased on lines: 326,636.
+drivers/clk/imx/clk-imx8mq.c:611 imx8mq_clocks_probe() warn: 'base' not rel=
+eased on lines: 312,611.
+drivers/iio/adc/meson_saradc.c:695 meson_sar_adc_clk_init() warn: passing z=
+ero to 'PTR_ERR'
+drivers/mmc/host/meson-mx-sdio.c:624 meson_mx_mmc_register_clks() warn: pas=
+sing zero to 'PTR_ERR'
+drivers/mmc/host/meson-gx-mmc.c:490 meson_mmc_clk_init() warn: passing zero=
+ to 'PTR_ERR'
 
-vim +1058 fs/io-wq.c
+vim +/periph_clk +113 drivers/clk/socfpga/clk-periph-s10.c
 
-204361a77f40186 Pavel Begunkov 2020-08-23  1042  =
+07afb8db7340f9 Dinh Nguyen 2018-03-21  100  =
 
-3146cba99aa284b Jens Axboe     2021-09-01  1043  static bool io_acct_cancel=
-_pending_work(struct io_wqe *wqe,
-3146cba99aa284b Jens Axboe     2021-09-01  1044  					struct io_wqe_acct *a=
-cct,
-2293b4195800f88 Pavel Begunkov 2020-03-07  1045  					struct io_cb_cancel_d=
-ata *match)
-771b53d033e8663 Jens Axboe     2019-10-22  1046  {
-6206f0e180d4edd Jens Axboe     2019-11-26  1047  	struct io_wq_work_node *n=
-ode, *prev;
-771b53d033e8663 Jens Axboe     2019-10-22  1048  	struct io_wq_work *work;
-f95dc207b93da9c Jens Axboe     2021-08-31  1049  =
+ba7e258425acd8 Dinh Nguyen 2021-03-02  101  struct clk_hw *s10_register_per=
+iph(const struct stratix10_perip_c_clock *clks,
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  102  				void __iomem *reg)
+07afb8db7340f9 Dinh Nguyen 2018-03-21  103  {
+ba7e258425acd8 Dinh Nguyen 2021-03-02  104  	struct clk_hw *hw_clk;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  105  	struct socfpga_periph_clk *per=
+iph_clk;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  106  	struct clk_init_data init;
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  107  	const char *name =3D clks->nam=
+e;
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  108  	const char *parent_name =3D cl=
+ks->parent_name;
+ba7e258425acd8 Dinh Nguyen 2021-03-02  109  	int ret;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  110  =
 
-785d7c2aaac454a Hao Xu         2022-02-06  1050  	raw_spin_lock(&acct->lock=
-);
-f95dc207b93da9c Jens Axboe     2021-08-31  1051  	wq_list_for_each(node, pr=
-ev, &acct->work_list) {
-6206f0e180d4edd Jens Axboe     2019-11-26  1052  		work =3D container_of(no=
-de, struct io_wq_work, list);
-4f26bda1522c35d Pavel Begunkov 2020-06-15  1053  		if (!match->fn(work, mat=
-ch->data))
-4f26bda1522c35d Pavel Begunkov 2020-06-15  1054  			continue;
-204361a77f40186 Pavel Begunkov 2020-08-23  1055  		io_wqe_remove_pending(wq=
-e, work, prev);
-785d7c2aaac454a Hao Xu         2022-02-06  1056  		raw_spin_unlock(&acct->l=
-ock);
-e9fd939654f1765 Pavel Begunkov 2020-03-04  1057  		io_run_cancel(work, wqe);
-4f26bda1522c35d Pavel Begunkov 2020-06-15 @1058  		match->nr_pending++;
-4f26bda1522c35d Pavel Begunkov 2020-06-15  1059  		/* not safe to continue =
-after unlock */
-3146cba99aa284b Jens Axboe     2021-09-01  1060  		return true;
-3146cba99aa284b Jens Axboe     2021-09-01  1061  	}
-785d7c2aaac454a Hao Xu         2022-02-06  1062  	raw_spin_unlock(&acct->lo=
-ck);
-3146cba99aa284b Jens Axboe     2021-09-01  1063  =
+07afb8db7340f9 Dinh Nguyen 2018-03-21  111  	periph_clk =3D kzalloc(sizeof(=
+*periph_clk), GFP_KERNEL);
+07afb8db7340f9 Dinh Nguyen 2018-03-21  112  	if (WARN_ON(!periph_clk))
+07afb8db7340f9 Dinh Nguyen 2018-03-21 @113  		return NULL;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  114  =
 
-3146cba99aa284b Jens Axboe     2021-09-01  1064  	return false;
-3146cba99aa284b Jens Axboe     2021-09-01  1065  }
-3146cba99aa284b Jens Axboe     2021-09-01  1066  =
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  115  	periph_clk->hw.reg =3D reg + c=
+lks->offset;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  116  =
 
+07afb8db7340f9 Dinh Nguyen 2018-03-21  117  	init.name =3D name;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  118  	init.ops =3D &peri_c_clk_ops;
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  119  	init.flags =3D clks->flags;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  120  =
 
-:::::: The code at line 1058 was first introduced by commit
-:::::: 4f26bda1522c35d2701fc219368c7101c17005c1 io-wq: add an option to can=
-cel all matched reqs
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  121  	init.num_parents =3D clks->num=
+_parents;
+762d961aee4042 Dinh Nguyen 2020-05-12  122  	init.parent_names =3D parent_n=
+ame ? &parent_name : NULL;
+762d961aee4042 Dinh Nguyen 2020-05-12  123  	if (init.parent_names =3D=3D N=
+ULL)
+762d961aee4042 Dinh Nguyen 2020-05-12  124  		init.parent_data =3D clks->pa=
+rent_data;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  125  =
 
-:::::: TO: Pavel Begunkov <asml.silence@gmail.com>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+07afb8db7340f9 Dinh Nguyen 2018-03-21  126  	periph_clk->hw.hw.init =3D &in=
+it;
+ba7e258425acd8 Dinh Nguyen 2021-03-02  127  	hw_clk =3D &periph_clk->hw.hw;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  128  =
+
+ba7e258425acd8 Dinh Nguyen 2021-03-02  129  	ret =3D clk_hw_register(NULL, =
+hw_clk);
+ba7e258425acd8 Dinh Nguyen 2021-03-02  130  	if (ret) {
+07afb8db7340f9 Dinh Nguyen 2018-03-21  131  		kfree(periph_clk);
+ba7e258425acd8 Dinh Nguyen 2021-03-02  132  		return ERR_PTR(ret);
+07afb8db7340f9 Dinh Nguyen 2018-03-21  133  	}
+ba7e258425acd8 Dinh Nguyen 2021-03-02  134  	return hw_clk;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  135  }
+07afb8db7340f9 Dinh Nguyen 2018-03-21  136  =
+
+ba7e258425acd8 Dinh Nguyen 2021-03-02  137  struct clk_hw *n5x_register_per=
+iph(const struct n5x_perip_c_clock *clks,
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  138  				void __iomem *regbase)
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  139  {
+ba7e258425acd8 Dinh Nguyen 2021-03-02  140  	struct clk_hw *hw_clk;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  141  	struct socfpga_periph_clk *per=
+iph_clk;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  142  	struct clk_init_data init;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  143  	const char *name =3D clks->nam=
+e;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  144  	const char *parent_name =3D cl=
+ks->parent_name;
+ba7e258425acd8 Dinh Nguyen 2021-03-02  145  	int ret;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  146  =
+
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  147  	periph_clk =3D kzalloc(sizeof(=
+*periph_clk), GFP_KERNEL);
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  148  	if (WARN_ON(!periph_clk))
+a0f9819cbe9952 Dinh Nguyen 2021-02-12 @149  		return NULL;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  150  =
+
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  151  	periph_clk->hw.reg =3D regbase=
+ + clks->offset;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  152  	periph_clk->shift =3D clks->sh=
+ift;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  153  =
+
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  154  	init.name =3D name;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  155  	init.ops =3D &n5x_peri_c_clk_o=
+ps;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  156  	init.flags =3D clks->flags;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  157  =
+
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  158  	init.num_parents =3D clks->num=
+_parents;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  159  	init.parent_names =3D parent_n=
+ame ? &parent_name : NULL;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  160  =
+
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  161  	periph_clk->hw.hw.init =3D &in=
+it;
+ba7e258425acd8 Dinh Nguyen 2021-03-02  162  	hw_clk =3D &periph_clk->hw.hw;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  163  =
+
+ba7e258425acd8 Dinh Nguyen 2021-03-02  164  	ret =3D clk_hw_register(NULL, =
+hw_clk);
+ba7e258425acd8 Dinh Nguyen 2021-03-02  165  	if (ret) {
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  166  		kfree(periph_clk);
+ba7e258425acd8 Dinh Nguyen 2021-03-02  167  		return ERR_PTR(ret);
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  168  	}
+ba7e258425acd8 Dinh Nguyen 2021-03-02  169  	return hw_clk;
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  170  }
+a0f9819cbe9952 Dinh Nguyen 2021-02-12  171  =
+
+ba7e258425acd8 Dinh Nguyen 2021-03-02  172  struct clk_hw *s10_register_cnt=
+_periph(const struct stratix10_perip_cnt_clock *clks,
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  173  				    void __iomem *regbase)
+07afb8db7340f9 Dinh Nguyen 2018-03-21  174  {
+ba7e258425acd8 Dinh Nguyen 2021-03-02  175  	struct clk_hw *hw_clk;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  176  	struct socfpga_periph_clk *per=
+iph_clk;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  177  	struct clk_init_data init;
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  178  	const char *name =3D clks->nam=
+e;
+8c0e783d2c7be2 Dinh Nguyen 2020-01-14  179  	const char *parent_name =3D cl=
+ks->parent_name;
+ba7e258425acd8 Dinh Nguyen 2021-03-02  180  	int ret;
+07afb8db7340f9 Dinh Nguyen 2018-03-21  181  =
+
+07afb8db7340f9 Dinh Nguyen 2018-03-21  182  	periph_clk =3D kzalloc(sizeof(=
+*periph_clk), GFP_KERNEL);
+07afb8db7340f9 Dinh Nguyen 2018-03-21  183  	if (WARN_ON(!periph_clk))
+07afb8db7340f9 Dinh Nguyen 2018-03-21 @184  		return NULL;
+
+:::::: The code at line 113 was first introduced by commit
+:::::: 07afb8db7340f9b6051a26c5c28f2ce74148f6b5 clk: socfpga: stratix10: ad=
+d clock driver for Stratix10 platform
+
+:::::: TO: Dinh Nguyen <dinguyen@kernel.org>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5250627697504659274==--
+--===============4880726456751205639==--
 
