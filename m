@@ -1,133 +1,130 @@
-Content-Type: multipart/mixed; boundary="===============6916514934403204467=="
+Content-Type: multipart/mixed; boundary="===============3498620684124333067=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cxl:preview 32/60] drivers/cxl/core/port.c:809:21-24: ERROR: port is NULL but dereferenced.
-Date: Wed, 09 Feb 2022 21:06:01 +0800
-Message-ID: <202202092047.jxSbSnOH-lkp@intel.com>
+Subject: [char-misc:char-misc-testing 12/47] drivers/misc/open-dice.c:130 open_dice_probe() warn: impossible condition '(rmem->size > (~0)) => (0-u32max > u32max)'
+Date: Wed, 09 Feb 2022 20:05:04 +0800
+Message-ID: <202202091905.4SY8mena-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6916514934403204467==
+--===============3498620684124333067==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
+TO: David Brazdil <dbrazdil@google.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
-head:   41c2d219a2c8e14de644f4e953e0c57402c3e884
-commit: 1bb1c2110c968b3fdca7b37afbd0594d8e82715e [32/60] cxl/core/port: Add=
- switch port enumeration
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/202=
-20209/202202092047.jxSbSnOH-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
+t char-misc-testing
+head:   0580565dd717cb135633ebdbc1d84fe6b0a3fa78
+commit: f396ededbd8bf5911d588b683a3ce335844b7c89 [12/47] misc: open-dice: A=
+dd driver to expose DICE data to userspace
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 days ago
+config: powerpc-randconfig-m031-20220208 (https://download.01.org/0day-ci/a=
+rchive/20220209/202202091905.4SY8mena-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/misc/open-dice.c:130 open_dice_probe() warn: impossible condition '=
+(rmem->size > (~0)) =3D> (0-u32max > u32max)'
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/cxl/core/port.c:809:21-24: ERROR: port is NULL but dereferenced.
+vim +130 drivers/misc/open-dice.c
 
-vim +809 drivers/cxl/core/port.c
+f396ededbd8bf5 David Brazdil 2022-01-26  115  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  792  =
+f396ededbd8bf5 David Brazdil 2022-01-26  116  static int __init open_dice_p=
+robe(struct platform_device *pdev)
+f396ededbd8bf5 David Brazdil 2022-01-26  117  {
+f396ededbd8bf5 David Brazdil 2022-01-26  118  	static unsigned int dev_idx;
+f396ededbd8bf5 David Brazdil 2022-01-26  119  	struct device *dev =3D &pdev=
+->dev;
+f396ededbd8bf5 David Brazdil 2022-01-26  120  	struct reserved_mem *rmem;
+f396ededbd8bf5 David Brazdil 2022-01-26  121  	struct open_dice_drvdata *dr=
+vdata;
+f396ededbd8bf5 David Brazdil 2022-01-26  122  	int ret;
+f396ededbd8bf5 David Brazdil 2022-01-26  123  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  793  static void cxl_remove_ep(voi=
-d *data)
-1bb1c2110c968b3 Dan Williams 2022-01-21  794  {
-1bb1c2110c968b3 Dan Williams 2022-01-21  795  	struct cxl_memdev *cxlmd =3D=
- data;
-1bb1c2110c968b3 Dan Williams 2022-01-21  796  	struct device *iter;
-1bb1c2110c968b3 Dan Williams 2022-01-21  797  =
+f396ededbd8bf5 David Brazdil 2022-01-26  124  	rmem =3D of_reserved_mem_loo=
+kup(dev->of_node);
+f396ededbd8bf5 David Brazdil 2022-01-26  125  	if (!rmem) {
+f396ededbd8bf5 David Brazdil 2022-01-26  126  		dev_err(dev, "failed to loo=
+kup reserved memory\n");
+f396ededbd8bf5 David Brazdil 2022-01-26  127  		return -EINVAL;
+f396ededbd8bf5 David Brazdil 2022-01-26  128  	}
+f396ededbd8bf5 David Brazdil 2022-01-26  129  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  798  	for (iter =3D &cxlmd->dev; i=
-ter; iter =3D grandparent(iter)) {
-1bb1c2110c968b3 Dan Williams 2022-01-21  799  		struct device *dport_dev =
-=3D grandparent(iter);
-1bb1c2110c968b3 Dan Williams 2022-01-21  800  		struct cxl_port *port, *par=
-ent_port;
-1bb1c2110c968b3 Dan Williams 2022-01-21  801  		LIST_HEAD(reap_dports);
-1bb1c2110c968b3 Dan Williams 2022-01-21  802  		struct cxl_ep *ep;
-1bb1c2110c968b3 Dan Williams 2022-01-21  803  =
+f396ededbd8bf5 David Brazdil 2022-01-26 @130  	if (!rmem->size || (rmem->si=
+ze > ULONG_MAX)) {
+f396ededbd8bf5 David Brazdil 2022-01-26  131  		dev_err(dev, "invalid memor=
+y region size\n");
+f396ededbd8bf5 David Brazdil 2022-01-26  132  		return -EINVAL;
+f396ededbd8bf5 David Brazdil 2022-01-26  133  	}
+f396ededbd8bf5 David Brazdil 2022-01-26  134  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  804  		if (!dport_dev)
-1bb1c2110c968b3 Dan Williams 2022-01-21  805  			break;
-1bb1c2110c968b3 Dan Williams 2022-01-21  806  =
+f396ededbd8bf5 David Brazdil 2022-01-26  135  	if (!PAGE_ALIGNED(rmem->base=
+) || !PAGE_ALIGNED(rmem->size)) {
+f396ededbd8bf5 David Brazdil 2022-01-26  136  		dev_err(dev, "memory region=
+ must be page-aligned\n");
+f396ededbd8bf5 David Brazdil 2022-01-26  137  		return -EINVAL;
+f396ededbd8bf5 David Brazdil 2022-01-26  138  	}
+f396ededbd8bf5 David Brazdil 2022-01-26  139  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  807  		port =3D find_cxl_port(dpor=
-t_dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  808  		if (!port || is_cxl_root(po=
-rt)) {
-1bb1c2110c968b3 Dan Williams 2022-01-21 @809  			put_device(&port->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  810  			continue;
-1bb1c2110c968b3 Dan Williams 2022-01-21  811  		}
-1bb1c2110c968b3 Dan Williams 2022-01-21  812  =
+f396ededbd8bf5 David Brazdil 2022-01-26  140  	drvdata =3D devm_kmalloc(dev=
+, sizeof(*drvdata), GFP_KERNEL);
+f396ededbd8bf5 David Brazdil 2022-01-26  141  	if (!drvdata)
+f396ededbd8bf5 David Brazdil 2022-01-26  142  		return -ENOMEM;
+f396ededbd8bf5 David Brazdil 2022-01-26  143  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  813  		parent_port =3D to_cxl_port=
-(port->dev.parent);
-1bb1c2110c968b3 Dan Williams 2022-01-21  814  		cxl_device_lock(&parent_por=
-t->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  815  		if (!parent_port->dev.drive=
-r) {
-1bb1c2110c968b3 Dan Williams 2022-01-21  816  			cxl_device_unlock(&parent_=
-port->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  817  			put_device(&port->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  818  			continue;
-1bb1c2110c968b3 Dan Williams 2022-01-21  819  		}
-1bb1c2110c968b3 Dan Williams 2022-01-21  820  =
+f396ededbd8bf5 David Brazdil 2022-01-26  144  	*drvdata =3D (struct open_di=
+ce_drvdata){
+f396ededbd8bf5 David Brazdil 2022-01-26  145  		.lock =3D __MUTEX_INITIALIZ=
+ER(drvdata->lock),
+f396ededbd8bf5 David Brazdil 2022-01-26  146  		.rmem =3D rmem,
+f396ededbd8bf5 David Brazdil 2022-01-26  147  		.misc =3D (struct miscdevic=
+e){
+f396ededbd8bf5 David Brazdil 2022-01-26  148  			.parent	=3D dev,
+f396ededbd8bf5 David Brazdil 2022-01-26  149  			.name	=3D drvdata->name,
+f396ededbd8bf5 David Brazdil 2022-01-26  150  			.minor	=3D MISC_DYNAMIC_MI=
+NOR,
+f396ededbd8bf5 David Brazdil 2022-01-26  151  			.fops	=3D &open_dice_fops,
+f396ededbd8bf5 David Brazdil 2022-01-26  152  			.mode	=3D 0600,
+f396ededbd8bf5 David Brazdil 2022-01-26  153  		},
+f396ededbd8bf5 David Brazdil 2022-01-26  154  	};
+f396ededbd8bf5 David Brazdil 2022-01-26  155  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  821  		cxl_device_lock(&port->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  822  		ep =3D find_ep(port, &cxlmd=
-->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  823  		dev_dbg(&cxlmd->dev, "disco=
-nnect %s from %s\n",
-1bb1c2110c968b3 Dan Williams 2022-01-21  824  			ep ? dev_name(ep->ep) : ""=
-, dev_name(&port->dev));
-1bb1c2110c968b3 Dan Williams 2022-01-21  825  		cxl_ep_release(ep);
-1bb1c2110c968b3 Dan Williams 2022-01-21  826  		if (ep && !port->dead && li=
-st_empty(&port->endpoints) &&
-1bb1c2110c968b3 Dan Williams 2022-01-21  827  		    !is_cxl_root(parent_por=
-t)) {
-1bb1c2110c968b3 Dan Williams 2022-01-21  828  			/*
-1bb1c2110c968b3 Dan Williams 2022-01-21  829  			 * This was the last ep at=
-tached to a dynamically
-1bb1c2110c968b3 Dan Williams 2022-01-21  830  			 * enumerated port. Block =
-new cxl_add_ep() and garbage
-1bb1c2110c968b3 Dan Williams 2022-01-21  831  			 * collect the port.
-1bb1c2110c968b3 Dan Williams 2022-01-21  832  			 */
-1bb1c2110c968b3 Dan Williams 2022-01-21  833  			port->dead =3D true;
-1bb1c2110c968b3 Dan Williams 2022-01-21  834  			list_splice_init(&port->dp=
-orts, &reap_dports);
-1bb1c2110c968b3 Dan Williams 2022-01-21  835  		}
-1bb1c2110c968b3 Dan Williams 2022-01-21  836  		cxl_device_unlock(&port->de=
-v);
-1bb1c2110c968b3 Dan Williams 2022-01-21  837  =
+f396ededbd8bf5 David Brazdil 2022-01-26  156  	/* Index overflow check not =
+needed, misc_register() will fail. */
+f396ededbd8bf5 David Brazdil 2022-01-26  157  	snprintf(drvdata->name, size=
+of(drvdata->name), DRIVER_NAME"%u", dev_idx++);
+f396ededbd8bf5 David Brazdil 2022-01-26  158  =
 
-1bb1c2110c968b3 Dan Williams 2022-01-21  838  		if (!list_empty(&reap_dport=
-s))
-1bb1c2110c968b3 Dan Williams 2022-01-21  839  			delete_switch_port(cxlmd, =
-port, &reap_dports);
-1bb1c2110c968b3 Dan Williams 2022-01-21  840  		put_device(&port->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  841  		cxl_device_unlock(&parent_p=
-ort->dev);
-1bb1c2110c968b3 Dan Williams 2022-01-21  842  	}
-1bb1c2110c968b3 Dan Williams 2022-01-21  843  }
-1bb1c2110c968b3 Dan Williams 2022-01-21  844  =
+f396ededbd8bf5 David Brazdil 2022-01-26  159  	ret =3D misc_register(&drvda=
+ta->misc);
+f396ededbd8bf5 David Brazdil 2022-01-26  160  	if (ret) {
+f396ededbd8bf5 David Brazdil 2022-01-26  161  		dev_err(dev, "failed to reg=
+ister misc device '%s': %d\n",
+f396ededbd8bf5 David Brazdil 2022-01-26  162  			drvdata->name, ret);
+f396ededbd8bf5 David Brazdil 2022-01-26  163  		return ret;
+f396ededbd8bf5 David Brazdil 2022-01-26  164  	}
+f396ededbd8bf5 David Brazdil 2022-01-26  165  =
+
+f396ededbd8bf5 David Brazdil 2022-01-26  166  	platform_set_drvdata(pdev, d=
+rvdata);
+f396ededbd8bf5 David Brazdil 2022-01-26  167  	return 0;
+f396ededbd8bf5 David Brazdil 2022-01-26  168  }
+f396ededbd8bf5 David Brazdil 2022-01-26  169  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6916514934403204467==--
+--===============3498620684124333067==--
 
