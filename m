@@ -1,1028 +1,606 @@
-Content-Type: multipart/mixed; boundary="===============6298208591232422612=="
+Content-Type: multipart/mixed; boundary="===============6556842211612547879=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [frank-w-bpi-r2-4.14:5.17-prepare 4/13] drivers/net/phy/rtl8367s_mdio.c:409:5: warning: Value stored to 'type' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 09 Feb 2022 09:46:56 +0800
-Message-ID: <202202090932.Ctx5XBbl-lkp@intel.com>
+Subject: drivers/clk/imx/clk-imx8ulp.c:71 imx8ulp_clk_cgc1_init() warn: passing zero to 'PTR_ERR'
+Date: Wed, 09 Feb 2022 08:43:47 +0800
+Message-ID: <202202090817.JbTXwBJd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6298208591232422612==
+--===============6556842211612547879==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Frank Wunderlich <frank-w@public-files.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jacky Bai <ping.bai@nxp.com>
+CC: Abel Vesa <abel.vesa@nxp.com>
+CC: Peng Fan <peng.fan@nxp.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.17-prepare
-head:   184c5d6eb630c7813afa7d0b061daf73b5fe342b
-commit: 763d02319f60ea15e7af71c8222bbe099d39fa7f [4/13] net: phy: add rtl83=
-67 reduced phy driver
-:::::: branch date: 11 days ago
-:::::: commit date: 2 weeks ago
-config: riscv-randconfig-c006-20220207 (https://download.01.org/0day-ci/arc=
-hive/20220209/202202090932.Ctx5XBbl-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0d8850=
-ae2cae85d49bea6ae0799fa41c7202c05c)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/frank-w/BPI-R2-4.14/commit/763d02319f60ea15e7a=
-f71c8222bbe099d39fa7f
-        git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R=
-2-4.14
-        git fetch --no-tags frank-w-bpi-r2-4.14 5.17-prepare
-        git checkout 763d02319f60ea15e7af71c8222bbe099d39fa7f
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e6251ab4551f51fa4cee03523e08051898c3ce82
+commit: c43a801a57890b15e16a0502edf145d59c91baf7 clk: imx: Add clock driver=
+ for imx8ulp
+date:   4 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 months ago
+config: powerpc-randconfig-m031-20220208 (https://download.01.org/0day-ci/a=
+rchive/20220209/202202090817.JbTXwBJd-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-
-
-clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/usb/serial/ir-usb.c:209:2: warning: Value stored to 'rates' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           rates =3D le16_to_cpu(irda_desc->wBaudRate);
-           ^
-   drivers/usb/serial/ir-usb.c:209:2: note: Value stored to 'rates' is neve=
-r read
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/media/i2c/adv7170.c:361:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7170_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7170.c:361:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7170_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7170.c:362:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7170_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7170.c:362:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7170_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/net/wireless/mediatek/mt76/mt76x02_usb_core.c:157:2: warning: Va=
-lue stored to 'tsf' is never read [clang-analyzer-deadcode.DeadStores]
-           tsf =3D (u64)dw0 << 32 | dw1;
-           ^     ~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt76x02_usb_core.c:157:2: note: Value=
- stored to 'tsf' is never read
-           tsf =3D (u64)dw0 << 32 | dw1;
-           ^     ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/net/phy/mscc/mscc_ptp.c:1446:2: warning: Value stored to 'val' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
-ION_CODE);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/net/phy/mscc/mscc_ptp.c:1446:2: note: Value stored to 'val' is n=
-ever read
-           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
-ION_CODE);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/net/phy/rtl8367s_mdio.c:409:5: warning: Value stored to 'type' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-       type =3D 0;
-       ^      ~
-   drivers/net/phy/rtl8367s_mdio.c:409:5: note: Value stored to 'type' is n=
-ever read
-       type =3D 0;
-       ^      ~
-   drivers/net/phy/rtl8367s_mdio.c:766:40: warning: The left operand of '<<=
-' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-       reg_data |=3D pPortAbility->mstfault << 9;
-                                          ^
-   drivers/net/phy/rtl8367s_mdio.c:2391:6: note: Assuming 'mdio' is non-null
-           if (!mdio)
-               ^~~~~
-   drivers/net/phy/rtl8367s_mdio.c:2391:2: note: Taking false branch
-           if (!mdio)
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2396:6: note: Assuming 'mdio_bus' is non=
--null
-           if (!mdio_bus)
-               ^~~~~~~~~
-   drivers/net/phy/rtl8367s_mdio.c:2396:2: note: Taking false branch
-           if (!mdio_bus)
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2401:6: note: Assuming 'gsw' is non-null
-           if (!gsw)
-               ^~~~
-   drivers/net/phy/rtl8367s_mdio.c:2401:2: note: Taking false branch
-           if (!gsw)
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2409:7: note: 'ret' is 0
-           if (!ret)
-                ^~~
-   drivers/net/phy/rtl8367s_mdio.c:2409:2: note: Taking true branch
-           if (!ret)
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2416:6: note: Assuming field 'reset_pin'=
- is >=3D 0
-           if (gsw->reset_pin < 0)
-               ^~~~~~~~~~~~~~~~~~
-   drivers/net/phy/rtl8367s_mdio.c:2416:2: note: Taking false branch
-           if (gsw->reset_pin < 0)
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2421:2: note: Calling 'init_gsw'
-           init_gsw(gsw);
-           ^~~~~~~~~~~~~
-   drivers/net/phy/rtl8367s_mdio.c:2349:2: note: Taking true branch
-           if (rtl8367s_hw_init(gsw))
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2350:3: note: Loop condition is false.  =
-Exiting loop
-                   printk("RTL8367RB Switch Init Failure !!!\n");
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/net/phy/rtl8367s_mdio.c:2355:6: note: Assuming 'ret' is 0
-           if (!ret && (!strcasecmp(pm, "rgmii,rgmii")))
-               ^~~~
-   drivers/net/phy/rtl8367s_mdio.c:2355:6: note: Left side of '&&' is true
-   drivers/net/phy/rtl8367s_mdio.c:2355:2: note: Taking true branch
-           if (!ret && (!strcasecmp(pm, "rgmii,rgmii")))
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:2358:3: note: Loop condition is false.  =
-Exiting loop
-                   printk(KERN_ALERT "DEBUG: Passed %s %d rgmii+rgmii\n",__=
-FUNCTION__,__LINE__);
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/net/phy/rtl8367s_mdio.c:2359:3: note: Calling 'set_rtl8367s_rgmi=
-i_ep0'
-                   set_rtl8367s_rgmii_ep0(gsw);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/rtl8367s_mdio.c:2319:2: note: Calling 'rtk_port_macForce=
-LinkExt_set'
-           rtk_port_macForceLinkExt_set(EXT_PORT0, mode, &mac_cfg);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/rtl8367s_mdio.c:1270:5: note: Assuming 'init_state' is e=
-qual to INIT_COMPLETED
-       RTK_CHK_INIT_STATE();
-       ^
-   drivers/net/phy/rtl8367s_mdio.h:361:6: note: expanded from macro 'RTK_CH=
-K_INIT_STATE'
-                   if(init_state !=3D INIT_COMPLETED)        \
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/rtl8367s_mdio.c:1270:5: note: Taking false branch
-       RTK_CHK_INIT_STATE();
-       ^
-   drivers/net/phy/rtl8367s_mdio.h:361:3: note: expanded from macro 'RTK_CH=
-K_INIT_STATE'
-                   if(init_state !=3D INIT_COMPLETED)        \
-                   ^
-   drivers/net/phy/rtl8367s_mdio.c:1270:5: note: Loop condition is false.  =
-Exiting loop
-       RTK_CHK_INIT_STATE();
-       ^
-   drivers/net/phy/rtl8367s_mdio.h:359:2: note: expanded from macro 'RTK_CH=
-K_INIT_STATE'
-           do                                              \
-           ^
-   drivers/net/phy/rtl8367s_mdio.c:1273:5: note: Taking false branch
-
-vim +/type +409 drivers/net/phy/rtl8367s_mdio.c
-
-763d02319f60ea Frank Wunderlich 2022-01-15  377  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  378  /* rtl8367c_setAsicPortExt=
-Mode  Set external interface mode configuration */
-763d02319f60ea Frank Wunderlich 2022-01-15  379  static ret_t rtl8367c_setA=
-sicPortExtMode(rtk_uint32 id, rtk_uint32 mode)
-763d02319f60ea Frank Wunderlich 2022-01-15  380  {
-763d02319f60ea Frank Wunderlich 2022-01-15  381      ret_t   retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  382      rtk_uint32 i, regValue=
-, type, option;
-763d02319f60ea Frank Wunderlich 2022-01-15  383      rtk_uint32 idx;
-763d02319f60ea Frank Wunderlich 2022-01-15  384      rtk_uint32 redData[][2=
-] =3D   { {0x04D7, 0x0480}, {0xF994, 0x0481}, {0x21A2, 0x0482}, {0x6960, 0x=
-0483}, {0x9728, 0x0484}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x83F2, 0x002=
-E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  385      rtk_uint32 redDataSB[]=
-[2] =3D { {0x04D7, 0x0480}, {0xF994, 0x0481}, {0x31A2, 0x0482}, {0x6960, 0x=
-0483}, {0x9728, 0x0484}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x83F2, 0x002=
-E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  386      rtk_uint32 redData1[][=
-2] =3D  { {0x82F1, 0x0500}, {0xF195, 0x0501}, {0x31A2, 0x0502}, {0x796C, 0x=
-0503}, {0x9728, 0x0504}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x0F80, 0x000=
-1}, {0x83F2, 0x002E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  387      rtk_uint32 redData5[][=
-2] =3D  { {0x82F1, 0x0500}, {0xF195, 0x0501}, {0x31A2, 0x0502}, {0x796C, 0x=
-0503}, {0x9728, 0x0504}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x0F80, 0x000=
-1}, {0x83F2, 0x002E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  388      rtk_uint32 redData6[][=
-2] =3D  { {0x82F1, 0x0500}, {0xF195, 0x0501}, {0x31A2, 0x0502}, {0x796C, 0x=
-0503}, {0x9728, 0x0504}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x0F80, 0x000=
-1}, {0x83F2, 0x002E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  389      rtk_uint32 redData8[][=
-2] =3D  { {0x82F1, 0x0500}, {0xF995, 0x0501}, {0x31A2, 0x0502}, {0x796C, 0x=
-0503}, {0x9728, 0x0504}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x0F80, 0x000=
-1}, {0x83F2, 0x002E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  390      rtk_uint32 redData9[][=
-2] =3D  { {0x82F1, 0x0500}, {0xF995, 0x0501}, {0x31A2, 0x0502}, {0x796C, 0x=
-0503}, {0x9728, 0x0504}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x0F80, 0x000=
-1}, {0x83F2, 0x002E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  391      rtk_uint32 redDataHB[]=
-[2] =3D { {0x82F0, 0x0500}, {0xF195, 0x0501}, {0x31A2, 0x0502}, {0x7960, 0x=
-0503}, {0x9728, 0x0504}, {0x9D85, 0x0423}, {0xD810, 0x0424}, {0x0F80, 0x000=
-1}, {0x83F2, 0x002E} };
-763d02319f60ea Frank Wunderlich 2022-01-15  392  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  393      if(id >=3D RTL8367C_EX=
-TNO)
-763d02319f60ea Frank Wunderlich 2022-01-15  394          return RT_ERR_OUT_=
-OF_RANGE;
-763d02319f60ea Frank Wunderlich 2022-01-15  395  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  396      if(mode >=3D EXT_END)
-763d02319f60ea Frank Wunderlich 2022-01-15  397          return RT_ERR_OUT_=
-OF_RANGE;
-763d02319f60ea Frank Wunderlich 2022-01-15  398  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  399      /* magic number*/
-763d02319f60ea Frank Wunderlich 2022-01-15  400      if((retVal =3D rtl8367=
-c_setAsicReg(0x13C2, 0x0249)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  401          return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  402      /* Chip num */
-763d02319f60ea Frank Wunderlich 2022-01-15  403      if((retVal =3D rtl8367=
-c_getAsicReg(0x1300, &regValue)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  404          return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  405  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  406      if((retVal =3D rtl8367=
-c_setAsicReg(0x13C2, 0x0000)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  407          return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  408  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15 @409      type =3D 0;
-763d02319f60ea Frank Wunderlich 2022-01-15  410  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  411      switch (regValue)
-763d02319f60ea Frank Wunderlich 2022-01-15  412      {
-763d02319f60ea Frank Wunderlich 2022-01-15  413          case 0x0276:
-763d02319f60ea Frank Wunderlich 2022-01-15  414          case 0x0597:
-763d02319f60ea Frank Wunderlich 2022-01-15  415          case 0x6367:
-763d02319f60ea Frank Wunderlich 2022-01-15  416              type =3D 1;
-763d02319f60ea Frank Wunderlich 2022-01-15  417              break;
-763d02319f60ea Frank Wunderlich 2022-01-15  418          case 0x0652:
-763d02319f60ea Frank Wunderlich 2022-01-15  419          case 0x6368:
-763d02319f60ea Frank Wunderlich 2022-01-15  420              type =3D 2;
-763d02319f60ea Frank Wunderlich 2022-01-15  421              break;
-763d02319f60ea Frank Wunderlich 2022-01-15  422          case 0x0801:
-763d02319f60ea Frank Wunderlich 2022-01-15  423          case 0x6511:
-763d02319f60ea Frank Wunderlich 2022-01-15  424              type =3D 3;
-763d02319f60ea Frank Wunderlich 2022-01-15  425              break;
-763d02319f60ea Frank Wunderlich 2022-01-15  426          default:
-763d02319f60ea Frank Wunderlich 2022-01-15  427              return RT_ERR_=
-FAILED;
-763d02319f60ea Frank Wunderlich 2022-01-15  428      }
-763d02319f60ea Frank Wunderlich 2022-01-15  429  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  430  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  431      if (1=3D=3Dtype)
-763d02319f60ea Frank Wunderlich 2022-01-15  432      {
-763d02319f60ea Frank Wunderlich 2022-01-15  433          if((mode =3D=3D EX=
-T_1000X_100FX) || (mode =3D=3D EXT_1000X) || (mode =3D=3D EXT_100FX))
-763d02319f60ea Frank Wunderlich 2022-01-15  434          {
-763d02319f60ea Frank Wunderlich 2022-01-15  435              if((retVal =3D=
- rtl8367c_setAsicRegBit(RTL8367C_REG_REG_TO_ECO4, 5, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  436                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  437  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  438              if((retVal =3D=
- rtl8367c_setAsicRegBit(RTL8367C_REG_REG_TO_ECO4, 7, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  439                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  440  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  441              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_CHIP_RESET, RTL8367C_DW8051_RST_OFF=
-SET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  442                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  443  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  444              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_MISCELLANEOUS_CONFIGURE0, RTL8367C_=
-DW8051_EN_OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  445                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  446  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  447              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_ACS_IROM_ENABL=
-E_OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  448                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  449  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  450              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_IROM_MSB_OFFSE=
-T, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  451                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  452  /*
-763d02319f60ea Frank Wunderlich 2022-01-15  453              if(mode =3D=3D=
- EXT_1000X_100FX)
-763d02319f60ea Frank Wunderlich 2022-01-15  454              {
-763d02319f60ea Frank Wunderlich 2022-01-15  455                  for(idx =
-=3D 0; idx < FIBER2_AUTO_INIT_SIZE; idx++)
-763d02319f60ea Frank Wunderlich 2022-01-15  456                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  457                      if ((r=
-etVal =3D rtl8367c_setAsicReg(0xE000 + idx, (rtk_uint32)Fiber2_Auto[idx])) =
-!=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  458                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  459                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  460              }
-763d02319f60ea Frank Wunderlich 2022-01-15  461  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  462              if(mode =3D=3D=
- EXT_1000X)
-763d02319f60ea Frank Wunderlich 2022-01-15  463              {
-763d02319f60ea Frank Wunderlich 2022-01-15  464                  for(idx =
-=3D 0; idx < FIBER2_1G_INIT_SIZE; idx++)
-763d02319f60ea Frank Wunderlich 2022-01-15  465                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  466                      if ((r=
-etVal =3D rtl8367c_setAsicReg(0xE000 + idx, (rtk_uint32)Fiber2_1G[idx])) !=
-=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  467                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  468                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  469              }
-763d02319f60ea Frank Wunderlich 2022-01-15  470  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  471              if(mode =3D=3D=
- EXT_100FX)
-763d02319f60ea Frank Wunderlich 2022-01-15  472              {
-763d02319f60ea Frank Wunderlich 2022-01-15  473                  for(idx =
-=3D 0; idx < FIBER2_100M_INIT_SIZE; idx++)
-763d02319f60ea Frank Wunderlich 2022-01-15  474                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  475                      if ((r=
-etVal =3D rtl8367c_setAsicReg(0xE000 + idx, (rtk_uint32)Fiber2_100M[idx])) =
-!=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  476                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  477                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  478              }
-763d02319f60ea Frank Wunderlich 2022-01-15  479  */
-763d02319f60ea Frank Wunderlich 2022-01-15  480              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_IROM_MSB_OFFSE=
-T, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  481                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  482  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  483              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_ACS_IROM_ENABL=
-E_OFFSET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  484                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  485  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  486              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_CHIP_RESET, RTL8367C_DW8051_RST_OFF=
-SET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  487                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  488          }
-763d02319f60ea Frank Wunderlich 2022-01-15  489  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  490          if(mode =3D=3D EXT=
-_GMII)
-763d02319f60ea Frank Wunderlich 2022-01-15  491          {
-763d02319f60ea Frank Wunderlich 2022-01-15  492              if( (retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_EXT0_RGMXF, RTL8367C_EXT0_RGTX_INV_=
-OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  493                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  494  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  495              if( (retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_EXT1_RGMXF, RTL8367C_EXT1_RGTX_INV_=
-OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  496                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  497  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  498              if( (retVal =
-=3D rtl8367c_setAsicRegBits(RTL8367C_REG_EXT_TXC_DLY, RTL8367C_EXT1_GMII_TX=
-_DELAY_MASK, 5)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  499                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  500  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  501              if( (retVal =
-=3D rtl8367c_setAsicRegBits(RTL8367C_REG_EXT_TXC_DLY, RTL8367C_EXT0_GMII_TX=
-_DELAY_MASK, 6)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  502                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  503          }
-763d02319f60ea Frank Wunderlich 2022-01-15  504  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  505          /* Serdes reset */
-763d02319f60ea Frank Wunderlich 2022-01-15  506          if( (mode =3D=3D E=
-XT_TMII_MAC) || (mode =3D=3D EXT_TMII_PHY) )
-763d02319f60ea Frank Wunderlich 2022-01-15  507          {
-763d02319f60ea Frank Wunderlich 2022-01-15  508              if( (retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_BYPASS_LINE_RATE, id, 1)) !=3D RT_E=
-RR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  509                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  510          }
-763d02319f60ea Frank Wunderlich 2022-01-15  511          else
-763d02319f60ea Frank Wunderlich 2022-01-15  512          {
-763d02319f60ea Frank Wunderlich 2022-01-15  513              if( (retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_BYPASS_LINE_RATE, id, 0)) !=3D RT_E=
-RR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  514                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  515          }
-763d02319f60ea Frank Wunderlich 2022-01-15  516  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  517          if( (mode =3D=3D E=
-XT_SGMII) || (mode =3D=3D EXT_HSGMII) )
-763d02319f60ea Frank Wunderlich 2022-01-15  518          {
-763d02319f60ea Frank Wunderlich 2022-01-15  519              if(id !=3D 1)
-763d02319f60ea Frank Wunderlich 2022-01-15  520                  return RT_=
-ERR_PORT_ID;
-763d02319f60ea Frank Wunderlich 2022-01-15  521  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  522              if((retVal =3D=
- rtl8367c_setAsicReg(0x13C0, 0x0249)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  523                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  524  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  525              if((retVal =3D=
- rtl8367c_getAsicReg(0x13C1, &option)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  526                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  527  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  528              if((retVal =3D=
- rtl8367c_setAsicReg(0x13C0, 0x0000)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  529                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  530          }
-763d02319f60ea Frank Wunderlich 2022-01-15  531  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  532          if(mode =3D=3D EXT=
-_SGMII)
-763d02319f60ea Frank Wunderlich 2022-01-15  533          {
-763d02319f60ea Frank Wunderlich 2022-01-15  534              if(option =3D=
-=3D 0)
-763d02319f60ea Frank Wunderlich 2022-01-15  535              {
-763d02319f60ea Frank Wunderlich 2022-01-15  536                  for(i =3D =
-0; i <=3D 7; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  537                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  538                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redData[i][0]))=
- !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  539                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  540  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  541                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redData[i][1])) =
-!=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  542                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  543  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  544                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=3D RT=
-_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  545                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  546                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  547              }
-763d02319f60ea Frank Wunderlich 2022-01-15  548              else
-763d02319f60ea Frank Wunderlich 2022-01-15  549              {
-763d02319f60ea Frank Wunderlich 2022-01-15  550                  for(i =3D =
-0; i <=3D 7; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  551                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  552                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redDataSB[i][0]=
-)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  553                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  554  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  555                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redDataSB[i][1])=
-) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  556                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  557  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  558                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=3D RT=
-_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  559                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  560                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  561              }
-763d02319f60ea Frank Wunderlich 2022-01-15  562          }
-763d02319f60ea Frank Wunderlich 2022-01-15  563  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  564          if(mode =3D=3D EXT=
-_HSGMII)
-763d02319f60ea Frank Wunderlich 2022-01-15  565          {
-763d02319f60ea Frank Wunderlich 2022-01-15  566              if(option =3D=
-=3D 0)
-763d02319f60ea Frank Wunderlich 2022-01-15  567              {
-763d02319f60ea Frank Wunderlich 2022-01-15  568                  if( (retVa=
-l =3D rtl8367c_setAsicReg(0x13c2, 0x0249)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  569                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  570  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  571                  if( (retVa=
-l =3D rtl8367c_getAsicReg(0x1301, &regValue)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  572                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  573  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  574                  if( (retVa=
-l =3D rtl8367c_setAsicReg(0x13c2, 0x0000)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  575                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  576  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  577                  if ( ((reg=
-Value & 0x00F0) >> 4) =3D=3D 0x0001)
-763d02319f60ea Frank Wunderlich 2022-01-15  578                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  579                      for(i =
-=3D 0; i <=3D 8; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  580                      {
-763d02319f60ea Frank Wunderlich 2022-01-15  581                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redData1[i]=
-[0])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  582                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  583  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  584                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redData1[i][=
-1])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  585                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  586  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  587                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=
-=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  588                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  589                      }
-763d02319f60ea Frank Wunderlich 2022-01-15  590                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  591                  else if ( =
-((regValue & 0x00F0) >> 4) =3D=3D 0x0005)
-763d02319f60ea Frank Wunderlich 2022-01-15  592                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  593                      for(i =
-=3D 0; i <=3D 8; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  594                      {
-763d02319f60ea Frank Wunderlich 2022-01-15  595                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redData5[i]=
-[0])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  596                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  597  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  598                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redData5[i][=
-1])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  599                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  600  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  601                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=
-=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  602                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  603                      }
-763d02319f60ea Frank Wunderlich 2022-01-15  604                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  605                  else if ( =
-((regValue & 0x00F0) >> 4) =3D=3D 0x0006)
-763d02319f60ea Frank Wunderlich 2022-01-15  606                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  607                      for(i =
-=3D 0; i <=3D 8; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  608                      {
-763d02319f60ea Frank Wunderlich 2022-01-15  609                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redData6[i]=
-[0])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  610                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  611  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  612                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redData6[i][=
-1])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  613                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  614  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  615                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=
-=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  616                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  617                      }
-763d02319f60ea Frank Wunderlich 2022-01-15  618                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  619                  else if ( =
-((regValue & 0x00F0) >> 4) =3D=3D 0x0008)
-763d02319f60ea Frank Wunderlich 2022-01-15  620                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  621                      for(i =
-=3D 0; i <=3D 8; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  622                      {
-763d02319f60ea Frank Wunderlich 2022-01-15  623                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redData8[i]=
-[0])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  624                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  625  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  626                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redData8[i][=
-1])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  627                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  628  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  629                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=
-=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  630                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  631                      }
-763d02319f60ea Frank Wunderlich 2022-01-15  632                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  633                  else if ( =
-((regValue & 0x00F0) >> 4) =3D=3D 0x0009)
-763d02319f60ea Frank Wunderlich 2022-01-15  634                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  635                      for(i =
-=3D 0; i <=3D 8; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  636                      {
-763d02319f60ea Frank Wunderlich 2022-01-15  637                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redData9[i]=
-[0])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  638                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  639  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  640                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redData9[i][=
-1])) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  641                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  642  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  643                          if=
-( (retVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=
-=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  644                            =
-  return retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  645                      }
-763d02319f60ea Frank Wunderlich 2022-01-15  646                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  647              }
-763d02319f60ea Frank Wunderlich 2022-01-15  648              else
-763d02319f60ea Frank Wunderlich 2022-01-15  649              {
-763d02319f60ea Frank Wunderlich 2022-01-15  650                  for(i =3D =
-0; i <=3D 8; i++)
-763d02319f60ea Frank Wunderlich 2022-01-15  651                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  652                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, redDataHB[i][0]=
-)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  653                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  654  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  655                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, redDataHB[i][1])=
-) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  656                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  657  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  658                      if( (r=
-etVal =3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=3D RT=
-_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  659                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  660                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  661              }
-763d02319f60ea Frank Wunderlich 2022-01-15  662          }
-763d02319f60ea Frank Wunderlich 2022-01-15  663  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  664          /* Only one ext po=
-rt should care SGMII setting */
-763d02319f60ea Frank Wunderlich 2022-01-15  665          if(id =3D=3D 1)
-763d02319f60ea Frank Wunderlich 2022-01-15  666          {
-763d02319f60ea Frank Wunderlich 2022-01-15  667  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  668              if(mode =3D=3D=
- EXT_SGMII)
-763d02319f60ea Frank Wunderlich 2022-01-15  669              {
-763d02319f60ea Frank Wunderlich 2022-01-15  670                  if( (retVa=
-l =3D rtl8367c_setAsicRegBit(RTL8367C_REG_SDS_MISC, RTL8367C_CFG_MAC8_SEL_S=
-GMII_OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  671                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  672  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  673                  if( (retVa=
-l =3D rtl8367c_setAsicRegBit(RTL8367C_REG_SDS_MISC, RTL8367C_CFG_MAC8_SEL_H=
-SGMII_OFFSET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  674                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  675              }
-763d02319f60ea Frank Wunderlich 2022-01-15  676              else if(mode =
-=3D=3D EXT_HSGMII)
-763d02319f60ea Frank Wunderlich 2022-01-15  677              {
-763d02319f60ea Frank Wunderlich 2022-01-15  678                  if( (retVa=
-l =3D rtl8367c_setAsicRegBit(RTL8367C_REG_SDS_MISC, RTL8367C_CFG_MAC8_SEL_S=
-GMII_OFFSET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  679                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  680  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  681                  if( (retVa=
-l =3D rtl8367c_setAsicRegBit(RTL8367C_REG_SDS_MISC, RTL8367C_CFG_MAC8_SEL_H=
-SGMII_OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  682                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  683              }
-763d02319f60ea Frank Wunderlich 2022-01-15  684              else
-763d02319f60ea Frank Wunderlich 2022-01-15  685              {
-763d02319f60ea Frank Wunderlich 2022-01-15  686  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  687                  if((mode !=
-=3D EXT_1000X_100FX) && (mode !=3D EXT_1000X) && (mode !=3D EXT_100FX))
-763d02319f60ea Frank Wunderlich 2022-01-15  688                  {
-763d02319f60ea Frank Wunderlich 2022-01-15  689                      if( (r=
-etVal =3D rtl8367c_setAsicRegBit(RTL8367C_REG_SDS_MISC, RTL8367C_CFG_MAC8_S=
-EL_SGMII_OFFSET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  690                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  691  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  692                      if( (r=
-etVal =3D rtl8367c_setAsicRegBit(RTL8367C_REG_SDS_MISC, RTL8367C_CFG_MAC8_S=
-EL_HSGMII_OFFSET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  693                          re=
-turn retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  694                  }
-763d02319f60ea Frank Wunderlich 2022-01-15  695              }
-763d02319f60ea Frank Wunderlich 2022-01-15  696          }
-763d02319f60ea Frank Wunderlich 2022-01-15  697  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  698          if(0 =3D=3D id || =
-1 =3D=3D id)
-763d02319f60ea Frank Wunderlich 2022-01-15  699          {
-763d02319f60ea Frank Wunderlich 2022-01-15  700              if((retVal =3D=
- rtl8367c_setAsicRegBits(RTL8367C_REG_DIGITAL_INTERFACE_SELECT, RTL8367C_SE=
-LECT_GMII_0_MASK << (id * RTL8367C_SELECT_GMII_1_OFFSET), mode)) !=3D RT_ER=
-R_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  701                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  702          }
-763d02319f60ea Frank Wunderlich 2022-01-15  703          else
-763d02319f60ea Frank Wunderlich 2022-01-15  704          {
-763d02319f60ea Frank Wunderlich 2022-01-15  705              if((retVal =3D=
- rtl8367c_setAsicRegBits(RTL8367C_REG_DIGITAL_INTERFACE_SELECT_1, RTL8367C_=
-SELECT_GMII_2_MASK, mode)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  706                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  707          }
-763d02319f60ea Frank Wunderlich 2022-01-15  708  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  709          /* Serdes not rese=
-t */
-763d02319f60ea Frank Wunderlich 2022-01-15  710          if( (mode =3D=3D E=
-XT_SGMII) || (mode =3D=3D EXT_HSGMII) )
-763d02319f60ea Frank Wunderlich 2022-01-15  711          {
-763d02319f60ea Frank Wunderlich 2022-01-15  712              if( (retVal =
-=3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_DATA, 0x7106)) !=3D RT_ERR_=
-OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  713                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  714  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  715              if( (retVal =
-=3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_ADR, 0x0003)) !=3D RT_ERR_O=
-K)
-763d02319f60ea Frank Wunderlich 2022-01-15  716                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  717  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  718              if( (retVal =
-=3D rtl8367c_setAsicReg(RTL8367C_REG_SDS_INDACS_CMD, 0x00C0)) !=3D RT_ERR_O=
-K)
-763d02319f60ea Frank Wunderlich 2022-01-15  719                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  720          }
-763d02319f60ea Frank Wunderlich 2022-01-15  721  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  722          if( (mode =3D=3D E=
-XT_SGMII) || (mode =3D=3D EXT_HSGMII) )
-763d02319f60ea Frank Wunderlich 2022-01-15  723          {
-763d02319f60ea Frank Wunderlich 2022-01-15  724              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_CHIP_RESET, RTL8367C_DW8051_RST_OFF=
-SET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  725                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  726  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  727              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_MISCELLANEOUS_CONFIGURE0, RTL8367C_=
-DW8051_EN_OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  728                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  729  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  730              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_ACS_IROM_ENABL=
-E_OFFSET, 1)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  731                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  732  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  733              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_IROM_MSB_OFFSE=
-T, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  734                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  735  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  736              for(idx =3D 0;=
- idx < SGMII_INIT_SIZE; idx++)
-763d02319f60ea Frank Wunderlich 2022-01-15  737              {
-763d02319f60ea Frank Wunderlich 2022-01-15  738                  if ((retVa=
-l =3D rtl8367c_setAsicReg(0xE000 + idx, (rtk_uint32)Sgmii_Init[idx])) !=3D =
-RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  739                      return=
- retVal;
-763d02319f60ea Frank Wunderlich 2022-01-15  740              }
-763d02319f60ea Frank Wunderlich 2022-01-15  741  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  742              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_IROM_MSB_OFFSE=
-T, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  743                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  744  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  745              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_DW8051_RDY, RTL8367C_ACS_IROM_ENABL=
-E_OFFSET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  746                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  747  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  748              if ((retVal =
-=3D rtl8367c_setAsicRegBit(RTL8367C_REG_CHIP_RESET, RTL8367C_DW8051_RST_OFF=
-SET, 0)) !=3D RT_ERR_OK)
-763d02319f60ea Frank Wunderlich 2022-01-15  749                  return ret=
-Val;
-763d02319f60ea Frank Wunderlich 2022-01-15  750          }
-763d02319f60ea Frank Wunderlich 2022-01-15  751      }
-763d02319f60ea Frank Wunderlich 2022-01-15  752  =
-
-763d02319f60ea Frank Wunderlich 2022-01-15  753      return RT_ERR_OK;
-763d02319f60ea Frank Wunderlich 2022-01-15  754  }
-763d02319f60ea Frank Wunderlich 2022-01-15  755  =
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/clk/imx/clk-imx8ulp.c:71 imx8ulp_clk_cgc1_init() warn: passing zero=
+ to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:153 imx8ulp_clk_cgc2_init() warn: passing zer=
+o to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:236 imx8ulp_clk_pcc3_init() warn: passing zer=
+o to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:315 imx8ulp_clk_pcc4_init() warn: passing zer=
+o to 'PTR_ERR'
+drivers/clk/imx/clk-imx8ulp.c:363 imx8ulp_clk_pcc5_init() warn: passing zer=
+o to 'PTR_ERR'
+
+vim +/PTR_ERR +71 drivers/clk/imx/clk-imx8ulp.c
+
+c43a801a57890b Jacky Bai 2021-09-14   50  =
+
+c43a801a57890b Jacky Bai 2021-09-14   51  static int imx8ulp_clk_cgc1_init(=
+struct platform_device *pdev)
+c43a801a57890b Jacky Bai 2021-09-14   52  {
+c43a801a57890b Jacky Bai 2021-09-14   53  	struct device *dev =3D &pdev->de=
+v;
+c43a801a57890b Jacky Bai 2021-09-14   54  	struct clk_hw_onecell_data *clk_=
+data;
+c43a801a57890b Jacky Bai 2021-09-14   55  	struct clk_hw **clks;
+c43a801a57890b Jacky Bai 2021-09-14   56  	void __iomem *base;
+c43a801a57890b Jacky Bai 2021-09-14   57  =
+
+c43a801a57890b Jacky Bai 2021-09-14   58  	clk_data =3D devm_kzalloc(dev, s=
+truct_size(clk_data, hws, IMX8ULP_CLK_CGC1_END),
+c43a801a57890b Jacky Bai 2021-09-14   59  			   GFP_KERNEL);
+c43a801a57890b Jacky Bai 2021-09-14   60  	if (!clk_data)
+c43a801a57890b Jacky Bai 2021-09-14   61  		return -ENOMEM;
+c43a801a57890b Jacky Bai 2021-09-14   62  =
+
+c43a801a57890b Jacky Bai 2021-09-14   63  	clk_data->num =3D IMX8ULP_CLK_CG=
+C1_END;
+c43a801a57890b Jacky Bai 2021-09-14   64  	clks =3D clk_data->hws;
+c43a801a57890b Jacky Bai 2021-09-14   65  =
+
+c43a801a57890b Jacky Bai 2021-09-14   66  	clks[IMX8ULP_CLK_DUMMY] =3D imx_=
+clk_hw_fixed("dummy", 0);
+c43a801a57890b Jacky Bai 2021-09-14   67  =
+
+c43a801a57890b Jacky Bai 2021-09-14   68  	/* CGC1 */
+c43a801a57890b Jacky Bai 2021-09-14   69  	base =3D devm_platform_ioremap_r=
+esource(pdev, 0);
+c43a801a57890b Jacky Bai 2021-09-14   70  	if (WARN_ON(IS_ERR(base)))
+c43a801a57890b Jacky Bai 2021-09-14  @71  		return PTR_ERR(base);
+c43a801a57890b Jacky Bai 2021-09-14   72  =
+
+c43a801a57890b Jacky Bai 2021-09-14   73  	clks[IMX8ULP_CLK_SPLL2_PRE_SEL]	=
+=3D imx_clk_hw_mux_flags("spll2_pre_sel", base + 0x510, 0, 1, pll_pre_sels,=
+ ARRAY_SIZE(pll_pre_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b Jacky Bai 2021-09-14   74  	clks[IMX8ULP_CLK_SPLL3_PRE_SEL]	=
+=3D imx_clk_hw_mux_flags("spll3_pre_sel", base + 0x610, 0, 1, pll_pre_sels,=
+ ARRAY_SIZE(pll_pre_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b Jacky Bai 2021-09-14   75  =
+
+c43a801a57890b Jacky Bai 2021-09-14   76  	clks[IMX8ULP_CLK_SPLL2] =3D imx_=
+clk_hw_pllv4(IMX_PLLV4_IMX8ULP, "spll2", "spll2_pre_sel", base + 0x500);
+c43a801a57890b Jacky Bai 2021-09-14   77  	clks[IMX8ULP_CLK_SPLL3] =3D imx_=
+clk_hw_pllv4(IMX_PLLV4_IMX8ULP, "spll3", "spll3_pre_sel", base + 0x600);
+c43a801a57890b Jacky Bai 2021-09-14   78  	clks[IMX8ULP_CLK_SPLL3_VCODIV] =
+=3D imx_clk_hw_divider("spll3_vcodiv", "spll3", base + 0x604, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14   79  =
+
+c43a801a57890b Jacky Bai 2021-09-14   80  	clks[IMX8ULP_CLK_SPLL3_PFD0] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd0", "spll3_vcodiv", base + 0=
+x614, 0);
+c43a801a57890b Jacky Bai 2021-09-14   81  	clks[IMX8ULP_CLK_SPLL3_PFD1] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd1", "spll3_vcodiv", base + 0=
+x614, 1);
+c43a801a57890b Jacky Bai 2021-09-14   82  	clks[IMX8ULP_CLK_SPLL3_PFD2] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd2", "spll3_vcodiv", base + 0=
+x614, 2);
+c43a801a57890b Jacky Bai 2021-09-14   83  	clks[IMX8ULP_CLK_SPLL3_PFD3] =3D=
+ imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "spll3_pfd3", "spll3_vcodiv", base + 0=
+x614, 3);
+c43a801a57890b Jacky Bai 2021-09-14   84  =
+
+c43a801a57890b Jacky Bai 2021-09-14   85  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd0_div1_gate", "spll3_pfd0", base +=
+ 0x608, 7);
+c43a801a57890b Jacky Bai 2021-09-14   86  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd0_div2_gate", "spll3_pfd0", base +=
+ 0x608, 15);
+c43a801a57890b Jacky Bai 2021-09-14   87  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd1_div1_gate", "spll3_pfd1", base +=
+ 0x608, 23);
+c43a801a57890b Jacky Bai 2021-09-14   88  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd1_div2_gate", "spll3_pfd1", base +=
+ 0x608, 31);
+c43a801a57890b Jacky Bai 2021-09-14   89  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd2_div1_gate", "spll3_pfd2", base +=
+ 0x60c, 7);
+c43a801a57890b Jacky Bai 2021-09-14   90  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd2_div2_gate", "spll3_pfd2", base +=
+ 0x60c, 15);
+c43a801a57890b Jacky Bai 2021-09-14   91  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd3_div1_gate", "spll3_pfd3", base +=
+ 0x60c, 23);
+c43a801a57890b Jacky Bai 2021-09-14   92  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("spll3_pfd3_div2_gate", "spll3_pfd3", base +=
+ 0x60c, 31);
+c43a801a57890b Jacky Bai 2021-09-14   93  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV1=
+] =3D imx_clk_hw_divider("spll3_pfd0_div1", "spll3_pfd0_div1_gate", base + =
+0x608, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14   94  	clks[IMX8ULP_CLK_SPLL3_PFD0_DIV2=
+] =3D imx_clk_hw_divider("spll3_pfd0_div2", "spll3_pfd0_div2_gate", base + =
+0x608, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14   95  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV1=
+] =3D imx_clk_hw_divider("spll3_pfd1_div1", "spll3_pfd1_div1_gate", base + =
+0x608, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14   96  	clks[IMX8ULP_CLK_SPLL3_PFD1_DIV2=
+] =3D imx_clk_hw_divider("spll3_pfd1_div2", "spll3_pfd1_div2_gate", base + =
+0x608, 24, 6);
+c43a801a57890b Jacky Bai 2021-09-14   97  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV1=
+] =3D imx_clk_hw_divider("spll3_pfd2_div1", "spll3_pfd2_div1_gate", base + =
+0x60c, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14   98  	clks[IMX8ULP_CLK_SPLL3_PFD2_DIV2=
+] =3D imx_clk_hw_divider("spll3_pfd2_div2", "spll3_pfd2_div2_gate", base + =
+0x60c, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14   99  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV1=
+] =3D imx_clk_hw_divider("spll3_pfd3_div1", "spll3_pfd3_div1_gate", base + =
+0x60c, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  100  	clks[IMX8ULP_CLK_SPLL3_PFD3_DIV2=
+] =3D imx_clk_hw_divider("spll3_pfd3_div2", "spll3_pfd3_div2_gate", base + =
+0x60c, 24, 6);
+c43a801a57890b Jacky Bai 2021-09-14  101  =
+
+c43a801a57890b Jacky Bai 2021-09-14  102  	clks[IMX8ULP_CLK_A35_SEL] =3D im=
+x_clk_hw_mux2("a35_sel", base + 0x14, 28, 2, a35_sels, ARRAY_SIZE(a35_sels)=
+);
+c43a801a57890b Jacky Bai 2021-09-14  103  	clks[IMX8ULP_CLK_A35_DIV] =3D im=
+x_clk_hw_divider_flags("a35_div", "a35_sel", base + 0x14, 21, 6, CLK_SET_RA=
+TE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  104  =
+
+c43a801a57890b Jacky Bai 2021-09-14  105  	clks[IMX8ULP_CLK_NIC_SEL] =3D im=
+x_clk_hw_mux2("nic_sel", base + 0x34, 28, 2, nic_sels, ARRAY_SIZE(nic_sels)=
+);
+c43a801a57890b Jacky Bai 2021-09-14  106  	clks[IMX8ULP_CLK_NIC_AD_DIVPLAT]=
+ =3D imx_clk_hw_divider_flags("nic_ad_divplat", "nic_sel", base + 0x34, 21,=
+ 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  107  	clks[IMX8ULP_CLK_NIC_PER_DIVPLAT=
+] =3D imx_clk_hw_divider_flags("nic_per_divplat", "nic_ad_divplat", base + =
+0x34, 14, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  108  	clks[IMX8ULP_CLK_XBAR_AD_DIVPLAT=
+] =3D imx_clk_hw_divider_flags("xbar_ad_divplat", "nic_ad_divplat", base + =
+0x38, 14, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  109  	clks[IMX8ULP_CLK_XBAR_DIVBUS] =
+=3D imx_clk_hw_divider_flags("xbar_divbus", "nic_ad_divplat", base + 0x38, =
+7, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  110  	clks[IMX8ULP_CLK_XBAR_AD_SLOW] =
+=3D imx_clk_hw_divider_flags("xbar_ad_slow", "nic_ad_divplat", base + 0x38,=
+ 0, 6, CLK_SET_RATE_PARENT | CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  111  =
+
+c43a801a57890b Jacky Bai 2021-09-14  112  	clks[IMX8ULP_CLK_SOSC_DIV1_GATE]=
+ =3D imx_clk_hw_gate_dis("sosc_div1_gate", "sosc", base + 0x108, 7);
+c43a801a57890b Jacky Bai 2021-09-14  113  	clks[IMX8ULP_CLK_SOSC_DIV2_GATE]=
+ =3D imx_clk_hw_gate_dis("sosc_div2_gate", "sosc", base + 0x108, 15);
+c43a801a57890b Jacky Bai 2021-09-14  114  	clks[IMX8ULP_CLK_SOSC_DIV3_GATE]=
+ =3D imx_clk_hw_gate_dis("sosc_div3_gate", "sosc", base + 0x108, 23);
+c43a801a57890b Jacky Bai 2021-09-14  115  	clks[IMX8ULP_CLK_SOSC_DIV1] =3D =
+imx_clk_hw_divider("sosc_div1", "sosc_div1_gate", base + 0x108, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  116  	clks[IMX8ULP_CLK_SOSC_DIV2] =3D =
+imx_clk_hw_divider("sosc_div2", "sosc_div2_gate", base + 0x108, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14  117  	clks[IMX8ULP_CLK_SOSC_DIV3] =3D =
+imx_clk_hw_divider("sosc_div3", "sosc_div3_gate", base + 0x108, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  118  =
+
+c43a801a57890b Jacky Bai 2021-09-14  119  	clks[IMX8ULP_CLK_FROSC_DIV1_GATE=
+] =3D imx_clk_hw_gate_dis("frosc_div1_gate", "frosc", base + 0x208, 7);
+c43a801a57890b Jacky Bai 2021-09-14  120  	clks[IMX8ULP_CLK_FROSC_DIV2_GATE=
+] =3D imx_clk_hw_gate_dis("frosc_div2_gate", "frosc", base + 0x208, 15);
+c43a801a57890b Jacky Bai 2021-09-14  121  	clks[IMX8ULP_CLK_FROSC_DIV3_GATE=
+] =3D imx_clk_hw_gate_dis("frosc_div3_gate", "frosc", base + 0x208, 23);
+c43a801a57890b Jacky Bai 2021-09-14  122  	clks[IMX8ULP_CLK_FROSC_DIV1] =3D=
+ imx_clk_hw_divider("frosc_div1", "frosc_div1_gate", base + 0x208, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  123  	clks[IMX8ULP_CLK_FROSC_DIV2] =3D=
+ imx_clk_hw_divider("frosc_div2", "frosc_div2_gate", base + 0x208, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14  124  	clks[IMX8ULP_CLK_FROSC_DIV3] =3D=
+ imx_clk_hw_divider("frosc_div3", "frosc_div3_gate", base + 0x208, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  125  	clks[IMX8ULP_CLK_AUD_CLK1] =3D i=
+mx_clk_hw_mux2("aud_clk1", base + 0x900, 0, 3, aud_clk1_sels, ARRAY_SIZE(au=
+d_clk1_sels));
+c43a801a57890b Jacky Bai 2021-09-14  126  	clks[IMX8ULP_CLK_SAI4_SEL] =3D i=
+mx_clk_hw_mux2("sai4_sel", base + 0x904, 0, 2, sai45_sels, ARRAY_SIZE(sai45=
+_sels));
+c43a801a57890b Jacky Bai 2021-09-14  127  	clks[IMX8ULP_CLK_SAI5_SEL] =3D i=
+mx_clk_hw_mux2("sai5_sel", base + 0x904, 8, 2, sai45_sels, ARRAY_SIZE(sai45=
+_sels));
+c43a801a57890b Jacky Bai 2021-09-14  128  	clks[IMX8ULP_CLK_ENET_TS_SEL] =
+=3D imx_clk_hw_mux2("enet_ts", base + 0x700, 24, 3, enet_ts_sels, ARRAY_SIZ=
+E(enet_ts_sels));
+c43a801a57890b Jacky Bai 2021-09-14  129  =
+
+c43a801a57890b Jacky Bai 2021-09-14  130  	imx_check_clk_hws(clks, clk_data=
+->num);
+c43a801a57890b Jacky Bai 2021-09-14  131  =
+
+c43a801a57890b Jacky Bai 2021-09-14  132  	return devm_of_clk_add_hw_provid=
+er(dev, of_clk_hw_onecell_get, clk_data);
+c43a801a57890b Jacky Bai 2021-09-14  133  }
+c43a801a57890b Jacky Bai 2021-09-14  134  =
+
+c43a801a57890b Jacky Bai 2021-09-14  135  static int imx8ulp_clk_cgc2_init(=
+struct platform_device *pdev)
+c43a801a57890b Jacky Bai 2021-09-14  136  {
+c43a801a57890b Jacky Bai 2021-09-14  137  	struct device *dev =3D &pdev->de=
+v;
+c43a801a57890b Jacky Bai 2021-09-14  138  	struct clk_hw_onecell_data *clk_=
+data;
+c43a801a57890b Jacky Bai 2021-09-14  139  	struct clk_hw **clks;
+c43a801a57890b Jacky Bai 2021-09-14  140  	void __iomem *base;
+c43a801a57890b Jacky Bai 2021-09-14  141  =
+
+c43a801a57890b Jacky Bai 2021-09-14  142  	clk_data =3D devm_kzalloc(dev, s=
+truct_size(clk_data, hws, IMX8ULP_CLK_CGC2_END),
+c43a801a57890b Jacky Bai 2021-09-14  143  			   GFP_KERNEL);
+c43a801a57890b Jacky Bai 2021-09-14  144  	if (!clk_data)
+c43a801a57890b Jacky Bai 2021-09-14  145  		return -ENOMEM;
+c43a801a57890b Jacky Bai 2021-09-14  146  =
+
+c43a801a57890b Jacky Bai 2021-09-14  147  	clk_data->num =3D IMX8ULP_CLK_CG=
+C2_END;
+c43a801a57890b Jacky Bai 2021-09-14  148  	clks =3D clk_data->hws;
+c43a801a57890b Jacky Bai 2021-09-14  149  =
+
+c43a801a57890b Jacky Bai 2021-09-14  150  	/* CGC2 */
+c43a801a57890b Jacky Bai 2021-09-14  151  	base =3D devm_platform_ioremap_r=
+esource(pdev, 0);
+c43a801a57890b Jacky Bai 2021-09-14  152  	if (WARN_ON(IS_ERR(base)))
+c43a801a57890b Jacky Bai 2021-09-14 @153  		return PTR_ERR(base);
+c43a801a57890b Jacky Bai 2021-09-14  154  =
+
+c43a801a57890b Jacky Bai 2021-09-14  155  	clks[IMX8ULP_CLK_PLL4_PRE_SEL] =
+=3D imx_clk_hw_mux_flags("pll4_pre_sel", base + 0x610, 0, 1, pll_pre_sels, =
+ARRAY_SIZE(pll_pre_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b Jacky Bai 2021-09-14  156  =
+
+c43a801a57890b Jacky Bai 2021-09-14  157  	clks[IMX8ULP_CLK_PLL4]	=3D imx_c=
+lk_hw_pllv4(IMX_PLLV4_IMX8ULP, "pll4", "pll4_pre_sel", base + 0x600);
+c43a801a57890b Jacky Bai 2021-09-14  158  	clks[IMX8ULP_CLK_PLL4_VCODIV] =
+=3D imx_clk_hw_divider("pll4_vcodiv", "pll4", base + 0x604, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  159  =
+
+c43a801a57890b Jacky Bai 2021-09-14  160  	clks[IMX8ULP_CLK_HIFI_SEL] =3D i=
+mx_clk_hw_mux_flags("hifi_sel", base + 0x14, 28, 3, hifi_sels, ARRAY_SIZE(h=
+ifi_sels), CLK_SET_PARENT_GATE);
+c43a801a57890b Jacky Bai 2021-09-14  161  	clks[IMX8ULP_CLK_HIFI_DIVCORE] =
+=3D imx_clk_hw_divider("hifi_core_div", "hifi_sel", base + 0x14, 21, 6);
+c43a801a57890b Jacky Bai 2021-09-14  162  	clks[IMX8ULP_CLK_HIFI_DIVPLAT] =
+=3D imx_clk_hw_divider("hifi_plat_div", "hifi_core_div", base + 0x14, 14, 6=
+);
+c43a801a57890b Jacky Bai 2021-09-14  163  =
+
+c43a801a57890b Jacky Bai 2021-09-14  164  	clks[IMX8ULP_CLK_DDR_SEL] =3D im=
+x_clk_hw_mux_flags("ddr_sel", base + 0x40, 28, 3, ddr_sels, ARRAY_SIZE(ddr_=
+sels), CLK_SET_PARENT_GATE);
+c43a801a57890b Jacky Bai 2021-09-14  165  	clks[IMX8ULP_CLK_DDR_DIV] =3D im=
+x_clk_hw_divider_flags("ddr_div", "ddr_sel", base + 0x40, 21, 6, CLK_IS_CRI=
+TICAL);
+c43a801a57890b Jacky Bai 2021-09-14  166  	clks[IMX8ULP_CLK_LPAV_AXI_SEL] =
+=3D imx_clk_hw_mux("lpav_sel", base + 0x3c, 28, 2, lpav_sels, ARRAY_SIZE(lp=
+av_sels));
+c43a801a57890b Jacky Bai 2021-09-14  167  	clks[IMX8ULP_CLK_LPAV_AXI_DIV] =
+=3D imx_clk_hw_divider_flags("lpav_axi_div", "lpav_sel", base + 0x3c, 21, 6=
+, CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  168  	clks[IMX8ULP_CLK_LPAV_AHB_DIV] =
+=3D imx_clk_hw_divider_flags("lpav_ahb_div", "lpav_axi_div", base + 0x3c, 1=
+4, 6, CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  169  	clks[IMX8ULP_CLK_LPAV_BUS_DIV] =
+=3D imx_clk_hw_divider_flags("lpav_bus_div", "lpav_axi_div", base + 0x3c, 7=
+, 6, CLK_IS_CRITICAL);
+c43a801a57890b Jacky Bai 2021-09-14  170  =
+
+c43a801a57890b Jacky Bai 2021-09-14  171  	clks[IMX8ULP_CLK_PLL4_PFD0] =3D =
+imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd0", "pll4_vcodiv", base + 0x61=
+4, 0);
+c43a801a57890b Jacky Bai 2021-09-14  172  	clks[IMX8ULP_CLK_PLL4_PFD1] =3D =
+imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd1", "pll4_vcodiv", base + 0x61=
+4, 1);
+c43a801a57890b Jacky Bai 2021-09-14  173  	clks[IMX8ULP_CLK_PLL4_PFD2] =3D =
+imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd2", "pll4_vcodiv", base + 0x61=
+4, 2);
+c43a801a57890b Jacky Bai 2021-09-14  174  	clks[IMX8ULP_CLK_PLL4_PFD3] =3D =
+imx_clk_hw_pfdv2(IMX_PFDV2_IMX8ULP, "pll4_pfd3", "pll4_vcodiv", base + 0x61=
+4, 3);
+c43a801a57890b Jacky Bai 2021-09-14  175  =
+
+c43a801a57890b Jacky Bai 2021-09-14  176  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV1_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd0_div1_gate", "pll4_pfd0", base + 0x=
+608, 7);
+c43a801a57890b Jacky Bai 2021-09-14  177  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV2_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd0_div2_gate", "pll4_pfd0", base + 0x=
+608, 15);
+c43a801a57890b Jacky Bai 2021-09-14  178  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV1_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd1_div1_gate", "pll4_pfd1", base + 0x=
+608, 23);
+c43a801a57890b Jacky Bai 2021-09-14  179  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV2_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd1_div2_gate", "pll4_pfd1", base + 0x=
+608, 31);
+c43a801a57890b Jacky Bai 2021-09-14  180  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV1_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd2_div1_gate", "pll4_pfd2", base + 0x=
+60c, 7);
+c43a801a57890b Jacky Bai 2021-09-14  181  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV2_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd2_div2_gate", "pll4_pfd2", base + 0x=
+60c, 15);
+c43a801a57890b Jacky Bai 2021-09-14  182  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV1_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd3_div1_gate", "pll4_pfd3", base + 0x=
+60c, 23);
+c43a801a57890b Jacky Bai 2021-09-14  183  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV2_=
+GATE] =3D imx_clk_hw_gate_dis("pll4_pfd3_div2_gate", "pll4_pfd3", base + 0x=
+60c, 31);
+c43a801a57890b Jacky Bai 2021-09-14  184  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV1]=
+ =3D imx_clk_hw_divider("pll4_pfd0_div1", "pll4_pfd0_div1_gate", base + 0x6=
+08, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  185  	clks[IMX8ULP_CLK_PLL4_PFD0_DIV2]=
+ =3D imx_clk_hw_divider("pll4_pfd0_div2", "pll4_pfd0_div2_gate", base + 0x6=
+08, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14  186  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV1]=
+ =3D imx_clk_hw_divider("pll4_pfd1_div1", "pll4_pfd1_div1_gate", base + 0x6=
+08, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  187  	clks[IMX8ULP_CLK_PLL4_PFD1_DIV2]=
+ =3D imx_clk_hw_divider("pll4_pfd1_div2", "pll4_pfd1_div2_gate", base + 0x6=
+08, 24, 6);
+c43a801a57890b Jacky Bai 2021-09-14  188  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV1]=
+ =3D imx_clk_hw_divider("pll4_pfd2_div1", "pll4_pfd2_div1_gate", base + 0x6=
+0c, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  189  	clks[IMX8ULP_CLK_PLL4_PFD2_DIV2]=
+ =3D imx_clk_hw_divider("pll4_pfd2_div2", "pll4_pfd2_div2_gate", base + 0x6=
+0c, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14  190  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV1]=
+ =3D imx_clk_hw_divider("pll4_pfd3_div1", "pll4_pfd3_div1_gate", base + 0x6=
+0c, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  191  	clks[IMX8ULP_CLK_PLL4_PFD3_DIV2]=
+ =3D imx_clk_hw_divider("pll4_pfd3_div2", "pll4_pfd3_div2_gate", base + 0x6=
+0c, 24, 6);
+c43a801a57890b Jacky Bai 2021-09-14  192  =
+
+c43a801a57890b Jacky Bai 2021-09-14  193  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV1_=
+GATE] =3D imx_clk_hw_gate_dis("cgc2_sosc_div1_gate", "sosc", base + 0x108, =
+7);
+c43a801a57890b Jacky Bai 2021-09-14  194  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV2_=
+GATE] =3D imx_clk_hw_gate_dis("cgc2_sosc_div2_gate", "sosc", base + 0x108, =
+15);
+c43a801a57890b Jacky Bai 2021-09-14  195  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV3_=
+GATE] =3D imx_clk_hw_gate_dis("cgc2_sosc_div3_gate", "sosc", base + 0x108, =
+23);
+c43a801a57890b Jacky Bai 2021-09-14  196  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV1]=
+ =3D imx_clk_hw_divider("cgc2_sosc_div1", "cgc2_sosc_div1_gate", base + 0x1=
+08, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  197  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV2]=
+ =3D imx_clk_hw_divider("cgc2_sosc_div2", "cgc2_sosc_div2_gate", base + 0x1=
+08, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14  198  	clks[IMX8ULP_CLK_CGC2_SOSC_DIV3]=
+ =3D imx_clk_hw_divider("cgc2_sosc_div3", "cgc2_sosc_div3_gate", base + 0x1=
+08, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  199  =
+
+c43a801a57890b Jacky Bai 2021-09-14  200  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV1=
+_GATE] =3D imx_clk_hw_gate_dis("cgc2_frosc_div1_gate", "frosc", base + 0x20=
+8, 7);
+c43a801a57890b Jacky Bai 2021-09-14  201  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV2=
+_GATE] =3D imx_clk_hw_gate_dis("cgc2_frosc_div2_gate", "frosc", base + 0x20=
+8, 15);
+c43a801a57890b Jacky Bai 2021-09-14  202  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV3=
+_GATE] =3D imx_clk_hw_gate_dis("cgc2_frosc_div3_gate", "frosc", base + 0x20=
+8, 23);
+c43a801a57890b Jacky Bai 2021-09-14  203  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV1=
+] =3D imx_clk_hw_divider("cgc2_frosc_div1", "cgc2_frosc_div1_gate", base + =
+0x208, 0, 6);
+c43a801a57890b Jacky Bai 2021-09-14  204  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV2=
+] =3D imx_clk_hw_divider("cgc2_frosc_div2", "cgc2_frosc_div2_gate", base + =
+0x208, 8, 6);
+c43a801a57890b Jacky Bai 2021-09-14  205  	clks[IMX8ULP_CLK_CGC2_FROSC_DIV3=
+] =3D imx_clk_hw_divider("cgc2_frosc_div3", "cgc2_frosc_div3_gate", base + =
+0x208, 16, 6);
+c43a801a57890b Jacky Bai 2021-09-14  206  	clks[IMX8ULP_CLK_AUD_CLK2]  =3D =
+imx_clk_hw_mux2("aud_clk2", base + 0x900, 0, 3, aud_clk2_sels, ARRAY_SIZE(a=
+ud_clk2_sels));
+c43a801a57890b Jacky Bai 2021-09-14  207  	clks[IMX8ULP_CLK_SAI6_SEL]  =3D =
+imx_clk_hw_mux2("sai6_sel", base + 0x904, 0, 3, sai67_sels, ARRAY_SIZE(sai6=
+7_sels));
+c43a801a57890b Jacky Bai 2021-09-14  208  	clks[IMX8ULP_CLK_SAI7_SEL]  =3D =
+imx_clk_hw_mux2("sai7_sel", base + 0x904, 8, 3, sai67_sels, ARRAY_SIZE(sai6=
+7_sels));
+c43a801a57890b Jacky Bai 2021-09-14  209  	clks[IMX8ULP_CLK_SPDIF_SEL] =3D =
+imx_clk_hw_mux2("spdif_sel", base + 0x910, 0, 3, sai67_sels, ARRAY_SIZE(sai=
+67_sels));
+c43a801a57890b Jacky Bai 2021-09-14  210  	clks[IMX8ULP_CLK_DSI_PHY_REF] =
+=3D imx_clk_hw_fixed("dsi_phy_ref", 24000000);
+c43a801a57890b Jacky Bai 2021-09-14  211  =
+
+c43a801a57890b Jacky Bai 2021-09-14  212  	imx_check_clk_hws(clks, clk_data=
+->num);
+c43a801a57890b Jacky Bai 2021-09-14  213  =
+
+c43a801a57890b Jacky Bai 2021-09-14  214  	return devm_of_clk_add_hw_provid=
+er(dev, of_clk_hw_onecell_get, clk_data);
+c43a801a57890b Jacky Bai 2021-09-14  215  }
+c43a801a57890b Jacky Bai 2021-09-14  216  =
+
+c43a801a57890b Jacky Bai 2021-09-14  217  static int imx8ulp_clk_pcc3_init(=
+struct platform_device *pdev)
+c43a801a57890b Jacky Bai 2021-09-14  218  {
+c43a801a57890b Jacky Bai 2021-09-14  219  	struct device *dev =3D &pdev->de=
+v;
+c43a801a57890b Jacky Bai 2021-09-14  220  	struct clk_hw_onecell_data *clk_=
+data;
+c43a801a57890b Jacky Bai 2021-09-14  221  	struct clk_hw **clks;
+c43a801a57890b Jacky Bai 2021-09-14  222  	void __iomem *base;
+c43a801a57890b Jacky Bai 2021-09-14  223  	int ret;
+c43a801a57890b Jacky Bai 2021-09-14  224  =
+
+c43a801a57890b Jacky Bai 2021-09-14  225  	clk_data =3D devm_kzalloc(dev, s=
+truct_size(clk_data, hws, IMX8ULP_CLK_PCC3_END),
+c43a801a57890b Jacky Bai 2021-09-14  226  			   GFP_KERNEL);
+c43a801a57890b Jacky Bai 2021-09-14  227  	if (!clk_data)
+c43a801a57890b Jacky Bai 2021-09-14  228  		return -ENOMEM;
+c43a801a57890b Jacky Bai 2021-09-14  229  =
+
+c43a801a57890b Jacky Bai 2021-09-14  230  	clk_data->num =3D IMX8ULP_CLK_PC=
+C3_END;
+c43a801a57890b Jacky Bai 2021-09-14  231  	clks =3D clk_data->hws;
+c43a801a57890b Jacky Bai 2021-09-14  232  =
+
+c43a801a57890b Jacky Bai 2021-09-14  233  	/* PCC3 */
+c43a801a57890b Jacky Bai 2021-09-14  234  	base =3D devm_platform_ioremap_r=
+esource(pdev, 0);
+c43a801a57890b Jacky Bai 2021-09-14  235  	if (WARN_ON(IS_ERR(base)))
+c43a801a57890b Jacky Bai 2021-09-14 @236  		return PTR_ERR(base);
+c43a801a57890b Jacky Bai 2021-09-14  237  =
+
+c43a801a57890b Jacky Bai 2021-09-14  238  	clks[IMX8ULP_CLK_WDOG3] =3D imx8=
+ulp_clk_hw_composite("wdog3", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_=
+bus_sels), true, true, true, base + 0xa8, 1);
+c43a801a57890b Jacky Bai 2021-09-14  239  	clks[IMX8ULP_CLK_WDOG4] =3D imx8=
+ulp_clk_hw_composite("wdog4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_=
+bus_sels), true, true, true, base + 0xac, 1);
+c43a801a57890b Jacky Bai 2021-09-14  240  	clks[IMX8ULP_CLK_LPIT1] =3D imx8=
+ulp_clk_hw_composite("lpit1", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_=
+bus_sels), true, true, true, base + 0xc8, 1);
+c43a801a57890b Jacky Bai 2021-09-14  241  	clks[IMX8ULP_CLK_TPM4] =3D imx8u=
+lp_clk_hw_composite("tpm4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_bu=
+s_sels), true, true, true, base + 0xcc, 1);
+c43a801a57890b Jacky Bai 2021-09-14  242  	clks[IMX8ULP_CLK_TPM5] =3D imx8u=
+lp_clk_hw_composite("tpm5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_bu=
+s_sels), true, true, true, base + 0xd0, 1);
+c43a801a57890b Jacky Bai 2021-09-14  243  	clks[IMX8ULP_CLK_FLEXIO1] =3D im=
+x8ulp_clk_hw_composite("flexio1", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_per=
+iph_bus_sels), true, true, true, base + 0xd4, 1);
+c43a801a57890b Jacky Bai 2021-09-14  244  	clks[IMX8ULP_CLK_I3C2] =3D imx8u=
+lp_clk_hw_composite("i3c2", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_periph_bu=
+s_sels), true, true, true, base + 0xd8, 1);
+c43a801a57890b Jacky Bai 2021-09-14  245  	clks[IMX8ULP_CLK_LPI2C4] =3D imx=
+8ulp_clk_hw_composite("lpi2c4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_perip=
+h_bus_sels), true, true, true, base + 0xdc, 1);
+c43a801a57890b Jacky Bai 2021-09-14  246  	clks[IMX8ULP_CLK_LPI2C5] =3D imx=
+8ulp_clk_hw_composite("lpi2c5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_perip=
+h_bus_sels), true, true, true, base + 0xe0, 1);
+c43a801a57890b Jacky Bai 2021-09-14  247  	clks[IMX8ULP_CLK_LPUART4] =3D im=
+x8ulp_clk_hw_composite("lpuart4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_per=
+iph_bus_sels), true, true, true, base + 0xe4, 1);
+c43a801a57890b Jacky Bai 2021-09-14  248  	clks[IMX8ULP_CLK_LPUART5] =3D im=
+x8ulp_clk_hw_composite("lpuart5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_per=
+iph_bus_sels), true, true, true, base + 0xe8, 1);
+c43a801a57890b Jacky Bai 2021-09-14  249  	clks[IMX8ULP_CLK_LPSPI4] =3D imx=
+8ulp_clk_hw_composite("lpspi4", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_perip=
+h_bus_sels), true, true, true, base + 0xec, 1);
+c43a801a57890b Jacky Bai 2021-09-14  250  	clks[IMX8ULP_CLK_LPSPI5] =3D imx=
+8ulp_clk_hw_composite("lpspi5", pcc3_periph_bus_sels, ARRAY_SIZE(pcc3_perip=
+h_bus_sels), true, true, true, base + 0xf0, 1);
+c43a801a57890b Jacky Bai 2021-09-14  251  =
+
+c43a801a57890b Jacky Bai 2021-09-14  252  	clks[IMX8ULP_CLK_DMA1_MP] =3D im=
+x_clk_hw_gate("pcc_dma1_mp", "xbar_ad_divplat", base + 0x4, 30);
+c43a801a57890b Jacky Bai 2021-09-14  253  	clks[IMX8ULP_CLK_DMA1_CH0] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch0", "xbar_ad_divplat", base + 0x8, 30);
+c43a801a57890b Jacky Bai 2021-09-14  254  	clks[IMX8ULP_CLK_DMA1_CH1] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch1", "xbar_ad_divplat", base + 0xc, 30);
+c43a801a57890b Jacky Bai 2021-09-14  255  	clks[IMX8ULP_CLK_DMA1_CH2] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch2", "xbar_ad_divplat", base + 0x10, 30);
+c43a801a57890b Jacky Bai 2021-09-14  256  	clks[IMX8ULP_CLK_DMA1_CH3] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch3", "xbar_ad_divplat", base + 0x14, 30);
+c43a801a57890b Jacky Bai 2021-09-14  257  	clks[IMX8ULP_CLK_DMA1_CH4] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch4", "xbar_ad_divplat", base + 0x18, 30);
+c43a801a57890b Jacky Bai 2021-09-14  258  	clks[IMX8ULP_CLK_DMA1_CH5] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch5", "xbar_ad_divplat", base + 0x1c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  259  	clks[IMX8ULP_CLK_DMA1_CH6] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch6", "xbar_ad_divplat", base + 0x20, 30);
+c43a801a57890b Jacky Bai 2021-09-14  260  	clks[IMX8ULP_CLK_DMA1_CH7] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch7", "xbar_ad_divplat", base + 0x24, 30);
+c43a801a57890b Jacky Bai 2021-09-14  261  	clks[IMX8ULP_CLK_DMA1_CH8] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch8", "xbar_ad_divplat", base + 0x28, 30);
+c43a801a57890b Jacky Bai 2021-09-14  262  	clks[IMX8ULP_CLK_DMA1_CH9] =3D i=
+mx_clk_hw_gate("pcc_dma1_ch9", "xbar_ad_divplat", base + 0x2c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  263  	clks[IMX8ULP_CLK_DMA1_CH10] =3D =
+imx_clk_hw_gate("pcc_dma1_ch10", "xbar_ad_divplat", base + 0x30, 30);
+c43a801a57890b Jacky Bai 2021-09-14  264  	clks[IMX8ULP_CLK_DMA1_CH11] =3D =
+imx_clk_hw_gate("pcc_dma1_ch11", "xbar_ad_divplat", base + 0x34, 30);
+c43a801a57890b Jacky Bai 2021-09-14  265  	clks[IMX8ULP_CLK_DMA1_CH12] =3D =
+imx_clk_hw_gate("pcc_dma1_ch12", "xbar_ad_divplat", base + 0x38, 30);
+c43a801a57890b Jacky Bai 2021-09-14  266  	clks[IMX8ULP_CLK_DMA1_CH13] =3D =
+imx_clk_hw_gate("pcc_dma1_ch13", "xbar_ad_divplat", base + 0x3c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  267  	clks[IMX8ULP_CLK_DMA1_CH14] =3D =
+imx_clk_hw_gate("pcc_dma1_ch14", "xbar_ad_divplat", base + 0x40, 30);
+c43a801a57890b Jacky Bai 2021-09-14  268  	clks[IMX8ULP_CLK_DMA1_CH15] =3D =
+imx_clk_hw_gate("pcc_dma1_ch15", "xbar_ad_divplat", base + 0x44, 30);
+c43a801a57890b Jacky Bai 2021-09-14  269  	clks[IMX8ULP_CLK_DMA1_CH16] =3D =
+imx_clk_hw_gate("pcc_dma1_ch16", "xbar_ad_divplat", base + 0x48, 30);
+c43a801a57890b Jacky Bai 2021-09-14  270  	clks[IMX8ULP_CLK_DMA1_CH17] =3D =
+imx_clk_hw_gate("pcc_dma1_ch17", "xbar_ad_divplat", base + 0x4c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  271  	clks[IMX8ULP_CLK_DMA1_CH18] =3D =
+imx_clk_hw_gate("pcc_dma1_ch18", "xbar_ad_divplat", base + 0x50, 30);
+c43a801a57890b Jacky Bai 2021-09-14  272  	clks[IMX8ULP_CLK_DMA1_CH19] =3D =
+imx_clk_hw_gate("pcc_dma1_ch19", "xbar_ad_divplat", base + 0x54, 30);
+c43a801a57890b Jacky Bai 2021-09-14  273  	clks[IMX8ULP_CLK_DMA1_CH20] =3D =
+imx_clk_hw_gate("pcc_dma1_ch20", "xbar_ad_divplat", base + 0x58, 30);
+c43a801a57890b Jacky Bai 2021-09-14  274  	clks[IMX8ULP_CLK_DMA1_CH21] =3D =
+imx_clk_hw_gate("pcc_dma1_ch21", "xbar_ad_divplat", base + 0x5c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  275  	clks[IMX8ULP_CLK_DMA1_CH22] =3D =
+imx_clk_hw_gate("pcc_dma1_ch22", "xbar_ad_divplat", base + 0x60, 30);
+c43a801a57890b Jacky Bai 2021-09-14  276  	clks[IMX8ULP_CLK_DMA1_CH23] =3D =
+imx_clk_hw_gate("pcc_dma1_ch23", "xbar_ad_divplat", base + 0x64, 30);
+c43a801a57890b Jacky Bai 2021-09-14  277  	clks[IMX8ULP_CLK_DMA1_CH24] =3D =
+imx_clk_hw_gate("pcc_dma1_ch24", "xbar_ad_divplat", base + 0x68, 30);
+c43a801a57890b Jacky Bai 2021-09-14  278  	clks[IMX8ULP_CLK_DMA1_CH25] =3D =
+imx_clk_hw_gate("pcc_dma1_ch25", "xbar_ad_divplat", base + 0x6c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  279  	clks[IMX8ULP_CLK_DMA1_CH26] =3D =
+imx_clk_hw_gate("pcc_dma1_ch26", "xbar_ad_divplat", base + 0x70, 30);
+c43a801a57890b Jacky Bai 2021-09-14  280  	clks[IMX8ULP_CLK_DMA1_CH27] =3D =
+imx_clk_hw_gate("pcc_dma1_ch27", "xbar_ad_divplat", base + 0x74, 30);
+c43a801a57890b Jacky Bai 2021-09-14  281  	clks[IMX8ULP_CLK_DMA1_CH28] =3D =
+imx_clk_hw_gate("pcc_dma1_ch28", "xbar_ad_divplat", base + 0x78, 30);
+c43a801a57890b Jacky Bai 2021-09-14  282  	clks[IMX8ULP_CLK_DMA1_CH29] =3D =
+imx_clk_hw_gate("pcc_dma1_ch29", "xbar_ad_divplat", base + 0x7c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  283  	clks[IMX8ULP_CLK_DMA1_CH30] =3D =
+imx_clk_hw_gate("pcc_dma1_ch30", "xbar_ad_divplat", base + 0x80, 30);
+c43a801a57890b Jacky Bai 2021-09-14  284  	clks[IMX8ULP_CLK_DMA1_CH31] =3D =
+imx_clk_hw_gate("pcc_dma1_ch31", "xbar_ad_divplat", base + 0x84, 30);
+c43a801a57890b Jacky Bai 2021-09-14  285  	clks[IMX8ULP_CLK_MU0_B] =3D imx_=
+clk_hw_gate("mu0_b", "xbar_ad_divplat", base + 0x88, 30);
+c43a801a57890b Jacky Bai 2021-09-14  286  	clks[IMX8ULP_CLK_MU3_A] =3D imx_=
+clk_hw_gate("mu3_a", "xbar_ad_divplat", base + 0x8c, 30);
+c43a801a57890b Jacky Bai 2021-09-14  287  =
+
+c43a801a57890b Jacky Bai 2021-09-14  288  	imx_check_clk_hws(clks, clk_data=
+->num);
+c43a801a57890b Jacky Bai 2021-09-14  289  =
+
+c43a801a57890b Jacky Bai 2021-09-14  290  	ret =3D devm_of_clk_add_hw_provi=
+der(dev, of_clk_hw_onecell_get, clk_data);
+c43a801a57890b Jacky Bai 2021-09-14  291  =
+
+c43a801a57890b Jacky Bai 2021-09-14  292  	imx_register_uart_clocks(1);
+c43a801a57890b Jacky Bai 2021-09-14  293  =
+
+c43a801a57890b Jacky Bai 2021-09-14  294  	return ret;
+c43a801a57890b Jacky Bai 2021-09-14  295  }
+c43a801a57890b Jacky Bai 2021-09-14  296  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6298208591232422612==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============6556842211612547879==--
 
