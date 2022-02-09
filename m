@@ -1,147 +1,273 @@
-Content-Type: multipart/mixed; boundary="===============4789010884548407091=="
+Content-Type: multipart/mixed; boundary="===============8003983689490900066=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cxl:pending 32/43] drivers/cxl/core/port.c:830:21-24: ERROR: port is NULL but dereferenced.
-Date: Wed, 09 Feb 2022 19:54:46 +0800
-Message-ID: <202202091956.TdJsTtvj-lkp@intel.com>
+Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.10 2324/9999] mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
+Date: Wed, 09 Feb 2022 19:44:24 +0800
+Message-ID: <202202091958.0BHF6SGy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4789010884548407091==
+--===============8003983689490900066==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Vinayak Menon <vinmenon@codeaurora.org>
+CC: Todd Kjos <tkjos@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git pending
-head:   74b0fe80409733055971bbfaf33c80a33fddeeb3
-commit: 2703c16c75aea142c3079ec34ae2262c0557ef7f [32/43] cxl/core/port: Add=
- switch port enumeration
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
-config: riscv-randconfig-c004-20220209 (https://download.01.org/0day-ci/arc=
-hive/20220209/202202091956.TdJsTtvj-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
+mmon/android12-5.10
+head:   2a2327c4e8ac335069586354b280031105b9980e
+commit: 35eacb5c87b9b5e9683e25a24282cde1a2d4a1d5 [2324/9999] ANDROID: mm: a=
+llow vmas with vm_ops to be speculatively handled
+:::::: branch date: 9 hours ago
+:::::: commit date: 10 months ago
+config: i386-randconfig-m021-20211118 (https://download.01.org/0day-ci/arch=
+ive/20220209/202202091958.0BHF6SGy-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/memory.c:4691 handle_pte_fault() warn: inconsistent returns 'vmf->ptl'.
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/cxl/core/port.c:830:21-24: ERROR: port is NULL but dereferenced.
+vim +4691 mm/memory.c
 
-vim +830 drivers/cxl/core/port.c
+a00cc7d9dd93d66 Matthew Wilcox        2017-02-24  4562  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  813  =
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4563  /*
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4564   * These routines a=
+lso need to handle stuff like marking pages dirty
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4565   * and/or accessed =
+for architectures that don't do it in hardware (most
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4566   * RISC architectur=
+es).  The early dirtying is also good on the i386.
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4567   *
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4568   * There is also a =
+hook called "update_mmu_cache()" that architectures
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4569   * with external mm=
+u caches can use to update those (ie the Sparc or
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4570   * PowerPC hashed p=
+age tables that act as extended TLBs).
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4571   *
+c1e8d7c6a7a682e Michel Lespinasse     2020-06-08  4572   * We enter with no=
+n-exclusive mmap_lock (to exclude vma changes, but allow
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4573   * concurrent fault=
+s).
+9a95f3cf7b33d66 Paul Cassella         2014-08-06  4574   *
+c1e8d7c6a7a682e Michel Lespinasse     2020-06-08  4575   * The mmap_lock ma=
+y have been released depending on flags and our return value.
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4576   * See filemap_faul=
+t() and __lock_page_or_retry().
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4577   */
+2b7403035459c75 Souptick Joarder      2018-08-23  4578  static vm_fault_t h=
+andle_pte_fault(struct vm_fault *vmf)
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4579  {
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4580  	pte_t entry;
+35eacb5c87b9b5e Vinayak Menon         2021-03-18  4581  	vm_fault_t ret =3D=
+ 0;
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4582  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  814  static void cxl_detach_ep(void=
- *data)
-2703c16c75aea1 Dan Williams 2022-02-04  815  {
-2703c16c75aea1 Dan Williams 2022-02-04  816  	struct cxl_memdev *cxlmd =3D =
-data;
-2703c16c75aea1 Dan Williams 2022-02-04  817  	struct device *iter;
-2703c16c75aea1 Dan Williams 2022-02-04  818  =
+82b0f8c39a3869b Jan Kara              2016-12-14  4583  	if (unlikely(pmd_n=
+one(*vmf->pmd))) {
+1c5371744061fcc Peter Zijlstra        2018-04-17  4584  		/*
+1c5371744061fcc Peter Zijlstra        2018-04-17  4585  		 * In the case of=
+ the speculative page fault handler we abort
+1c5371744061fcc Peter Zijlstra        2018-04-17  4586  		 * the speculativ=
+e path immediately as the pmd is probably
+1c5371744061fcc Peter Zijlstra        2018-04-17  4587  		 * in the way to =
+be converted in a huge one. We will try
+1c5371744061fcc Peter Zijlstra        2018-04-17  4588  		 * again holding =
+the mmap_sem (which implies that the collapse
+1c5371744061fcc Peter Zijlstra        2018-04-17  4589  		 * operation is d=
+one).
+1c5371744061fcc Peter Zijlstra        2018-04-17  4590  		 */
+1c5371744061fcc Peter Zijlstra        2018-04-17  4591  		if (vmf->flags & =
+FAULT_FLAG_SPECULATIVE)
+1c5371744061fcc Peter Zijlstra        2018-04-17  4592  			return VM_FAULT_=
+RETRY;
+e37c69827063332 Christian Borntraeger 2014-12-07  4593  		/*
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4594  		 * Leave __pte_al=
+loc() until later: because vm_ops->fault may
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4595  		 * want to alloca=
+te huge page, and if we expose page table
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4596  		 * for an instant=
+, it will be difficult to retract from
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4597  		 * concurrent fau=
+lts and from rmap lookups.
+e37c69827063332 Christian Borntraeger 2014-12-07  4598  		 */
+82b0f8c39a3869b Jan Kara              2016-12-14  4599  		vmf->pte =3D NULL;
+1c5371744061fcc Peter Zijlstra        2018-04-17  4600  	} else if (!(vmf->=
+flags & FAULT_FLAG_SPECULATIVE)) {
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4601  		/*
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4602  		 * If a huge pmd =
+materialized under us just retry later.  Use
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4603  		 * pmd_trans_unst=
+able() via pmd_devmap_trans_unstable() instead
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4604  		 * of pmd_trans_h=
+uge() to ensure the pmd didn't become
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4605  		 * pmd_trans_huge=
+ under us and then back to pmd_none, as a
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4606  		 * result of MADV=
+_DONTNEED running immediately after a huge pmd
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4607  		 * fault in a dif=
+ferent thread of this mm, in turn leading to a
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4608  		 * misleading pmd=
+_trans_huge() retval. All we have to ensure is
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4609  		 * that it is a r=
+egular pmd that we can walk with
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4610  		 * pte_offset_map=
+() and we can do that through an atomic read
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4611  		 * in C, which is=
+ what pmd_trans_unstable() provides.
+0aa300a25229b9b Kirill A. Shutemov    2020-12-19  4612  		 */
+d0f0931de936a0a Ross Zwisler          2017-06-02  4613  		if (pmd_devmap_tr=
+ans_unstable(vmf->pmd))
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4614  			return 0;
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4615  		/*
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4616  		 * A regular pmd =
+is established and it can't morph into a huge
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4617  		 * pmd from under=
+ us anymore at this point because we hold the
+c1e8d7c6a7a682e Michel Lespinasse     2020-06-08  4618  		 * mmap_lock read=
+ mode and khugepaged takes it in write mode.
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4619  		 * So now it's sa=
+fe to run pte_offset_map().
+1c5371744061fcc Peter Zijlstra        2018-04-17  4620  		 * This is not ap=
+plicable to the speculative page fault handler
+1c5371744061fcc Peter Zijlstra        2018-04-17  4621  		 * but in that ca=
+se, the pte is fetched earlier in
+1c5371744061fcc Peter Zijlstra        2018-04-17  4622  		 * handle_specula=
+tive_fault().
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4623  		 */
+82b0f8c39a3869b Jan Kara              2016-12-14  4624  		vmf->pte =3D pte_=
+offset_map(vmf->pmd, vmf->address);
+2994302bc8a1718 Jan Kara              2016-12-14  4625  		vmf->orig_pte =3D=
+ *vmf->pte;
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4626  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  819  	for (iter =3D &cxlmd->dev; it=
-er; iter =3D grandparent(iter)) {
-2703c16c75aea1 Dan Williams 2022-02-04  820  		struct device *dport_dev =3D=
- grandparent(iter);
-2703c16c75aea1 Dan Williams 2022-02-04  821  		struct cxl_port *port, *pare=
-nt_port;
-2703c16c75aea1 Dan Williams 2022-02-04  822  		LIST_HEAD(reap_dports);
-2703c16c75aea1 Dan Williams 2022-02-04  823  		struct cxl_ep *ep;
-2703c16c75aea1 Dan Williams 2022-02-04  824  =
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4627  		/*
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4628  		 * some architect=
+ures can have larger ptes than wordsize,
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4629  		 * e.g.ppc44x-def=
+config has CONFIG_PTE_64BIT=3Dy and
+b03a0fe0c5e4b46 Paul E. McKenney      2017-10-23  4630  		 * CONFIG_32BIT=
+=3Dy, so READ_ONCE cannot guarantee atomic
+b03a0fe0c5e4b46 Paul E. McKenney      2017-10-23  4631  		 * accesses.  The=
+ code below just needs a consistent view
+b03a0fe0c5e4b46 Paul E. McKenney      2017-10-23  4632  		 * for the ifs an=
+d we later double check anyway with the
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4633  		 * ptl lock held.=
+ So here a barrier will do.
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4634  		 */
+e37c69827063332 Christian Borntraeger 2014-12-07  4635  		barrier();
+2994302bc8a1718 Jan Kara              2016-12-14  4636  		if (pte_none(vmf-=
+>orig_pte)) {
+82b0f8c39a3869b Jan Kara              2016-12-14  4637  			pte_unmap(vmf->p=
+te);
+82b0f8c39a3869b Jan Kara              2016-12-14  4638  			vmf->pte =3D NUL=
+L;
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4639  		}
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4640  	}
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4641  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  825  		if (!dport_dev)
-2703c16c75aea1 Dan Williams 2022-02-04  826  			break;
-2703c16c75aea1 Dan Williams 2022-02-04  827  =
+82b0f8c39a3869b Jan Kara              2016-12-14  4642  	if (!vmf->pte) {
+82b0f8c39a3869b Jan Kara              2016-12-14  4643  		if (vma_is_anonym=
+ous(vmf->vma))
+82b0f8c39a3869b Jan Kara              2016-12-14  4644  			return do_anonym=
+ous_page(vmf);
+35eacb5c87b9b5e Vinayak Menon         2021-03-18  4645  		else if ((vmf->fl=
+ags & FAULT_FLAG_SPECULATIVE) &&
+35eacb5c87b9b5e Vinayak Menon         2021-03-18  4646  				!vmf_allows_spe=
+culation(vmf))
+1c5371744061fcc Peter Zijlstra        2018-04-17  4647  			return VM_FAULT_=
+RETRY;
+b5330628546616a Oleg Nesterov         2015-09-08  4648  		else
+82b0f8c39a3869b Jan Kara              2016-12-14  4649  			return do_fault(=
+vmf);
+65500d234e74fc4 Hugh Dickins          2005-10-29  4650  	}
+7267ec008b5cd8b Kirill A. Shutemov    2016-07-26  4651  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  828  		port =3D find_cxl_port(dport=
-_dev);
-2703c16c75aea1 Dan Williams 2022-02-04  829  		if (!port || is_cxl_root(por=
-t)) {
-2703c16c75aea1 Dan Williams 2022-02-04 @830  			put_device(&port->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  831  			continue;
-2703c16c75aea1 Dan Williams 2022-02-04  832  		}
-2703c16c75aea1 Dan Williams 2022-02-04  833  =
+2994302bc8a1718 Jan Kara              2016-12-14  4652  	if (!pte_present(v=
+mf->orig_pte))
+2994302bc8a1718 Jan Kara              2016-12-14  4653  		return do_swap_pa=
+ge(vmf);
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4654  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  834  		parent_port =3D to_cxl_port(=
-port->dev.parent);
-2703c16c75aea1 Dan Williams 2022-02-04  835  		cxl_device_lock(&parent_port=
-->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  836  		if (!parent_port->dev.driver=
-) {
-2703c16c75aea1 Dan Williams 2022-02-04  837  			/*
-2703c16c75aea1 Dan Williams 2022-02-04  838  			 * The bottom-up race to de=
-lete the port lost to a
-2703c16c75aea1 Dan Williams 2022-02-04  839  			 * top-down port disable, g=
-ive up here, because the
-2703c16c75aea1 Dan Williams 2022-02-04  840  			 * parent_port ->remove() w=
-ill have cleaned up all
-2703c16c75aea1 Dan Williams 2022-02-04  841  			 * descendants.
-2703c16c75aea1 Dan Williams 2022-02-04  842  			 */
-2703c16c75aea1 Dan Williams 2022-02-04  843  			cxl_device_unlock(&parent_p=
-ort->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  844  			put_device(&port->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  845  			continue;
-2703c16c75aea1 Dan Williams 2022-02-04  846  		}
-2703c16c75aea1 Dan Williams 2022-02-04  847  =
+2994302bc8a1718 Jan Kara              2016-12-14  4655  	if (pte_protnone(v=
+mf->orig_pte) && vma_is_accessible(vmf->vma))
+2994302bc8a1718 Jan Kara              2016-12-14  4656  		return do_numa_pa=
+ge(vmf);
+d10e63f29488b0f Mel Gorman            2012-10-25  4657  =
 
-2703c16c75aea1 Dan Williams 2022-02-04  848  		cxl_device_lock(&port->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  849  		ep =3D find_ep(port, &cxlmd-=
->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  850  		dev_dbg(&cxlmd->dev, "discon=
-nect %s from %s\n",
-2703c16c75aea1 Dan Williams 2022-02-04  851  			ep ? dev_name(ep->ep) : "",=
- dev_name(&port->dev));
-2703c16c75aea1 Dan Williams 2022-02-04  852  		cxl_ep_release(ep);
-2703c16c75aea1 Dan Williams 2022-02-04  853  		if (ep && !port->dead && lis=
-t_empty(&port->endpoints) &&
-2703c16c75aea1 Dan Williams 2022-02-04  854  		    !is_cxl_root(parent_port=
-)) {
-2703c16c75aea1 Dan Williams 2022-02-04  855  			/*
-2703c16c75aea1 Dan Williams 2022-02-04  856  			 * This was the last ep att=
-ached to a dynamically
-2703c16c75aea1 Dan Williams 2022-02-04  857  			 * enumerated port. Block n=
-ew cxl_add_ep() and garbage
-2703c16c75aea1 Dan Williams 2022-02-04  858  			 * collect the port.
-2703c16c75aea1 Dan Williams 2022-02-04  859  			 */
-2703c16c75aea1 Dan Williams 2022-02-04  860  			port->dead =3D true;
-2703c16c75aea1 Dan Williams 2022-02-04  861  			list_splice_init(&port->dpo=
-rts, &reap_dports);
-2703c16c75aea1 Dan Williams 2022-02-04  862  		}
-2703c16c75aea1 Dan Williams 2022-02-04  863  		cxl_device_unlock(&port->dev=
-);
-2703c16c75aea1 Dan Williams 2022-02-04  864  =
-
-2703c16c75aea1 Dan Williams 2022-02-04  865  		if (!list_empty(&reap_dports=
-)) {
-2703c16c75aea1 Dan Williams 2022-02-04  866  			dev_dbg(&cxlmd->dev, "delet=
-e %s\n",
-2703c16c75aea1 Dan Williams 2022-02-04  867  				dev_name(&port->dev));
-2703c16c75aea1 Dan Williams 2022-02-04  868  			delete_switch_port(port, &r=
-eap_dports);
-2703c16c75aea1 Dan Williams 2022-02-04  869  		}
-2703c16c75aea1 Dan Williams 2022-02-04  870  		put_device(&port->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  871  		cxl_device_unlock(&parent_po=
-rt->dev);
-2703c16c75aea1 Dan Williams 2022-02-04  872  	}
-2703c16c75aea1 Dan Williams 2022-02-04  873  }
-2703c16c75aea1 Dan Williams 2022-02-04  874  =
+b23ffc113b308e2 Laurent Dufour        2018-04-17  4658  	if (!pte_spinlock(=
+vmf))
+b23ffc113b308e2 Laurent Dufour        2018-04-17  4659  		return VM_FAULT_R=
+ETRY;
+2994302bc8a1718 Jan Kara              2016-12-14  4660  	entry =3D vmf->ori=
+g_pte;
+7df676974359f92 Bibo Mao              2020-05-27  4661  	if (unlikely(!pte_=
+same(*vmf->pte, entry))) {
+7df676974359f92 Bibo Mao              2020-05-27  4662  		update_mmu_tlb(vm=
+f->vma, vmf->address, vmf->pte);
+8f4e2101fd7df90 Hugh Dickins          2005-10-29  4663  		goto unlock;
+7df676974359f92 Bibo Mao              2020-05-27  4664  	}
+82b0f8c39a3869b Jan Kara              2016-12-14  4665  	if (vmf->flags & F=
+AULT_FLAG_WRITE) {
+f6f3732162b5ae3 Linus Torvalds        2017-12-15  4666  		if (!pte_write(en=
+try))
+2994302bc8a1718 Jan Kara              2016-12-14  4667  			return do_wp_pag=
+e(vmf);
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4668  		entry =3D pte_mkd=
+irty(entry);
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4669  	}
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4670  	entry =3D pte_mkyo=
+ung(entry);
+82b0f8c39a3869b Jan Kara              2016-12-14  4671  	if (ptep_set_acces=
+s_flags(vmf->vma, vmf->address, vmf->pte, entry,
+82b0f8c39a3869b Jan Kara              2016-12-14  4672  				vmf->flags & FA=
+ULT_FLAG_WRITE)) {
+82b0f8c39a3869b Jan Kara              2016-12-14  4673  		update_mmu_cache(=
+vmf->vma, vmf->address, vmf->pte);
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4674  	} else {
+b7333b58f358f38 Yang Shi              2020-08-14  4675  		/* Skip spurious =
+TLB flush for retried page fault */
+b7333b58f358f38 Yang Shi              2020-08-14  4676  		if (vmf->flags & =
+FAULT_FLAG_TRIED)
+b7333b58f358f38 Yang Shi              2020-08-14  4677  			goto unlock;
+35eacb5c87b9b5e Vinayak Menon         2021-03-18  4678  		if (vmf->flags & =
+FAULT_FLAG_SPECULATIVE)
+35eacb5c87b9b5e Vinayak Menon         2021-03-18  4679  			ret =3D VM_FAULT=
+_RETRY;
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4680  		/*
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4681  		 * This is needed=
+ only for protection faults but the arch code
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4682  		 * is not yet tel=
+ling us if this is a protection fault or not.
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4683  		 * This still avo=
+ids useless tlb flushes for .text page faults
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4684  		 * with threads.
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4685  		 */
+82b0f8c39a3869b Jan Kara              2016-12-14  4686  		if (vmf->flags & =
+FAULT_FLAG_WRITE)
+82b0f8c39a3869b Jan Kara              2016-12-14  4687  			flush_tlb_fix_sp=
+urious_fault(vmf->vma, vmf->address);
+1a44e149084d772 Andrea Arcangeli      2005-10-29  4688  	}
+8f4e2101fd7df90 Hugh Dickins          2005-10-29  4689  unlock:
+82b0f8c39a3869b Jan Kara              2016-12-14  4690  	pte_unmap_unlock(v=
+mf->pte, vmf->ptl);
+35eacb5c87b9b5e Vinayak Menon         2021-03-18 @4691  	return ret;
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4692  }
+^1da177e4c3f415 Linus Torvalds        2005-04-16  4693  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4789010884548407091==--
+--===============8003983689490900066==--
 
