@@ -1,47 +1,58 @@
-Content-Type: multipart/mixed; boundary="===============0672042533918908658=="
+Content-Type: multipart/mixed; boundary="===============6257827253962748964=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:netdev/net-next/master 185/246] net/mctp/route.c:458:4: warning: Value stored to 'msk' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 11 Feb 2022 07:20:39 +0800
-Message-ID: <202202110711.5wAqzE2x-lkp@intel.com>
+Subject: Re: [PATCH v6 1/3] drm/lsdc: add drm driver for loongson display controller
+Date: Fri, 11 Feb 2022 07:10:20 +0800
+Message-ID: <202202110707.gB1LATq7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0672042533918908658==
+--===============6257827253962748964==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-CC: linux-kernel(a)vger.kernel.org
-TO: Matt Johnston <matt@codeconstruct.com.au>
-CC: Jeremy Kerr <jk@codeconstruct.com.au>
+In-Reply-To: <20220203082546.3099-2-15330273260@189.cn>
+References: <20220203082546.3099-2-15330273260@189.cn>
+TO: Sui Jingfeng <15330273260@189.cn>
 
-tree:   https://github.com/ammarfaizi2/linux-block netdev/net-next/master
-head:   4f5e483b8c7a644733db941a1ae00173baa7b463
-commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa [185/246] mctp: Add SIOCMC=
-TP{ALLOC,DROP}TAG ioctls for tag control
-:::::: branch date: 4 hours ago
-:::::: commit date: 35 hours ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20211/202202110711.5wAqzE2x-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project aa845d=
-7a245d85c441d0bd44fc7b6c3be8f3de8d)
+Hi Sui,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm/drm-next]
+[also build test WARNING on robh/for-next drm-intel/for-linux-next drm-tip/=
+drm-tip v5.17-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Sui-Jingfeng/drm-lsdc-add-=
+drm-driver-for-loongson-display-controller/20220203-162953
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: riscv-randconfig-c006-20220205 (https://download.01.org/0day-ci/arc=
+hive/20220211/202202110707.gB1LATq7-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project dee058=
+c670593b999fec19c458dbbd882ad9de56)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/63ed1aab3d40aa6=
-1aaa66819bdce9377ac7f40fa
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block netdev/net-next/master
-        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/983916ec4a8df390a947a7f53=
+9dbc99f5d511e26
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Sui-Jingfeng/drm-lsdc-add-drm-driv=
+er-for-loongson-display-controller/20220203-162953
+        git checkout 983916ec4a8df390a947a7f539dbc99f5d511e26
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,481 +60,388 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:335:2: note: Taking false branch
-           if (skb->len < sizeof(struct mctp_hdr) + 1)
+               ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:23:2: note: Taking true branch
+           if ((word & 0xffff) =3D=3D 0) {
            ^
-   net/mctp/route.c:342:6: note: Assuming field 'ver' is equal to 1
-           if (mh->ver !=3D 1)
-               ^~~~~~~~~~~~
-   net/mctp/route.c:342:2: note: Taking false branch
-           if (mh->ver !=3D 1)
+   include/asm-generic/bitops/__ffs.h:27:6: note: Assuming the condition is=
+ true
+           if ((word & 0xff) =3D=3D 0) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:27:2: note: Taking true branch
+           if ((word & 0xff) =3D=3D 0) {
            ^
-   net/mctp/route.c:355:6: note: Assuming the condition is true
-           if (flags & MCTP_HDR_FLAG_SOM) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:355:2: note: Taking true branch
-           if (flags & MCTP_HDR_FLAG_SOM) {
+   include/asm-generic/bitops/__ffs.h:31:6: note: Assuming the condition is=
+ true
+           if ((word & 0xf) =3D=3D 0) {
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:31:2: note: Taking true branch
+           if ((word & 0xf) =3D=3D 0) {
            ^
-   net/mctp/route.c:356:7: note: 'key' is null
-                   if (key) {
-                       ^~~
-   net/mctp/route.c:356:3: note: Taking false branch
-                   if (key) {
-                   ^
-   net/mctp/route.c:365:8: note: 'key' is null
-                           if (key) {
-                               ^~~
-   net/mctp/route.c:365:4: note: Taking false branch
-                           if (key) {
-                           ^
-   net/mctp/route.c:374:8: note: 'key' is null
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                        ^~~
-   net/mctp/route.c:374:7: note: Left side of '&&' is true
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                       ^
-   net/mctp/route.c:374:16: note: 'msk' is null
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                                ^~~
-   net/mctp/route.c:374:7: note: Left side of '&&' is true
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                       ^
-   net/mctp/route.c:374:24: note: Assuming the condition is true
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                                        ^~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:374:3: note: Taking true branch
-                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
-                   ^
-   net/mctp/route.c:377:8: note: 'msk' is non-null
-                   if (!msk) {
-                        ^~~
-   net/mctp/route.c:377:3: note: Taking false branch
-                   if (!msk) {
-                   ^
-   net/mctp/route.c:385:7: note: Assuming the condition is false
-                   if (flags & MCTP_HDR_FLAG_EOM) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:385:3: note: Taking false branch
-                   if (flags & MCTP_HDR_FLAG_EOM) {
-                   ^
-   net/mctp/route.c:402:8: note: 'key' is null
-                   if (!key) {
-                        ^~~
-   net/mctp/route.c:402:3: note: Taking true branch
-                   if (!key) {
-                   ^
-   net/mctp/route.c:403:10: note: Calling 'mctp_key_alloc'
-                           key =3D mctp_key_alloc(msk, mh->dest, mh->src,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:140:6: note: Assuming 'key' is non-null
-           if (!key)
-               ^~~~
-   net/mctp/route.c:140:2: note: Taking false branch
-           if (!key)
+   include/asm-generic/bitops/__ffs.h:35:6: note: Assuming the condition is=
+ true
+           if ((word & 0x3) =3D=3D 0) {
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:35:2: note: Taking true branch
+           if ((word & 0x3) =3D=3D 0) {
            ^
-   net/mctp/route.c:148:2: note: Loop condition is false.  Exiting loop
-           spin_lock_init(&key->lock);
+   include/asm-generic/bitops/__ffs.h:39:6: note: Assuming the condition is=
+ true
+           if ((word & 0x1) =3D=3D 0)
+               ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/__ffs.h:39:2: note: Taking true branch
+           if ((word & 0x1) =3D=3D 0)
            ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   net/mctp/route.c:403:10: note: Returning from 'mctp_key_alloc'
-                           key =3D mctp_key_alloc(msk, mh->dest, mh->src,
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/route.c:405:9: note: 'key' is non-null
-                           if (!key) {
-                                ^~~
-   net/mctp/route.c:405:4: note: Taking false branch
-                           if (!key) {
-                           ^
-   net/mctp/route.c:422:8: note: Assuming 'rc' is not equal to 0
-                           if (rc)
-                               ^~
-   net/mctp/route.c:422:4: note: Taking true branch
-                           if (rc)
-                           ^
-   net/mctp/route.c:423:5: note: Memory is released
-                                   kfree(key);
-                                   ^~~~~~~~~~
-   net/mctp/route.c:425:4: note: Use of memory after it is freed
-                           trace_mctp_key_acquire(key);
-                           ^                      ~~~
->> net/mctp/route.c:458:4: warning: Value stored to 'msk' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                           msk =3D container_of(key->sk, struct mctp_sock, =
-sk);
-                           ^
-   net/mctp/route.c:458:4: note: Value stored to 'msk' is never read
-   Suppressed 10 warnings (10 in non-user code).
+   include/asm-generic/bitops/__ffs.h:40:3: note: The value 63 is assigned =
+to 'num'
+                   num +=3D 1;
+                   ^~~~~~~~
+   include/asm-generic/bitops/__ffs.h:41:2: note: Returning the value 63 (l=
+oaded from 'num')
+           return num;
+           ^~~~~~~~~~
+   drivers/mfd/stmpe.c:1124:14: note: Returning from '__ffs'
+                           int bit =3D __ffs(status);
+                                     ^~~~~~~~~~~~~
+   drivers/mfd/stmpe.c:1124:4: note: 'bit' initialized to 63
+                           int bit =3D __ffs(status);
+                           ^~~~~~~
+   drivers/mfd/stmpe.c:1129:18: note: The result of the left shift is undef=
+ined due to shifting by '63', which is greater or equal to the width of typ=
+e 'int'
+                           status &=3D ~(1 << bit);
+                                         ^  ~~~
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   include/uapi/linux/phonet.h:176:9: warning: 1st function call argument i=
-s an uninitialized value [clang-analyzer-core.CallAndMessage]
-           return pn_object(spn->spn_dev, spn->spn_obj);
+   13 warnings generated.
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:123:33: warning: The left operand of '&=
+' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           priv_crtc_state->pix_fmt =3D val & CFG_PIX_FMT_MASK;
+                                      ~~~ ^
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:97:2: note: 'val' declared without an i=
+nitial value
+           u32 val;
+           ^~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:104:6: note: Assuming 'index' is not eq=
+ual to 0
+           if (index =3D=3D 0) {
+               ^~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:104:2: note: Taking false branch
+           if (index =3D=3D 0) {
+           ^
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:107:13: note: Assuming 'index' is not e=
+qual to 1
+           } else if (index =3D=3D 1) {
+                      ^~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:107:9: note: Taking false branch
+           } else if (index =3D=3D 1) {
                   ^
-   net/phonet/pep.c:776:6: note: Assuming 'skb' is non-null
-           if (!skb)
-               ^~~~
-   net/phonet/pep.c:776:2: note: Taking false branch
-           if (!skb)
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:113:6: note: Assuming field 'state' is =
+null
+           if (crtc->state) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:113:2: note: Taking false branch
+           if (crtc->state) {
            ^
-   net/phonet/pep.c:780:6: note: Assuming field 'skc_state' is equal to TCP=
-_LISTEN
-           if (sk->sk_state !=3D TCP_LISTEN) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/phonet/pep.c:780:2: note: Taking false branch
-           if (sk->sk_state !=3D TCP_LISTEN) {
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:119:20: note: Calling 'kzalloc'
+           priv_crtc_state =3D kzalloc(sizeof(*priv_crtc_state), GFP_KERNEL=
+);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:715:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:569:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   net/phonet/pep.c:787:2: note: Taking false branch
-           if (!pskb_may_pull(skb, sizeof(*hdr) + 4))
+   include/linux/slab.h:586:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:715:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:715:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:119:20: note: Returning from 'kzalloc'
+           priv_crtc_state =3D kzalloc(sizeof(*priv_crtc_state), GFP_KERNEL=
+);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:120:6: note: Assuming 'priv_crtc_state'=
+ is non-null
+           if (!priv_crtc_state)
+               ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:120:2: note: Taking false branch
+           if (!priv_crtc_state)
            ^
-   net/phonet/pep.c:792:2: note: Control jumps to 'case PN_PIPE_ENABLE:'  a=
-t line 796
-           switch (hdr->state_after_connect) {
-           ^
-   net/phonet/pep.c:798:3: note:  Execution continues on line 804
-                   break;
-                   ^
-   net/phonet/pep.c:808:9: note: Assuming 'n_sb' is <=3D 0
-           while (n_sb > 0) {
-                  ^~~~~~~~
-   net/phonet/pep.c:808:2: note: Loop condition is false. Execution continu=
-es on line 828
-           while (n_sb > 0) {
-           ^
-   net/phonet/pep.c:828:10: note: Calling 'pep_find_pipe'
-           newsk =3D pep_find_pipe(&pn->hlist, &dst, pipe_handle);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/phonet/pep.c:630:13: note: Calling 'pn_sockaddr_get_object'
-           u16 dobj =3D pn_sockaddr_get_object(dst);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/phonet.h:176:9: note: 1st function call argument is a=
-n uninitialized value
-           return pn_object(spn->spn_dev, spn->spn_obj);
-                  ^         ~~~~~~~~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:123:33: note: The left operand of '&' i=
+s a garbage value
+           priv_crtc_state->pix_fmt =3D val & CFG_PIX_FMT_MASK;
+                                      ~~~ ^
+>> drivers/gpu/drm/lsdc/lsdc_crtc.c:146:21: warning: Value stored to 'ddev'=
+ during its initialization is never read [clang-analyzer-deadcode.DeadStore=
+s]
+           struct drm_device *ddev =3D crtc->dev;
+                              ^~~~   ~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_crtc.c:146:21: note: Value stored to 'ddev' du=
+ring its initialization is never read
+           struct drm_device *ddev =3D crtc->dev;
+                              ^~~~   ~~~~~~~~~
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    11 warnings generated.
-   net/8021q/vlan_core.c:186:7: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-                   if (vid_info->proto =3D=3D proto && vid_info->vid =3D=3D=
- vid)
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   drivers/gpu/drm/lsdc/lsdc_plane.c:163:13: warning: The left operand of '=
+&' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return val & CFG_PIX_FMT_MASK;
+                      ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:277:6: note: Assuming 'crtc' is non-nu=
+ll
+           if (!crtc)
+               ^~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:277:2: note: Taking false branch
+           if (!crtc)
+           ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:281:14: note: Assuming 'new_crtc_state=
+' is non-null
+           if (WARN_ON(!new_crtc_state))
                        ^
-   net/8021q/vlan_core.c:433:2: note: Assuming the condition is false
-           ASSERT_RTNL();
-           ^
-   include/linux/rtnetlink.h:110:12: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
-                     ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-                           ^~~~~~~~~
-   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   bool __ret_do_once =3D !!(condition);                   =
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
   \
-                                           ^~~~~~~~~
-   net/8021q/vlan_core.c:433:2: note: '__ret_do_once' is false
-           ASSERT_RTNL();
+                                  ^~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:281:2: note: Taking false branch
+           if (WARN_ON(!new_crtc_state))
            ^
-   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                ^~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/8021q/vlan_core.c:433:2: note: Left side of '&&' is false
-           ASSERT_RTNL();
+   drivers/gpu/drm/lsdc/lsdc_plane.c:292:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:292:2: note: Taking false branch
+           if (ret)
            ^
-   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
+   drivers/gpu/drm/lsdc/lsdc_plane.c:299:8: note: 'new_fb' is non-null
+           if ((!new_fb || !old_fb ||
+                 ^~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:299:7: note: Left side of '||' is false
+           if ((!new_fb || !old_fb ||
+                ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:299:18: note: Assuming 'old_fb' is null
+           if ((!new_fb || !old_fb ||
+                           ^~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:299:26: note: Left side of '||' is true
+           if ((!new_fb || !old_fb ||
+                                   ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:308:29: note: Calling 'lsdc_primary_ge=
+t_default_format'
+           priv_crtc_state->pix_fmt =3D lsdc_primary_get_default_format(crt=
+c);
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:156:2: note: 'val' declared without an=
+ initial value
+           u32 val;
+           ^~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:158:6: note: Assuming 'index' is not e=
+qual to 0
+           if (index =3D=3D 0)
+               ^~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:158:2: note: Taking false branch
+           if (index =3D=3D 0)
            ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+   drivers/gpu/drm/lsdc/lsdc_plane.c:160:11: note: Assuming 'index' is not =
+equal to 1
+           else if (index =3D=3D 1)
+                    ^~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:160:7: note: Taking false branch
+           else if (index =3D=3D 1)
+                ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:163:13: note: The left operand of '&' =
+is a garbage value
+           return val & CFG_PIX_FMT_MASK;
+                  ~~~ ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:209:2: warning: 2nd function call argu=
+ment is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           lsdc_reg_write32(ldev, addr_reg, paddr);
            ^
-   include/linux/once_lite.h:17:30: note: expanded from macro 'DO_ONCE_LITE=
-_IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                                              ^
-   net/8021q/vlan_core.c:433:2: note: Taking false branch
+   drivers/gpu/drm/lsdc/lsdc_plane.c:365:6: note: Assuming field 'use_vram_=
+helper' is false
+           if (ldev->use_vram_helper) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:365:2: note: Taking false branch
+           if (ldev->use_vram_helper) {
+           ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:378:7: note: Assuming field 'dirty_upd=
+ate' is true
+                   if (ldev->dirty_update)
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:378:3: note: Taking true branch
+                   if (ldev->dirty_update)
+                   ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:384:2: note: Calling 'lsdc_update_fb_s=
+tart_addr'
+           lsdc_update_fb_start_addr(ldev, crtc, fb_addr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:172:2: note: 'addr_reg' declared witho=
+ut an initial value
+           u32 addr_reg;
+           ^~~~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:181:6: note: Assuming 'index' is not e=
+qual to 0
+           if (index =3D=3D 0) {
+               ^~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:181:2: note: Taking false branch
+           if (index =3D=3D 0) {
+           ^
+   drivers/gpu/drm/lsdc/lsdc_plane.c:194:13: note: Assuming 'index' is not =
+equal to 1
+           } else if (index =3D=3D 1) {
+                      ^~~~~~~~~~
+   drivers/gpu/drm/lsdc/lsdc_plane.c:194:9: note: Taking false branch
+           } else if (index =3D=3D 1) {
 
-vim +/msk +458 net/mctp/route.c
+vim +/ddev +146 drivers/gpu/drm/lsdc/lsdc_crtc.c
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  315  =
+983916ec4a8df3 suijingfeng 2022-02-03   89  =
 
-889b7da23abf92 Jeremy Kerr   2021-07-29  316  static int mctp_route_input(s=
-truct mctp_route *route, struct sk_buff *skb)
-889b7da23abf92 Jeremy Kerr   2021-07-29  317  {
-833ef3b91de692 Jeremy Kerr   2021-07-29  318  	struct net *net =3D dev_net(=
-skb->dev);
-833ef3b91de692 Jeremy Kerr   2021-07-29  319  	struct mctp_sk_key *key;
-833ef3b91de692 Jeremy Kerr   2021-07-29  320  	struct mctp_sock *msk;
-833ef3b91de692 Jeremy Kerr   2021-07-29  321  	struct mctp_hdr *mh;
-4a992bbd365094 Jeremy Kerr   2021-07-29  322  	unsigned long f;
-4a992bbd365094 Jeremy Kerr   2021-07-29  323  	u8 tag, flags;
-4a992bbd365094 Jeremy Kerr   2021-07-29  324  	int rc;
-833ef3b91de692 Jeremy Kerr   2021-07-29  325  =
+983916ec4a8df3 suijingfeng 2022-02-03   90  =
 
-833ef3b91de692 Jeremy Kerr   2021-07-29  326  	msk =3D NULL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  327  	rc =3D -EINVAL;
-833ef3b91de692 Jeremy Kerr   2021-07-29  328  =
+983916ec4a8df3 suijingfeng 2022-02-03   91  static void lsdc_crtc_reset(str=
+uct drm_crtc *crtc)
+983916ec4a8df3 suijingfeng 2022-02-03   92  {
+983916ec4a8df3 suijingfeng 2022-02-03   93  	struct drm_device *ddev =3D cr=
+tc->dev;
+983916ec4a8df3 suijingfeng 2022-02-03   94  	struct lsdc_device *ldev =3D t=
+o_lsdc(ddev);
+983916ec4a8df3 suijingfeng 2022-02-03   95  	unsigned int index =3D drm_crt=
+c_index(crtc);
+983916ec4a8df3 suijingfeng 2022-02-03   96  	struct lsdc_crtc_state *priv_c=
+rtc_state;
+983916ec4a8df3 suijingfeng 2022-02-03   97  	u32 val;
+983916ec4a8df3 suijingfeng 2022-02-03   98  =
 
-833ef3b91de692 Jeremy Kerr   2021-07-29  329  	/* we may be receiving a loc=
-ally-routed packet; drop source sk
-833ef3b91de692 Jeremy Kerr   2021-07-29  330  	 * accounting
-833ef3b91de692 Jeremy Kerr   2021-07-29  331  	 */
-833ef3b91de692 Jeremy Kerr   2021-07-29  332  	skb_orphan(skb);
-833ef3b91de692 Jeremy Kerr   2021-07-29  333  =
+983916ec4a8df3 suijingfeng 2022-02-03   99  	/* The crtc get soft reset if =
+bit 20 of CRTC*_CFG_REG
+983916ec4a8df3 suijingfeng 2022-02-03  100  	 * is write with falling edge.
+983916ec4a8df3 suijingfeng 2022-02-03  101  	 *
+983916ec4a8df3 suijingfeng 2022-02-03  102  	 * Doing this to switch from s=
+oft reset state to working state
+983916ec4a8df3 suijingfeng 2022-02-03  103  	 */
+983916ec4a8df3 suijingfeng 2022-02-03  104  	if (index =3D=3D 0) {
+983916ec4a8df3 suijingfeng 2022-02-03  105  		val =3D CFG_RESET_BIT | CFG_O=
+UTPUT_EN_BIT | LSDC_PF_XRGB8888;
+983916ec4a8df3 suijingfeng 2022-02-03  106  		lsdc_reg_write32(ldev, LSDC_C=
+RTC0_CFG_REG, val);
+983916ec4a8df3 suijingfeng 2022-02-03  107  	} else if (index =3D=3D 1) {
+983916ec4a8df3 suijingfeng 2022-02-03  108  		val =3D CFG_RESET_BIT | CFG_O=
+UTPUT_EN_BIT | LSDC_PF_XRGB8888;
+983916ec4a8df3 suijingfeng 2022-02-03  109  		lsdc_reg_write32(ldev, LSDC_C=
+RTC1_CFG_REG, val);
+983916ec4a8df3 suijingfeng 2022-02-03  110  	}
+983916ec4a8df3 suijingfeng 2022-02-03  111  =
 
-833ef3b91de692 Jeremy Kerr   2021-07-29  334  	/* ensure we have enough dat=
-a for a header and a type */
-833ef3b91de692 Jeremy Kerr   2021-07-29  335  	if (skb->len < sizeof(struct=
- mctp_hdr) + 1)
-4a992bbd365094 Jeremy Kerr   2021-07-29  336  		goto out;
-833ef3b91de692 Jeremy Kerr   2021-07-29  337  =
+983916ec4a8df3 suijingfeng 2022-02-03  112  =
 
-833ef3b91de692 Jeremy Kerr   2021-07-29  338  	/* grab header, advance data=
- ptr */
-833ef3b91de692 Jeremy Kerr   2021-07-29  339  	mh =3D mctp_hdr(skb);
-833ef3b91de692 Jeremy Kerr   2021-07-29  340  	skb_pull(skb, sizeof(struct =
-mctp_hdr));
-833ef3b91de692 Jeremy Kerr   2021-07-29  341  =
+983916ec4a8df3 suijingfeng 2022-02-03  113  	if (crtc->state) {
+983916ec4a8df3 suijingfeng 2022-02-03  114  		priv_crtc_state =3D to_lsdc_c=
+rtc_state(crtc->state);
+983916ec4a8df3 suijingfeng 2022-02-03  115  		__drm_atomic_helper_crtc_dest=
+roy_state(&priv_crtc_state->base);
+983916ec4a8df3 suijingfeng 2022-02-03  116  		kfree(priv_crtc_state);
+983916ec4a8df3 suijingfeng 2022-02-03  117  	}
+983916ec4a8df3 suijingfeng 2022-02-03  118  =
 
-833ef3b91de692 Jeremy Kerr   2021-07-29  342  	if (mh->ver !=3D 1)
-4a992bbd365094 Jeremy Kerr   2021-07-29  343  		goto out;
-833ef3b91de692 Jeremy Kerr   2021-07-29  344  =
+983916ec4a8df3 suijingfeng 2022-02-03  119  	priv_crtc_state =3D kzalloc(si=
+zeof(*priv_crtc_state), GFP_KERNEL);
+983916ec4a8df3 suijingfeng 2022-02-03 @120  	if (!priv_crtc_state)
+983916ec4a8df3 suijingfeng 2022-02-03  121  		return;
+983916ec4a8df3 suijingfeng 2022-02-03  122  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  345  	flags =3D mh->flags_seq_tag =
-& (MCTP_HDR_FLAG_SOM | MCTP_HDR_FLAG_EOM);
-4a992bbd365094 Jeremy Kerr   2021-07-29  346  	tag =3D mh->flags_seq_tag & =
-(MCTP_HDR_TAG_MASK | MCTP_HDR_FLAG_TO);
-833ef3b91de692 Jeremy Kerr   2021-07-29  347  =
+983916ec4a8df3 suijingfeng 2022-02-03  123  	priv_crtc_state->pix_fmt =3D v=
+al & CFG_PIX_FMT_MASK;
+983916ec4a8df3 suijingfeng 2022-02-03  124  =
 
-833ef3b91de692 Jeremy Kerr   2021-07-29  348  	rcu_read_lock();
-4a992bbd365094 Jeremy Kerr   2021-07-29  349  =
+983916ec4a8df3 suijingfeng 2022-02-03  125  	__drm_atomic_helper_crtc_reset=
+(crtc, &priv_crtc_state->base);
+983916ec4a8df3 suijingfeng 2022-02-03  126  =
 
-73c618456dc5cf Jeremy Kerr   2021-09-29  350  	/* lookup socket / reasm con=
-text, exactly matching (src,dest,tag).
-73c618456dc5cf Jeremy Kerr   2021-09-29  351  	 * we hold a ref on the key,=
- and key->lock held.
-73c618456dc5cf Jeremy Kerr   2021-09-29  352  	 */
-73c618456dc5cf Jeremy Kerr   2021-09-29  353  	key =3D mctp_lookup_key(net,=
- skb, mh->src, &f);
-833ef3b91de692 Jeremy Kerr   2021-07-29  354  =
+983916ec4a8df3 suijingfeng 2022-02-03  127  	drm_info(ddev, "crtc%u reset\n=
+", index);
+983916ec4a8df3 suijingfeng 2022-02-03  128  }
+983916ec4a8df3 suijingfeng 2022-02-03  129  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  355  	if (flags & MCTP_HDR_FLAG_SO=
-M) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  356  		if (key) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  357  			msk =3D container_of(key->=
-sk, struct mctp_sock, sk);
-4a992bbd365094 Jeremy Kerr   2021-07-29  358  		} else {
-4a992bbd365094 Jeremy Kerr   2021-07-29  359  			/* first response to a bro=
-adcast? do a more general
-4a992bbd365094 Jeremy Kerr   2021-07-29  360  			 * key lookup to find the =
-socket, but don't use this
-4a992bbd365094 Jeremy Kerr   2021-07-29  361  			 * key for reassembly - we=
-'ll create a more specific
-4a992bbd365094 Jeremy Kerr   2021-07-29  362  			 * one for future packets =
-if required (ie, !EOM).
-4a992bbd365094 Jeremy Kerr   2021-07-29  363  			 */
-73c618456dc5cf Jeremy Kerr   2021-09-29  364  			key =3D mctp_lookup_key(ne=
-t, skb, MCTP_ADDR_ANY, &f);
-4a992bbd365094 Jeremy Kerr   2021-07-29  365  			if (key) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  366  				msk =3D container_of(key-=
->sk,
-4a992bbd365094 Jeremy Kerr   2021-07-29  367  						   struct mctp_sock, sk=
-);
-73c618456dc5cf Jeremy Kerr   2021-09-29  368  				spin_unlock_irqrestore(&k=
-ey->lock, f);
-73c618456dc5cf Jeremy Kerr   2021-09-29  369  				mctp_key_unref(key);
-4a992bbd365094 Jeremy Kerr   2021-07-29  370  				key =3D NULL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  371  			}
-4a992bbd365094 Jeremy Kerr   2021-07-29  372  		}
-833ef3b91de692 Jeremy Kerr   2021-07-29  373  =
+983916ec4a8df3 suijingfeng 2022-02-03  130  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  374  		if (!key && !msk && (tag & =
-MCTP_HDR_FLAG_TO))
-833ef3b91de692 Jeremy Kerr   2021-07-29  375  			msk =3D mctp_lookup_bind(n=
-et, skb);
-833ef3b91de692 Jeremy Kerr   2021-07-29  376  =
+983916ec4a8df3 suijingfeng 2022-02-03  131  static void lsdc_crtc_atomic_de=
+stroy_state(struct drm_crtc *crtc,
+983916ec4a8df3 suijingfeng 2022-02-03  132  				    struct drm_crtc_state *=
+state)
+983916ec4a8df3 suijingfeng 2022-02-03  133  {
+983916ec4a8df3 suijingfeng 2022-02-03  134  	struct lsdc_crtc_state *priv_c=
+rtc_state =3D to_lsdc_crtc_state(state);
+983916ec4a8df3 suijingfeng 2022-02-03  135  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  377  		if (!msk) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  378  			rc =3D -ENOENT;
-4a992bbd365094 Jeremy Kerr   2021-07-29  379  			goto out_unlock;
-4a992bbd365094 Jeremy Kerr   2021-07-29  380  		}
-833ef3b91de692 Jeremy Kerr   2021-07-29  381  =
+983916ec4a8df3 suijingfeng 2022-02-03  136  	__drm_atomic_helper_crtc_destr=
+oy_state(&priv_crtc_state->base);
+983916ec4a8df3 suijingfeng 2022-02-03  137  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  382  		/* single-packet message? d=
-eliver to socket, clean up any
-4a992bbd365094 Jeremy Kerr   2021-07-29  383  		 * pending key.
-4a992bbd365094 Jeremy Kerr   2021-07-29  384  		 */
-4a992bbd365094 Jeremy Kerr   2021-07-29  385  		if (flags & MCTP_HDR_FLAG_E=
-OM) {
-833ef3b91de692 Jeremy Kerr   2021-07-29  386  			sock_queue_rcv_skb(&msk->s=
-k, skb);
-4a992bbd365094 Jeremy Kerr   2021-07-29  387  			if (key) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  388  				/* we've hit a pending re=
-assembly; not much we
-4a992bbd365094 Jeremy Kerr   2021-07-29  389  				 * can do but drop it
-4a992bbd365094 Jeremy Kerr   2021-07-29  390  				 */
-63ed1aab3d40aa Matt Johnston 2022-02-09  391  				__mctp_key_done_in(key, n=
-et, f,
-4f9e1ba6de45aa Jeremy Kerr   2021-09-29  392  						   MCTP_TRACE_KEY_REPLI=
-ED);
-73c618456dc5cf Jeremy Kerr   2021-09-29  393  				key =3D NULL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  394  			}
-4a992bbd365094 Jeremy Kerr   2021-07-29  395  			rc =3D 0;
-4a992bbd365094 Jeremy Kerr   2021-07-29  396  			goto out_unlock;
-4a992bbd365094 Jeremy Kerr   2021-07-29  397  		}
-833ef3b91de692 Jeremy Kerr   2021-07-29  398  =
+983916ec4a8df3 suijingfeng 2022-02-03  138  	kfree(priv_crtc_state);
+983916ec4a8df3 suijingfeng 2022-02-03  139  }
+983916ec4a8df3 suijingfeng 2022-02-03  140  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  399  		/* broadcast response or a =
-bind() - create a key for further
-4a992bbd365094 Jeremy Kerr   2021-07-29  400  		 * packets for this message
-4a992bbd365094 Jeremy Kerr   2021-07-29  401  		 */
-4a992bbd365094 Jeremy Kerr   2021-07-29  402  		if (!key) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  403  			key =3D mctp_key_alloc(msk=
-, mh->dest, mh->src,
-4a992bbd365094 Jeremy Kerr   2021-07-29  404  					     tag, GFP_ATOMIC);
-4a992bbd365094 Jeremy Kerr   2021-07-29  405  			if (!key) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  406  				rc =3D -ENOMEM;
-4a992bbd365094 Jeremy Kerr   2021-07-29  407  				goto out_unlock;
-4a992bbd365094 Jeremy Kerr   2021-07-29  408  			}
-833ef3b91de692 Jeremy Kerr   2021-07-29  409  =
+983916ec4a8df3 suijingfeng 2022-02-03  141  =
 
-73c618456dc5cf Jeremy Kerr   2021-09-29  410  			/* we can queue without th=
-e key lock here, as the
-4a992bbd365094 Jeremy Kerr   2021-07-29  411  			 * key isn't observable yet
-4a992bbd365094 Jeremy Kerr   2021-07-29  412  			 */
-4a992bbd365094 Jeremy Kerr   2021-07-29  413  			mctp_frag_queue(key, skb);
-4a992bbd365094 Jeremy Kerr   2021-07-29  414  =
+983916ec4a8df3 suijingfeng 2022-02-03  142  static struct drm_crtc_state *l=
+sdc_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+983916ec4a8df3 suijingfeng 2022-02-03  143  {
+983916ec4a8df3 suijingfeng 2022-02-03  144  	struct lsdc_crtc_state *new_pr=
+iv_state;
+983916ec4a8df3 suijingfeng 2022-02-03  145  	struct lsdc_crtc_state *old_pr=
+iv_state;
+983916ec4a8df3 suijingfeng 2022-02-03 @146  	struct drm_device *ddev =3D cr=
+tc->dev;
+983916ec4a8df3 suijingfeng 2022-02-03  147  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  415  			/* if the key_add fails, w=
-e've raced with another
-4a992bbd365094 Jeremy Kerr   2021-07-29  416  			 * SOM packet with the sam=
-e src, dest and tag. There's
-4a992bbd365094 Jeremy Kerr   2021-07-29  417  			 * no way to distinguish f=
-uture packets, so all we
-4a992bbd365094 Jeremy Kerr   2021-07-29  418  			 * can do is drop; we'll f=
-ree the skb on exit from
-4a992bbd365094 Jeremy Kerr   2021-07-29  419  			 * this function.
-4a992bbd365094 Jeremy Kerr   2021-07-29  420  			 */
-4a992bbd365094 Jeremy Kerr   2021-07-29  421  			rc =3D mctp_key_add(key, m=
-sk);
-4a992bbd365094 Jeremy Kerr   2021-07-29  422  			if (rc)
-4a992bbd365094 Jeremy Kerr   2021-07-29  423  				kfree(key);
-4a992bbd365094 Jeremy Kerr   2021-07-29  424  =
+983916ec4a8df3 suijingfeng 2022-02-03  148  	if (drm_WARN_ON(ddev, !crtc->s=
+tate))
+983916ec4a8df3 suijingfeng 2022-02-03  149  		return NULL;
+983916ec4a8df3 suijingfeng 2022-02-03  150  =
 
-4f9e1ba6de45aa Jeremy Kerr   2021-09-29  425  			trace_mctp_key_acquire(key=
-);
-4f9e1ba6de45aa Jeremy Kerr   2021-09-29  426  =
+983916ec4a8df3 suijingfeng 2022-02-03  151  	new_priv_state =3D kmalloc(siz=
+eof(*new_priv_state), GFP_KERNEL);
+983916ec4a8df3 suijingfeng 2022-02-03  152  	if (!new_priv_state)
+983916ec4a8df3 suijingfeng 2022-02-03  153  		return NULL;
+983916ec4a8df3 suijingfeng 2022-02-03  154  =
 
-73c618456dc5cf Jeremy Kerr   2021-09-29  427  			/* we don't need to releas=
-e key->lock on exit */
-0b93aed2842d95 Matt Johnston 2021-10-14  428  			mctp_key_unref(key);
-73c618456dc5cf Jeremy Kerr   2021-09-29  429  			key =3D NULL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  430  =
+983916ec4a8df3 suijingfeng 2022-02-03  155  	__drm_atomic_helper_crtc_dupli=
+cate_state(crtc, &new_priv_state->base);
+983916ec4a8df3 suijingfeng 2022-02-03  156  =
 
-73c618456dc5cf Jeremy Kerr   2021-09-29  431  		} else {
-4a992bbd365094 Jeremy Kerr   2021-07-29  432  			if (key->reasm_head || key=
-->reasm_dead) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  433  				/* duplicate start? drop =
-everything */
-63ed1aab3d40aa Matt Johnston 2022-02-09  434  				__mctp_key_done_in(key, n=
-et, f,
-4f9e1ba6de45aa Jeremy Kerr   2021-09-29  435  						   MCTP_TRACE_KEY_INVAL=
-IDATED);
-4a992bbd365094 Jeremy Kerr   2021-07-29  436  				rc =3D -EEXIST;
-73c618456dc5cf Jeremy Kerr   2021-09-29  437  				key =3D NULL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  438  			} else {
-4a992bbd365094 Jeremy Kerr   2021-07-29  439  				rc =3D mctp_frag_queue(ke=
-y, skb);
-4a992bbd365094 Jeremy Kerr   2021-07-29  440  			}
-4a992bbd365094 Jeremy Kerr   2021-07-29  441  		}
-4a992bbd365094 Jeremy Kerr   2021-07-29  442  =
+983916ec4a8df3 suijingfeng 2022-02-03  157  	old_priv_state =3D to_lsdc_crt=
+c_state(crtc->state);
+983916ec4a8df3 suijingfeng 2022-02-03  158  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  443  	} else if (key) {
-4a992bbd365094 Jeremy Kerr   2021-07-29  444  		/* this packet continues a =
-previous message; reassemble
-4a992bbd365094 Jeremy Kerr   2021-07-29  445  		 * using the message-specif=
-ic key
-4a992bbd365094 Jeremy Kerr   2021-07-29  446  		 */
-4a992bbd365094 Jeremy Kerr   2021-07-29  447  =
+983916ec4a8df3 suijingfeng 2022-02-03  159  	memcpy(&new_priv_state->pparam=
+s, &old_priv_state->pparams,
+983916ec4a8df3 suijingfeng 2022-02-03  160  		sizeof(new_priv_state->pparam=
+s));
+983916ec4a8df3 suijingfeng 2022-02-03  161  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  448  		/* we need to be continuing=
- an existing reassembly... */
-4a992bbd365094 Jeremy Kerr   2021-07-29  449  		if (!key->reasm_head)
-4a992bbd365094 Jeremy Kerr   2021-07-29  450  			rc =3D -EINVAL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  451  		else
-4a992bbd365094 Jeremy Kerr   2021-07-29  452  			rc =3D mctp_frag_queue(key=
-, skb);
-4a992bbd365094 Jeremy Kerr   2021-07-29  453  =
+983916ec4a8df3 suijingfeng 2022-02-03  162  	new_priv_state->pix_fmt =3D ol=
+d_priv_state->pix_fmt;
+983916ec4a8df3 suijingfeng 2022-02-03  163  =
 
-4a992bbd365094 Jeremy Kerr   2021-07-29  454  		/* end of message? deliver =
-to socket, and we're done with
-4a992bbd365094 Jeremy Kerr   2021-07-29  455  		 * the reassembly/response =
-key
-4a992bbd365094 Jeremy Kerr   2021-07-29  456  		 */
-4a992bbd365094 Jeremy Kerr   2021-07-29  457  		if (!rc && flags & MCTP_HDR=
-_FLAG_EOM) {
-63ed1aab3d40aa Matt Johnston 2022-02-09 @458  			msk =3D container_of(key->=
-sk, struct mctp_sock, sk);
-4a992bbd365094 Jeremy Kerr   2021-07-29  459  			sock_queue_rcv_skb(key->sk=
-, key->reasm_head);
-4a992bbd365094 Jeremy Kerr   2021-07-29  460  			key->reasm_head =3D NULL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  461  			__mctp_key_done_in(key, ne=
-t, f, MCTP_TRACE_KEY_REPLIED);
-73c618456dc5cf Jeremy Kerr   2021-09-29  462  			key =3D NULL;
-4a992bbd365094 Jeremy Kerr   2021-07-29  463  		}
-4a992bbd365094 Jeremy Kerr   2021-07-29  464  =
-
-4a992bbd365094 Jeremy Kerr   2021-07-29  465  	} else {
-4a992bbd365094 Jeremy Kerr   2021-07-29  466  		/* not a start, no matching=
- key */
-4a992bbd365094 Jeremy Kerr   2021-07-29  467  		rc =3D -ENOENT;
-4a992bbd365094 Jeremy Kerr   2021-07-29  468  	}
-4a992bbd365094 Jeremy Kerr   2021-07-29  469  =
-
-4a992bbd365094 Jeremy Kerr   2021-07-29  470  out_unlock:
-833ef3b91de692 Jeremy Kerr   2021-07-29  471  	rcu_read_unlock();
-73c618456dc5cf Jeremy Kerr   2021-09-29  472  	if (key) {
-73c618456dc5cf Jeremy Kerr   2021-09-29  473  		spin_unlock_irqrestore(&key=
-->lock, f);
-73c618456dc5cf Jeremy Kerr   2021-09-29  474  		mctp_key_unref(key);
-73c618456dc5cf Jeremy Kerr   2021-09-29  475  	}
-4a992bbd365094 Jeremy Kerr   2021-07-29  476  out:
-4a992bbd365094 Jeremy Kerr   2021-07-29  477  	if (rc)
-889b7da23abf92 Jeremy Kerr   2021-07-29  478  		kfree_skb(skb);
-4a992bbd365094 Jeremy Kerr   2021-07-29  479  	return rc;
-4a992bbd365094 Jeremy Kerr   2021-07-29  480  }
-4a992bbd365094 Jeremy Kerr   2021-07-29  481  =
+983916ec4a8df3 suijingfeng 2022-02-03  164  	return &new_priv_state->base;
+983916ec4a8df3 suijingfeng 2022-02-03  165  }
+983916ec4a8df3 suijingfeng 2022-02-03  166  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0672042533918908658==--
+--===============6257827253962748964==--
 
