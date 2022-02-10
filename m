@@ -1,62 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============0874804491543042268=="
+Content-Type: multipart/mixed; boundary="===============4019567680538318600=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 1/1] usb: gadget: f_fs: Support zerocopy transfers via mmap.
-Date: Sun, 13 Feb 2022 02:17:19 +0800
-Message-ID: <202202122302.z3tLgceb-lkp@intel.com>
+Subject: Re: [PATCH v5 4/5] ath11k: add support for device recovery for QCA6390/WCN6855
+Date: Thu, 10 Feb 2022 18:22:41 +0800
+Message-ID: <202202101840.AalHfv14-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0874804491543042268==
+--===============4019567680538318600==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220202172056.44722-2-ingo.rohloff@lauterbach.com>
-References: <20220202172056.44722-2-ingo.rohloff@lauterbach.com>
-TO: Ingo Rohloff <ingo.rohloff@lauterbach.com>
-TO: gregkh(a)linuxfoundation.org
-TO: balbi(a)kernel.org
-CC: linux-usb(a)vger.kernel.org
-CC: Ingo Rohloff <ingo.rohloff@lauterbach.com>
+In-Reply-To: <20220208104947.25791-5-quic_wgong@quicinc.com>
+References: <20220208104947.25791-5-quic_wgong@quicinc.com>
+TO: Wen Gong <quic_wgong@quicinc.com>
 
-Hi Ingo,
+Hi Wen,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on v5.17-rc3 next-20220211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[auto build test WARNING on 76680d49b5e0e661bc4abcdaf13fb7e124b4ca08]
 
-url:    https://github.com/0day-ci/linux/commits/Ingo-Rohloff/Zerocopy-for-=
-USB-Gadget-FunctionFS/20220203-012919
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
-testing
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: riscv-randconfig-c006-20220205 (https://download.01.org/0day-ci/arc=
-hive/20220212/202202122302.z3tLgceb-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project dee058=
-c670593b999fec19c458dbbd882ad9de56)
+url:    https://github.com/0day-ci/linux/commits/Wen-Gong/ath11k-add-featur=
+e-for-device-recovery/20220208-194321
+base:   76680d49b5e0e661bc4abcdaf13fb7e124b4ca08
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20210/202202101840.AalHfv14-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
+ae54a55b4dbfeb6ba55f723abbd81bf494)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/dee77498ca5c303beb5ef64b9=
-5072fea55d6267f
+        # https://github.com/0day-ci/linux/commit/2a8ac8c524013b4d43efd46da=
+5c10746f74586b7
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Ingo-Rohloff/Zerocopy-for-USB-Gadg=
-et-FunctionFS/20220203-012919
-        git checkout dee77498ca5c303beb5ef64b95072fea55d6267f
+        git fetch --no-tags linux-review Wen-Gong/ath11k-add-feature-for-de=
+vice-recovery/20220208-194321
+        git checkout 2a8ac8c524013b4d43efd46da5c10746f74586b7
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -64,443 +53,360 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/w1/w1.c:997:2: warning: Value stored to 'search_bit' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-           search_bit =3D 0;
-           ^            ~
-   drivers/w1/w1.c:997:2: note: Value stored to 'search_bit' is never read
-           search_bit =3D 0;
-           ^            ~
-   drivers/w1/w1.c:999:2: warning: Value stored to 'last_rn' is never read =
-[clang-analyzer-deadcode.DeadStores]
-           last_rn =3D 0;
-           ^         ~
-   drivers/w1/w1.c:999:2: note: Value stored to 'last_rn' is never read
-           last_rn =3D 0;
-           ^         ~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/w1/slaves/w1_therm.c:159:8: warning: Excessive padding in 'struc=
-t w1_therm_family_converter' (12 padding bytes, where 4 is optimal). =
-
-   Optimal fields order: =
-
-   f, =
-
-   convert, =
-
-   get_conversion_time, =
-
-   set_resolution, =
-
-   get_resolution, =
-
-   write_data, =
-
-   reserved, =
-
-   broken, =
-
-   bulk_read, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct w1_therm_family_converter {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:159:8: note: Excessive padding in 'struct w=
-1_therm_family_converter' (12 padding bytes, where 4 is optimal). Optimal f=
-ields order: f, convert, get_conversion_time, set_resolution, get_resolutio=
-n, write_data, reserved, broken, bulk_read, consider reordering the fields =
-or adding explicit padding members
-   struct w1_therm_family_converter {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:1252:5: warning: Value stored to 'ret' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                                   ret =3D -EIO;
-                                   ^     ~~~~
-   drivers/w1/slaves/w1_therm.c:1252:5: note: Value stored to 'ret' is neve=
-r read
-                                   ret =3D -EIO;
-                                   ^     ~~~~
-   drivers/w1/slaves/w1_therm.c:1799:2: warning: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(p_args, buf);
-           ^~~~~~
-   drivers/w1/slaves/w1_therm.c:1799:2: note: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119
-           strcpy(p_args, buf);
-           ^~~~~~
-   drivers/w1/slaves/w1_therm.c:2089:22: warning: The right operand of '=3D=
-=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   if (sl->reg_num.id =3D=3D reg_num->id)
-                                      ^  ~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:2066:6: note: Assuming the condition is fal=
-se
-           if (w1_reset_bus(sl->master))
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:2066:2: note: Taking false branch
-           if (w1_reset_bus(sl->master))
            ^
-   drivers/w1/slaves/w1_therm.c:2076:6: note: Assuming 'ack' is equal to W1=
-_42_SUCCESS_CONFIRM_BYTE
-           if (ack !=3D W1_42_SUCCESS_CONFIRM_BYTE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:2076:2: note: Taking false branch
-           if (ack !=3D W1_42_SUCCESS_CONFIRM_BYTE)
+   drivers/hid/hid-core.c:1723:3: note: Calling 'hid_output_report'
+                   hid_output_report(report, buf);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1630:14: note: Field 'id' is <=3D 0
+           if (report->id > 0)
+                       ^
+   drivers/hid/hid-core.c:1630:2: note: Taking false branch
+           if (report->id > 0)
            ^
-   drivers/w1/slaves/w1_therm.c:2080:2: note: Loop condition is true.  Ente=
-ring loop body
-           for (i =3D 0; i <=3D 64; i++) {
+   drivers/hid/hid-core.c:1634:14: note: Assuming 'n' is < field 'maxfield'
+           for (n =3D 0; n < report->maxfield; n++)
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1634:2: note: Loop condition is true.  Entering l=
+oop body
+           for (n =3D 0; n < report->maxfield; n++)
            ^
-   drivers/w1/slaves/w1_therm.c:2081:7: note: Assuming the condition is fal=
-se
-                   if (w1_reset_bus(sl->master))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:2081:3: note: Taking false branch
-                   if (w1_reset_bus(sl->master))
+   drivers/hid/hid-core.c:1635:3: note: Calling 'hid_output_field'
+                   hid_output_field(report->device, report->field[n], data);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1597:2: note: 'size' initialized here
+           unsigned size =3D field->report_size;
+           ^~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1600:14: note: Assuming 'n' is < 'count'
+           for (n =3D 0; n < count; n++) {
+                       ^~~~~~~~~
+   drivers/hid/hid-core.c:1600:2: note: Loop condition is true.  Entering l=
+oop body
+           for (n =3D 0; n < count; n++) {
+           ^
+   drivers/hid/hid-core.c:1601:7: note: Assuming field 'logical_minimum' is=
+ < 0
+                   if (field->logical_minimum < 0) /* signed values */
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1601:3: note: Taking true branch
+                   if (field->logical_minimum < 0) /* signed values */
                    ^
-   drivers/w1/slaves/w1_therm.c:2087:7: note: Assuming field 'family' is no=
-t equal to W1_42_FINISHED_BYTE
-                   if (reg_num->family =3D=3D W1_42_FINISHED_BYTE)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/slaves/w1_therm.c:2087:3: note: Taking false branch
-                   if (reg_num->family =3D=3D W1_42_FINISHED_BYTE)
+   drivers/hid/hid-core.c:1602:4: note: Calling 'implement'
+                           implement(hid, data, offset + n * size, size,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1421:15: note: Assuming 'n' is <=3D 32
+           if (unlikely(n > 32)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/hid/hid-core.c:1421:2: note: Taking false branch
+           if (unlikely(n > 32)) {
+           ^
+   drivers/hid/hid-core.c:1425:13: note: Assuming 'n' is >=3D 32
+           } else if (n < 32) {
+                      ^~~~~~
+   drivers/hid/hid-core.c:1425:9: note: Taking false branch
+           } else if (n < 32) {
+                  ^
+   drivers/hid/hid-core.c:1602:4: note: Returning from 'implement'
+                           implement(hid, data, offset + n * size, size,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1600:14: note: Assuming 'n' is < 'count'
+           for (n =3D 0; n < count; n++) {
+                       ^~~~~~~~~
+   drivers/hid/hid-core.c:1600:2: note: Loop condition is true.  Entering l=
+oop body
+           for (n =3D 0; n < count; n++) {
+           ^
+   drivers/hid/hid-core.c:1601:14: note: Field 'logical_minimum' is < 0
+                   if (field->logical_minimum < 0) /* signed values */
+                              ^
+   drivers/hid/hid-core.c:1601:3: note: Taking true branch
+                   if (field->logical_minimum < 0) /* signed values */
                    ^
-   drivers/w1/slaves/w1_therm.c:2089:22: note: The right operand of '=3D=3D=
-' is a garbage value
-                   if (sl->reg_num.id =3D=3D reg_num->id)
-                                      ^  ~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/hid/hid-core.c:1603:31: note: Passing the value 32 via 2nd param=
+eter 'n'
+                                     s32ton(field->value[n], size));
+                                                             ^~~~
+   drivers/hid/hid-core.c:1603:7: note: Calling 's32ton'
+                                     s32ton(field->value[n], size));
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1334:6: note: Assuming 'a' is 0
+           if (a && a !=3D -1)
+               ^
+   drivers/hid/hid-core.c:1334:8: note: Left side of '&&' is false
+           if (a && a !=3D -1)
+                 ^
+   drivers/hid/hid-core.c:1336:21: note: The result of the left shift is un=
+defined due to shifting by '32', which is greater or equal to the width of =
+type 'int'
+           return value & ((1 << n) - 1);
+                              ^  ~
+   drivers/hid/hid-core.c:1984:3: warning: Value stored to 'len' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-core.c:1984:3: note: Value stored to 'len' is never read
+                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/usb/gadget/function/f_fs.c:866:2: warning: Value stored to 'ret'=
- is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D 0;
-           ^     ~
-   drivers/usb/gadget/function/f_fs.c:866:2: note: Value stored to 'ret' is=
- never read
-           ret =3D 0;
-           ^     ~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/usb/gadget/function/uvc_configfs.c:2037:30: warning: Value store=
-d to 'u' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-                           struct uvcg_uncompressed *u =3D
-                                                     ^
-   drivers/usb/gadget/function/uvc_configfs.c:2037:30: note: Value stored t=
-o 'u' during its initialization is never read
-                           struct uvcg_uncompressed *u =3D
-                                                     ^
-   drivers/usb/gadget/function/uvc_configfs.c:2043:23: warning: Value store=
-d to 'm' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-                           struct uvcg_mjpeg *m =3D
-                                              ^
-   drivers/usb/gadget/function/uvc_configfs.c:2043:23: note: Value stored t=
-o 'm' during its initialization is never read
-                           struct uvcg_mjpeg *m =3D
-                                              ^
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    12 warnings generated.
-   drivers/usb/gadget/legacy/ether.c:373:20: warning: Access to field 'boun=
-d' results in a dereference of a null pointer (loaded from variable 'eem_op=
-ts') [clang-analyzer-core.NullDereference]
-                           eem_opts->bound =3D true;
-                           ~~~~~~~~        ^
-   drivers/usb/gadget/legacy/ether.c:307:2: note: 'eem_opts' initialized to=
- a null pointer value
-           struct f_eem_opts       *eem_opts =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/ether.c:314:6: note: Assuming 'use_eem' is fal=
-se
-           if (use_eem) {
-               ^~~~~~~
-   drivers/usb/gadget/legacy/ether.c:314:2: note: Taking false branch
-           if (use_eem) {
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> drivers/net/wireless/ath/ath11k/core.c:1389:3: warning: Value stored to =
+'fail_cont_count' is never read [clang-analyzer-deadcode.DeadStores]
+                   fail_cont_count =3D atomic_inc_return(&ab->fail_cont_cou=
+nt);
+                   ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath11k/core.c:1389:3: note: Value stored to 'fa=
+il_cont_count' is never read
+                   fail_cont_count =3D atomic_inc_return(&ab->fail_cont_cou=
+nt);
+                   ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   drivers/net/wireless/ath/ath11k/wmi.c:953:2: warning: Value stored to 'p=
+tr' is never read [clang-analyzer-deadcode.DeadStores]
+           ptr +=3D sizeof(*tlv);
+           ^      ~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath11k/wmi.c:953:2: note: Value stored to 'ptr'=
+ is never read
+           ptr +=3D sizeof(*tlv);
+           ^      ~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath11k/wmi.c:6617:7: warning: 2nd function call=
+ argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           ar =3D ath11k_mac_get_ar_by_vdev_id(ab, peer_del_resp.vdev_id);
+                ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7774:7: note: Taking false branch
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/usb/gadget/legacy/ether.c:327:13: note: Calling 'can_support_ecm'
-           } else if (can_support_ecm(gadget)) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/u_ether.h:268:7: note: Calling 'gadget_is_al=
-tset_supported'
-           if (!gadget_is_altset_supported(gadget))
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/usb/gadget.h:523:9: note: Assuming field 'quirk_altset_not=
-_supp' is 0, which participates in a condition later
-           return !g->quirk_altset_not_supp;
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/usb/gadget.h:523:2: note: Returning without writing to 'g-=
->quirk_altset_not_supp', which participates in a condition later
-           return !g->quirk_altset_not_supp;
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/usb/gadget.h:523:2: note: Returning the value 1, which par=
-ticipates in a condition later
-           return !g->quirk_altset_not_supp;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/u_ether.h:268:7: note: Returning from 'gadge=
-t_is_altset_supported'
-           if (!gadget_is_altset_supported(gadget))
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/function/u_ether.h:268:2: note: Taking false branch
-           if (!gadget_is_altset_supported(gadget))
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7774:7: note: Loop condition is fa=
+lse.  Exiting loop
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/usb/gadget/function/u_ether.h:275:2: note: Returning the value 1=
-, which participates in a condition later
-           return true;
-           ^~~~~~~~~~~
-   drivers/usb/gadget/legacy/ether.c:327:13: note: Returning from 'can_supp=
-ort_ecm'
-           } else if (can_support_ecm(gadget)) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/legacy/ether.c:327:9: note: Taking true branch
-           } else if (can_support_ecm(gadget)) {
-                  ^
-   drivers/usb/gadget/legacy/ether.c:331:7: note: Calling 'IS_ERR'
-                   if (IS_ERR(fi_ecm))
-                       ^~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7774:7: note: Taking false branch
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:64:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG((_mask) =3D=3D 0, _pfx "mask is zero");=
+    \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7774:7: note: Loop condition is fa=
+lse.  Exiting loop
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:64:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG((_mask) =3D=3D 0, _pfx "mask is zero");=
+    \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
 
-vim +/ret +866 drivers/usb/gadget/function/f_fs.c
+vim +/fail_cont_count +1389 drivers/net/wireless/ath/ath11k/core.c
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  847  =
+d5c65159f28953 Kalle Valo 2019-11-23  1344  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  848  static int ffs_epfile_mmap(struct file *file, struct vm_area_stru=
-ct *vma)
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  849  {
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  850  	struct ffs_ep_listener *listener =3D file->private_data;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  851  	struct ffs_memory *ffsm =3D NULL;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  852  	size_t size =3D vma->vm_end - vma->vm_start;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  853  	char *kmem;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  854  	int rc, ret;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  855  =
+2a8ac8c524013b Wen Gong   2022-02-08  1345  static void ath11k_core_reset(s=
+truct work_struct *work)
+2a8ac8c524013b Wen Gong   2022-02-08  1346  {
+2a8ac8c524013b Wen Gong   2022-02-08  1347  	struct ath11k_base *ab =3D con=
+tainer_of(work, struct ath11k_base, reset_work);
+2a8ac8c524013b Wen Gong   2022-02-08  1348  	int reset_count, fail_cont_cou=
+nt;
+2a8ac8c524013b Wen Gong   2022-02-08  1349  	long time_left;
+2a8ac8c524013b Wen Gong   2022-02-08  1350  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  856  	if (!IS_ALIGNED(size, PAGE_SIZE))
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  857  		return -EFAULT;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  858  =
+2a8ac8c524013b Wen Gong   2022-02-08  1351  	if (!(test_bit(ATH11K_FLAG_REG=
+ISTERED, &ab->dev_flags))) {
+2a8ac8c524013b Wen Gong   2022-02-08  1352  		ath11k_warn(ab, "ignore reset=
+ dev flags 0x%lx\n", ab->dev_flags);
+2a8ac8c524013b Wen Gong   2022-02-08  1353  		return;
+2a8ac8c524013b Wen Gong   2022-02-08  1354  	}
+2a8ac8c524013b Wen Gong   2022-02-08  1355  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  859  	rc =3D ffsm_increase_mmap_mem_usage(
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  860  		listener->epfile->ffs,
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  861  		size + sizeof(struct ffs_memory)
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  862  	);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  863  	if (rc)
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  864  		return -ENOMEM;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  865  =
+2a8ac8c524013b Wen Gong   2022-02-08  1356  	/* Sometimes the recovery will=
+ fail and then the next all recovery fail,
+2a8ac8c524013b Wen Gong   2022-02-08  1357  	 * this is to avoid infinite r=
+ecovery since it can not recovery success.
+2a8ac8c524013b Wen Gong   2022-02-08  1358  	 */
+2a8ac8c524013b Wen Gong   2022-02-08  1359  	fail_cont_count =3D atomic_rea=
+d(&ab->fail_cont_count);
+2a8ac8c524013b Wen Gong   2022-02-08  1360  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02 @866  	ret =3D 0;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  867  	ffsm =3D kzalloc(sizeof(struct ffs_memory), GFP_KERNEL);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  868  	if (!ffsm) {
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  869  		ret =3D -ENOMEM;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  870  		goto error_decrease_mem;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  871  	}
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  872  =
+2a8ac8c524013b Wen Gong   2022-02-08  1361  	if (fail_cont_count >=3D ATH11=
+K_RESET_MAX_FAIL_COUNT_FINAL)
+2a8ac8c524013b Wen Gong   2022-02-08  1362  		return;
+2a8ac8c524013b Wen Gong   2022-02-08  1363  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  873  	kmem =3D kzalloc(size, GFP_USER | __GFP_NOWARN);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  874  	if (!kmem) {
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  875  		kfree(ffsm);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  876  		ret =3D -ENOMEM;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  877  		goto error_decrease_mem;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  878  	}
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  879  =
+2a8ac8c524013b Wen Gong   2022-02-08  1364  	if (fail_cont_count >=3D ATH11=
+K_RESET_MAX_FAIL_COUNT_FIRST &&
+2a8ac8c524013b Wen Gong   2022-02-08  1365  	    time_before(jiffies, ab->r=
+eset_fail_timeout))
+2a8ac8c524013b Wen Gong   2022-02-08  1366  		return;
+2a8ac8c524013b Wen Gong   2022-02-08  1367  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  880  	rc =3D remap_pfn_range(
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  881  		vma,
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  882  		vma->vm_start,
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  883  		PHYS_PFN(virt_to_phys(kmem)),
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  884  		size,
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  885  		vma->vm_page_prot
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  886  	);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  887  	if (rc < 0) {
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  888  		kfree(kmem);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  889  		kfree(ffsm);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  890  		ret =3D -EAGAIN;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  891  		goto error_decrease_mem;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  892  	}
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  893  =
+2a8ac8c524013b Wen Gong   2022-02-08  1368  	reset_count =3D atomic_inc_ret=
+urn(&ab->reset_count);
+2a8ac8c524013b Wen Gong   2022-02-08  1369  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  894  =
+2a8ac8c524013b Wen Gong   2022-02-08  1370  	if (reset_count > 1) {
+2a8ac8c524013b Wen Gong   2022-02-08  1371  		/* Sometimes it happened anot=
+her reset worker before the previous one
+2a8ac8c524013b Wen Gong   2022-02-08  1372  		 * completed, then the second=
+ reset worker will destroy the previous one,
+2a8ac8c524013b Wen Gong   2022-02-08  1373  		 * thus below is to avoid tha=
+t.
+2a8ac8c524013b Wen Gong   2022-02-08  1374  		 */
+2a8ac8c524013b Wen Gong   2022-02-08  1375  		ath11k_warn(ab, "already rese=
+ting count %d\n", reset_count);
+2a8ac8c524013b Wen Gong   2022-02-08  1376  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  895  	INIT_LIST_HEAD(&ffsm->memlist);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  896  	ffsm->listener =3D listener;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  897  	ffsm->kmem =3D kmem;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  898  	ffsm->vm_start =3D vma->vm_start;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  899  	ffsm->size =3D size;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  900  	ffsm->vma_use_count =3D 1;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  901  =
+2a8ac8c524013b Wen Gong   2022-02-08  1377  		reinit_completion(&ab->reset_=
+complete);
+2a8ac8c524013b Wen Gong   2022-02-08  1378  		time_left =3D wait_for_comple=
+tion_timeout(&ab->reset_complete,
+2a8ac8c524013b Wen Gong   2022-02-08  1379  							ATH11K_RESET_TIMEOUT_HZ);
+2a8ac8c524013b Wen Gong   2022-02-08  1380  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  902  	vma->vm_ops =3D &ffsm_vm_ops;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  903  	vma->vm_private_data =3D ffsm;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  904  =
+2a8ac8c524013b Wen Gong   2022-02-08  1381  		if (time_left) {
+2a8ac8c524013b Wen Gong   2022-02-08  1382  			ath11k_dbg(ab, ATH11K_DBG_BO=
+OT, "to skip reset\n");
+2a8ac8c524013b Wen Gong   2022-02-08  1383  			atomic_dec(&ab->reset_count);
+2a8ac8c524013b Wen Gong   2022-02-08  1384  			return;
+2a8ac8c524013b Wen Gong   2022-02-08  1385  		}
+2a8ac8c524013b Wen Gong   2022-02-08  1386  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  905  	spin_lock_irq(&listener->ffsm_lock);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  906  	list_add_tail(&ffsm->memlist, &listener->ffsm_list);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  907  	spin_unlock_irq(&listener->ffsm_lock);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  908  	return 0;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  909  =
+2a8ac8c524013b Wen Gong   2022-02-08  1387  		ab->reset_fail_timeout =3D ji=
+ffies + ATH11K_RESET_FAIL_TIMEOUT_HZ;
+2a8ac8c524013b Wen Gong   2022-02-08  1388  		/* Record the continuous reco=
+very fail count when recovery failed*/
+2a8ac8c524013b Wen Gong   2022-02-08 @1389  		fail_cont_count =3D atomic_in=
+c_return(&ab->fail_cont_count);
+2a8ac8c524013b Wen Gong   2022-02-08  1390  	}
+2a8ac8c524013b Wen Gong   2022-02-08  1391  =
 
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  910  error_decrease_mem:
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  911  	ffsm_decrease_mmap_mem_usage(
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  912  		listener->epfile->ffs,
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  913  		size + sizeof(struct ffs_memory)
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  914  	);
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  915  	return ret;
-dee77498ca5c30 drivers/usb/gadget/function/f_fs.c Ingo Rohloff      2022-02=
--02  916  }
-ddf8abd2599491 drivers/usb/gadget/f_fs.c          Michal Nazarewicz 2010-05=
--05  917  =
+2a8ac8c524013b Wen Gong   2022-02-08  1392  	ath11k_dbg(ab, ATH11K_DBG_BOOT=
+, "reset starting\n");
+2a8ac8c524013b Wen Gong   2022-02-08  1393  =
+
+2a8ac8c524013b Wen Gong   2022-02-08  1394  	ab->is_reset =3D true;
+2a8ac8c524013b Wen Gong   2022-02-08  1395  	atomic_set(&ab->recovery_count=
+, 0);
+2a8ac8c524013b Wen Gong   2022-02-08  1396  =
+
+2a8ac8c524013b Wen Gong   2022-02-08  1397  	ath11k_hif_power_down(ab);
+2a8ac8c524013b Wen Gong   2022-02-08  1398  	ath11k_qmi_free_resource(ab);
+2a8ac8c524013b Wen Gong   2022-02-08  1399  	ath11k_hif_power_up(ab);
+2a8ac8c524013b Wen Gong   2022-02-08  1400  =
+
+2a8ac8c524013b Wen Gong   2022-02-08  1401  	ath11k_dbg(ab, ATH11K_DBG_BOOT=
+, "reset started\n");
+2a8ac8c524013b Wen Gong   2022-02-08  1402  }
+2a8ac8c524013b Wen Gong   2022-02-08  1403  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0874804491543042268==--
+--===============4019567680538318600==--
 
