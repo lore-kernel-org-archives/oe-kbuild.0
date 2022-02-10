@@ -1,337 +1,91 @@
-Content-Type: multipart/mixed; boundary="===============5955672915783556310=="
+Content-Type: multipart/mixed; boundary="===============8612297754388811073=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/backing-dev.c:609:8: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Fri, 11 Feb 2022 06:19:17 +0800
-Message-ID: <202202110625.0CSGzFvM-lkp@intel.com>
+Subject: [linux-next:master 4792/4901] kernel/seccomp.c:1321 __secure_computing() warn: ignoring unreachable code.
+Date: Fri, 11 Feb 2022 06:09:00 +0800
+Message-ID: <202202110647.rLY9N0Ku-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5955672915783556310==
+--===============8612297754388811073==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Marco Elver <elver@google.com>
-CC: "Paul E. McKenney" <paulmck@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kees Cook <keescook@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e3c85076d7a6f986445b9008be7e7f83d1b0780a
-commit: f948666de517cf8ebef7cb2c9b2d669dec4bfe2e locking/barriers, kcsan: A=
-dd instrumentation for barriers
-date:   9 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 weeks ago
-config: riscv-randconfig-c006-20220208 (https://download.01.org/0day-ci/arc=
-hive/20220211/202202110625.0CSGzFvM-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
-ae54a55b4dbfeb6ba55f723abbd81bf494)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df948666de517cf8ebef7cb2c9b2d669dec4bfe2e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f948666de517cf8ebef7cb2c9b2d669dec4bfe2e
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   395a61741f7ea29e1f4a0d6e160197fe8e377572
+commit: 4cf829c9d35e35a8702dba0dbbc0408bb2521acd [4792/4901] seccomp: Inval=
+idate seccomp mode to catch death failures
+:::::: branch date: 14 hours ago
+:::::: commit date: 19 hours ago
+config: powerpc-randconfig-m031-20220210 (https://download.01.org/0day-ci/a=
+rchive/20220211/202202110647.rLY9N0Ku-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+kernel/seccomp.c:1321 __secure_computing() warn: ignoring unreachable code.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:2992:9: note: Returning from 'is_inode_flag_set'
-           return is_inode_flag_set(inode, FI_INLINE_XATTR);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:2992:2: note: Returning zero, which participates in a con=
-dition later
-           return is_inode_flag_set(inode, FI_INLINE_XATTR);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3044:6: note: Returning from 'f2fs_has_inline_xattr'
-           if (f2fs_has_inline_xattr(inode))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3044:2: note: Taking false branch
-           if (f2fs_has_inline_xattr(inode))
-           ^
-   fs/f2fs/f2fs.h:3046:2: note: Returning zero, which participates in a con=
-dition later
-           return 0;
-           ^~~~~~~~
-   fs/f2fs/xattr.c:398:29: note: Returning from 'inline_xattr_size'
-           unsigned int inline_size =3D inline_xattr_size(inode);
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:402:16: note: Calling 'f2fs_kzalloc'
-           txattr_addr =3D f2fs_kzalloc(F2FS_I_SB(inode),
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3205:9: note: Calling 'f2fs_kmalloc'
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3194:6: note: Assuming the condition is false
-           if (time_to_inject(sbi, FAULT_KMALLOC)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3194:2: note: Taking false branch
-           if (time_to_inject(sbi, FAULT_KMALLOC)) {
-           ^
-   fs/f2fs/f2fs.h:3199:9: note: Uninitialized value stored to field 'h_magi=
-c'
-           return kmalloc(size, flags);
-                  ^~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3199:2: note: Returning pointer, which participates in a =
-condition later
-           return kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3205:9: note: Returning from 'f2fs_kmalloc'
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3205:2: note: Returning pointer, which participates in a =
-condition later
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:402:16: note: Returning from 'f2fs_kzalloc'
-           txattr_addr =3D f2fs_kzalloc(F2FS_I_SB(inode),
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:404:6: note: Assuming 'txattr_addr' is non-null
-           if (!txattr_addr)
-               ^~~~~~~~~~~~
-   fs/f2fs/xattr.c:404:2: note: Taking false branch
-           if (!txattr_addr)
-           ^
-   fs/f2fs/xattr.c:408:6: note: 'inline_size' is 0
-           if (inline_size) {
-               ^~~~~~~~~~~
-   fs/f2fs/xattr.c:408:2: note: Taking false branch
-           if (inline_size) {
-           ^
-   fs/f2fs/xattr.c:415:6: note: Assuming 'xnid' is 0
-           if (xnid) {
-               ^~~~
-   fs/f2fs/xattr.c:415:2: note: Taking false branch
-           if (xnid) {
-           ^
-   fs/f2fs/xattr.c:424:35: note: The left operand of '!=3D' is a garbage va=
-lue
-           if (le32_to_cpu(header->h_magic) !=3D F2FS_XATTR_MAGIC) {
-                                            ^
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   mm/shmem.c:1360:2: warning: Value stored to 'index' is never read [clang=
--analyzer-deadcode.DeadStores]
-           index =3D page->index;
-           ^       ~~~~~~~~~~~
-   mm/shmem.c:1360:2: note: Value stored to 'index' is never read
-           index =3D page->index;
-           ^       ~~~~~~~~~~~
-   mm/shmem.c:1552:24: warning: Value stored to 'mapping' during its initia=
-lization is never read [clang-analyzer-deadcode.DeadStores]
-           struct address_space *mapping =3D info->vfs_inode.i_mapping;
-                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/shmem.c:1552:24: note: Value stored to 'mapping' during its initializ=
-ation is never read
-           struct address_space *mapping =3D info->vfs_inode.i_mapping;
-                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> mm/backing-dev.c:609:8: warning: Use of memory after it is freed [clang-=
-analyzer-unix.Malloc]
-                   wb =3D wb_get_lookup(bdi, memcg_css);
-                        ^             ~~~
-   mm/backing-dev.c:605:6: note: Assuming field 'parent' is non-null
-           if (!memcg_css->parent)
-               ^~~~~~~~~~~~~~~~~~
-   mm/backing-dev.c:605:2: note: Taking false branch
-           if (!memcg_css->parent)
-           ^
-   mm/backing-dev.c:610:12: note: 'wb' is null
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                     ^~
-   mm/backing-dev.c:610:11: note: Left side of '&&' is true
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                    ^
-   mm/backing-dev.c:608:2: note: Loop condition is true. Execution continue=
-s on line 609
-           do {
-           ^
-   mm/backing-dev.c:610:12: note: 'wb' is null
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                     ^~
-   mm/backing-dev.c:610:11: note: Left side of '&&' is true
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                    ^
-   mm/backing-dev.c:608:2: note: Loop condition is true. Execution continue=
-s on line 609
-           do {
-           ^
-   mm/backing-dev.c:610:12: note: 'wb' is null
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                     ^~
-   mm/backing-dev.c:610:11: note: Left side of '&&' is true
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                    ^
-   mm/backing-dev.c:610:19: note: Calling 'cgwb_create'
-           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/backing-dev.c:462:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&cgwb_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   mm/backing-dev.c:462:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&cgwb_lock, flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   mm/backing-dev.c:464:6: note: Assuming 'wb' is null
-           if (wb && wb->blkcg_css !=3D blkcg_css) {
-               ^~
-   mm/backing-dev.c:464:9: note: Left side of '&&' is false
-           if (wb && wb->blkcg_css !=3D blkcg_css) {
-                  ^
-   mm/backing-dev.c:469:6: note: 'wb' is null
-           if (wb)
-               ^~
-   mm/backing-dev.c:469:2: note: Taking false branch
-           if (wb)
-           ^
-   mm/backing-dev.c:474:6: note: Assuming 'wb' is non-null
-           if (!wb) {
-               ^~~
-   mm/backing-dev.c:474:2: note: Taking false branch
-           if (!wb) {
-           ^
-   mm/backing-dev.c:480:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   mm/backing-dev.c:480:2: note: Taking false branch
-           if (ret)
-           ^
-   mm/backing-dev.c:484:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   mm/backing-dev.c:484:2: note: Taking false branch
-           if (ret)
-           ^
-   mm/backing-dev.c:488:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   mm/backing-dev.c:488:2: note: Taking false branch
-           if (ret)
-           ^
-   mm/backing-dev.c:494:2: note: Loop condition is false.  Exiting loop
-           INIT_WORK(&wb->release_work, cgwb_release_workfn);
-           ^
-   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
-           __INIT_WORK((_work), (_func), 0)
-           ^
-   include/linux/workqueue.h:236:2: note: expanded from macro '__INIT_WORK'
-           do {                                                            \
-           ^
-   mm/backing-dev.c:505:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&cgwb_lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+vim +1321 kernel/seccomp.c
 
-vim +609 mm/backing-dev.c
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1298  =
 
-ed288dc0d4aa29f Tejun Heo     2019-08-26  587  =
+8112c4f140fa03f Kees Cook        2016-06-01  1299  int __secure_computing(c=
+onst struct seccomp_data *sd)
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1300  {
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1301  	int mode =3D current->s=
+eccomp.mode;
+8112c4f140fa03f Kees Cook        2016-06-01  1302  	int this_syscall;
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1303  =
 
-ed288dc0d4aa29f Tejun Heo     2019-08-26  588  /**
-ed288dc0d4aa29f Tejun Heo     2019-08-26  589   * wb_get_create - get wb fo=
-r a given memcg, create if necessary
-ed288dc0d4aa29f Tejun Heo     2019-08-26  590   * @bdi: target bdi
-ed288dc0d4aa29f Tejun Heo     2019-08-26  591   * @memcg_css: cgroup_subsys=
-_state of the target memcg (must have positive ref)
-ed288dc0d4aa29f Tejun Heo     2019-08-26  592   * @gfp: allocation mask to =
-use
-ed288dc0d4aa29f Tejun Heo     2019-08-26  593   *
-ed288dc0d4aa29f Tejun Heo     2019-08-26  594   * Try to get the wb for @me=
-mcg_css on @bdi.  If it doesn't exist, try to
-ed288dc0d4aa29f Tejun Heo     2019-08-26  595   * create one.  See wb_get_l=
-ookup() for more details.
-ed288dc0d4aa29f Tejun Heo     2019-08-26  596   */
-ed288dc0d4aa29f Tejun Heo     2019-08-26  597  struct bdi_writeback *wb_get=
-_create(struct backing_dev_info *bdi,
-ed288dc0d4aa29f Tejun Heo     2019-08-26  598  				    struct cgroup_subsys=
-_state *memcg_css,
-ed288dc0d4aa29f Tejun Heo     2019-08-26  599  				    gfp_t gfp)
-ed288dc0d4aa29f Tejun Heo     2019-08-26  600  {
-ed288dc0d4aa29f Tejun Heo     2019-08-26  601  	struct bdi_writeback *wb;
-ed288dc0d4aa29f Tejun Heo     2019-08-26  602  =
+97f2645f358b411 Masahiro Yamada  2016-08-03  1304  	if (IS_ENABLED(CONFIG_C=
+HECKPOINT_RESTORE) &&
+13c4a90119d28cf Tycho Andersen   2015-06-13  1305  	    unlikely(current->p=
+trace & PT_SUSPEND_SECCOMP))
+8112c4f140fa03f Kees Cook        2016-06-01  1306  		return 0;
+8112c4f140fa03f Kees Cook        2016-06-01  1307  =
 
-c1ca59a1f21e360 Daniel Vetter 2021-02-25  603  	might_alloc(gfp);
-ed288dc0d4aa29f Tejun Heo     2019-08-26  604  =
+8112c4f140fa03f Kees Cook        2016-06-01  1308  	this_syscall =3D sd ? s=
+d->nr :
+2d9ca267a944c2b Denis Efremov    2020-08-24  1309  		syscall_get_nr(current=
+, current_pt_regs());
+13c4a90119d28cf Tycho Andersen   2015-06-13  1310  =
 
-ed288dc0d4aa29f Tejun Heo     2019-08-26  605  	if (!memcg_css->parent)
-ed288dc0d4aa29f Tejun Heo     2019-08-26  606  		return &bdi->wb;
-ed288dc0d4aa29f Tejun Heo     2019-08-26  607  =
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1311  	switch (mode) {
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1312  	case SECCOMP_MODE_STRIC=
+T:
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1313  		__secure_computing_str=
+ict(this_syscall);  /* may call do_exit */
+8112c4f140fa03f Kees Cook        2016-06-01  1314  		return 0;
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1315  	case SECCOMP_MODE_FILTE=
+R:
+ce6526e8afa4b6a Kees Cook        2016-06-01  1316  		return __seccomp_filte=
+r(this_syscall, sd, false);
+4cf829c9d35e35a Kees Cook        2022-02-07  1317  	/* Surviving SECCOMP_RE=
+T_KILL_* must be proactively impossible. */
+4cf829c9d35e35a Kees Cook        2022-02-07  1318  	case SECCOMP_MODE_DEAD:
+4cf829c9d35e35a Kees Cook        2022-02-07  1319  		WARN_ON_ONCE(1);
+4cf829c9d35e35a Kees Cook        2022-02-07  1320  		do_exit(SIGKILL);
+4cf829c9d35e35a Kees Cook        2022-02-07 @1321  		return -1;
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1322  	default:
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1323  		BUG();
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1324  	}
+13aa72f0fd0a9f9 Andy Lutomirski  2014-07-21  1325  }
+a4412fc9486ec85 Andy Lutomirski  2014-07-21  1326  #endif /* CONFIG_HAVE_AR=
+CH_SECCOMP_FILTER */
+1d9d02feeee89e9 Andrea Arcangeli 2007-07-15  1327  =
 
-ed288dc0d4aa29f Tejun Heo     2019-08-26  608  	do {
-ed288dc0d4aa29f Tejun Heo     2019-08-26 @609  		wb =3D wb_get_lookup(bdi, =
-memcg_css);
-52ebea749aaed19 Tejun Heo     2015-05-22  610  	} while (!wb && !cgwb_creat=
-e(bdi, memcg_css, gfp));
-52ebea749aaed19 Tejun Heo     2015-05-22  611  =
-
-52ebea749aaed19 Tejun Heo     2015-05-22  612  	return wb;
-52ebea749aaed19 Tejun Heo     2015-05-22  613  }
-52ebea749aaed19 Tejun Heo     2015-05-22  614  =
-
-
-:::::: The code at line 609 was first introduced by commit
-:::::: ed288dc0d4aa29f65bd25b31b5cb866aa5664ff9 writeback: Separate out wb_=
-get_lookup() from wb_get_create()
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5955672915783556310==--
+--===============8612297754388811073==--
 
