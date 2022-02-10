@@ -1,125 +1,529 @@
-Content-Type: multipart/mixed; boundary="===============9104918718313539117=="
+Content-Type: multipart/mixed; boundary="===============0672042533918908658=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ambarus:spi-nor/next 1/15] drivers/spi/atmel-quadspi.c:1202 atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
-Date: Fri, 11 Feb 2022 08:11:16 +0800
-Message-ID: <202202110830.1OGwXRWt-lkp@intel.com>
+Subject: [ammarfaizi2-block:netdev/net-next/master 185/246] net/mctp/route.c:458:4: warning: Value stored to 'msk' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 11 Feb 2022 07:20:39 +0800
+Message-ID: <202202110711.5wAqzE2x-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9104918718313539117==
+--===============0672042533918908658==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+TO: Matt Johnston <matt@codeconstruct.com.au>
+CC: Jeremy Kerr <jk@codeconstruct.com.au>
 
-tree:   https://github.com/ambarus/linux-0day spi-nor/next
-head:   038b3fa2d89f1a00fdb8767704cdb799a0fe746b
-commit: ff51c966a3c5144ae964797349747e680ee47c3a [1/15] spi: atmel-quadspi:=
- Add support for sama7g5 QSPI
-:::::: branch date: 22 hours ago
-:::::: commit date: 4 days ago
-config: openrisc-randconfig-m031-20220210 (https://download.01.org/0day-ci/=
-archive/20220211/202202110830.1OGwXRWt-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/ammarfaizi2/linux-block netdev/net-next/master
+head:   4f5e483b8c7a644733db941a1ae00173baa7b463
+commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa [185/246] mctp: Add SIOCMC=
+TP{ALLOC,DROP}TAG ioctls for tag control
+:::::: branch date: 4 hours ago
+:::::: commit date: 35 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20211/202202110711.5wAqzE2x-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project aa845d=
+7a245d85c441d0bd44fc7b6c3be8f3de8d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/ammarfaizi2/linux-block/commit/63ed1aab3d40aa6=
+1aaa66819bdce9377ac7f40fa
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block netdev/net-next/master
+        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/spi/atmel-quadspi.c:1202 atmel_qspi_dma_init() warn: passing zero t=
-o 'PTR_ERR'
 
-vim +/PTR_ERR +1202 drivers/spi/atmel-quadspi.c
+clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/route.c:335:2: note: Taking false branch
+           if (skb->len < sizeof(struct mctp_hdr) + 1)
+           ^
+   net/mctp/route.c:342:6: note: Assuming field 'ver' is equal to 1
+           if (mh->ver !=3D 1)
+               ^~~~~~~~~~~~
+   net/mctp/route.c:342:2: note: Taking false branch
+           if (mh->ver !=3D 1)
+           ^
+   net/mctp/route.c:355:6: note: Assuming the condition is true
+           if (flags & MCTP_HDR_FLAG_SOM) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/route.c:355:2: note: Taking true branch
+           if (flags & MCTP_HDR_FLAG_SOM) {
+           ^
+   net/mctp/route.c:356:7: note: 'key' is null
+                   if (key) {
+                       ^~~
+   net/mctp/route.c:356:3: note: Taking false branch
+                   if (key) {
+                   ^
+   net/mctp/route.c:365:8: note: 'key' is null
+                           if (key) {
+                               ^~~
+   net/mctp/route.c:365:4: note: Taking false branch
+                           if (key) {
+                           ^
+   net/mctp/route.c:374:8: note: 'key' is null
+                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
+                        ^~~
+   net/mctp/route.c:374:7: note: Left side of '&&' is true
+                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
+                       ^
+   net/mctp/route.c:374:16: note: 'msk' is null
+                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
+                                ^~~
+   net/mctp/route.c:374:7: note: Left side of '&&' is true
+                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
+                       ^
+   net/mctp/route.c:374:24: note: Assuming the condition is true
+                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
+                                        ^~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/route.c:374:3: note: Taking true branch
+                   if (!key && !msk && (tag & MCTP_HDR_FLAG_TO))
+                   ^
+   net/mctp/route.c:377:8: note: 'msk' is non-null
+                   if (!msk) {
+                        ^~~
+   net/mctp/route.c:377:3: note: Taking false branch
+                   if (!msk) {
+                   ^
+   net/mctp/route.c:385:7: note: Assuming the condition is false
+                   if (flags & MCTP_HDR_FLAG_EOM) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/route.c:385:3: note: Taking false branch
+                   if (flags & MCTP_HDR_FLAG_EOM) {
+                   ^
+   net/mctp/route.c:402:8: note: 'key' is null
+                   if (!key) {
+                        ^~~
+   net/mctp/route.c:402:3: note: Taking true branch
+                   if (!key) {
+                   ^
+   net/mctp/route.c:403:10: note: Calling 'mctp_key_alloc'
+                           key =3D mctp_key_alloc(msk, mh->dest, mh->src,
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/route.c:140:6: note: Assuming 'key' is non-null
+           if (!key)
+               ^~~~
+   net/mctp/route.c:140:2: note: Taking false branch
+           if (!key)
+           ^
+   net/mctp/route.c:148:2: note: Loop condition is false.  Exiting loop
+           spin_lock_init(&key->lock);
+           ^
+   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   net/mctp/route.c:403:10: note: Returning from 'mctp_key_alloc'
+                           key =3D mctp_key_alloc(msk, mh->dest, mh->src,
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/route.c:405:9: note: 'key' is non-null
+                           if (!key) {
+                                ^~~
+   net/mctp/route.c:405:4: note: Taking false branch
+                           if (!key) {
+                           ^
+   net/mctp/route.c:422:8: note: Assuming 'rc' is not equal to 0
+                           if (rc)
+                               ^~
+   net/mctp/route.c:422:4: note: Taking true branch
+                           if (rc)
+                           ^
+   net/mctp/route.c:423:5: note: Memory is released
+                                   kfree(key);
+                                   ^~~~~~~~~~
+   net/mctp/route.c:425:4: note: Use of memory after it is freed
+                           trace_mctp_key_acquire(key);
+                           ^                      ~~~
+>> net/mctp/route.c:458:4: warning: Value stored to 'msk' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                           msk =3D container_of(key->sk, struct mctp_sock, =
+sk);
+                           ^
+   net/mctp/route.c:458:4: note: Value stored to 'msk' is never read
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   include/uapi/linux/phonet.h:176:9: warning: 1st function call argument i=
+s an uninitialized value [clang-analyzer-core.CallAndMessage]
+           return pn_object(spn->spn_dev, spn->spn_obj);
+                  ^
+   net/phonet/pep.c:776:6: note: Assuming 'skb' is non-null
+           if (!skb)
+               ^~~~
+   net/phonet/pep.c:776:2: note: Taking false branch
+           if (!skb)
+           ^
+   net/phonet/pep.c:780:6: note: Assuming field 'skc_state' is equal to TCP=
+_LISTEN
+           if (sk->sk_state !=3D TCP_LISTEN) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/phonet/pep.c:780:2: note: Taking false branch
+           if (sk->sk_state !=3D TCP_LISTEN) {
+           ^
+   net/phonet/pep.c:787:2: note: Taking false branch
+           if (!pskb_may_pull(skb, sizeof(*hdr) + 4))
+           ^
+   net/phonet/pep.c:792:2: note: Control jumps to 'case PN_PIPE_ENABLE:'  a=
+t line 796
+           switch (hdr->state_after_connect) {
+           ^
+   net/phonet/pep.c:798:3: note:  Execution continues on line 804
+                   break;
+                   ^
+   net/phonet/pep.c:808:9: note: Assuming 'n_sb' is <=3D 0
+           while (n_sb > 0) {
+                  ^~~~~~~~
+   net/phonet/pep.c:808:2: note: Loop condition is false. Execution continu=
+es on line 828
+           while (n_sb > 0) {
+           ^
+   net/phonet/pep.c:828:10: note: Calling 'pep_find_pipe'
+           newsk =3D pep_find_pipe(&pn->hlist, &dst, pipe_handle);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/phonet/pep.c:630:13: note: Calling 'pn_sockaddr_get_object'
+           u16 dobj =3D pn_sockaddr_get_object(dst);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/phonet.h:176:9: note: 1st function call argument is a=
+n uninitialized value
+           return pn_object(spn->spn_dev, spn->spn_obj);
+                  ^         ~~~~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   net/8021q/vlan_core.c:186:7: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+                   if (vid_info->proto =3D=3D proto && vid_info->vid =3D=3D=
+ vid)
+                       ^
+   net/8021q/vlan_core.c:433:2: note: Assuming the condition is false
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:12: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+                     ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:150:18: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+                           ^~~~~~~~~
+   include/linux/once_lite.h:15:27: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   bool __ret_do_once =3D !!(condition);                   =
+  \
+                                           ^~~~~~~~~
+   net/8021q/vlan_core.c:433:2: note: '__ret_do_once' is false
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/once_lite.h:17:16: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   if (unlikely(__ret_do_once && !__already_done)) {       \
+                                ^~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/8021q/vlan_core.c:433:2: note: Left side of '&&' is false
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^
+   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
+           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+           ^
+   include/linux/once_lite.h:17:30: note: expanded from macro 'DO_ONCE_LITE=
+_IF'
+                   if (unlikely(__ret_do_once && !__already_done)) {       \
+                                              ^
+   net/8021q/vlan_core.c:433:2: note: Taking false branch
 
-161aaab8a067a9 drivers/mtd/spi-nor/atmel-quadspi.c Cyrille Pitchen 2016-06-=
-13  1193  =
+vim +/msk +458 net/mctp/route.c
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1194  static int atmel_qspi_dma_init(struct spi_controller *ctrl)
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1195  {
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1196  	struct atmel_qspi *aq =3D spi_controller_get_devdata(ctrl);
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1197  	int ret;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1198  =
+4a992bbd365094 Jeremy Kerr   2021-07-29  315  =
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1199  	aq->rx_chan =3D dma_request_chan(&aq->pdev->dev, "rx");
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1200  	if (IS_ERR(aq->rx_chan)) {
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1201  		aq->rx_chan =3D NULL;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19 @1202  		return dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->rx_chan),
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1203  				     "RX DMA channel is not available\n");
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1204  	}
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1205  =
+889b7da23abf92 Jeremy Kerr   2021-07-29  316  static int mctp_route_input(s=
+truct mctp_route *route, struct sk_buff *skb)
+889b7da23abf92 Jeremy Kerr   2021-07-29  317  {
+833ef3b91de692 Jeremy Kerr   2021-07-29  318  	struct net *net =3D dev_net(=
+skb->dev);
+833ef3b91de692 Jeremy Kerr   2021-07-29  319  	struct mctp_sk_key *key;
+833ef3b91de692 Jeremy Kerr   2021-07-29  320  	struct mctp_sock *msk;
+833ef3b91de692 Jeremy Kerr   2021-07-29  321  	struct mctp_hdr *mh;
+4a992bbd365094 Jeremy Kerr   2021-07-29  322  	unsigned long f;
+4a992bbd365094 Jeremy Kerr   2021-07-29  323  	u8 tag, flags;
+4a992bbd365094 Jeremy Kerr   2021-07-29  324  	int rc;
+833ef3b91de692 Jeremy Kerr   2021-07-29  325  =
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1206  	aq->tx_chan =3D dma_request_chan(&aq->pdev->dev, "tx");
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1207  	if (IS_ERR(aq->tx_chan)) {
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1208  		ret =3D dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->tx_chan),
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1209  				    "TX DMA channel is not available\n");
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1210  		goto release_rx_chan;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1211  	}
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1212  =
+833ef3b91de692 Jeremy Kerr   2021-07-29  326  	msk =3D NULL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  327  	rc =3D -EINVAL;
+833ef3b91de692 Jeremy Kerr   2021-07-29  328  =
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1213  	ctrl->dma_rx =3D aq->rx_chan;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1214  	ctrl->dma_tx =3D aq->tx_chan;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1215  	init_completion(&aq->dma_completion);
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1216  =
+833ef3b91de692 Jeremy Kerr   2021-07-29  329  	/* we may be receiving a loc=
+ally-routed packet; drop source sk
+833ef3b91de692 Jeremy Kerr   2021-07-29  330  	 * accounting
+833ef3b91de692 Jeremy Kerr   2021-07-29  331  	 */
+833ef3b91de692 Jeremy Kerr   2021-07-29  332  	skb_orphan(skb);
+833ef3b91de692 Jeremy Kerr   2021-07-29  333  =
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1217  	dev_info(&aq->pdev->dev, "Using %s (tx) and %s (rx) for DMA tran=
-sfers\n",
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1218  		 dma_chan_name(aq->tx_chan), dma_chan_name(aq->rx_chan));
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1219  =
+833ef3b91de692 Jeremy Kerr   2021-07-29  334  	/* ensure we have enough dat=
+a for a header and a type */
+833ef3b91de692 Jeremy Kerr   2021-07-29  335  	if (skb->len < sizeof(struct=
+ mctp_hdr) + 1)
+4a992bbd365094 Jeremy Kerr   2021-07-29  336  		goto out;
+833ef3b91de692 Jeremy Kerr   2021-07-29  337  =
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1220  	return 0;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1221  =
+833ef3b91de692 Jeremy Kerr   2021-07-29  338  	/* grab header, advance data=
+ ptr */
+833ef3b91de692 Jeremy Kerr   2021-07-29  339  	mh =3D mctp_hdr(skb);
+833ef3b91de692 Jeremy Kerr   2021-07-29  340  	skb_pull(skb, sizeof(struct =
+mctp_hdr));
+833ef3b91de692 Jeremy Kerr   2021-07-29  341  =
 
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1222  release_rx_chan:
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1223  	dma_release_channel(aq->rx_chan);
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1224  	aq->rx_chan =3D NULL;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1225  	aq->tx_chan =3D NULL;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1226  	return ret;
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1227  }
-ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020-10-=
-19  1228  =
+833ef3b91de692 Jeremy Kerr   2021-07-29  342  	if (mh->ver !=3D 1)
+4a992bbd365094 Jeremy Kerr   2021-07-29  343  		goto out;
+833ef3b91de692 Jeremy Kerr   2021-07-29  344  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  345  	flags =3D mh->flags_seq_tag =
+& (MCTP_HDR_FLAG_SOM | MCTP_HDR_FLAG_EOM);
+4a992bbd365094 Jeremy Kerr   2021-07-29  346  	tag =3D mh->flags_seq_tag & =
+(MCTP_HDR_TAG_MASK | MCTP_HDR_FLAG_TO);
+833ef3b91de692 Jeremy Kerr   2021-07-29  347  =
+
+833ef3b91de692 Jeremy Kerr   2021-07-29  348  	rcu_read_lock();
+4a992bbd365094 Jeremy Kerr   2021-07-29  349  =
+
+73c618456dc5cf Jeremy Kerr   2021-09-29  350  	/* lookup socket / reasm con=
+text, exactly matching (src,dest,tag).
+73c618456dc5cf Jeremy Kerr   2021-09-29  351  	 * we hold a ref on the key,=
+ and key->lock held.
+73c618456dc5cf Jeremy Kerr   2021-09-29  352  	 */
+73c618456dc5cf Jeremy Kerr   2021-09-29  353  	key =3D mctp_lookup_key(net,=
+ skb, mh->src, &f);
+833ef3b91de692 Jeremy Kerr   2021-07-29  354  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  355  	if (flags & MCTP_HDR_FLAG_SO=
+M) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  356  		if (key) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  357  			msk =3D container_of(key->=
+sk, struct mctp_sock, sk);
+4a992bbd365094 Jeremy Kerr   2021-07-29  358  		} else {
+4a992bbd365094 Jeremy Kerr   2021-07-29  359  			/* first response to a bro=
+adcast? do a more general
+4a992bbd365094 Jeremy Kerr   2021-07-29  360  			 * key lookup to find the =
+socket, but don't use this
+4a992bbd365094 Jeremy Kerr   2021-07-29  361  			 * key for reassembly - we=
+'ll create a more specific
+4a992bbd365094 Jeremy Kerr   2021-07-29  362  			 * one for future packets =
+if required (ie, !EOM).
+4a992bbd365094 Jeremy Kerr   2021-07-29  363  			 */
+73c618456dc5cf Jeremy Kerr   2021-09-29  364  			key =3D mctp_lookup_key(ne=
+t, skb, MCTP_ADDR_ANY, &f);
+4a992bbd365094 Jeremy Kerr   2021-07-29  365  			if (key) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  366  				msk =3D container_of(key-=
+>sk,
+4a992bbd365094 Jeremy Kerr   2021-07-29  367  						   struct mctp_sock, sk=
+);
+73c618456dc5cf Jeremy Kerr   2021-09-29  368  				spin_unlock_irqrestore(&k=
+ey->lock, f);
+73c618456dc5cf Jeremy Kerr   2021-09-29  369  				mctp_key_unref(key);
+4a992bbd365094 Jeremy Kerr   2021-07-29  370  				key =3D NULL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  371  			}
+4a992bbd365094 Jeremy Kerr   2021-07-29  372  		}
+833ef3b91de692 Jeremy Kerr   2021-07-29  373  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  374  		if (!key && !msk && (tag & =
+MCTP_HDR_FLAG_TO))
+833ef3b91de692 Jeremy Kerr   2021-07-29  375  			msk =3D mctp_lookup_bind(n=
+et, skb);
+833ef3b91de692 Jeremy Kerr   2021-07-29  376  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  377  		if (!msk) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  378  			rc =3D -ENOENT;
+4a992bbd365094 Jeremy Kerr   2021-07-29  379  			goto out_unlock;
+4a992bbd365094 Jeremy Kerr   2021-07-29  380  		}
+833ef3b91de692 Jeremy Kerr   2021-07-29  381  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  382  		/* single-packet message? d=
+eliver to socket, clean up any
+4a992bbd365094 Jeremy Kerr   2021-07-29  383  		 * pending key.
+4a992bbd365094 Jeremy Kerr   2021-07-29  384  		 */
+4a992bbd365094 Jeremy Kerr   2021-07-29  385  		if (flags & MCTP_HDR_FLAG_E=
+OM) {
+833ef3b91de692 Jeremy Kerr   2021-07-29  386  			sock_queue_rcv_skb(&msk->s=
+k, skb);
+4a992bbd365094 Jeremy Kerr   2021-07-29  387  			if (key) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  388  				/* we've hit a pending re=
+assembly; not much we
+4a992bbd365094 Jeremy Kerr   2021-07-29  389  				 * can do but drop it
+4a992bbd365094 Jeremy Kerr   2021-07-29  390  				 */
+63ed1aab3d40aa Matt Johnston 2022-02-09  391  				__mctp_key_done_in(key, n=
+et, f,
+4f9e1ba6de45aa Jeremy Kerr   2021-09-29  392  						   MCTP_TRACE_KEY_REPLI=
+ED);
+73c618456dc5cf Jeremy Kerr   2021-09-29  393  				key =3D NULL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  394  			}
+4a992bbd365094 Jeremy Kerr   2021-07-29  395  			rc =3D 0;
+4a992bbd365094 Jeremy Kerr   2021-07-29  396  			goto out_unlock;
+4a992bbd365094 Jeremy Kerr   2021-07-29  397  		}
+833ef3b91de692 Jeremy Kerr   2021-07-29  398  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  399  		/* broadcast response or a =
+bind() - create a key for further
+4a992bbd365094 Jeremy Kerr   2021-07-29  400  		 * packets for this message
+4a992bbd365094 Jeremy Kerr   2021-07-29  401  		 */
+4a992bbd365094 Jeremy Kerr   2021-07-29  402  		if (!key) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  403  			key =3D mctp_key_alloc(msk=
+, mh->dest, mh->src,
+4a992bbd365094 Jeremy Kerr   2021-07-29  404  					     tag, GFP_ATOMIC);
+4a992bbd365094 Jeremy Kerr   2021-07-29  405  			if (!key) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  406  				rc =3D -ENOMEM;
+4a992bbd365094 Jeremy Kerr   2021-07-29  407  				goto out_unlock;
+4a992bbd365094 Jeremy Kerr   2021-07-29  408  			}
+833ef3b91de692 Jeremy Kerr   2021-07-29  409  =
+
+73c618456dc5cf Jeremy Kerr   2021-09-29  410  			/* we can queue without th=
+e key lock here, as the
+4a992bbd365094 Jeremy Kerr   2021-07-29  411  			 * key isn't observable yet
+4a992bbd365094 Jeremy Kerr   2021-07-29  412  			 */
+4a992bbd365094 Jeremy Kerr   2021-07-29  413  			mctp_frag_queue(key, skb);
+4a992bbd365094 Jeremy Kerr   2021-07-29  414  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  415  			/* if the key_add fails, w=
+e've raced with another
+4a992bbd365094 Jeremy Kerr   2021-07-29  416  			 * SOM packet with the sam=
+e src, dest and tag. There's
+4a992bbd365094 Jeremy Kerr   2021-07-29  417  			 * no way to distinguish f=
+uture packets, so all we
+4a992bbd365094 Jeremy Kerr   2021-07-29  418  			 * can do is drop; we'll f=
+ree the skb on exit from
+4a992bbd365094 Jeremy Kerr   2021-07-29  419  			 * this function.
+4a992bbd365094 Jeremy Kerr   2021-07-29  420  			 */
+4a992bbd365094 Jeremy Kerr   2021-07-29  421  			rc =3D mctp_key_add(key, m=
+sk);
+4a992bbd365094 Jeremy Kerr   2021-07-29  422  			if (rc)
+4a992bbd365094 Jeremy Kerr   2021-07-29  423  				kfree(key);
+4a992bbd365094 Jeremy Kerr   2021-07-29  424  =
+
+4f9e1ba6de45aa Jeremy Kerr   2021-09-29  425  			trace_mctp_key_acquire(key=
+);
+4f9e1ba6de45aa Jeremy Kerr   2021-09-29  426  =
+
+73c618456dc5cf Jeremy Kerr   2021-09-29  427  			/* we don't need to releas=
+e key->lock on exit */
+0b93aed2842d95 Matt Johnston 2021-10-14  428  			mctp_key_unref(key);
+73c618456dc5cf Jeremy Kerr   2021-09-29  429  			key =3D NULL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  430  =
+
+73c618456dc5cf Jeremy Kerr   2021-09-29  431  		} else {
+4a992bbd365094 Jeremy Kerr   2021-07-29  432  			if (key->reasm_head || key=
+->reasm_dead) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  433  				/* duplicate start? drop =
+everything */
+63ed1aab3d40aa Matt Johnston 2022-02-09  434  				__mctp_key_done_in(key, n=
+et, f,
+4f9e1ba6de45aa Jeremy Kerr   2021-09-29  435  						   MCTP_TRACE_KEY_INVAL=
+IDATED);
+4a992bbd365094 Jeremy Kerr   2021-07-29  436  				rc =3D -EEXIST;
+73c618456dc5cf Jeremy Kerr   2021-09-29  437  				key =3D NULL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  438  			} else {
+4a992bbd365094 Jeremy Kerr   2021-07-29  439  				rc =3D mctp_frag_queue(ke=
+y, skb);
+4a992bbd365094 Jeremy Kerr   2021-07-29  440  			}
+4a992bbd365094 Jeremy Kerr   2021-07-29  441  		}
+4a992bbd365094 Jeremy Kerr   2021-07-29  442  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  443  	} else if (key) {
+4a992bbd365094 Jeremy Kerr   2021-07-29  444  		/* this packet continues a =
+previous message; reassemble
+4a992bbd365094 Jeremy Kerr   2021-07-29  445  		 * using the message-specif=
+ic key
+4a992bbd365094 Jeremy Kerr   2021-07-29  446  		 */
+4a992bbd365094 Jeremy Kerr   2021-07-29  447  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  448  		/* we need to be continuing=
+ an existing reassembly... */
+4a992bbd365094 Jeremy Kerr   2021-07-29  449  		if (!key->reasm_head)
+4a992bbd365094 Jeremy Kerr   2021-07-29  450  			rc =3D -EINVAL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  451  		else
+4a992bbd365094 Jeremy Kerr   2021-07-29  452  			rc =3D mctp_frag_queue(key=
+, skb);
+4a992bbd365094 Jeremy Kerr   2021-07-29  453  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  454  		/* end of message? deliver =
+to socket, and we're done with
+4a992bbd365094 Jeremy Kerr   2021-07-29  455  		 * the reassembly/response =
+key
+4a992bbd365094 Jeremy Kerr   2021-07-29  456  		 */
+4a992bbd365094 Jeremy Kerr   2021-07-29  457  		if (!rc && flags & MCTP_HDR=
+_FLAG_EOM) {
+63ed1aab3d40aa Matt Johnston 2022-02-09 @458  			msk =3D container_of(key->=
+sk, struct mctp_sock, sk);
+4a992bbd365094 Jeremy Kerr   2021-07-29  459  			sock_queue_rcv_skb(key->sk=
+, key->reasm_head);
+4a992bbd365094 Jeremy Kerr   2021-07-29  460  			key->reasm_head =3D NULL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  461  			__mctp_key_done_in(key, ne=
+t, f, MCTP_TRACE_KEY_REPLIED);
+73c618456dc5cf Jeremy Kerr   2021-09-29  462  			key =3D NULL;
+4a992bbd365094 Jeremy Kerr   2021-07-29  463  		}
+4a992bbd365094 Jeremy Kerr   2021-07-29  464  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  465  	} else {
+4a992bbd365094 Jeremy Kerr   2021-07-29  466  		/* not a start, no matching=
+ key */
+4a992bbd365094 Jeremy Kerr   2021-07-29  467  		rc =3D -ENOENT;
+4a992bbd365094 Jeremy Kerr   2021-07-29  468  	}
+4a992bbd365094 Jeremy Kerr   2021-07-29  469  =
+
+4a992bbd365094 Jeremy Kerr   2021-07-29  470  out_unlock:
+833ef3b91de692 Jeremy Kerr   2021-07-29  471  	rcu_read_unlock();
+73c618456dc5cf Jeremy Kerr   2021-09-29  472  	if (key) {
+73c618456dc5cf Jeremy Kerr   2021-09-29  473  		spin_unlock_irqrestore(&key=
+->lock, f);
+73c618456dc5cf Jeremy Kerr   2021-09-29  474  		mctp_key_unref(key);
+73c618456dc5cf Jeremy Kerr   2021-09-29  475  	}
+4a992bbd365094 Jeremy Kerr   2021-07-29  476  out:
+4a992bbd365094 Jeremy Kerr   2021-07-29  477  	if (rc)
+889b7da23abf92 Jeremy Kerr   2021-07-29  478  		kfree_skb(skb);
+4a992bbd365094 Jeremy Kerr   2021-07-29  479  	return rc;
+4a992bbd365094 Jeremy Kerr   2021-07-29  480  }
+4a992bbd365094 Jeremy Kerr   2021-07-29  481  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9104918718313539117==--
+--===============0672042533918908658==--
 
