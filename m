@@ -1,103 +1,90 @@
-Content-Type: multipart/mixed; boundary="===============0313057137739957832=="
+Content-Type: multipart/mixed; boundary="===============5795939419863777360=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:192 gf100_fifo_recover() warn: should '(((1))) << engi' be a 64 bit type?
-Date: Thu, 10 Feb 2022 13:46:16 +0800
-Message-ID: <202202101352.J0SJras4-lkp@intel.com>
+Subject: [tnguy-next-queue:dev-queue 102/204] net/ipv6/addrconf.c:4303 if6_get_next() warn: ignoring unreachable code.
+Date: Thu, 10 Feb 2022 13:46:13 +0800
+Message-ID: <202202101345.ddaV13j0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0313057137739957832==
+--===============5795939419863777360==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+TO: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: David Ahern <dsahern@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f4bc5bbb5fef3cf421ba3485d6d383c27ec473ed
-commit: c6198d3465a9ff5a67023cc1c497a273a913d46a drm/nouveau/fifo/gf100: us=
-e fifo engine id for engine recovery mask
-date:   12 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 months ago
-config: powerpc-randconfig-m031-20220130 (https://download.01.org/0day-ci/a=
-rchive/20220210/202202101352.J0SJras4-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.gi=
+t dev-queue
+head:   f44ab3c99a0ec7a0654ad0e3951bf07f4bff9a61
+commit: e66d117222047ea90f92e065f929bc0e0eec3647 [102/204] ipv6/addrconf: s=
+witch to per netns inet6_addr_lst hash table
+:::::: branch date: 8 hours ago
+:::::: commit date: 25 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20210/202202101345.ddaV13j0-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:192 gf100_fifo_recover() w=
-arn: should '(((1))) << engi' be a 64 bit type?
+net/ipv6/addrconf.c:4303 if6_get_next() warn: ignoring unreachable code.
 
-vim +192 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
+vim +4303 net/ipv6/addrconf.c
 
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  173  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4296  =
 
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  174  static void
-6189f1b0938dc06 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  175  gf100_fifo_recover(struct gf100_fifo *fifo, struct nvkm_e=
-ngine *engine,
-05c7145dae17a53 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-01-14  176  		   struct gf100_fifo_chan *chan)
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  177  {
-e5c5e4f5d319799 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  178  	struct nvkm_subdev *subdev =3D &fifo->base.engine.subdev;
-e5c5e4f5d319799 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  179  	struct nvkm_device *device =3D subdev->device;
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  180  	u32 chid =3D chan->base.chid;
-c6198d3465a9ff5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2021-02-06  181  	int engi =3D gf100_fifo_engine_id(&fifo->base, engine);
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  182  =
+c2e21293c05481 stephen hemminger 2010-03-17  4297  static struct inet6_ifad=
+dr *if6_get_next(struct seq_file *seq,
+c2e21293c05481 stephen hemminger 2010-03-17  4298  					 struct inet6_ifadd=
+r *ifa)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4299  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4300  	struct if6_iter_state *=
+state =3D seq->private;
+1218854afa6f65 YOSHIFUJI Hideaki 2008-03-26  4301  	struct net *net =3D seq=
+_file_net(seq);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4302  =
 
-e5c5e4f5d319799 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  183  	nvkm_error(subdev, "%s engine fault on channel %d, recov=
-ering...\n",
-9c28abb7db540a9 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2020-07-25  184  		   engine->subdev.name, chid);
-6ca307b0c9c7878 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  185  	assert_spin_locked(&fifo->base.lock);
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  186  =
+a5c1d98f8ccf43 Eric Dumazet      2017-10-23 @4303  	hlist_for_each_entry_co=
+ntinue_rcu(ifa, addr_lst) {
+1d5783030a14d1 Mihai Maruseac    2012-01-03  4304  		state->offset++;
+c2e21293c05481 stephen hemminger 2010-03-17  4305  		return ifa;
+1d5783030a14d1 Mihai Maruseac    2012-01-03  4306  	}
+3c40090a0f5b69 Daniel Lezcano    2008-01-10  4307  =
 
-8774440390cdfe3 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  187  	nvkm_mask(device, 0x003004 + (chid * 0x08), 0x00000001, =
-0x00000000);
-8f0649b5c6e70ec drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  188  	list_del_init(&chan->head);
-8f0649b5c6e70ec drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2015-08-20  189  	chan->killed =3D true;
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  190  =
+1d5783030a14d1 Mihai Maruseac    2012-01-03  4308  	state->offset =3D 0;
+86f9bd1ff61c41 Jeff Barnhill     2018-09-21  4309  	while (++state->bucket =
+< IN6_ADDR_HSIZE) {
+a5c1d98f8ccf43 Eric Dumazet      2017-10-23  4310  		hlist_for_each_entry_r=
+cu(ifa,
+e66d117222047e Eric Dumazet      2022-02-07  4311  				     &net->ipv6.inet=
+6_addr_lst[state->bucket], addr_lst) {
+c2e21293c05481 stephen hemminger 2010-03-17  4312  			return ifa;
+c2e21293c05481 stephen hemminger 2010-03-17  4313  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4314  	}
+3c40090a0f5b69 Daniel Lezcano    2008-01-10  4315  =
 
-c6198d3465a9ff5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2021-02-06  191  	if (engi >=3D 0 && engi !=3D GF100_FIFO_ENGN_SW)
-c6198d3465a9ff5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2021-02-06 @192  		fifo->recover.mask |=3D BIT(engi);
-792662439cf2417 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2016-03-11  193  	schedule_work(&fifo->recover.work);
-ff9f29abf0ef4c4 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
- 2016-11-05  194  	nvkm_fifo_kevent(&fifo->base, chid);
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  195  }
-24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
- 2014-02-05  196  =
+c2e21293c05481 stephen hemminger 2010-03-17  4316  	return NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4317  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  4318  =
 
+
+:::::: The code at line 4303 was first introduced by commit
+:::::: a5c1d98f8ccf4359575772b36ed51f5857dd7165 ipv6: addrconf: do not bloc=
+k BH in /proc/net/if_inet6 handling
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0313057137739957832==--
+--===============5795939419863777360==--
 
