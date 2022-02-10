@@ -1,286 +1,336 @@
-Content-Type: multipart/mixed; boundary="===============3216848878552196252=="
+Content-Type: multipart/mixed; boundary="===============5501666492007642991=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 05/10] block: add emulation for copy
-Date: Fri, 11 Feb 2022 05:28:14 +0800
-Message-ID: <202202110554.gDIZXN5V-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15 784/923] drivers/gpu/drm/xlnx/xlnx_dptx.c:3187:4-10: ERROR: missing put_device; call of_find_device_by_node on line 3176, but without a corresponding object release within this function.
+Date: Fri, 11 Feb 2022 05:17:55 +0800
+Message-ID: <202202110504.bzKtGDZS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3216848878552196252==
+--===============5501666492007642991==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220207141348.4235-6-nj.shetty@samsung.com>
-References: <20220207141348.4235-6-nj.shetty@samsung.com>
-TO: Nitesh Shetty <nj.shetty@samsung.com>
-TO: mpatocka(a)redhat.com
-CC: javier(a)javigon.com
-CC: chaitanyak(a)nvidia.com
-CC: linux-block(a)vger.kernel.org
-CC: linux-scsi(a)vger.kernel.org
-CC: dm-devel(a)redhat.com
-CC: linux-nvme(a)lists.infradead.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: axboe(a)kernel.dk
-CC: msnitzer(a)redhat.com
-CC: bvanassche(a)acm.org
-CC: martin.petersen(a)oracle.com
-CC: roland(a)purestorage.com
-CC: hare(a)suse.de
-CC: kbusch(a)kernel.org
-CC: hch(a)lst.de
-CC: Frederick.Knight(a)netapp.com
-CC: zach.brown(a)ni.com
-CC: osandov(a)fb.com
-CC: lsf-pc(a)lists.linux-foundation.org
-CC: djwong(a)kernel.org
-CC: josef(a)toxicpanda.com
-CC: clm(a)fb.com
-CC: dsterba(a)suse.com
-CC: tytso(a)mit.edu
-CC: jack(a)suse.com
-CC: joshi.k(a)samsung.com
-CC: arnav.dawn(a)samsung.com
-CC: nj.shetty(a)samsung.com
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Rajesh Gugulothu <gugulothu.rajesh@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Hyun Kwon <hyun.kwon@xilinx.com>
 
-Hi Nitesh,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on next-20220210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-b=
-io_map_kern-non-static/20220207-231407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-m021-20220207 (https://download.01.org/0day-ci/arch=
-ive/20220211/202202110554.gDIZXN5V-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
+head:   966124532656bc95d781abf57531e4cd4f962237
+commit: c1b7addf0028e99aeb94afa8ffc106926b0696d9 [784/923] drm: xlnx: dptx:=
+ Add DisplayPort tx driver
+:::::: branch date: 13 hours ago
+:::::: commit date: 10 days ago
+config: alpha-randconfig-c024-20220208 (https://download.01.org/0day-ci/arc=
+hive/20220211/202202110504.bzKtGDZS-lkp(a)intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-block/blk-lib.c:310 blk_submit_rw_buf() error: uninitialized symbol 'bio'.
-block/blk-lib.c:414 blk_copy_emulate() error: uninitialized symbol 'ret'.
 
-Old smatch warnings:
-block/blk-lib.c:272 blk_copy_offload() warn: possible memory leak of 'ctx'
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xlnx/xlnx_dptx.c:3187:4-10: ERROR: missing put_device; c=
+all of_find_device_by_node on line 3176, but without a corresponding object=
+ release within this function.
+   drivers/gpu/drm/xlnx/xlnx_dptx.c:3195:2-8: ERROR: missing put_device; ca=
+ll of_find_device_by_node on line 3176, but without a corresponding object =
+release within this function.
+   drivers/gpu/drm/xlnx/xlnx_dptx.c:3221:5-11: ERROR: missing put_device; c=
+all of_find_device_by_node on line 3176, but without a corresponding object=
+ release within this function.
+   drivers/gpu/drm/xlnx/xlnx_dptx.c:3236:3-9: ERROR: missing put_device; ca=
+ll of_find_device_by_node on line 3176, but without a corresponding object =
+release within this function.
+   drivers/gpu/drm/xlnx/xlnx_dptx.c:3242:2-8: ERROR: missing put_device; ca=
+ll of_find_device_by_node on line 3176, but without a corresponding object =
+release within this function.
+   drivers/gpu/drm/xlnx/xlnx_dptx.c:3283:1-7: ERROR: missing put_device; ca=
+ll of_find_device_by_node on line 3176, but without a corresponding object =
+release within this function.
+   drivers/gpu/drm/xlnx/xlnx_dptx.c:3297:1-7: ERROR: missing put_device; ca=
+ll of_find_device_by_node on line 3176, but without a corresponding object =
+release within this function.
 
-vim +/bio +310 block/blk-lib.c
+vim +3187 drivers/gpu/drm/xlnx/xlnx_dptx.c
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  274  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3125  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  275  int blk_submit_rw_buf(struct =
-block_device *bdev, void *buf, sector_t buf_len,
-a7bb30870db803 Nitesh Shetty 2022-02-07  276  				sector_t sector, unsigned=
- int op, gfp_t gfp_mask)
-a7bb30870db803 Nitesh Shetty 2022-02-07  277  {
-a7bb30870db803 Nitesh Shetty 2022-02-07  278  	struct request_queue *q =3D =
-bdev_get_queue(bdev);
-a7bb30870db803 Nitesh Shetty 2022-02-07  279  	struct bio *bio, *parent =3D=
- NULL;
-a7bb30870db803 Nitesh Shetty 2022-02-07  280  	sector_t max_hw_len =3D min_=
-t(unsigned int, queue_max_hw_sectors(q),
-a7bb30870db803 Nitesh Shetty 2022-02-07  281  			queue_max_segments(q) << (=
-PAGE_SHIFT - SECTOR_SHIFT)) << SECTOR_SHIFT;
-a7bb30870db803 Nitesh Shetty 2022-02-07  282  	sector_t len, remaining;
-a7bb30870db803 Nitesh Shetty 2022-02-07  283  	int ret;
-a7bb30870db803 Nitesh Shetty 2022-02-07  284  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3126  static int xlnx_dp_probe(=
+struct platform_device *pdev)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3127  {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3128  	struct device_node *pnod=
+e =3D pdev->dev.of_node;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3129  	struct device_node *fnod=
+e;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3130  	struct platform_device *=
+iface_pdev;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3131  	struct xlnx_dp *dp;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3132  	struct resource *res;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3133  	void *ptr;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3134  	unsigned int i;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3135  	int irq, ret;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3136  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  285  	for (remaining =3D buf_len; =
-remaining > 0; remaining -=3D len) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  286  		len =3D min_t(int, max_hw_l=
-en, remaining);
-a7bb30870db803 Nitesh Shetty 2022-02-07  287  retry:
-a7bb30870db803 Nitesh Shetty 2022-02-07  288  		bio =3D bio_map_kern(q, buf=
-, len, gfp_mask);
-a7bb30870db803 Nitesh Shetty 2022-02-07  289  		if (IS_ERR(bio)) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  290  			len >>=3D 1;
-a7bb30870db803 Nitesh Shetty 2022-02-07  291  			if (len)
-a7bb30870db803 Nitesh Shetty 2022-02-07  292  				goto retry;
-a7bb30870db803 Nitesh Shetty 2022-02-07  293  			return PTR_ERR(bio);
-a7bb30870db803 Nitesh Shetty 2022-02-07  294  		}
-a7bb30870db803 Nitesh Shetty 2022-02-07  295  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3137  	dp =3D devm_kzalloc(&pde=
+v->dev, sizeof(*dp), GFP_KERNEL);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3138  	if (!dp)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3139  		return -ENOMEM;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3140  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  296  		bio->bi_iter.bi_sector =3D =
-sector >> SECTOR_SHIFT;
-a7bb30870db803 Nitesh Shetty 2022-02-07  297  		bio->bi_opf =3D op;
-a7bb30870db803 Nitesh Shetty 2022-02-07  298  		bio_set_dev(bio, bdev);
-a7bb30870db803 Nitesh Shetty 2022-02-07  299  		bio->bi_end_io =3D NULL;
-a7bb30870db803 Nitesh Shetty 2022-02-07  300  		bio->bi_private =3D NULL;
-a7bb30870db803 Nitesh Shetty 2022-02-07  301  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3141  	dp->tx_audio_data =3D
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3142  		devm_kzalloc(&pdev->dev=
+, sizeof(struct xlnx_dptx_audio_data),
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3143  			     GFP_KERNEL);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3144  	if (!dp->tx_audio_data)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3145  		return -ENOMEM;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3146  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  302  		if (parent) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  303  			bio_chain(parent, bio);
-a7bb30870db803 Nitesh Shetty 2022-02-07  304  			submit_bio(parent);
-a7bb30870db803 Nitesh Shetty 2022-02-07  305  		}
-a7bb30870db803 Nitesh Shetty 2022-02-07  306  		parent =3D bio;
-a7bb30870db803 Nitesh Shetty 2022-02-07  307  		sector +=3D len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  308  		buf =3D (char *) buf + len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  309  	}
-a7bb30870db803 Nitesh Shetty 2022-02-07 @310  	ret =3D submit_bio_wait(bio);
-a7bb30870db803 Nitesh Shetty 2022-02-07  311  	bio_put(bio);
-a7bb30870db803 Nitesh Shetty 2022-02-07  312  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3147  	dp->dpms =3D DRM_MODE_DP=
+MS_OFF;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3148  	dp->status =3D connector=
+_status_disconnected;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3149  	dp->dev =3D &pdev->dev;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3150  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  313  	return ret;
-a7bb30870db803 Nitesh Shetty 2022-02-07  314  }
-a7bb30870db803 Nitesh Shetty 2022-02-07  315  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3151  	res =3D platform_get_res=
+ource_byname(pdev, IORESOURCE_MEM, "dp_base");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3152  	dp->dp_base =3D devm_ior=
+emap_resource(dp->dev, res);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3153  	if (IS_ERR(dp->dp_base))=
+ {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3154  		dev_err(&pdev->dev, "co=
+uldn't map DisplayPort registers\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3155  		return -ENODEV;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3156  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3157  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  316  static void *blk_alloc_buf(se=
-ctor_t req_size, sector_t *alloc_size, gfp_t gfp_mask)
-a7bb30870db803 Nitesh Shetty 2022-02-07  317  {
-a7bb30870db803 Nitesh Shetty 2022-02-07  318  	int min_size =3D PAGE_SIZE;
-a7bb30870db803 Nitesh Shetty 2022-02-07  319  	void *buf;
-a7bb30870db803 Nitesh Shetty 2022-02-07  320  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3158  	ret =3D xlnx_dp_parse_of=
+(dp);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3159  	if (ret < 0)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3160  		return ret;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3161  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  321  	while (req_size >=3D min_siz=
-e) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  322  		buf =3D kvmalloc(req_size, =
-gfp_mask);
-a7bb30870db803 Nitesh Shetty 2022-02-07  323  		if (buf) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  324  			*alloc_size =3D req_size;
-a7bb30870db803 Nitesh Shetty 2022-02-07  325  			return buf;
-a7bb30870db803 Nitesh Shetty 2022-02-07  326  		}
-a7bb30870db803 Nitesh Shetty 2022-02-07  327  		/* retry half the requested=
- size */
-a7bb30870db803 Nitesh Shetty 2022-02-07  328  		req_size >>=3D 1;
-a7bb30870db803 Nitesh Shetty 2022-02-07  329  	}
-a7bb30870db803 Nitesh Shetty 2022-02-07  330  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3162  	if (dp->config.versal_gt=
+_present) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3163  		dp->phy[0] =3D devm_phy=
+_get(dp->dev, "dp-gtquad");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3164  		if (IS_ERR(dp->phy[0]))
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3165  			return dev_err_probe(d=
+p->dev, ret, "failed to get phy\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3166  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  331  	return NULL;
-a7bb30870db803 Nitesh Shetty 2022-02-07  332  }
-a7bb30870db803 Nitesh Shetty 2022-02-07  333  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3167  		ret =3D phy_init(dp->ph=
+y[0]);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3168  		if (ret)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3169  			goto error_phy;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3170  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  334  static inline int blk_copy_sa=
-nity_check(struct block_device *src_bdev,
-12a9801a7301f1 Nitesh Shetty 2022-02-07  335  		struct block_device *dst_bd=
-ev, struct range_entry *rlist, int nr)
-12a9801a7301f1 Nitesh Shetty 2022-02-07  336  {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  337  	unsigned int align_mask =3D =
-max(
-12a9801a7301f1 Nitesh Shetty 2022-02-07  338  			bdev_logical_block_size(ds=
-t_bdev), bdev_logical_block_size(src_bdev)) - 1;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  339  	sector_t len =3D 0;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  340  	int i;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  341  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3171  		fnode =3D of_parse_phan=
+dle(pnode, "xlnx,xilinx-vfmc", 0);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3172  		if (!fnode) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3173  			dev_err(&pdev->dev, "p=
+latform node not found\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3174  			of_node_put(fnode);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3175  		} else {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24 @3176  			iface_pdev =3D of_find=
+_device_by_node(fnode);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3177  			if (!iface_pdev) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3178  				of_node_put(pnode);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3179  				return -ENODEV;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3180  			}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3181  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  342  	for (i =3D 0; i < nr; i++) {
-12a9801a7301f1 Nitesh Shetty 2022-02-07  343  		if (rlist[i].len)
-12a9801a7301f1 Nitesh Shetty 2022-02-07  344  			len +=3D rlist[i].len;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  345  		else
-12a9801a7301f1 Nitesh Shetty 2022-02-07  346  			return -EINVAL;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  347  		if ((rlist[i].dst & align_m=
-ask) || (rlist[i].src & align_mask) ||
-12a9801a7301f1 Nitesh Shetty 2022-02-07  348  				(rlist[i].len & align_mas=
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3182  			ptr =3D dev_get_drvdat=
+a(&iface_pdev->dev);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3183  			if (!ptr) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3184  				dev_info(&pdev->dev,
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3185  					 "platform device no=
+t found -EPROBE_DEFER\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3186  				of_node_put(fnode);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24 @3187  				return -EPROBE_DEFER;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3188  			}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3189  			of_node_put(fnode);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3190  		}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3191  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3192  =
+
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3193  	dp->axi_lite_clk =3D dev=
+m_clk_get(&pdev->dev, "s_axi_aclk");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3194  	if (IS_ERR(dp->axi_lite_=
+clk))
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3195  		return PTR_ERR(dp->axi_=
+lite_clk);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3196  =
+
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3197  	dp->tx_vid_clk =3D devm_=
+clk_get(&pdev->dev, "tx_vid_clk");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3198  	if (IS_ERR(dp->tx_vid_cl=
 k))
-12a9801a7301f1 Nitesh Shetty 2022-02-07  349  			return -EINVAL;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  350  		rlist[i].comp_len =3D 0;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  351  	}
-12a9801a7301f1 Nitesh Shetty 2022-02-07  352  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3199  		dev_err(dp->dev, "faile=
+d to get vid clk stream1\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3200  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  353  	if (!len && len >=3D MAX_COP=
-Y_TOTAL_LENGTH)
-12a9801a7301f1 Nitesh Shetty 2022-02-07  354  		return -EINVAL;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  355  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3201  	platform_set_drvdata(pde=
+v, dp);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3202  	xlnx_dp_write(dp->dp_bas=
+e, XDPTX_ENABLE_REG, 0);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3203  	xlnx_dp_write(dp->dp_bas=
+e, XDPTX_MAINSTRM_ENABLE_REG, 0);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3204  =
 
-12a9801a7301f1 Nitesh Shetty 2022-02-07  356  	return 0;
-12a9801a7301f1 Nitesh Shetty 2022-02-07  357  }
-12a9801a7301f1 Nitesh Shetty 2022-02-07  358  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3205  	dp->tx_link_config.vs_le=
+vel =3D 0;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3206  	dp->tx_link_config.pe_le=
+vel =3D 0;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3207  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  359  static inline sector_t blk_co=
-py_max_range(struct range_entry *rlist, int nr, sector_t *max_len)
-a7bb30870db803 Nitesh Shetty 2022-02-07  360  {
-a7bb30870db803 Nitesh Shetty 2022-02-07  361  	int i;
-a7bb30870db803 Nitesh Shetty 2022-02-07  362  	sector_t len =3D 0;
-a7bb30870db803 Nitesh Shetty 2022-02-07  363  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3208  	if (!dp->config.versal_g=
+t_present) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3209  		/* acquire vphy lanes */
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3210  		for (i =3D 0; i < dp->c=
+onfig.max_lanes; i++) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3211  			char phy_name[16];
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3212  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  364  	*max_len =3D 0;
-a7bb30870db803 Nitesh Shetty 2022-02-07  365  	for (i =3D 0; i < nr; i++) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  366  		*max_len =3D max(*max_len, =
-rlist[i].len);
-a7bb30870db803 Nitesh Shetty 2022-02-07  367  		len +=3D rlist[i].len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  368  	}
-a7bb30870db803 Nitesh Shetty 2022-02-07  369  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3213  			snprintf(phy_name, siz=
+eof(phy_name), "dp-phy%d", i);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3214  			dp->phy[i] =3D devm_ph=
+y_get(dp->dev, phy_name);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3215  			if (IS_ERR(dp->phy[i])=
+) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3216  				ret =3D PTR_ERR(dp->p=
+hy[i]);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3217  				dp->phy[i] =3D NULL;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3218  				if (ret =3D=3D -EPROB=
+E_DEFER) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3219  					dev_info(dp->dev,
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3220  						 "xvphy not ready -=
+EPROBE_DEFER\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3221  					return ret;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3222  				}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3223  				if (ret !=3D -EPROBE_=
+DEFER)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3224  					dev_err(dp->dev, "fa=
+iled to get phy lane %s i %d, error %d\n",
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3225  						phy_name, i, ret);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3226  				goto error_phy;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3227  			}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3228  		}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3229  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  370  	return len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  371  }
-a7bb30870db803 Nitesh Shetty 2022-02-07  372  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3230  		ret =3D xlnx_dp_init_ph=
+y(dp);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3231  		if (ret)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3232  			goto error_phy;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3233  	} else {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3234  		ret =3D xlnx_dp_tx_gt_c=
+ontrol_init(dp);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3235  		if (ret < 0)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3236  			return ret;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3237  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3238  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  373  /*
-a7bb30870db803 Nitesh Shetty 2022-02-07  374   * If native copy offload fea=
-ture is absent, this function tries to emulate,
-a7bb30870db803 Nitesh Shetty 2022-02-07  375   * by copying data from sourc=
-e to a temporary buffer and from buffer to
-a7bb30870db803 Nitesh Shetty 2022-02-07  376   * destination device.
-a7bb30870db803 Nitesh Shetty 2022-02-07  377   */
-a7bb30870db803 Nitesh Shetty 2022-02-07  378  static int blk_copy_emulate(s=
-truct block_device *src_bdev, int nr,
-a7bb30870db803 Nitesh Shetty 2022-02-07  379  		struct range_entry *rlist, =
-struct block_device *dest_bdev, gfp_t gfp_mask)
-a7bb30870db803 Nitesh Shetty 2022-02-07  380  {
-a7bb30870db803 Nitesh Shetty 2022-02-07  381  	void *buf =3D NULL;
-a7bb30870db803 Nitesh Shetty 2022-02-07  382  	int ret, nr_i =3D 0;
-a7bb30870db803 Nitesh Shetty 2022-02-07  383  	sector_t src, dst, copy_len,=
- buf_len, read_len, copied_len, max_len =3D 0, remaining =3D 0;
-a7bb30870db803 Nitesh Shetty 2022-02-07  384  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3239  	ret =3D clk_prepare_enab=
+le(dp->axi_lite_clk);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3240  	if (ret) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3241  		dev_err(dp->dev, "faile=
+d to enable axi_lite_clk (%d)\n", ret);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3242  		return ret;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3243  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3244  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  385  	copy_len =3D blk_copy_max_ra=
-nge(rlist, nr, &max_len);
-a7bb30870db803 Nitesh Shetty 2022-02-07  386  	buf =3D blk_alloc_buf(max_le=
-n, &buf_len, gfp_mask);
-a7bb30870db803 Nitesh Shetty 2022-02-07  387  	if (!buf)
-a7bb30870db803 Nitesh Shetty 2022-02-07  388  		return -ENOMEM;
-a7bb30870db803 Nitesh Shetty 2022-02-07  389  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3245  	ret =3D clk_prepare_enab=
+le(dp->tx_vid_clk);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3246  	if (ret) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3247  		dev_err(dp->dev, "faile=
+d to enable tx_vid_clk (%d)\n", ret);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3248  		goto tx_vid_clk_err;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3249  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3250  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  390  	for (copied_len =3D 0; copie=
-d_len < copy_len; copied_len +=3D read_len) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  391  		if (!remaining) {
-a7bb30870db803 Nitesh Shetty 2022-02-07  392  			rlist[nr_i].comp_len =3D 0;
-a7bb30870db803 Nitesh Shetty 2022-02-07  393  			src =3D rlist[nr_i].src;
-a7bb30870db803 Nitesh Shetty 2022-02-07  394  			dst =3D rlist[nr_i].dst;
-a7bb30870db803 Nitesh Shetty 2022-02-07  395  			remaining =3D rlist[nr_i++=
-].len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  396  		}
-a7bb30870db803 Nitesh Shetty 2022-02-07  397  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3251  	dp->aux.name =3D "Xlnx D=
+P AUX";
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3252  	dp->aux.dev =3D dp->dev;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3253  	dp->aux.transfer =3D xln=
+x_dp_aux_transfer;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3254  	ret =3D drm_dp_aux_regis=
+ter(&dp->aux);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3255  	if (ret < 0) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3256  		dev_err(dp->dev, "faile=
+d to initialize DP aux\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3257  		goto error;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3258  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3259  	irq =3D platform_get_irq=
+(pdev, 0);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3260  	if (irq < 0) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3261  		ret =3D irq;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3262  		goto error;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3263  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3264  	ret =3D devm_request_thr=
+eaded_irq(dp->dev, irq, NULL,
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3265  					xlnx_dp_irq_handler,=
+ IRQF_ONESHOT,
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3266  					dev_name(dp->dev), d=
+p);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3267  =
 
-a7bb30870db803 Nitesh Shetty 2022-02-07  398  		read_len =3D min_t(sector_t=
-, remaining, buf_len);
-a7bb30870db803 Nitesh Shetty 2022-02-07  399  		ret =3D blk_submit_rw_buf(s=
-rc_bdev, buf, read_len, src, REQ_OP_READ, gfp_mask);
-a7bb30870db803 Nitesh Shetty 2022-02-07  400  		if (ret)
-a7bb30870db803 Nitesh Shetty 2022-02-07  401  			goto out;
-a7bb30870db803 Nitesh Shetty 2022-02-07  402  		src +=3D read_len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  403  		remaining -=3D read_len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  404  		ret =3D blk_submit_rw_buf(d=
-est_bdev, buf, read_len, dst, REQ_OP_WRITE,
-a7bb30870db803 Nitesh Shetty 2022-02-07  405  				gfp_mask);
-a7bb30870db803 Nitesh Shetty 2022-02-07  406  		if (ret)
-a7bb30870db803 Nitesh Shetty 2022-02-07  407  			goto out;
-a7bb30870db803 Nitesh Shetty 2022-02-07  408  		else
-a7bb30870db803 Nitesh Shetty 2022-02-07  409  			rlist[nr_i - 1].comp_len +=
-=3D read_len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  410  		dst +=3D read_len;
-a7bb30870db803 Nitesh Shetty 2022-02-07  411  	}
-a7bb30870db803 Nitesh Shetty 2022-02-07  412  out:
-a7bb30870db803 Nitesh Shetty 2022-02-07  413  	kvfree(buf);
-a7bb30870db803 Nitesh Shetty 2022-02-07 @414  	return ret;
-a7bb30870db803 Nitesh Shetty 2022-02-07  415  }
-a7bb30870db803 Nitesh Shetty 2022-02-07  416  =
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3268  	if (ret < 0)
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3269  		goto error;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3270  =
+
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3271  	if (dp->config.audio_ena=
+bled) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3272  		dp->audio_pdev =3D dptx=
+_register_aud_dev(dp->dev);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3273  		if (IS_ERR(dp->audio_pd=
+ev)) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3274  			dp->audio_init =3D fal=
+se;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3275  			dev_err(dp->dev, "dp t=
+x audio init failed\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3276  			goto error;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3277  		} else {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3278  			dp->audio_init =3D tru=
+e;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3279  			dev_info(dp->dev, "dp =
+tx audio initialized\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3280  		}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3281  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3282  =
+
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3283  	return component_add(&pd=
+ev->dev, &xlnx_dp_component_ops);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3284  =
+
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3285  tx_vid_clk_err:
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3286  	clk_disable_unprepare(dp=
+->axi_lite_clk);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3287  error:
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3288  	drm_dp_aux_unregister(&d=
+p->aux);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3289  error_phy:
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3290  	if (!dp->config.versal_g=
+t_present) {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3291  		dev_dbg(&pdev->dev, "xd=
+prxss_probe() error_phy:\n");
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3292  		xlnx_dp_exit_phy(dp);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3293  	} else {
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3294  		phy_exit(dp->phy[0]);
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3295  	}
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3296  =
+
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3297  	return ret;
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3298  }
+c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3299  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============3216848878552196252==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5501666492007642991==--
 
