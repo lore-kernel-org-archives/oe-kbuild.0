@@ -1,71 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============6755557084224390045=="
+Content-Type: multipart/mixed; boundary="===============0244130865764601252=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/display/skl_universal_plane.c:1742:42: warning: Possible null pointer dereference: obj [nullPointer]
-Date: Thu, 10 Feb 2022 12:55:13 +0800
-Message-ID: <202202101238.3ycRXG7E-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15 635/907] drivers/gpu/drm/xlnx/xlnx_sdi.c:1311:1-23: WARNING: Function "for_each_child_of_node" should have of_node_put() before goto around lines 1325.
+Date: Thu, 10 Feb 2022 11:03:33 +0800
+Message-ID: <202202101047.pC57aeLz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6755557084224390045==
+--===============0244130865764601252==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
-CC: Juston Li <juston.li@intel.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Saurabh Sengar <saurabh.singh@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Hyun Kwon <hyun.kwon@xilinx.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f4bc5bbb5fef3cf421ba3485d6d383c27ec473ed
-commit: f9a7b19c484067fdcc5972c88ab6f06898adc40d drm/i915: Move the pxp pla=
-ne state computation
-date:   4 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 months ago
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
+head:   423a108a01e05e84b59a4c4885c16bf3cd8c90c7
+commit: eedc9b61ce549e6a1af512cc21dfd7fa487d0823 [635/907] drm: xlnx: sdi: =
+Adding sdi-tx driver
+:::::: branch date: 17 hours ago
+:::::: commit date: 9 days ago
+config: alpha-randconfig-c024-20220208 (https://download.01.org/0day-ci/arc=
+hive/20220210/202202101047.pC57aeLz-lkp(a)intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/xlnx/xlnx_sdi.c:1311:1-23: WARNING: Function "for_each_c=
+hild_of_node" should have of_node_put() before goto around lines 1325.
+   drivers/gpu/drm/xlnx/xlnx_sdi.c:1311:1-23: WARNING: Function "for_each_c=
+hild_of_node" should have of_node_put() before goto around lines 1333.
 
->> drivers/gpu/drm/i915/display/skl_universal_plane.c:1742:42: warning: Pos=
-sible null pointer dereference: obj [nullPointer]
-    struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
-                                            ^
-   drivers/gpu/drm/i915/display/skl_universal_plane.c:1797:50: note: Callin=
-g function 'bo_has_valid_encryption', 1st argument '(fb)?to_intel_bo(fb->ob=
-j[0]):NULL' value is 0
-     plane_state->decrypt =3D bo_has_valid_encryption(intel_fb_obj(fb));
-                                                    ^
-   drivers/gpu/drm/i915/display/skl_universal_plane.c:1742:42: note: Null p=
-ointer dereference
-    struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
-                                            ^
-
-vim +1742 drivers/gpu/drm/i915/display/skl_universal_plane.c
-
-46d12f911821f7 Dave Airlie   2021-02-05  1739  =
-
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07  1740  static bool bo_has=
-_valid_encryption(struct drm_i915_gem_object *obj)
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07  1741  {
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07 @1742  	struct drm_i915_p=
-rivate *i915 =3D to_i915(obj->base.dev);
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07  1743  =
-
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07  1744  	return intel_pxp_=
-key_check(&i915->gt.pxp, obj, false) =3D=3D 0;
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07  1745  }
-f9a7b19c484067 Ville Syrj=C3=A4l=C3=A4 2021-10-07  1746  =
-
+Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6755557084224390045==--
+--===============0244130865764601252==--
 
