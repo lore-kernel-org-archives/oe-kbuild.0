@@ -1,156 +1,337 @@
-Content-Type: multipart/mixed; boundary="===============0621131619253668641=="
+Content-Type: multipart/mixed; boundary="===============5955672915783556310=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 07/10] nvmet: add copy command support for bdev and file ns
-Date: Fri, 11 Feb 2022 06:49:55 +0800
-Message-ID: <202202110625.4yHrKaUn-lkp@intel.com>
+Subject: mm/backing-dev.c:609:8: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Fri, 11 Feb 2022 06:19:17 +0800
+Message-ID: <202202110625.0CSGzFvM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0621131619253668641==
+--===============5955672915783556310==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220207141348.4235-8-nj.shetty@samsung.com>
-References: <20220207141348.4235-8-nj.shetty@samsung.com>
-TO: Nitesh Shetty <nj.shetty@samsung.com>
-TO: mpatocka(a)redhat.com
-CC: javier(a)javigon.com
-CC: chaitanyak(a)nvidia.com
-CC: linux-block(a)vger.kernel.org
-CC: linux-scsi(a)vger.kernel.org
-CC: dm-devel(a)redhat.com
-CC: linux-nvme(a)lists.infradead.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: axboe(a)kernel.dk
-CC: msnitzer(a)redhat.com
-CC: bvanassche(a)acm.org
-CC: martin.petersen(a)oracle.com
-CC: roland(a)purestorage.com
-CC: hare(a)suse.de
-CC: kbusch(a)kernel.org
-CC: hch(a)lst.de
-CC: Frederick.Knight(a)netapp.com
-CC: zach.brown(a)ni.com
-CC: osandov(a)fb.com
-CC: lsf-pc(a)lists.linux-foundation.org
-CC: djwong(a)kernel.org
-CC: josef(a)toxicpanda.com
-CC: clm(a)fb.com
-CC: dsterba(a)suse.com
-CC: tytso(a)mit.edu
-CC: jack(a)suse.com
-CC: joshi.k(a)samsung.com
-CC: arnav.dawn(a)samsung.com
-CC: nj.shetty(a)samsung.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Marco Elver <elver@google.com>
+CC: "Paul E. McKenney" <paulmck@kernel.org>
 
-Hi Nitesh,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e3c85076d7a6f986445b9008be7e7f83d1b0780a
+commit: f948666de517cf8ebef7cb2c9b2d669dec4bfe2e locking/barriers, kcsan: A=
+dd instrumentation for barriers
+date:   9 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 9 weeks ago
+config: riscv-randconfig-c006-20220208 (https://download.01.org/0day-ci/arc=
+hive/20220211/202202110625.0CSGzFvM-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
+ae54a55b4dbfeb6ba55f723abbd81bf494)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df948666de517cf8ebef7cb2c9b2d669dec4bfe2e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f948666de517cf8ebef7cb2c9b2d669dec4bfe2e
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on linus/master v5.17-rc3 next-20220210]
-[cannot apply to device-mapper-dm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-b=
-io_map_kern-non-static/20220207-231407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-m021-20220207 (https://download.01.org/0day-ci/arch=
-ive/20220211/202202110625.4yHrKaUn-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/nvme/target/io-cmd-file.c:377 nvmet_file_copy_work() error: uniniti=
-alized symbol 'len'.
-drivers/nvme/target/io-cmd-bdev.c:479 nvmet_bdev_execute_copy() warn: shoul=
-d '(((range.nlb)) + 1) << req->ns->blksize_shift' be a 64 bit type?
 
-Old smatch warnings:
-drivers/nvme/target/io-cmd-bdev.c:377 nvmet_bdev_discard_range() warn: shou=
-ld '((range->nlb)) << (ns->blksize_shift - 9)' be a 64 bit type?
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:2992:9: note: Returning from 'is_inode_flag_set'
+           return is_inode_flag_set(inode, FI_INLINE_XATTR);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:2992:2: note: Returning zero, which participates in a con=
+dition later
+           return is_inode_flag_set(inode, FI_INLINE_XATTR);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3044:6: note: Returning from 'f2fs_has_inline_xattr'
+           if (f2fs_has_inline_xattr(inode))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3044:2: note: Taking false branch
+           if (f2fs_has_inline_xattr(inode))
+           ^
+   fs/f2fs/f2fs.h:3046:2: note: Returning zero, which participates in a con=
+dition later
+           return 0;
+           ^~~~~~~~
+   fs/f2fs/xattr.c:398:29: note: Returning from 'inline_xattr_size'
+           unsigned int inline_size =3D inline_xattr_size(inode);
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:402:16: note: Calling 'f2fs_kzalloc'
+           txattr_addr =3D f2fs_kzalloc(F2FS_I_SB(inode),
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3205:9: note: Calling 'f2fs_kmalloc'
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3194:6: note: Assuming the condition is false
+           if (time_to_inject(sbi, FAULT_KMALLOC)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3194:2: note: Taking false branch
+           if (time_to_inject(sbi, FAULT_KMALLOC)) {
+           ^
+   fs/f2fs/f2fs.h:3199:9: note: Uninitialized value stored to field 'h_magi=
+c'
+           return kmalloc(size, flags);
+                  ^~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3199:2: note: Returning pointer, which participates in a =
+condition later
+           return kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3205:9: note: Returning from 'f2fs_kmalloc'
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3205:2: note: Returning pointer, which participates in a =
+condition later
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:402:16: note: Returning from 'f2fs_kzalloc'
+           txattr_addr =3D f2fs_kzalloc(F2FS_I_SB(inode),
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:404:6: note: Assuming 'txattr_addr' is non-null
+           if (!txattr_addr)
+               ^~~~~~~~~~~~
+   fs/f2fs/xattr.c:404:2: note: Taking false branch
+           if (!txattr_addr)
+           ^
+   fs/f2fs/xattr.c:408:6: note: 'inline_size' is 0
+           if (inline_size) {
+               ^~~~~~~~~~~
+   fs/f2fs/xattr.c:408:2: note: Taking false branch
+           if (inline_size) {
+           ^
+   fs/f2fs/xattr.c:415:6: note: Assuming 'xnid' is 0
+           if (xnid) {
+               ^~~~
+   fs/f2fs/xattr.c:415:2: note: Taking false branch
+           if (xnid) {
+           ^
+   fs/f2fs/xattr.c:424:35: note: The left operand of '!=3D' is a garbage va=
+lue
+           if (le32_to_cpu(header->h_magic) !=3D F2FS_XATTR_MAGIC) {
+                                            ^
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   mm/shmem.c:1360:2: warning: Value stored to 'index' is never read [clang=
+-analyzer-deadcode.DeadStores]
+           index =3D page->index;
+           ^       ~~~~~~~~~~~
+   mm/shmem.c:1360:2: note: Value stored to 'index' is never read
+           index =3D page->index;
+           ^       ~~~~~~~~~~~
+   mm/shmem.c:1552:24: warning: Value stored to 'mapping' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           struct address_space *mapping =3D info->vfs_inode.i_mapping;
+                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/shmem.c:1552:24: note: Value stored to 'mapping' during its initializ=
+ation is never read
+           struct address_space *mapping =3D info->vfs_inode.i_mapping;
+                                 ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> mm/backing-dev.c:609:8: warning: Use of memory after it is freed [clang-=
+analyzer-unix.Malloc]
+                   wb =3D wb_get_lookup(bdi, memcg_css);
+                        ^             ~~~
+   mm/backing-dev.c:605:6: note: Assuming field 'parent' is non-null
+           if (!memcg_css->parent)
+               ^~~~~~~~~~~~~~~~~~
+   mm/backing-dev.c:605:2: note: Taking false branch
+           if (!memcg_css->parent)
+           ^
+   mm/backing-dev.c:610:12: note: 'wb' is null
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                     ^~
+   mm/backing-dev.c:610:11: note: Left side of '&&' is true
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                    ^
+   mm/backing-dev.c:608:2: note: Loop condition is true. Execution continue=
+s on line 609
+           do {
+           ^
+   mm/backing-dev.c:610:12: note: 'wb' is null
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                     ^~
+   mm/backing-dev.c:610:11: note: Left side of '&&' is true
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                    ^
+   mm/backing-dev.c:608:2: note: Loop condition is true. Execution continue=
+s on line 609
+           do {
+           ^
+   mm/backing-dev.c:610:12: note: 'wb' is null
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                     ^~
+   mm/backing-dev.c:610:11: note: Left side of '&&' is true
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                    ^
+   mm/backing-dev.c:610:19: note: Calling 'cgwb_create'
+           } while (!wb && !cgwb_create(bdi, memcg_css, gfp));
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/backing-dev.c:462:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&cgwb_lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   mm/backing-dev.c:462:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&cgwb_lock, flags);
+           ^
+   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   mm/backing-dev.c:464:6: note: Assuming 'wb' is null
+           if (wb && wb->blkcg_css !=3D blkcg_css) {
+               ^~
+   mm/backing-dev.c:464:9: note: Left side of '&&' is false
+           if (wb && wb->blkcg_css !=3D blkcg_css) {
+                  ^
+   mm/backing-dev.c:469:6: note: 'wb' is null
+           if (wb)
+               ^~
+   mm/backing-dev.c:469:2: note: Taking false branch
+           if (wb)
+           ^
+   mm/backing-dev.c:474:6: note: Assuming 'wb' is non-null
+           if (!wb) {
+               ^~~
+   mm/backing-dev.c:474:2: note: Taking false branch
+           if (!wb) {
+           ^
+   mm/backing-dev.c:480:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   mm/backing-dev.c:480:2: note: Taking false branch
+           if (ret)
+           ^
+   mm/backing-dev.c:484:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   mm/backing-dev.c:484:2: note: Taking false branch
+           if (ret)
+           ^
+   mm/backing-dev.c:488:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   mm/backing-dev.c:488:2: note: Taking false branch
+           if (ret)
+           ^
+   mm/backing-dev.c:494:2: note: Loop condition is false.  Exiting loop
+           INIT_WORK(&wb->release_work, cgwb_release_workfn);
+           ^
+   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
+           __INIT_WORK((_work), (_func), 0)
+           ^
+   include/linux/workqueue.h:236:2: note: expanded from macro '__INIT_WORK'
+           do {                                                            \
+           ^
+   mm/backing-dev.c:505:2: note: Loop condition is false.  Exiting loop
+           spin_lock_irqsave(&cgwb_lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
 
-vim +/len +377 drivers/nvme/target/io-cmd-file.c
+vim +609 mm/backing-dev.c
 
-d5eff33ee6f8086 Chaitanya Kulkarni 2018-05-23  349  =
+ed288dc0d4aa29f Tejun Heo     2019-08-26  587  =
 
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  350  static void nvmet_file_=
-copy_work(struct work_struct *w)
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  351  {
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  352  	struct nvmet_req *req =
-=3D container_of(w, struct nvmet_req, f.work);
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  353  	int nr_range;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  354  	loff_t pos;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  355  	struct nvme_command *c=
-mnd =3D req->cmd;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  356  	int ret =3D 0, len, sr=
-c, id;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  357  =
+ed288dc0d4aa29f Tejun Heo     2019-08-26  588  /**
+ed288dc0d4aa29f Tejun Heo     2019-08-26  589   * wb_get_create - get wb fo=
+r a given memcg, create if necessary
+ed288dc0d4aa29f Tejun Heo     2019-08-26  590   * @bdi: target bdi
+ed288dc0d4aa29f Tejun Heo     2019-08-26  591   * @memcg_css: cgroup_subsys=
+_state of the target memcg (must have positive ref)
+ed288dc0d4aa29f Tejun Heo     2019-08-26  592   * @gfp: allocation mask to =
+use
+ed288dc0d4aa29f Tejun Heo     2019-08-26  593   *
+ed288dc0d4aa29f Tejun Heo     2019-08-26  594   * Try to get the wb for @me=
+mcg_css on @bdi.  If it doesn't exist, try to
+ed288dc0d4aa29f Tejun Heo     2019-08-26  595   * create one.  See wb_get_l=
+ookup() for more details.
+ed288dc0d4aa29f Tejun Heo     2019-08-26  596   */
+ed288dc0d4aa29f Tejun Heo     2019-08-26  597  struct bdi_writeback *wb_get=
+_create(struct backing_dev_info *bdi,
+ed288dc0d4aa29f Tejun Heo     2019-08-26  598  				    struct cgroup_subsys=
+_state *memcg_css,
+ed288dc0d4aa29f Tejun Heo     2019-08-26  599  				    gfp_t gfp)
+ed288dc0d4aa29f Tejun Heo     2019-08-26  600  {
+ed288dc0d4aa29f Tejun Heo     2019-08-26  601  	struct bdi_writeback *wb;
+ed288dc0d4aa29f Tejun Heo     2019-08-26  602  =
 
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  358  	nr_range =3D cmnd->cop=
-y.nr_range + 1;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  359  	pos =3D le64_to_cpu(re=
-q->cmd->copy.sdlba) << req->ns->blksize_shift;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  360  	if (unlikely(pos + req=
-->transfer_len > req->ns->size)) {
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  361  		nvmet_req_complete(re=
-q, errno_to_nvme_status(req, -ENOSPC));
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  362  		return;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  363  	}
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  364  =
+c1ca59a1f21e360 Daniel Vetter 2021-02-25  603  	might_alloc(gfp);
+ed288dc0d4aa29f Tejun Heo     2019-08-26  604  =
 
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  365  	for (id =3D 0 ; id < n=
-r_range; id++) {
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  366  		struct nvme_copy_rang=
-e range;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  367  =
+ed288dc0d4aa29f Tejun Heo     2019-08-26  605  	if (!memcg_css->parent)
+ed288dc0d4aa29f Tejun Heo     2019-08-26  606  		return &bdi->wb;
+ed288dc0d4aa29f Tejun Heo     2019-08-26  607  =
 
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  368  		ret =3D nvmet_copy_fr=
-om_sgl(req, id * sizeof(range), &range,
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  369  					sizeof(range));
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  370  		if (ret)
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  371  			goto out;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  372  =
+ed288dc0d4aa29f Tejun Heo     2019-08-26  608  	do {
+ed288dc0d4aa29f Tejun Heo     2019-08-26 @609  		wb =3D wb_get_lookup(bdi, =
+memcg_css);
+52ebea749aaed19 Tejun Heo     2015-05-22  610  	} while (!wb && !cgwb_creat=
+e(bdi, memcg_css, gfp));
+52ebea749aaed19 Tejun Heo     2015-05-22  611  =
 
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  373  		len =3D (le16_to_cpu(=
-range.nlb) + 1) << (req->ns->blksize_shift);
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  374  		src =3D (le64_to_cpu(=
-range.slba) << (req->ns->blksize_shift));
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  375  		ret =3D vfs_copy_file=
-_range(req->ns->file, src, req->ns->file, pos, len, 0);
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  376  out:
-6bb6ea64499e1ac Arnav Dawn         2022-02-07 @377  		if (ret !=3D len) {
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  378  			pos +=3D ret;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  379  			req->cqe->result.u32=
- =3D cpu_to_le32(id);
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  380  			nvmet_req_complete(r=
-eq, ret < 0 ? errno_to_nvme_status(req, ret) :
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  381  					errno_to_nvme_stat=
-us(req, -EIO));
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  382  			return;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  383  =
+52ebea749aaed19 Tejun Heo     2015-05-22  612  	return wb;
+52ebea749aaed19 Tejun Heo     2015-05-22  613  }
+52ebea749aaed19 Tejun Heo     2015-05-22  614  =
 
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  384  		} else
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  385  			pos +=3D len;
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  386  }
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  387  	nvmet_req_complete(req=
-, ret);
-6bb6ea64499e1ac Arnav Dawn         2022-02-07  388  =
 
+:::::: The code at line 609 was first introduced by commit
+:::::: ed288dc0d4aa29f65bd25b31b5cb866aa5664ff9 writeback: Separate out wb_=
+get_lookup() from wb_get_create()
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============0621131619253668641==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5955672915783556310==--
 
