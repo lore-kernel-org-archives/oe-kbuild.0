@@ -1,337 +1,286 @@
-Content-Type: multipart/mixed; boundary="===============0874656493220152650=="
+Content-Type: multipart/mixed; boundary="===============3216848878552196252=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3235/5417] include/net/page_pool.h:238:11: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sat, 12 Feb 2022 21:11:50 +0800
-Message-ID: <202202122127.Qk6f1tlD-lkp@intel.com>
+Subject: Re: [PATCH v2 05/10] block: add emulation for copy
+Date: Fri, 11 Feb 2022 05:28:14 +0800
+Message-ID: <202202110554.gDIZXN5V-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0874656493220152650==
+--===============3216848878552196252==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Alexander Duyck <alexanderduyck@fb.com>
-CC: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+In-Reply-To: <20220207141348.4235-6-nj.shetty@samsung.com>
+References: <20220207141348.4235-6-nj.shetty@samsung.com>
+TO: Nitesh Shetty <nj.shetty@samsung.com>
+TO: mpatocka(a)redhat.com
+CC: javier(a)javigon.com
+CC: chaitanyak(a)nvidia.com
+CC: linux-block(a)vger.kernel.org
+CC: linux-scsi(a)vger.kernel.org
+CC: dm-devel(a)redhat.com
+CC: linux-nvme(a)lists.infradead.org
+CC: linux-fsdevel(a)vger.kernel.org
+CC: axboe(a)kernel.dk
+CC: msnitzer(a)redhat.com
+CC: bvanassche(a)acm.org
+CC: martin.petersen(a)oracle.com
+CC: roland(a)purestorage.com
+CC: hare(a)suse.de
+CC: kbusch(a)kernel.org
+CC: hch(a)lst.de
+CC: Frederick.Knight(a)netapp.com
+CC: zach.brown(a)ni.com
+CC: osandov(a)fb.com
+CC: lsf-pc(a)lists.linux-foundation.org
+CC: djwong(a)kernel.org
+CC: josef(a)toxicpanda.com
+CC: clm(a)fb.com
+CC: dsterba(a)suse.com
+CC: tytso(a)mit.edu
+CC: jack(a)suse.com
+CC: joshi.k(a)samsung.com
+CC: arnav.dawn(a)samsung.com
+CC: nj.shetty(a)samsung.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   6d9bd4ad4ca08b1114e814c2c42383b8b13be631
-commit: 52cc6ffc0ab2c61a76127b9347567fc97c15582f [3235/5417] page_pool: Ref=
-actor page_pool to enable fragmenting after allocation
-:::::: branch date: 29 hours ago
-:::::: commit date: 9 days ago
-config: riscv-randconfig-c006-20220211 (https://download.01.org/0day-ci/arc=
-hive/20220212/202202122127.Qk6f1tlD-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
-774697c85d6a352dcea013f46a99f9fe31)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D52cc6ffc0ab2c61a76127b9347567fc97c15582f
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 52cc6ffc0ab2c61a76127b9347567fc97c15582f
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+Hi Nitesh,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on next-20220210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-b=
+io_map_kern-non-static/20220207-231407
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-next
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-m021-20220207 (https://download.01.org/0day-ci/arch=
+ive/20220211/202202110554.gDIZXN5V-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+block/blk-lib.c:310 blk_submit_rw_buf() error: uninitialized symbol 'bio'.
+block/blk-lib.c:414 blk_copy_emulate() error: uninitialized symbol 'ret'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                            ^~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7107:8: note: Taking fal=
-se branch
-                   else if (port =3D=3D 1)
-                        ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7111:26: note: Division =
-by zero
-                           size =3D size_remainder / remaining_ports_count;
-                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7214:26: warning: Divisi=
-on by zero [clang-analyzer-core.DivideZero]
-                           size =3D size_remainder / remaining_ports_count;
-                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7200:2: note: Assuming '=
-port' is >=3D 3
-           for_each_clear_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX)
-           ^
-   include/linux/find.h:295:7: note: expanded from macro 'for_each_clear_bi=
-t'
-                (bit) < (size);                                    \
-                ^~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7200:2: note: Loop condi=
-tion is false. Execution continues on line 7204
-           for_each_clear_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX)
-           ^
-   include/linux/find.h:294:2: note: expanded from macro 'for_each_clear_bi=
-t'
-           for ((bit) =3D find_next_zero_bit((addr), (size), 0);     \
-           ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Assuming '=
-port' is < 3
-           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
-           ^
-   include/linux/find.h:284:7: note: expanded from macro 'for_each_set_bit'
-                (bit) < (size);                                    \
-                ^~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Loop condi=
-tion is true.  Entering loop body
-           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
-           ^
-   include/linux/find.h:283:2: note: expanded from macro 'for_each_set_bit'
-           for ((bit) =3D find_next_bit((addr), (size), 0);          \
-           ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:7: note: Assuming '=
-remaining_ports_count' is equal to 1
-                   if (remaining_ports_count =3D=3D 1)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:3: note: Taking tru=
-e branch
-                   if (remaining_ports_count =3D=3D 1)
-                   ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7209:11: note: '__UNIQUE=
-_ID___x788' is >=3D '__UNIQUE_ID___y789'
-                           size =3D min(size_remainder,
-                                  ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7209:11: note: '?' condi=
-tion is false
-                           size =3D min(size_remainder,
-                                  ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7217:3: note: The value =
-0 is assigned to 'remaining_ports_count'
-                   remaining_ports_count--;
-                   ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Assuming '=
-port' is < 3
-           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
-           ^
-   include/linux/find.h:284:7: note: expanded from macro 'for_each_set_bit'
-                (bit) < (size);                                    \
-                ^~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Loop condi=
-tion is true.  Entering loop body
-           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
-           ^
-   include/linux/find.h:283:2: note: expanded from macro 'for_each_set_bit'
-           for ((bit) =3D find_next_bit((addr), (size), 0);          \
-           ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:7: note: 'remaining=
-_ports_count' is not equal to 1
-                   if (remaining_ports_count =3D=3D 1)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:3: note: Taking fal=
-se branch
-                   if (remaining_ports_count =3D=3D 1)
-                   ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7211:12: note: Assuming =
-'port' is not equal to 0
-                   else if (port =3D=3D 0)
-                            ^~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7211:8: note: Taking fal=
-se branch
-                   else if (port =3D=3D 0)
-                        ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7214:26: note: Division =
-by zero
-                           size =3D size_remainder / remaining_ports_count;
-                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
->> include/net/page_pool.h:238:11: warning: Dereference of null pointer [cl=
-ang-analyzer-core.NullDereference]
-           return !(pool->p.flags & PP_FLAG_PAGE_FRAG) ||
-                    ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Left side=
- of '||' is false
-           xdp_prog =3D READ_ONCE(port->xdp_prog);
-                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Left side=
- of '||' is false
-           xdp_prog =3D READ_ONCE(port->xdp_prog);
-                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Left side=
- of '||' is true
-           xdp_prog =3D READ_ONCE(port->xdp_prog);
-                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Taking fa=
-lse branch
-           xdp_prog =3D READ_ONCE(port->xdp_prog);
-                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Loop cond=
-ition is false.  Exiting loop
-           xdp_prog =3D READ_ONCE(port->xdp_prog);
-                      ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3888:6: note: Assuming '=
-rx_todo' is <=3D 'rx_received'
-           if (rx_todo > rx_received)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3888:2: note: Taking fal=
-se branch
-           if (rx_todo > rx_received)
-           ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3891:9: note: Assuming '=
-rx_done' is < 'rx_todo'
-           while (rx_done < rx_todo) {
-                  ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3891:2: note: Loop condi=
-tion is true.  Entering loop body
-           while (rx_done < rx_todo) {
-           ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3894:3: note: 'pp' initi=
-alized to a null pointer value
-                   struct page_pool *pp =3D NULL;
-                   ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3919:7: note: Assuming f=
-ield 'percpu_pools' is 0
-                   if (port->priv->percpu_pools) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3919:3: note: Taking fal=
-se branch
-                   if (port->priv->percpu_pools) {
-                   ^
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3931:7: note: Assuming t=
-he condition is false
-                   if (rx_status & MVPP2_RXD_BUF_HDR)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3931:3: note: Taking fal=
-se branch
-                   if (rx_status & MVPP2_RXD_BUF_HDR)
+Old smatch warnings:
+block/blk-lib.c:272 blk_copy_offload() warn: possible memory leak of 'ctx'
 
-vim +238 include/net/page_pool.h
+vim +/bio +310 block/blk-lib.c
 
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  233  =
+12a9801a7301f1 Nitesh Shetty 2022-02-07  274  =
 
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  234  static inline bool page_poo=
-l_is_last_frag(struct page_pool *pool,
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  235  					  struct page *page)
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  236  {
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  237  	/* If fragments aren't ena=
-bled or count is 0 we were the last user */
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31 @238  	return !(pool->p.flags & P=
-P_FLAG_PAGE_FRAG) ||
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  239  	       (page_pool_defrag_p=
-age(page, 1) =3D=3D 0);
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  240  }
-52cc6ffc0ab2c6 Alexander Duyck 2022-01-31  241  =
+a7bb30870db803 Nitesh Shetty 2022-02-07  275  int blk_submit_rw_buf(struct =
+block_device *bdev, void *buf, sector_t buf_len,
+a7bb30870db803 Nitesh Shetty 2022-02-07  276  				sector_t sector, unsigned=
+ int op, gfp_t gfp_mask)
+a7bb30870db803 Nitesh Shetty 2022-02-07  277  {
+a7bb30870db803 Nitesh Shetty 2022-02-07  278  	struct request_queue *q =3D =
+bdev_get_queue(bdev);
+a7bb30870db803 Nitesh Shetty 2022-02-07  279  	struct bio *bio, *parent =3D=
+ NULL;
+a7bb30870db803 Nitesh Shetty 2022-02-07  280  	sector_t max_hw_len =3D min_=
+t(unsigned int, queue_max_hw_sectors(q),
+a7bb30870db803 Nitesh Shetty 2022-02-07  281  			queue_max_segments(q) << (=
+PAGE_SHIFT - SECTOR_SHIFT)) << SECTOR_SHIFT;
+a7bb30870db803 Nitesh Shetty 2022-02-07  282  	sector_t len, remaining;
+a7bb30870db803 Nitesh Shetty 2022-02-07  283  	int ret;
+a7bb30870db803 Nitesh Shetty 2022-02-07  284  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  285  	for (remaining =3D buf_len; =
+remaining > 0; remaining -=3D len) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  286  		len =3D min_t(int, max_hw_l=
+en, remaining);
+a7bb30870db803 Nitesh Shetty 2022-02-07  287  retry:
+a7bb30870db803 Nitesh Shetty 2022-02-07  288  		bio =3D bio_map_kern(q, buf=
+, len, gfp_mask);
+a7bb30870db803 Nitesh Shetty 2022-02-07  289  		if (IS_ERR(bio)) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  290  			len >>=3D 1;
+a7bb30870db803 Nitesh Shetty 2022-02-07  291  			if (len)
+a7bb30870db803 Nitesh Shetty 2022-02-07  292  				goto retry;
+a7bb30870db803 Nitesh Shetty 2022-02-07  293  			return PTR_ERR(bio);
+a7bb30870db803 Nitesh Shetty 2022-02-07  294  		}
+a7bb30870db803 Nitesh Shetty 2022-02-07  295  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  296  		bio->bi_iter.bi_sector =3D =
+sector >> SECTOR_SHIFT;
+a7bb30870db803 Nitesh Shetty 2022-02-07  297  		bio->bi_opf =3D op;
+a7bb30870db803 Nitesh Shetty 2022-02-07  298  		bio_set_dev(bio, bdev);
+a7bb30870db803 Nitesh Shetty 2022-02-07  299  		bio->bi_end_io =3D NULL;
+a7bb30870db803 Nitesh Shetty 2022-02-07  300  		bio->bi_private =3D NULL;
+a7bb30870db803 Nitesh Shetty 2022-02-07  301  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  302  		if (parent) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  303  			bio_chain(parent, bio);
+a7bb30870db803 Nitesh Shetty 2022-02-07  304  			submit_bio(parent);
+a7bb30870db803 Nitesh Shetty 2022-02-07  305  		}
+a7bb30870db803 Nitesh Shetty 2022-02-07  306  		parent =3D bio;
+a7bb30870db803 Nitesh Shetty 2022-02-07  307  		sector +=3D len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  308  		buf =3D (char *) buf + len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  309  	}
+a7bb30870db803 Nitesh Shetty 2022-02-07 @310  	ret =3D submit_bio_wait(bio);
+a7bb30870db803 Nitesh Shetty 2022-02-07  311  	bio_put(bio);
+a7bb30870db803 Nitesh Shetty 2022-02-07  312  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  313  	return ret;
+a7bb30870db803 Nitesh Shetty 2022-02-07  314  }
+a7bb30870db803 Nitesh Shetty 2022-02-07  315  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  316  static void *blk_alloc_buf(se=
+ctor_t req_size, sector_t *alloc_size, gfp_t gfp_mask)
+a7bb30870db803 Nitesh Shetty 2022-02-07  317  {
+a7bb30870db803 Nitesh Shetty 2022-02-07  318  	int min_size =3D PAGE_SIZE;
+a7bb30870db803 Nitesh Shetty 2022-02-07  319  	void *buf;
+a7bb30870db803 Nitesh Shetty 2022-02-07  320  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  321  	while (req_size >=3D min_siz=
+e) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  322  		buf =3D kvmalloc(req_size, =
+gfp_mask);
+a7bb30870db803 Nitesh Shetty 2022-02-07  323  		if (buf) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  324  			*alloc_size =3D req_size;
+a7bb30870db803 Nitesh Shetty 2022-02-07  325  			return buf;
+a7bb30870db803 Nitesh Shetty 2022-02-07  326  		}
+a7bb30870db803 Nitesh Shetty 2022-02-07  327  		/* retry half the requested=
+ size */
+a7bb30870db803 Nitesh Shetty 2022-02-07  328  		req_size >>=3D 1;
+a7bb30870db803 Nitesh Shetty 2022-02-07  329  	}
+a7bb30870db803 Nitesh Shetty 2022-02-07  330  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  331  	return NULL;
+a7bb30870db803 Nitesh Shetty 2022-02-07  332  }
+a7bb30870db803 Nitesh Shetty 2022-02-07  333  =
+
+12a9801a7301f1 Nitesh Shetty 2022-02-07  334  static inline int blk_copy_sa=
+nity_check(struct block_device *src_bdev,
+12a9801a7301f1 Nitesh Shetty 2022-02-07  335  		struct block_device *dst_bd=
+ev, struct range_entry *rlist, int nr)
+12a9801a7301f1 Nitesh Shetty 2022-02-07  336  {
+12a9801a7301f1 Nitesh Shetty 2022-02-07  337  	unsigned int align_mask =3D =
+max(
+12a9801a7301f1 Nitesh Shetty 2022-02-07  338  			bdev_logical_block_size(ds=
+t_bdev), bdev_logical_block_size(src_bdev)) - 1;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  339  	sector_t len =3D 0;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  340  	int i;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  341  =
+
+12a9801a7301f1 Nitesh Shetty 2022-02-07  342  	for (i =3D 0; i < nr; i++) {
+12a9801a7301f1 Nitesh Shetty 2022-02-07  343  		if (rlist[i].len)
+12a9801a7301f1 Nitesh Shetty 2022-02-07  344  			len +=3D rlist[i].len;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  345  		else
+12a9801a7301f1 Nitesh Shetty 2022-02-07  346  			return -EINVAL;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  347  		if ((rlist[i].dst & align_m=
+ask) || (rlist[i].src & align_mask) ||
+12a9801a7301f1 Nitesh Shetty 2022-02-07  348  				(rlist[i].len & align_mas=
+k))
+12a9801a7301f1 Nitesh Shetty 2022-02-07  349  			return -EINVAL;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  350  		rlist[i].comp_len =3D 0;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  351  	}
+12a9801a7301f1 Nitesh Shetty 2022-02-07  352  =
+
+12a9801a7301f1 Nitesh Shetty 2022-02-07  353  	if (!len && len >=3D MAX_COP=
+Y_TOTAL_LENGTH)
+12a9801a7301f1 Nitesh Shetty 2022-02-07  354  		return -EINVAL;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  355  =
+
+12a9801a7301f1 Nitesh Shetty 2022-02-07  356  	return 0;
+12a9801a7301f1 Nitesh Shetty 2022-02-07  357  }
+12a9801a7301f1 Nitesh Shetty 2022-02-07  358  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  359  static inline sector_t blk_co=
+py_max_range(struct range_entry *rlist, int nr, sector_t *max_len)
+a7bb30870db803 Nitesh Shetty 2022-02-07  360  {
+a7bb30870db803 Nitesh Shetty 2022-02-07  361  	int i;
+a7bb30870db803 Nitesh Shetty 2022-02-07  362  	sector_t len =3D 0;
+a7bb30870db803 Nitesh Shetty 2022-02-07  363  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  364  	*max_len =3D 0;
+a7bb30870db803 Nitesh Shetty 2022-02-07  365  	for (i =3D 0; i < nr; i++) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  366  		*max_len =3D max(*max_len, =
+rlist[i].len);
+a7bb30870db803 Nitesh Shetty 2022-02-07  367  		len +=3D rlist[i].len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  368  	}
+a7bb30870db803 Nitesh Shetty 2022-02-07  369  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  370  	return len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  371  }
+a7bb30870db803 Nitesh Shetty 2022-02-07  372  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  373  /*
+a7bb30870db803 Nitesh Shetty 2022-02-07  374   * If native copy offload fea=
+ture is absent, this function tries to emulate,
+a7bb30870db803 Nitesh Shetty 2022-02-07  375   * by copying data from sourc=
+e to a temporary buffer and from buffer to
+a7bb30870db803 Nitesh Shetty 2022-02-07  376   * destination device.
+a7bb30870db803 Nitesh Shetty 2022-02-07  377   */
+a7bb30870db803 Nitesh Shetty 2022-02-07  378  static int blk_copy_emulate(s=
+truct block_device *src_bdev, int nr,
+a7bb30870db803 Nitesh Shetty 2022-02-07  379  		struct range_entry *rlist, =
+struct block_device *dest_bdev, gfp_t gfp_mask)
+a7bb30870db803 Nitesh Shetty 2022-02-07  380  {
+a7bb30870db803 Nitesh Shetty 2022-02-07  381  	void *buf =3D NULL;
+a7bb30870db803 Nitesh Shetty 2022-02-07  382  	int ret, nr_i =3D 0;
+a7bb30870db803 Nitesh Shetty 2022-02-07  383  	sector_t src, dst, copy_len,=
+ buf_len, read_len, copied_len, max_len =3D 0, remaining =3D 0;
+a7bb30870db803 Nitesh Shetty 2022-02-07  384  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  385  	copy_len =3D blk_copy_max_ra=
+nge(rlist, nr, &max_len);
+a7bb30870db803 Nitesh Shetty 2022-02-07  386  	buf =3D blk_alloc_buf(max_le=
+n, &buf_len, gfp_mask);
+a7bb30870db803 Nitesh Shetty 2022-02-07  387  	if (!buf)
+a7bb30870db803 Nitesh Shetty 2022-02-07  388  		return -ENOMEM;
+a7bb30870db803 Nitesh Shetty 2022-02-07  389  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  390  	for (copied_len =3D 0; copie=
+d_len < copy_len; copied_len +=3D read_len) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  391  		if (!remaining) {
+a7bb30870db803 Nitesh Shetty 2022-02-07  392  			rlist[nr_i].comp_len =3D 0;
+a7bb30870db803 Nitesh Shetty 2022-02-07  393  			src =3D rlist[nr_i].src;
+a7bb30870db803 Nitesh Shetty 2022-02-07  394  			dst =3D rlist[nr_i].dst;
+a7bb30870db803 Nitesh Shetty 2022-02-07  395  			remaining =3D rlist[nr_i++=
+].len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  396  		}
+a7bb30870db803 Nitesh Shetty 2022-02-07  397  =
+
+a7bb30870db803 Nitesh Shetty 2022-02-07  398  		read_len =3D min_t(sector_t=
+, remaining, buf_len);
+a7bb30870db803 Nitesh Shetty 2022-02-07  399  		ret =3D blk_submit_rw_buf(s=
+rc_bdev, buf, read_len, src, REQ_OP_READ, gfp_mask);
+a7bb30870db803 Nitesh Shetty 2022-02-07  400  		if (ret)
+a7bb30870db803 Nitesh Shetty 2022-02-07  401  			goto out;
+a7bb30870db803 Nitesh Shetty 2022-02-07  402  		src +=3D read_len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  403  		remaining -=3D read_len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  404  		ret =3D blk_submit_rw_buf(d=
+est_bdev, buf, read_len, dst, REQ_OP_WRITE,
+a7bb30870db803 Nitesh Shetty 2022-02-07  405  				gfp_mask);
+a7bb30870db803 Nitesh Shetty 2022-02-07  406  		if (ret)
+a7bb30870db803 Nitesh Shetty 2022-02-07  407  			goto out;
+a7bb30870db803 Nitesh Shetty 2022-02-07  408  		else
+a7bb30870db803 Nitesh Shetty 2022-02-07  409  			rlist[nr_i - 1].comp_len +=
+=3D read_len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  410  		dst +=3D read_len;
+a7bb30870db803 Nitesh Shetty 2022-02-07  411  	}
+a7bb30870db803 Nitesh Shetty 2022-02-07  412  out:
+a7bb30870db803 Nitesh Shetty 2022-02-07  413  	kvfree(buf);
+a7bb30870db803 Nitesh Shetty 2022-02-07 @414  	return ret;
+a7bb30870db803 Nitesh Shetty 2022-02-07  415  }
+a7bb30870db803 Nitesh Shetty 2022-02-07  416  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0874656493220152650==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============3216848878552196252==--
 
