@@ -1,336 +1,421 @@
-Content-Type: multipart/mixed; boundary="===============5501666492007642991=="
+Content-Type: multipart/mixed; boundary="===============5981612002715443310=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15 784/923] drivers/gpu/drm/xlnx/xlnx_dptx.c:3187:4-10: ERROR: missing put_device; call of_find_device_by_node on line 3176, but without a corresponding object release within this function.
-Date: Fri, 11 Feb 2022 05:17:55 +0800
-Message-ID: <202202110504.bzKtGDZS-lkp@intel.com>
+Subject: [mtd:spi-mem-ecc 14/29] drivers/mtd/nand/ecc-mxic.c:538:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Fri, 11 Feb 2022 05:07:34 +0800
+Message-ID: <202202110553.F5tgWlxh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5501666492007642991==
+--===============5981612002715443310==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Rajesh Gugulothu <gugulothu.rajesh@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Hyun Kwon <hyun.kwon@xilinx.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
-head:   966124532656bc95d781abf57531e4cd4f962237
-commit: c1b7addf0028e99aeb94afa8ffc106926b0696d9 [784/923] drm: xlnx: dptx:=
- Add DisplayPort tx driver
-:::::: branch date: 13 hours ago
-:::::: commit date: 10 days ago
-config: alpha-randconfig-c024-20220208 (https://download.01.org/0day-ci/arc=
-hive/20220211/202202110504.bzKtGDZS-lkp(a)intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-m=
+em-ecc
+head:   00360ebae483e603d55ec9a7231b787cb80ffe13
+commit: 48e6633a9fa2400b53a964358753769f291a7eb0 [14/29] mtd: nand: mxic-ec=
+c: Add Macronix external ECC engine support
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-c006-20220210 (https://download.01.org/0day-ci/arc=
+hive/20220211/202202110553.F5tgWlxh-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project aa845d=
+7a245d85c441d0bd44fc7b6c3be8f3de8d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git/com=
+mit/?id=3D48e6633a9fa2400b53a964358753769f291a7eb0
+        git remote add mtd https://git.kernel.org/pub/scm/linux/kernel/git/=
+mtd/linux.git
+        git fetch --no-tags mtd spi-mem-ecc
+        git checkout 48e6633a9fa2400b53a964358753769f291a7eb0
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/xlnx/xlnx_dptx.c:3187:4-10: ERROR: missing put_device; c=
-all of_find_device_by_node on line 3176, but without a corresponding object=
- release within this function.
-   drivers/gpu/drm/xlnx/xlnx_dptx.c:3195:2-8: ERROR: missing put_device; ca=
-ll of_find_device_by_node on line 3176, but without a corresponding object =
-release within this function.
-   drivers/gpu/drm/xlnx/xlnx_dptx.c:3221:5-11: ERROR: missing put_device; c=
-all of_find_device_by_node on line 3176, but without a corresponding object=
- release within this function.
-   drivers/gpu/drm/xlnx/xlnx_dptx.c:3236:3-9: ERROR: missing put_device; ca=
-ll of_find_device_by_node on line 3176, but without a corresponding object =
-release within this function.
-   drivers/gpu/drm/xlnx/xlnx_dptx.c:3242:2-8: ERROR: missing put_device; ca=
-ll of_find_device_by_node on line 3176, but without a corresponding object =
-release within this function.
-   drivers/gpu/drm/xlnx/xlnx_dptx.c:3283:1-7: ERROR: missing put_device; ca=
-ll of_find_device_by_node on line 3176, but without a corresponding object =
-release within this function.
-   drivers/gpu/drm/xlnx/xlnx_dptx.c:3297:1-7: ERROR: missing put_device; ca=
-ll of_find_device_by_node on line 3176, but without a corresponding object =
-release within this function.
+clang-analyzer warnings: (new ones prefixed by >>)
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:213:14: warning: Dereference of n=
+ull pointer [clang-analyzer-core.NullDereference]
+                                   *bomap++ =3D cpu_to_le64(page_to_phys(*p=
+ages++));
+                                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:124:6: note: Assuming 'etnaviv_du=
+mp_core' is true
+           if (!etnaviv_dump_core)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:124:2: note: Taking false branch
+           if (!etnaviv_dump_core)
+           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:140:14: note: Assuming 'i' is >=
+=3D field 'nr_bos'
+           for (i =3D 0; i < submit->nr_bos; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:140:2: note: Loop condition is fa=
+lse. Execution continues on line 148
+           for (i =3D 0; i < submit->nr_bos; i++) {
+           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:148:6: note: 'n_bomap_pages' is 0
+           if (n_bomap_pages) {
+               ^~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:148:2: note: Taking false branch
+           if (n_bomap_pages) {
+           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:159:6: note: Assuming field 'star=
+t' is non-null
+           if (!iter.start) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:159:2: note: Taking false branch
+           if (!iter.start) {
+           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:186:6: note: 'n_bomap_pages' is 0
+           if (n_bomap_pages) {
+               ^~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:186:2: note: Taking false branch
+           if (n_bomap_pages) {
+           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:196:14: note: Assuming 'i' is < f=
+ield 'nr_bos'
+           for (i =3D 0; i < submit->nr_bos; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:196:2: note: Loop condition is tr=
+ue.  Entering loop body
+           for (i =3D 0; i < submit->nr_bos; i++) {
+           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:207:8: note: Calling 'IS_ERR'
+                   if (!IS_ERR(pages)) {
+                        ^~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:207:8: note: Returning from 'IS_E=
+RR'
+                   if (!IS_ERR(pages)) {
+                        ^~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:207:3: note: Taking true branch
+                   if (!IS_ERR(pages)) {
+                   ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:212:16: note: Assuming the condit=
+ion is true
+                           for (j =3D 0; j < obj->base.size >> PAGE_SHIFT; =
+j++)
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:212:4: note: Loop condition is tr=
+ue.  Entering loop body
+                           for (j =3D 0; j < obj->base.size >> PAGE_SHIFT; =
+j++)
+                           ^
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:213:6: note: Null pointer value s=
+tored to 'bomap'
+                                   *bomap++ =3D cpu_to_le64(page_to_phys(*p=
+ages++));
+                                    ^~~~~~~
+   drivers/gpu/drm/etnaviv/etnaviv_dump.c:213:14: note: Dereference of null=
+ pointer
+                                   *bomap++ =3D cpu_to_le64(page_to_phys(*p=
+ages++));
+                                   ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> drivers/mtd/nand/ecc-mxic.c:538:6: warning: Branch condition evaluates t=
+o a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (ret)
+               ^~~
+   drivers/mtd/nand/ecc-mxic.c:500:27: note: 'ret' declared without an init=
+ial value
+           int offset, nents, step, ret;
+                                    ^~~
+   drivers/mtd/nand/ecc-mxic.c:502:6: note: Assuming field 'mode' is not eq=
+ual to MTD_OPS_RAW
+           if (req->mode =3D=3D MTD_OPS_RAW)
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:502:2: note: Taking false branch
+           if (req->mode =3D=3D MTD_OPS_RAW)
+           ^
+   drivers/mtd/nand/ecc-mxic.c:508:6: note: Assuming field 'type' is not eq=
+ual to NAND_PAGE_READ
+           if (req->type =3D=3D NAND_PAGE_READ)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:508:2: note: Taking false branch
+           if (req->type =3D=3D NAND_PAGE_READ)
+           ^
+   drivers/mtd/nand/ecc-mxic.c:519:6: note: Assuming 'nents' is not equal t=
+o 0
+           if (!nents)
+               ^~~~~~
+   drivers/mtd/nand/ecc-mxic.c:519:2: note: Taking false branch
+           if (!nents)
+           ^
+   drivers/mtd/nand/ecc-mxic.c:524:17: note: Assuming 'step' is >=3D field =
+'steps'
+           for (step =3D 0; step < ctx->steps; step++) {
+                          ^~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:524:2: note: Loop condition is false. Execut=
+ion continues on line 534
+           for (step =3D 0; step < ctx->steps; step++) {
+           ^
+   drivers/mtd/nand/ecc-mxic.c:538:6: note: Branch condition evaluates to a=
+ garbage value
+           if (ret)
+               ^~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   39 warnings generated.
+   drivers/mtd/nand/onenand/onenand_base.c:3751:23: warning: The result of =
+the left shift is undefined due to shifting by '4294967264', which is great=
+er or equal to the width of type 'int' [clang-analyzer-core.UndefinedBinary=
+OperatorResult]
+           this->page_mask =3D (1 << (this->erase_shift - this->page_shift)=
+) - 1;
+                                ^
+   drivers/mtd/nand/onenand/onenand_base.c:3818:6: note: Assuming field 're=
+ad_word' is non-null
+           if (!this->read_word)
+               ^~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3818:2: note: Taking false branch
+           if (!this->read_word)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3820:6: note: Assuming field 'wr=
+ite_word' is non-null
+           if (!this->write_word)
+               ^~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3820:2: note: Taking false branch
+           if (!this->write_word)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3823:6: note: Assuming field 'co=
+mmand' is non-null
+           if (!this->command)
+               ^~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3823:2: note: Taking false branch
+           if (!this->command)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3825:6: note: Assuming field 'wa=
+it' is non-null
+           if (!this->wait)
+               ^~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3825:2: note: Taking false branch
+           if (!this->wait)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3827:6: note: Assuming field 'bb=
+t_wait' is non-null
+           if (!this->bbt_wait)
+               ^~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3827:2: note: Taking false branch
+           if (!this->bbt_wait)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3829:6: note: Assuming field 'un=
+lock_all' is non-null
+           if (!this->unlock_all)
+               ^~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3829:2: note: Taking false branch
+           if (!this->unlock_all)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3832:6: note: Assuming field 'ch=
+ip_probe' is non-null
+           if (!this->chip_probe)
+               ^~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3832:2: note: Taking false branch
+           if (!this->chip_probe)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3835:6: note: Assuming field 're=
+ad_bufferram' is non-null
+           if (!this->read_bufferram)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3835:2: note: Taking false branch
+           if (!this->read_bufferram)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3837:6: note: Assuming field 'wr=
+ite_bufferram' is non-null
+           if (!this->write_bufferram)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3837:2: note: Taking false branch
+           if (!this->write_bufferram)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3840:6: note: Assuming field 'bl=
+ock_markbad' is non-null
+           if (!this->block_markbad)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/onenand/onenand_base.c:3840:2: note: Taking false branch
+           if (!this->block_markbad)
+           ^
+   drivers/mtd/nand/onenand/onenand_base.c:3842:6: note: Assuming field 'sc=
+an_bbt' is non-null
+           if (!this->scan_bbt)
 
-vim +3187 drivers/gpu/drm/xlnx/xlnx_dptx.c
+vim +538 drivers/mtd/nand/ecc-mxic.c
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3125  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  492  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3126  static int xlnx_dp_probe(=
-struct platform_device *pdev)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3127  {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3128  	struct device_node *pnod=
-e =3D pdev->dev.of_node;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3129  	struct device_node *fnod=
-e;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3130  	struct platform_device *=
-iface_pdev;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3131  	struct xlnx_dp *dp;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3132  	struct resource *res;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3133  	void *ptr;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3134  	unsigned int i;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3135  	int irq, ret;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3136  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  493  /* External ECC engine helper=
+s */
+48e6633a9fa240 Miquel Raynal 2021-12-16  494  static int mxic_ecc_prepare_i=
+o_req_external(struct nand_device *nand,
+48e6633a9fa240 Miquel Raynal 2021-12-16  495  					    struct nand_page_io_=
+req *req)
+48e6633a9fa240 Miquel Raynal 2021-12-16  496  {
+48e6633a9fa240 Miquel Raynal 2021-12-16  497  	struct mxic_ecc_engine *mxic=
+ =3D nand_to_mxic(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  498  	struct mxic_ecc_ctx *ctx =3D=
+ nand_to_ecc_ctx(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  499  	struct mtd_info *mtd =3D nan=
+ddev_to_mtd(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  500  	int offset, nents, step, ret;
+48e6633a9fa240 Miquel Raynal 2021-12-16  501  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3137  	dp =3D devm_kzalloc(&pde=
-v->dev, sizeof(*dp), GFP_KERNEL);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3138  	if (!dp)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3139  		return -ENOMEM;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3140  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  502  	if (req->mode =3D=3D MTD_OPS=
+_RAW)
+48e6633a9fa240 Miquel Raynal 2021-12-16  503  		return 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  504  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3141  	dp->tx_audio_data =3D
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3142  		devm_kzalloc(&pdev->dev=
-, sizeof(struct xlnx_dptx_audio_data),
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3143  			     GFP_KERNEL);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3144  	if (!dp->tx_audio_data)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3145  		return -ENOMEM;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3146  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  505  	nand_ecc_tweak_req(&ctx->req=
+_ctx, req);
+48e6633a9fa240 Miquel Raynal 2021-12-16  506  	ctx->req =3D req;
+48e6633a9fa240 Miquel Raynal 2021-12-16  507  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3147  	dp->dpms =3D DRM_MODE_DP=
-MS_OFF;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3148  	dp->status =3D connector=
-_status_disconnected;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3149  	dp->dev =3D &pdev->dev;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3150  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  508  	if (req->type =3D=3D NAND_PA=
+GE_READ)
+48e6633a9fa240 Miquel Raynal 2021-12-16  509  		return 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  510  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3151  	res =3D platform_get_res=
-ource_byname(pdev, IORESOURCE_MEM, "dp_base");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3152  	dp->dp_base =3D devm_ior=
-emap_resource(dp->dev, res);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3153  	if (IS_ERR(dp->dp_base))=
- {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3154  		dev_err(&pdev->dev, "co=
-uldn't map DisplayPort registers\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3155  		return -ENODEV;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3156  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3157  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  511  	mxic_ecc_add_room_in_oobbuf(=
+ctx, ctx->oobwithstat,
+48e6633a9fa240 Miquel Raynal 2021-12-16  512  				    ctx->req->oobbuf.out);
+48e6633a9fa240 Miquel Raynal 2021-12-16  513  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3158  	ret =3D xlnx_dp_parse_of=
-(dp);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3159  	if (ret < 0)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3160  		return ret;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3161  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  514  	sg_set_buf(&ctx->sg[0], req-=
+>databuf.out, req->datalen);
+48e6633a9fa240 Miquel Raynal 2021-12-16  515  	sg_set_buf(&ctx->sg[1], ctx-=
+>oobwithstat,
+48e6633a9fa240 Miquel Raynal 2021-12-16  516  		   req->ooblen + (ctx->step=
+s * STAT_BYTES));
+48e6633a9fa240 Miquel Raynal 2021-12-16  517  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3162  	if (dp->config.versal_gt=
-_present) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3163  		dp->phy[0] =3D devm_phy=
-_get(dp->dev, "dp-gtquad");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3164  		if (IS_ERR(dp->phy[0]))
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3165  			return dev_err_probe(d=
-p->dev, ret, "failed to get phy\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3166  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  518  	nents =3D dma_map_sg(mxic->d=
+ev, ctx->sg, 2, DMA_BIDIRECTIONAL);
+48e6633a9fa240 Miquel Raynal 2021-12-16  519  	if (!nents)
+48e6633a9fa240 Miquel Raynal 2021-12-16  520  		return -EINVAL;
+48e6633a9fa240 Miquel Raynal 2021-12-16  521  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3167  		ret =3D phy_init(dp->ph=
-y[0]);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3168  		if (ret)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3169  			goto error_phy;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3170  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  522  	mutex_lock(&mxic->lock);
+48e6633a9fa240 Miquel Raynal 2021-12-16  523  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3171  		fnode =3D of_parse_phan=
-dle(pnode, "xlnx,xilinx-vfmc", 0);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3172  		if (!fnode) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3173  			dev_err(&pdev->dev, "p=
-latform node not found\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3174  			of_node_put(fnode);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3175  		} else {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24 @3176  			iface_pdev =3D of_find=
-_device_by_node(fnode);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3177  			if (!iface_pdev) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3178  				of_node_put(pnode);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3179  				return -ENODEV;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3180  			}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3181  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  524  	for (step =3D 0; step < ctx-=
+>steps; step++) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  525  		writel(sg_dma_address(&ctx-=
+>sg[0]) + (step * ctx->data_step_sz),
+48e6633a9fa240 Miquel Raynal 2021-12-16  526  		       mxic->regs + SDMA_MA=
+IN_ADDR);
+48e6633a9fa240 Miquel Raynal 2021-12-16  527  		writel(sg_dma_address(&ctx-=
+>sg[1]) + (step * (ctx->oob_step_sz + STAT_BYTES)),
+48e6633a9fa240 Miquel Raynal 2021-12-16  528  		       mxic->regs + SDMA_SP=
+ARE_ADDR);
+48e6633a9fa240 Miquel Raynal 2021-12-16  529  		ret =3D mxic_ecc_process_da=
+ta(mxic, ctx->req->type);
+48e6633a9fa240 Miquel Raynal 2021-12-16  530  		if (ret)
+48e6633a9fa240 Miquel Raynal 2021-12-16  531  			break;
+48e6633a9fa240 Miquel Raynal 2021-12-16  532  	}
+48e6633a9fa240 Miquel Raynal 2021-12-16  533  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3182  			ptr =3D dev_get_drvdat=
-a(&iface_pdev->dev);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3183  			if (!ptr) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3184  				dev_info(&pdev->dev,
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3185  					 "platform device no=
-t found -EPROBE_DEFER\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3186  				of_node_put(fnode);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24 @3187  				return -EPROBE_DEFER;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3188  			}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3189  			of_node_put(fnode);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3190  		}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3191  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3192  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  534  	mutex_unlock(&mxic->lock);
+48e6633a9fa240 Miquel Raynal 2021-12-16  535  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3193  	dp->axi_lite_clk =3D dev=
-m_clk_get(&pdev->dev, "s_axi_aclk");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3194  	if (IS_ERR(dp->axi_lite_=
-clk))
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3195  		return PTR_ERR(dp->axi_=
-lite_clk);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3196  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  536  	dma_unmap_sg(mxic->dev, ctx-=
+>sg, 2, DMA_BIDIRECTIONAL);
+48e6633a9fa240 Miquel Raynal 2021-12-16  537  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3197  	dp->tx_vid_clk =3D devm_=
-clk_get(&pdev->dev, "tx_vid_clk");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3198  	if (IS_ERR(dp->tx_vid_cl=
-k))
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3199  		dev_err(dp->dev, "faile=
-d to get vid clk stream1\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3200  =
+48e6633a9fa240 Miquel Raynal 2021-12-16 @538  	if (ret)
+48e6633a9fa240 Miquel Raynal 2021-12-16  539  		return ret;
+48e6633a9fa240 Miquel Raynal 2021-12-16  540  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3201  	platform_set_drvdata(pde=
-v, dp);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3202  	xlnx_dp_write(dp->dp_bas=
-e, XDPTX_ENABLE_REG, 0);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3203  	xlnx_dp_write(dp->dp_bas=
-e, XDPTX_MAINSTRM_ENABLE_REG, 0);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3204  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  541  	/* Retrieve the calculated E=
+CC bytes */
+48e6633a9fa240 Miquel Raynal 2021-12-16  542  	for (step =3D 0; step < ctx-=
+>steps; step++) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  543  		offset =3D ctx->meta_sz + (=
+step * ctx->oob_step_sz);
+48e6633a9fa240 Miquel Raynal 2021-12-16  544  		mtd_ooblayout_get_eccbytes(=
+mtd,
+48e6633a9fa240 Miquel Raynal 2021-12-16  545  					   (u8 *)ctx->req->oobbu=
+f.out + offset,
+48e6633a9fa240 Miquel Raynal 2021-12-16  546  					   ctx->oobwithstat + (s=
+tep * STAT_BYTES),
+48e6633a9fa240 Miquel Raynal 2021-12-16  547  					   step * ctx->parity_sz,
+48e6633a9fa240 Miquel Raynal 2021-12-16  548  					   ctx->parity_sz);
+48e6633a9fa240 Miquel Raynal 2021-12-16  549  	}
+48e6633a9fa240 Miquel Raynal 2021-12-16  550  =
 
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3205  	dp->tx_link_config.vs_le=
-vel =3D 0;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3206  	dp->tx_link_config.pe_le=
-vel =3D 0;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3207  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3208  	if (!dp->config.versal_g=
-t_present) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3209  		/* acquire vphy lanes */
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3210  		for (i =3D 0; i < dp->c=
-onfig.max_lanes; i++) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3211  			char phy_name[16];
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3212  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3213  			snprintf(phy_name, siz=
-eof(phy_name), "dp-phy%d", i);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3214  			dp->phy[i] =3D devm_ph=
-y_get(dp->dev, phy_name);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3215  			if (IS_ERR(dp->phy[i])=
-) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3216  				ret =3D PTR_ERR(dp->p=
-hy[i]);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3217  				dp->phy[i] =3D NULL;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3218  				if (ret =3D=3D -EPROB=
-E_DEFER) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3219  					dev_info(dp->dev,
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3220  						 "xvphy not ready -=
-EPROBE_DEFER\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3221  					return ret;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3222  				}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3223  				if (ret !=3D -EPROBE_=
-DEFER)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3224  					dev_err(dp->dev, "fa=
-iled to get phy lane %s i %d, error %d\n",
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3225  						phy_name, i, ret);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3226  				goto error_phy;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3227  			}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3228  		}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3229  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3230  		ret =3D xlnx_dp_init_ph=
-y(dp);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3231  		if (ret)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3232  			goto error_phy;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3233  	} else {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3234  		ret =3D xlnx_dp_tx_gt_c=
-ontrol_init(dp);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3235  		if (ret < 0)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3236  			return ret;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3237  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3238  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3239  	ret =3D clk_prepare_enab=
-le(dp->axi_lite_clk);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3240  	if (ret) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3241  		dev_err(dp->dev, "faile=
-d to enable axi_lite_clk (%d)\n", ret);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3242  		return ret;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3243  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3244  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3245  	ret =3D clk_prepare_enab=
-le(dp->tx_vid_clk);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3246  	if (ret) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3247  		dev_err(dp->dev, "faile=
-d to enable tx_vid_clk (%d)\n", ret);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3248  		goto tx_vid_clk_err;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3249  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3250  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3251  	dp->aux.name =3D "Xlnx D=
-P AUX";
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3252  	dp->aux.dev =3D dp->dev;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3253  	dp->aux.transfer =3D xln=
-x_dp_aux_transfer;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3254  	ret =3D drm_dp_aux_regis=
-ter(&dp->aux);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3255  	if (ret < 0) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3256  		dev_err(dp->dev, "faile=
-d to initialize DP aux\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3257  		goto error;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3258  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3259  	irq =3D platform_get_irq=
-(pdev, 0);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3260  	if (irq < 0) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3261  		ret =3D irq;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3262  		goto error;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3263  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3264  	ret =3D devm_request_thr=
-eaded_irq(dp->dev, irq, NULL,
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3265  					xlnx_dp_irq_handler,=
- IRQF_ONESHOT,
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3266  					dev_name(dp->dev), d=
-p);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3267  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3268  	if (ret < 0)
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3269  		goto error;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3270  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3271  	if (dp->config.audio_ena=
-bled) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3272  		dp->audio_pdev =3D dptx=
-_register_aud_dev(dp->dev);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3273  		if (IS_ERR(dp->audio_pd=
-ev)) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3274  			dp->audio_init =3D fal=
-se;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3275  			dev_err(dp->dev, "dp t=
-x audio init failed\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3276  			goto error;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3277  		} else {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3278  			dp->audio_init =3D tru=
-e;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3279  			dev_info(dp->dev, "dp =
-tx audio initialized\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3280  		}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3281  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3282  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3283  	return component_add(&pd=
-ev->dev, &xlnx_dp_component_ops);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3284  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3285  tx_vid_clk_err:
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3286  	clk_disable_unprepare(dp=
-->axi_lite_clk);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3287  error:
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3288  	drm_dp_aux_unregister(&d=
-p->aux);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3289  error_phy:
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3290  	if (!dp->config.versal_g=
-t_present) {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3291  		dev_dbg(&pdev->dev, "xd=
-prxss_probe() error_phy:\n");
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3292  		xlnx_dp_exit_phy(dp);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3293  	} else {
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3294  		phy_exit(dp->phy[0]);
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3295  	}
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3296  =
-
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3297  	return ret;
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3298  }
-c1b7addf0028e9 Rajesh Gugulothu 2020-08-24  3299  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  551  	return 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  552  }
+48e6633a9fa240 Miquel Raynal 2021-12-16  553  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5501666492007642991==--
+--===============5981612002715443310==--
 
