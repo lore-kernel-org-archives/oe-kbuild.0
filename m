@@ -1,208 +1,103 @@
-Content-Type: multipart/mixed; boundary="===============2154565740150529710=="
+Content-Type: multipart/mixed; boundary="===============0313057137739957832=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized symbol 'rq'.
-Date: Thu, 10 Feb 2022 15:39:52 +0800
-Message-ID: <202202101512.BQ2yInmB-lkp@intel.com>
+Subject: drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:192 gf100_fifo_recover() warn: should '(((1))) << engi' be a 64 bit type?
+Date: Thu, 10 Feb 2022 13:46:16 +0800
+Message-ID: <202202101352.J0SJras4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2154565740150529710==
+--===============0313057137739957832==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Chris Wilson <chris@chris-wilson.co.uk>
-CC: Matthew Auld <matthew.auld@intel.com>
-CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+TO: Ben Skeggs <bskeggs@redhat.com>
+CC: Lyude Paul <lyude@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f4bc5bbb5fef3cf421ba3485d6d383c27ec473ed
-commit: cf586021642d8017cde111b7dd1ba86224e9da51 drm/i915/gt: Pipelined pag=
-e migration
-date:   8 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-m031-20220207 (https://download.01.org/0day-ci/arch=
-ive/20220210/202202101512.BQ2yInmB-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+commit: c6198d3465a9ff5a67023cc1c497a273a913d46a drm/nouveau/fifo/gf100: us=
+e fifo engine id for engine recovery mask
+date:   12 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 months ago
+config: powerpc-randconfig-m031-20220130 (https://download.01.org/0day-ci/a=
+rchive/20220210/202202101352.J0SJras4-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
-symbol 'rq'.
-drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
-symbol 'vaddr'.
+smatch warnings:
+drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:192 gf100_fifo_recover() w=
+arn: should '(((1))) << engi' be a 64 bit type?
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 171)
+vim +192 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
 
-vim +/rq +102 drivers/gpu/drm/i915/gt/selftest_migrate.c
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  173  =
 
-cf586021642d80 Chris Wilson 2021-06-17   31  =
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  174  static void
+6189f1b0938dc06 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  175  gf100_fifo_recover(struct gf100_fifo *fifo, struct nvkm_e=
+ngine *engine,
+05c7145dae17a53 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-01-14  176  		   struct gf100_fifo_chan *chan)
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  177  {
+e5c5e4f5d319799 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  178  	struct nvkm_subdev *subdev =3D &fifo->base.engine.subdev;
+e5c5e4f5d319799 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  179  	struct nvkm_device *device =3D subdev->device;
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  180  	u32 chid =3D chan->base.chid;
+c6198d3465a9ff5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2021-02-06  181  	int engi =3D gf100_fifo_engine_id(&fifo->base, engine);
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  182  =
 
-cf586021642d80 Chris Wilson 2021-06-17   32  static int copy(struct intel_m=
-igrate *migrate,
-cf586021642d80 Chris Wilson 2021-06-17   33  		int (*fn)(struct intel_migra=
-te *migrate,
-cf586021642d80 Chris Wilson 2021-06-17   34  			  struct i915_gem_ww_ctx *w=
-w,
-cf586021642d80 Chris Wilson 2021-06-17   35  			  struct drm_i915_gem_objec=
-t *src,
-cf586021642d80 Chris Wilson 2021-06-17   36  			  struct drm_i915_gem_objec=
-t *dst,
-cf586021642d80 Chris Wilson 2021-06-17   37  			  struct i915_request **out=
-),
-cf586021642d80 Chris Wilson 2021-06-17   38  		u32 sz, struct rnd_state *pr=
-ng)
-cf586021642d80 Chris Wilson 2021-06-17   39  {
-cf586021642d80 Chris Wilson 2021-06-17   40  	struct drm_i915_private *i915=
- =3D migrate->context->engine->i915;
-cf586021642d80 Chris Wilson 2021-06-17   41  	struct drm_i915_gem_object *s=
-rc, *dst;
-cf586021642d80 Chris Wilson 2021-06-17   42  	struct i915_request *rq;
-cf586021642d80 Chris Wilson 2021-06-17   43  	struct i915_gem_ww_ctx ww;
-cf586021642d80 Chris Wilson 2021-06-17   44  	u32 *vaddr;
-cf586021642d80 Chris Wilson 2021-06-17   45  	int err =3D 0;
-cf586021642d80 Chris Wilson 2021-06-17   46  	int i;
-cf586021642d80 Chris Wilson 2021-06-17   47  =
+e5c5e4f5d319799 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  183  	nvkm_error(subdev, "%s engine fault on channel %d, recov=
+ering...\n",
+9c28abb7db540a9 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2020-07-25  184  		   engine->subdev.name, chid);
+6ca307b0c9c7878 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  185  	assert_spin_locked(&fifo->base.lock);
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  186  =
 
-cf586021642d80 Chris Wilson 2021-06-17   48  	src =3D create_lmem_or_intern=
-al(i915, sz);
-cf586021642d80 Chris Wilson 2021-06-17   49  	if (IS_ERR(src))
-cf586021642d80 Chris Wilson 2021-06-17   50  		return 0;
-cf586021642d80 Chris Wilson 2021-06-17   51  =
+8774440390cdfe3 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  187  	nvkm_mask(device, 0x003004 + (chid * 0x08), 0x00000001, =
+0x00000000);
+8f0649b5c6e70ec drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  188  	list_del_init(&chan->head);
+8f0649b5c6e70ec drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2015-08-20  189  	chan->killed =3D true;
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  190  =
 
-cf586021642d80 Chris Wilson 2021-06-17   52  	dst =3D i915_gem_object_creat=
-e_internal(i915, sz);
-cf586021642d80 Chris Wilson 2021-06-17   53  	if (IS_ERR(dst))
-cf586021642d80 Chris Wilson 2021-06-17   54  		goto err_free_src;
-cf586021642d80 Chris Wilson 2021-06-17   55  =
-
-cf586021642d80 Chris Wilson 2021-06-17   56  	for_i915_gem_ww(&ww, err, tru=
-e) {
-cf586021642d80 Chris Wilson 2021-06-17   57  		err =3D i915_gem_object_lock=
-(src, &ww);
-cf586021642d80 Chris Wilson 2021-06-17   58  		if (err)
-cf586021642d80 Chris Wilson 2021-06-17   59  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   60  =
-
-cf586021642d80 Chris Wilson 2021-06-17   61  		err =3D i915_gem_object_lock=
-(dst, &ww);
-cf586021642d80 Chris Wilson 2021-06-17   62  		if (err)
-cf586021642d80 Chris Wilson 2021-06-17   63  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   64  =
-
-cf586021642d80 Chris Wilson 2021-06-17   65  		vaddr =3D i915_gem_object_pi=
-n_map(src, I915_MAP_WC);
-cf586021642d80 Chris Wilson 2021-06-17   66  		if (IS_ERR(vaddr)) {
-cf586021642d80 Chris Wilson 2021-06-17   67  			err =3D PTR_ERR(vaddr);
-cf586021642d80 Chris Wilson 2021-06-17   68  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   69  		}
-cf586021642d80 Chris Wilson 2021-06-17   70  =
-
-cf586021642d80 Chris Wilson 2021-06-17   71  		for (i =3D 0; i < sz / sizeo=
-f(u32); i++)
-cf586021642d80 Chris Wilson 2021-06-17   72  			vaddr[i] =3D i;
-cf586021642d80 Chris Wilson 2021-06-17   73  		i915_gem_object_flush_map(sr=
-c);
-cf586021642d80 Chris Wilson 2021-06-17   74  =
-
-cf586021642d80 Chris Wilson 2021-06-17   75  		vaddr =3D i915_gem_object_pi=
-n_map(dst, I915_MAP_WC);
-cf586021642d80 Chris Wilson 2021-06-17   76  		if (IS_ERR(vaddr)) {
-cf586021642d80 Chris Wilson 2021-06-17   77  			err =3D PTR_ERR(vaddr);
-cf586021642d80 Chris Wilson 2021-06-17   78  			goto unpin_src;
-cf586021642d80 Chris Wilson 2021-06-17   79  		}
-cf586021642d80 Chris Wilson 2021-06-17   80  =
-
-cf586021642d80 Chris Wilson 2021-06-17   81  		for (i =3D 0; i < sz / sizeo=
-f(u32); i++)
-cf586021642d80 Chris Wilson 2021-06-17   82  			vaddr[i] =3D ~i;
-cf586021642d80 Chris Wilson 2021-06-17   83  		i915_gem_object_flush_map(ds=
-t);
-cf586021642d80 Chris Wilson 2021-06-17   84  =
-
-cf586021642d80 Chris Wilson 2021-06-17   85  		err =3D fn(migrate, &ww, src=
-, dst, &rq);
-cf586021642d80 Chris Wilson 2021-06-17   86  		if (!err)
-cf586021642d80 Chris Wilson 2021-06-17   87  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   88  =
-
-cf586021642d80 Chris Wilson 2021-06-17   89  		if (err !=3D -EDEADLK && err=
- !=3D -EINTR && err !=3D -ERESTARTSYS)
-cf586021642d80 Chris Wilson 2021-06-17   90  			pr_err("%ps failed, size: %=
-u\n", fn, sz);
-cf586021642d80 Chris Wilson 2021-06-17   91  		if (rq) {
-cf586021642d80 Chris Wilson 2021-06-17   92  			i915_request_wait(rq, 0, HZ=
-);
-cf586021642d80 Chris Wilson 2021-06-17   93  			i915_request_put(rq);
-cf586021642d80 Chris Wilson 2021-06-17   94  		}
-cf586021642d80 Chris Wilson 2021-06-17   95  		i915_gem_object_unpin_map(ds=
-t);
-cf586021642d80 Chris Wilson 2021-06-17   96  unpin_src:
-cf586021642d80 Chris Wilson 2021-06-17   97  		i915_gem_object_unpin_map(sr=
-c);
-cf586021642d80 Chris Wilson 2021-06-17   98  	}
-cf586021642d80 Chris Wilson 2021-06-17   99  	if (err)
-cf586021642d80 Chris Wilson 2021-06-17  100  		goto err_out;
-cf586021642d80 Chris Wilson 2021-06-17  101  =
-
-cf586021642d80 Chris Wilson 2021-06-17 @102  	if (rq) {
-cf586021642d80 Chris Wilson 2021-06-17  103  		if (i915_request_wait(rq, 0,=
- HZ) < 0) {
-cf586021642d80 Chris Wilson 2021-06-17  104  			pr_err("%ps timed out, size=
-: %u\n", fn, sz);
-cf586021642d80 Chris Wilson 2021-06-17  105  			err =3D -ETIME;
-cf586021642d80 Chris Wilson 2021-06-17  106  		}
-cf586021642d80 Chris Wilson 2021-06-17  107  		i915_request_put(rq);
-cf586021642d80 Chris Wilson 2021-06-17  108  	}
-cf586021642d80 Chris Wilson 2021-06-17  109  =
-
-cf586021642d80 Chris Wilson 2021-06-17  110  	for (i =3D 0; !err && i < sz =
-/ PAGE_SIZE; i++) {
-cf586021642d80 Chris Wilson 2021-06-17  111  		int x =3D i * 1024 + i915_pr=
-andom_u32_max_state(1024, prng);
-cf586021642d80 Chris Wilson 2021-06-17  112  =
-
-cf586021642d80 Chris Wilson 2021-06-17 @113  		if (vaddr[x] !=3D x) {
-cf586021642d80 Chris Wilson 2021-06-17  114  			pr_err("%ps failed, size: %=
-u, offset: %zu\n",
-cf586021642d80 Chris Wilson 2021-06-17  115  			       fn, sz, x * sizeof(u=
-32));
-cf586021642d80 Chris Wilson 2021-06-17  116  			igt_hexdump(vaddr + i * 102=
-4, 4096);
-cf586021642d80 Chris Wilson 2021-06-17  117  			err =3D -EINVAL;
-cf586021642d80 Chris Wilson 2021-06-17  118  		}
-cf586021642d80 Chris Wilson 2021-06-17  119  	}
-cf586021642d80 Chris Wilson 2021-06-17  120  =
-
-cf586021642d80 Chris Wilson 2021-06-17  121  	i915_gem_object_unpin_map(dst=
-);
-cf586021642d80 Chris Wilson 2021-06-17  122  	i915_gem_object_unpin_map(src=
-);
-cf586021642d80 Chris Wilson 2021-06-17  123  =
-
-cf586021642d80 Chris Wilson 2021-06-17  124  err_out:
-cf586021642d80 Chris Wilson 2021-06-17  125  	i915_gem_object_put(dst);
-cf586021642d80 Chris Wilson 2021-06-17  126  err_free_src:
-cf586021642d80 Chris Wilson 2021-06-17  127  	i915_gem_object_put(src);
-cf586021642d80 Chris Wilson 2021-06-17  128  =
-
-cf586021642d80 Chris Wilson 2021-06-17  129  	return err;
-cf586021642d80 Chris Wilson 2021-06-17  130  }
-cf586021642d80 Chris Wilson 2021-06-17  131  =
+c6198d3465a9ff5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2021-02-06  191  	if (engi >=3D 0 && engi !=3D GF100_FIFO_ENGN_SW)
+c6198d3465a9ff5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2021-02-06 @192  		fifo->recover.mask |=3D BIT(engi);
+792662439cf2417 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2016-03-11  193  	schedule_work(&fifo->recover.work);
+ff9f29abf0ef4c4 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs=
+ 2016-11-05  194  	nvkm_fifo_kevent(&fifo->base, chid);
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  195  }
+24e8341e4cd4c7e drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs=
+ 2014-02-05  196  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============2154565740150529710==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0313057137739957832==--
 
