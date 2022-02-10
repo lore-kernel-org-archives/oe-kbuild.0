@@ -1,40 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============4073829453190269912=="
+Content-Type: multipart/mixed; boundary="===============2617691043578021126=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:remove-scsi_request 2/8] drivers/target/target_core_pscsi.c:1032:6: warning: Value stored to 'cdb' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 12 Feb 2022 20:31:16 +0800
-Message-ID: <202202122030.XSq59p9L-lkp@intel.com>
+Subject: drivers/net/wireless/mediatek/mt76/agg-rx.c:125:5: warning: Value stored to 'tidno' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 11 Feb 2022 00:11:14 +0800
+Message-ID: <202202110012.h3UoVFsg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4073829453190269912==
+--===============2617691043578021126==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Felix Fietkau <nbd@nbd.name>
 
-tree:   git://git.infradead.org/users/hch/misc.git remove-scsi_request
-head:   d8fd889c4c1f73165ec38da54e2c10bfe795686b
-commit: ea4aca35de86f4866d0b1745ae4f0a03d3cef1a6 [2/8] target/pscsi: remove=
- struct pscsi_plugin_task
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20212/202202122030.XSq59p9L-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
-774697c85d6a352dcea013f46a99f9fe31)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e3c85076d7a6f986445b9008be7e7f83d1b0780a
+commit: e195dad1411594809cb955c96a7a514bcc4ad638 mt76: add support for 802.=
+3 rx frames
+date:   10 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-c006-20220205 (https://download.01.org/0day-ci/arc=
+hive/20220211/202202110012.h3UoVFsg-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 78c6b9=
+0000292eb37aac5dead6ab26611cd76f42)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add hch-misc git://git.infradead.org/users/hch/misc.git
-        git fetch --no-tags hch-misc remove-scsi_request
-        git checkout ea4aca35de86f4866d0b1745ae4f0a03d3cef1a6
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De195dad1411594809cb955c96a7a514bcc4ad638
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e195dad1411594809cb955c96a7a514bcc4ad638
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -42,335 +51,340 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/net/can/dev/rx-offload.c:87:3: warning: Value stored to 'cb_pos'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   cb_pos =3D can_rx_offload_get_cb(pos);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/dev/rx-offload.c:87:3: note: Value stored to 'cb_pos' is=
- never read
-                   cb_pos =3D can_rx_offload_get_cb(pos);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/dev/rx-offload.c:88:3: warning: Value stored to 'cb_new'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   cb_new =3D can_rx_offload_get_cb(new);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/dev/rx-offload.c:88:3: note: Value stored to 'cb_new' is=
- never read
-                   cb_new =3D can_rx_offload_get_cb(new);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+           ^    ~
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   drivers/net/can/softing/softing_fw.c:531:3: warning: Value stored to 'er=
-ror_reporting' is never read [clang-analyzer-deadcode.DeadStores]
-                   error_reporting +=3D softing_error_reporting(netdev);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/softing/softing_fw.c:531:3: note: Value stored to 'error=
-_reporting' is never read
-                   error_reporting +=3D softing_error_reporting(netdev);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   24 warnings generated.
+   drivers/usb/host/xhci-hub.c:396:2: warning: Value stored to 'ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   drivers/usb/host/xhci-hub.c:396:2: note: Value stored to 'ret' is never =
+read
+           ret =3D 0;
+           ^     ~
+   drivers/usb/host/xhci-hub.c:1238:4: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                           temp =3D readl(ports[wIndex]->addr);
+                           ^
+   drivers/usb/host/xhci-hub.c:1238:4: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1256:5: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                                   temp =3D readl(ports[wIndex]->addr);
+                                   ^
+   drivers/usb/host/xhci-hub.c:1256:5: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1266:5: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                                   temp =3D readl(ports[wIndex]->addr);
+                                   ^
+   drivers/usb/host/xhci-hub.c:1266:5: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1300:5: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                                   temp =3D readl(ports[wIndex]->addr);
+                                   ^
+   drivers/usb/host/xhci-hub.c:1300:5: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1350:5: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                                   temp =3D readl(ports[wIndex]->addr);
+                                   ^
+   drivers/usb/host/xhci-hub.c:1350:5: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1375:5: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                                   temp =3D readl(ports[wIndex]->addr);
+                                   ^
+   drivers/usb/host/xhci-hub.c:1375:5: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1406:4: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                           temp =3D readl(ports[wIndex]->addr);
+                           ^
+   drivers/usb/host/xhci-hub.c:1406:4: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1438:3: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   temp =3D readl(ports[wIndex]->addr);
+                   ^
+   drivers/usb/host/xhci-hub.c:1438:3: note: Value stored to 'temp' is neve=
+r read
+   drivers/usb/host/xhci-hub.c:1860:2: warning: Value stored to 'temp' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           temp =3D readl(&xhci->op_regs->command);
+           ^
+   drivers/usb/host/xhci-hub.c:1860:2: note: Value stored to 'temp' is neve=
+r read
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/i2c/algos/i2c-algo-pcf.c:322:3: warning: Value stored to 'ret' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D pcf_doAddress(adap, pmsg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/algos/i2c-algo-pcf.c:322:3: note: Value stored to 'ret' is n=
-ever read
-                   ret =3D pcf_doAddress(adap, pmsg);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/target/target_core_pscsi.c:355:25: warning: Value stored to 'phv=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct pscsi_hba_virt *phv =3D dev->se_hba->hba_ptr;
-                                  ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pscsi.c:355:25: note: Value stored to 'phv' d=
-uring its initialization is never read
-           struct pscsi_hba_virt *phv =3D dev->se_hba->hba_ptr;
-                                  ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pscsi.c:400:25: warning: Value stored to 'phv=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct pscsi_hba_virt *phv =3D dev->se_hba->hba_ptr;
-                                  ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/target/target_core_pscsi.c:400:25: note: Value stored to 'phv' d=
-uring its initialization is never read
-           struct pscsi_hba_virt *phv =3D dev->se_hba->hba_ptr;
-                                  ^~~   ~~~~~~~~~~~~~~~~~~~~
->> drivers/target/target_core_pscsi.c:1032:6: warning: Value stored to 'cdb=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           u8 *cdb =3D cmd->priv;
-               ^~~   ~~~~~~~~~
-   drivers/target/target_core_pscsi.c:1032:6: note: Value stored to 'cdb' d=
-uring its initialization is never read
-           u8 *cdb =3D cmd->priv;
-               ^~~   ~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> drivers/net/wireless/mediatek/mt76/agg-rx.c:125:5: warning: Value stored=
+ to 'tidno' during its initialization is never read [clang-analyzer-deadcod=
+e.DeadStores]
+           u8 tidno =3D status->qos_ctl & IEEE80211_QOS_CTL_TID_MASK;
+              ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/mediatek/mt76/agg-rx.c:125:5: note: Value stored to=
+ 'tidno' during its initialization is never read
+           u8 tidno =3D status->qos_ctl & IEEE80211_QOS_CTL_TID_MASK;
+              ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2831:3: warning: Value=
+ stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D stmmac_rx_watchdog(priv, priv->ioaddr, priv->rx_=
+riwt, rx_cnt);
+                   ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2831:3: note: Value st=
+ored to 'ret' is never read
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3877:3: warning: Value=
+ stored to 'buf1_len' is never read [clang-analyzer-deadcode.DeadStores]
+                   buf1_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3877:3: note: Value st=
+ored to 'buf1_len' is never read
+                   buf1_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3878:3: warning: Value=
+ stored to 'buf2_len' is never read [clang-analyzer-deadcode.DeadStores]
+                   buf2_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3878:3: note: Value st=
+ored to 'buf2_len' is never read
+                   buf2_len =3D 0;
+                   ^          ~
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:377:3: warning: Val=
+ue stored to 'mask' is never read [clang-analyzer-deadcode.DeadStores]
+                   mask &=3D (ADVERTISED_1000baseT_Half |
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:377:3: note: Value =
+stored to 'mask' is never read
+                   mask &=3D (ADVERTISED_1000baseT_Half |
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:825:22: warning: Va=
+lue stored to 'priv' during its initialization is never read [clang-analyze=
+r-deadcode.DeadStores]
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+                               ^~~~   ~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:825:22: note: Value=
+ stored to 'priv' during its initialization is never read
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+                               ^~~~   ~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:832:22: warning: Va=
+lue stored to 'priv' during its initialization is never read [clang-analyze=
+r-deadcode.DeadStores]
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+                               ^~~~   ~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:832:22: note: Value=
+ stored to 'priv' during its initialization is never read
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+                               ^~~~   ~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (3 in non-user code, 8 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    12 warnings generated.
-   drivers/target/loopback/tcm_loop.c:697:30: warning: Access to field 'tl_=
-fabric_prot_type' results in a dereference of a null pointer (loaded from v=
-ariable 'tl_tpg') [clang-analyzer-core.NullDereference]
-           tl_tpg->tl_fabric_prot_type =3D val;
-           ~~~~~~                      ^
-   drivers/target/loopback/tcm_loop.c:684:2: note: 'tl_tpg' initialized to =
-a null pointer value
-           struct tcm_loop_tpg *tl_tpg =3D container_of(se_tpg, struct tcm_=
-loop_tpg,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:687:12: note: Calling 'kstrtoul'
-           int ret =3D kstrtoul(page, 0, &val);
-                     ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kstrtox.h:36:6: note: Left side of '&&' is true
-           if (sizeof(unsigned long) =3D=3D sizeof(unsigned long long) &&
-               ^
-   include/linux/kstrtox.h:36:2: note: Taking true branch
-           if (sizeof(unsigned long) =3D=3D sizeof(unsigned long long) &&
-           ^
-   include/linux/kstrtox.h:38:3: note: Returning value, which participates =
-in a condition later
-                   return kstrtoull(s, base, (unsigned long long *)res);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:687:12: note: Returning from 'kstrtou=
-l'
-           int ret =3D kstrtoul(page, 0, &val);
-                     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:689:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/target/loopback/tcm_loop.c:689:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/target/loopback/tcm_loop.c:693:6: note: Assuming 'val' is equal =
-to 0
-           if (val !=3D 0 && val !=3D 1 && val !=3D 3) {
-               ^~~~~~~~
-   drivers/target/loopback/tcm_loop.c:693:15: note: Left side of '&&' is fa=
-lse
-           if (val !=3D 0 && val !=3D 1 && val !=3D 3) {
-                        ^
-   drivers/target/loopback/tcm_loop.c:697:30: note: Access to field 'tl_fab=
-ric_prot_type' results in a dereference of a null pointer (loaded from vari=
-able 'tl_tpg')
-           tl_tpg->tl_fabric_prot_type =3D val;
-           ~~~~~~                      ^
-   drivers/target/loopback/tcm_loop.c:725:23: warning: Value stored to 'tl_=
-hba' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct tcm_loop_hba *tl_hba =3D tl_tpg->tl_hba;
-                                ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:725:23: note: Value stored to 'tl_hba=
-' during its initialization is never read
-           struct tcm_loop_hba *tl_hba =3D tl_tpg->tl_hba;
-                                ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:913:31: warning: Access to field 'tl_=
-transport_status' results in a dereference of a null pointer (loaded from v=
-ariable 'tl_tpg') [clang-analyzer-core.NullDereference]
-                   tl_tpg->tl_transport_status =3D TCM_TRANSPORT_ONLINE;
-                   ~~~~~~                      ^
-   drivers/target/loopback/tcm_loop.c:909:2: note: 'tl_tpg' initialized to =
-a null pointer value
-           struct tcm_loop_tpg *tl_tpg =3D container_of(se_tpg,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:912:2: note: Taking true branch
-           if (!strncmp(page, "online", 6)) {
-           ^
-   drivers/target/loopback/tcm_loop.c:913:31: note: Access to field 'tl_tra=
-nsport_status' results in a dereference of a null pointer (loaded from vari=
-able 'tl_tpg')
-                   tl_tpg->tl_transport_status =3D TCM_TRANSPORT_ONLINE;
-                   ~~~~~~                      ^
-   drivers/target/loopback/tcm_loop.c:993:17: warning: Value stored to 'wwn=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct se_wwn *wwn =3D se_tpg->se_tpg_wwn;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:993:17: note: Value stored to 'wwn' d=
-uring its initialization is never read
-           struct se_wwn *wwn =3D se_tpg->se_tpg_wwn;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:999:2: warning: Value stored to 'tl_h=
-ba' is never read [clang-analyzer-deadcode.DeadStores]
-           tl_hba =3D tl_tpg->tl_hba;
-           ^        ~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:999:2: note: Value stored to 'tl_hba'=
- is never read
-           tl_hba =3D tl_tpg->tl_hba;
-           ^        ~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:1000:2: warning: Value stored to 'tpg=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-           tpgt =3D tl_tpg->tl_tpgt;
-           ^      ~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:1000:2: note: Value stored to 'tpgt' =
-is never read
-           tpgt =3D tl_tpg->tl_tpgt;
-           ^      ~~~~~~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:1078:2: warning: Value stored to 'sh'=
+   drivers/media/i2c/rj54n1cb0c.c:687:3: warning: Value stored to 'input_w'=
  is never read [clang-analyzer-deadcode.DeadStores]
-           sh =3D tl_hba->sh;
-           ^    ~~~~~~~~~~
-   drivers/target/loopback/tcm_loop.c:1078:2: note: Value stored to 'sh' is=
- never read
-           sh =3D tl_hba->sh;
-           ^    ~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   sound/soc/codecs/max98373-sdw.c:794:26: warning: Assigned value is garba=
-ge or undefined [clang-analyzer-core.uninitialized.Assign]
-                   max98373->cache[i].reg =3D max98373_sdw_cache_reg[i];
 
-vim +/cdb +1032 drivers/target/target_core_pscsi.c
+vim +/tidno +125 drivers/net/wireless/mediatek/mt76/agg-rx.c
 
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1026  =
+aee5b8cf2477bb Felix Fietkau 2018-01-24  117  =
 
-2a842acab109f40 Christoph Hellwig  2017-06-03  1027  static void pscsi_req_=
-done(struct request *req, blk_status_t status)
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1028  {
-5787cacd0bd5ee0 Christoph Hellwig  2012-04-24  1029  	struct se_cmd *cmd =
-=3D req->end_io_data;
-dce6ce8cfb842c3 Mike Christie      2017-05-31  1030  	int result =3D scsi_r=
-eq(req)->result;
-149d0e489e807f1 Bart Van Assche    2021-05-23  1031  	enum sam_status scsi_=
-status =3D result & 0xff;
-ea4aca35de86f48 Christoph Hellwig  2022-02-10 @1032  	u8 *cdb =3D cmd->priv;
-5787cacd0bd5ee0 Christoph Hellwig  2012-04-24  1033  =
+17cf68b702a60a Felix Fietkau 2018-01-27  118  static void
+17cf68b702a60a Felix Fietkau 2018-01-27  119  mt76_rx_aggr_check_ctl(struct=
+ sk_buff *skb, struct sk_buff_head *frames)
+17cf68b702a60a Felix Fietkau 2018-01-27  120  {
+17cf68b702a60a Felix Fietkau 2018-01-27  121  	struct mt76_rx_status *statu=
+s =3D (struct mt76_rx_status *)skb->cb;
+77ae1d5e13eb51 Ryder Lee     2020-04-25  122  	struct ieee80211_bar *bar =
+=3D mt76_skb_get_hdr(skb);
+17cf68b702a60a Felix Fietkau 2018-01-27  123  	struct mt76_wcid *wcid =3D s=
+tatus->wcid;
+17cf68b702a60a Felix Fietkau 2018-01-27  124  	struct mt76_rx_tid *tid;
+e195dad1411594 Felix Fietkau 2020-12-16 @125  	u8 tidno =3D status->qos_ctl=
+ & IEEE80211_QOS_CTL_TID_MASK;
+17cf68b702a60a Felix Fietkau 2018-01-27  126  	u16 seqno;
+17cf68b702a60a Felix Fietkau 2018-01-27  127  =
 
-15df85e0d63d870 Bart Van Assche    2021-04-15  1034  	if (scsi_status !=3D =
-SAM_STAT_GOOD) {
-5787cacd0bd5ee0 Christoph Hellwig  2012-04-24  1035  		pr_debug("PSCSI Stat=
-us Byte exception at cmd: %p CDB:"
-ea4aca35de86f48 Christoph Hellwig  2022-02-10  1036  			" 0x%02x Result: 0x=
-%08x\n", cmd, cdb[0], result);
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1037  	}
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1038  =
+17cf68b702a60a Felix Fietkau 2018-01-27  128  	if (!ieee80211_is_ctl(bar->f=
+rame_control))
+17cf68b702a60a Felix Fietkau 2018-01-27  129  		return;
+17cf68b702a60a Felix Fietkau 2018-01-27  130  =
 
-dce6ce8cfb842c3 Mike Christie      2017-05-31  1039  	pscsi_complete_cmd(cm=
-d, scsi_status, scsi_req(req)->sense);
-dce6ce8cfb842c3 Mike Christie      2017-05-31  1040  =
+17cf68b702a60a Felix Fietkau 2018-01-27  131  	if (!ieee80211_is_back_req(b=
+ar->frame_control))
+17cf68b702a60a Felix Fietkau 2018-01-27  132  		return;
+17cf68b702a60a Felix Fietkau 2018-01-27  133  =
 
-dce6ce8cfb842c3 Mike Christie      2017-05-31  1041  	switch (host_byte(res=
-ult)) {
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1042  	case DID_OK:
-bd81372065fa467 Lee Duncan         2018-05-15  1043  		target_complete_cmd_=
-with_length(cmd, scsi_status,
-bd81372065fa467 Lee Duncan         2018-05-15  1044  			cmd->data_length - =
-scsi_req(req)->resid_len);
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1045  		break;
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1046  	default:
-5787cacd0bd5ee0 Christoph Hellwig  2012-04-24  1047  		pr_debug("PSCSI Host=
- Byte exception at cmd: %p CDB:"
-ea4aca35de86f48 Christoph Hellwig  2022-02-10  1048  			" 0x%02x Result: 0x=
-%08x\n", cmd, cdb[0], result);
-5787cacd0bd5ee0 Christoph Hellwig  2012-04-24  1049  		target_complete_cmd(=
-cmd, SAM_STAT_CHECK_CONDITION);
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1050  		break;
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1051  	}
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1052  =
+e195dad1411594 Felix Fietkau 2020-12-16  134  	status->qos_ctl =3D tidno =
+=3D le16_to_cpu(bar->control) >> 12;
+b183878a745108 Ryder Lee     2019-04-01  135  	seqno =3D IEEE80211_SEQ_TO_S=
+N(le16_to_cpu(bar->start_seq_num));
+e195dad1411594 Felix Fietkau 2020-12-16  136  	tid =3D rcu_dereference(wcid=
+->aggr[tidno]);
+17cf68b702a60a Felix Fietkau 2018-01-27  137  	if (!tid)
+17cf68b702a60a Felix Fietkau 2018-01-27  138  		return;
+17cf68b702a60a Felix Fietkau 2018-01-27  139  =
 
-0bf6d96cb829409 Christoph Hellwig  2021-10-25  1053  	blk_mq_free_request(r=
-eq);
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1054  }
-c66ac9db8d4ad99 Nicholas Bellinger 2010-12-17  1055  =
+17cf68b702a60a Felix Fietkau 2018-01-27  140  	spin_lock_bh(&tid->lock);
+e7aaa72f472845 Felix Fietkau 2019-10-07  141  	if (!tid->stopped) {
+17cf68b702a60a Felix Fietkau 2018-01-27  142  		mt76_rx_aggr_release_frames=
+(tid, frames, seqno);
+17cf68b702a60a Felix Fietkau 2018-01-27  143  		mt76_rx_aggr_release_head(t=
+id, frames);
+e7aaa72f472845 Felix Fietkau 2019-10-07  144  	}
+17cf68b702a60a Felix Fietkau 2018-01-27  145  	spin_unlock_bh(&tid->lock);
+17cf68b702a60a Felix Fietkau 2018-01-27  146  }
+17cf68b702a60a Felix Fietkau 2018-01-27  147  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4073829453190269912==--
+--===============2617691043578021126==--
 
