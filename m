@@ -1,118 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============7446159729953640979=="
+Content-Type: multipart/mixed; boundary="===============4725738888063293837=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/smsc/smc91x.c:2128 smc_request_attrib() warn: should '(64 * 1024) << (lp->io_shift)' be a 64 bit type?
-Date: Sun, 13 Feb 2022 02:17:13 +0800
-Message-ID: <202202122203.55RvxnRa-lkp@intel.com>
+Subject: arch/arc/kernel/signal.c:79 save_arcv2_regs() warn: maybe return -EFAULT instead of the bytes remaining?
+Date: Sat, 12 Feb 2022 04:22:56 +0800
+Message-ID: <202202120409.aOxVGwa3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7446159729953640979==
+--===============4725738888063293837==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-Hi Masahiro,
-
-First bad commit (maybe !=3D root cause):
+TO: Vineet Gupta <vgupta@synopsys.com>
+CC: linux-snps-arc(a)lists.infradead.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   83e396641110663d3c7bb25b9bc0c6a750359ecf
-commit: ea29b20a828511de3348334e529a3d046a180416 init/Kconfig: make COMPILE=
-_TEST depend on HAS_IOMEM
-date:   11 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 11 months ago
-config: s390-randconfig-m031-20220212 (https://download.01.org/0day-ci/arch=
-ive/20220212/202202122203.55RvxnRa-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
+commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers =
+across signal handling
+date:   8 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 8 months ago
+config: arc-randconfig-m031-20220211 (https://download.01.org/0day-ci/archi=
+ve/20220212/202202120409.aOxVGwa3-lkp(a)intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/ethernet/smsc/smc91x.c:2128 smc_request_attrib() warn: should '=
-(64 * 1024) << (lp->io_shift)' be a 64 bit type?
-drivers/net/ethernet/smsc/smc91x.c:2141 smc_release_attrib() warn: should '=
-(64 * 1024) << (lp->io_shift)' be a 64 bit type?
-drivers/net/ethernet/smsc/smc91x.c:2344 smc_drv_probe() warn: should '16 <<=
- (lp->io_shift)' be a 64 bit type?
-drivers/net/ethernet/smsc/smc91x.c:2434 smc_drv_remove() warn: should '16 <=
-< (lp->io_shift)' be a 64 bit type?
+arch/arc/kernel/signal.c:79 save_arcv2_regs() warn: maybe return -EFAULT in=
+stead of the bytes remaining?
+arch/arc/kernel/signal.c:96 restore_arcv2_regs() warn: maybe return -EFAULT=
+ instead of the bytes remaining?
 
 Old smatch warnings:
-drivers/net/ethernet/smsc/smc91x.c:2403 smc_drv_probe() warn: should '16 <<=
- (lp->io_shift)' be a 64 bit type?
+arch/arc/kernel/signal.c:198 sys_rt_sigreturn() error: uninitialized symbol=
+ 'sp'.
+arch/arc/include/asm/thread_info.h:65 current_thread_info() error: uninitia=
+lized symbol 'sp'.
+arch/arc/kernel/signal.c:297 setup_rt_frame() warn: ignoring unreachable co=
+de.
+arch/arc/kernel/signal.c:312 setup_rt_frame() warn: ignoring unreachable co=
+de.
 
-vim +2128 drivers/net/ethernet/smsc/smc91x.c
+vim +79 arch/arc/kernel/signal.c
 
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2118  =
+c3581039b6c51a7 Vineet Gupta 2013-01-18  63  =
 
-159198862adad7 drivers/net/smc91x.c Eric Miao       2008-06-24  2119  stati=
-c int smc_request_attrib(struct platform_device *pdev,
-159198862adad7 drivers/net/smc91x.c Eric Miao       2008-06-24  2120  			  =
-    struct net_device *ndev)
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2121  {
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2122  	stru=
-ct resource * res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "s=
-mc91x-attrib");
-55c8eb6c8eaa50 drivers/net/smc91x.c David S. Miller 2008-11-03  2123  	stru=
-ct smc_local *lp __maybe_unused =3D netdev_priv(ndev);
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2124  =
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  64  static int save_arcv2_regs(str=
+uct sigcontext *mctx, struct pt_regs *regs)
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  65  {
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  66  	int err =3D 0;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  67  #ifndef CONFIG_ISA_ARCOMPACT
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  68  	struct user_regs_arcv2 v2abi;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  69  =
 
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2125  	if (=
-!res)
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2126  		ret=
-urn 0;
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2127  =
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  70  	v2abi.r30 =3D regs->r30;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  71  #ifdef CONFIG_ARC_HAS_ACCL_REGS
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  72  	v2abi.r58 =3D regs->r58;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  73  	v2abi.r59 =3D regs->r59;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  74  #else
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  75  	v2abi.r58 =3D v2abi.r59 =3D 0;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  76  #endif
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  77  	err =3D __copy_to_user(&mctx-=
+>v2abi, &v2abi, sizeof(v2abi));
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  78  #endif
+96f1b00138cb8f0 Vineet Gupta 2021-06-08 @79  	return err;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  80  }
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  81  =
 
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16 @2128  	if (=
-!request_mem_region(res->start, ATTRIB_SIZE, CARDNAME))
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2129  		ret=
-urn -EBUSY;
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2130  =
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  82  static int restore_arcv2_regs(=
+struct sigcontext *mctx, struct pt_regs *regs)
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  83  {
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  84  	int err =3D 0;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  85  #ifndef CONFIG_ISA_ARCOMPACT
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  86  	struct user_regs_arcv2 v2abi;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  87  =
 
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2131  	retu=
-rn 0;
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2132  }
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2133  =
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  88  	err =3D __copy_from_user(&v2a=
+bi, &mctx->v2abi, sizeof(v2abi));
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  89  =
 
-159198862adad7 drivers/net/smc91x.c Eric Miao       2008-06-24  2134  stati=
-c void smc_release_attrib(struct platform_device *pdev,
-159198862adad7 drivers/net/smc91x.c Eric Miao       2008-06-24  2135  			  =
-     struct net_device *ndev)
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2136  {
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2137  	stru=
-ct resource * res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM, "s=
-mc91x-attrib");
-55c8eb6c8eaa50 drivers/net/smc91x.c David S. Miller 2008-11-03  2138  	stru=
-ct smc_local *lp __maybe_unused =3D netdev_priv(ndev);
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2139  =
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  90  	regs->r30 =3D v2abi.r30;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  91  #ifdef CONFIG_ARC_HAS_ACCL_REGS
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  92  	regs->r58 =3D v2abi.r58;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  93  	regs->r59 =3D v2abi.r59;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  94  #endif
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  95  #endif
+96f1b00138cb8f0 Vineet Gupta 2021-06-08 @96  	return err;
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  97  }
+96f1b00138cb8f0 Vineet Gupta 2021-06-08  98  =
 
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2140  	if (=
-res)
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16 @2141  		rel=
-ease_mem_region(res->start, ATTRIB_SIZE);
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2142  }
-^1da177e4c3f41 drivers/net/smc91x.c Linus Torvalds  2005-04-16  2143  =
-
-
-:::::: The code at line 2128 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7446159729953640979==--
+--===============4725738888063293837==--
 
