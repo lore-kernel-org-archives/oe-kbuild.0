@@ -1,161 +1,175 @@
-Content-Type: multipart/mixed; boundary="===============4017522740095790916=="
+Content-Type: multipart/mixed; boundary="===============7202196612554403895=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/cifs/dfs_cache.c:1382 __refresh_tcon() warn: passing a valid pointer to 'PTR_ERR'
-Date: Sat, 12 Feb 2022 06:46:12 +0800
-Message-ID: <202202120615.vNPjJ9hn-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:1818 sja1105_fast_age() warn: should '((((1))) << port)' be a 64 bit type?
+Date: Sat, 12 Feb 2022 06:35:52 +0800
+Message-ID: <202202120636.L4uDYRCZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4017522740095790916==
+--===============7202196612554403895==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Paulo Alcantara <pc@cjr.nz>
-CC: Steve French <stfrench@microsoft.com>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
-commit: c88f7dcd6d6429197fc2fd87b54a894ffcd48e8e cifs: support nested dfs l=
-inks over reconnect
-date:   3 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 3 months ago
-config: arc-randconfig-m031-20220211 (https://download.01.org/0day-ci/archi=
-ve/20220212/202202120615.vNPjJ9hn-lkp(a)intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.2.0
+commit: 5126ec72a094bd3a721941323c48cc80c60139d9 net: dsa: sja1105: add FDB=
+ fast ageing support
+date:   6 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 6 months ago
+config: m68k-randconfig-m031-20220211 (https://download.01.org/0day-ci/arch=
+ive/20220212/202202120636.L4uDYRCZ-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/cifs/dfs_cache.c:1382 __refresh_tcon() warn: passing a valid pointer to =
-'PTR_ERR'
+drivers/net/dsa/sja1105/sja1105_main.c:1818 sja1105_fast_age() warn: should=
+ '((((1))) << port)' be a 64 bit type?
 
 Old smatch warnings:
-arch/arc/include/asm/thread_info.h:65 current_thread_info() error: uninitia=
-lized symbol 'sp'.
-fs/cifs/dfs_cache.c:509 copy_ref_data() warn: passing a valid pointer to 'P=
-TR_ERR'
+drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
+: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
+d '((((1))) << to)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
+ld '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:255 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:267 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:276 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:285 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:291 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:298 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:530 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:531 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:552 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:553 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:676 sja1105_init_l2_forwarding_param=
+s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
+g_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:809 sja1105_init_topology() warn: sh=
+ould '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:920 sja1105_init_avb_params() warn: =
+is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:1387 sja1105_find_static_fdb_entry()=
+ warn: should '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1506 sja1105et_fdb_add() warn: shoul=
+d '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1508 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1516 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1619 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1629 sja1105pqrs_fdb_add() warn: sho=
+uld '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1637 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1710 sja1105pqrs_fdb_del() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1779 sja1105_fdb_dump() warn: should=
+ '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1871 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1873 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2367 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2368 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2372 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2682 sja1105_mgmt_xmit() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2990 sja1105_port_mcast_flood() warn=
+: should '(((1))) << to' be a 64 bit type?
 
-vim +/PTR_ERR +1382 fs/cifs/dfs_cache.c
+vim +1818 drivers/net/dsa/sja1105/sja1105_main.c
 
-5072010ccf05929 Paulo Alcantara (SUSE  2019-03-19  1365) =
+291d1e72b75642 Vladimir Oltean 2019-05-02  1796  =
 
-b62366181a5e947 Paulo Alcantara        2021-07-16  1366  /* Refresh dfs ref=
-erral of tcon and mark it for reconnect if needed */
-c88f7dcd6d64291 Paulo Alcantara        2021-11-03  1367  static int __refre=
-sh_tcon(const char *path, struct cifs_ses **sessions, struct cifs_tcon *tco=
-n,
-c88f7dcd6d64291 Paulo Alcantara        2021-11-03  1368  			  bool force_re=
-fresh)
-b62366181a5e947 Paulo Alcantara        2021-07-16  1369  {
-b62366181a5e947 Paulo Alcantara        2021-07-16  1370  	struct cifs_ses *=
-ses;
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1371  	struct cache_entr=
-y *ce;
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1372  	struct dfs_info3_=
-param *refs =3D NULL;
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1373  	int numrefs =3D 0;
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1374  	bool needs_refres=
-h =3D false;
-b62366181a5e947 Paulo Alcantara        2021-07-16  1375  	struct dfs_cache_=
-tgt_list tl =3D DFS_CACHE_TGT_LIST_INIT(tl);
-c9f711039905910 Paulo Alcantara        2021-06-04  1376  	int rc =3D 0;
-b62366181a5e947 Paulo Alcantara        2021-07-16  1377  	unsigned int xid;
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1378  =
+5126ec72a094bd Vladimir Oltean 2021-08-08  1797  static void sja1105_fast_a=
+ge(struct dsa_switch *ds, int port)
+5126ec72a094bd Vladimir Oltean 2021-08-08  1798  {
+5126ec72a094bd Vladimir Oltean 2021-08-08  1799  	struct sja1105_private *p=
+riv =3D ds->priv;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1800  	int i;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1801  =
 
-c9f711039905910 Paulo Alcantara        2021-06-04  1379  	ses =3D find_ipc_=
-from_server_path(sessions, path);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1380  	if (IS_ERR(ses)) {
-b62366181a5e947 Paulo Alcantara        2021-07-16  1381  		cifs_dbg(FYI, "%=
-s: could not find ipc session\n", __func__);
-b62366181a5e947 Paulo Alcantara        2021-07-16 @1382  		return PTR_ERR(s=
-es);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1383  	}
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1384  =
+5126ec72a094bd Vladimir Oltean 2021-08-08  1802  	for (i =3D 0; i < SJA1105=
+_MAX_L2_LOOKUP_COUNT; i++) {
+5126ec72a094bd Vladimir Oltean 2021-08-08  1803  		struct sja1105_l2_lookup=
+_entry l2_lookup =3D {0};
+5126ec72a094bd Vladimir Oltean 2021-08-08  1804  		u8 macaddr[ETH_ALEN];
+5126ec72a094bd Vladimir Oltean 2021-08-08  1805  		int rc;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1806  =
 
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1385  	down_read(&htable=
-_rw_lock);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1386  	ce =3D lookup_cac=
-he_entry(path);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1387  	needs_refresh =3D=
- force_refresh || IS_ERR(ce) || cache_entry_expired(ce);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1388  	if (!IS_ERR(ce)) {
-b62366181a5e947 Paulo Alcantara        2021-07-16  1389  		rc =3D get_targe=
-ts(ce, &tl);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1390  		if (rc)
-b62366181a5e947 Paulo Alcantara        2021-07-16  1391  			cifs_dbg(FYI, "=
-%s: could not get dfs targets: %d\n", __func__, rc);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1392  	}
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1393  	up_read(&htable_r=
-w_lock);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1394  =
+5126ec72a094bd Vladimir Oltean 2021-08-08  1807  		rc =3D sja1105_dynamic_c=
+onfig_read(priv, BLK_IDX_L2_LOOKUP,
+5126ec72a094bd Vladimir Oltean 2021-08-08  1808  						 i, &l2_lookup);
+5126ec72a094bd Vladimir Oltean 2021-08-08  1809  		/* No fdb entry@i, no=
+t an issue */
+5126ec72a094bd Vladimir Oltean 2021-08-08  1810  		if (rc =3D=3D -ENOENT)
+5126ec72a094bd Vladimir Oltean 2021-08-08  1811  			continue;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1812  		if (rc) {
+5126ec72a094bd Vladimir Oltean 2021-08-08  1813  			dev_err(ds->dev, "Faile=
+d to read FDB: %pe\n",
+5126ec72a094bd Vladimir Oltean 2021-08-08  1814  				ERR_PTR(rc));
+5126ec72a094bd Vladimir Oltean 2021-08-08  1815  			return;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1816  		}
+5126ec72a094bd Vladimir Oltean 2021-08-08  1817  =
 
-b62366181a5e947 Paulo Alcantara        2021-07-16  1395  	if (!needs_refres=
-h) {
-b62366181a5e947 Paulo Alcantara        2021-07-16  1396  		rc =3D 0;
-b62366181a5e947 Paulo Alcantara        2021-07-16  1397  		goto out;
-b62366181a5e947 Paulo Alcantara        2021-07-16  1398  	}
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1399  =
+5126ec72a094bd Vladimir Oltean 2021-08-08 @1818  		if (!(l2_lookup.destport=
+s & BIT(port)))
+5126ec72a094bd Vladimir Oltean 2021-08-08  1819  			continue;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1820  =
 
-c9f711039905910 Paulo Alcantara        2021-06-04  1400  	xid =3D get_xid();
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1401  	rc =3D get_dfs_re=
-ferral(xid, ses, path, &refs, &numrefs);
-c9f711039905910 Paulo Alcantara        2021-06-04  1402  	free_xid(xid);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1403  =
+5126ec72a094bd Vladimir Oltean 2021-08-08  1821  		/* Don't delete static F=
+DB entries */
+5126ec72a094bd Vladimir Oltean 2021-08-08  1822  		if (l2_lookup.lockeds)
+5126ec72a094bd Vladimir Oltean 2021-08-08  1823  			continue;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1824  =
 
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1404  	/* Create or upda=
-te a cache entry with the new referral */
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1405  	if (!rc) {
-b62366181a5e947 Paulo Alcantara        2021-07-16  1406  		dump_refs(refs, =
-numrefs);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1407  =
+5126ec72a094bd Vladimir Oltean 2021-08-08  1825  		u64_to_ether_addr(l2_loo=
+kup.macaddr, macaddr);
+5126ec72a094bd Vladimir Oltean 2021-08-08  1826  =
 
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1408  		down_write(&htab=
-le_rw_lock);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1409  		ce =3D lookup_ca=
-che_entry(path);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1410  		if (IS_ERR(ce))
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1411  			add_cache_entry=
-_locked(refs, numrefs);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1412  		else if (force_r=
-efresh || cache_entry_expired(ce))
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1413  			update_cache_en=
-try_locked(ce, refs, numrefs);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1414  		up_write(&htable=
-_rw_lock);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1415  =
+5126ec72a094bd Vladimir Oltean 2021-08-08  1827  		rc =3D sja1105_fdb_del(d=
+s, port, macaddr, l2_lookup.vlanid);
+5126ec72a094bd Vladimir Oltean 2021-08-08  1828  		if (rc) {
+5126ec72a094bd Vladimir Oltean 2021-08-08  1829  			dev_err(ds->dev,
+5126ec72a094bd Vladimir Oltean 2021-08-08  1830  				"Failed to delete FDB =
+entry %pM vid %lld: %pe\n",
+5126ec72a094bd Vladimir Oltean 2021-08-08  1831  				macaddr, l2_lookup.vla=
+nid, ERR_PTR(rc));
+5126ec72a094bd Vladimir Oltean 2021-08-08  1832  			return;
+5126ec72a094bd Vladimir Oltean 2021-08-08  1833  		}
+5126ec72a094bd Vladimir Oltean 2021-08-08  1834  	}
+5126ec72a094bd Vladimir Oltean 2021-08-08  1835  }
+5126ec72a094bd Vladimir Oltean 2021-08-08  1836  =
 
-b62366181a5e947 Paulo Alcantara        2021-07-16  1416  		mark_for_reconne=
-ct_if_needed(tcon, &tl, refs, numrefs);
-345c1a4a9e09dc5 Paulo Alcantara (SUSE  2019-12-04  1417) 	}
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1418  =
-
-b62366181a5e947 Paulo Alcantara        2021-07-16  1419  out:
-b62366181a5e947 Paulo Alcantara        2021-07-16  1420  	dfs_cache_free_tg=
-ts(&tl);
-1023e90b733acd1 Paulo Alcantara        2021-06-08  1421  	free_dfs_info_arr=
-ay(refs, numrefs);
-b62366181a5e947 Paulo Alcantara        2021-07-16  1422  	return rc;
-b62366181a5e947 Paulo Alcantara        2021-07-16  1423  }
-b62366181a5e947 Paulo Alcantara        2021-07-16  1424  =
-
-
-:::::: The code at line 1382 was first introduced by commit
-:::::: b62366181a5e9473e9c10e98f400049491c55876 cifs: support share failove=
-r when remounting
-
-:::::: TO: Paulo Alcantara <pc@cjr.nz>
-:::::: CC: Steve French <stfrench@microsoft.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4017522740095790916==--
+--===============7202196612554403895==--
 
