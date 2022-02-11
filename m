@@ -1,398 +1,164 @@
-Content-Type: multipart/mixed; boundary="===============0645740572244670431=="
+Content-Type: multipart/mixed; boundary="===============5959805161323027250=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.10/yocto 10626/20393] drivers/media/v4l2-core/v4l2-mc.c:437:23: warning: Value stored to 'entity' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 12 Feb 2022 01:58:56 +0800
-Message-ID: <202202112350.OcfB6Wi1-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:2146 sja1105_vlan_add() warn: should '(((1))) << port' be a 64 bit type?
+Date: Sat, 12 Feb 2022 01:58:17 +0800
+Message-ID: <202202112242.aEWTsi1N-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0645740572244670431==
+--===============5959805161323027250==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Li Wei <wei.l.li@intel.com>
-CC: "Pan, Kris" <kris.pan@intel.com>
-CC: Chen Meng J <meng.j.chen@intel.com>
-CC: Meng Wei <wei.meng@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
-head:   2dafc777a64181d42982628c7f5907a03da5f070
-commit: 91c71f14b406b0fe0f72f7e75e6a85e344b1927a [10626/20393] media: v4l2-=
-mc: fix entity use_count issue for dual sensors
-:::::: branch date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
+commit: 6dfd23d35e75098ac61a605f6c591ce42e95cdcb net: dsa: sja1105: delete =
+vlan delta save/restore logic
+date:   7 months ago
+:::::: branch date: 15 hours ago
 :::::: commit date: 7 months ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-211/202202112350.OcfB6Wi1-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project aa845d=
-7a245d85c441d0bd44fc7b6c3be8f3de8d)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/91c71f14b406b0fe0=
-f72f7e75e6a85e344b1927a
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
-it
-        git fetch --no-tags intel-lts 5.10/yocto
-        git checkout 91c71f14b406b0fe0f72f7e75e6a85e344b1927a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+config: m68k-randconfig-m031-20220211 (https://download.01.org/0day-ci/arch=
+ive/20220211/202202112242.aEWTsi1N-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:2146 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/gpu/drm/drm_mode_config.c:443:4: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D drm_modeset_backoff(&modeset_ctx);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mode_config.c:443:4: note: Value stored to 'ret' is =
-never read
-                           ret =3D drm_modeset_backoff(&modeset_ctx);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/spmi/spmi.c:553:2: warning: Value stored to 'dummy' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           dummy =3D device_for_each_child(&ctrl->dev, NULL,
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spmi/spmi.c:553:2: note: Value stored to 'dummy' is never read
-           dummy =3D device_for_each_child(&ctrl->dev, NULL,
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/drm_crtc_helper.c:635:2: warning: Value stored to 'count=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           count =3D 0;
-           ^       ~
-   drivers/gpu/drm/drm_crtc_helper.c:635:2: note: Value stored to 'count' i=
-s never read
-           count =3D 0;
-           ^       ~
-   drivers/gpu/drm/drm_crtc_helper.c:681:2: warning: Value stored to 'count=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           count =3D 0;
-           ^       ~
-   drivers/gpu/drm/drm_crtc_helper.c:681:2: note: Value stored to 'count' i=
-s never read
-           count =3D 0;
-           ^       ~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   net/decnet/af_decnet.c:1765:4: warning: Value stored to 'rv' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-                           rv =3D -EFAULT;
-                           ^    ~~~~~~~
-   net/decnet/af_decnet.c:1765:4: note: Value stored to 'rv' is never read
-                           rv =3D -EFAULT;
-                           ^    ~~~~~~~
-   net/decnet/af_decnet.c:1962:2: warning: Value stored to 'mss' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           mss =3D scp->segsize_rem;
-           ^     ~~~~~~~~~~~~~~~~
-   net/decnet/af_decnet.c:1962:2: note: Value stored to 'mss' is never read
-           mss =3D scp->segsize_rem;
-           ^     ~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   net/decnet/dn_nsp_in.c:763:3: warning: Value stored to 'ptr' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-                   ptr +=3D 2;
-                   ^      ~
-   net/decnet/dn_nsp_in.c:763:3: note: Value stored to 'ptr' is never read
-                   ptr +=3D 2;
-                   ^      ~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/v4l2-core/v4l2-mc.c:176:4: warning: Value stored to 'if_au=
-d' is never read [clang-analyzer-deadcode.DeadStores]
-                           if_aud =3D tuner;
-                           ^        ~~~~~
-   drivers/media/v4l2-core/v4l2-mc.c:176:4: note: Value stored to 'if_aud' =
-is never read
-                           if_aud =3D tuner;
-                           ^        ~~~~~
->> drivers/media/v4l2-core/v4l2-mc.c:437:23: warning: Value stored to 'enti=
-ty' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           struct media_entity *entity =3D pad->entity;
-                                ^~~~~~   ~~~~~~~~~~~
-   drivers/media/v4l2-core/v4l2-mc.c:437:23: note: Value stored to 'entity'=
- during its initialization is never read
-           struct media_entity *entity =3D pad->entity;
-                                ^~~~~~   ~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   net/unix/af_unix.c:1504:3: warning: Value stored to 'err' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   err =3D 0;
-                   ^     ~
-   net/unix/af_unix.c:1504:3: note: Value stored to 'err' is never read
-                   err =3D 0;
-                   ^     ~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   sound/drivers/opl3/opl3_lib.c:490:2: warning: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(hw->name, hw->id);
-           ^~~~~~
-   sound/drivers/opl3/opl3_lib.c:490:2: note: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119
-           strcpy(hw->name, hw->id);
+Old smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
+: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
+d '((((1))) << to)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:173 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:185 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:194 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:203 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:209 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:216 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:443 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:444 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:529 sja1105_init_l2_forwarding_param=
+s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
+g_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:702 sja1105_init_general_params() wa=
+rn: is 'table->entries' large enough for 'struct sja1105_general_params_ent=
+ry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:730 sja1105_init_avb_params() warn: =
+is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:1197 sja1105_find_static_fdb_entry()=
+ warn: should '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1315 sja1105et_fdb_add() warn: shoul=
+d '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1317 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1325 sja1105et_fdb_add() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1411 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1419 sja1105pqrs_fdb_add() warn: sho=
+uld '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1424 sja1105pqrs_fdb_add() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1474 sja1105pqrs_fdb_del() warn: sho=
+uld '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1558 sja1105_fdb_dump() warn: should=
+ '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1610 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:1612 sja1105_manage_flood_domains() =
+warn: should '(((1))) << to' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2147 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2151 sja1105_vlan_add() warn: should=
+ '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2417 sja1105_mgmt_xmit() warn: shoul=
+d '(((1))) << port' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2735 sja1105_port_mcast_flood() warn=
+: should '(((1))) << to' be a 64 bit type?
 
-vim +/entity +437 drivers/media/v4l2-core/v4l2-mc.c
+vim +2146 drivers/net/dsa/sja1105/sja1105_main.c
 
-0d3c81e82da90f Steve Longerbeam 2020-05-01  406  =
+6666cebc5e306f Vladimir Oltean 2019-05-02  2123  =
 
-76413791a03f8f Sakari Ailus     2016-02-21  407  /* -----------------------=
-------------------------------------------------------
-76413791a03f8f Sakari Ailus     2016-02-21  408   * Pipeline power manageme=
-nt
-76413791a03f8f Sakari Ailus     2016-02-21  409   *
-76413791a03f8f Sakari Ailus     2016-02-21  410   * Entities must be powere=
-d up when part of a pipeline that contains at least
-76413791a03f8f Sakari Ailus     2016-02-21  411   * one open video device n=
-ode.
-76413791a03f8f Sakari Ailus     2016-02-21  412   *
-76413791a03f8f Sakari Ailus     2016-02-21  413   * To achieve this use the=
- entity use_count field to track the number of users.
-76413791a03f8f Sakari Ailus     2016-02-21  414   * For entities correspond=
-ing to video device nodes the use_count field stores
-76413791a03f8f Sakari Ailus     2016-02-21  415   * the users count of the =
-node. For entities corresponding to subdevs the
-76413791a03f8f Sakari Ailus     2016-02-21  416   * use_count field stores =
-the total number of users of all video device nodes
-76413791a03f8f Sakari Ailus     2016-02-21  417   * in the pipeline.
-76413791a03f8f Sakari Ailus     2016-02-21  418   *
-8fd390b89cc8ca Ezequiel Garcia  2020-01-24  419   * The v4l2_pipeline_pm_{g=
-et, put}() functions must be called in the open() and
-76413791a03f8f Sakari Ailus     2016-02-21  420   * close() handlers of vid=
-eo device nodes. It increments or decrements the use
-76413791a03f8f Sakari Ailus     2016-02-21  421   * count of all subdev ent=
-ities in the pipeline.
-76413791a03f8f Sakari Ailus     2016-02-21  422   *
-76413791a03f8f Sakari Ailus     2016-02-21  423   * To react to link manage=
-ment on powered pipelines, the link setup notification
-76413791a03f8f Sakari Ailus     2016-02-21  424   * callback updates the us=
-e count of all entities in the source and sink sides
-76413791a03f8f Sakari Ailus     2016-02-21  425   * of the link.
-76413791a03f8f Sakari Ailus     2016-02-21  426   */
-76413791a03f8f Sakari Ailus     2016-02-21  427  =
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2124  static int sja1105_vlan_ad=
+d(struct sja1105_private *priv, int port, u16 vid,
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2125  			    u16 flags)
+6666cebc5e306f Vladimir Oltean 2019-05-02  2126  {
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2127  	struct sja1105_vlan_looku=
+p_entry *vlan;
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2128  	struct sja1105_table *tab=
+le;
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2129  	int match, rc;
+ec5ae61076d07b Vladimir Oltean 2020-05-12  2130  =
 
-76413791a03f8f Sakari Ailus     2016-02-21  428  /*
-76413791a03f8f Sakari Ailus     2016-02-21  429   * pipeline_pm_use_count -=
- Count the number of users of a pipeline
-76413791a03f8f Sakari Ailus     2016-02-21  430   * @entity: The entity
-76413791a03f8f Sakari Ailus     2016-02-21  431   *
-76413791a03f8f Sakari Ailus     2016-02-21  432   * Return the total number=
- of users of all video device nodes in the pipeline.
-76413791a03f8f Sakari Ailus     2016-02-21  433   */
-91c71f14b406b0 Li Wei           2018-01-17  434  static int pipeline_pm_use=
-_count(struct media_pad *pad,
-20b852273642f4 Sakari Ailus     2016-11-21  435  	struct media_graph *graph)
-76413791a03f8f Sakari Ailus     2016-02-21  436  {
-91c71f14b406b0 Li Wei           2018-01-17 @437  	struct media_entity *enti=
-ty =3D pad->entity;
-76413791a03f8f Sakari Ailus     2016-02-21  438  	int use =3D 0;
-76413791a03f8f Sakari Ailus     2016-02-21  439  =
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2131  	table =3D &priv->static_c=
+onfig.tables[BLK_IDX_VLAN_LOOKUP];
+ec5ae61076d07b Vladimir Oltean 2020-05-12  2132  =
 
-91c71f14b406b0 Li Wei           2018-01-17  440  	media_graph_walk_start(gr=
-aph, pad);
-76413791a03f8f Sakari Ailus     2016-02-21  441  =
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2133  	match =3D sja1105_is_vlan=
+_configured(priv, vid);
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2134  	if (match < 0) {
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2135  		rc =3D sja1105_table_res=
+ize(table, table->entry_count + 1);
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2136  		if (rc)
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2137  			return rc;
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2138  		match =3D table->entry_c=
+ount - 1;
+b38e659de966a1 Vladimir Oltean 2021-05-24  2139  	}
+b38e659de966a1 Vladimir Oltean 2021-05-24  2140  =
 
-20b852273642f4 Sakari Ailus     2016-11-21  442  	while ((entity =3D media_=
-graph_walk_next(graph))) {
-45b46879a78567 Laurent Pinchart 2016-02-29  443  		if (is_media_entity_v4l2=
-_video_device(entity))
-76413791a03f8f Sakari Ailus     2016-02-21  444  			use +=3D entity->use_co=
-unt;
-76413791a03f8f Sakari Ailus     2016-02-21  445  	}
-76413791a03f8f Sakari Ailus     2016-02-21  446  =
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2141  	/* Assign pointer after t=
+he resize (it's new memory) */
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2142  	vlan =3D table->entries;
+ec5ae61076d07b Vladimir Oltean 2020-05-12  2143  =
 
-76413791a03f8f Sakari Ailus     2016-02-21  447  	return use;
-76413791a03f8f Sakari Ailus     2016-02-21  448  }
-76413791a03f8f Sakari Ailus     2016-02-21  449  =
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2144  	vlan[match].type_entry =
+=3D SJA1110_VLAN_D_TAG;
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2145  	vlan[match].vlanid =3D vi=
+d;
+6dfd23d35e7509 Vladimir Oltean 2021-07-26 @2146  	vlan[match].vlan_bc |=3D =
+BIT(port);
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2147  	vlan[match].vmemb_port |=
+=3D BIT(port);
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2148  	if (flags & BRIDGE_VLAN_I=
+NFO_UNTAGGED)
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2149  		vlan[match].tag_port &=
+=3D ~BIT(port);
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2150  	else
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2151  		vlan[match].tag_port |=
+=3D BIT(port);
+ec5ae61076d07b Vladimir Oltean 2020-05-12  2152  =
+
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2153  	return sja1105_dynamic_co=
+nfig_write(priv, BLK_IDX_VLAN_LOOKUP, vid,
+6dfd23d35e7509 Vladimir Oltean 2021-07-26  2154  					    &vlan[match], tru=
+e);
+5899ee367ab3fe Vladimir Oltean 2020-09-10  2155  }
+5899ee367ab3fe Vladimir Oltean 2020-09-10  2156  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0645740572244670431==--
+--===============5959805161323027250==--
 
