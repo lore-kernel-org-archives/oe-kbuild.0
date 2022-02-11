@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7202196612554403895=="
+Content-Type: multipart/mixed; boundary="===============1633233117470483609=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:1818 sja1105_fast_age() warn: should '((((1))) << port)' be a 64 bit type?
-Date: Sat, 12 Feb 2022 06:35:52 +0800
-Message-ID: <202202120636.L4uDYRCZ-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:521 sja1105_init_l2_forwarding() warn: should '(((1))) << to' be a 64 bit type?
+Date: Sat, 12 Feb 2022 04:53:37 +0800
+Message-ID: <202202120420.pvX6SRFk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7202196612554403895==
+--===============1633233117470483609==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,13 +19,13 @@ TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
-commit: 5126ec72a094bd3a721941323c48cc80c60139d9 net: dsa: sja1105: add FDB=
- fast ageing support
+commit: 3fa212707b8e6026cea6a92faea87f556e0cba9b net: dsa: sja1105: manage =
+the forwarding domain towards DSA ports
 date:   6 months ago
-:::::: branch date: 22 hours ago
+:::::: branch date: 21 hours ago
 :::::: commit date: 6 months ago
 config: m68k-randconfig-m031-20220211 (https://download.01.org/0day-ci/arch=
-ive/20220212/202202120636.L4uDYRCZ-lkp(a)intel.com/config)
+ive/20220212/202202120420.pvX6SRFk-lkp(a)intel.com/config)
 compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -33,8 +33,8 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:1818 sja1105_fast_age() warn: should=
- '((((1))) << port)' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:521 sja1105_init_l2_forwarding() war=
+n: should '(((1))) << to' be a 64 bit type?
 
 Old smatch warnings:
 drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
@@ -43,133 +43,246 @@ drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
 d '((((1))) << to)' be a 64 bit type?
 drivers/net/dsa/sja1105/sja1105_main.c:129 sja1105_commit_pvid() warn: shou=
 ld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:255 sja1105_init_mii_settings() warn=
+drivers/net/dsa/sja1105/sja1105_main.c:248 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:267 sja1105_init_mii_settings() warn=
+drivers/net/dsa/sja1105/sja1105_main.c:260 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:276 sja1105_init_mii_settings() warn=
+drivers/net/dsa/sja1105/sja1105_main.c:269 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:285 sja1105_init_mii_settings() warn=
+drivers/net/dsa/sja1105/sja1105_main.c:278 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:284 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
 drivers/net/dsa/sja1105/sja1105_main.c:291 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:298 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:530 sja1105_init_l2_forwarding() war=
+drivers/net/dsa/sja1105/sja1105_main.c:522 sja1105_init_l2_forwarding() war=
 n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:531 sja1105_init_l2_forwarding() war=
+drivers/net/dsa/sja1105/sja1105_main.c:543 sja1105_init_l2_forwarding() war=
 n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:552 sja1105_init_l2_forwarding() war=
+drivers/net/dsa/sja1105/sja1105_main.c:544 sja1105_init_l2_forwarding() war=
 n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:553 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:676 sja1105_init_l2_forwarding_param=
+drivers/net/dsa/sja1105/sja1105_main.c:640 sja1105_init_l2_forwarding_param=
 s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
 g_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:809 sja1105_init_topology() warn: sh=
+drivers/net/dsa/sja1105/sja1105_main.c:773 sja1105_init_topology() warn: sh=
 ould '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:920 sja1105_init_avb_params() warn: =
+drivers/net/dsa/sja1105/sja1105_main.c:884 sja1105_init_avb_params() warn: =
 is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:1387 sja1105_find_static_fdb_entry()=
+drivers/net/dsa/sja1105/sja1105_main.c:1351 sja1105_find_static_fdb_entry()=
  warn: should '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1506 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1469 sja1105et_fdb_add() warn: shoul=
 d '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1508 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1471 sja1105et_fdb_add() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1516 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1479 sja1105et_fdb_add() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1619 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1565 sja1105pqrs_fdb_add() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1629 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1573 sja1105pqrs_fdb_add() warn: sho=
 uld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1637 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1578 sja1105pqrs_fdb_add() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1710 sja1105pqrs_fdb_del() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1628 sja1105pqrs_fdb_del() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1779 sja1105_fdb_dump() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:1697 sja1105_fdb_dump() warn: should=
  '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1871 sja1105_manage_flood_domains() =
+drivers/net/dsa/sja1105/sja1105_main.c:1749 sja1105_manage_flood_domains() =
 warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1873 sja1105_manage_flood_domains() =
+drivers/net/dsa/sja1105/sja1105_main.c:1751 sja1105_manage_flood_domains() =
 warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2367 sja1105_vlan_add() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:2244 sja1105_vlan_add() warn: should=
  '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2368 sja1105_vlan_add() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:2245 sja1105_vlan_add() warn: should=
  '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2372 sja1105_vlan_add() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:2249 sja1105_vlan_add() warn: should=
  '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2682 sja1105_mgmt_xmit() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:2558 sja1105_mgmt_xmit() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2990 sja1105_port_mcast_flood() warn=
+drivers/net/dsa/sja1105/sja1105_main.c:2876 sja1105_port_mcast_flood() warn=
 : should '(((1))) << to' be a 64 bit type?
 
-vim +1818 drivers/net/dsa/sja1105/sja1105_main.c
+vim +521 drivers/net/dsa/sja1105/sja1105_main.c
 
-291d1e72b75642 Vladimir Oltean 2019-05-02  1796  =
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  472  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08  1797  static void sja1105_fast_a=
-ge(struct dsa_switch *ds, int port)
-5126ec72a094bd Vladimir Oltean 2021-08-08  1798  {
-5126ec72a094bd Vladimir Oltean 2021-08-08  1799  	struct sja1105_private *p=
-riv =3D ds->priv;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1800  	int i;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1801  =
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  473  static int sja1105_init_l2_=
+forwarding(struct sja1105_private *priv)
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  474  {
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  475  	struct sja1105_l2_forwardi=
+ng_entry *l2fwd;
+542043e91df452 Vladimir Oltean 2021-05-24  476  	struct dsa_switch *ds =3D =
+priv->ds;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  477  	struct sja1105_table *tabl=
+e;
+3fa212707b8e60 Vladimir Oltean 2021-08-04  478  	int port, tc;
+3fa212707b8e60 Vladimir Oltean 2021-08-04  479  	int from, to;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  480  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08  1802  	for (i =3D 0; i < SJA1105=
-_MAX_L2_LOOKUP_COUNT; i++) {
-5126ec72a094bd Vladimir Oltean 2021-08-08  1803  		struct sja1105_l2_lookup=
-_entry l2_lookup =3D {0};
-5126ec72a094bd Vladimir Oltean 2021-08-08  1804  		u8 macaddr[ETH_ALEN];
-5126ec72a094bd Vladimir Oltean 2021-08-08  1805  		int rc;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1806  =
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  481  	table =3D &priv->static_co=
+nfig.tables[BLK_IDX_L2_FORWARDING];
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  482  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08  1807  		rc =3D sja1105_dynamic_c=
-onfig_read(priv, BLK_IDX_L2_LOOKUP,
-5126ec72a094bd Vladimir Oltean 2021-08-08  1808  						 i, &l2_lookup);
-5126ec72a094bd Vladimir Oltean 2021-08-08  1809  		/* No fdb entry@i, no=
-t an issue */
-5126ec72a094bd Vladimir Oltean 2021-08-08  1810  		if (rc =3D=3D -ENOENT)
-5126ec72a094bd Vladimir Oltean 2021-08-08  1811  			continue;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1812  		if (rc) {
-5126ec72a094bd Vladimir Oltean 2021-08-08  1813  			dev_err(ds->dev, "Faile=
-d to read FDB: %pe\n",
-5126ec72a094bd Vladimir Oltean 2021-08-08  1814  				ERR_PTR(rc));
-5126ec72a094bd Vladimir Oltean 2021-08-08  1815  			return;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1816  		}
-5126ec72a094bd Vladimir Oltean 2021-08-08  1817  =
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  483  	if (table->entry_count) {
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  484  		kfree(table->entries);
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  485  		table->entry_count =3D 0;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  486  	}
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  487  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08 @1818  		if (!(l2_lookup.destport=
-s & BIT(port)))
-5126ec72a094bd Vladimir Oltean 2021-08-08  1819  			continue;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1820  =
+fd6f2c257b0bc0 Vladimir Oltean 2021-05-24  488  	table->entries =3D kcalloc=
+(table->ops->max_entry_count,
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  489  				 table->ops->unpacked_e=
+ntry_size, GFP_KERNEL);
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  490  	if (!table->entries)
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  491  		return -ENOMEM;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  492  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08  1821  		/* Don't delete static F=
-DB entries */
-5126ec72a094bd Vladimir Oltean 2021-08-08  1822  		if (l2_lookup.lockeds)
-5126ec72a094bd Vladimir Oltean 2021-08-08  1823  			continue;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1824  =
+fd6f2c257b0bc0 Vladimir Oltean 2021-05-24  493  	table->entry_count =3D tab=
+le->ops->max_entry_count;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  494  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08  1825  		u64_to_ether_addr(l2_loo=
-kup.macaddr, macaddr);
-5126ec72a094bd Vladimir Oltean 2021-08-08  1826  =
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  495  	l2fwd =3D table->entries;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  496  =
 
-5126ec72a094bd Vladimir Oltean 2021-08-08  1827  		rc =3D sja1105_fdb_del(d=
-s, port, macaddr, l2_lookup.vlanid);
-5126ec72a094bd Vladimir Oltean 2021-08-08  1828  		if (rc) {
-5126ec72a094bd Vladimir Oltean 2021-08-08  1829  			dev_err(ds->dev,
-5126ec72a094bd Vladimir Oltean 2021-08-08  1830  				"Failed to delete FDB =
-entry %pM vid %lld: %pe\n",
-5126ec72a094bd Vladimir Oltean 2021-08-08  1831  				macaddr, l2_lookup.vla=
-nid, ERR_PTR(rc));
-5126ec72a094bd Vladimir Oltean 2021-08-08  1832  			return;
-5126ec72a094bd Vladimir Oltean 2021-08-08  1833  		}
-5126ec72a094bd Vladimir Oltean 2021-08-08  1834  	}
-5126ec72a094bd Vladimir Oltean 2021-08-08  1835  }
-5126ec72a094bd Vladimir Oltean 2021-08-08  1836  =
+3fa212707b8e60 Vladimir Oltean 2021-08-04  497  	/* First 5 entries in the =
+L2 Forwarding Table define the forwarding
+3fa212707b8e60 Vladimir Oltean 2021-08-04  498  	 * rules and the VLAN PCP =
+to ingress queue mapping.
+3fa212707b8e60 Vladimir Oltean 2021-08-04  499  	 * Set up the ingress queu=
+e mapping first.
+3fa212707b8e60 Vladimir Oltean 2021-08-04  500  	 */
+3fa212707b8e60 Vladimir Oltean 2021-08-04  501  	for (port =3D 0; port < ds=
+->num_ports; port++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  502  		if (dsa_is_unused_port(ds=
+, port))
+3fa212707b8e60 Vladimir Oltean 2021-08-04  503  			continue;
+3fa212707b8e60 Vladimir Oltean 2021-08-04  504  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  505  		for (tc =3D 0; tc < SJA11=
+05_NUM_TC; tc++)
+3fa212707b8e60 Vladimir Oltean 2021-08-04  506  			l2fwd[port].vlan_pmap[tc=
+] =3D tc;
+3fa212707b8e60 Vladimir Oltean 2021-08-04  507  	}
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  508  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  509  	/* Then manage the forward=
+ing domain for user ports. These can forward
+3fa212707b8e60 Vladimir Oltean 2021-08-04  510  	 * only to the always-on d=
+omain (CPU port and DSA links)
+3fa212707b8e60 Vladimir Oltean 2021-08-04  511  	 */
+3fa212707b8e60 Vladimir Oltean 2021-08-04  512  	for (from =3D 0; from < ds=
+->num_ports; from++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  513  		if (!dsa_is_user_port(ds,=
+ from))
+f238fef1b3de2f Vladimir Oltean 2021-05-24  514  			continue;
+f238fef1b3de2f Vladimir Oltean 2021-05-24  515  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  516  		for (to =3D 0; to < ds->n=
+um_ports; to++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  517  			if (!dsa_is_cpu_port(ds,=
+ to) &&
+3fa212707b8e60 Vladimir Oltean 2021-08-04  518  			    !dsa_is_dsa_port(ds,=
+ to))
+3fa212707b8e60 Vladimir Oltean 2021-08-04  519  				continue;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  520  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04 @521  			l2fwd[from].bc_domain |=
+=3D BIT(to);
+3fa212707b8e60 Vladimir Oltean 2021-08-04  522  			l2fwd[from].fl_domain |=
+=3D BIT(to);
+3fa212707b8e60 Vladimir Oltean 2021-08-04  523  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  524  			sja1105_port_allow_traff=
+ic(l2fwd, from, to, true);
+3fa212707b8e60 Vladimir Oltean 2021-08-04  525  		}
+3fa212707b8e60 Vladimir Oltean 2021-08-04  526  	}
+3fa212707b8e60 Vladimir Oltean 2021-08-04  527  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  528  	/* Then manage the forward=
+ing domain for DSA links and CPU ports (the
+3fa212707b8e60 Vladimir Oltean 2021-08-04  529  	 * always-on domain). Thes=
+e can send packets to any enabled port except
+3fa212707b8e60 Vladimir Oltean 2021-08-04  530  	 * themselves.
+7f7ccdea8c730f Vladimir Oltean 2021-02-16  531  	 */
+3fa212707b8e60 Vladimir Oltean 2021-08-04  532  	for (from =3D 0; from < ds=
+->num_ports; from++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  533  		if (!dsa_is_cpu_port(ds, =
+from) && !dsa_is_dsa_port(ds, from))
+3fa212707b8e60 Vladimir Oltean 2021-08-04  534  			continue;
+7f7ccdea8c730f Vladimir Oltean 2021-02-16  535  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  536  		for (to =3D 0; to < ds->n=
+um_ports; to++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  537  			if (dsa_is_unused_port(d=
+s, to))
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  538  				continue;
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  539  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  540  			if (from =3D=3D to)
+3fa212707b8e60 Vladimir Oltean 2021-08-04  541  				continue;
+4d942354950181 Vladimir Oltean 2021-02-12  542  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  543  			l2fwd[from].bc_domain |=
+=3D BIT(to);
+3fa212707b8e60 Vladimir Oltean 2021-08-04  544  			l2fwd[from].fl_domain |=
+=3D BIT(to);
+4d942354950181 Vladimir Oltean 2021-02-12  545  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  546  			sja1105_port_allow_traff=
+ic(l2fwd, from, to, true);
+3fa212707b8e60 Vladimir Oltean 2021-08-04  547  		}
+3fa212707b8e60 Vladimir Oltean 2021-08-04  548  	}
+3fa212707b8e60 Vladimir Oltean 2021-08-04  549  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  550  	/* Finally, manage the egr=
+ess flooding domain. All ports start up with
+3fa212707b8e60 Vladimir Oltean 2021-08-04  551  	 * flooding enabled, inclu=
+ding the CPU port and DSA links.
+3fa212707b8e60 Vladimir Oltean 2021-08-04  552  	 */
+3fa212707b8e60 Vladimir Oltean 2021-08-04  553  	for (port =3D 0; port < ds=
+->num_ports; port++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  554  		if (dsa_is_unused_port(ds=
+, port))
+3fa212707b8e60 Vladimir Oltean 2021-08-04  555  			continue;
+3fa212707b8e60 Vladimir Oltean 2021-08-04  556  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  557  		priv->ucast_egress_floods=
+ |=3D BIT(port);
+3fa212707b8e60 Vladimir Oltean 2021-08-04  558  		priv->bcast_egress_floods=
+ |=3D BIT(port);
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  559  	}
+f238fef1b3de2f Vladimir Oltean 2021-05-24  560  =
+
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  561  	/* Next 8 entries define V=
+LAN PCP mapping from ingress to egress.
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  562  	 * Create a one-to-one map=
+ping.
+8aa9ebccae8762 Vladimir Oltean 2019-05-02  563  	 */
+3fa212707b8e60 Vladimir Oltean 2021-08-04  564  	for (tc =3D 0; tc < SJA110=
+5_NUM_TC; tc++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  565  		for (port =3D 0; port < d=
+s->num_ports; port++) {
+3fa212707b8e60 Vladimir Oltean 2021-08-04  566  			if (dsa_is_unused_port(d=
+s, port))
+f238fef1b3de2f Vladimir Oltean 2021-05-24  567  				continue;
+f238fef1b3de2f Vladimir Oltean 2021-05-24  568  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  569  			l2fwd[ds->num_ports + tc=
+].vlan_pmap[port] =3D tc;
+f238fef1b3de2f Vladimir Oltean 2021-05-24  570  		}
+3e77e59bf8cf10 Vladimir Oltean 2021-06-08  571  =
+
+3fa212707b8e60 Vladimir Oltean 2021-08-04  572  		l2fwd[ds->num_ports + tc]=
+.type_egrpcp2outputq =3D true;
+3e77e59bf8cf10 Vladimir Oltean 2021-06-08  573  	}
+3e77e59bf8cf10 Vladimir Oltean 2021-06-08  574  =
+
+3e77e59bf8cf10 Vladimir Oltean 2021-06-08  575  	return 0;
+3e77e59bf8cf10 Vladimir Oltean 2021-06-08  576  }
+3e77e59bf8cf10 Vladimir Oltean 2021-06-08  577  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7202196612554403895==--
+--===============1633233117470483609==--
 
