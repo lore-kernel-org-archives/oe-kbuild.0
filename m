@@ -1,297 +1,149 @@
-Content-Type: multipart/mixed; boundary="===============2510709361282976830=="
+Content-Type: multipart/mixed; boundary="===============0760479215044633442=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:remove-scsi_request 4/8] drivers/scsi/scsi_logging.c:90 scmd_printk() warn: this array is probably non-NULL. 'scmd->cmnd'
-Date: Sat, 12 Feb 2022 01:57:25 +0800
-Message-ID: <202202112045.bMpV3jhe-lkp@intel.com>
+Subject: [linux-next:master 5045/5417] drivers/char/random.c:1266:18: warning: Array 'fast_pool->pool[2]' accessed at index 2, which is out of bounds. [arrayIndexOutOfBounds]
+Date: Sat, 12 Feb 2022 01:56:44 +0800
+Message-ID: <202202111827.ieoNN1ht-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2510709361282976830==
+--===============0760479215044633442==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
 
-tree:   git://git.infradead.org/users/hch/misc.git remove-scsi_request
-head:   d8fd889c4c1f73165ec38da54e2c10bfe795686b
-commit: 17cfefd0e27007b007c4650e76537805abfe18ed [4/8] scsi: remove the cmd=
- field from struct scsi_request
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: riscv-randconfig-m031-20220211 (https://download.01.org/0day-ci/arc=
-hive/20220211/202202112045.bMpV3jhe-lkp(a)intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   6d9bd4ad4ca08b1114e814c2c42383b8b13be631
+commit: 6d66882e05cf59a573cf48d16db945ea32c4c6ba [5045/5417] random: ensure=
+ mix_interrupt_randomness() is consistent
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 hours ago
+compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/scsi/scsi_logging.c:90 scmd_printk() warn: this array is probably n=
-on-NULL. 'scmd->cmnd'
-drivers/scsi/scsi_logging.c:186 scsi_print_command() warn: this array is pr=
-obably non-NULL. 'cmd->cmnd'
-
-vim +90 drivers/scsi/scsi_logging.c
-
-ded85c193a391a8 Hannes Reinecke   2015-01-08   82  =
-
-9c4a6b1e4280134 Hannes Reinecke   2015-02-04   83  void scmd_printk(const c=
-har *level, const struct scsi_cmnd *scmd,
-ded85c193a391a8 Hannes Reinecke   2015-01-08   84  		const char *fmt, ...)
-ded85c193a391a8 Hannes Reinecke   2015-01-08   85  {
-ded85c193a391a8 Hannes Reinecke   2015-01-08   86  	va_list args;
-ded85c193a391a8 Hannes Reinecke   2015-01-08   87  	char *logbuf;
-ded85c193a391a8 Hannes Reinecke   2015-01-08   88  	size_t off =3D 0, logbu=
-f_len;
-ded85c193a391a8 Hannes Reinecke   2015-01-08   89  =
-
-ded85c193a391a8 Hannes Reinecke   2015-01-08  @90  	if (!scmd || !scmd->cmn=
-d)
-9c4a6b1e4280134 Hannes Reinecke   2015-02-04   91  		return;
-ded85c193a391a8 Hannes Reinecke   2015-01-08   92  =
-
-ded85c193a391a8 Hannes Reinecke   2015-01-08   93  	logbuf =3D scsi_log_res=
-erve_buffer(&logbuf_len);
-ded85c193a391a8 Hannes Reinecke   2015-01-08   94  	if (!logbuf)
-9c4a6b1e4280134 Hannes Reinecke   2015-02-04   95  		return;
-2104551969e8011 Hannes Reinecke   2015-01-08   96  	off =3D sdev_format_hea=
-der(logbuf, logbuf_len, scmd_name(scmd),
-aa8e25e5006aac5 Bart Van Assche   2021-08-09   97  				 scsi_cmd_to_rq((str=
-uct scsi_cmnd *)scmd)->tag);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08   98  	if (off < logbuf_len) {
-ded85c193a391a8 Hannes Reinecke   2015-01-08   99  		va_start(args, fmt);
-ded85c193a391a8 Hannes Reinecke   2015-01-08  100  		off +=3D vscnprintf(lo=
-gbuf + off, logbuf_len - off, fmt, args);
-ded85c193a391a8 Hannes Reinecke   2015-01-08  101  		va_end(args);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  102  	}
-9c4a6b1e4280134 Hannes Reinecke   2015-02-04  103  	dev_printk(level, &scmd=
-->device->sdev_gendev, "%s", logbuf);
-ded85c193a391a8 Hannes Reinecke   2015-01-08  104  	scsi_log_release_buffer=
-(logbuf);
-ded85c193a391a8 Hannes Reinecke   2015-01-08  105  }
-ded85c193a391a8 Hannes Reinecke   2015-01-08  106  EXPORT_SYMBOL(scmd_print=
-k);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  107  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  108  static size_t scsi_forma=
-t_opcode_name(char *buffer, size_t buf_len,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  109  				      const unsigned=
- char *cdbp)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  110  {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  111  	int sa, cdb0;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  112  	const char *cdb_name =
-=3D NULL, *sa_name =3D NULL;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  113  	size_t off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  114  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  115  	cdb0 =3D cdbp[0];
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  116  	if (cdb0 =3D=3D VARIABL=
-E_LENGTH_CMD) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  117  		int len =3D scsi_varle=
-n_cdb_length(cdbp);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  118  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  119  		if (len < 10) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  120  			off =3D scnprintf(buf=
-fer, buf_len,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  121  					"short variable len=
-gth command, len=3D%d",
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  122  					len);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  123  			return off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  124  		}
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  125  		sa =3D (cdbp[8] << 8) =
-+ cdbp[9];
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  126  	} else
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  127  		sa =3D cdbp[1] & 0x1f;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  128  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  129  	if (!scsi_opcode_sa_nam=
-e(cdb0, sa, &cdb_name, &sa_name)) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  130  		if (cdb_name)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  131  			off =3D scnprintf(buf=
-fer, buf_len, "%s", cdb_name);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  132  		else {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  133  			off =3D scnprintf(buf=
-fer, buf_len, "opcode=3D0x%x", cdb0);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  134  			if (WARN_ON(off >=3D =
-buf_len))
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  135  				return off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  136  			if (cdb0 >=3D VENDOR_=
-SPECIFIC_CDB)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  137  				off +=3D scnprintf(b=
-uffer + off, buf_len - off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  138  						 " (vendor)");
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  139  			else if (cdb0 >=3D 0x=
-60 && cdb0 < 0x7e)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  140  				off +=3D scnprintf(b=
-uffer + off, buf_len - off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  141  						 " (reserved)");
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  142  		}
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  143  	} else {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  144  		if (sa_name)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  145  			off =3D scnprintf(buf=
-fer, buf_len, "%s", sa_name);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  146  		else if (cdb_name)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  147  			off =3D scnprintf(buf=
-fer, buf_len, "%s, sa=3D0x%x",
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  148  					cdb_name, sa);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  149  		else
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  150  			off =3D scnprintf(buf=
-fer, buf_len,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  151  					"opcode=3D0x%x, sa=
-=3D0x%x", cdb0, sa);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  152  	}
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  153  	WARN_ON(off >=3D buf_le=
-n);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  154  	return off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  155  }
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  156  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  157  size_t __scsi_format_com=
-mand(char *logbuf, size_t logbuf_len,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  158  			     const unsigned c=
-har *cdb, size_t cdb_len)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  159  {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  160  	int len, k;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  161  	size_t off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  162  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  163  	off =3D scsi_format_opc=
-ode_name(logbuf, logbuf_len, cdb);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  164  	if (off >=3D logbuf_len)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  165  		return off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  166  	len =3D scsi_command_si=
-ze(cdb);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  167  	if (cdb_len < len)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  168  		len =3D cdb_len;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  169  	/* print out all bytes =
-in cdb */
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  170  	for (k =3D 0; k < len; =
-++k) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  171  		if (off > logbuf_len -=
- 3)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  172  			break;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  173  		off +=3D scnprintf(log=
-buf + off, logbuf_len - off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  174  				 " %02x", cdb[k]);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  175  	}
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  176  	return off;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  177  }
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  178  EXPORT_SYMBOL(__scsi_for=
-mat_command);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  179  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  180  void scsi_print_command(=
-struct scsi_cmnd *cmd)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  181  {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  182  	int k;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  183  	char *logbuf;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  184  	size_t off, logbuf_len;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  185  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08 @186  	if (!cmd->cmnd)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  187  		return;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  188  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  189  	logbuf =3D scsi_log_res=
-erve_buffer(&logbuf_len);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  190  	if (!logbuf)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  191  		return;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  192  =
-
-2104551969e8011 Hannes Reinecke   2015-01-08  193  	off =3D sdev_format_hea=
-der(logbuf, logbuf_len,
-aa8e25e5006aac5 Bart Van Assche   2021-08-09  194  				 scmd_name(cmd), scs=
-i_cmd_to_rq(cmd)->tag);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  195  	if (off >=3D logbuf_len)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  196  		goto out_printk;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  197  	off +=3D scnprintf(logb=
-uf + off, logbuf_len - off, "CDB: ");
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  198  	if (WARN_ON(off >=3D lo=
-gbuf_len))
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  199  		goto out_printk;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  200  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  201  	off +=3D scsi_format_op=
-code_name(logbuf + off, logbuf_len - off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  202  				       cmd->cmnd);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  203  	if (off >=3D logbuf_len)
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  204  		goto out_printk;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  205  =
-
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  206  	/* print out all bytes =
-in cdb */
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  207  	if (cmd->cmd_len > 16) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  208  		/* Print opcode in one=
- line and use separate lines for CDB */
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  209  		off +=3D scnprintf(log=
-buf + off, logbuf_len - off, "\n");
-2fc583c4628bf78 Christoph Hellwig 2015-01-18  210  		dev_printk(KERN_INFO, =
-&cmd->device->sdev_gendev, "%s", logbuf);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  211  		for (k =3D 0; k < cmd-=
->cmd_len; k +=3D 16) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  212  			size_t linelen =3D mi=
-n(cmd->cmd_len - k, 16);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  213  =
-
-2104551969e8011 Hannes Reinecke   2015-01-08  214  			off =3D sdev_format_h=
-eader(logbuf, logbuf_len,
-2104551969e8011 Hannes Reinecke   2015-01-08  215  						 scmd_name(cmd),
-aa8e25e5006aac5 Bart Van Assche   2021-08-09  216  						 scsi_cmd_to_rq(cm=
-d)->tag);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  217  			if (!WARN_ON(off > lo=
-gbuf_len - 58)) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  218  				off +=3D scnprintf(l=
-ogbuf + off, logbuf_len - off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  219  						 "CDB[%02x]: ", k);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  220  				hex_dump_to_buffer(&=
-cmd->cmnd[k], linelen,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  221  						   16, 1, logbuf +=
- off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  222  						   logbuf_len - of=
-f, false);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  223  			}
-2fc583c4628bf78 Christoph Hellwig 2015-01-18  224  			dev_printk(KERN_INFO,=
- &cmd->device->sdev_gendev, "%s",
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  225  				   logbuf);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  226  		}
-811f39479c0c2d4 Ye Bin            2020-07-17  227  		goto out;
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  228  	}
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  229  	if (!WARN_ON(off > logb=
-uf_len - 49)) {
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  230  		off +=3D scnprintf(log=
-buf + off, logbuf_len - off, " ");
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  231  		hex_dump_to_buffer(cmd=
-->cmnd, cmd->cmd_len, 16, 1,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  232  				   logbuf + off, log=
-buf_len - off,
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  233  				   false);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  234  	}
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  235  out_printk:
-2fc583c4628bf78 Christoph Hellwig 2015-01-18  236  	dev_printk(KERN_INFO, &=
-cmd->device->sdev_gendev, "%s", logbuf);
-811f39479c0c2d4 Ye Bin            2020-07-17  237  out:
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  238  	scsi_log_release_buffer=
-(logbuf);
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  239  }
-9e5ed2a5b3662c6 Hannes Reinecke   2015-01-08  240  EXPORT_SYMBOL(scsi_print=
-_command);
-2104551969e8011 Hannes Reinecke   2015-01-08  241  =
 
 
-:::::: The code at line 90 was first introduced by commit
-:::::: ded85c193a391a84076d5c6a7a5668fe164a490e scsi: Implement per-cpu log=
-ging buffer
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: Hannes Reinecke <hare@suse.de>
-:::::: CC: Christoph Hellwig <hch@lst.de>
+>> drivers/char/random.c:1266:18: warning: Array 'fast_pool->pool[2]' acces=
+sed at index 2, which is out of bounds. [arrayIndexOutOfBounds]
+     fast_pool->pool[2] ^=3D regs ? instruction_pointer(regs) : _RET_IP_;
+                    ^
+   drivers/char/random.c:1267:18: warning: Array 'fast_pool->pool[2]' acces=
+sed at index 3, which is out of bounds. [arrayIndexOutOfBounds]
+     fast_pool->pool[3] ^=3D get_reg(fast_pool, regs);
+                    ^
+
+vim +1266 drivers/char/random.c
+
+08506326bf01385 Jason A. Donenfeld        2022-02-04  1248  =
+
+703f7066f40599c Sebastian Andrzej Siewior 2021-12-07  1249  void add_interr=
+upt_randomness(int irq)
+^1da177e4c3f415 Linus Torvalds            2005-04-16  1250  {
+1b2a1a7e8ad1144 Christoph Lameter         2014-08-17  1251  	struct fast_po=
+ol *fast_pool =3D this_cpu_ptr(&irq_randomness);
+775f4b297b78060 Theodore Ts'o             2012-07-02  1252  	struct pt_regs=
+ *regs =3D get_irq_regs();
+775f4b297b78060 Theodore Ts'o             2012-07-02  1253  	unsigned long =
+now =3D jiffies;
+655b226470b2295 Theodore Ts'o             2013-09-22  1254  	cycles_t cycle=
+s =3D random_get_entropy();
+08506326bf01385 Jason A. Donenfeld        2022-02-04  1255  	unsigned int n=
+ew_count;
+655b226470b2295 Theodore Ts'o             2013-09-22  1256  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1257  	if (cycles =3D=
+=3D 0)
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1258  		cycles =3D ge=
+t_reg(fast_pool, regs);
+e192be9d9a30555 Theodore Ts'o             2016-06-12  1259  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1260  	if (sizeof(uns=
+igned long) =3D=3D 8) {
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1261  		fast_pool->po=
+ol[0] ^=3D cycles ^ rol64(now, 32) ^ irq;
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1262  		fast_pool->po=
+ol[1] ^=3D regs ? instruction_pointer(regs) : _RET_IP_;
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1263  	} else {
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1264  		fast_pool->po=
+ol[0] ^=3D cycles ^ irq;
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1265  		fast_pool->po=
+ol[1] ^=3D now;
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11 @1266  		fast_pool->po=
+ol[2] ^=3D regs ? instruction_pointer(regs) : _RET_IP_;
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1267  		fast_pool->po=
+ol[3] ^=3D get_reg(fast_pool, regs);
+d968978f395468d Jason A. Donenfeld        2022-02-07  1268  	}
+d968978f395468d Jason A. Donenfeld        2022-02-07  1269  =
+
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1270  	fast_mix((u32 =
+*)fast_pool->pool);
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1271  	new_count =3D =
+(unsigned int)atomic_inc_return_acquire(&fast_pool->count);
+d968978f395468d Jason A. Donenfeld        2022-02-07  1272  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1273  	if (unlikely(c=
+rng_init =3D=3D 0)) {
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1274  		if (new_count=
+ >=3D 64 &&
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1275  		    crng_fast=
+_load(fast_pool->pool, sizeof(fast_pool->pool)) > 0) {
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1276  			atomic_set(&=
+fast_pool->count, 0);
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1277  			fast_pool->l=
+ast =3D now;
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1278  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1279  			/*
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1280  			 * Technical=
+ly this call means that we're using a spinlock_t
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1281  			 * in the IR=
+Q handler, which isn't terrific for PREEMPT_RT.
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1282  			 * However, =
+this only happens during boot, and then never
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1283  			 * again, so=
+ we live with it.
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1284  			 */
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1285  			mix_pool_byt=
+es(&fast_pool->pool, sizeof(fast_pool->pool));
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1286  		}
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1287  		return;
+c2557a303ab6712 Theodore Ts'o             2012-07-05  1288  	}
+eecabf567422eda Theodore Ts'o             2017-06-08  1289  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1290  	if (new_count =
+& FAST_POOL_MIX_INFLIGHT)
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1291  		return;
+eecabf567422eda Theodore Ts'o             2017-06-08  1292  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1293  	if (new_count =
+< 64 && !time_after(now, fast_pool->last + HZ))
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1294  		return;
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1295  =
+
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1296  	if (unlikely(!=
+fast_pool->mix.func))
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1297  		INIT_WORK(&fa=
+st_pool->mix, mix_interrupt_randomness);
+6d66882e05cf59a Jason A. Donenfeld        2022-02-11  1298  	atomic_or(FAST=
+_POOL_MIX_INFLIGHT, &fast_pool->count);
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1299  	queue_work_on(=
+raw_smp_processor_id(), system_highpri_wq, &fast_pool->mix);
+eecabf567422eda Theodore Ts'o             2017-06-08  1300  }
+b67959013391e48 Jason A. Donenfeld        2022-02-10  1301  EXPORT_SYMBOL_G=
+PL(add_interrupt_randomness);
+c2557a303ab6712 Theodore Ts'o             2012-07-05  1302  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2510709361282976830==--
+--===============0760479215044633442==--
 
