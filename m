@@ -1,96 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============7923156378891979123=="
+Content-Type: multipart/mixed; boundary="===============7946447791063344868=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [ambarus:spi-nor/next 1/15] drivers/spi/atmel-quadspi.c:1202 atmel_qspi_dma_init() warn: passing zero to 'PTR_ERR'
-Date: Fri, 11 Feb 2022 16:37:00 +0300
-Message-ID: <20220211133700.GB1978@kadam>
-In-Reply-To: <5f2ddbf7-381a-870e-e533-5261bbc9337b@microchip.com>
+From: kernel test robot <lkp@intel.com>
+Subject: arch/arc/kernel/signal.c:79 save_arcv2_regs() warn: maybe return -EFAULT instead of the bytes remaining?
+Date: Fri, 11 Feb 2022 18:11:53 +0800
+Message-ID: <202202111827.ELj8LJIS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7923156378891979123==
+--===============7946447791063344868==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 11, 2022 at 08:30:48AM +0000, Tudor.Ambarus(a)microchip.com wro=
-te:
-> On 2/11/22 10:04, Dan Carpenter wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
-the content is safe
-> > =
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Vineet Gupta <vgupta@synopsys.com>
+CC: linux-snps-arc(a)lists.infradead.org
 
-> > tree:   https://github.com/ambarus/linux-0day  spi-nor/next
-> > head:   038b3fa2d89f1a00fdb8767704cdb799a0fe746b
-> > commit: ff51c966a3c5144ae964797349747e680ee47c3a [1/15] spi: atmel-quad=
-spi: Add support for sama7g5 QSPI
-> > config: openrisc-randconfig-m031-20220210 (https://download.01.org/0day=
--ci/archive/20220211/202202110830.1OGwXRWt-lkp(a)intel.com/config )
-> > compiler: or1k-linux-gcc (GCC) 11.2.0
-> > =
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
+commit: 96f1b00138cb8f04c742c82d0a7c460b2202e887 ARCv2: save ABI registers =
+across signal handling
+date:   8 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 8 months ago
+config: arc-randconfig-m031-20220211 (https://download.01.org/0day-ci/archi=
+ve/20220211/202202111827.ELj8LJIS-lkp(a)intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > =
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-> > smatch warnings:
-> > drivers/spi/atmel-quadspi.c:1202 atmel_qspi_dma_init() warn: passing ze=
-ro to 'PTR_ERR'
-> > =
+New smatch warnings:
+arch/arc/kernel/signal.c:79 save_arcv2_regs() warn: maybe return -EFAULT in=
+stead of the bytes remaining?
+arch/arc/kernel/signal.c:96 restore_arcv2_regs() warn: maybe return -EFAULT=
+ instead of the bytes remaining?
 
-> > vim +/PTR_ERR +1202 drivers/spi/atmel-quadspi.c
-> > =
+Old smatch warnings:
+arch/arc/kernel/signal.c:198 sys_rt_sigreturn() error: uninitialized symbol=
+ 'sp'.
+arch/arc/include/asm/thread_info.h:65 current_thread_info() error: uninitia=
+lized symbol 'sp'.
+arch/arc/kernel/signal.c:297 setup_rt_frame() warn: ignoring unreachable co=
+de.
+arch/arc/kernel/signal.c:312 setup_rt_frame() warn: ignoring unreachable co=
+de.
 
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1194  static int atmel_qspi_dma_init(struct spi_controller *ctrl)
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1195  {
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1196     struct atmel_qspi *aq =3D spi_controller_get_devdata(ctrl);
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1197     int ret;
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1198
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1199     aq->rx_chan =3D dma_request_chan(&aq->pdev->dev, "rx");
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1200     if (IS_ERR(aq->rx_chan)) {
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1201             aq->rx_chan =3D NULL;
-> > =
+vim +79 arch/arc/kernel/signal.c
 
-> > Need to preserve the error code before setting this to NULL
-> > =
+c3581039b6c51a Vineet Gupta 2013-01-18  63  =
 
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19 @1202             return dev_err_probe(&aq->pdev->dev, PTR_ERR(aq->r=
-x_chan),
-> > ff51c966a3c514 drivers/spi/atmel-quadspi.c         Tudor Ambarus   2020=
--10-19  1203                                  "RX DMA channel is not availa=
-ble\n");
-> > =
+96f1b00138cb8f Vineet Gupta 2021-06-08  64  static int save_arcv2_regs(stru=
+ct sigcontext *mctx, struct pt_regs *regs)
+96f1b00138cb8f Vineet Gupta 2021-06-08  65  {
+96f1b00138cb8f Vineet Gupta 2021-06-08  66  	int err =3D 0;
+96f1b00138cb8f Vineet Gupta 2021-06-08  67  #ifndef CONFIG_ISA_ARCOMPACT
+96f1b00138cb8f Vineet Gupta 2021-06-08  68  	struct user_regs_arcv2 v2abi;
+96f1b00138cb8f Vineet Gupta 2021-06-08  69  =
 
-> > This will return success.
-> > =
+96f1b00138cb8f Vineet Gupta 2021-06-08  70  	v2abi.r30 =3D regs->r30;
+96f1b00138cb8f Vineet Gupta 2021-06-08  71  #ifdef CONFIG_ARC_HAS_ACCL_REGS
+96f1b00138cb8f Vineet Gupta 2021-06-08  72  	v2abi.r58 =3D regs->r58;
+96f1b00138cb8f Vineet Gupta 2021-06-08  73  	v2abi.r59 =3D regs->r59;
+96f1b00138cb8f Vineet Gupta 2021-06-08  74  #else
+96f1b00138cb8f Vineet Gupta 2021-06-08  75  	v2abi.r58 =3D v2abi.r59 =3D 0;
+96f1b00138cb8f Vineet Gupta 2021-06-08  76  #endif
+96f1b00138cb8f Vineet Gupta 2021-06-08  77  	err =3D __copy_to_user(&mctx->=
+v2abi, &v2abi, sizeof(v2abi));
+96f1b00138cb8f Vineet Gupta 2021-06-08  78  #endif
+96f1b00138cb8f Vineet Gupta 2021-06-08 @79  	return err;
+96f1b00138cb8f Vineet Gupta 2021-06-08  80  }
+96f1b00138cb8f Vineet Gupta 2021-06-08  81  =
 
-> =
+96f1b00138cb8f Vineet Gupta 2021-06-08  82  static int restore_arcv2_regs(s=
+truct sigcontext *mctx, struct pt_regs *regs)
+96f1b00138cb8f Vineet Gupta 2021-06-08  83  {
+96f1b00138cb8f Vineet Gupta 2021-06-08  84  	int err =3D 0;
+96f1b00138cb8f Vineet Gupta 2021-06-08  85  #ifndef CONFIG_ISA_ARCOMPACT
+96f1b00138cb8f Vineet Gupta 2021-06-08  86  	struct user_regs_arcv2 v2abi;
+96f1b00138cb8f Vineet Gupta 2021-06-08  87  =
 
-> Indeed, thanks! This is a personal development branch, I'll fix it inline=
- since
-> the patch that adds support for this has not been integrated in mainline =
-yet.
-> I'm not sure if I have to add the Reported-by tags or how to give credit =
-to
-> a bug spotted on a patch that has not yet landed in mainline. Maybe by ad=
-ding
-> a comment in the comments section of the patch "---"?
+96f1b00138cb8f Vineet Gupta 2021-06-08  88  	err =3D __copy_from_user(&v2ab=
+i, &mctx->v2abi, sizeof(v2abi));
+96f1b00138cb8f Vineet Gupta 2021-06-08  89  =
 
-This is an automated email from the kbuild-bot.  Feel free to ignore it
-when you want to.  I just look it over and hit the forward button.
+96f1b00138cb8f Vineet Gupta 2021-06-08  90  	regs->r30 =3D v2abi.r30;
+96f1b00138cb8f Vineet Gupta 2021-06-08  91  #ifdef CONFIG_ARC_HAS_ACCL_REGS
+96f1b00138cb8f Vineet Gupta 2021-06-08  92  	regs->r58 =3D v2abi.r58;
+96f1b00138cb8f Vineet Gupta 2021-06-08  93  	regs->r59 =3D v2abi.r59;
+96f1b00138cb8f Vineet Gupta 2021-06-08  94  #endif
+96f1b00138cb8f Vineet Gupta 2021-06-08  95  #endif
+96f1b00138cb8f Vineet Gupta 2021-06-08 @96  	return err;
+96f1b00138cb8f Vineet Gupta 2021-06-08  97  }
+96f1b00138cb8f Vineet Gupta 2021-06-08  98  =
 
-regards,
-dan carpenter
 
---===============7923156378891979123==--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============7946447791063344868==--
 
