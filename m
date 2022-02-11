@@ -1,278 +1,461 @@
-Content-Type: multipart/mixed; boundary="===============0483587702067726774=="
+Content-Type: multipart/mixed; boundary="===============1451535547491014137=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/btrfs/ordered-data.c:341:7: warning: Local variable entry_end shadows outer function [shadowFunction]
-Date: Sun, 13 Feb 2022 02:16:44 +0800
-Message-ID: <202202122139.98G3G77Y-lkp@intel.com>
+Subject: drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5600:4: warning: Value stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 11 Feb 2022 08:41:44 +0800
+Message-ID: <202202110856.M812pOec-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0483587702067726774==
+--===============1451535547491014137==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Qu Wenruo <wqu@suse.com>
-CC: David Sterba <dsterba@suse.com>
+TO: Yannick Vignon <yannick.vignon@nxp.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   83e396641110663d3c7bb25b9bc0c6a750359ecf
-commit: e65f152e43484807b4caf7300e70d882e4652566 btrfs: refactor how we fin=
-ish ordered extent io for endio functions
-date:   8 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 8 months ago
-compiler: powerpc-linux-gcc (GCC) 11.2.0
+head:   e3c85076d7a6f986445b9008be7e7f83d1b0780a
+commit: 8a7cb245cf28cb3e541e0d6c8624b95d079e155b net: stmmac: Do not enable=
+ RX FIFO overflow interrupts
+date:   9 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 9 months ago
+config: riscv-randconfig-c006-20220205 (https://download.01.org/0day-ci/arc=
+hive/20220211/202202110856.M812pOec-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 78c6b9=
+0000292eb37aac5dead6ab26611cd76f42)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D8a7cb245cf28cb3e541e0d6c8624b95d079e155b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8a7cb245cf28cb3e541e0d6c8624b95d079e155b
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> fs/btrfs/sysfs.c:1260:4: warning: %u in format string (no. 2) requires '=
-unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_=
-uint]
-      snprintf(name, BTRFS_FEATURE_NAME_MAX, "%s:%u",
-      ^
+clang-analyzer warnings: (new ones prefixed by >>)
+           roc =3D list_first_entry_or_null(&local->roc_list,
+                 ^
+   include/linux/list.h:546:20: note: expanded from macro 'list_first_entry=
+_or_null'
+           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
+                             ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/mac80211/offchannel.c:423:8: note: Loop condition is false.  Exiting=
+ loop
+           roc =3D list_first_entry_or_null(&local->roc_list,
+                 ^
+   include/linux/list.h:546:20: note: expanded from macro 'list_first_entry=
+_or_null'
+           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
+                             ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   net/mac80211/offchannel.c:425:7: note: 'roc' is non-null
+           if (!roc)
+                ^~~
+   net/mac80211/offchannel.c:425:2: note: Taking false branch
+           if (!roc)
+           ^
+   net/mac80211/offchannel.c:428:7: note: Use of memory after it is freed
+           if (!roc->started) {
+                ^~~~~~~~~~~~
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3572:3: warning: Value=
+ stored to 'irq_err' is never read [clang-analyzer-deadcode.DeadStores]
+                   irq_err =3D REQ_IRQ_ERR_MAC;
+                   ^         ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3572:3: note: Value st=
+ored to 'irq_err' is never read
+                   irq_err =3D REQ_IRQ_ERR_MAC;
+                   ^         ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3586:4: warning: Value=
+ stored to 'irq_err' is never read [clang-analyzer-deadcode.DeadStores]
+                           irq_err =3D REQ_IRQ_ERR_WOL;
+                           ^         ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:3586:4: note: Value st=
+ored to 'irq_err' is never read
+                           irq_err =3D REQ_IRQ_ERR_WOL;
+                           ^         ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:4890:3: warning: Value=
+ stored to 'buf1_len' is never read [clang-analyzer-deadcode.DeadStores]
+                   buf1_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:4890:3: note: Value st=
+ored to 'buf1_len' is never read
+                   buf1_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5087:3: warning: Value=
+ stored to 'buf1_len' is never read [clang-analyzer-deadcode.DeadStores]
+                   buf1_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5087:3: note: Value st=
+ored to 'buf1_len' is never read
+                   buf1_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5088:3: warning: Value=
+ stored to 'buf2_len' is never read [clang-analyzer-deadcode.DeadStores]
+                   buf2_len =3D 0;
+                   ^          ~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5088:3: note: Value st=
+ored to 'buf2_len' is never read
+                   buf2_len =3D 0;
+                   ^          ~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5600:4: warning: Value=
+ stored to 'status' is never read [clang-analyzer-deadcode.DeadStores]
+                           status =3D stmmac_host_mtl_irq_status(priv, priv=
+->hw,
+                           ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5600:4: note: Value st=
+ored to 'status' is never read
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5655:14: warning: Acce=
+ss to field 'dev' results in a dereference of a null pointer (loaded from v=
+ariable 'priv') [clang-analyzer-core.NullDereference]
+                   netdev_err(priv->dev, "%s: invalid dev pointer\n", __fun=
+c__);
+                              ^~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5651:2: note: 'dev' in=
+itialized here
+           struct net_device *dev =3D (struct net_device *)dev_id;
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5652:41: note: Passing=
+ 'dev' via 1st parameter 'dev'
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+                                                  ^~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5652:2: note: 'priv' i=
+nitialized here
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5654:15: note: Assumin=
+g 'dev' is null
+           if (unlikely(!dev)) {
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5654:2: note: Taking t=
+rue branch
+           if (unlikely(!dev)) {
+           ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5655:14: note: Access =
+to field 'dev' results in a dereference of a null pointer (loaded from vari=
+able 'priv')
+                   netdev_err(priv->dev, "%s: invalid dev pointer\n", __fun=
+c__);
+                              ^~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5675:14: warning: Acce=
+ss to field 'dev' results in a dereference of a null pointer (loaded from v=
+ariable 'priv') [clang-analyzer-core.NullDereference]
+                   netdev_err(priv->dev, "%s: invalid dev pointer\n", __fun=
+c__);
+                              ^~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5671:2: note: 'dev' in=
+itialized here
+           struct net_device *dev =3D (struct net_device *)dev_id;
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5672:41: note: Passing=
+ 'dev' via 1st parameter 'dev'
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+                                                  ^~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5672:2: note: 'priv' i=
+nitialized here
+           struct stmmac_priv *priv =3D netdev_priv(dev);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5674:15: note: Assumin=
+g 'dev' is null
+           if (unlikely(!dev)) {
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5674:2: note: Taking t=
+rue branch
+           if (unlikely(!dev)) {
+           ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:5675:14: note: Access =
+to field 'dev' results in a dereference of a null pointer (loaded from vari=
+able 'priv')
+                   netdev_err(priv->dev, "%s: invalid dev pointer\n", __fun=
+c__);
+                              ^~~~
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/media/tuners/r820t.c:1856:2: warning: Value stored to 'rc' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           rc =3D r820t_section(priv, compare_iq);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/r820t.c:1856:2: note: Value stored to 'rc' is never=
+ read
+           rc =3D r820t_section(priv, compare_iq);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   include/asm-generic/bitops/non-atomic.h:26:23: warning: The result of th=
+e left shift is undefined because the right operand is negative [clang-anal=
+yzer-core.UndefinedBinaryOperatorResult]
+           unsigned long mask =3D BIT_MASK(nr);
+                                ^
+   include/linux/bits.h:10:30: note: expanded from macro 'BIT_MASK'
+   #define BIT_MASK(nr)            (UL(1) << ((nr) % BITS_PER_LONG))
+                                          ^
+   net/core/filter.c:2727:6: note: Assuming 'flags' is 0
+           if (unlikely(flags))
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   net/core/filter.c:2727:2: note: Taking false branch
+           if (unlikely(flags))
+           ^
+   net/core/filter.c:2736:7: note: Assuming the condition is true
+                   if (start < offset + l)
+                       ^~~~~~~~~~~~~~~~~~
+   net/core/filter.c:2736:3: note: Taking true branch
+                   if (start < offset + l)
+                   ^
+   net/core/filter.c:2737:4: note:  Execution continues on line 2741
+                           break;
+                           ^
+   net/core/filter.c:2741:2: note: Taking false branch
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/status +5600 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
->> fs/btrfs/sysfs.c:1260:4: warning: %u in format string (no. 2) requires '=
-unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_=
-uint]
-      snprintf(name, BTRFS_FEATURE_NAME_MAX, "%s:%u",
-      ^
->> fs/btrfs/ordered-data.c:341:7: warning: Local variable entry_end shadows=
- outer function [shadowFunction]
-     u64 entry_end;
-         ^
-   fs/btrfs/ordered-data.c:22:12: note: Shadowed declaration
-   static u64 entry_end(struct btrfs_ordered_extent *entry)
-              ^
-   fs/btrfs/ordered-data.c:341:7: note: Shadow variable
-     u64 entry_end;
-         ^
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5561  =
 
-vim +341 fs/btrfs/ordered-data.c
+29e6573c61aaa7 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-26  5562  static void stmmac_common_interrupt(struct stmm=
+ac_priv *priv)
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe C=
+avallaro  2009-10-14  5563  {
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5564  	u32 rx_cnt =3D priv->plat->rx_queues_to_use;
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5565  	u32 tx_cnt =3D priv->plat->tx_queues_to_use;
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5566  	u32 queues_count;
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5567  	u32 queue;
+7d9e6c5afab6bf drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu=
+          2018-08-08  5568  	bool xmac;
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5569  =
 
-dc17ff8f11d129d Chris Mason     2008-01-08  301  =
+7d9e6c5afab6bf drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu=
+          2018-08-08  5570  	xmac =3D priv->plat->has_gmac4 || priv->plat->=
+has_xgmac;
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5571  	queues_count =3D (rx_cnt > tx_cnt) ? rx_cnt : =
+tx_cnt;
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe C=
+avallaro  2009-10-14  5572  =
 
-163cf09c2a0ee5c Chris Mason     2010-11-28  302  /*
-e65f152e4348480 Qu Wenruo       2021-04-01  303   * Mark all ordered extent=
-s io inside the specified range finished.
-163cf09c2a0ee5c Chris Mason     2010-11-28  304   *
-e65f152e4348480 Qu Wenruo       2021-04-01  305   * @page:	 The invovled pa=
-ge for the opeartion.
-e65f152e4348480 Qu Wenruo       2021-04-01  306   *		 For uncompressed buff=
-ered IO, the page status also needs to be
-e65f152e4348480 Qu Wenruo       2021-04-01  307   *		 updated to indicate w=
-hether the pending ordered io is finished.
-e65f152e4348480 Qu Wenruo       2021-04-01  308   *		 Can be NULL for direc=
-t IO and compressed write.
-e65f152e4348480 Qu Wenruo       2021-04-01  309   *		 For these cases, call=
-ers are ensured they won't execute the
-e65f152e4348480 Qu Wenruo       2021-04-01  310   *		 endio function twice.
-e65f152e4348480 Qu Wenruo       2021-04-01  311   * @finish_func: The funct=
-ion to be executed when all the IO of an ordered
-e65f152e4348480 Qu Wenruo       2021-04-01  312   *		 extent are finished.
-163cf09c2a0ee5c Chris Mason     2010-11-28  313   *
-e65f152e4348480 Qu Wenruo       2021-04-01  314   * This function is called=
- for endio, thus the range must have ordered
-e65f152e4348480 Qu Wenruo       2021-04-01  315   * extent(s) coveri it.
-163cf09c2a0ee5c Chris Mason     2010-11-28  316   */
-e65f152e4348480 Qu Wenruo       2021-04-01  317  void btrfs_mark_ordered_io=
-_finished(struct btrfs_inode *inode,
-e65f152e4348480 Qu Wenruo       2021-04-01  318  				struct page *page, u64=
- file_offset,
-e65f152e4348480 Qu Wenruo       2021-04-01  319  				u64 num_bytes, btrfs_f=
-unc_t finish_func,
-e65f152e4348480 Qu Wenruo       2021-04-01  320  				bool uptodate)
-163cf09c2a0ee5c Chris Mason     2010-11-28  321  {
-7095821ee1f57d9 Nikolay Borisov 2020-06-03  322  	struct btrfs_ordered_inod=
-e_tree *tree =3D &inode->ordered_tree;
-e65f152e4348480 Qu Wenruo       2021-04-01  323  	struct btrfs_fs_info *fs_=
-info =3D inode->root->fs_info;
-e65f152e4348480 Qu Wenruo       2021-04-01  324  	struct btrfs_workqueue *w=
-q;
-163cf09c2a0ee5c Chris Mason     2010-11-28  325  	struct rb_node *node;
-163cf09c2a0ee5c Chris Mason     2010-11-28  326  	struct btrfs_ordered_exte=
-nt *entry =3D NULL;
-5fd02043553b028 Josef Bacik     2012-05-02  327  	unsigned long flags;
-e65f152e4348480 Qu Wenruo       2021-04-01  328  	u64 cur =3D file_offset;
-e65f152e4348480 Qu Wenruo       2021-04-01  329  =
+89f7f2cfdd7ade drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Srinivas K=
+andagatla 2014-01-16  5573  	if (priv->irq_wake)
+89f7f2cfdd7ade drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Srinivas K=
+andagatla 2014-01-16  5574  		pm_wakeup_event(priv->device, 0);
+89f7f2cfdd7ade drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Srinivas K=
+andagatla 2014-01-16  5575  =
 
-e65f152e4348480 Qu Wenruo       2021-04-01  330  	if (btrfs_is_free_space_i=
-node(inode))
-e65f152e4348480 Qu Wenruo       2021-04-01  331  		wq =3D fs_info->endio_fr=
-eespace_worker;
-e65f152e4348480 Qu Wenruo       2021-04-01  332  	else
-e65f152e4348480 Qu Wenruo       2021-04-01  333  		wq =3D fs_info->endio_wr=
-ite_workers;
-e65f152e4348480 Qu Wenruo       2021-04-01  334  =
+e49aa315cb0182 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Voon Weife=
+ng        2021-03-18  5576  	if (priv->dma_cap.estsel)
+9f298959191b0a drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-18  5577  		stmmac_est_irq_status(priv, priv->ioaddr, pri=
+v->dev,
+9f298959191b0a drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-18  5578  				      &priv->xstats, tx_cnt);
+e49aa315cb0182 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Voon Weife=
+ng        2021-03-18  5579  =
 
-e65f152e4348480 Qu Wenruo       2021-04-01  335  	if (page)
-e65f152e4348480 Qu Wenruo       2021-04-01  336  		ASSERT(page->mapping && =
-page_offset(page) <=3D file_offset &&
-e65f152e4348480 Qu Wenruo       2021-04-01  337  		       file_offset + num=
-_bytes <=3D page_offset(page) + PAGE_SIZE);
-163cf09c2a0ee5c Chris Mason     2010-11-28  338  =
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5580  	if (priv->dma_cap.fpesel) {
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5581  		int status =3D stmmac_fpe_irq_status(priv, pr=
+iv->ioaddr,
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5582  						   priv->dev);
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5583  =
 
-5fd02043553b028 Josef Bacik     2012-05-02  339  	spin_lock_irqsave(&tree->=
-lock, flags);
-e65f152e4348480 Qu Wenruo       2021-04-01  340  	while (cur < file_offset =
-+ num_bytes) {
-e65f152e4348480 Qu Wenruo       2021-04-01 @341  		u64 entry_end;
-e65f152e4348480 Qu Wenruo       2021-04-01  342  		u64 end;
-e65f152e4348480 Qu Wenruo       2021-04-01  343  		u32 len;
-e65f152e4348480 Qu Wenruo       2021-04-01  344  =
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5584  		stmmac_fpe_event_status(priv, status);
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5585  	}
+5a5586112b9295 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-24  5586  =
 
-e65f152e4348480 Qu Wenruo       2021-04-01  345  		node =3D tree_search(tre=
-e, cur);
-e65f152e4348480 Qu Wenruo       2021-04-01  346  		/* No ordered extents at=
- all */
-58f74b2203d786d Qu Wenruo       2020-12-22  347  		if (!node)
-e65f152e4348480 Qu Wenruo       2021-04-01  348  			break;
-163cf09c2a0ee5c Chris Mason     2010-11-28  349  =
+47dd7a540b8a0c drivers/net/stmmac/stmmac_main.c                  Giuseppe C=
+avallaro  2009-10-14  5587  	/* To handle GMAC own interrupts */
+7d9e6c5afab6bf drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu=
+          2018-08-08  5588  	if ((priv->plat->has_gmac) || xmac) {
+c10d4c82a5c84c drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Jose Abreu=
+          2018-04-16  5589  		int status =3D stmmac_host_irq_status(priv, p=
+riv->hw, &priv->xstats);
+8f71a88d3619db drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-10  5590  =
 
-163cf09c2a0ee5c Chris Mason     2010-11-28  350  		entry =3D rb_entry(node,=
- struct btrfs_ordered_extent, rb_node);
-e65f152e4348480 Qu Wenruo       2021-04-01  351  		entry_end =3D entry->fil=
-e_offset + entry->num_bytes;
-e65f152e4348480 Qu Wenruo       2021-04-01  352  		/*
-e65f152e4348480 Qu Wenruo       2021-04-01  353  		 * |<-- OE --->|  |
-e65f152e4348480 Qu Wenruo       2021-04-01  354  		 *		  cur
-e65f152e4348480 Qu Wenruo       2021-04-01  355  		 * Go to next OE.
-e65f152e4348480 Qu Wenruo       2021-04-01  356  		 */
-e65f152e4348480 Qu Wenruo       2021-04-01  357  		if (cur >=3D entry_end) {
-e65f152e4348480 Qu Wenruo       2021-04-01  358  			node =3D rb_next(node);
-e65f152e4348480 Qu Wenruo       2021-04-01  359  			/* No more ordered exte=
-nts, exit */
-e65f152e4348480 Qu Wenruo       2021-04-01  360  			if (!node)
-e65f152e4348480 Qu Wenruo       2021-04-01  361  				break;
-e65f152e4348480 Qu Wenruo       2021-04-01  362  			entry =3D rb_entry(node=
-, struct btrfs_ordered_extent,
-e65f152e4348480 Qu Wenruo       2021-04-01  363  					 rb_node);
-e65f152e4348480 Qu Wenruo       2021-04-01  364  =
+d765955d2ae0b8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2012-06-27  5591  		if (unlikely(status)) {
+d765955d2ae0b8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2012-06-27  5592  			/* For LPI we need to save the tx status */
+0982a0f6d1be5f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2013-03-26  5593  			if (status & CORE_IRQ_TX_PATH_IN_LPI_MODE)
+d765955d2ae0b8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2012-06-27  5594  				priv->tx_path_in_lpi_mode =3D true;
+0982a0f6d1be5f drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2013-03-26  5595  			if (status & CORE_IRQ_TX_PATH_EXIT_LPI_MODE)
+d765955d2ae0b8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2012-06-27  5596  				priv->tx_path_in_lpi_mode =3D false;
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5597  		}
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5598  =
 
-e65f152e4348480 Qu Wenruo       2021-04-01  365  			/* Go to next ordered e=
-xtent and continue */
-e65f152e4348480 Qu Wenruo       2021-04-01  366  			cur =3D entry->file_off=
-set;
-e65f152e4348480 Qu Wenruo       2021-04-01  367  			continue;
-e65f152e4348480 Qu Wenruo       2021-04-01  368  		}
-e65f152e4348480 Qu Wenruo       2021-04-01  369  		/*
-e65f152e4348480 Qu Wenruo       2021-04-01  370  		 * |	|<--- OE --->|
-e65f152e4348480 Qu Wenruo       2021-04-01  371  		 * cur
-e65f152e4348480 Qu Wenruo       2021-04-01  372  		 * Go to the start of OE.
-e65f152e4348480 Qu Wenruo       2021-04-01  373  		 */
-e65f152e4348480 Qu Wenruo       2021-04-01  374  		if (cur < entry->file_of=
-fset) {
-e65f152e4348480 Qu Wenruo       2021-04-01  375  			cur =3D entry->file_off=
-set;
-e65f152e4348480 Qu Wenruo       2021-04-01  376  			continue;
-163cf09c2a0ee5c Chris Mason     2010-11-28  377  		}
-e65f152e4348480 Qu Wenruo       2021-04-01  378  =
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5599  		for (queue =3D 0; queue < queues_count; queue=
+++) {
+8a7cb245cf28cb drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Yannick Vi=
+gnon      2021-05-06 @5600  			status =3D stmmac_host_mtl_irq_status(priv, =
+priv->hw,
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5601  							    queue);
+7bac4e1ec3ca23 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Joao Pinto=
+          2017-03-15  5602  		}
+70523e639bf8ca drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2016-06-24  5603  =
 
-e65f152e4348480 Qu Wenruo       2021-04-01  379  		/*
-e65f152e4348480 Qu Wenruo       2021-04-01  380  		 * Now we are definitely=
- inside one ordered extent.
-e65f152e4348480 Qu Wenruo       2021-04-01  381  		 *
-e65f152e4348480 Qu Wenruo       2021-04-01  382  		 * |<--- OE --->|
-e65f152e4348480 Qu Wenruo       2021-04-01  383  		 *	|
-e65f152e4348480 Qu Wenruo       2021-04-01  384  		 *	cur
-e65f152e4348480 Qu Wenruo       2021-04-01  385  		 */
-e65f152e4348480 Qu Wenruo       2021-04-01  386  		end =3D min(entry->file_=
-offset + entry->num_bytes,
-e65f152e4348480 Qu Wenruo       2021-04-01  387  			  file_offset + num_byt=
-es) - 1;
-e65f152e4348480 Qu Wenruo       2021-04-01  388  		ASSERT(end + 1 - cur < U=
-32_MAX);
-e65f152e4348480 Qu Wenruo       2021-04-01  389  		len =3D end + 1 - cur;
-e65f152e4348480 Qu Wenruo       2021-04-01  390  =
+70523e639bf8ca drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2016-06-24  5604  		/* PCS link status */
+3fe5cadbd3494b drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2016-06-24  5605  		if (priv->hw->pcs) {
+70523e639bf8ca drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2016-06-24  5606  			if (priv->xstats.pcs_link)
+29e6573c61aaa7 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-26  5607  				netif_carrier_on(priv->dev);
+70523e639bf8ca drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2016-06-24  5608  			else
+29e6573c61aaa7 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-26  5609  				netif_carrier_off(priv->dev);
+29e6573c61aaa7 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Ong Boon L=
+eong      2021-03-26  5610  		}
+f4da56529da602 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Tan Tee Mi=
+n         2021-04-14  5611  =
 
-e65f152e4348480 Qu Wenruo       2021-04-01  391  		if (page) {
-e65f152e4348480 Qu Wenruo       2021-04-01  392  			/*
-e65f152e4348480 Qu Wenruo       2021-04-01  393  			 * Private2 bit indicat=
-es whether we still have pending
-e65f152e4348480 Qu Wenruo       2021-04-01  394  			 * io unfinished for th=
-e ordered extent.
-e65f152e4348480 Qu Wenruo       2021-04-01  395  			 *
-e65f152e4348480 Qu Wenruo       2021-04-01  396  			 * If there's no such b=
-it, we need to skip to next range.
-e65f152e4348480 Qu Wenruo       2021-04-01  397  			 */
-e65f152e4348480 Qu Wenruo       2021-04-01  398  			if (!PagePrivate2(page)=
-) {
-e65f152e4348480 Qu Wenruo       2021-04-01  399  				cur +=3D len;
-e65f152e4348480 Qu Wenruo       2021-04-01  400  				continue;
-e65f152e4348480 Qu Wenruo       2021-04-01  401  			}
-e65f152e4348480 Qu Wenruo       2021-04-01  402  			ClearPagePrivate2(page);
-e65f152e4348480 Qu Wenruo       2021-04-01  403  		}
-e65f152e4348480 Qu Wenruo       2021-04-01  404  =
-
-e65f152e4348480 Qu Wenruo       2021-04-01  405  		/* Now we're fine to upd=
-ate the accounting */
-e65f152e4348480 Qu Wenruo       2021-04-01  406  		if (unlikely(len > entry=
-->bytes_left)) {
-e65f152e4348480 Qu Wenruo       2021-04-01  407  			WARN_ON(1);
-0b246afa62b0cf5 Jeff Mahoney    2016-06-22  408  			btrfs_crit(fs_info,
-e65f152e4348480 Qu Wenruo       2021-04-01  409  "bad ordered extent accoun=
-ting, root=3D%llu ino=3D%llu OE offset=3D%llu OE len=3D%llu to_dec=3D%u lef=
-t=3D%llu",
-e65f152e4348480 Qu Wenruo       2021-04-01  410  				   inode->root->root_k=
-ey.objectid,
-e65f152e4348480 Qu Wenruo       2021-04-01  411  				   btrfs_ino(inode),
-e65f152e4348480 Qu Wenruo       2021-04-01  412  				   entry->file_offset,
-e65f152e4348480 Qu Wenruo       2021-04-01  413  				   entry->num_bytes,
-e65f152e4348480 Qu Wenruo       2021-04-01  414  				   len, entry->bytes_l=
-eft);
-e65f152e4348480 Qu Wenruo       2021-04-01  415  			entry->bytes_left =3D 0;
-e65f152e4348480 Qu Wenruo       2021-04-01  416  		} else {
-e65f152e4348480 Qu Wenruo       2021-04-01  417  			entry->bytes_left -=3D =
-len;
-163cf09c2a0ee5c Chris Mason     2010-11-28  418  		}
-e65f152e4348480 Qu Wenruo       2021-04-01  419  =
-
-5fd02043553b028 Josef Bacik     2012-05-02  420  		if (!uptodate)
-5fd02043553b028 Josef Bacik     2012-05-02  421  			set_bit(BTRFS_ORDERED_I=
-OERR, &entry->flags);
-5fd02043553b028 Josef Bacik     2012-05-02  422  =
-
-58f74b2203d786d Qu Wenruo       2020-12-22  423  		/*
-e65f152e4348480 Qu Wenruo       2021-04-01  424  		 * All the IO of the ord=
-ered extent is finished, we need to queue
-e65f152e4348480 Qu Wenruo       2021-04-01  425  		 * the finish_func to be=
- executed.
-58f74b2203d786d Qu Wenruo       2020-12-22  426  		 */
-e65f152e4348480 Qu Wenruo       2021-04-01  427  		if (entry->bytes_left =
-=3D=3D 0) {
-e65f152e4348480 Qu Wenruo       2021-04-01  428  			set_bit(BTRFS_ORDERED_I=
-O_DONE, &entry->flags);
-e65f152e4348480 Qu Wenruo       2021-04-01  429  			cond_wake_up(&entry->wa=
-it);
-e76edab7f059bc1 Elena Reshetova 2017-03-03  430  			refcount_inc(&entry->re=
-fs);
-e65f152e4348480 Qu Wenruo       2021-04-01  431  			spin_unlock_irqrestore(=
-&tree->lock, flags);
-e65f152e4348480 Qu Wenruo       2021-04-01  432  			btrfs_init_work(&entry-=
->work, finish_func, NULL, NULL);
-e65f152e4348480 Qu Wenruo       2021-04-01  433  			btrfs_queue_work(wq, &e=
-ntry->work);
-e65f152e4348480 Qu Wenruo       2021-04-01  434  			spin_lock_irqsave(&tree=
-->lock, flags);
-e65f152e4348480 Qu Wenruo       2021-04-01  435  		}
-e65f152e4348480 Qu Wenruo       2021-04-01  436  		cur +=3D len;
-163cf09c2a0ee5c Chris Mason     2010-11-28  437  	}
-5fd02043553b028 Josef Bacik     2012-05-02  438  	spin_unlock_irqrestore(&t=
-ree->lock, flags);
-163cf09c2a0ee5c Chris Mason     2010-11-28  439  }
-163cf09c2a0ee5c Chris Mason     2010-11-28  440  =
+f4da56529da602 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Tan Tee Mi=
+n         2021-04-14  5612  		stmmac_timestamp_interrupt(priv, priv);
+70523e639bf8ca drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2016-06-24  5613  	}
+d765955d2ae0b8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2012-06-27  5614  }
+d765955d2ae0b8 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c Giuseppe C=
+AVALLARO  2012-06-27  5615  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0483587702067726774==--
+--===============1451535547491014137==--
 
