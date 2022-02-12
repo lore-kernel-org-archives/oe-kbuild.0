@@ -1,164 +1,369 @@
-Content-Type: multipart/mixed; boundary="===============5959805161323027250=="
+Content-Type: multipart/mixed; boundary="===============5550788159482366578=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:2146 sja1105_vlan_add() warn: should '(((1))) << port' be a 64 bit type?
-Date: Sat, 12 Feb 2022 01:58:17 +0800
-Message-ID: <202202112242.aEWTsi1N-lkp@intel.com>
+Subject: [intel-lts:5.10/yocto 2/2] drivers/mmc/core/block.c:1076:12: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sun, 13 Feb 2022 02:17:10 +0800
+Message-ID: <202202122206.QadIzQek-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5959805161323027250==
+--===============5550788159482366578==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+TO: Ranjan Dutta <ranjan.dutta@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f1baf68e1383f6ed93eb9cff2866d46562607a43
-commit: 6dfd23d35e75098ac61a605f6c591ce42e95cdcb net: dsa: sja1105: delete =
-vlan delta save/restore logic
-date:   7 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 7 months ago
-config: m68k-randconfig-m031-20220211 (https://download.01.org/0day-ci/arch=
-ive/20220211/202202112242.aEWTsi1N-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   c1454bb2993a11fdcd48794cdd65569c3b33a5b0
+commit: c1454bb2993a11fdcd48794cdd65569c3b33a5b0 [2/2] Merge branch 'my/v5.=
+10.83' into lts2020/yocto
+:::::: branch date: 9 weeks ago
+:::::: commit date: 9 weeks ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+212/202202122206.QadIzQek-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project aa845d=
+7a245d85c441d0bd44fc7b6c3be8f3de8d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/linux-intel-lts/commit/c1454bb2993a11fdc=
+d48794cdd65569c3b33a5b0
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.g=
+it
+        git fetch --no-tags intel-lts 5.10/yocto
+        git checkout c1454bb2993a11fdcd48794cdd65569c3b33a5b0
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:2146 sja1105_vlan_add() warn: should=
- '(((1))) << port' be a 64 bit type?
 
-Old smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:49 sja1105_port_allow_traffic() warn=
-: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:57 sja1105_can_forward() warn: shoul=
-d '((((1))) << to)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:173 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:185 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:194 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:203 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:209 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:216 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:443 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:444 sja1105_init_l2_forwarding() war=
-n: should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:529 sja1105_init_l2_forwarding_param=
-s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
-g_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:702 sja1105_init_general_params() wa=
-rn: is 'table->entries' large enough for 'struct sja1105_general_params_ent=
-ry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:730 sja1105_init_avb_params() warn: =
-is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:1197 sja1105_find_static_fdb_entry()=
- warn: should '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1315 sja1105et_fdb_add() warn: shoul=
-d '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1317 sja1105et_fdb_add() warn: shoul=
-d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1325 sja1105et_fdb_add() warn: shoul=
-d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1411 sja1105pqrs_fdb_add() warn: sho=
-uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1419 sja1105pqrs_fdb_add() warn: sho=
-uld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1424 sja1105pqrs_fdb_add() warn: sho=
-uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1474 sja1105pqrs_fdb_del() warn: sho=
-uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1558 sja1105_fdb_dump() warn: should=
- '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1610 sja1105_manage_flood_domains() =
-warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1612 sja1105_manage_flood_domains() =
-warn: should '(((1))) << to' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2147 sja1105_vlan_add() warn: should=
- '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2151 sja1105_vlan_add() warn: should=
- '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2417 sja1105_mgmt_xmit() warn: shoul=
-d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2735 sja1105_port_mcast_flood() warn=
-: should '(((1))) << to' be a 64 bit type?
+clang-analyzer warnings: (new ones prefixed by >>)
+                                                      ^~~~
+   drivers/mmc/core/block.c:884:35: note: Left side of '&&' is false
+           if (!mmc_host_is_spi(card->host) && !(cmd.resp[0] & R1_APP_CMD))
+                                            ^
+   drivers/mmc/core/block.c:884:2: note: '?' condition is false
+           if (!mmc_host_is_spi(card->host) && !(cmd.resp[0] & R1_APP_CMD))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/mmc/core/block.c:884:35: note: Left side of '&&' is false
+           if (!mmc_host_is_spi(card->host) && !(cmd.resp[0] & R1_APP_CMD))
+                                            ^
+   drivers/mmc/core/block.c:884:2: note: '?' condition is false
+           if (!mmc_host_is_spi(card->host) && !(cmd.resp[0] & R1_APP_CMD))
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/mmc/core/block.c:884:2: note: Taking false branch
+           if (!mmc_host_is_spi(card->host) && !(cmd.resp[0] & R1_APP_CMD))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/mmc/core/block.c:903:11: note: Storing uninitialized value
+           blocks =3D kmalloc(4, GFP_KERNEL);
+                    ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/core/block.c:904:6: note: Assuming 'blocks' is non-null
+           if (!blocks)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/mmc/core/block.c:904:2: note: '?' condition is false
+           if (!blocks)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/mmc/core/block.c:904:7: note: 'blocks' is non-null
+           if (!blocks)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/mmc/core/block.c:904:2: note: '?' condition is false
+           if (!blocks)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/mmc/core/block.c:904:2: note: Taking false branch
+           if (!blocks)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/mmc/core/block.c:911:11: note: 1st function call argument is an =
+uninitialized value
+           result =3D ntohl(*blocks);
+                    ^
+   include/linux/byteorder/generic.h:140:18: note: expanded from macro 'nto=
+hl'
+   #define ntohl(x) ___ntohl(x)
+                    ^~~~~~~~~~~
+   include/linux/byteorder/generic.h:136:21: note: expanded from macro '___=
+ntohl'
+   #define ___ntohl(x) __be32_to_cpu(x)
+                       ^~~~~~~~~~~~~~~~
+   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
+macro '__be32_to_cpu'
+   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/uapi/linux/swab.h:115:28: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                              ^                 ~~~~~~~~~~
+>> drivers/mmc/core/block.c:1076:12: warning: Branch condition evaluates to=
+ a garbage value [clang-analyzer-core.uninitialized.Branch]
+           op_mode =3D idata[0]->ic.write_flag ? REQ_OP_DRV_OUT : REQ_OP_DR=
+V_IN,
+                     ^
+   drivers/mmc/core/block.c:1145:6: note: Assuming 'rpmb' is non-null
+           if (!rpmb)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/mmc/core/block.c:1145:2: note: '?' condition is false
+           if (!rpmb)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/mmc/core/block.c:1145:7: note: 'rpmb' is non-null
+           if (!rpmb)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/mmc/core/block.c:1145:2: note: '?' condition is false
+           if (!rpmb)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/mmc/core/block.c:1145:2: note: Taking false branch
+           if (!rpmb)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/mmc/core/block.c:1149:6: note: Assuming 'idata' is non-null
+           if (!idata)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/mmc/core/block.c:1149:2: note: '?' condition is false
+           if (!idata)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/mmc/core/block.c:1149:7: note: 'idata' is non-null
+           if (!idata)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/mmc/core/block.c:1149:2: note: '?' condition is false
+           if (!idata)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/mmc/core/block.c:1149:2: note: Taking false branch
+           if (!idata)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/mmc/core/block.c:1152:14: note: Assuming 'i' is < 'num_of_cmds'
+           for (i =3D 0; i < num_of_cmds; i++) {
 
-vim +2146 drivers/net/dsa/sja1105/sja1105_main.c
+vim +1076 drivers/mmc/core/block.c
 
-6666cebc5e306f Vladimir Oltean 2019-05-02  2123  =
+5ec1239694c74e Linus Walleij 2017-05-19  1055  =
 
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2124  static int sja1105_vlan_ad=
-d(struct sja1105_private *priv, int port, u16 vid,
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2125  			    u16 flags)
-6666cebc5e306f Vladimir Oltean 2019-05-02  2126  {
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2127  	struct sja1105_vlan_looku=
-p_entry *vlan;
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2128  	struct sja1105_table *tab=
-le;
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2129  	int match, rc;
-ec5ae61076d07b Vladimir Oltean 2020-05-12  2130  =
+a85416e2755608 Tomas Winkler 2015-01-28  1056  static int mmc_blk_rpmb_proc=
+ess(struct mmc_blk_data *md,
+a85416e2755608 Tomas Winkler 2015-01-28  1057  				struct mmc_blk_ioc_data =
+*idata[],
+a85416e2755608 Tomas Winkler 2015-01-28  1058  				u64 num_of_cmds)
+a85416e2755608 Tomas Winkler 2015-01-28  1059  {
+a85416e2755608 Tomas Winkler 2015-01-28  1060  	struct mmc_card *card;
+a85416e2755608 Tomas Winkler 2015-01-28  1061  	struct mmc_queue *mq;
+a85416e2755608 Tomas Winkler 2015-01-28  1062  	int err =3D 0;
+a85416e2755608 Tomas Winkler 2015-01-28  1063  	struct request *req;
+a85416e2755608 Tomas Winkler 2015-01-28  1064  	int op_mode;
+a85416e2755608 Tomas Winkler 2015-01-28  1065  =
 
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2131  	table =3D &priv->static_c=
-onfig.tables[BLK_IDX_VLAN_LOOKUP];
-ec5ae61076d07b Vladimir Oltean 2020-05-12  2132  =
+a85416e2755608 Tomas Winkler 2015-01-28  1066  	card =3D md->queue.card;
+a85416e2755608 Tomas Winkler 2015-01-28  1067  	if (IS_ERR(card)) {
+a85416e2755608 Tomas Winkler 2015-01-28  1068  		err =3D PTR_ERR(card);
+a85416e2755608 Tomas Winkler 2015-01-28  1069  		goto cmd_err;
+a85416e2755608 Tomas Winkler 2015-01-28  1070  	}
+a85416e2755608 Tomas Winkler 2015-01-28  1071  =
 
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2133  	match =3D sja1105_is_vlan=
-_configured(priv, vid);
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2134  	if (match < 0) {
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2135  		rc =3D sja1105_table_res=
-ize(table, table->entry_count + 1);
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2136  		if (rc)
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2137  			return rc;
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2138  		match =3D table->entry_c=
-ount - 1;
-b38e659de966a1 Vladimir Oltean 2021-05-24  2139  	}
-b38e659de966a1 Vladimir Oltean 2021-05-24  2140  =
+a85416e2755608 Tomas Winkler 2015-01-28  1072  	/*
+a85416e2755608 Tomas Winkler 2015-01-28  1073  	 * Dispatch the ioctl()s in=
+to the block request queue.
+a85416e2755608 Tomas Winkler 2015-01-28  1074  	 */
+a85416e2755608 Tomas Winkler 2015-01-28  1075  	mq =3D &md->queue;
+a85416e2755608 Tomas Winkler 2015-01-28 @1076  	op_mode =3D idata[0]->ic.wr=
+ite_flag ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN,
+a85416e2755608 Tomas Winkler 2015-01-28  1077  	req =3D blk_get_request(mq-=
+>queue, op_mode, 0);
+a85416e2755608 Tomas Winkler 2015-01-28  1078  	if (IS_ERR(req)) {
+a85416e2755608 Tomas Winkler 2015-01-28  1079  		err =3D PTR_ERR(req);
+a85416e2755608 Tomas Winkler 2015-01-28  1080  		goto cmd_err;
+a85416e2755608 Tomas Winkler 2015-01-28  1081  	}
+a85416e2755608 Tomas Winkler 2015-01-28  1082  =
 
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2141  	/* Assign pointer after t=
-he resize (it's new memory) */
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2142  	vlan =3D table->entries;
-ec5ae61076d07b Vladimir Oltean 2020-05-12  2143  =
+a85416e2755608 Tomas Winkler 2015-01-28  1083  	req_to_mmc_queue_req(req)->=
+drv_op =3D MMC_DRV_OP_IOCTL_RPMB;
+a85416e2755608 Tomas Winkler 2015-01-28  1084  	req_to_mmc_queue_req(req)->=
+drv_op_data =3D idata;
+a85416e2755608 Tomas Winkler 2015-01-28  1085  	req_to_mmc_queue_req(req)->=
+ioc_count =3D num_of_cmds;
+a85416e2755608 Tomas Winkler 2015-01-28  1086  =
 
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2144  	vlan[match].type_entry =
-=3D SJA1110_VLAN_D_TAG;
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2145  	vlan[match].vlanid =3D vi=
-d;
-6dfd23d35e7509 Vladimir Oltean 2021-07-26 @2146  	vlan[match].vlan_bc |=3D =
-BIT(port);
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2147  	vlan[match].vmemb_port |=
-=3D BIT(port);
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2148  	if (flags & BRIDGE_VLAN_I=
-NFO_UNTAGGED)
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2149  		vlan[match].tag_port &=
-=3D ~BIT(port);
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2150  	else
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2151  		vlan[match].tag_port |=
-=3D BIT(port);
-ec5ae61076d07b Vladimir Oltean 2020-05-12  2152  =
+a85416e2755608 Tomas Winkler 2015-01-28  1087  	blk_execute_rq(mq->queue, N=
+ULL, req, 0);
+a85416e2755608 Tomas Winkler 2015-01-28  1088  =
 
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2153  	return sja1105_dynamic_co=
-nfig_write(priv, BLK_IDX_VLAN_LOOKUP, vid,
-6dfd23d35e7509 Vladimir Oltean 2021-07-26  2154  					    &vlan[match], tru=
-e);
-5899ee367ab3fe Vladimir Oltean 2020-09-10  2155  }
-5899ee367ab3fe Vladimir Oltean 2020-09-10  2156  =
+a85416e2755608 Tomas Winkler 2015-01-28  1089  	err =3D req_to_mmc_queue_re=
+q(req)->drv_op_result;
+a85416e2755608 Tomas Winkler 2015-01-28  1090  =
 
+a85416e2755608 Tomas Winkler 2015-01-28  1091  	blk_put_request(req);
+a85416e2755608 Tomas Winkler 2015-01-28  1092  =
+
+a85416e2755608 Tomas Winkler 2015-01-28  1093  cmd_err:
+a85416e2755608 Tomas Winkler 2015-01-28  1094  	return err;
+a85416e2755608 Tomas Winkler 2015-01-28  1095  }
+a85416e2755608 Tomas Winkler 2015-01-28  1096  =
+
+
+:::::: The code at line 1076 was first introduced by commit
+:::::: a85416e27556088f75f35fb5c464ece37d204591 mmc: block: register RPMB p=
+artition with the RPMB subsystem
+
+:::::: TO: Tomas Winkler <tomas.winkler@intel.com>
+:::::: CC: Dutta, Ranjan <ranjan.dutta@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5959805161323027250==--
+--===============5550788159482366578==--
 
