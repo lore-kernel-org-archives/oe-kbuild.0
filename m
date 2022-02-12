@@ -1,236 +1,435 @@
-Content-Type: multipart/mixed; boundary="===============5904025176870223650=="
+Content-Type: multipart/mixed; boundary="===============2853725691696313630=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/etnaviv/etnaviv_dump.c:213 etnaviv_core_dump() warn: should '(((*pages++) - mem_map) + (m68k_memory[0]->addr >> 12)) << 12' be a 64 bit type?
-Date: Sun, 13 Feb 2022 07:44:49 +0800
-Message-ID: <202202130749.3uNUKwfr-lkp@intel.com>
+Subject: Re: [PATCH v2 07/10] nvmet: add copy command support for bdev and file ns
+Date: Sun, 13 Feb 2022 07:13:55 +0800
+Message-ID: <202202130705.Jv4S2Yrv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5904025176870223650==
+--===============2853725691696313630==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Angelo Dureghello <angelo@kernel-space.org>
-CC: Greg Ungerer <gerg@linux-m68k.org>
+In-Reply-To: <20220207141348.4235-8-nj.shetty@samsung.com>
+References: <20220207141348.4235-8-nj.shetty@samsung.com>
+TO: Nitesh Shetty <nj.shetty@samsung.com>
+TO: mpatocka(a)redhat.com
+CC: javier(a)javigon.com
+CC: chaitanyak(a)nvidia.com
+CC: linux-block(a)vger.kernel.org
+CC: linux-scsi(a)vger.kernel.org
+CC: dm-devel(a)redhat.com
+CC: linux-nvme(a)lists.infradead.org
+CC: linux-fsdevel(a)vger.kernel.org
+CC: axboe(a)kernel.dk
+CC: msnitzer(a)redhat.com
+CC: bvanassche(a)acm.org
+CC: martin.petersen(a)oracle.com
+CC: roland(a)purestorage.com
+CC: hare(a)suse.de
+CC: kbusch(a)kernel.org
+CC: hch(a)lst.de
+CC: Frederick.Knight(a)netapp.com
+CC: zach.brown(a)ni.com
+CC: osandov(a)fb.com
+CC: lsf-pc(a)lists.linux-foundation.org
+CC: djwong(a)kernel.org
+CC: josef(a)toxicpanda.com
+CC: clm(a)fb.com
+CC: dsterba(a)suse.com
+CC: tytso(a)mit.edu
+CC: jack(a)suse.com
+CC: joshi.k(a)samsung.com
+CC: arnav.dawn(a)samsung.com
+CC: nj.shetty(a)samsung.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b81b1829e7e39f6cebdf6e4d5484eacbceda8554
-commit: d2bd44c4c05d043fb65cfdf26c54e6d8b94a4b41 m68k: fix flatmem memory m=
-odel setup
-date:   10 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 months ago
-config: m68k-randconfig-m031-20220213 (https://download.01.org/0day-ci/arch=
-ive/20220213/202202130749.3uNUKwfr-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
+Hi Nitesh,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on device-mapper-dm/for-next next-20220211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-b=
+io_map_kern-non-static/20220207-231407
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-next
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: riscv-randconfig-c006-20220209 (https://download.01.org/0day-ci/arc=
+hive/20220213/202202130705.Jv4S2Yrv-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
+ae54a55b4dbfeb6ba55f723abbd81bf494)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/6bb6ea64499e1ac27975e79bb=
+2eee89f07861893
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Nitesh-Shetty/block-make-bio_map_k=
+ern-non-static/20220207-231407
+        git checkout 6bb6ea64499e1ac27975e79bb2eee89f07861893
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/etnaviv/etnaviv_dump.c:213 etnaviv_core_dump() warn: should=
- '(((*pages++) - mem_map) + (m68k_memory[0]->addr >> 12)) << 12' be a 64 bi=
-t type?
 
-vim +213 drivers/gpu/drm/etnaviv/etnaviv_dump.c
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skbuff.h:2167:2: note: Left side of '||' is true
+           WRITE_ONCE(next->prev, prev);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                                               ^
+   include/linux/skbuff.h:2167:2: note: Taking false branch
+           WRITE_ONCE(next->prev, prev);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/skbuff.h:2167:2: note: Loop condition is false.  Exiting l=
+oop
+           WRITE_ONCE(next->prev, prev);
+           ^
+   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/skbuff.h:2167:2: note: Dereference of null pointer
+           WRITE_ONCE(next->prev, prev);
+           ^
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
+           ^~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
+  \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/nvme/target/io-cmd-file.c:377:11: warning: The right operand of =
+'!=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResul=
+t]
+                   if (ret !=3D len) {
+                           ^  ~~~
+   drivers/nvme/target/io-cmd-file.c:356:15: note: 'len' declared without a=
+n initial value
+           int ret =3D 0, len, src, id;
+                        ^~~
+   drivers/nvme/target/io-cmd-file.c:360:15: note: Assuming the condition i=
+s false
+           if (unlikely(pos + req->transfer_len > req->ns->size)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/nvme/target/io-cmd-file.c:360:2: note: Taking false branch
+           if (unlikely(pos + req->transfer_len > req->ns->size)) {
+           ^
+   drivers/nvme/target/io-cmd-file.c:365:16: note: 'id' is < 'nr_range'
+           for (id =3D 0 ; id < nr_range; id++) {
+                         ^~
+   drivers/nvme/target/io-cmd-file.c:365:2: note: Loop condition is true.  =
+Entering loop body
+           for (id =3D 0 ; id < nr_range; id++) {
+           ^
+   drivers/nvme/target/io-cmd-file.c:370:7: note: Assuming 'ret' is not equ=
+al to 0
+                   if (ret)
+                       ^~~
+   drivers/nvme/target/io-cmd-file.c:370:3: note: Taking true branch
+                   if (ret)
+                   ^
+   drivers/nvme/target/io-cmd-file.c:371:4: note: Control jumps to line 377
+                           goto out;
+                           ^
+   drivers/nvme/target/io-cmd-file.c:377:11: note: The right operand of '!=
+=3D' is a garbage value
+                   if (ret !=3D len) {
+                           ^  ~~~
+>> drivers/nvme/target/io-cmd-file.c:378:4: warning: Value stored to 'pos' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                           pos +=3D ret;
+                           ^      ~~~
+   drivers/nvme/target/io-cmd-file.c:378:4: note: Value stored to 'pos' is =
+never read
+                           pos +=3D ret;
+                           ^      ~~~
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   28 warnings generated.
+   drivers/md/bcache/sysfs.c:204:2: warning: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(writeback_rate,
+           ^
+   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:204:2: note: Call to function 'strcat' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcat'. CWE-119
+           sysfs_hprint(writeback_rate,
+           ^
+   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:255:2: warning: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(dirty_data,
+           ^
+   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:255:2: note: Call to function 'strcat' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcat'. CWE-119
+           sysfs_hprint(dirty_data,
+           ^
+   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:258:2: warning: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(stripe_size,        ((uint64_t)dc->disk.stripe_size=
+) << 9);
+           ^
+   drivers/md/bcache/sysfs.h:81:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  112  =
+vim +/pos +378 drivers/nvme/target/io-cmd-file.c
 
-9a1fdae5876016 Lucas Stach         2019-08-09  113  void etnaviv_core_dump(=
-struct etnaviv_gem_submit *submit)
-a8c21a5451d831 The etnaviv authors 2015-12-03  114  {
-9a1fdae5876016 Lucas Stach         2019-08-09  115  	struct etnaviv_gpu *gp=
-u =3D submit->gpu;
-a8c21a5451d831 The etnaviv authors 2015-12-03  116  	struct core_dump_itera=
-tor iter;
-a8c21a5451d831 The etnaviv authors 2015-12-03  117  	struct etnaviv_gem_obj=
-ect *obj;
-a8c21a5451d831 The etnaviv authors 2015-12-03  118  	unsigned int n_obj, n_=
-bomap_pages;
-a8c21a5451d831 The etnaviv authors 2015-12-03  119  	size_t file_size, mmu_=
-size;
-a8c21a5451d831 The etnaviv authors 2015-12-03  120  	__le64 *bomap, *bomap_=
-start;
-9a1fdae5876016 Lucas Stach         2019-08-09  121  	int i;
-a8c21a5451d831 The etnaviv authors 2015-12-03  122  =
+d5eff33ee6f808 Chaitanya Kulkarni 2018-05-23  349  =
 
-6d7a20c0776036 Lucas Stach         2017-12-06  123  	/* Only catch the firs=
-t event, or when manually re-armed */
-6d7a20c0776036 Lucas Stach         2017-12-06  124  	if (!etnaviv_dump_core)
-6d7a20c0776036 Lucas Stach         2017-12-06  125  		return;
-6d7a20c0776036 Lucas Stach         2017-12-06  126  	etnaviv_dump_core =3D =
-false;
-6d7a20c0776036 Lucas Stach         2017-12-06  127  =
+6bb6ea64499e1a Arnav Dawn         2022-02-07  350  static void nvmet_file_c=
+opy_work(struct work_struct *w)
+6bb6ea64499e1a Arnav Dawn         2022-02-07  351  {
+6bb6ea64499e1a Arnav Dawn         2022-02-07  352  	struct nvmet_req *req =
+=3D container_of(w, struct nvmet_req, f.work);
+6bb6ea64499e1a Arnav Dawn         2022-02-07  353  	int nr_range;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  354  	loff_t pos;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  355  	struct nvme_command *cm=
+nd =3D req->cmd;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  356  	int ret =3D 0, len, src=
+, id;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  357  =
 
-27b67278e007b5 Lucas Stach         2019-07-05  128  	mutex_lock(&gpu->mmu_c=
-ontext->lock);
-1396500d673bd0 Lucas Stach         2019-05-21  129  =
+6bb6ea64499e1a Arnav Dawn         2022-02-07  358  	nr_range =3D cmnd->copy=
+.nr_range + 1;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  359  	pos =3D le64_to_cpu(req=
+->cmd->copy.sdlba) << req->ns->blksize_shift;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  360  	if (unlikely(pos + req-=
+>transfer_len > req->ns->size)) {
+6bb6ea64499e1a Arnav Dawn         2022-02-07  361  		nvmet_req_complete(req=
+, errno_to_nvme_status(req, -ENOSPC));
+6bb6ea64499e1a Arnav Dawn         2022-02-07  362  		return;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  363  	}
+6bb6ea64499e1a Arnav Dawn         2022-02-07  364  =
 
-27b67278e007b5 Lucas Stach         2019-07-05  130  	mmu_size =3D etnaviv_i=
-ommu_dump_size(gpu->mmu_context);
-a8c21a5451d831 The etnaviv authors 2015-12-03  131  =
+6bb6ea64499e1a Arnav Dawn         2022-02-07  365  	for (id =3D 0 ; id < nr=
+_range; id++) {
+6bb6ea64499e1a Arnav Dawn         2022-02-07  366  		struct nvme_copy_range=
+ range;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  367  =
 
-9a1fdae5876016 Lucas Stach         2019-08-09  132  	/* We always dump regi=
-sters, mmu, ring, hanging cmdbuf and end marker */
-9a1fdae5876016 Lucas Stach         2019-08-09  133  	n_obj =3D 5;
-a8c21a5451d831 The etnaviv authors 2015-12-03  134  	n_bomap_pages =3D 0;
-a8c21a5451d831 The etnaviv authors 2015-12-03  135  	file_size =3D ARRAY_SI=
-ZE(etnaviv_dump_registers) *
-a8c21a5451d831 The etnaviv authors 2015-12-03  136  			sizeof(struct etnavi=
-v_dump_registers) +
-9a1fdae5876016 Lucas Stach         2019-08-09  137  		    mmu_size + gpu->b=
-uffer.size + submit->cmdbuf.size;
-a8c21a5451d831 The etnaviv authors 2015-12-03  138  =
+6bb6ea64499e1a Arnav Dawn         2022-02-07  368  		ret =3D nvmet_copy_fro=
+m_sgl(req, id * sizeof(range), &range,
+6bb6ea64499e1a Arnav Dawn         2022-02-07  369  					sizeof(range));
+6bb6ea64499e1a Arnav Dawn         2022-02-07  370  		if (ret)
+6bb6ea64499e1a Arnav Dawn         2022-02-07  371  			goto out;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  372  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  139  	/* Add in the active b=
-uffer objects */
-9a1fdae5876016 Lucas Stach         2019-08-09  140  	for (i =3D 0; i < subm=
-it->nr_bos; i++) {
-9a1fdae5876016 Lucas Stach         2019-08-09  141  		obj =3D submit->bos[i=
-].obj;
-a8c21a5451d831 The etnaviv authors 2015-12-03  142  		file_size +=3D obj->b=
-ase.size;
-a8c21a5451d831 The etnaviv authors 2015-12-03  143  		n_bomap_pages +=3D ob=
-j->base.size >> PAGE_SHIFT;
-a8c21a5451d831 The etnaviv authors 2015-12-03  144  		n_obj++;
-a8c21a5451d831 The etnaviv authors 2015-12-03  145  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  146  =
+6bb6ea64499e1a Arnav Dawn         2022-02-07  373  		len =3D (le16_to_cpu(r=
+ange.nlb) + 1) << (req->ns->blksize_shift);
+6bb6ea64499e1a Arnav Dawn         2022-02-07  374  		src =3D (le64_to_cpu(r=
+ange.slba) << (req->ns->blksize_shift));
+6bb6ea64499e1a Arnav Dawn         2022-02-07  375  		ret =3D vfs_copy_file_=
+range(req->ns->file, src, req->ns->file, pos, len, 0);
+6bb6ea64499e1a Arnav Dawn         2022-02-07  376  out:
+6bb6ea64499e1a Arnav Dawn         2022-02-07  377  		if (ret !=3D len) {
+6bb6ea64499e1a Arnav Dawn         2022-02-07 @378  			pos +=3D ret;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  379  			req->cqe->result.u32 =
+=3D cpu_to_le32(id);
+6bb6ea64499e1a Arnav Dawn         2022-02-07  380  			nvmet_req_complete(re=
+q, ret < 0 ? errno_to_nvme_status(req, ret) :
+6bb6ea64499e1a Arnav Dawn         2022-02-07  381  					errno_to_nvme_statu=
+s(req, -EIO));
+6bb6ea64499e1a Arnav Dawn         2022-02-07  382  			return;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  383  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  147  	/* If we have any buff=
-er objects, add a bomap object */
-a8c21a5451d831 The etnaviv authors 2015-12-03  148  	if (n_bomap_pages) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  149  		file_size +=3D n_boma=
-p_pages * sizeof(__le64);
-a8c21a5451d831 The etnaviv authors 2015-12-03  150  		n_obj++;
-a8c21a5451d831 The etnaviv authors 2015-12-03  151  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  152  =
+6bb6ea64499e1a Arnav Dawn         2022-02-07  384  		} else
+6bb6ea64499e1a Arnav Dawn         2022-02-07  385  			pos +=3D len;
+6bb6ea64499e1a Arnav Dawn         2022-02-07  386  }
+6bb6ea64499e1a Arnav Dawn         2022-02-07  387  	nvmet_req_complete(req,=
+ ret);
+6bb6ea64499e1a Arnav Dawn         2022-02-07  388  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  153  	/* Add the size of the=
- headers */
-a8c21a5451d831 The etnaviv authors 2015-12-03  154  	file_size +=3D sizeof(=
-*iter.hdr) * n_obj;
-a8c21a5451d831 The etnaviv authors 2015-12-03  155  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  156  	/* Allocate the file i=
-n vmalloc memory, it's likely to be big */
-88dca4ca5a93d2 Christoph Hellwig   2020-06-01  157  	iter.start =3D __vmall=
-oc(file_size, GFP_KERNEL | __GFP_NOWARN |
-88dca4ca5a93d2 Christoph Hellwig   2020-06-01  158  			__GFP_NORETRY);
-a8c21a5451d831 The etnaviv authors 2015-12-03  159  	if (!iter.start) {
-27b67278e007b5 Lucas Stach         2019-07-05  160  		mutex_unlock(&gpu->mm=
-u_context->lock);
-a8c21a5451d831 The etnaviv authors 2015-12-03  161  		dev_warn(gpu->dev, "f=
-ailed to allocate devcoredump file\n");
-a8c21a5451d831 The etnaviv authors 2015-12-03  162  		return;
-a8c21a5451d831 The etnaviv authors 2015-12-03  163  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  164  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  165  	/* Point the data memb=
-er after the headers */
-a8c21a5451d831 The etnaviv authors 2015-12-03  166  	iter.hdr =3D iter.star=
-t;
-a8c21a5451d831 The etnaviv authors 2015-12-03  167  	iter.data =3D &iter.hd=
-r[n_obj];
-a8c21a5451d831 The etnaviv authors 2015-12-03  168  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  169  	memset(iter.hdr, 0, it=
-er.data - iter.start);
-a8c21a5451d831 The etnaviv authors 2015-12-03  170  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  171  	etnaviv_core_dump_regi=
-sters(&iter, gpu);
-27b67278e007b5 Lucas Stach         2019-07-05  172  	etnaviv_core_dump_mmu(=
-&iter, gpu->mmu_context, mmu_size);
-2f9225dbc09abe Lucas Stach         2017-11-24  173  	etnaviv_core_dump_mem(=
-&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
-2f9225dbc09abe Lucas Stach         2017-11-24  174  			      gpu->buffer.si=
-ze,
-db82a0435b8be3 Lucas Stach         2019-07-05  175  			      etnaviv_cmdbuf=
-_get_va(&gpu->buffer,
-17e4660ae3d7e1 Lucas Stach         2019-07-05  176  					&gpu->mmu_context-=
->cmdbuf_mapping));
-2f9225dbc09abe Lucas Stach         2017-11-24  177  =
-
-2f9225dbc09abe Lucas Stach         2017-11-24  178  	etnaviv_core_dump_mem(=
-&iter, ETDUMP_BUF_CMD,
-2f9225dbc09abe Lucas Stach         2017-11-24  179  			      submit->cmdbuf=
-.vaddr, submit->cmdbuf.size,
-db82a0435b8be3 Lucas Stach         2019-07-05  180  			      etnaviv_cmdbuf=
-_get_va(&submit->cmdbuf,
-17e4660ae3d7e1 Lucas Stach         2019-07-05  181  					&gpu->mmu_context-=
->cmdbuf_mapping));
-a8c21a5451d831 The etnaviv authors 2015-12-03  182  =
-
-ca8cb69580236f Lucas Stach         2019-10-16  183  	mutex_unlock(&gpu->mmu=
-_context->lock);
-ca8cb69580236f Lucas Stach         2019-10-16  184  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  185  	/* Reserve space for t=
-he bomap */
-a8c21a5451d831 The etnaviv authors 2015-12-03  186  	if (n_bomap_pages) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  187  		bomap_start =3D bomap=
- =3D iter.data;
-a8c21a5451d831 The etnaviv authors 2015-12-03  188  		memset(bomap, 0, size=
-of(*bomap) * n_bomap_pages);
-a8c21a5451d831 The etnaviv authors 2015-12-03  189  		etnaviv_core_dump_hea=
-der(&iter, ETDUMP_BUF_BOMAP,
-a8c21a5451d831 The etnaviv authors 2015-12-03  190  					 bomap + n_bomap_p=
-ages);
-a8c21a5451d831 The etnaviv authors 2015-12-03  191  	} else {
-a8c21a5451d831 The etnaviv authors 2015-12-03  192  		/* Silence warning */
-a8c21a5451d831 The etnaviv authors 2015-12-03  193  		bomap_start =3D bomap=
- =3D NULL;
-a8c21a5451d831 The etnaviv authors 2015-12-03  194  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  195  =
-
-9a1fdae5876016 Lucas Stach         2019-08-09  196  	for (i =3D 0; i < subm=
-it->nr_bos; i++) {
-9a1fdae5876016 Lucas Stach         2019-08-09  197  		struct etnaviv_vram_m=
-apping *vram;
-a8c21a5451d831 The etnaviv authors 2015-12-03  198  		struct page **pages;
-a8c21a5451d831 The etnaviv authors 2015-12-03  199  		void *vaddr;
-a8c21a5451d831 The etnaviv authors 2015-12-03  200  =
-
-9a1fdae5876016 Lucas Stach         2019-08-09  201  		obj =3D submit->bos[i=
-].obj;
-9a1fdae5876016 Lucas Stach         2019-08-09  202  		vram =3D submit->bos[=
-i].mapping;
-a8c21a5451d831 The etnaviv authors 2015-12-03  203  =
-
-339073ef77e45e Lucas Stach         2016-01-22  204  		mutex_lock(&obj->lock=
-);
-a8c21a5451d831 The etnaviv authors 2015-12-03  205  		pages =3D etnaviv_gem=
-_get_pages(obj);
-339073ef77e45e Lucas Stach         2016-01-22  206  		mutex_unlock(&obj->lo=
-ck);
-f8261c376e7f8c Dan Carpenter       2019-01-14  207  		if (!IS_ERR(pages)) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  208  			int j;
-a8c21a5451d831 The etnaviv authors 2015-12-03  209  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  210  			iter.hdr->data[0] =
-=3D bomap - bomap_start;
-a8c21a5451d831 The etnaviv authors 2015-12-03  211  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  212  			for (j =3D 0; j < ob=
-j->base.size >> PAGE_SHIFT; j++)
-a8c21a5451d831 The etnaviv authors 2015-12-03 @213  				*bomap++ =3D cpu_to=
-_le64(page_to_phys(*pages++));
-
-:::::: The code at line 213 was first introduced by commit
-:::::: a8c21a5451d831e67b7a6fb910f9ca8bc7b43554 drm/etnaviv: add initial et=
-naviv DRM driver
-
-:::::: TO: The etnaviv authors <dri-devel@lists.freedesktop.org>
-:::::: CC: Lucas Stach <l.stach@pengutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5904025176870223650==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============2853725691696313630==--
 
