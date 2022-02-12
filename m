@@ -1,364 +1,236 @@
-Content-Type: multipart/mixed; boundary="===============6560993142160215456=="
+Content-Type: multipart/mixed; boundary="===============5904025176870223650=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/nand/raw/pl35x-nand-controller.c:1126:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sun, 13 Feb 2022 08:25:23 +0800
-Message-ID: <202202130809.TZexhBcc-lkp@intel.com>
+Subject: drivers/gpu/drm/etnaviv/etnaviv_dump.c:213 etnaviv_core_dump() warn: should '(((*pages++) - mem_map) + (m68k_memory[0]->addr >> 12)) << 12' be a 64 bit type?
+Date: Sun, 13 Feb 2022 07:44:49 +0800
+Message-ID: <202202130749.3uNUKwfr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6560993142160215456==
+--===============5904025176870223650==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Angelo Dureghello <angelo@kernel-space.org>
+CC: Greg Ungerer <gerg@linux-m68k.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   83e396641110663d3c7bb25b9bc0c6a750359ecf
-commit: 08d8c62164a322eb923034acacf25246b775593a mtd: rawnand: pl353: Add s=
-upport for the ARM PL353 SMC NAND controller
-date:   8 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-c002-20220211 (https://download.01.org/0day-ci/archi=
-ve/20220213/202202130809.TZexhBcc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
-774697c85d6a352dcea013f46a99f9fe31)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D08d8c62164a322eb923034acacf25246b775593a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 08d8c62164a322eb923034acacf25246b775593a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+head:   b81b1829e7e39f6cebdf6e4d5484eacbceda8554
+commit: d2bd44c4c05d043fb65cfdf26c54e6d8b94a4b41 m68k: fix flatmem memory m=
+odel setup
+date:   10 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 10 months ago
+config: m68k-randconfig-m031-20220213 (https://download.01.org/0day-ci/arch=
+ive/20220213/202202130749.3uNUKwfr-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpu/drm/etnaviv/etnaviv_dump.c:213 etnaviv_core_dump() warn: should=
+ '(((*pages++) - mem_map) + (m68k_memory[0]->addr >> 12)) << 12' be a 64 bi=
+t type?
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:483:3: note: '?' condition =
-is false
-                   if (!PL35X_SMC_ECC_VALUE_IS_VALID(ecc_value))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:483:3: note: '?' condition =
-is false
-                   if (!PL35X_SMC_ECC_VALUE_IS_VALID(ecc_value))
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:483:3: note: Taking false b=
-ranch
-                   if (!PL35X_SMC_ECC_VALUE_IS_VALID(ecc_value))
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:486:3: note: Assuming the c=
-ondition is true
-                   if (PL35X_SMC_ECC_VALUE_HAS_FAILED(ecc_value)) {
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:486:3: note: '?' condition =
-is false
-                   if (PL35X_SMC_ECC_VALUE_HAS_FAILED(ecc_value)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:486:3: note: '?' condition =
-is false
-                   if (PL35X_SMC_ECC_VALUE_HAS_FAILED(ecc_value)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:486:3: note: Taking false b=
-ranch
-                   if (PL35X_SMC_ECC_VALUE_HAS_FAILED(ecc_value)) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:491:3: note: Calling 'pl35x=
-_nand_ecc_reg_to_array'
-                   pl35x_nand_ecc_reg_to_array(chip, ecc_value, calc_ecc);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:446:21: note: Assuming 'ecc=
-_byte' is < field 'bytes'
-           for (ecc_byte =3D 0; ecc_byte < chip->ecc.bytes; ecc_byte++)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:446:2: note: Loop condition=
- is true.  Entering loop body
-           for (ecc_byte =3D 0; ecc_byte < chip->ecc.bytes; ecc_byte++)
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:446:21: note: Assuming 'ecc=
-_byte' is < field 'bytes'
-           for (ecc_byte =3D 0; ecc_byte < chip->ecc.bytes; ecc_byte++)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:446:2: note: Loop condition=
- is true.  Entering loop body
-           for (ecc_byte =3D 0; ecc_byte < chip->ecc.bytes; ecc_byte++)
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:446:21: note: Assuming 'ecc=
-_byte' is >=3D field 'bytes'
-           for (ecc_byte =3D 0; ecc_byte < chip->ecc.bytes; ecc_byte++)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:446:2: note: Loop condition=
- is false. Execution continues on line 446
-           for (ecc_byte =3D 0; ecc_byte < chip->ecc.bytes; ecc_byte++)
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:491:3: note: Returning from=
- 'pl35x_nand_ecc_reg_to_array'
-                   pl35x_nand_ecc_reg_to_array(chip, ecc_value, calc_ecc);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:492:11: note: Calling 'pl35=
-x_nand_correct_data'
-                   stats =3D pl35x_nand_correct_data(nfc, data, read_ecc, c=
-alc_ecc);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:411:54: note: The left oper=
-and of '<<' is a garbage value
-           calc_ecc_upper =3D ((calc_ecc[1] >> 4) | (calc_ecc[2] << 4)) &
-                                                   ~~~~~~~~~~~ ^
->> drivers/mtd/nand/raw/pl35x-nand-controller.c:1126:2: warning: Undefined =
-or garbage value returned to caller [clang-analyzer-core.uninitialized.Unde=
-fReturn]
-           return ret;
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1132:33: note: Left side of=
- '&&' is false
-           struct amba_device *smc_amba =3D to_amba_device(smc_dev);
-                                          ^
-   include/linux/amba/bus.h:103:27: note: expanded from macro 'to_amba_devi=
-ce'
-   #define to_amba_device(d)       container_of(d, struct amba_device, dev)
-                                   ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1132:33: note: '?' conditio=
-n is true
-           struct amba_device *smc_amba =3D to_amba_device(smc_dev);
-                                          ^
-   include/linux/amba/bus.h:103:27: note: expanded from macro 'to_amba_devi=
-ce'
-   #define to_amba_device(d)       container_of(d, struct amba_device, dev)
-                                   ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1132:33: note: Left side of=
- '&&' is false
-           struct amba_device *smc_amba =3D to_amba_device(smc_dev);
-                                          ^
-   include/linux/amba/bus.h:103:27: note: expanded from macro 'to_amba_devi=
-ce'
-   #define to_amba_device(d)       container_of(d, struct amba_device, dev)
-                                   ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1132:33: note: Taking false=
- branch
-           struct amba_device *smc_amba =3D to_amba_device(smc_dev);
-                                          ^
-   include/linux/amba/bus.h:103:27: note: expanded from macro 'to_amba_devi=
-ce'
-   #define to_amba_device(d)       container_of(d, struct amba_device, dev)
-                                   ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1132:33: note: Loop conditi=
-on is false.  Exiting loop
-           struct amba_device *smc_amba =3D to_amba_device(smc_dev);
-                                          ^
-   include/linux/amba/bus.h:103:27: note: expanded from macro 'to_amba_devi=
-ce'
-   #define to_amba_device(d)       container_of(d, struct amba_device, dev)
-                                   ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1137:6: note: Assuming 'nfc=
-' is non-null
-           if (!nfc)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/mtd/nand/raw/pl35x-nand-controller.c:1137:2: note: '?' condition=
- is false
-           if (!nfc)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
+vim +213 drivers/gpu/drm/etnaviv/etnaviv_dump.c
 
-vim +1126 drivers/mtd/nand/raw/pl35x-nand-controller.c
+a8c21a5451d831 The etnaviv authors 2015-12-03  112  =
 
-08d8c62164a322 Miquel Raynal 2021-06-10  1104  =
+9a1fdae5876016 Lucas Stach         2019-08-09  113  void etnaviv_core_dump(=
+struct etnaviv_gem_submit *submit)
+a8c21a5451d831 The etnaviv authors 2015-12-03  114  {
+9a1fdae5876016 Lucas Stach         2019-08-09  115  	struct etnaviv_gpu *gp=
+u =3D submit->gpu;
+a8c21a5451d831 The etnaviv authors 2015-12-03  116  	struct core_dump_itera=
+tor iter;
+a8c21a5451d831 The etnaviv authors 2015-12-03  117  	struct etnaviv_gem_obj=
+ect *obj;
+a8c21a5451d831 The etnaviv authors 2015-12-03  118  	unsigned int n_obj, n_=
+bomap_pages;
+a8c21a5451d831 The etnaviv authors 2015-12-03  119  	size_t file_size, mmu_=
+size;
+a8c21a5451d831 The etnaviv authors 2015-12-03  120  	__le64 *bomap, *bomap_=
+start;
+9a1fdae5876016 Lucas Stach         2019-08-09  121  	int i;
+a8c21a5451d831 The etnaviv authors 2015-12-03  122  =
 
-08d8c62164a322 Miquel Raynal 2021-06-10  1105  static int pl35x_nand_chips_=
-init(struct pl35x_nandc *nfc)
-08d8c62164a322 Miquel Raynal 2021-06-10  1106  {
-08d8c62164a322 Miquel Raynal 2021-06-10  1107  	struct device_node *np =3D =
-nfc->dev->of_node, *nand_np;
-08d8c62164a322 Miquel Raynal 2021-06-10  1108  	int nchips =3D of_get_child=
-_count(np);
-08d8c62164a322 Miquel Raynal 2021-06-10  1109  	int ret;
-08d8c62164a322 Miquel Raynal 2021-06-10  1110  =
+6d7a20c0776036 Lucas Stach         2017-12-06  123  	/* Only catch the firs=
+t event, or when manually re-armed */
+6d7a20c0776036 Lucas Stach         2017-12-06  124  	if (!etnaviv_dump_core)
+6d7a20c0776036 Lucas Stach         2017-12-06  125  		return;
+6d7a20c0776036 Lucas Stach         2017-12-06  126  	etnaviv_dump_core =3D =
+false;
+6d7a20c0776036 Lucas Stach         2017-12-06  127  =
 
-08d8c62164a322 Miquel Raynal 2021-06-10  1111  	if (!nchips || nchips > PL3=
-5X_NAND_MAX_CS) {
-08d8c62164a322 Miquel Raynal 2021-06-10  1112  		dev_err(nfc->dev, "Incorre=
-ct number of NAND chips (%d)\n",
-08d8c62164a322 Miquel Raynal 2021-06-10  1113  			nchips);
-08d8c62164a322 Miquel Raynal 2021-06-10  1114  		return -EINVAL;
-08d8c62164a322 Miquel Raynal 2021-06-10  1115  	}
-08d8c62164a322 Miquel Raynal 2021-06-10  1116  =
+27b67278e007b5 Lucas Stach         2019-07-05  128  	mutex_lock(&gpu->mmu_c=
+ontext->lock);
+1396500d673bd0 Lucas Stach         2019-05-21  129  =
 
-08d8c62164a322 Miquel Raynal 2021-06-10  1117  	for_each_child_of_node(np, =
-nand_np) {
-08d8c62164a322 Miquel Raynal 2021-06-10  1118  		ret =3D pl35x_nand_chip_in=
-it(nfc, nand_np);
-08d8c62164a322 Miquel Raynal 2021-06-10  1119  		if (ret) {
-08d8c62164a322 Miquel Raynal 2021-06-10  1120  			of_node_put(nand_np);
-08d8c62164a322 Miquel Raynal 2021-06-10  1121  			pl35x_nand_chips_cleanup(=
-nfc);
-08d8c62164a322 Miquel Raynal 2021-06-10  1122  			break;
-08d8c62164a322 Miquel Raynal 2021-06-10  1123  		}
-08d8c62164a322 Miquel Raynal 2021-06-10  1124  	}
-08d8c62164a322 Miquel Raynal 2021-06-10  1125  =
+27b67278e007b5 Lucas Stach         2019-07-05  130  	mmu_size =3D etnaviv_i=
+ommu_dump_size(gpu->mmu_context);
+a8c21a5451d831 The etnaviv authors 2015-12-03  131  =
 
-08d8c62164a322 Miquel Raynal 2021-06-10 @1126  	return ret;
-08d8c62164a322 Miquel Raynal 2021-06-10  1127  }
-08d8c62164a322 Miquel Raynal 2021-06-10  1128  =
+9a1fdae5876016 Lucas Stach         2019-08-09  132  	/* We always dump regi=
+sters, mmu, ring, hanging cmdbuf and end marker */
+9a1fdae5876016 Lucas Stach         2019-08-09  133  	n_obj =3D 5;
+a8c21a5451d831 The etnaviv authors 2015-12-03  134  	n_bomap_pages =3D 0;
+a8c21a5451d831 The etnaviv authors 2015-12-03  135  	file_size =3D ARRAY_SI=
+ZE(etnaviv_dump_registers) *
+a8c21a5451d831 The etnaviv authors 2015-12-03  136  			sizeof(struct etnavi=
+v_dump_registers) +
+9a1fdae5876016 Lucas Stach         2019-08-09  137  		    mmu_size + gpu->b=
+uffer.size + submit->cmdbuf.size;
+a8c21a5451d831 The etnaviv authors 2015-12-03  138  =
 
+a8c21a5451d831 The etnaviv authors 2015-12-03  139  	/* Add in the active b=
+uffer objects */
+9a1fdae5876016 Lucas Stach         2019-08-09  140  	for (i =3D 0; i < subm=
+it->nr_bos; i++) {
+9a1fdae5876016 Lucas Stach         2019-08-09  141  		obj =3D submit->bos[i=
+].obj;
+a8c21a5451d831 The etnaviv authors 2015-12-03  142  		file_size +=3D obj->b=
+ase.size;
+a8c21a5451d831 The etnaviv authors 2015-12-03  143  		n_bomap_pages +=3D ob=
+j->base.size >> PAGE_SHIFT;
+a8c21a5451d831 The etnaviv authors 2015-12-03  144  		n_obj++;
+a8c21a5451d831 The etnaviv authors 2015-12-03  145  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03  146  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  147  	/* If we have any buff=
+er objects, add a bomap object */
+a8c21a5451d831 The etnaviv authors 2015-12-03  148  	if (n_bomap_pages) {
+a8c21a5451d831 The etnaviv authors 2015-12-03  149  		file_size +=3D n_boma=
+p_pages * sizeof(__le64);
+a8c21a5451d831 The etnaviv authors 2015-12-03  150  		n_obj++;
+a8c21a5451d831 The etnaviv authors 2015-12-03  151  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03  152  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  153  	/* Add the size of the=
+ headers */
+a8c21a5451d831 The etnaviv authors 2015-12-03  154  	file_size +=3D sizeof(=
+*iter.hdr) * n_obj;
+a8c21a5451d831 The etnaviv authors 2015-12-03  155  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  156  	/* Allocate the file i=
+n vmalloc memory, it's likely to be big */
+88dca4ca5a93d2 Christoph Hellwig   2020-06-01  157  	iter.start =3D __vmall=
+oc(file_size, GFP_KERNEL | __GFP_NOWARN |
+88dca4ca5a93d2 Christoph Hellwig   2020-06-01  158  			__GFP_NORETRY);
+a8c21a5451d831 The etnaviv authors 2015-12-03  159  	if (!iter.start) {
+27b67278e007b5 Lucas Stach         2019-07-05  160  		mutex_unlock(&gpu->mm=
+u_context->lock);
+a8c21a5451d831 The etnaviv authors 2015-12-03  161  		dev_warn(gpu->dev, "f=
+ailed to allocate devcoredump file\n");
+a8c21a5451d831 The etnaviv authors 2015-12-03  162  		return;
+a8c21a5451d831 The etnaviv authors 2015-12-03  163  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03  164  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  165  	/* Point the data memb=
+er after the headers */
+a8c21a5451d831 The etnaviv authors 2015-12-03  166  	iter.hdr =3D iter.star=
+t;
+a8c21a5451d831 The etnaviv authors 2015-12-03  167  	iter.data =3D &iter.hd=
+r[n_obj];
+a8c21a5451d831 The etnaviv authors 2015-12-03  168  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  169  	memset(iter.hdr, 0, it=
+er.data - iter.start);
+a8c21a5451d831 The etnaviv authors 2015-12-03  170  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  171  	etnaviv_core_dump_regi=
+sters(&iter, gpu);
+27b67278e007b5 Lucas Stach         2019-07-05  172  	etnaviv_core_dump_mmu(=
+&iter, gpu->mmu_context, mmu_size);
+2f9225dbc09abe Lucas Stach         2017-11-24  173  	etnaviv_core_dump_mem(=
+&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
+2f9225dbc09abe Lucas Stach         2017-11-24  174  			      gpu->buffer.si=
+ze,
+db82a0435b8be3 Lucas Stach         2019-07-05  175  			      etnaviv_cmdbuf=
+_get_va(&gpu->buffer,
+17e4660ae3d7e1 Lucas Stach         2019-07-05  176  					&gpu->mmu_context-=
+>cmdbuf_mapping));
+2f9225dbc09abe Lucas Stach         2017-11-24  177  =
+
+2f9225dbc09abe Lucas Stach         2017-11-24  178  	etnaviv_core_dump_mem(=
+&iter, ETDUMP_BUF_CMD,
+2f9225dbc09abe Lucas Stach         2017-11-24  179  			      submit->cmdbuf=
+.vaddr, submit->cmdbuf.size,
+db82a0435b8be3 Lucas Stach         2019-07-05  180  			      etnaviv_cmdbuf=
+_get_va(&submit->cmdbuf,
+17e4660ae3d7e1 Lucas Stach         2019-07-05  181  					&gpu->mmu_context-=
+>cmdbuf_mapping));
+a8c21a5451d831 The etnaviv authors 2015-12-03  182  =
+
+ca8cb69580236f Lucas Stach         2019-10-16  183  	mutex_unlock(&gpu->mmu=
+_context->lock);
+ca8cb69580236f Lucas Stach         2019-10-16  184  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  185  	/* Reserve space for t=
+he bomap */
+a8c21a5451d831 The etnaviv authors 2015-12-03  186  	if (n_bomap_pages) {
+a8c21a5451d831 The etnaviv authors 2015-12-03  187  		bomap_start =3D bomap=
+ =3D iter.data;
+a8c21a5451d831 The etnaviv authors 2015-12-03  188  		memset(bomap, 0, size=
+of(*bomap) * n_bomap_pages);
+a8c21a5451d831 The etnaviv authors 2015-12-03  189  		etnaviv_core_dump_hea=
+der(&iter, ETDUMP_BUF_BOMAP,
+a8c21a5451d831 The etnaviv authors 2015-12-03  190  					 bomap + n_bomap_p=
+ages);
+a8c21a5451d831 The etnaviv authors 2015-12-03  191  	} else {
+a8c21a5451d831 The etnaviv authors 2015-12-03  192  		/* Silence warning */
+a8c21a5451d831 The etnaviv authors 2015-12-03  193  		bomap_start =3D bomap=
+ =3D NULL;
+a8c21a5451d831 The etnaviv authors 2015-12-03  194  	}
+a8c21a5451d831 The etnaviv authors 2015-12-03  195  =
+
+9a1fdae5876016 Lucas Stach         2019-08-09  196  	for (i =3D 0; i < subm=
+it->nr_bos; i++) {
+9a1fdae5876016 Lucas Stach         2019-08-09  197  		struct etnaviv_vram_m=
+apping *vram;
+a8c21a5451d831 The etnaviv authors 2015-12-03  198  		struct page **pages;
+a8c21a5451d831 The etnaviv authors 2015-12-03  199  		void *vaddr;
+a8c21a5451d831 The etnaviv authors 2015-12-03  200  =
+
+9a1fdae5876016 Lucas Stach         2019-08-09  201  		obj =3D submit->bos[i=
+].obj;
+9a1fdae5876016 Lucas Stach         2019-08-09  202  		vram =3D submit->bos[=
+i].mapping;
+a8c21a5451d831 The etnaviv authors 2015-12-03  203  =
+
+339073ef77e45e Lucas Stach         2016-01-22  204  		mutex_lock(&obj->lock=
+);
+a8c21a5451d831 The etnaviv authors 2015-12-03  205  		pages =3D etnaviv_gem=
+_get_pages(obj);
+339073ef77e45e Lucas Stach         2016-01-22  206  		mutex_unlock(&obj->lo=
+ck);
+f8261c376e7f8c Dan Carpenter       2019-01-14  207  		if (!IS_ERR(pages)) {
+a8c21a5451d831 The etnaviv authors 2015-12-03  208  			int j;
+a8c21a5451d831 The etnaviv authors 2015-12-03  209  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  210  			iter.hdr->data[0] =
+=3D bomap - bomap_start;
+a8c21a5451d831 The etnaviv authors 2015-12-03  211  =
+
+a8c21a5451d831 The etnaviv authors 2015-12-03  212  			for (j =3D 0; j < ob=
+j->base.size >> PAGE_SHIFT; j++)
+a8c21a5451d831 The etnaviv authors 2015-12-03 @213  				*bomap++ =3D cpu_to=
+_le64(page_to_phys(*pages++));
+
+:::::: The code at line 213 was first introduced by commit
+:::::: a8c21a5451d831e67b7a6fb910f9ca8bc7b43554 drm/etnaviv: add initial et=
+naviv DRM driver
+
+:::::: TO: The etnaviv authors <dri-devel@lists.freedesktop.org>
+:::::: CC: Lucas Stach <l.stach@pengutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6560993142160215456==--
+--===============5904025176870223650==--
 
