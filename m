@@ -1,179 +1,337 @@
-Content-Type: multipart/mixed; boundary="===============5468886437651705612=="
+Content-Type: multipart/mixed; boundary="===============1346212140312762030=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
-Date: Wed, 09 Feb 2022 10:27:34 +0800
-Message-ID: <202202091049.73gntoTD-lkp@intel.com>
+Subject: [linux-next:master 3235/5417] include/net/page_pool.h:238:11: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sat, 12 Feb 2022 18:39:04 +0800
+Message-ID: <202202121643.XbQoNmEi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5468886437651705612==
+--===============1346212140312762030==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alexander Duyck <alexanderduyck@fb.com>
+CC: Ilias Apalodimas <ilias.apalodimas@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e6251ab4551f51fa4cee03523e08051898c3ce82
-commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
-y_man
-date:   8 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 8 months ago
-config: i386-randconfig-m031-20220207 (https://download.01.org/0day-ci/arch=
-ive/20220209/202202091049.73gntoTD-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   6d9bd4ad4ca08b1114e814c2c42383b8b13be631
+commit: 52cc6ffc0ab2c61a76127b9347567fc97c15582f [3235/5417] page_pool: Ref=
+actor page_pool to enable fragmenting after allocation
+:::::: branch date: 25 hours ago
+:::::: commit date: 9 days ago
+config: riscv-randconfig-c006-20220211 (https://download.01.org/0day-ci/arc=
+hive/20220212/202202121643.XbQoNmEi-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
+774697c85d6a352dcea013f46a99f9fe31)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D52cc6ffc0ab2c61a76127b9347567fc97c15582f
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 52cc6ffc0ab2c61a76127b9347567fc97c15582f
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
- warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
- warn: should 'bo->page_alignment << 12' be a 64 bit type?
+clang-analyzer warnings: (new ones prefixed by >>)
+                            ^~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7107:8: note: Taking fal=
+se branch
+                   else if (port =3D=3D 1)
+                        ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7111:26: note: Division =
+by zero
+                           size =3D size_remainder / remaining_ports_count;
+                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7214:26: warning: Divisi=
+on by zero [clang-analyzer-core.DivideZero]
+                           size =3D size_remainder / remaining_ports_count;
+                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7200:2: note: Assuming '=
+port' is >=3D 3
+           for_each_clear_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX)
+           ^
+   include/linux/find.h:295:7: note: expanded from macro 'for_each_clear_bi=
+t'
+                (bit) < (size);                                    \
+                ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7200:2: note: Loop condi=
+tion is false. Execution continues on line 7204
+           for_each_clear_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX)
+           ^
+   include/linux/find.h:294:2: note: expanded from macro 'for_each_clear_bi=
+t'
+           for ((bit) =3D find_next_zero_bit((addr), (size), 0);     \
+           ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Assuming '=
+port' is < 3
+           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
+           ^
+   include/linux/find.h:284:7: note: expanded from macro 'for_each_set_bit'
+                (bit) < (size);                                    \
+                ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Loop condi=
+tion is true.  Entering loop body
+           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
+           ^
+   include/linux/find.h:283:2: note: expanded from macro 'for_each_set_bit'
+           for ((bit) =3D find_next_bit((addr), (size), 0);          \
+           ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:7: note: Assuming '=
+remaining_ports_count' is equal to 1
+                   if (remaining_ports_count =3D=3D 1)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:3: note: Taking tru=
+e branch
+                   if (remaining_ports_count =3D=3D 1)
+                   ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7209:11: note: '__UNIQUE=
+_ID___x788' is >=3D '__UNIQUE_ID___y789'
+                           size =3D min(size_remainder,
+                                  ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7209:11: note: '?' condi=
+tion is false
+                           size =3D min(size_remainder,
+                                  ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7217:3: note: The value =
+0 is assigned to 'remaining_ports_count'
+                   remaining_ports_count--;
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Assuming '=
+port' is < 3
+           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
+           ^
+   include/linux/find.h:284:7: note: expanded from macro 'for_each_set_bit'
+                (bit) < (size);                                    \
+                ^~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7207:2: note: Loop condi=
+tion is true.  Entering loop body
+           for_each_set_bit(port, &port_map, MVPP2_LOOPBACK_PORT_INDEX) {
+           ^
+   include/linux/find.h:283:2: note: expanded from macro 'for_each_set_bit'
+           for ((bit) =3D find_next_bit((addr), (size), 0);          \
+           ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:7: note: 'remaining=
+_ports_count' is not equal to 1
+                   if (remaining_ports_count =3D=3D 1)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7208:3: note: Taking fal=
+se branch
+                   if (remaining_ports_count =3D=3D 1)
+                   ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7211:12: note: Assuming =
+'port' is not equal to 0
+                   else if (port =3D=3D 0)
+                            ^~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7211:8: note: Taking fal=
+se branch
+                   else if (port =3D=3D 0)
+                        ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:7214:26: note: Division =
+by zero
+                           size =3D size_remainder / remaining_ports_count;
+                                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+>> include/net/page_pool.h:238:11: warning: Dereference of null pointer [cl=
+ang-analyzer-core.NullDereference]
+           return !(pool->p.flags & PP_FLAG_PAGE_FRAG) ||
+                    ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Left side=
+ of '||' is false
+           xdp_prog =3D READ_ONCE(port->xdp_prog);
+                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Left side=
+ of '||' is false
+           xdp_prog =3D READ_ONCE(port->xdp_prog);
+                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Left side=
+ of '||' is true
+           xdp_prog =3D READ_ONCE(port->xdp_prog);
+                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Taking fa=
+lse branch
+           xdp_prog =3D READ_ONCE(port->xdp_prog);
+                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3884:13: note: Loop cond=
+ition is false.  Exiting loop
+           xdp_prog =3D READ_ONCE(port->xdp_prog);
+                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3888:6: note: Assuming '=
+rx_todo' is <=3D 'rx_received'
+           if (rx_todo > rx_received)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3888:2: note: Taking fal=
+se branch
+           if (rx_todo > rx_received)
+           ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3891:9: note: Assuming '=
+rx_done' is < 'rx_todo'
+           while (rx_done < rx_todo) {
+                  ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3891:2: note: Loop condi=
+tion is true.  Entering loop body
+           while (rx_done < rx_todo) {
+           ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3894:3: note: 'pp' initi=
+alized to a null pointer value
+                   struct page_pool *pp =3D NULL;
+                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3919:7: note: Assuming f=
+ield 'percpu_pools' is 0
+                   if (port->priv->percpu_pools) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3919:3: note: Taking fal=
+se branch
+                   if (port->priv->percpu_pools) {
+                   ^
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3931:7: note: Assuming t=
+he condition is false
+                   if (rx_status & MVPP2_RXD_BUF_HDR)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c:3931:3: note: Taking fal=
+se branch
+                   if (rx_status & MVPP2_RXD_BUF_HDR)
 
-vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+vim +238 include/net/page_pool.h
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   28  =
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  233  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man=
-_alloc(struct ttm_resource_manager *man,
-88be9a0a06b73ec Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obj=
-ect *bo,
-88be9a0a06b73ec Matthew Auld 2021-06-16   31  				    const struct ttm_plac=
-e *place,
-88be9a0a06b73ec Matthew Auld 2021-06-16   32  				    struct ttm_resource *=
-*res)
-88be9a0a06b73ec Matthew Auld 2021-06-16   33  {
-88be9a0a06b73ec Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manage=
-r *bman =3D to_buddy_manager(man);
-88be9a0a06b73ec Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resour=
-ce *bman_res;
-88be9a0a06b73ec Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D=
- &bman->mm;
-88be9a0a06b73ec Matthew Auld 2021-06-16   37  	unsigned long n_pages;
-88be9a0a06b73ec Matthew Auld 2021-06-16   38  	unsigned int min_order;
-88be9a0a06b73ec Matthew Auld 2021-06-16   39  	u64 min_page_size;
-88be9a0a06b73ec Matthew Auld 2021-06-16   40  	u64 size;
-88be9a0a06b73ec Matthew Auld 2021-06-16   41  	int err;
-88be9a0a06b73ec Matthew Auld 2021-06-16   42  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pl=
-ace->lpfn);
-88be9a0a06b73ec Matthew Auld 2021-06-16   44  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(=
-*bman_res), GFP_KERNEL);
-88be9a0a06b73ec Matthew Auld 2021-06-16   46  	if (!bman_res)
-88be9a0a06b73ec Matthew Auld 2021-06-16   47  		return -ENOMEM;
-88be9a0a06b73ec Matthew Auld 2021-06-16   48  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place,=
- &bman_res->base);
-88be9a0a06b73ec Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->bl=
-ocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
-88be9a0a06b73ec Matthew Auld 2021-06-16   52  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.n=
-um_pages);
-88be9a0a06b73ec Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_=
-pages << PAGE_SHIFT;
-88be9a0a06b73ec Matthew Auld 2021-06-16   55  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_a=
-lignment << PAGE_SHIFT;
-88be9a0a06b73ec Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < m=
-m->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page=
-_size) - ilog2(mm->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FL=
-AG_CONTIGUOUS) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two=
-(size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) -=
- ilog2(mm->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   62  	}
-88be9a0a06b73ec Matthew Auld 2021-06-16   63  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   64  	if (size > mm->size) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
-88be9a0a06b73ec Matthew Auld 2021-06-16   66  		goto err_free_res;
-88be9a0a06b73ec Matthew Auld 2021-06-16   67  	}
-88be9a0a06b73ec Matthew Auld 2021-06-16   68  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm=
-->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   70  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   71  	do {
-88be9a0a06b73ec Matthew Auld 2021-06-16   72  		struct i915_buddy_block *bl=
-ock;
-88be9a0a06b73ec Matthew Auld 2021-06-16   73  		unsigned int order;
-88be9a0a06b73ec Matthew Auld 2021-06-16   74  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
-88be9a0a06b73ec Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_=
-order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_orde=
-r);
-88be9a0a06b73ec Matthew Auld 2021-06-16   78  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   79  		do {
-88be9a0a06b73ec Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc=
-(mm, order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
-88be9a0a06b73ec Matthew Auld 2021-06-16   84  				break;
-88be9a0a06b73ec Matthew Auld 2021-06-16   85  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_ord=
-er) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
-88be9a0a06b73ec Matthew Auld 2021-06-16   88  				goto err_free_blocks;
-88be9a0a06b73ec Matthew Auld 2021-06-16   89  			}
-88be9a0a06b73ec Matthew Auld 2021-06-16   90  		} while (1);
-88be9a0a06b73ec Matthew Auld 2021-06-16   91  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   93  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   94  		list_add_tail(&block->link,=
- &bman_res->blocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16   95  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   96  		if (!n_pages)
-88be9a0a06b73ec Matthew Auld 2021-06-16   97  			break;
-88be9a0a06b73ec Matthew Auld 2021-06-16   98  	} while (1);
-88be9a0a06b73ec Matthew Auld 2021-06-16   99  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
-88be9a0a06b73ec Matthew Auld 2021-06-16  101  	return 0;
-88be9a0a06b73ec Matthew Auld 2021-06-16  102  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16  103  err_free_blocks:
-88be9a0a06b73ec Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bm=
-an_res->blocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16  107  err_free_res:
-88be9a0a06b73ec Matthew Auld 2021-06-16  108  	kfree(bman_res);
-88be9a0a06b73ec Matthew Auld 2021-06-16  109  	return err;
-88be9a0a06b73ec Matthew Auld 2021-06-16  110  }
-88be9a0a06b73ec Matthew Auld 2021-06-16  111  =
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  234  static inline bool page_po=
+ol_is_last_frag(struct page_pool *pool,
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  235  					  struct page *page)
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  236  {
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  237  	/* If fragments aren't en=
+abled or count is 0 we were the last user */
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31 @238  	return !(pool->p.flags & =
+PP_FLAG_PAGE_FRAG) ||
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  239  	       (page_pool_defrag_=
+page(page, 1) =3D=3D 0);
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  240  }
+52cc6ffc0ab2c61 Alexander Duyck 2022-01-31  241  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5468886437651705612==--
+--===============1346212140312762030==--
 
