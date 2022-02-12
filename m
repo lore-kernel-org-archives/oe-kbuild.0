@@ -1,104 +1,76 @@
-Content-Type: multipart/mixed; boundary="===============3265148811666823036=="
+Content-Type: multipart/mixed; boundary="===============5478816076054887114=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android12-5.4 4074/9999] drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffer overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
-Date: Tue, 08 Feb 2022 07:46:39 +0800
-Message-ID: <202202080737.j1zjdAY1-lkp@intel.com>
+Subject: [bluetooth-next:master 124/135] drivers/net/ethernet/microchip/lan966x/lan966x_ptp.c:147:0: warning: syntax error [syntaxError]
+Date: Sat, 12 Feb 2022 13:03:51 +0800
+Message-ID: <202202121024.0HxEHxFg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3265148811666823036==
+--===============5478816076054887114==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-CC: linux-kernel(a)vger.kernel.org
-TO: John Stultz <john.stultz@linaro.org>
+CC: linux-bluetooth(a)vger.kernel.org
+TO: Horatiu Vultur <horatiu.vultur@microchip.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android12-5.4
-head:   3307e1a058380163f1a11c8f7632706168f9fcb1
-commit: e3919bfeb0066ab9b5f9765e5610b95672990e64 [4074/9999] ANDROID: dma-b=
-uf: system_heap: Add deferred freeing to the system heap
-:::::: branch date: 2 weeks ago
-:::::: commit date: 12 months ago
-config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
-/20220208/202202080737.j1zjdAY1-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
+-next.git master
+head:   9b9f89c60d64d1dd184e904e2757875644f29b6e
+commit: 77eecf25bd9d2f07673b3a62b86ba1b224b65d9e [124/135] net: lan966x: Up=
+date extraction/injection for timestamping
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 days ago
+compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffe=
-r overflow 'pools' 3 <=3D 3 (assuming for loop doesn't break)
-
-vim +351 drivers/dma-buf/heaps/system_heap.c
-
-44008f99d9ca07 John Stultz 2019-06-06  325  =
-
-e3919bfeb0066a John Stultz 2020-12-09  326  static void system_heap_buf_fre=
-e(struct deferred_freelist_item *item,
-e3919bfeb0066a John Stultz 2020-12-09  327  				 enum df_reason reason)
-fc004422dadc12 John Stultz 2020-09-25  328  {
-e3919bfeb0066a John Stultz 2020-12-09  329  	struct system_heap_buffer *buf=
-fer;
-fc004422dadc12 John Stultz 2020-09-25  330  	struct sg_table *table;
-fc004422dadc12 John Stultz 2020-09-25  331  	struct scatterlist *sg;
-44008f99d9ca07 John Stultz 2019-06-06  332  	int i, j;
-44008f99d9ca07 John Stultz 2019-06-06  333  =
-
-e3919bfeb0066a John Stultz 2020-12-09  334  	buffer =3D container_of(item, =
-struct system_heap_buffer, deferred_free);
-44008f99d9ca07 John Stultz 2019-06-06  335  	/* Zero the buffer pages befor=
-e adding back to the pool */
-e3919bfeb0066a John Stultz 2020-12-09  336  	if (reason =3D=3D DF_NORMAL)
-e3919bfeb0066a John Stultz 2020-12-09  337  		if (system_heap_zero_buffer(b=
-uffer))
-e3919bfeb0066a John Stultz 2020-12-09  338  			reason =3D DF_UNDER_PRESSURE=
-; // On failure, just free
-fc004422dadc12 John Stultz 2020-09-25  339  =
-
-fc004422dadc12 John Stultz 2020-09-25  340  	table =3D &buffer->sg_table;
-703f43c5810e08 John Stultz 2020-09-26  341  	for_each_sg(table->sgl, sg, ta=
-ble->nents, i) {
-703f43c5810e08 John Stultz 2020-09-26  342  		struct page *page =3D sg_page=
-(sg);
-703f43c5810e08 John Stultz 2020-09-26  343  =
-
-e3919bfeb0066a John Stultz 2020-12-09  344  		if (reason =3D=3D DF_UNDER_PR=
-ESSURE) {
-e3919bfeb0066a John Stultz 2020-12-09  345  			__free_pages(page, compound_=
-order(page));
-e3919bfeb0066a John Stultz 2020-12-09  346  		} else {
-44008f99d9ca07 John Stultz 2019-06-06  347  			for (j =3D 0; j < NUM_ORDERS=
-; j++) {
-44008f99d9ca07 John Stultz 2019-06-06  348  				if (compound_order(page) =
-=3D=3D orders[j])
-44008f99d9ca07 John Stultz 2019-06-06  349  					break;
-44008f99d9ca07 John Stultz 2019-06-06  350  			}
-44008f99d9ca07 John Stultz 2019-06-06 @351  			dmabuf_page_pool_free(pools[=
-j], page);
-703f43c5810e08 John Stultz 2020-09-26  352  		}
-e3919bfeb0066a John Stultz 2020-12-09  353  	}
-fc004422dadc12 John Stultz 2020-09-25  354  	sg_free_table(table);
-c02e6ccc5a4aab John Stultz 2019-12-03  355  	kfree(buffer);
-c02e6ccc5a4aab John Stultz 2019-12-03  356  }
-c02e6ccc5a4aab John Stultz 2019-12-03  357  =
 
 
-:::::: The code@line 351 was first introduced by commit
-:::::: 44008f99d9ca0793e2562967e1da01fa74ee4a41 ANDROID: dma-buf: system_he=
-ap: Add pagepool support to system heap
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: John Stultz <john.stultz@linaro.org>
-:::::: CC: John Stultz <john.stultz@linaro.org>
+>> drivers/net/ethernet/microchip/lan966x/lan966x_ptp.c:147:0: warning: syn=
+tax error [syntaxError]
+   =
+
+   ^
+
+vim +147 drivers/net/ethernet/microchip/lan966x/lan966x_ptp.c
+
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  139  =
+
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  140  static void lan966x_ptp_txts=
+tamp_old_release(struct lan966x_port *port)
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  141  {
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  142  	struct sk_buff *skb, *skb_t=
+mp;
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  143  	unsigned long flags;
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  144  =
+
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  145  	spin_lock_irqsave(&port->tx=
+_skbs.lock, flags);
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  146  	skb_queue_walk_safe(&port->=
+tx_skbs, skb, skb_tmp) {
+77eecf25bd9d2f Horatiu Vultur 2022-01-31 @147  		if time_after(LAN966X_SKB_=
+CB(skb)->jiffies + LAN966X_PTP_TIMEOUT,
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  148  			      jiffies)
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  149  			break;
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  150  =
+
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  151  		__skb_unlink(skb, &port->t=
+x_skbs);
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  152  		dev_kfree_skb_any(skb);
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  153  	}
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  154  	spin_unlock_irqrestore(&por=
+t->tx_skbs.lock, flags);
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  155  }
+77eecf25bd9d2f Horatiu Vultur 2022-01-31  156  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3265148811666823036==--
+--===============5478816076054887114==--
 
