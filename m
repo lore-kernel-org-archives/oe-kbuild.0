@@ -1,87 +1,63 @@
-Content-Type: multipart/mixed; boundary="===============3088470218574224421=="
+Content-Type: multipart/mixed; boundary="===============4771930478804284355=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 07/10] nvmet: add copy command support for bdev and file ns
-Date: Thu, 10 Feb 2022 07:49:56 +0800
-Message-ID: <202202100727.zZg2u4ow-lkp@intel.com>
+Subject: Re: [PATCH 3/3] input: ps2-gpio: don't send rx data before the stop bit
+Date: Sat, 12 Feb 2022 18:39:41 +0800
+Message-ID: <202202121815.P1KN65lf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3088470218574224421==
+--===============4771930478804284355==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220207141348.4235-8-nj.shetty@samsung.com>
-References: <20220207141348.4235-8-nj.shetty@samsung.com>
-TO: Nitesh Shetty <nj.shetty@samsung.com>
-TO: mpatocka(a)redhat.com
-CC: javier(a)javigon.com
-CC: chaitanyak(a)nvidia.com
-CC: linux-block(a)vger.kernel.org
-CC: linux-scsi(a)vger.kernel.org
-CC: dm-devel(a)redhat.com
-CC: linux-nvme(a)lists.infradead.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: axboe(a)kernel.dk
-CC: msnitzer(a)redhat.com
-CC: bvanassche(a)acm.org
-CC: martin.petersen(a)oracle.com
-CC: roland(a)purestorage.com
-CC: hare(a)suse.de
-CC: kbusch(a)kernel.org
-CC: hch(a)lst.de
-CC: Frederick.Knight(a)netapp.com
-CC: zach.brown(a)ni.com
-CC: osandov(a)fb.com
-CC: lsf-pc(a)lists.linux-foundation.org
-CC: djwong(a)kernel.org
-CC: josef(a)toxicpanda.com
-CC: clm(a)fb.com
-CC: dsterba(a)suse.com
-CC: tytso(a)mit.edu
-CC: jack(a)suse.com
-CC: joshi.k(a)samsung.com
-CC: arnav.dawn(a)samsung.com
-CC: nj.shetty(a)samsung.com
+In-Reply-To: <20220211212258.80345-4-danilokrummrich@dk-develop.de>
+References: <20220211212258.80345-4-danilokrummrich@dk-develop.de>
+TO: Danilo Krummrich <danilokrummrich@dk-develop.de>
+TO: dmitry.torokhov(a)gmail.com
+TO: linux-input(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: linus.walleij(a)linaro.org
+CC: Danilo Krummrich <danilokrummrich@dk-develop.de>
 
-Hi Nitesh,
+Hi Danilo,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on axboe-block/for-next]
-[cannot apply to device-mapper-dm/for-next]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on hid/for-next linux/master linus/master v5.17-rc=
+3 next-20220211]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Nitesh-Shetty/block-make-b=
-io_map_kern-non-static/20220207-231407
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: riscv-randconfig-c006-20220209 (https://download.01.org/0day-ci/arc=
-hive/20220210/202202100727.zZg2u4ow-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
-ae54a55b4dbfeb6ba55f723abbd81bf494)
+url:    https://github.com/0day-ci/linux/commits/Danilo-Krummrich/input-ps2=
+-gpio-use-ktime-for-IRQ-timekeeping/20220212-062327
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: mips-randconfig-c004-20220211 (https://download.01.org/0day-ci/arch=
+ive/20220212/202202121815.P1KN65lf-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
+634519e6497be42f5fe323f9a04ed67127)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/6bb6ea64499e1ac27975e79bb=
-2eee89f07861893
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://github.com/0day-ci/linux/commit/01c1b8646b0bd235aef95354f=
+4852676493ac784
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Nitesh-Shetty/block-make-bio_map_k=
-ern-non-static/20220207-231407
-        git checkout 6bb6ea64499e1ac27975e79bb2eee89f07861893
+        git fetch --no-tags linux-review Danilo-Krummrich/input-ps2-gpio-us=
+e-ktime-for-IRQ-timekeeping/20220212-062327
+        git checkout 01c1b8646b0bd235aef95354f4852676493ac784
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -89,339 +65,428 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/of/property.c:920:19: warning: Access to field 'full_name' resul=
-ts in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
+   drivers/extcon/extcon-fsa9480.c:281:2: note: Taking false branch
+           if (IS_ERR(info->edev)) {
            ^
-   drivers/of/property.c:920:19: note: '?' condition is false
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
+   drivers/extcon/extcon-fsa9480.c:288:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/extcon/extcon-fsa9480.c:288:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/extcon/extcon-fsa9480.c:294:2: note: Taking false branch
+           if (IS_ERR(info->regmap)) {
+           ^
+   drivers/extcon/extcon-fsa9480.c:316:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/extcon/extcon-fsa9480.c:316:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/extcon/extcon-fsa9480.c:322:2: note: Calling 'fsa9480_detect_dev'
+           fsa9480_detect_dev(info);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/extcon/extcon-fsa9480.c:227:6: note: Assuming 'val1' is >=3D 0
+           if (val1 < 0 || val2 < 0) {
+               ^~~~~~~~
+   drivers/extcon/extcon-fsa9480.c:227:6: note: Left side of '||' is false
+   drivers/extcon/extcon-fsa9480.c:227:18: note: Assuming 'val2' is >=3D 0
+           if (val1 < 0 || val2 < 0) {
+                           ^~~~~~~~
+   drivers/extcon/extcon-fsa9480.c:227:2: note: Taking false branch
+           if (val1 < 0 || val2 < 0) {
+           ^
+   drivers/extcon/extcon-fsa9480.c:233:2: note: Loop condition is false.  E=
+xiting loop
+           dev_info(usbsw->dev, "dev1: 0x%x, dev2: 0x%x\n", val1, val2);
+           ^
+   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
+           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
+#__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
                    ^
-   drivers/of/property.c:920:19: note: Access to field 'full_name' results =
-in a dereference of a null pointer
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
            ^
-   drivers/of/property.c:926:7: warning: Access to field 'parent' results i=
-n a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
+   include/linux/printk.h:417:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
            ^
-   drivers/of/property.c:926:7: note: '?' condition is false
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
-                   ^
-   drivers/of/property.c:926:7: note: Access to field 'parent' results in a=
- dereference of a null pointer
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
+   include/linux/printk.h:396:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/extcon/extcon-fsa9480.c:236:2: note: Calling 'fsa9480_handle_cha=
+nge'
+           fsa9480_handle_change(usbsw, usbsw->cable & ~val, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/extcon/extcon-fsa9480.c:205:2: note: Loop condition is true.  En=
+tering loop body
+           while (mask) {
            ^
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   drivers/extcon/extcon-fsa9480.c:206:3: note: 'dev' initialized to 63
+                   int dev =3D fls64(mask) - 1;
+                   ^~~~~~~
+   drivers/extcon/extcon-fsa9480.c:207:3: note: Assigned value is garbage o=
+r undefined
+                   u64 cables =3D cable_types[dev];
+                   ^            ~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/nvme/target/io-cmd-file.c:377:11: warning: The right operand of =
-'!=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResul=
-t]
-                   if (ret !=3D len) {
-                           ^  ~~~
-   drivers/nvme/target/io-cmd-file.c:356:15: note: 'len' declared without a=
-n initial value
-           int ret =3D 0, len, src, id;
-                        ^~~
-   drivers/nvme/target/io-cmd-file.c:360:15: note: Assuming the condition i=
-s false
-           if (unlikely(pos + req->transfer_len > req->ns->size)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/nvme/target/io-cmd-file.c:360:2: note: Taking false branch
-           if (unlikely(pos + req->transfer_len > req->ns->size)) {
-           ^
-   drivers/nvme/target/io-cmd-file.c:365:16: note: 'id' is < 'nr_range'
-           for (id =3D 0 ; id < nr_range; id++) {
-                         ^~
-   drivers/nvme/target/io-cmd-file.c:365:2: note: Loop condition is true.  =
-Entering loop body
-           for (id =3D 0 ; id < nr_range; id++) {
-           ^
-   drivers/nvme/target/io-cmd-file.c:370:7: note: Assuming 'ret' is not equ=
-al to 0
-                   if (ret)
-                       ^~~
-   drivers/nvme/target/io-cmd-file.c:370:3: note: Taking true branch
-                   if (ret)
-                   ^
-   drivers/nvme/target/io-cmd-file.c:371:4: note: Control jumps to line 377
-                           goto out;
-                           ^
-   drivers/nvme/target/io-cmd-file.c:377:11: note: The right operand of '!=
-=3D' is a garbage value
-                   if (ret !=3D len) {
-                           ^  ~~~
->> drivers/nvme/target/io-cmd-file.c:378:4: warning: Value stored to 'pos' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                           pos +=3D ret;
-                           ^      ~~~
-   drivers/nvme/target/io-cmd-file.c:378:4: note: Value stored to 'pos' is =
-never read
-                           pos +=3D ret;
-                           ^      ~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   7 warnings generated.
+   fs/configfs/symlink.c:70:3: warning: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(s,"../");
+                   ^~~~~~
+   fs/configfs/symlink.c:70:3: note: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119
+                   strcpy(s,"../");
+                   ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   fs/xfs/libxfs/xfs_refcount.c:114:19: warning: Value stored to 'agno' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           xfs_agnumber_t                  agno =3D cur->bc_ag.pag->pag_agn=
+o;
+                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_refcount.c:114:19: note: Value stored to 'agno' during=
+ its initialization is never read
+           xfs_agnumber_t                  agno =3D cur->bc_ag.pag->pag_agn=
+o;
+                                           ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/input/keyboard/lm8323.c:333:3: warning: Value stored to 'active'=
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/input/serio/ps2-gpio.c:215:4: warning: Value stored to 'rxflags'=
  is never read [clang-analyzer-deadcode.DeadStores]
-                   active =3D debounce + 3;
-                   ^        ~~~~~~~~~~~~
-   drivers/input/keyboard/lm8323.c:333:3: note: Value stored to 'active' is=
+                           rxflags |=3D SERIO_PARITY;
+                           ^
+   drivers/input/serio/ps2-gpio.c:215:4: note: Value stored to 'rxflags' is=
  never read
-                   active =3D debounce + 3;
-                   ^        ~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   fs/sysv/dir.c:339:2: warning: Value stored to 'err' is never read [clang=
+-analyzer-deadcode.DeadStores]
+           err =3D dir_commit_chunk(page, pos, SYSV_DIRSIZE);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/sysv/dir.c:339:2: note: Value stored to 'err' is never read
+           err =3D dir_commit_chunk(page, pos, SYSV_DIRSIZE);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   drivers/usb/serial/usb_wwan.c:151:2: warning: Value stored to 'i' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           i =3D 0;
+           ^   ~
+   drivers/usb/serial/usb_wwan.c:151:2: note: Value stored to 'i' is never =
+read
+           i =3D 0;
+           ^   ~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   net/ipv6/ip6_vti.c:194:2: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(t->parms.name, dev->name);
-           ^~~~~~
-   net/ipv6/ip6_vti.c:194:2: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-           strcpy(t->parms.name, dev->name);
-           ^~~~~~
-   net/ipv6/ip6_vti.c:853:4: warning: Value stored to 'err' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                           err =3D vti6_update(t, &p1, false);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/ip6_vti.c:853:4: note: Value stored to 'err' is never read
-                           err =3D vti6_update(t, &p1, false);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/ip6_vti.c:1170:2: warning: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(t->parms.name, ip6n->fb_tnl_dev->name);
-           ^~~~~~
-   net/ipv6/ip6_vti.c:1170:2: note: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119
-           strcpy(t->parms.name, ip6n->fb_tnl_dev->name);
-           ^~~~~~
-   net/ipv6/ip6_vti.c:1296:2: warning: Value stored to 'err' is never read =
-[clang-analyzer-deadcode.DeadStores]
-           err =3D xfrm6_tunnel_deregister(&vti_ip6ip_handler, AF_INET);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv6/ip6_vti.c:1296:2: note: Value stored to 'err' is never read
-           err =3D xfrm6_tunnel_deregister(&vti_ip6ip_handler, AF_INET);
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
 
-vim +/pos +378 drivers/nvme/target/io-cmd-file.c
+vim +/rxflags +215 drivers/input/serio/ps2-gpio.c
 
-d5eff33ee6f808 Chaitanya Kulkarni 2018-05-23  349  =
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  151  =
 
-6bb6ea64499e1a Arnav Dawn         2022-02-07  350  static void nvmet_file_c=
-opy_work(struct work_struct *w)
-6bb6ea64499e1a Arnav Dawn         2022-02-07  351  {
-6bb6ea64499e1a Arnav Dawn         2022-02-07  352  	struct nvmet_req *req =
-=3D container_of(w, struct nvmet_req, f.work);
-6bb6ea64499e1a Arnav Dawn         2022-02-07  353  	int nr_range;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  354  	loff_t pos;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  355  	struct nvme_command *cm=
-nd =3D req->cmd;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  356  	int ret =3D 0, len, src=
-, id;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  357  =
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  152  static irqreturn_t ps2_gpi=
+o_irq_rx(struct ps2_gpio_data *drvdata)
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  153  {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  154  	unsigned char byte, cnt;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  155  	int data;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  156  	int rxflags =3D 0;
+dc1a5808b83032 Danilo Krummrich 2022-02-11  157  	static ktime_t t_last, t_=
+now;
+dc1a5808b83032 Danilo Krummrich 2022-02-11  158  	s64 us_delta;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  159  =
 
-6bb6ea64499e1a Arnav Dawn         2022-02-07  358  	nr_range =3D cmnd->copy=
-.nr_range + 1;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  359  	pos =3D le64_to_cpu(req=
-->cmd->copy.sdlba) << req->ns->blksize_shift;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  360  	if (unlikely(pos + req-=
->transfer_len > req->ns->size)) {
-6bb6ea64499e1a Arnav Dawn         2022-02-07  361  		nvmet_req_complete(req=
-, errno_to_nvme_status(req, -ENOSPC));
-6bb6ea64499e1a Arnav Dawn         2022-02-07  362  		return;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  363  	}
-6bb6ea64499e1a Arnav Dawn         2022-02-07  364  =
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  160  	byte =3D drvdata->rx_byte;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  161  	cnt =3D drvdata->rx_cnt;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  162  =
 
-6bb6ea64499e1a Arnav Dawn         2022-02-07  365  	for (id =3D 0 ; id < nr=
-_range; id++) {
-6bb6ea64499e1a Arnav Dawn         2022-02-07  366  		struct nvme_copy_range=
- range;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  367  =
+dc1a5808b83032 Danilo Krummrich 2022-02-11  163  	t_now =3D ktime_get();
+dc1a5808b83032 Danilo Krummrich 2022-02-11  164  	if (t_last =3D=3D 0)
+dc1a5808b83032 Danilo Krummrich 2022-02-11  165  		t_last =3D t_now;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  166  =
 
-6bb6ea64499e1a Arnav Dawn         2022-02-07  368  		ret =3D nvmet_copy_fro=
-m_sgl(req, id * sizeof(range), &range,
-6bb6ea64499e1a Arnav Dawn         2022-02-07  369  					sizeof(range));
-6bb6ea64499e1a Arnav Dawn         2022-02-07  370  		if (ret)
-6bb6ea64499e1a Arnav Dawn         2022-02-07  371  			goto out;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  372  =
+dc1a5808b83032 Danilo Krummrich 2022-02-11  167  	/* We need to consider sp=
+urious interrupts happening right after a TX xfer
+dc1a5808b83032 Danilo Krummrich 2022-02-11  168  	 * finished.
+dc1a5808b83032 Danilo Krummrich 2022-02-11  169  	 */
+dc1a5808b83032 Danilo Krummrich 2022-02-11  170  	if (unlikely(ktime_us_del=
+ta(t_now, drvdata->tx_end) <
+dc1a5808b83032 Danilo Krummrich 2022-02-11  171  		     PS2_IRQ_MIN_INTERVA=
+L_US))
+dc1a5808b83032 Danilo Krummrich 2022-02-11  172  		goto end;
+dc1a5808b83032 Danilo Krummrich 2022-02-11  173  =
 
-6bb6ea64499e1a Arnav Dawn         2022-02-07  373  		len =3D (le16_to_cpu(r=
-ange.nlb) + 1) << (req->ns->blksize_shift);
-6bb6ea64499e1a Arnav Dawn         2022-02-07  374  		src =3D (le64_to_cpu(r=
-ange.slba) << (req->ns->blksize_shift));
-6bb6ea64499e1a Arnav Dawn         2022-02-07  375  		ret =3D vfs_copy_file_=
-range(req->ns->file, src, req->ns->file, pos, len, 0);
-6bb6ea64499e1a Arnav Dawn         2022-02-07  376  out:
-6bb6ea64499e1a Arnav Dawn         2022-02-07  377  		if (ret !=3D len) {
-6bb6ea64499e1a Arnav Dawn         2022-02-07 @378  			pos +=3D ret;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  379  			req->cqe->result.u32 =
-=3D cpu_to_le32(id);
-6bb6ea64499e1a Arnav Dawn         2022-02-07  380  			nvmet_req_complete(re=
-q, ret < 0 ? errno_to_nvme_status(req, ret) :
-6bb6ea64499e1a Arnav Dawn         2022-02-07  381  					errno_to_nvme_statu=
-s(req, -EIO));
-6bb6ea64499e1a Arnav Dawn         2022-02-07  382  			return;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  383  =
+dc1a5808b83032 Danilo Krummrich 2022-02-11  174  	us_delta =3D ktime_us_del=
+ta(t_now, t_last);
+dc1a5808b83032 Danilo Krummrich 2022-02-11  175  	if (us_delta > PS2_IRQ_MA=
+X_INTERVAL_US && cnt) {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  176  		dev_err(drvdata->dev,
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  177  			"RX: timeout, probably =
+we missed an interrupt\n");
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  178  		goto err;
+dc1a5808b83032 Danilo Krummrich 2022-02-11  179  	} else if (us_delta < PS2=
+_IRQ_MIN_INTERVAL_US && t_now !=3D t_last) {
+dc1a5808b83032 Danilo Krummrich 2022-02-11  180  		/* Ignore spurious IRQs.=
+ */
+dc1a5808b83032 Danilo Krummrich 2022-02-11  181  		goto end;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  182  	}
+dc1a5808b83032 Danilo Krummrich 2022-02-11  183  	t_last =3D t_now;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  184  =
 
-6bb6ea64499e1a Arnav Dawn         2022-02-07  384  		} else
-6bb6ea64499e1a Arnav Dawn         2022-02-07  385  			pos +=3D len;
-6bb6ea64499e1a Arnav Dawn         2022-02-07  386  }
-6bb6ea64499e1a Arnav Dawn         2022-02-07  387  	nvmet_req_complete(req,=
- ret);
-6bb6ea64499e1a Arnav Dawn         2022-02-07  388  =
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  185  	data =3D gpiod_get_value(=
+drvdata->gpio_data);
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  186  	if (unlikely(data < 0)) {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  187  		dev_err(drvdata->dev, "R=
+X: failed to get data gpio val: %d\n",
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  188  			data);
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  189  		goto err;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  190  	}
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  191  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  192  	switch (cnt) {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  193  	case PS2_START_BIT:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  194  		/* start bit should be l=
+ow */
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  195  		if (unlikely(data)) {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  196  			dev_err(drvdata->dev, "=
+RX: start bit should be low\n");
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  197  			goto err;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  198  		}
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  199  		break;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  200  	case PS2_DATA_BIT0:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  201  	case PS2_DATA_BIT1:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  202  	case PS2_DATA_BIT2:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  203  	case PS2_DATA_BIT3:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  204  	case PS2_DATA_BIT4:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  205  	case PS2_DATA_BIT5:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  206  	case PS2_DATA_BIT6:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  207  	case PS2_DATA_BIT7:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  208  		/* processing data bits =
+*/
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  209  		if (data)
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  210  			byte |=3D (data << (cnt=
+ - 1));
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  211  		break;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  212  	case PS2_PARITY_BIT:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  213  		/* check odd parity */
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  214  		if (!((hweight8(byte) & =
+1) ^ data)) {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28 @215  			rxflags |=3D SERIO_PARI=
+TY;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  216  			dev_warn(drvdata->dev, =
+"RX: parity error\n");
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  217  			if (!drvdata->write_ena=
+ble)
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  218  				goto err;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  219  		}
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  220  		break;
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  221  	case PS2_STOP_BIT:
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  222  		/* stop bit should be hi=
+gh */
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  223  		if (unlikely(!data)) {
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  224  			dev_err(drvdata->dev, "=
+RX: stop bit should be high\n");
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  225  			goto err;
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  226  		}
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  227  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  228  		/* Do not send spurious =
+ACK's and NACK's when write fn is
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  229  		 * not provided.
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  230  		 */
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  231  		if (!drvdata->write_enab=
+le) {
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  232  			if (byte =3D=3D PS2_DEV=
+_RET_NACK)
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  233  				goto err;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  234  			else if (byte =3D=3D PS=
+2_DEV_RET_ACK)
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  235  				break;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  236  		}
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  237  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  238  		serio_interrupt(drvdata-=
+>serio, byte, rxflags);
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  239  		dev_dbg(drvdata->dev, "R=
+X: sending byte 0x%x\n", byte);
+01c1b8646b0bd2 Danilo Krummrich 2022-02-11  240  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  241  		cnt =3D byte =3D 0;
+dc1a5808b83032 Danilo Krummrich 2022-02-11  242  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  243  		goto end; /* success */
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  244  	default:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  245  		dev_err(drvdata->dev, "R=
+X: got out of sync with the device\n");
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  246  		goto err;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  247  	}
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  248  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  249  	cnt++;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  250  	goto end; /* success */
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  251  =
+
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  252  err:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  253  	cnt =3D byte =3D 0;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  254  	__ps2_gpio_write(drvdata-=
+>serio, PS2_CMD_RESEND);
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  255  end:
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  256  	drvdata->rx_cnt =3D cnt;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  257  	drvdata->rx_byte =3D byte;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  258  	return IRQ_HANDLED;
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  259  }
+9ee0a0558819e6 Danilo Krummrich 2017-08-28  260  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============3088470218574224421==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============4771930478804284355==--
 
