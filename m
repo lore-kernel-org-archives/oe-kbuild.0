@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2912405676006712892=="
+Content-Type: multipart/mixed; boundary="===============8324408926957993329=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/tegra/fb.c:126:14: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 13 Feb 2022 05:32:16 +0800
-Message-ID: <202202130548.HprbqGk8-lkp@intel.com>
+Subject: net/mctp/af_mctp.c:243:17: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 13 Feb 2022 05:11:52 +0800
+Message-ID: <202202130517.1gVQqf8b-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2912405676006712892==
+--===============8324408926957993329==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: Kees Cook <keescook@chromium.org>
+TO: Jeremy Kerr <jk@codeconstruct.com.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   83e396641110663d3c7bb25b9bc0c6a750359ecf
-commit: 606b102876e3741851dfb09d53f3ee57f650a52c drm: fb_helper: fix CONFIG=
-_FB dependency
-date:   5 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 5 months ago
-config: arm-randconfig-c002-20220210 (https://download.01.org/0day-ci/archi=
-ve/20220213/202202130548.HprbqGk8-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
-ae54a55b4dbfeb6ba55f723abbd81bf494)
+commit: 99ce45d5e7dbde399997a630f45ac9f654fa4bcc mctp: Implement extended a=
+ddressing
+date:   4 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 4 months ago
+config: mips-randconfig-c004-20220211 (https://download.01.org/0day-ci/arch=
+ive/20220213/202202130517.1gVQqf8b-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
+774697c85d6a352dcea013f46a99f9fe31)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D606b102876e3741851dfb09d53f3ee57f650a52c
+t/commit/?id=3D99ce45d5e7dbde399997a630f45ac9f654fa4bcc
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 606b102876e3741851dfb09d53f3ee57f650a52c
+        git checkout 99ce45d5e7dbde399997a630f45ac9f654fa4bcc
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,342 +51,289 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                               ^
-   drivers/staging/axis-fifo/axis-fifo.c:560:3: note: Loop condition is tru=
-e.  Entering loop body
-                   for (i =3D 0; i < copy; i++)
-                   ^
-   drivers/staging/axis-fifo/axis-fifo.c:561:4: note: 1st function call arg=
-ument is an uninitialized value
-                           iowrite32(tmp_buf[i], fifo->base_addr +
-                           ^         ~~~~~~~~~~
-   include/asm-generic/io.h:759:19: note: expanded from macro 'iowrite32'
-   #define iowrite32 iowrite32
-                     ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/mtd/nand/raw/atmel/nand-controller.c:436:8: warning: The result =
-of the left shift is undefined due to shifting '5' by '19', which is unrepr=
-esentable in the unsigned version of the return type 'int' [clang-analyzer-=
-core.UndefinedBinaryOperatorResult]
-                 ATMEL_NFC_ACYCLE(nc->op.naddrs);
-                 ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:116:45: note: expanded from=
- macro 'ATMEL_NFC_ACYCLE'
-   #define ATMEL_NFC_ACYCLE(naddrs)                ((naddrs) << 19)
-                                                             ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1105:9: note: Calling 'atme=
-l_hsmc_nand_pmecc_read_pg'
-           return atmel_hsmc_nand_pmecc_read_pg(chip, buf, oob_required, pa=
-ge,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1059:6: note: Assuming fiel=
-d 'type' is equal to ATMEL_NAND_NATIVE_RB
-           if (nand->activecs->rb.type !=3D ATMEL_NAND_NATIVE_RB)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1059:2: note: Taking false =
-branch
-           if (nand->activecs->rb.type !=3D ATMEL_NAND_NATIVE_RB)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1065:6: note: Assuming fiel=
-d 'writesize' is <=3D 512
-           if (mtd->writesize > 512)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1065:2: note: Taking false =
-branch
-           if (mtd->writesize > 512)
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1068:2: note: Calling 'atme=
-l_nfc_set_op_addr'
-           atmel_nfc_set_op_addr(chip, page, 0x0);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:768:6: note: 'column' is >=
-=3D 0
-           if (column >=3D 0) {
-               ^~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:768:2: note: Taking true br=
-anch
-           if (column >=3D 0) {
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
            ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:769:16: note: Value assigne=
-d to field 'naddrs'
-                   nc->op.addrs[nc->op.naddrs++] =3D column;
-                                ^~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:774:12: note: Field 'writes=
-ize' is <=3D 512
-                   if (mtd->writesize > 512)
-                            ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:774:3: note: Taking false b=
-ranch
-                   if (mtd->writesize > 512)
-                   ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:778:6: note: Assuming 'page=
-' is < 0
-           if (page >=3D 0) {
+   drivers/net/phy/mscc/mscc_ptp.c:1057:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&cfg, ifr->ifr_data, sizeof(cfg)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o 'to->flags'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->f=
+lags'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->f=
+lags'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   drivers/net/phy/mscc/mscc_ptp.c:1057:6: note: Returning from 'copy_from_=
+user'
+           if (copy_from_user(&cfg, ifr->ifr_data, sizeof(cfg)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/mscc/mscc_ptp.c:1057:2: note: Taking false branch
+           if (copy_from_user(&cfg, ifr->ifr_data, sizeof(cfg)))
+           ^
+   drivers/net/phy/mscc/mscc_ptp.c:1060:6: note: Branch condition evaluates=
+ to a garbage value
+           if (cfg.flags)
                ^~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:778:2: note: Taking false b=
-ranch
-           if (page >=3D 0) {
-           ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1068:2: note: Returning fro=
-m 'atmel_nfc_set_op_addr'
-           atmel_nfc_set_op_addr(chip, page, 0x0);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1073:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1073:2: note: Taking false =
-branch
-           if (ret)
-           ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:1076:8: note: Calling 'atme=
-l_nfc_exec_op'
-           ret =3D atmel_nfc_exec_op(nc, false);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:429:14: note: Assuming 'i' =
-is >=3D field 'ncmds'
-           for (i =3D 0; i < nc->op.ncmds; i++)
-                       ^~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:429:2: note: Loop condition=
- is false. Execution continues on line 432
-           for (i =3D 0; i < nc->op.ncmds; i++)
-           ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:432:6: note: Assuming field=
- 'naddrs' is equal to ATMEL_NFC_MAX_ADDR_CYCLES
-           if (nc->op.naddrs =3D=3D ATMEL_NFC_MAX_ADDR_CYCLES)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:432:2: note: Taking true br=
-anch
-           if (nc->op.naddrs =3D=3D ATMEL_NFC_MAX_ADDR_CYCLES)
-           ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:436:8: note: The result of =
-the left shift is undefined due to shifting '5' by '19', which is unreprese=
-ntable in the unsigned version of the return type 'int'
-                 ATMEL_NFC_ACYCLE(nc->op.naddrs);
-                 ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:116:45: note: expanded from=
- macro 'ATMEL_NFC_ACYCLE'
-   #define ATMEL_NFC_ACYCLE(naddrs)                ((naddrs) << 19)
-                                                    ~~~~~~~~ ^
-   drivers/mtd/nand/raw/atmel/nand-controller.c:2029:22: warning: Value sto=
-red to 'np' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-           struct device_node *np =3D dev->of_node;
-                               ^~   ~~~~~~~~~~~~
-   drivers/mtd/nand/raw/atmel/nand-controller.c:2029:22: note: Value stored=
- to 'np' during its initialization is never read
-           struct device_node *np =3D dev->of_node;
-                               ^~   ~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/gpu/drm/tegra/fb.c:126:14: warning: Assigned value is garbage or=
- undefined [clang-analyzer-core.uninitialized.Assign]
-                   fb->obj[i] =3D &planes[i]->gem;
-                              ^
-   drivers/gpu/drm/tegra/fb.c:150:14: note: Assuming 'i' is >=3D field 'num=
-_planes'
-           for (i =3D 0; i < info->num_planes; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/fb.c:150:2: note: Loop condition is false. Executi=
-on continues on line 174
-           for (i =3D 0; i < info->num_planes; i++) {
-           ^
-   drivers/gpu/drm/tegra/fb.c:174:7: note: Calling 'tegra_fb_alloc'
-           fb =3D tegra_fb_alloc(drm, cmd, planes, i);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/fb.c:119:7: note: Calling 'kzalloc'
-           fb =3D kzalloc(sizeof(*fb), GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:579:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:596:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/fb.c:119:7: note: Returning from 'kzalloc'
-           fb =3D kzalloc(sizeof(*fb), GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/fb.c:120:6: note: Assuming 'fb' is non-null
-           if (!fb)
-               ^~~
-   drivers/gpu/drm/tegra/fb.c:120:2: note: Taking false branch
-           if (!fb)
-           ^
-   drivers/gpu/drm/tegra/fb.c:125:7: note: The value 0 is assigned to 'i'
-           for (i =3D 0; i < fb->format->num_planes; i++)
-                ^~~~~
-   drivers/gpu/drm/tegra/fb.c:125:14: note: Assuming 'i' is < field 'num_pl=
-anes'
-           for (i =3D 0; i < fb->format->num_planes; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/tegra/fb.c:125:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < fb->format->num_planes; i++)
-           ^
-   drivers/gpu/drm/tegra/fb.c:126:14: note: Assigned value is garbage or un=
-defined
-                   fb->obj[i] =3D &planes[i]->gem;
-                              ^ ~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/net/phy/mscc/mscc_ptp.c:1449:2: warning: Value stored to 'val' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
+ION_CODE);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/net/phy/mscc/mscc_ptp.c:1449:2: note: Value stored to 'val' is n=
+ever read
+           val =3D vsc85xx_ts_read_csr(phydev, PROCESSOR, MSCC_PHY_PTP_VERS=
+ION_CODE);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   drivers/iio/adc/qcom-spmi-vadc.c:326:3: warning: Value stored to 'ret' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D vadc_poll_wait_eoc(vadc, timeout);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-spmi-vadc.c:326:3: note: Value stored to 'ret' is n=
-ever read
-                   ret =3D vadc_poll_wait_eoc(vadc, timeout);
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> net/mctp/af_mctp.c:243:17: warning: Assigned value is garbage or undefin=
+ed [clang-analyzer-core.uninitialized.Assign]
+                   msk->addr_ext =3D val;
+                                 ^ ~~~
+   net/mctp/af_mctp.c:232:26: note: Left side of '&&' is false
+           struct mctp_sock *msk =3D container_of(sock->sk, struct mctp_soc=
+k, sk);
+                                   ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   net/mctp/af_mctp.c:232:26: note: Taking false branch
+           struct mctp_sock *msk =3D container_of(sock->sk, struct mctp_soc=
+k, sk);
+                                   ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/mctp/af_mctp.c:232:26: note: Loop condition is false.  Exiting loop
+           struct mctp_sock *msk =3D container_of(sock->sk, struct mctp_soc=
+k, sk);
+                                   ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   net/mctp/af_mctp.c:233:2: note: 'val' declared without an initial value
+           int val;
+           ^~~~~~~
+   net/mctp/af_mctp.c:235:6: note: Assuming 'level' is equal to SOL_MCTP
+           if (level !=3D SOL_MCTP)
+               ^~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:235:2: note: Taking false branch
+           if (level !=3D SOL_MCTP)
+           ^
+   net/mctp/af_mctp.c:238:6: note: Assuming 'optname' is equal to MCTP_OPT_=
+ADDR_EXT
+           if (optname =3D=3D MCTP_OPT_ADDR_EXT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:238:2: note: Taking true branch
+           if (optname =3D=3D MCTP_OPT_ADDR_EXT) {
+           ^
+   net/mctp/af_mctp.c:239:7: note: Assuming the condition is false
+                   if (optlen !=3D sizeof(int))
+                       ^~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:239:3: note: Taking false branch
+                   if (optlen !=3D sizeof(int))
+                   ^
+   net/mctp/af_mctp.c:241:7: note: Calling 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:6: note: Assuming the condition is true
+           if (!sockptr_is_kernel(src))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:2: note: Taking true branch
+           if (!sockptr_is_kernel(src))
+           ^
+   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
 
-vim +126 drivers/gpu/drm/tegra/fb.c
+vim +243 net/mctp/af_mctp.c
 
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  109  =
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  228  =
 
-dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  110 =
- static struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
-1eb83451ba55d7 drivers/gpu/drm/tegra/fb.c  Ville Syrj=C3=A4l=C3=A4   2015-1=
-1-11  111  					      const struct drm_mode_fb_cmd2 *mode_cmd,
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  112 =
- 					      struct tegra_bo **planes,
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  113 =
- 					      unsigned int num_planes)
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  114 =
- {
-dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  115 =
- 	struct drm_framebuffer *fb;
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  116 =
- 	unsigned int i;
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  117 =
- 	int err;
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  118  =
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  229  static int mctp_setsockopt(str=
+uct socket *sock, int level, int optname,
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  230  			   sockptr_t optval, unsign=
+ed int optlen)
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  231  {
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  232  	struct mctp_sock *msk =3D con=
+tainer_of(sock->sk, struct mctp_sock, sk);
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  233  	int val;
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  234  =
 
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  119 =
- 	fb =3D kzalloc(sizeof(*fb), GFP_KERNEL);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  120 =
- 	if (!fb)
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  121 =
- 		return ERR_PTR(-ENOMEM);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  122  =
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  235  	if (level !=3D SOL_MCTP)
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  236  		return -EINVAL;
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  237  =
 
-dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  123 =
- 	drm_helper_mode_fill_fb_struct(drm, fb, mode_cmd);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  124  =
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  238  	if (optname =3D=3D MCTP_OPT_A=
+DDR_EXT) {
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  239  		if (optlen !=3D sizeof(int))
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  240  			return -EINVAL;
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  241  		if (copy_from_sockptr(&val, =
+optval, sizeof(int)))
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  242  			return -EFAULT;
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26 @243  		msk->addr_ext =3D val;
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  244  		return 0;
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  245  	}
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  246  =
 
-dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  125 =
- 	for (i =3D 0; i < fb->format->num_planes; i++)
-dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30 @126 =
- 		fb->obj[i] =3D &planes[i]->gem;
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  127  =
+99ce45d5e7dbde3 Jeremy Kerr 2021-10-26  247  	return -ENOPROTOOPT;
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  248  }
+8f601a1e4f8c84f Jeremy Kerr 2021-07-29  249  =
 
-dbc33c7d65536b drivers/gpu/drm/tegra/fb.c  Daniel Stone    2018-03-30  128 =
- 	err =3D drm_framebuffer_init(drm, fb, &tegra_fb_funcs);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  129 =
- 	if (err < 0) {
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  130 =
- 		dev_err(drm->dev, "failed to initialize framebuffer: %d\n",
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  131 =
- 			err);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  132 =
- 		kfree(fb);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  133 =
- 		return ERR_PTR(err);
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  134 =
- 	}
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  135  =
-
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  136 =
- 	return fb;
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  137 =
- }
-de2ba664c30fcd drivers/gpu/host1x/drm/fb.c Arto Merilainen 2013-03-22  138  =
-
-
-:::::: The code at line 126 was first introduced by commit
-:::::: dbc33c7d65536bce447057dc6f882decc515047d drm/tegra: tegra_fb -> drm_=
-framebuffer
-
-:::::: TO: Daniel Stone <daniels@collabora.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2912405676006712892==--
+--===============8324408926957993329==--
 
