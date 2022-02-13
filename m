@@ -1,204 +1,174 @@
-Content-Type: multipart/mixed; boundary="===============3564954705187911107=="
+Content-Type: multipart/mixed; boundary="===============7118834398668180716=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hnaz-mm:master 14/304] mm/hugetlb.c:4170 hugepages_setup() warn: potential spectre issue 'default_hugepages_in_node' [w]
-Date: Mon, 14 Feb 2022 02:38:36 +0800
-Message-ID: <202202140231.kXy0RxiN-lkp@intel.com>
+Subject: [ammarfaizi2-block:crng/random/jd/fast-mix-lfsr 38/41] drivers/char/random.c:471 crng_pre_init_inject() error: uninitialized symbol 'flags'.
+Date: Sun, 13 Feb 2022 15:27:27 +0800
+Message-ID: <202202131528.d5D03Yt7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3564954705187911107==
+--===============7118834398668180716==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Liu Yuntao <liuyuntao10@huawei.com>
-CC: Johannes Weiner <hannes@cmpxchg.org>
-CC: Mike Kravetz <mike.kravetz@oracle.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Jason A. Donenfeld" <zx2c4@kernel.org>
 
-tree:   https://github.com/hnaz/linux-mm master
-head:   31e523f69aa14a1f4ba298c63034d8dc62c4aae7
-commit: a9cab87f99a622ebdceb96c678eddfda78786005 [14/304] hugetlbfs: fix a =
-truncation issue in hugepages parameter
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20214/202202140231.kXy0RxiN-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://github.com/ammarfaizi2/linux-block crng/random/jd/fast-mix-=
+lfsr
+head:   7fbcf700feb7daa3b4afaff1eabf9582ea4d3a0e
+commit: be05d87f9b42e54d0db561b26e534922e6004280 [38/41] random: unify earl=
+y init crng load accounting
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+config: microblaze-randconfig-m031-20220213 (https://download.01.org/0day-c=
+i/archive/20220213/202202131528.d5D03Yt7-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/hugetlb.c:4170 hugepages_setup() warn: potential spectre issue 'default_=
-hugepages_in_node' [w]
-mm/hugetlb.c:4172 hugepages_setup() warn: potential spectre issue 'parsed_h=
-state->max_huge_pages_node' [w]
+New smatch warnings:
+drivers/char/random.c:471 crng_pre_init_inject() error: uninitialized symbo=
+l 'flags'.
 
-vim +/default_hugepages_in_node +4170 mm/hugetlb.c
+Old smatch warnings:
+drivers/char/random.c:502 crng_pre_init_inject() error: uninitialized symbo=
+l 'flags'.
+arch/microblaze/include/asm/thread_info.h:91 current_thread_info() error: u=
+ninitialized symbol 'sp'.
 
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4109  =
+vim +/flags +471 drivers/char/random.c
 
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4110  bool __init __weak hug=
-etlb_node_alloc_supported(void)
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4111  {
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4112  	return true;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4113  }
-282f4214384ee2 Mike Kravetz        2020-06-03  4114  /*
-282f4214384ee2 Mike Kravetz        2020-06-03  4115   * hugepages command l=
-ine processing
-282f4214384ee2 Mike Kravetz        2020-06-03  4116   * hugepages normally =
-follows a valid hugepagsz or default_hugepagsz
-282f4214384ee2 Mike Kravetz        2020-06-03  4117   * specification.  If =
-not, ignore the hugepages value.  hugepages can also
-282f4214384ee2 Mike Kravetz        2020-06-03  4118   * be the first huge p=
-age command line  option in which case it implicitly
-282f4214384ee2 Mike Kravetz        2020-06-03  4119   * specifies the numbe=
-r of huge pages for the default size.
-282f4214384ee2 Mike Kravetz        2020-06-03  4120   */
-282f4214384ee2 Mike Kravetz        2020-06-03  4121  static int __init huge=
-pages_setup(char *s)
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4122  {
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4123  	unsigned long *mhp;
-8faa8b077b2cdc Andi Kleen          2008-07-23  4124  	static unsigned long =
-*last_mhp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4125  	int node =3D NUMA_NO_=
-NODE;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4126  	int count;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4127  	unsigned long tmp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4128  	char *p =3D s;
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4129  =
+c92e040d575a73 Theodore Ts'o      2016-05-04  438  =
 
-9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4130  	if (!parsed_valid_hug=
-epagesz) {
-282f4214384ee2 Mike Kravetz        2020-06-03  4131  		pr_warn("HugeTLB: hu=
-gepages=3D%s does not follow a valid hugepagesz, ignoring\n", s);
-9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4132  		parsed_valid_hugepag=
-esz =3D true;
-282f4214384ee2 Mike Kravetz        2020-06-03  4133  		return 0;
-9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4134  	}
-282f4214384ee2 Mike Kravetz        2020-06-03  4135  =
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  439  /*
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  440   * This function is for =
+crng_init < 2 only. It loads entropy directly
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  441   * into the crng's key, =
+without going through the input pool. It is,
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  442   * generally speaking, n=
+ot very safe, but we use this only at early
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  443   * boot time when it's b=
+etter to have something there rather than
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  444   * nothing.
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  445   *
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  446   * There are two paths, =
+a slow one and a fast one. The slow one
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  447   * hashes the input alon=
+g with the current key. The fast one simply
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  448   * xors it in, and shoul=
+d only be used from interrupt context.
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  449   *
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  450   * If account is set, th=
+en the crng_init_cnt counter is incremented.
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  451   * This shouldn't be set=
+ by functions like add_device_randomness(),
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  452   * where we can't trust =
+the buffer passed to it is guaranteed to be
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  453   * unpredictable (so it =
+might not have any entropy@all).
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  454   *
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  455   * Returns the number of=
+ bytes processed from cp, which is bounded by
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  456   * CRNG_INIT_CNT_THRESH =
+if account is true.
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  457   */
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  458  static size_t crng_pre_i=
+nit_inject(const void *cp, size_t len,
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  459  				   bool fast, bool a=
+ccount)
+e192be9d9a3055 Theodore Ts'o      2016-06-12  460  {
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  461  	static int crng_init_cn=
+t =3D 0;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  462  	unsigned long flags;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  463  =
 
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4136  	/*
-282f4214384ee2 Mike Kravetz        2020-06-03  4137  	 * !hugetlb_max_hstat=
-e means we haven't parsed a hugepagesz=3D parameter
-282f4214384ee2 Mike Kravetz        2020-06-03  4138  	 * yet, so this hugep=
-ages=3D parameter goes to the "default hstate".
-282f4214384ee2 Mike Kravetz        2020-06-03  4139  	 * Otherwise, it goes=
- with the previously parsed hugepagesz or
-282f4214384ee2 Mike Kravetz        2020-06-03  4140  	 * default_hugepagesz.
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4141  	 */
-9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4142  	else if (!hugetlb_max=
-_hstate)
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4143  		mhp =3D &default_hst=
-ate_max_huge_pages;
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4144  	else
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4145  		mhp =3D &parsed_hsta=
-te->max_huge_pages;
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4146  =
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  464  	if (fast) {
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  465  		if (!spin_trylock_irqs=
+ave(&base_crng.lock, flags))
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  466  			return 0;
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  467  	} else
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  468  		spin_lock_irqsave(&bas=
+e_crng.lock, flags);
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  469  =
 
-8faa8b077b2cdc Andi Kleen          2008-07-23  4147  	if (mhp =3D=3D last_m=
-hp) {
-282f4214384ee2 Mike Kravetz        2020-06-03  4148  		pr_warn("HugeTLB: hu=
-gepages=3D specified twice without interleaving hugepagesz=3D, ignoring hug=
-epages=3D%s\n", s);
-282f4214384ee2 Mike Kravetz        2020-06-03  4149  		return 0;
-8faa8b077b2cdc Andi Kleen          2008-07-23  4150  	}
-8faa8b077b2cdc Andi Kleen          2008-07-23  4151  =
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  470  	if (crng_init !=3D 0) {
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11 @471  		spin_unlock_irqrestore=
+(&base_crng.lock, flags);
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  472  		return 0;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  473  	}
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  474  =
 
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4152  	while (*p) {
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4153  		count =3D 0;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4154  		if (sscanf(p, "%lu%n=
-", &tmp, &count) !=3D 1)
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4155  			goto invalid;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4156  		/* Parameter is node=
- format */
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4157  		if (p[count] =3D=3D =
-':') {
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4158  			if (!hugetlb_node_a=
-lloc_supported()) {
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4159  				pr_warn("HugeTLB: =
-architecture can't support node specific alloc, ignoring!\n");
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4160  				return 0;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4161  			}
-a9cab87f99a622 Liu Yuntao          2022-02-11  4162  			if (tmp >=3D nr_onl=
-ine_nodes)
-a9cab87f99a622 Liu Yuntao          2022-02-11  4163  				goto invalid;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4164  			node =3D tmp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4165  			p +=3D count + 1;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4166  			/* Parse hugepages =
-*/
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4167  			if (sscanf(p, "%lu%=
-n", &tmp, &count) !=3D 1)
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4168  				goto invalid;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4169  			if (!hugetlb_max_hs=
-tate)
-b5389086ad7be0 Zhenguo Yao         2021-11-05 @4170  				default_hugepages_=
-in_node[node] =3D tmp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4171  			else
-b5389086ad7be0 Zhenguo Yao         2021-11-05 @4172  				parsed_hstate->max=
-_huge_pages_node[node] =3D tmp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4173  			*mhp +=3D tmp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4174  			/* Go to parse next=
- node*/
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4175  			if (p[count] =3D=3D=
- ',')
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4176  				p +=3D count + 1;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4177  			else
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4178  				break;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4179  		} else {
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4180  			if (p !=3D s)
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4181  				goto invalid;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4182  			*mhp =3D tmp;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4183  			break;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4184  		}
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4185  	}
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4186  =
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  475  	if (account)
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  476  		len =3D min_t(size_t, =
+len, CRNG_INIT_CNT_THRESH - crng_init_cnt);
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  477  =
 
-8faa8b077b2cdc Andi Kleen          2008-07-23  4187  	/*
-8faa8b077b2cdc Andi Kleen          2008-07-23  4188  	 * Global state is al=
-ways initialized later in hugetlb_init.
-04adbc3f7bff40 Miaohe Lin          2021-05-04  4189  	 * But we need to all=
-ocate gigantic hstates here early to still
-8faa8b077b2cdc Andi Kleen          2008-07-23  4190  	 * use the bootmem al=
-locator.
-8faa8b077b2cdc Andi Kleen          2008-07-23  4191  	 */
-04adbc3f7bff40 Miaohe Lin          2021-05-04  4192  	if (hugetlb_max_hstat=
-e && hstate_is_gigantic(parsed_hstate))
-8faa8b077b2cdc Andi Kleen          2008-07-23  4193  		hugetlb_hstate_alloc=
-_pages(parsed_hstate);
-8faa8b077b2cdc Andi Kleen          2008-07-23  4194  =
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  478  	if (fast) {
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  479  		const u8 *src =3D cp;
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  480  		size_t i;
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  481  =
 
-8faa8b077b2cdc Andi Kleen          2008-07-23  4195  	last_mhp =3D mhp;
-8faa8b077b2cdc Andi Kleen          2008-07-23  4196  =
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  482  		for (i =3D 0; i < len;=
+ ++i)
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  483  			base_crng.key[(crng_i=
+nit_cnt + i) %
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  484  				      sizeof(base_cr=
+ng.key)] ^=3D src[i];
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  485  	} else {
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  486  		struct blake2s_state h=
+ash;
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  487  =
 
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4197  	return 1;
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4198  =
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  488  		blake2s_init(&hash, si=
+zeof(base_crng.key));
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  489  		blake2s_update(&hash, =
+base_crng.key, sizeof(base_crng.key));
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  490  		blake2s_update(&hash, =
+cp, len);
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  491  		blake2s_final(&hash, b=
+ase_crng.key);
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  492  	}
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  493  =
 
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4199  invalid:
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4200  	pr_warn("HugeTLB: Inv=
-alid hugepages parameter %s\n", p);
-b5389086ad7be0 Zhenguo Yao         2021-11-05  4201  	return 0;
-a3437870160cf2 Nishanth Aravamudan 2008-07-23  4202  }
-282f4214384ee2 Mike Kravetz        2020-06-03  4203  __setup("hugepages=3D"=
-, hugepages_setup);
-e11bfbfcb08ef4 Nicholas Piggin     2008-07-23  4204  =
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  494  	if (account) {
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  495  		crng_init_cnt +=3D len;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  496  		if (crng_init_cnt >=3D=
+ CRNG_INIT_CNT_THRESH) {
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  497  			++base_crng.generatio=
+n;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  498  			crng_init =3D 1;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  499  		}
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  500  	}
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  501  =
+
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  502  	spin_unlock_irqrestore(=
+&base_crng.lock, flags);
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  503  =
+
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  504  	if (crng_init =3D=3D 1)
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  505  		pr_notice("fast init d=
+one\n");
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  506  =
+
+be05d87f9b42e5 Jason A. Donenfeld 2022-02-12  507  	return len;
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  508  }
+6abdf17ccd90de Jason A. Donenfeld 2022-02-11  509  =
 
 
-:::::: The code at line 4170 was first introduced by commit
-:::::: b5389086ad7be0453c55e0069a89856d1fbdf605 hugetlbfs: extend the defin=
-ition of hugepages parameter to support node allocation
+:::::: The code at line 471 was first introduced by commit
+:::::: 6abdf17ccd90de572fdc0de00526d6cca03b4229 random: group crng functions
 
-:::::: TO: Zhenguo Yao <yaozhenguo1@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Jason A. Donenfeld <Jason@zx2c4.com>
+:::::: CC: Jason A. Donenfeld <Jason@zx2c4.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3564954705187911107==--
+--===============7118834398668180716==--
 
