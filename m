@@ -1,236 +1,204 @@
-Content-Type: multipart/mixed; boundary="===============4608548529717958458=="
+Content-Type: multipart/mixed; boundary="===============3564954705187911107=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/etnaviv/etnaviv_dump.c:213 etnaviv_core_dump() warn: should '(((*pages++) - mem_map) + (m68k_memory[0]->addr >> 12)) << 12' be a 64 bit type?
-Date: Mon, 14 Feb 2022 03:29:28 +0800
-Message-ID: <202202140342.i6tvosC8-lkp@intel.com>
+Subject: [hnaz-mm:master 14/304] mm/hugetlb.c:4170 hugepages_setup() warn: potential spectre issue 'default_hugepages_in_node' [w]
+Date: Mon, 14 Feb 2022 02:38:36 +0800
+Message-ID: <202202140231.kXy0RxiN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4608548529717958458==
+--===============3564954705187911107==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Angelo Dureghello <angelo@kernel-space.org>
-CC: Greg Ungerer <gerg@linux-m68k.org>
+TO: Liu Yuntao <liuyuntao10@huawei.com>
+CC: Johannes Weiner <hannes@cmpxchg.org>
+CC: Mike Kravetz <mike.kravetz@oracle.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b81b1829e7e39f6cebdf6e4d5484eacbceda8554
-commit: d2bd44c4c05d043fb65cfdf26c54e6d8b94a4b41 m68k: fix flatmem memory m=
-odel setup
-date:   10 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 10 months ago
-config: m68k-randconfig-m031-20220213 (https://download.01.org/0day-ci/arch=
-ive/20220214/202202140342.i6tvosC8-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/hnaz/linux-mm master
+head:   31e523f69aa14a1f4ba298c63034d8dc62c4aae7
+commit: a9cab87f99a622ebdceb96c678eddfda78786005 [14/304] hugetlbfs: fix a =
+truncation issue in hugepages parameter
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20214/202202140231.kXy0RxiN-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/etnaviv/etnaviv_dump.c:213 etnaviv_core_dump() warn: should=
- '(((*pages++) - mem_map) + (m68k_memory[0]->addr >> 12)) << 12' be a 64 bi=
-t type?
+mm/hugetlb.c:4170 hugepages_setup() warn: potential spectre issue 'default_=
+hugepages_in_node' [w]
+mm/hugetlb.c:4172 hugepages_setup() warn: potential spectre issue 'parsed_h=
+state->max_huge_pages_node' [w]
 
-vim +213 drivers/gpu/drm/etnaviv/etnaviv_dump.c
+vim +/default_hugepages_in_node +4170 mm/hugetlb.c
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  112  =
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4109  =
 
-9a1fdae5876016 Lucas Stach         2019-08-09  113  void etnaviv_core_dump(=
-struct etnaviv_gem_submit *submit)
-a8c21a5451d831 The etnaviv authors 2015-12-03  114  {
-9a1fdae5876016 Lucas Stach         2019-08-09  115  	struct etnaviv_gpu *gp=
-u =3D submit->gpu;
-a8c21a5451d831 The etnaviv authors 2015-12-03  116  	struct core_dump_itera=
-tor iter;
-a8c21a5451d831 The etnaviv authors 2015-12-03  117  	struct etnaviv_gem_obj=
-ect *obj;
-a8c21a5451d831 The etnaviv authors 2015-12-03  118  	unsigned int n_obj, n_=
-bomap_pages;
-a8c21a5451d831 The etnaviv authors 2015-12-03  119  	size_t file_size, mmu_=
-size;
-a8c21a5451d831 The etnaviv authors 2015-12-03  120  	__le64 *bomap, *bomap_=
-start;
-9a1fdae5876016 Lucas Stach         2019-08-09  121  	int i;
-a8c21a5451d831 The etnaviv authors 2015-12-03  122  =
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4110  bool __init __weak hug=
+etlb_node_alloc_supported(void)
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4111  {
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4112  	return true;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4113  }
+282f4214384ee2 Mike Kravetz        2020-06-03  4114  /*
+282f4214384ee2 Mike Kravetz        2020-06-03  4115   * hugepages command l=
+ine processing
+282f4214384ee2 Mike Kravetz        2020-06-03  4116   * hugepages normally =
+follows a valid hugepagsz or default_hugepagsz
+282f4214384ee2 Mike Kravetz        2020-06-03  4117   * specification.  If =
+not, ignore the hugepages value.  hugepages can also
+282f4214384ee2 Mike Kravetz        2020-06-03  4118   * be the first huge p=
+age command line  option in which case it implicitly
+282f4214384ee2 Mike Kravetz        2020-06-03  4119   * specifies the numbe=
+r of huge pages for the default size.
+282f4214384ee2 Mike Kravetz        2020-06-03  4120   */
+282f4214384ee2 Mike Kravetz        2020-06-03  4121  static int __init huge=
+pages_setup(char *s)
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4122  {
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4123  	unsigned long *mhp;
+8faa8b077b2cdc Andi Kleen          2008-07-23  4124  	static unsigned long =
+*last_mhp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4125  	int node =3D NUMA_NO_=
+NODE;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4126  	int count;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4127  	unsigned long tmp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4128  	char *p =3D s;
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4129  =
 
-6d7a20c0776036 Lucas Stach         2017-12-06  123  	/* Only catch the firs=
-t event, or when manually re-armed */
-6d7a20c0776036 Lucas Stach         2017-12-06  124  	if (!etnaviv_dump_core)
-6d7a20c0776036 Lucas Stach         2017-12-06  125  		return;
-6d7a20c0776036 Lucas Stach         2017-12-06  126  	etnaviv_dump_core =3D =
-false;
-6d7a20c0776036 Lucas Stach         2017-12-06  127  =
+9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4130  	if (!parsed_valid_hug=
+epagesz) {
+282f4214384ee2 Mike Kravetz        2020-06-03  4131  		pr_warn("HugeTLB: hu=
+gepages=3D%s does not follow a valid hugepagesz, ignoring\n", s);
+9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4132  		parsed_valid_hugepag=
+esz =3D true;
+282f4214384ee2 Mike Kravetz        2020-06-03  4133  		return 0;
+9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4134  	}
+282f4214384ee2 Mike Kravetz        2020-06-03  4135  =
 
-27b67278e007b5 Lucas Stach         2019-07-05  128  	mutex_lock(&gpu->mmu_c=
-ontext->lock);
-1396500d673bd0 Lucas Stach         2019-05-21  129  =
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4136  	/*
+282f4214384ee2 Mike Kravetz        2020-06-03  4137  	 * !hugetlb_max_hstat=
+e means we haven't parsed a hugepagesz=3D parameter
+282f4214384ee2 Mike Kravetz        2020-06-03  4138  	 * yet, so this hugep=
+ages=3D parameter goes to the "default hstate".
+282f4214384ee2 Mike Kravetz        2020-06-03  4139  	 * Otherwise, it goes=
+ with the previously parsed hugepagesz or
+282f4214384ee2 Mike Kravetz        2020-06-03  4140  	 * default_hugepagesz.
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4141  	 */
+9fee021d15ddd8 Vaishali Thakkar    2016-05-19  4142  	else if (!hugetlb_max=
+_hstate)
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4143  		mhp =3D &default_hst=
+ate_max_huge_pages;
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4144  	else
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4145  		mhp =3D &parsed_hsta=
+te->max_huge_pages;
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4146  =
 
-27b67278e007b5 Lucas Stach         2019-07-05  130  	mmu_size =3D etnaviv_i=
-ommu_dump_size(gpu->mmu_context);
-a8c21a5451d831 The etnaviv authors 2015-12-03  131  =
+8faa8b077b2cdc Andi Kleen          2008-07-23  4147  	if (mhp =3D=3D last_m=
+hp) {
+282f4214384ee2 Mike Kravetz        2020-06-03  4148  		pr_warn("HugeTLB: hu=
+gepages=3D specified twice without interleaving hugepagesz=3D, ignoring hug=
+epages=3D%s\n", s);
+282f4214384ee2 Mike Kravetz        2020-06-03  4149  		return 0;
+8faa8b077b2cdc Andi Kleen          2008-07-23  4150  	}
+8faa8b077b2cdc Andi Kleen          2008-07-23  4151  =
 
-9a1fdae5876016 Lucas Stach         2019-08-09  132  	/* We always dump regi=
-sters, mmu, ring, hanging cmdbuf and end marker */
-9a1fdae5876016 Lucas Stach         2019-08-09  133  	n_obj =3D 5;
-a8c21a5451d831 The etnaviv authors 2015-12-03  134  	n_bomap_pages =3D 0;
-a8c21a5451d831 The etnaviv authors 2015-12-03  135  	file_size =3D ARRAY_SI=
-ZE(etnaviv_dump_registers) *
-a8c21a5451d831 The etnaviv authors 2015-12-03  136  			sizeof(struct etnavi=
-v_dump_registers) +
-9a1fdae5876016 Lucas Stach         2019-08-09  137  		    mmu_size + gpu->b=
-uffer.size + submit->cmdbuf.size;
-a8c21a5451d831 The etnaviv authors 2015-12-03  138  =
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4152  	while (*p) {
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4153  		count =3D 0;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4154  		if (sscanf(p, "%lu%n=
+", &tmp, &count) !=3D 1)
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4155  			goto invalid;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4156  		/* Parameter is node=
+ format */
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4157  		if (p[count] =3D=3D =
+':') {
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4158  			if (!hugetlb_node_a=
+lloc_supported()) {
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4159  				pr_warn("HugeTLB: =
+architecture can't support node specific alloc, ignoring!\n");
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4160  				return 0;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4161  			}
+a9cab87f99a622 Liu Yuntao          2022-02-11  4162  			if (tmp >=3D nr_onl=
+ine_nodes)
+a9cab87f99a622 Liu Yuntao          2022-02-11  4163  				goto invalid;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4164  			node =3D tmp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4165  			p +=3D count + 1;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4166  			/* Parse hugepages =
+*/
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4167  			if (sscanf(p, "%lu%=
+n", &tmp, &count) !=3D 1)
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4168  				goto invalid;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4169  			if (!hugetlb_max_hs=
+tate)
+b5389086ad7be0 Zhenguo Yao         2021-11-05 @4170  				default_hugepages_=
+in_node[node] =3D tmp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4171  			else
+b5389086ad7be0 Zhenguo Yao         2021-11-05 @4172  				parsed_hstate->max=
+_huge_pages_node[node] =3D tmp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4173  			*mhp +=3D tmp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4174  			/* Go to parse next=
+ node*/
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4175  			if (p[count] =3D=3D=
+ ',')
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4176  				p +=3D count + 1;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4177  			else
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4178  				break;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4179  		} else {
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4180  			if (p !=3D s)
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4181  				goto invalid;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4182  			*mhp =3D tmp;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4183  			break;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4184  		}
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4185  	}
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4186  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  139  	/* Add in the active b=
-uffer objects */
-9a1fdae5876016 Lucas Stach         2019-08-09  140  	for (i =3D 0; i < subm=
-it->nr_bos; i++) {
-9a1fdae5876016 Lucas Stach         2019-08-09  141  		obj =3D submit->bos[i=
-].obj;
-a8c21a5451d831 The etnaviv authors 2015-12-03  142  		file_size +=3D obj->b=
-ase.size;
-a8c21a5451d831 The etnaviv authors 2015-12-03  143  		n_bomap_pages +=3D ob=
-j->base.size >> PAGE_SHIFT;
-a8c21a5451d831 The etnaviv authors 2015-12-03  144  		n_obj++;
-a8c21a5451d831 The etnaviv authors 2015-12-03  145  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  146  =
+8faa8b077b2cdc Andi Kleen          2008-07-23  4187  	/*
+8faa8b077b2cdc Andi Kleen          2008-07-23  4188  	 * Global state is al=
+ways initialized later in hugetlb_init.
+04adbc3f7bff40 Miaohe Lin          2021-05-04  4189  	 * But we need to all=
+ocate gigantic hstates here early to still
+8faa8b077b2cdc Andi Kleen          2008-07-23  4190  	 * use the bootmem al=
+locator.
+8faa8b077b2cdc Andi Kleen          2008-07-23  4191  	 */
+04adbc3f7bff40 Miaohe Lin          2021-05-04  4192  	if (hugetlb_max_hstat=
+e && hstate_is_gigantic(parsed_hstate))
+8faa8b077b2cdc Andi Kleen          2008-07-23  4193  		hugetlb_hstate_alloc=
+_pages(parsed_hstate);
+8faa8b077b2cdc Andi Kleen          2008-07-23  4194  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  147  	/* If we have any buff=
-er objects, add a bomap object */
-a8c21a5451d831 The etnaviv authors 2015-12-03  148  	if (n_bomap_pages) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  149  		file_size +=3D n_boma=
-p_pages * sizeof(__le64);
-a8c21a5451d831 The etnaviv authors 2015-12-03  150  		n_obj++;
-a8c21a5451d831 The etnaviv authors 2015-12-03  151  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  152  =
+8faa8b077b2cdc Andi Kleen          2008-07-23  4195  	last_mhp =3D mhp;
+8faa8b077b2cdc Andi Kleen          2008-07-23  4196  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  153  	/* Add the size of the=
- headers */
-a8c21a5451d831 The etnaviv authors 2015-12-03  154  	file_size +=3D sizeof(=
-*iter.hdr) * n_obj;
-a8c21a5451d831 The etnaviv authors 2015-12-03  155  =
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4197  	return 1;
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4198  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  156  	/* Allocate the file i=
-n vmalloc memory, it's likely to be big */
-88dca4ca5a93d2 Christoph Hellwig   2020-06-01  157  	iter.start =3D __vmall=
-oc(file_size, GFP_KERNEL | __GFP_NOWARN |
-88dca4ca5a93d2 Christoph Hellwig   2020-06-01  158  			__GFP_NORETRY);
-a8c21a5451d831 The etnaviv authors 2015-12-03  159  	if (!iter.start) {
-27b67278e007b5 Lucas Stach         2019-07-05  160  		mutex_unlock(&gpu->mm=
-u_context->lock);
-a8c21a5451d831 The etnaviv authors 2015-12-03  161  		dev_warn(gpu->dev, "f=
-ailed to allocate devcoredump file\n");
-a8c21a5451d831 The etnaviv authors 2015-12-03  162  		return;
-a8c21a5451d831 The etnaviv authors 2015-12-03  163  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  164  =
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4199  invalid:
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4200  	pr_warn("HugeTLB: Inv=
+alid hugepages parameter %s\n", p);
+b5389086ad7be0 Zhenguo Yao         2021-11-05  4201  	return 0;
+a3437870160cf2 Nishanth Aravamudan 2008-07-23  4202  }
+282f4214384ee2 Mike Kravetz        2020-06-03  4203  __setup("hugepages=3D"=
+, hugepages_setup);
+e11bfbfcb08ef4 Nicholas Piggin     2008-07-23  4204  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  165  	/* Point the data memb=
-er after the headers */
-a8c21a5451d831 The etnaviv authors 2015-12-03  166  	iter.hdr =3D iter.star=
-t;
-a8c21a5451d831 The etnaviv authors 2015-12-03  167  	iter.data =3D &iter.hd=
-r[n_obj];
-a8c21a5451d831 The etnaviv authors 2015-12-03  168  =
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  169  	memset(iter.hdr, 0, it=
-er.data - iter.start);
-a8c21a5451d831 The etnaviv authors 2015-12-03  170  =
+:::::: The code at line 4170 was first introduced by commit
+:::::: b5389086ad7be0453c55e0069a89856d1fbdf605 hugetlbfs: extend the defin=
+ition of hugepages parameter to support node allocation
 
-a8c21a5451d831 The etnaviv authors 2015-12-03  171  	etnaviv_core_dump_regi=
-sters(&iter, gpu);
-27b67278e007b5 Lucas Stach         2019-07-05  172  	etnaviv_core_dump_mmu(=
-&iter, gpu->mmu_context, mmu_size);
-2f9225dbc09abe Lucas Stach         2017-11-24  173  	etnaviv_core_dump_mem(=
-&iter, ETDUMP_BUF_RING, gpu->buffer.vaddr,
-2f9225dbc09abe Lucas Stach         2017-11-24  174  			      gpu->buffer.si=
-ze,
-db82a0435b8be3 Lucas Stach         2019-07-05  175  			      etnaviv_cmdbuf=
-_get_va(&gpu->buffer,
-17e4660ae3d7e1 Lucas Stach         2019-07-05  176  					&gpu->mmu_context-=
->cmdbuf_mapping));
-2f9225dbc09abe Lucas Stach         2017-11-24  177  =
-
-2f9225dbc09abe Lucas Stach         2017-11-24  178  	etnaviv_core_dump_mem(=
-&iter, ETDUMP_BUF_CMD,
-2f9225dbc09abe Lucas Stach         2017-11-24  179  			      submit->cmdbuf=
-.vaddr, submit->cmdbuf.size,
-db82a0435b8be3 Lucas Stach         2019-07-05  180  			      etnaviv_cmdbuf=
-_get_va(&submit->cmdbuf,
-17e4660ae3d7e1 Lucas Stach         2019-07-05  181  					&gpu->mmu_context-=
->cmdbuf_mapping));
-a8c21a5451d831 The etnaviv authors 2015-12-03  182  =
-
-ca8cb69580236f Lucas Stach         2019-10-16  183  	mutex_unlock(&gpu->mmu=
-_context->lock);
-ca8cb69580236f Lucas Stach         2019-10-16  184  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  185  	/* Reserve space for t=
-he bomap */
-a8c21a5451d831 The etnaviv authors 2015-12-03  186  	if (n_bomap_pages) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  187  		bomap_start =3D bomap=
- =3D iter.data;
-a8c21a5451d831 The etnaviv authors 2015-12-03  188  		memset(bomap, 0, size=
-of(*bomap) * n_bomap_pages);
-a8c21a5451d831 The etnaviv authors 2015-12-03  189  		etnaviv_core_dump_hea=
-der(&iter, ETDUMP_BUF_BOMAP,
-a8c21a5451d831 The etnaviv authors 2015-12-03  190  					 bomap + n_bomap_p=
-ages);
-a8c21a5451d831 The etnaviv authors 2015-12-03  191  	} else {
-a8c21a5451d831 The etnaviv authors 2015-12-03  192  		/* Silence warning */
-a8c21a5451d831 The etnaviv authors 2015-12-03  193  		bomap_start =3D bomap=
- =3D NULL;
-a8c21a5451d831 The etnaviv authors 2015-12-03  194  	}
-a8c21a5451d831 The etnaviv authors 2015-12-03  195  =
-
-9a1fdae5876016 Lucas Stach         2019-08-09  196  	for (i =3D 0; i < subm=
-it->nr_bos; i++) {
-9a1fdae5876016 Lucas Stach         2019-08-09  197  		struct etnaviv_vram_m=
-apping *vram;
-a8c21a5451d831 The etnaviv authors 2015-12-03  198  		struct page **pages;
-a8c21a5451d831 The etnaviv authors 2015-12-03  199  		void *vaddr;
-a8c21a5451d831 The etnaviv authors 2015-12-03  200  =
-
-9a1fdae5876016 Lucas Stach         2019-08-09  201  		obj =3D submit->bos[i=
-].obj;
-9a1fdae5876016 Lucas Stach         2019-08-09  202  		vram =3D submit->bos[=
-i].mapping;
-a8c21a5451d831 The etnaviv authors 2015-12-03  203  =
-
-339073ef77e45e Lucas Stach         2016-01-22  204  		mutex_lock(&obj->lock=
-);
-a8c21a5451d831 The etnaviv authors 2015-12-03  205  		pages =3D etnaviv_gem=
-_get_pages(obj);
-339073ef77e45e Lucas Stach         2016-01-22  206  		mutex_unlock(&obj->lo=
-ck);
-f8261c376e7f8c Dan Carpenter       2019-01-14  207  		if (!IS_ERR(pages)) {
-a8c21a5451d831 The etnaviv authors 2015-12-03  208  			int j;
-a8c21a5451d831 The etnaviv authors 2015-12-03  209  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  210  			iter.hdr->data[0] =
-=3D bomap - bomap_start;
-a8c21a5451d831 The etnaviv authors 2015-12-03  211  =
-
-a8c21a5451d831 The etnaviv authors 2015-12-03  212  			for (j =3D 0; j < ob=
-j->base.size >> PAGE_SHIFT; j++)
-a8c21a5451d831 The etnaviv authors 2015-12-03 @213  				*bomap++ =3D cpu_to=
-_le64(page_to_phys(*pages++));
-
-:::::: The code at line 213 was first introduced by commit
-:::::: a8c21a5451d831e67b7a6fb910f9ca8bc7b43554 drm/etnaviv: add initial et=
-naviv DRM driver
-
-:::::: TO: The etnaviv authors <dri-devel@lists.freedesktop.org>
-:::::: CC: Lucas Stach <l.stach@pengutronix.de>
+:::::: TO: Zhenguo Yao <yaozhenguo1@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4608548529717958458==--
+--===============3564954705187911107==--
 
