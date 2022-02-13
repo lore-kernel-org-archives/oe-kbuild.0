@@ -1,267 +1,363 @@
-Content-Type: multipart/mixed; boundary="===============0632405065441409666=="
+Content-Type: multipart/mixed; boundary="===============0317364946698417960=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [toke:xdp-queueing-02 1/11] net/bpf/test_run.c:1283 bpf_prog_test_run_xdp() error: uninitialized symbol 'retval'.
-Date: Mon, 14 Feb 2022 10:26:54 +0800
-Message-ID: <202202141041.KsCyqs1S-lkp@intel.com>
+Subject: lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 14 Feb 2022 07:13:50 +0800
+Message-ID: <202202140731.cLkyr6mb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0632405065441409666==
+--===============0317364946698417960==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Toke H=C3=B8iland-J=C3=B8rgensen" <toke@redhat.com>
+TO: Andrey Konovalov <andreyknvl@google.com>
+CC: Marco Elver <elver@google.com>
+CC: Alexander Potapenko <glider@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/toke/linux.git xdp-=
-queueing-02
-head:   8bd2763fc2cbca45d99f73fa9715bffdc265ec05
-commit: 40f91d04974533debd52c4d573793b680619981f [1/11] bpf: Add "live pack=
-et" mode for XDP in BPF_PROG_RUN
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-214/202202141041.KsCyqs1S-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   754e0b0e35608ed5206d6a67a791563c631cec07
+commit: 858bdeb046f6dc7a79039d577d03e4d2b39272b7 kasan: add proper page all=
+ocator tests
+date:   12 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-c006-20220213 (https://download.01.org/0day-ci/arc=
+hive/20220214/202202140731.cLkyr6mb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
+634519e6497be42f5fe323f9a04ed67127)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D858bdeb046f6dc7a79039d577d03e4d2b39272b7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 858bdeb046f6dc7a79039d577d03e4d2b39272b7
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-net/bpf/test_run.c:1283 bpf_prog_test_run_xdp() error: uninitialized symbol=
- 'retval'.
-
-vim +/retval +1283 net/bpf/test_run.c
-
-47316f4a305367 Zvi Effron             2021-07-07  1171  =
-
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1172  int bpf_prog_test_r=
-un_xdp(struct bpf_prog *prog, const union bpf_attr *kattr,
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1173  			  union bpf_attr=
- __user *uattr)
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1174  {
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1175  	bool do_=
-live =3D (kattr->test.flags & BPF_F_TEST_XDP_LIVE_FRAMES);
-bc56c919fce782 Jesper Dangaard Brouer 2020-05-14  1176  	u32 tailroom =3D S=
-KB_DATA_ALIGN(sizeof(struct skb_shared_info));
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1177  	u32 size =3D kattr=
-->test.data_size_in;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1178  	u32 headroom =3D X=
-DP_PACKET_HEADROOM;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1179  	u32 retval, durati=
-on, max_data_sz;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1180  	u32 repeat =3D kat=
-tr->test.repeat;
-65073a67331de3 Daniel Borkmann        2018-01-31  1181  	struct netdev_rx_q=
-ueue *rxqueue;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1182  	struct skb_shared_=
-info *sinfo;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1183  	struct xdp_buff xd=
-p =3D {};
-1c194998252469 Lorenzo Bianconi       2022-01-21  1184  	int i, ret =3D -EI=
-NVAL;
-47316f4a305367 Zvi Effron             2021-07-07  1185  	struct xdp_md *ctx;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1186  	void *data;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1187  =
-
-5e21bb4e812566 Xuan Zhuo              2021-07-08  1188  	if (prog->expected=
-_attach_type =3D=3D BPF_XDP_DEVMAP ||
-5e21bb4e812566 Xuan Zhuo              2021-07-08  1189  	    prog->expected=
-_attach_type =3D=3D BPF_XDP_CPUMAP)
-5e21bb4e812566 Xuan Zhuo              2021-07-08  1190  		return -EINVAL;
-6d4eb36d65979a Andrii Nakryiko        2021-08-04  1191  =
-
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1192  	if (katt=
-r->test.flags & ~BPF_F_TEST_XDP_LIVE_FRAMES)
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1193  		return =
--EINVAL;
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1194  =
-
-47316f4a305367 Zvi Effron             2021-07-07  1195  	ctx =3D bpf_ctx_in=
-it(kattr, sizeof(struct xdp_md));
-47316f4a305367 Zvi Effron             2021-07-07  1196  	if (IS_ERR(ctx))
-47316f4a305367 Zvi Effron             2021-07-07  1197  		return PTR_ERR(ct=
-x);
-47316f4a305367 Zvi Effron             2021-07-07  1198  =
-
-47316f4a305367 Zvi Effron             2021-07-07  1199  	if (ctx) {
-47316f4a305367 Zvi Effron             2021-07-07  1200  		/* There can't be=
- user provided data before the meta data */
-47316f4a305367 Zvi Effron             2021-07-07  1201  		if (ctx->data_met=
-a || ctx->data_end !=3D size ||
-47316f4a305367 Zvi Effron             2021-07-07  1202  		    ctx->data > c=
-tx->data_end ||
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1203  		    unl=
-ikely(xdp_metalen_invalid(ctx->data)) ||
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1204  		    (do=
-_live && (kattr->test.data_out || kattr->test.ctx_out)))
-47316f4a305367 Zvi Effron             2021-07-07  1205  			goto free_ctx;
-47316f4a305367 Zvi Effron             2021-07-07  1206  		/* Meta data is a=
-llocated from the headroom */
-47316f4a305367 Zvi Effron             2021-07-07  1207  		headroom -=3D ctx=
-->data;
-47316f4a305367 Zvi Effron             2021-07-07  1208  	}
-947e8b595b82d3 Stanislav Fomichev     2019-04-11  1209  =
-
-bc56c919fce782 Jesper Dangaard Brouer 2020-05-14  1210  	max_data_sz =3D 40=
-96 - headroom - tailroom;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1211  	size =3D min_t(u32=
-, size, max_data_sz);
-bc56c919fce782 Jesper Dangaard Brouer 2020-05-14  1212  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1213  	data =3D bpf_test_=
-init(kattr, size, max_data_sz, headroom, tailroom);
-47316f4a305367 Zvi Effron             2021-07-07  1214  	if (IS_ERR(data)) {
-47316f4a305367 Zvi Effron             2021-07-07  1215  		ret =3D PTR_ERR(d=
-ata);
-47316f4a305367 Zvi Effron             2021-07-07  1216  		goto free_ctx;
-47316f4a305367 Zvi Effron             2021-07-07  1217  	}
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1218  =
-
-65073a67331de3 Daniel Borkmann        2018-01-31  1219  	rxqueue =3D __neti=
-f_get_rx_queue(current->nsproxy->net_ns->loopback_dev, 0);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1220  	rxqueue->xdp_rxq.f=
-rag_size =3D headroom + max_data_sz + tailroom;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1221  	xdp_init_buff(&xdp=
-, rxqueue->xdp_rxq.frag_size, &rxqueue->xdp_rxq);
-be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1222  	xdp_prepare_buff(&=
-xdp, data, headroom, size, true);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1223  	sinfo =3D xdp_get_=
-shared_info_from_buff(&xdp);
-be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1224  =
-
-47316f4a305367 Zvi Effron             2021-07-07  1225  	ret =3D xdp_conver=
-t_md_to_buff(ctx, &xdp);
-47316f4a305367 Zvi Effron             2021-07-07  1226  	if (ret)
-47316f4a305367 Zvi Effron             2021-07-07  1227  		goto free_data;
-47316f4a305367 Zvi Effron             2021-07-07  1228  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1229  	if (unlikely(kattr=
-->test.data_size_in > size)) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1230  		void __user *data=
-_in =3D u64_to_user_ptr(kattr->test.data_in);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1231  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1232  		while (size < kat=
-tr->test.data_size_in) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1233  			struct page *pag=
-e;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1234  			skb_frag_t *frag;
-9d63b59d1e9d2d Stanislav Fomichev     2022-02-04  1235  			u32 data_len;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1236  =
-
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1237  			if (sinfo->nr_fr=
-ags =3D=3D MAX_SKB_FRAGS) {
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1238  				ret =3D -ENOMEM;
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1239  				goto out;
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1240  			}
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1241  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1242  			page =3D alloc_p=
-age(GFP_KERNEL);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1243  			if (!page) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1244  				ret =3D -ENOMEM;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1245  				goto out;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1246  			}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1247  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1248  			frag =3D &sinfo-=
->frags[sinfo->nr_frags++];
-1c194998252469 Lorenzo Bianconi       2022-01-21  1249  			__skb_frag_set_p=
-age(frag, page);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1250  =
-
-9d63b59d1e9d2d Stanislav Fomichev     2022-02-04  1251  			data_len =3D min=
-_t(u32, kattr->test.data_size_in - size,
-1c194998252469 Lorenzo Bianconi       2022-01-21  1252  					 PAGE_SIZE);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1253  			skb_frag_size_se=
-t(frag, data_len);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1254  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1255  			if (copy_from_us=
-er(page_address(page), data_in + size,
-1c194998252469 Lorenzo Bianconi       2022-01-21  1256  					   data_len)) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1257  				ret =3D -EFAULT;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1258  				goto out;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1259  			}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1260  			sinfo->xdp_frags=
-_size +=3D data_len;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1261  			size +=3D data_l=
-en;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1262  		}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1263  		xdp_buff_set_frag=
-s_flag(&xdp);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1264  	}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1265  =
-
-de21d8bf777240 Lorenz Bauer           2021-09-28  1266  	if (repeat > 1)
-f23c4b3924d2e9 Bj=C3=B6rn T=C3=B6pel            2019-12-13  1267  		bpf_pro=
-g_change_xdp(NULL, prog);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1268  =
-
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1269  	if (do_l=
-ive)
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1270  		ret =3D=
- bpf_test_run_xdp_live(prog, &xdp, repeat, &duration);
-40f91d04974533 Toke H=C3=B8iland-J=C3=B8rgensen 2021-11-08  1271  	else
-f23c4b3924d2e9 Bj=C3=B6rn T=C3=B6pel            2019-12-13  1272  		ret =3D=
- bpf_test_run(prog, &xdp, repeat, &retval, &duration, true);
-ec94670fcb3bde Zvi Effron             2021-07-07  1273  	/* We convert the =
-xdp_buff back to an xdp_md before checking the return
-ec94670fcb3bde Zvi Effron             2021-07-07  1274  	 * code so the ref=
-erence count of any held netdevice will be decremented
-ec94670fcb3bde Zvi Effron             2021-07-07  1275  	 * even if the tes=
-t run failed.
-ec94670fcb3bde Zvi Effron             2021-07-07  1276  	 */
-ec94670fcb3bde Zvi Effron             2021-07-07  1277  	xdp_convert_buff_t=
-o_md(&xdp, ctx);
-dcb40590e69e30 Roman Gushchin         2018-12-01  1278  	if (ret)
-dcb40590e69e30 Roman Gushchin         2018-12-01  1279  		goto out;
-47316f4a305367 Zvi Effron             2021-07-07  1280  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1281  	size =3D xdp.data_=
-end - xdp.data_meta + sinfo->xdp_frags_size;
-7855e0db150ad8 Lorenzo Bianconi       2022-01-21  1282  	ret =3D bpf_test_f=
-inish(kattr, uattr, xdp.data_meta, sinfo, size,
-7855e0db150ad8 Lorenzo Bianconi       2022-01-21 @1283  			      retval, du=
-ration);
-47316f4a305367 Zvi Effron             2021-07-07  1284  	if (!ret)
-47316f4a305367 Zvi Effron             2021-07-07  1285  		ret =3D bpf_ctx_f=
-inish(kattr, uattr, ctx,
-47316f4a305367 Zvi Effron             2021-07-07  1286  				     sizeof(str=
-uct xdp_md));
-47316f4a305367 Zvi Effron             2021-07-07  1287  =
-
-dcb40590e69e30 Roman Gushchin         2018-12-01  1288  out:
-de21d8bf777240 Lorenz Bauer           2021-09-28  1289  	if (repeat > 1)
-f23c4b3924d2e9 Bj=C3=B6rn T=C3=B6pel            2019-12-13  1290  		bpf_pro=
-g_change_xdp(prog, NULL);
-47316f4a305367 Zvi Effron             2021-07-07  1291  free_data:
-1c194998252469 Lorenzo Bianconi       2022-01-21  1292  	for (i =3D 0; i < =
-sinfo->nr_frags; i++)
-1c194998252469 Lorenzo Bianconi       2022-01-21  1293  		__free_page(skb_f=
-rag_page(&sinfo->frags[i]));
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1294  	kfree(data);
-47316f4a305367 Zvi Effron             2021-07-07  1295  free_ctx:
-47316f4a305367 Zvi Effron             2021-07-07  1296  	kfree(ctx);
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1297  	return ret;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1298  }
-b7a1848e8398b8 Stanislav Fomichev     2019-01-28  1299  =
 
 
-:::::: The code at line 1283 was first introduced by commit
-:::::: 7855e0db150ad8f494d66913c26deadc52f12e07 bpf: test_run: add xdp_shar=
-ed_info pointer in bpf_test_finish signature
+clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:815:2: note: Taking false branch
+           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
+           ^
+   drivers/clk/clk-si5341.c:827:23: note: Division by zero
+                   rate =3D *parent_rate / (r << 1);
+                          ~~~~~~~~~~~~~^~~~~~~~~~
+   drivers/clk/clk-si5341.c:861:2: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           err =3D regmap_bulk_write(output->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:861:2: note: Value stored to 'err' is never read
+           err =3D regmap_bulk_write(output->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   lib/string_helpers.c:111:12: warning: Assigned value is garbage or undef=
+ined [clang-analyzer-core.uninitialized.Assign]
+           remainder +=3D rounding[j];
+                     ^  ~~~~~~~~~~~
+   lib/string_helpers.c:59:6: note: Assuming 'blk_size' is not equal to 0
+           if (blk_size =3D=3D 0)
+               ^~~~~~~~~~~~~
+   lib/string_helpers.c:59:2: note: Taking false branch
+           if (blk_size =3D=3D 0)
+           ^
+   lib/string_helpers.c:61:6: note: Assuming 'size' is not equal to 0
+           if (size =3D=3D 0)
+               ^~~~~~~~~
+   lib/string_helpers.c:61:2: note: Taking false branch
+           if (size =3D=3D 0)
+           ^
+   lib/string_helpers.c:75:2: note: Loop condition is false. Execution cont=
+inues on line 80
+           while (blk_size >> 32) {
+           ^
+   lib/string_helpers.c:80:2: note: Loop condition is false. Execution cont=
+inues on line 87
+           while (size >> 32) {
+           ^
+   lib/string_helpers.c:90:2: note: Loop condition is false. Execution cont=
+inues on line 97
+           while (size >=3D divisor[units]) {
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:32: note: The value 3 is assigned to 'j'
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                                         ^~~
+   lib/string_helpers.c:98:14: note: Assuming the condition is false
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is false. Execution cont=
+inues on line 101
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:101:6: note: Assuming 'units' is not equal to STRIN=
+G_UNITS_2
+           if (units =3D=3D STRING_UNITS_2) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/string_helpers.c:101:2: note: Taking false branch
+           if (units =3D=3D STRING_UNITS_2) {
+           ^
+   lib/string_helpers.c:111:12: note: Assigned value is garbage or undefined
+           remainder +=3D rounding[j];
+                     ^  ~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+           size_t size =3D (1UL << (PAGE_SHIFT + order));
+                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:203:9: note: Value stored to 'size' during its initiali=
+zation is never read
+           size_t size =3D (1UL << (PAGE_SHIFT + order));
+                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:315:40: warning: Use of memory after it is freed [clang=
+-analyzer-unix.Malloc]
+           KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 =3D *ptr2);
+                                                 ^
+   lib/test_kasan.c:88:2: note: expanded from macro 'KUNIT_EXPECT_KASAN_FAI=
+L'
+           expression;                                             \
+           ^~~~~~~~~~
+   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^
+   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
+           ^
+   include/kunit/test.h:679:74: note: expanded from macro 'KUNIT_ASSERTION'
+   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
+ do {  \
+                                                                           =
+ ^
+   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^
+   include/kunit/test.h:1191:21: note: expanded from macro 'KUNIT_PTR_NOT_E=
+RR_OR_NULL_MSG_ASSERTION'
+                                                   ...)                    =
+       \
+                                                                           =
+       ^
+   lib/test_kasan.c:312:2: note: Calling 'IS_ERR_OR_NULL'
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+                           !IS_ERR_OR_NULL(__ptr),                         =
+       \
+                            ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   include/linux/err.h:41:18: note: Assuming 'ptr' is non-null
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                           ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:41:9: note: Left side of '||' is false
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^
+   include/linux/err.h:41:27: note: Assuming the condition is false
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                                    ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   lib/test_kasan.c:312:2: note: Returning from 'IS_ERR_OR_NULL'
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+                           !IS_ERR_OR_NULL(__ptr),                         =
+       \
+                            ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   lib/test_kasan.c:312:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^
+   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
 
-:::::: TO: Lorenzo Bianconi <lorenzo@kernel.org>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+vim +/size +203 lib/test_kasan.c
+
+e6e8379c876de1 Alexander Potapenko 2016-03-25  197  =
+
+858bdeb046f6dc Andrey Konovalov    2021-02-24  198  static void pagealloc_o=
+ob_right(struct kunit *test)
+858bdeb046f6dc Andrey Konovalov    2021-02-24  199  {
+858bdeb046f6dc Andrey Konovalov    2021-02-24  200  	char *ptr;
+858bdeb046f6dc Andrey Konovalov    2021-02-24  201  	struct page *pages;
+858bdeb046f6dc Andrey Konovalov    2021-02-24  202  	size_t order =3D 4;
+858bdeb046f6dc Andrey Konovalov    2021-02-24 @203  	size_t size =3D (1UL <=
+< (PAGE_SHIFT + order));
+858bdeb046f6dc Andrey Konovalov    2021-02-24  204  =
+
+858bdeb046f6dc Andrey Konovalov    2021-02-24  205  	/*
+858bdeb046f6dc Andrey Konovalov    2021-02-24  206  	 * With generic KASAN =
+page allocations have no redzones, thus
+858bdeb046f6dc Andrey Konovalov    2021-02-24  207  	 * out-of-bounds detec=
+tion is not guaranteed.
+858bdeb046f6dc Andrey Konovalov    2021-02-24  208  	 * See https://bugzill=
+a.kernel.org/show_bug.cgi?id=3D210503.
+858bdeb046f6dc Andrey Konovalov    2021-02-24  209  	 */
+858bdeb046f6dc Andrey Konovalov    2021-02-24  210  	KASAN_TEST_NEEDS_CONFI=
+G_OFF(test, CONFIG_KASAN_GENERIC);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  211  =
+
+858bdeb046f6dc Andrey Konovalov    2021-02-24  212  	pages =3D alloc_pages(=
+GFP_KERNEL, order);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  213  	ptr =3D page_address(p=
+ages);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  214  	KUNIT_ASSERT_NOT_ERR_O=
+R_NULL(test, ptr);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  215  =
+
+858bdeb046f6dc Andrey Konovalov    2021-02-24  216  	KUNIT_EXPECT_KASAN_FAI=
+L(test, ptr[size] =3D 0);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  217  	free_pages((unsigned l=
+ong)ptr, order);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  218  }
+858bdeb046f6dc Andrey Konovalov    2021-02-24  219  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0632405065441409666==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============0317364946698417960==--
 
