@@ -1,128 +1,163 @@
-Content-Type: multipart/mixed; boundary="===============6876077890779413612=="
+Content-Type: multipart/mixed; boundary="===============2597048145691717687=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/kernel/module-plts.c:65 get_module_plt() warn: we never enter this loop
-Date: Tue, 15 Feb 2022 04:54:50 +0800
-Message-ID: <202202150457.oaMwo3aN-lkp@intel.com>
+Subject: drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c:251 inno_dsidphy_pll_calc_rate() warn: 'tmp' 123456789 can't fit into 65535 '_fbdiv'
+Date: Tue, 15 Feb 2022 04:54:47 +0800
+Message-ID: <202202150413.GDbtzyhF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6876077890779413612==
+--===============2597048145691717687==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Alex Sverdlin <alexander.sverdlin@nokia.com>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+
+Hi Masahiro,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d567f5db412ed52de0b3b3efca4a451263de6108
-commit: 79f32b221b18c15a98507b101ef4beb52444cc6f ARM: 9079/1: ftrace: Add M=
-ODULE_PLTS support
-date:   8 months ago
+commit: ea29b20a828511de3348334e529a3d046a180416 init/Kconfig: make COMPILE=
+_TEST depend on HAS_IOMEM
+date:   11 months ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: arm-randconfig-m031-20220214 (https://download.01.org/0day-ci/archi=
-ve/20220215/202202150457.oaMwo3aN-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+:::::: commit date: 11 months ago
+config: s390-randconfig-m031-20220214 (https://download.01.org/0day-ci/arch=
+ive/20220215/202202150413.GDbtzyhF-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-arch/arm/kernel/module-plts.c:65 get_module_plt() warn: we never enter this=
- loop
+drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c:251 inno_dsidphy_pll_calc_=
+rate() warn: 'tmp' 123456789 can't fit into 65535 '_fbdiv'
+drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c:1957 mx23_boot_init() warn: shou=
+ld 'block << chip->phys_erase_shift' be a 64 bit type?
 
-vim +65 arch/arm/kernel/module-plts.c
+vim +251 drivers/phy/rockchip/phy-rockchip-inno-dsidphy.c
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   50  =
+b7535a3bc0bac7 Wyon Bi        2019-10-24  218  =
 
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   51  u32 get_module_plt(struct mo=
-dule *mod, unsigned long loc, Elf32_Addr val)
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   52  {
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   53  	struct mod_plt_sec *pltsec =
-=3D !in_init(mod, loc) ? &mod->arch.core :
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   54  							  &mod->arch.init;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   55  	struct plt_entries *plt;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   56  	int idx;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   57  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  219  static unsigned long inno_ds=
+idphy_pll_calc_rate(struct inno_dsidphy *inno,
+f0684c1a836770 Heiko Stuebner 2019-11-08  220  						unsigned long rate)
+b7535a3bc0bac7 Wyon Bi        2019-10-24  221  {
+f0684c1a836770 Heiko Stuebner 2019-11-08  222  	unsigned long prate =3D clk=
+_get_rate(inno->ref_clk);
+f0684c1a836770 Heiko Stuebner 2019-11-08  223  	unsigned long best_freq =3D=
+ 0;
+f0684c1a836770 Heiko Stuebner 2019-11-08  224  	unsigned long fref, fout;
+f0684c1a836770 Heiko Stuebner 2019-11-08  225  	u8 min_prediv, max_prediv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  226  	u8 _prediv, best_prediv =3D=
+ 1;
+f0684c1a836770 Heiko Stuebner 2019-11-08  227  	u16 _fbdiv, best_fbdiv =3D =
+1;
+f0684c1a836770 Heiko Stuebner 2019-11-08  228  	u32 min_delta =3D UINT_MAX;
+f0684c1a836770 Heiko Stuebner 2019-11-08  229  =
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   58  	/* cache the address, ELF h=
-eader is available only during module load */
-79f32b221b18c1 Alex Sverdlin  2021-05-05   59  	if (!pltsec->plt_ent)
-79f32b221b18c1 Alex Sverdlin  2021-05-05   60  		pltsec->plt_ent =3D (struc=
-t plt_entries *)pltsec->plt->sh_addr;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   61  	plt =3D pltsec->plt_ent;
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   62  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  230  	/*
+f0684c1a836770 Heiko Stuebner 2019-11-08  231  	 * The PLL output frequency=
+ can be calculated using a simple formula:
+f0684c1a836770 Heiko Stuebner 2019-11-08  232  	 * PLL_Output_Frequency =3D=
+ (FREF / PREDIV * FBDIV) / 2
+f0684c1a836770 Heiko Stuebner 2019-11-08  233  	 * PLL_Output_Frequency: it=
+ is equal to DDR-Clock-Frequency * 2
+f0684c1a836770 Heiko Stuebner 2019-11-08  234  	 */
+f0684c1a836770 Heiko Stuebner 2019-11-08  235  	fref =3D prate / 2;
+f0684c1a836770 Heiko Stuebner 2019-11-08  236  	if (rate > 1000000000UL)
+f0684c1a836770 Heiko Stuebner 2019-11-08  237  		fout =3D 1000000000UL;
+f0684c1a836770 Heiko Stuebner 2019-11-08  238  	else
+f0684c1a836770 Heiko Stuebner 2019-11-08  239  		fout =3D rate;
+f0684c1a836770 Heiko Stuebner 2019-11-08  240  =
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   63  	prealloc_fixed(pltsec, plt);
-79f32b221b18c1 Alex Sverdlin  2021-05-05   64  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  241  	/* 5Mhz < Fref / prediv < 4=
+0MHz */
+f0684c1a836770 Heiko Stuebner 2019-11-08  242  	min_prediv =3D DIV_ROUND_UP=
+(fref, 40000000);
+f0684c1a836770 Heiko Stuebner 2019-11-08  243  	max_prediv =3D fref / 50000=
+00;
+f0684c1a836770 Heiko Stuebner 2019-11-08  244  =
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05  @65  	for (idx =3D 0; idx < ARRAY=
-_SIZE(fixed_plts); ++idx)
-79f32b221b18c1 Alex Sverdlin  2021-05-05   66  		if (plt->lit[idx] =3D=3D v=
-al)
-79f32b221b18c1 Alex Sverdlin  2021-05-05   67  			return (u32)&plt->ldr[idx=
-];
-35fa91eed817d2 Ard Biesheuvel 2016-08-16   68  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  245  	for (_prediv =3D min_prediv=
+; _prediv <=3D max_prediv; _prediv++) {
+f0684c1a836770 Heiko Stuebner 2019-11-08  246  		u64 tmp;
+f0684c1a836770 Heiko Stuebner 2019-11-08  247  		u32 delta;
+f0684c1a836770 Heiko Stuebner 2019-11-08  248  =
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   69  	idx =3D 0;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   70  	/*
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   71  	 * Look for an existing ent=
-ry pointing to 'val'. Given that the
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   72  	 * relocations are sorted, =
-this will be the last entry we allocated.
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   73  	 * (if one exists).
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   74  	 */
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   75  	if (pltsec->plt_count > 0) {
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   76  		plt +=3D (pltsec->plt_coun=
-t - 1) / PLT_ENT_COUNT;
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   77  		idx =3D (pltsec->plt_count=
- - 1) % PLT_ENT_COUNT;
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   78  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  249  		tmp =3D (u64)fout * _predi=
+v;
+f0684c1a836770 Heiko Stuebner 2019-11-08  250  		do_div(tmp, fref);
+f0684c1a836770 Heiko Stuebner 2019-11-08 @251  		_fbdiv =3D tmp;
+f0684c1a836770 Heiko Stuebner 2019-11-08  252  =
 
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   79  		if (plt->lit[idx] =3D=3D v=
-al)
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   80  			return (u32)&plt->ldr[idx=
-];
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   81  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  253  		/*
+f0684c1a836770 Heiko Stuebner 2019-11-08  254  		 * The possible settings o=
+f feedback divider are
+f0684c1a836770 Heiko Stuebner 2019-11-08  255  		 * 12, 13, 14, 16, ~ 511
+f0684c1a836770 Heiko Stuebner 2019-11-08  256  		 */
+f0684c1a836770 Heiko Stuebner 2019-11-08  257  		if (_fbdiv =3D=3D 15)
+f0684c1a836770 Heiko Stuebner 2019-11-08  258  			continue;
+f0684c1a836770 Heiko Stuebner 2019-11-08  259  =
 
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   82  		idx =3D (idx + 1) % PLT_EN=
-T_COUNT;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   83  		if (!idx)
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   84  			plt++;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   85  	}
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   86  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  260  		if (_fbdiv < 12 || _fbdiv =
+> 511)
+f0684c1a836770 Heiko Stuebner 2019-11-08  261  			continue;
+f0684c1a836770 Heiko Stuebner 2019-11-08  262  =
 
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   87  	pltsec->plt_count++;
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   88  	BUG_ON(pltsec->plt_count * =
-PLT_ENT_SIZE > pltsec->plt->sh_size);
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   89  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  263  		tmp =3D (u64)_fbdiv * fref;
+f0684c1a836770 Heiko Stuebner 2019-11-08  264  		do_div(tmp, _prediv);
+f0684c1a836770 Heiko Stuebner 2019-11-08  265  =
 
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   90  	if (!idx)
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   91  		/* Populate a new set of e=
-ntries */
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   92  		*plt =3D (struct plt_entri=
-es){
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   93  			{ [0 ... PLT_ENT_COUNT - =
-1] =3D PLT_ENT_LDR, },
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   94  			{ val, }
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   95  		};
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   96  	else
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   97  		plt->lit[idx] =3D val;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   98  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  266  		delta =3D abs(fout - tmp);
+f0684c1a836770 Heiko Stuebner 2019-11-08  267  		if (!delta) {
+f0684c1a836770 Heiko Stuebner 2019-11-08  268  			best_prediv =3D _prediv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  269  			best_fbdiv =3D _fbdiv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  270  			best_freq =3D tmp;
+f0684c1a836770 Heiko Stuebner 2019-11-08  271  			break;
+f0684c1a836770 Heiko Stuebner 2019-11-08  272  		} else if (delta < min_del=
+ta) {
+f0684c1a836770 Heiko Stuebner 2019-11-08  273  			best_prediv =3D _prediv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  274  			best_fbdiv =3D _fbdiv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  275  			best_freq =3D tmp;
+f0684c1a836770 Heiko Stuebner 2019-11-08  276  			min_delta =3D delta;
+f0684c1a836770 Heiko Stuebner 2019-11-08  277  		}
+f0684c1a836770 Heiko Stuebner 2019-11-08  278  	}
+f0684c1a836770 Heiko Stuebner 2019-11-08  279  =
 
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   99  	return (u32)&plt->ldr[idx];
-7d485f647c1f4a Ard Biesheuvel 2014-11-24  100  }
-7d485f647c1f4a Ard Biesheuvel 2014-11-24  101  =
+f0684c1a836770 Heiko Stuebner 2019-11-08  280  	if (best_freq) {
+f0684c1a836770 Heiko Stuebner 2019-11-08  281  		inno->pll.prediv =3D best_=
+prediv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  282  		inno->pll.fbdiv =3D best_f=
+bdiv;
+f0684c1a836770 Heiko Stuebner 2019-11-08  283  		inno->pll.rate =3D best_fr=
+eq;
+f0684c1a836770 Heiko Stuebner 2019-11-08  284  	}
+f0684c1a836770 Heiko Stuebner 2019-11-08  285  =
 
+f0684c1a836770 Heiko Stuebner 2019-11-08  286  	return best_freq;
+b7535a3bc0bac7 Wyon Bi        2019-10-24  287  }
+b7535a3bc0bac7 Wyon Bi        2019-10-24  288  =
+
+
+:::::: The code at line 251 was first introduced by commit
+:::::: f0684c1a836770afba7a7097e61935edd69693bf phy/rockchip: inno-dsidphy:=
+ generalize parameter handling
+
+:::::: TO: Heiko Stuebner <heiko.stuebner@theobroma-systems.com>
+:::::: CC: Kishon Vijay Abraham I <kishon@ti.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6876077890779413612==--
+--===============2597048145691717687==--
 
