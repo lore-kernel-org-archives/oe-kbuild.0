@@ -1,421 +1,244 @@
-Content-Type: multipart/mixed; boundary="===============5047496012730339937=="
+Content-Type: multipart/mixed; boundary="===============4810522136443592470=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/s390/kernel/module.c:358 apply_rela() warn: '49396' 49396 can't fit into 32767 '*&insn[8]'
-Date: Tue, 15 Feb 2022 08:49:26 +0800
-Message-ID: <202202150856.WNWOs6OU-lkp@intel.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1209 mpi3mr_issue_reset() error: uninitialized symbol 'host_diagnostic'.
+Date: Tue, 15 Feb 2022 07:47:57 +0800
+Message-ID: <202202150735.ENek3KKS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5047496012730339937==
+--===============4810522136443592470==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ilya Leoshkevich <iii@linux.ibm.com>
-CC: Heiko Carstens <hca@linux.ibm.com>
+TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d567f5db412ed52de0b3b3efca4a451263de6108
-commit: f3b7e73b2c6619884351a3a0a7468642f852b8a2 s390/module: fix loading m=
-odules with a lot of relocations
-date:   3 weeks ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 3 weeks ago
+commit: b64845a7d4039ab9667bafff9d7bb59365f17c0f scsi: mpi3mr: Detect async=
+ reset that occurred in firmware
+date:   8 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 8 weeks ago
 config: s390-randconfig-m031-20220214 (https://download.01.org/0day-ci/arch=
-ive/20220215/202202150856.WNWOs6OU-lkp(a)intel.com/config)
+ive/20220215/202202150735.ENek3KKS-lkp(a)intel.com/config)
 compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/s390/kernel/module.c:358 apply_rela() warn: '49396' 49396 can't fit in=
-to 32767 '*&insn[8]'
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1209 mpi3mr_issue_reset() error: uninitiali=
+zed symbol 'host_diagnostic'.
 
-vim +358 arch/s390/kernel/module.c
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1691 mpi3mr_create_op_reply_q() error: we p=
+reviously assumed 'op_reply_q->q_segments' could be null (see line 1662)
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1796 mpi3mr_create_op_req_q() error: we pre=
+viously assumed 'op_req_q->q_segments' could be null (see line 1769)
 
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  234  =
+vim +/host_diagnostic +1209 drivers/scsi/mpi3mr/mpi3mr_fw.c
 
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  235  static int apply_rela(El=
-f_Rela *rela, Elf_Addr base, Elf_Sym *symtab,
-be2422612a580e Peter Zijlstra     2020-04-29  236  		      const char *strt=
-ab, struct module *me,
-be2422612a580e Peter Zijlstra     2020-04-29  237  		      void *(*write)(v=
-oid *dest, const void *src, size_t len))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  238  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  239  	struct mod_arch_syminfo=
- *info;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	Elf_Addr loc, val;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  241  	int r_type, r_sym;
-72a6b43e4bbb81 Heiko Carstens     2013-02-27  242  	int rc =3D -ENOEXEC;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  243  =
+824a156633dfdb Kashyap Desai   2021-05-20  1167  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  244  	/* This is where to mak=
-e the change */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  245  	loc =3D base + rela->r_=
-offset;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  246  	/* This is the symbol i=
-t is referring to.  Note that all
-^1da177e4c3f41 Linus Torvalds     2005-04-16  247  	   undefined symbols ha=
-ve been resolved.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  248  	r_sym =3D ELF_R_SYM(rel=
-a->r_info);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  249  	r_type =3D ELF_R_TYPE(r=
-ela->r_info);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  250  	info =3D me->arch.symin=
-fo + r_sym;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  251  	val =3D symtab[r_sym].s=
-t_value;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  252  =
+824a156633dfdb Kashyap Desai   2021-05-20  1168  /**
+824a156633dfdb Kashyap Desai   2021-05-20  1169   * mpi3mr_issue_reset - Is=
+sue reset to the controller
+824a156633dfdb Kashyap Desai   2021-05-20  1170   * @mrioc: Adapter referen=
+ce
+824a156633dfdb Kashyap Desai   2021-05-20  1171   * @reset_type: Reset type
+824a156633dfdb Kashyap Desai   2021-05-20  1172   * @reset_reason: Reset re=
+ason code
+824a156633dfdb Kashyap Desai   2021-05-20  1173   *
+f061178e076210 Kashyap Desai   2021-05-20  1174   * Unlock the host diagnos=
+tic registers and write the specific
+f061178e076210 Kashyap Desai   2021-05-20  1175   * reset type to that, wai=
+t for reset acknowledgment from the
+f061178e076210 Kashyap Desai   2021-05-20  1176   * controller, if the rese=
+t is not successful retry for the
+f061178e076210 Kashyap Desai   2021-05-20  1177   * predefined number of ti=
+mes.
+824a156633dfdb Kashyap Desai   2021-05-20  1178   *
+824a156633dfdb Kashyap Desai   2021-05-20  1179   * Return: 0 on success, n=
+on-zero on failure.
+824a156633dfdb Kashyap Desai   2021-05-20  1180   */
+824a156633dfdb Kashyap Desai   2021-05-20  1181  static int mpi3mr_issue_re=
+set(struct mpi3mr_ioc *mrioc, u16 reset_type,
+824a156633dfdb Kashyap Desai   2021-05-20  1182  	u32 reset_reason)
+824a156633dfdb Kashyap Desai   2021-05-20  1183  {
+f061178e076210 Kashyap Desai   2021-05-20  1184  	int retval =3D -1;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1185  	u8 unlock_retry_count =3D=
+ 0;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1186  	u32 host_diagnostic, ioc_=
+status, ioc_config;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1187  	u32 timeout =3D MPI3MR_RE=
+SET_ACK_TIMEOUT * 10;
+f061178e076210 Kashyap Desai   2021-05-20  1188  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  253  	switch (r_type) {
-e80cfc31d872b6 Hendrik Brueckner  2012-10-31  254  	case R_390_NONE:	/* No =
-relocation.  */
-e80cfc31d872b6 Hendrik Brueckner  2012-10-31  255  		rc =3D 0;
-e80cfc31d872b6 Hendrik Brueckner  2012-10-31  256  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  257  	case R_390_8:		/* Direc=
-t 8 bit.   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  258  	case R_390_12:		/* Dire=
-ct 12 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  259  	case R_390_16:		/* Dire=
-ct 16 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  260  	case R_390_20:		/* Dire=
-ct 20 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  261  	case R_390_32:		/* Dire=
-ct 32 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  262  	case R_390_64:		/* Dire=
-ct 64 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  263  		val +=3D rela->r_adden=
-d;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  264  		if (r_type =3D=3D R_39=
-0_8)
-be2422612a580e Peter Zijlstra     2020-04-29  265  			rc =3D apply_rela_bit=
-s(loc, val, 0, 8, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  266  		else if (r_type =3D=3D=
- R_390_12)
-be2422612a580e Peter Zijlstra     2020-04-29  267  			rc =3D apply_rela_bit=
-s(loc, val, 0, 12, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  268  		else if (r_type =3D=3D=
- R_390_16)
-be2422612a580e Peter Zijlstra     2020-04-29  269  			rc =3D apply_rela_bit=
-s(loc, val, 0, 16, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  270  		else if (r_type =3D=3D=
- R_390_20)
-be2422612a580e Peter Zijlstra     2020-04-29  271  			rc =3D apply_rela_bit=
-s(loc, val, 1, 20, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  272  		else if (r_type =3D=3D=
- R_390_32)
-be2422612a580e Peter Zijlstra     2020-04-29  273  			rc =3D apply_rela_bit=
-s(loc, val, 0, 32, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  274  		else if (r_type =3D=3D=
- R_390_64)
-be2422612a580e Peter Zijlstra     2020-04-29  275  			rc =3D apply_rela_bit=
-s(loc, val, 0, 64, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  276  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  277  	case R_390_PC16:	/* PC =
-relative 16 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  278  	case R_390_PC16DBL:	/* =
-PC relative 16 bit shifted by 1.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  279  	case R_390_PC32DBL:	/* =
-PC relative 32 bit shifted by 1.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  280  	case R_390_PC32:	/* PC =
-relative 32 bit.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  281  	case R_390_PC64:	/* PC =
-relative 64 bit.	*/
-^1da177e4c3f41 Linus Torvalds     2005-04-16  282  		val +=3D rela->r_adden=
-d - loc;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  283  		if (r_type =3D=3D R_39=
-0_PC16)
-be2422612a580e Peter Zijlstra     2020-04-29  284  			rc =3D apply_rela_bit=
-s(loc, val, 1, 16, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  285  		else if (r_type =3D=3D=
- R_390_PC16DBL)
-be2422612a580e Peter Zijlstra     2020-04-29  286  			rc =3D apply_rela_bit=
-s(loc, val, 1, 16, 1, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  287  		else if (r_type =3D=3D=
- R_390_PC32DBL)
-be2422612a580e Peter Zijlstra     2020-04-29  288  			rc =3D apply_rela_bit=
-s(loc, val, 1, 32, 1, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  289  		else if (r_type =3D=3D=
- R_390_PC32)
-be2422612a580e Peter Zijlstra     2020-04-29  290  			rc =3D apply_rela_bit=
-s(loc, val, 1, 32, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  291  		else if (r_type =3D=3D=
- R_390_PC64)
-be2422612a580e Peter Zijlstra     2020-04-29  292  			rc =3D apply_rela_bit=
-s(loc, val, 1, 64, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  293  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  294  	case R_390_GOT12:	/* 12=
- bit GOT offset.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  295  	case R_390_GOT16:	/* 16=
- bit GOT offset.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  296  	case R_390_GOT20:	/* 20=
- bit GOT offset.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  297  	case R_390_GOT32:	/* 32=
- bit GOT offset.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  298  	case R_390_GOT64:	/* 64=
- bit GOT offset.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  299  	case R_390_GOTENT:	/* 3=
-2 bit PC rel. to GOT entry shifted by 1. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  300  	case R_390_GOTPLT12:	/*=
- 12 bit offset to jump slot.	*/
-^1da177e4c3f41 Linus Torvalds     2005-04-16  301  	case R_390_GOTPLT20:	/*=
- 20 bit offset to jump slot.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  302  	case R_390_GOTPLT16:	/*=
- 16 bit offset to jump slot.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  303  	case R_390_GOTPLT32:	/*=
- 32 bit offset to jump slot.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  304  	case R_390_GOTPLT64:	/*=
- 64 bit offset to jump slot.	*/
-^1da177e4c3f41 Linus Torvalds     2005-04-16  305  	case R_390_GOTPLTENT:	/=
-* 32 bit rel. offset to jump slot >> 1. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  306  		if (info->got_initiali=
-zed =3D=3D 0) {
-be2422612a580e Peter Zijlstra     2020-04-29  307  			Elf_Addr *gotent =3D =
-me->core_layout.base +
-be2422612a580e Peter Zijlstra     2020-04-29  308  					   me->arch.got_off=
-set +
-^1da177e4c3f41 Linus Torvalds     2005-04-16  309  					   info->got_offset;
-be2422612a580e Peter Zijlstra     2020-04-29  310  =
+f061178e076210 Kashyap Desai   2021-05-20  1189  	if ((reset_type !=3D MPI3=
+_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET) &&
+f061178e076210 Kashyap Desai   2021-05-20  1190  	    (reset_type !=3D MPI3=
+_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT))
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1191  		return retval;
+f061178e076210 Kashyap Desai   2021-05-20  1192  	if (mrioc->unrecoverable)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1193  		return retval;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1194  	if (reset_reason =3D=3D M=
+PI3MR_RESET_FROM_FIRMWARE) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1195  		retval =3D 0;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1196  		return retval;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1197  	}
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1198  =
 
-be2422612a580e Peter Zijlstra     2020-04-29  311  			write(gotent, &val, s=
-izeof(*gotent));
-^1da177e4c3f41 Linus Torvalds     2005-04-16  312  			info->got_initialized=
- =3D 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  313  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  314  		val =3D info->got_offs=
-et + rela->r_addend;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  315  		if (r_type =3D=3D R_39=
-0_GOT12 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  316  		    r_type =3D=3D R_39=
-0_GOTPLT12)
-be2422612a580e Peter Zijlstra     2020-04-29  317  			rc =3D apply_rela_bit=
-s(loc, val, 0, 12, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  318  		else if (r_type =3D=3D=
- R_390_GOT16 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  319  			 r_type =3D=3D R_390_=
-GOTPLT16)
-be2422612a580e Peter Zijlstra     2020-04-29  320  			rc =3D apply_rela_bit=
-s(loc, val, 0, 16, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  321  		else if (r_type =3D=3D=
- R_390_GOT20 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  322  			 r_type =3D=3D R_390_=
-GOTPLT20)
-be2422612a580e Peter Zijlstra     2020-04-29  323  			rc =3D apply_rela_bit=
-s(loc, val, 1, 20, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  324  		else if (r_type =3D=3D=
- R_390_GOT32 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  325  			 r_type =3D=3D R_390_=
-GOTPLT32)
-be2422612a580e Peter Zijlstra     2020-04-29  326  			rc =3D apply_rela_bit=
-s(loc, val, 0, 32, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  327  		else if (r_type =3D=3D=
- R_390_GOT64 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  328  			 r_type =3D=3D R_390_=
-GOTPLT64)
-be2422612a580e Peter Zijlstra     2020-04-29  329  			rc =3D apply_rela_bit=
-s(loc, val, 0, 64, 0, write);
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  330  		else if (r_type =3D=3D=
- R_390_GOTENT ||
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  331  			 r_type =3D=3D R_390_=
-GOTPLTENT) {
-7523e4dc5057e1 Rusty Russell      2015-11-26  332  			val +=3D (Elf_Addr) m=
-e->core_layout.base - loc;
-be2422612a580e Peter Zijlstra     2020-04-29  333  			rc =3D apply_rela_bit=
-s(loc, val, 1, 32, 1, write);
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  334  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  335  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  336  	case R_390_PLT16DBL:	/*=
- 16 bit PC rel. PLT shifted by 1.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  337  	case R_390_PLT32DBL:	/*=
- 32 bit PC rel. PLT shifted by 1.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  338  	case R_390_PLT32:	/* 32=
- bit PC relative PLT address.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  339  	case R_390_PLT64:	/* 64=
- bit PC relative PLT address.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  340  	case R_390_PLTOFF16:	/*=
- 16 bit offset from GOT to PLT. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  341  	case R_390_PLTOFF32:	/*=
- 32 bit offset from GOT to PLT. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  342  	case R_390_PLTOFF64:	/*=
- 16 bit offset from GOT to PLT. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  343  		if (info->plt_initiali=
-zed =3D=3D 0) {
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  344  			unsigned char insn[PL=
-T_ENTRY_SIZE];
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  345  			char *plt_base;
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  346  			char *ip;
-be2422612a580e Peter Zijlstra     2020-04-29  347  =
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1199  	ioc_info(mrioc, "%s reset=
+ due to %s(0x%x)\n",
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1200  	    mpi3mr_reset_type_nam=
+e(reset_type),
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1201  	    mpi3mr_reset_rc_name(=
+reset_reason), reset_reason);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1202  =
 
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  348  			plt_base =3D me->core=
-_layout.base + me->arch.plt_offset;
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  349  			ip =3D plt_base + inf=
-o->plt_offset;
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  350  			*(int *)insn =3D 0x0d=
-10e310;	/* basr 1,0  */
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  351  			*(int *)&insn[4] =3D =
-0x100c0004;	/* lg	1,12(1) */
-6e179d64126b90 Martin Schwidefsky 2018-03-23  352  			if (IS_ENABLED(CONFIG=
-_EXPOLINE) && !nospec_disable) {
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  353  				char *jump_r1;
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  354  =
+f061178e076210 Kashyap Desai   2021-05-20  1203  	mpi3mr_clear_reset_histor=
+y(mrioc);
+f061178e076210 Kashyap Desai   2021-05-20  1204  	do {
+f061178e076210 Kashyap Desai   2021-05-20  1205  		ioc_info(mrioc,
+f061178e076210 Kashyap Desai   2021-05-20  1206  		    "Write magic sequenc=
+e to unlock host diag register (retry=3D%d)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1207  		    ++unlock_retry_count=
+);
+f061178e076210 Kashyap Desai   2021-05-20  1208  		if (unlock_retry_count >=
+=3D MPI3MR_HOSTDIAG_UNLOCK_RETRY_COUNT) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20 @1209  			ioc_err(mrioc,
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1210  			    "%s reset failed du=
+e to unlock failure, host_diagnostic(0x%08x)\n",
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1211  			    mpi3mr_reset_type_n=
+ame(reset_type),
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1212  			    host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1213  			mrioc->unrecoverable =
+=3D 1;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1214  			return retval;
+f061178e076210 Kashyap Desai   2021-05-20  1215  		}
+f061178e076210 Kashyap Desai   2021-05-20  1216  =
 
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  355  				jump_r1 =3D plt_base=
- + me->arch.plt_size -
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  356  					PLT_ENTRY_SIZE;
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  357  				/* brcl	0xf,__jump_r=
-1 */
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19 @358  				*(short *)&insn[8] =
-=3D 0xc0f4;
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  359  				*(int *)&insn[10] =
-=3D (jump_r1 - (ip + 8)) / 2;
-f19fbd5ed642dc Martin Schwidefsky 2018-01-26  360  			} else {
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  361  				*(int *)&insn[8] =3D=
- 0x07f10000;	/* br %r1 */
-f19fbd5ed642dc Martin Schwidefsky 2018-01-26  362  			}
-f3b7e73b2c6619 Ilya Leoshkevich   2022-01-19  363  			*(long *)&insn[14] =
-=3D val;
-be2422612a580e Peter Zijlstra     2020-04-29  364  =
+f061178e076210 Kashyap Desai   2021-05-20  1217  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_FLUSH,
+f061178e076210 Kashyap Desai   2021-05-20  1218  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1219  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_1ST,
+f061178e076210 Kashyap Desai   2021-05-20  1220  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1221  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_2ND,
+f061178e076210 Kashyap Desai   2021-05-20  1222  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1223  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_3RD,
+f061178e076210 Kashyap Desai   2021-05-20  1224  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1225  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_4TH,
+f061178e076210 Kashyap Desai   2021-05-20  1226  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1227  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_5TH,
+f061178e076210 Kashyap Desai   2021-05-20  1228  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1229  		writel(MPI3_SYSIF_WRITE_=
+SEQUENCE_KEY_VALUE_6TH,
+f061178e076210 Kashyap Desai   2021-05-20  1230  		    &mrioc->sysif_regs->=
+write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1231  		usleep_range(1000, 1100);
+f061178e076210 Kashyap Desai   2021-05-20  1232  		host_diagnostic =3D read=
+l(&mrioc->sysif_regs->host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1233  		ioc_info(mrioc,
+f061178e076210 Kashyap Desai   2021-05-20  1234  		    "wrote magic sequenc=
+e: retry_count(%d), host_diagnostic(0x%08x)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1235  		    unlock_retry_count, =
+host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1236  	} while (!(host_diagnosti=
+c & MPI3_SYSIF_HOST_DIAG_DIAG_WRITE_ENABLE));
+f061178e076210 Kashyap Desai   2021-05-20  1237  =
 
-be2422612a580e Peter Zijlstra     2020-04-29  365  			write(ip, insn, sizeo=
-f(insn));
-^1da177e4c3f41 Linus Torvalds     2005-04-16  366  			info->plt_initialized=
- =3D 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  367  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  368  		if (r_type =3D=3D R_39=
-0_PLTOFF16 ||
-504665a91498f4 Martin Schwidefsky 2009-03-26  369  		    r_type =3D=3D R_39=
-0_PLTOFF32 ||
-504665a91498f4 Martin Schwidefsky 2009-03-26  370  		    r_type =3D=3D R_39=
-0_PLTOFF64)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  371  			val =3D me->arch.plt_=
-offset - me->arch.got_offset +
-^1da177e4c3f41 Linus Torvalds     2005-04-16  372  				info->plt_offset + r=
-ela->r_addend;
-504665a91498f4 Martin Schwidefsky 2009-03-26  373  		else {
-504665a91498f4 Martin Schwidefsky 2009-03-26  374  			if (!((r_type =3D=3D =
-R_390_PLT16DBL &&
-504665a91498f4 Martin Schwidefsky 2009-03-26  375  			       val - loc + 0x=
-ffffUL < 0x1ffffeUL) ||
-504665a91498f4 Martin Schwidefsky 2009-03-26  376  			      (r_type =3D=3D =
-R_390_PLT32DBL &&
-504665a91498f4 Martin Schwidefsky 2009-03-26  377  			       val - loc + 0x=
-ffffffffULL < 0x1fffffffeULL)))
-7523e4dc5057e1 Rusty Russell      2015-11-26  378  				val =3D (Elf_Addr) m=
-e->core_layout.base +
-504665a91498f4 Martin Schwidefsky 2009-03-26  379  					me->arch.plt_offset=
- +
-504665a91498f4 Martin Schwidefsky 2009-03-26  380  					info->plt_offset;
-504665a91498f4 Martin Schwidefsky 2009-03-26  381  			val +=3D rela->r_adde=
-nd - loc;
-504665a91498f4 Martin Schwidefsky 2009-03-26  382  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  383  		if (r_type =3D=3D R_39=
-0_PLT16DBL)
-be2422612a580e Peter Zijlstra     2020-04-29  384  			rc =3D apply_rela_bit=
-s(loc, val, 1, 16, 1, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  385  		else if (r_type =3D=3D=
- R_390_PLTOFF16)
-be2422612a580e Peter Zijlstra     2020-04-29  386  			rc =3D apply_rela_bit=
-s(loc, val, 0, 16, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  387  		else if (r_type =3D=3D=
- R_390_PLT32DBL)
-be2422612a580e Peter Zijlstra     2020-04-29  388  			rc =3D apply_rela_bit=
-s(loc, val, 1, 32, 1, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  389  		else if (r_type =3D=3D=
- R_390_PLT32 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  390  			 r_type =3D=3D R_390_=
-PLTOFF32)
-be2422612a580e Peter Zijlstra     2020-04-29  391  			rc =3D apply_rela_bit=
-s(loc, val, 0, 32, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  392  		else if (r_type =3D=3D=
- R_390_PLT64 ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  393  			 r_type =3D=3D R_390_=
-PLTOFF64)
-be2422612a580e Peter Zijlstra     2020-04-29  394  			rc =3D apply_rela_bit=
-s(loc, val, 0, 64, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  395  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  396  	case R_390_GOTOFF16:	/*=
- 16 bit offset to GOT.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  397  	case R_390_GOTOFF32:	/*=
- 32 bit offset to GOT.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  398  	case R_390_GOTOFF64:	/*=
- 64 bit offset to GOT. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  399  		val =3D val + rela->r_=
-addend -
-7523e4dc5057e1 Rusty Russell      2015-11-26  400  			((Elf_Addr) me->core_=
-layout.base + me->arch.got_offset);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  401  		if (r_type =3D=3D R_39=
-0_GOTOFF16)
-be2422612a580e Peter Zijlstra     2020-04-29  402  			rc =3D apply_rela_bit=
-s(loc, val, 0, 16, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  403  		else if (r_type =3D=3D=
- R_390_GOTOFF32)
-be2422612a580e Peter Zijlstra     2020-04-29  404  			rc =3D apply_rela_bit=
-s(loc, val, 0, 32, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  405  		else if (r_type =3D=3D=
- R_390_GOTOFF64)
-be2422612a580e Peter Zijlstra     2020-04-29  406  			rc =3D apply_rela_bit=
-s(loc, val, 0, 64, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  407  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  408  	case R_390_GOTPC:	/* 32=
- bit PC relative offset to GOT. */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  409  	case R_390_GOTPCDBL:	/*=
- 32 bit PC rel. off. to GOT shifted by 1. */
-7523e4dc5057e1 Rusty Russell      2015-11-26  410  		val =3D (Elf_Addr) me-=
->core_layout.base + me->arch.got_offset +
-^1da177e4c3f41 Linus Torvalds     2005-04-16  411  			rela->r_addend - loc;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  412  		if (r_type =3D=3D R_39=
-0_GOTPC)
-be2422612a580e Peter Zijlstra     2020-04-29  413  			rc =3D apply_rela_bit=
-s(loc, val, 1, 32, 0, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  414  		else if (r_type =3D=3D=
- R_390_GOTPCDBL)
-be2422612a580e Peter Zijlstra     2020-04-29  415  			rc =3D apply_rela_bit=
-s(loc, val, 1, 32, 1, write);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  416  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  417  	case R_390_COPY:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  418  	case R_390_GLOB_DAT:	/*=
- Create GOT entry.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  419  	case R_390_JMP_SLOT:	/*=
- Create PLT entry.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  420  	case R_390_RELATIVE:	/*=
- Adjust by program base.  */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  421  		/* Only needed if we w=
-ant to support loading of =
+f061178e076210 Kashyap Desai   2021-05-20  1238  	writel(reset_reason, &mri=
+oc->sysif_regs->scratchpad[0]);
+f061178e076210 Kashyap Desai   2021-05-20  1239  	writel(host_diagnostic | =
+reset_type,
+f061178e076210 Kashyap Desai   2021-05-20  1240  	    &mrioc->sysif_regs->h=
+ost_diagnostic);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1241  	switch (reset_type) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1242  	case MPI3_SYSIF_HOST_DIAG=
+_RESET_ACTION_SOFT_RESET:
+f061178e076210 Kashyap Desai   2021-05-20  1243  		do {
+f061178e076210 Kashyap Desai   2021-05-20  1244  			ioc_status =3D readl(&m=
+rioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1245  			ioc_config =3D
+f061178e076210 Kashyap Desai   2021-05-20  1246  			    readl(&mrioc->sysif=
+_regs->ioc_configuration);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1247  			if ((ioc_status & MPI3_=
+SYSIF_IOC_STATUS_RESET_HISTORY)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1248  			    && mpi3mr_soft_rese=
+t_success(ioc_status, ioc_config)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1249  			    ) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1250  				mpi3mr_clear_reset_his=
+tory(mrioc);
+f061178e076210 Kashyap Desai   2021-05-20  1251  				retval =3D 0;
+f061178e076210 Kashyap Desai   2021-05-20  1252  				break;
+f061178e076210 Kashyap Desai   2021-05-20  1253  			}
+f061178e076210 Kashyap Desai   2021-05-20  1254  			msleep(100);
+f061178e076210 Kashyap Desai   2021-05-20  1255  		} while (--timeout);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1256  		mpi3mr_print_fault_info(=
+mrioc);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1257  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1258  	case MPI3_SYSIF_HOST_DIAG=
+_RESET_ACTION_DIAG_FAULT:
+f061178e076210 Kashyap Desai   2021-05-20  1259  		do {
+f061178e076210 Kashyap Desai   2021-05-20  1260  			ioc_status =3D readl(&m=
+rioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1261  			if (mpi3mr_diagfault_su=
+ccess(mrioc, ioc_status)) {
+f061178e076210 Kashyap Desai   2021-05-20  1262  				retval =3D 0;
+f061178e076210 Kashyap Desai   2021-05-20  1263  				break;
+f061178e076210 Kashyap Desai   2021-05-20  1264  			}
+f061178e076210 Kashyap Desai   2021-05-20  1265  			msleep(100);
+f061178e076210 Kashyap Desai   2021-05-20  1266  		} while (--timeout);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1267  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1268  	default:
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1269  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1270  	}
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1271  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  422  		   modules linked with=
- -shared. */
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  423  		return -ENOEXEC;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  424  	default:
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  425  		printk(KERN_ERR "modul=
-e %s: unknown relocation: %u\n",
-^1da177e4c3f41 Linus Torvalds     2005-04-16  426  		       me->name, r_typ=
-e);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  427  		return -ENOEXEC;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  428  	}
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  429  	if (rc) {
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  430  		printk(KERN_ERR "modul=
-e %s: relocation error for symbol %s "
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  431  		       "(r_type %i, va=
-lue 0x%lx)\n",
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  432  		       me->name, strta=
-b + symtab[r_sym].st_name,
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  433  		       r_type, (unsign=
-ed long) val);
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  434  		return rc;
-083e14c09b7ae0 Martin Schwidefsky 2013-01-11  435  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  436  	return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  437  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  438  =
+f061178e076210 Kashyap Desai   2021-05-20  1272  	writel(MPI3_SYSIF_WRITE_S=
+EQUENCE_KEY_VALUE_2ND,
+f061178e076210 Kashyap Desai   2021-05-20  1273  	    &mrioc->sysif_regs->w=
+rite_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1274  =
+
+f061178e076210 Kashyap Desai   2021-05-20  1275  	ioc_config =3D readl(&mri=
+oc->sysif_regs->ioc_configuration);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1276  	ioc_status =3D readl(&mri=
+oc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1277  	ioc_info(mrioc,
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1278  	    "ioc_status/ioc_onfig=
+ after %s reset is (0x%x)/(0x%x)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1279  	    (!retval)?"successful=
+":"failed", ioc_status,
+f061178e076210 Kashyap Desai   2021-05-20  1280  	    ioc_config);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1281  	if (retval)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1282  		mrioc->unrecoverable =3D=
+ 1;
+f061178e076210 Kashyap Desai   2021-05-20  1283  	return retval;
+824a156633dfdb Kashyap Desai   2021-05-20  1284  }
+824a156633dfdb Kashyap Desai   2021-05-20  1285  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5047496012730339937==--
+--===============4810522136443592470==--
 
