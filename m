@@ -1,244 +1,114 @@
-Content-Type: multipart/mixed; boundary="===============4810522136443592470=="
+Content-Type: multipart/mixed; boundary="===============7895996384342253978=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1209 mpi3mr_issue_reset() error: uninitialized symbol 'host_diagnostic'.
-Date: Tue, 15 Feb 2022 07:47:57 +0800
-Message-ID: <202202150735.ENek3KKS-lkp@intel.com>
+Subject: drivers/net/wwan/qcom_bam_dmux.c:507 bam_dmux_cmd_data() warn: potential spectre issue 'dmux->netdevs' [r]
+Date: Tue, 15 Feb 2022 06:36:14 +0800
+Message-ID: <202202150600.4Sde40jv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4810522136443592470==
+--===============7895996384342253978==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+TO: Stephan Gerhold <stephan@gerhold.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d567f5db412ed52de0b3b3efca4a451263de6108
-commit: b64845a7d4039ab9667bafff9d7bb59365f17c0f scsi: mpi3mr: Detect async=
- reset that occurred in firmware
-date:   8 weeks ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 8 weeks ago
+commit: 21a0ffd9b38c61d79b5ade54893b0f59f2e8c2c3 net: wwan: Add Qualcomm BA=
+M-DMUX WWAN network driver
+date:   3 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 months ago
 config: s390-randconfig-m031-20220214 (https://download.01.org/0day-ci/arch=
-ive/20220215/202202150735.ENek3KKS-lkp(a)intel.com/config)
+ive/20220215/202202150600.4Sde40jv-lkp(a)intel.com/config)
 compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1209 mpi3mr_issue_reset() error: uninitiali=
-zed symbol 'host_diagnostic'.
+smatch warnings:
+drivers/net/wwan/qcom_bam_dmux.c:507 bam_dmux_cmd_data() warn: potential sp=
+ectre issue 'dmux->netdevs' [r]
+drivers/net/wwan/qcom_bam_dmux.c:509 bam_dmux_cmd_data() warn: possible spe=
+ctre second half.  'netdev'
 
-Old smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1691 mpi3mr_create_op_reply_q() error: we p=
-reviously assumed 'op_reply_q->q_segments' could be null (see line 1662)
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1796 mpi3mr_create_op_req_q() error: we pre=
-viously assumed 'op_req_q->q_segments' could be null (see line 1769)
+vim +507 drivers/net/wwan/qcom_bam_dmux.c
 
-vim +/host_diagnostic +1209 drivers/scsi/mpi3mr/mpi3mr_fw.c
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  501  =
 
-824a156633dfdb Kashyap Desai   2021-05-20  1167  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  502  static void bam_dmux_cmd_da=
+ta(struct bam_dmux_skb_dma *skb_dma)
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  503  {
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  504  	struct bam_dmux *dmux =3D =
+skb_dma->dmux;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  505  	struct sk_buff *skb =3D sk=
+b_dma->skb;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  506  	struct bam_dmux_hdr *hdr =
+=3D (struct bam_dmux_hdr *)skb->data;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27 @507  	struct net_device *netdev =
+=3D dmux->netdevs[hdr->ch];
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  508  =
 
-824a156633dfdb Kashyap Desai   2021-05-20  1168  /**
-824a156633dfdb Kashyap Desai   2021-05-20  1169   * mpi3mr_issue_reset - Is=
-sue reset to the controller
-824a156633dfdb Kashyap Desai   2021-05-20  1170   * @mrioc: Adapter referen=
-ce
-824a156633dfdb Kashyap Desai   2021-05-20  1171   * @reset_type: Reset type
-824a156633dfdb Kashyap Desai   2021-05-20  1172   * @reset_reason: Reset re=
-ason code
-824a156633dfdb Kashyap Desai   2021-05-20  1173   *
-f061178e076210 Kashyap Desai   2021-05-20  1174   * Unlock the host diagnos=
-tic registers and write the specific
-f061178e076210 Kashyap Desai   2021-05-20  1175   * reset type to that, wai=
-t for reset acknowledgment from the
-f061178e076210 Kashyap Desai   2021-05-20  1176   * controller, if the rese=
-t is not successful retry for the
-f061178e076210 Kashyap Desai   2021-05-20  1177   * predefined number of ti=
-mes.
-824a156633dfdb Kashyap Desai   2021-05-20  1178   *
-824a156633dfdb Kashyap Desai   2021-05-20  1179   * Return: 0 on success, n=
-on-zero on failure.
-824a156633dfdb Kashyap Desai   2021-05-20  1180   */
-824a156633dfdb Kashyap Desai   2021-05-20  1181  static int mpi3mr_issue_re=
-set(struct mpi3mr_ioc *mrioc, u16 reset_type,
-824a156633dfdb Kashyap Desai   2021-05-20  1182  	u32 reset_reason)
-824a156633dfdb Kashyap Desai   2021-05-20  1183  {
-f061178e076210 Kashyap Desai   2021-05-20  1184  	int retval =3D -1;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1185  	u8 unlock_retry_count =3D=
- 0;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1186  	u32 host_diagnostic, ioc_=
-status, ioc_config;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1187  	u32 timeout =3D MPI3MR_RE=
-SET_ACK_TIMEOUT * 10;
-f061178e076210 Kashyap Desai   2021-05-20  1188  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27 @509  	if (!netdev || !netif_runn=
+ing(netdev)) {
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  510  		dev_warn(dmux->dev, "Data=
+ for inactive channel %u\n", hdr->ch);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  511  		return;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  512  	}
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  513  =
 
-f061178e076210 Kashyap Desai   2021-05-20  1189  	if ((reset_type !=3D MPI3=
-_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET) &&
-f061178e076210 Kashyap Desai   2021-05-20  1190  	    (reset_type !=3D MPI3=
-_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT))
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1191  		return retval;
-f061178e076210 Kashyap Desai   2021-05-20  1192  	if (mrioc->unrecoverable)
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1193  		return retval;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1194  	if (reset_reason =3D=3D M=
-PI3MR_RESET_FROM_FIRMWARE) {
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1195  		retval =3D 0;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1196  		return retval;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1197  	}
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1198  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  514  	if (hdr->len > BAM_DMUX_MA=
+X_DATA_SIZE) {
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  515  		dev_err(dmux->dev, "Data =
+larger than buffer? (%u > %u)\n",
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  516  			hdr->len, (u16)BAM_DMUX_=
+MAX_DATA_SIZE);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  517  		return;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  518  	}
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  519  =
 
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1199  	ioc_info(mrioc, "%s reset=
- due to %s(0x%x)\n",
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1200  	    mpi3mr_reset_type_nam=
-e(reset_type),
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1201  	    mpi3mr_reset_rc_name(=
-reset_reason), reset_reason);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1202  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  520  	skb_dma->skb =3D NULL; /* =
+Hand over to network stack */
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  521  =
 
-f061178e076210 Kashyap Desai   2021-05-20  1203  	mpi3mr_clear_reset_histor=
-y(mrioc);
-f061178e076210 Kashyap Desai   2021-05-20  1204  	do {
-f061178e076210 Kashyap Desai   2021-05-20  1205  		ioc_info(mrioc,
-f061178e076210 Kashyap Desai   2021-05-20  1206  		    "Write magic sequenc=
-e to unlock host diag register (retry=3D%d)\n",
-f061178e076210 Kashyap Desai   2021-05-20  1207  		    ++unlock_retry_count=
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  522  	skb_pull(skb, sizeof(*hdr)=
 );
-f061178e076210 Kashyap Desai   2021-05-20  1208  		if (unlock_retry_count >=
-=3D MPI3MR_HOSTDIAG_UNLOCK_RETRY_COUNT) {
-b64845a7d4039a Sreekanth Reddy 2021-12-20 @1209  			ioc_err(mrioc,
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1210  			    "%s reset failed du=
-e to unlock failure, host_diagnostic(0x%08x)\n",
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1211  			    mpi3mr_reset_type_n=
-ame(reset_type),
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1212  			    host_diagnostic);
-f061178e076210 Kashyap Desai   2021-05-20  1213  			mrioc->unrecoverable =
-=3D 1;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1214  			return retval;
-f061178e076210 Kashyap Desai   2021-05-20  1215  		}
-f061178e076210 Kashyap Desai   2021-05-20  1216  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  523  	skb_trim(skb, hdr->len);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  524  	skb->dev =3D netdev;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  525  =
 
-f061178e076210 Kashyap Desai   2021-05-20  1217  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_FLUSH,
-f061178e076210 Kashyap Desai   2021-05-20  1218  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1219  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_1ST,
-f061178e076210 Kashyap Desai   2021-05-20  1220  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1221  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_2ND,
-f061178e076210 Kashyap Desai   2021-05-20  1222  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1223  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_3RD,
-f061178e076210 Kashyap Desai   2021-05-20  1224  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1225  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_4TH,
-f061178e076210 Kashyap Desai   2021-05-20  1226  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1227  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_5TH,
-f061178e076210 Kashyap Desai   2021-05-20  1228  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1229  		writel(MPI3_SYSIF_WRITE_=
-SEQUENCE_KEY_VALUE_6TH,
-f061178e076210 Kashyap Desai   2021-05-20  1230  		    &mrioc->sysif_regs->=
-write_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1231  		usleep_range(1000, 1100);
-f061178e076210 Kashyap Desai   2021-05-20  1232  		host_diagnostic =3D read=
-l(&mrioc->sysif_regs->host_diagnostic);
-f061178e076210 Kashyap Desai   2021-05-20  1233  		ioc_info(mrioc,
-f061178e076210 Kashyap Desai   2021-05-20  1234  		    "wrote magic sequenc=
-e: retry_count(%d), host_diagnostic(0x%08x)\n",
-f061178e076210 Kashyap Desai   2021-05-20  1235  		    unlock_retry_count, =
-host_diagnostic);
-f061178e076210 Kashyap Desai   2021-05-20  1236  	} while (!(host_diagnosti=
-c & MPI3_SYSIF_HOST_DIAG_DIAG_WRITE_ENABLE));
-f061178e076210 Kashyap Desai   2021-05-20  1237  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  526  	/* Only Raw-IP/QMAP is sup=
+ported by this driver */
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  527  	switch (skb->data[0] & 0xf=
+0) {
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  528  	case 0x40:
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  529  		skb->protocol =3D htons(E=
+TH_P_IP);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  530  		break;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  531  	case 0x60:
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  532  		skb->protocol =3D htons(E=
+TH_P_IPV6);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  533  		break;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  534  	default:
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  535  		skb->protocol =3D htons(E=
+TH_P_MAP);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  536  		break;
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  537  	}
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  538  =
 
-f061178e076210 Kashyap Desai   2021-05-20  1238  	writel(reset_reason, &mri=
-oc->sysif_regs->scratchpad[0]);
-f061178e076210 Kashyap Desai   2021-05-20  1239  	writel(host_diagnostic | =
-reset_type,
-f061178e076210 Kashyap Desai   2021-05-20  1240  	    &mrioc->sysif_regs->h=
-ost_diagnostic);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1241  	switch (reset_type) {
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1242  	case MPI3_SYSIF_HOST_DIAG=
-_RESET_ACTION_SOFT_RESET:
-f061178e076210 Kashyap Desai   2021-05-20  1243  		do {
-f061178e076210 Kashyap Desai   2021-05-20  1244  			ioc_status =3D readl(&m=
-rioc->sysif_regs->ioc_status);
-f061178e076210 Kashyap Desai   2021-05-20  1245  			ioc_config =3D
-f061178e076210 Kashyap Desai   2021-05-20  1246  			    readl(&mrioc->sysif=
-_regs->ioc_configuration);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1247  			if ((ioc_status & MPI3_=
-SYSIF_IOC_STATUS_RESET_HISTORY)
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1248  			    && mpi3mr_soft_rese=
-t_success(ioc_status, ioc_config)
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1249  			    ) {
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1250  				mpi3mr_clear_reset_his=
-tory(mrioc);
-f061178e076210 Kashyap Desai   2021-05-20  1251  				retval =3D 0;
-f061178e076210 Kashyap Desai   2021-05-20  1252  				break;
-f061178e076210 Kashyap Desai   2021-05-20  1253  			}
-f061178e076210 Kashyap Desai   2021-05-20  1254  			msleep(100);
-f061178e076210 Kashyap Desai   2021-05-20  1255  		} while (--timeout);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1256  		mpi3mr_print_fault_info(=
-mrioc);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1257  		break;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1258  	case MPI3_SYSIF_HOST_DIAG=
-_RESET_ACTION_DIAG_FAULT:
-f061178e076210 Kashyap Desai   2021-05-20  1259  		do {
-f061178e076210 Kashyap Desai   2021-05-20  1260  			ioc_status =3D readl(&m=
-rioc->sysif_regs->ioc_status);
-f061178e076210 Kashyap Desai   2021-05-20  1261  			if (mpi3mr_diagfault_su=
-ccess(mrioc, ioc_status)) {
-f061178e076210 Kashyap Desai   2021-05-20  1262  				retval =3D 0;
-f061178e076210 Kashyap Desai   2021-05-20  1263  				break;
-f061178e076210 Kashyap Desai   2021-05-20  1264  			}
-f061178e076210 Kashyap Desai   2021-05-20  1265  			msleep(100);
-f061178e076210 Kashyap Desai   2021-05-20  1266  		} while (--timeout);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1267  		break;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1268  	default:
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1269  		break;
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1270  	}
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1271  =
-
-f061178e076210 Kashyap Desai   2021-05-20  1272  	writel(MPI3_SYSIF_WRITE_S=
-EQUENCE_KEY_VALUE_2ND,
-f061178e076210 Kashyap Desai   2021-05-20  1273  	    &mrioc->sysif_regs->w=
-rite_sequence);
-f061178e076210 Kashyap Desai   2021-05-20  1274  =
-
-f061178e076210 Kashyap Desai   2021-05-20  1275  	ioc_config =3D readl(&mri=
-oc->sysif_regs->ioc_configuration);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1276  	ioc_status =3D readl(&mri=
-oc->sysif_regs->ioc_status);
-f061178e076210 Kashyap Desai   2021-05-20  1277  	ioc_info(mrioc,
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1278  	    "ioc_status/ioc_onfig=
- after %s reset is (0x%x)/(0x%x)\n",
-f061178e076210 Kashyap Desai   2021-05-20  1279  	    (!retval)?"successful=
-":"failed", ioc_status,
-f061178e076210 Kashyap Desai   2021-05-20  1280  	    ioc_config);
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1281  	if (retval)
-b64845a7d4039a Sreekanth Reddy 2021-12-20  1282  		mrioc->unrecoverable =3D=
- 1;
-f061178e076210 Kashyap Desai   2021-05-20  1283  	return retval;
-824a156633dfdb Kashyap Desai   2021-05-20  1284  }
-824a156633dfdb Kashyap Desai   2021-05-20  1285  =
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  539  	netif_receive_skb(skb);
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  540  }
+21a0ffd9b38c61 Stephan Gerhold 2021-11-27  541  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4810522136443592470==--
+--===============7895996384342253978==--
 
