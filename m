@@ -1,49 +1,53 @@
-Content-Type: multipart/mixed; boundary="===============4570483492412287184=="
+Content-Type: multipart/mixed; boundary="===============5610406158417413161=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:bpf/bpf-next/master 185/265] net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Wed, 16 Feb 2022 08:09:39 +0800
-Message-ID: <202202160838.POPiJ4nt-lkp@intel.com>
+Subject: lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 16 Feb 2022 07:49:01 +0800
+Message-ID: <202202160750.leiLH0af-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4570483492412287184==
+--===============5610406158417413161==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Matt Johnston <matt@codeconstruct.com.au>
-CC: Jeremy Kerr <jk@codeconstruct.com.au>
+TO: Andrey Konovalov <andreyknvl@google.com>
+CC: Marco Elver <elver@google.com>
+CC: Alexander Potapenko <glider@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
-head:   8cbf062a250ed52148badf6f3ffd03657dd4a3f0
-commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa [185/265] mctp: Add SIOCMC=
-TP{ALLOC,DROP}TAG ioctls for tag control
-:::::: branch date: 6 hours ago
-:::::: commit date: 7 days ago
-config: mips-randconfig-c004-20220211 (https://download.01.org/0day-ci/arch=
-ive/20220216/202202160838.POPiJ4nt-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
-774697c85d6a352dcea013f46a99f9fe31)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   705d84a366cfccda1e7aec1113a5399cd2ffee7d
+commit: 858bdeb046f6dc7a79039d577d03e4d2b39272b7 kasan: add proper page all=
+ocator tests
+date:   12 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-c006-20220213 (https://download.01.org/0day-ci/arc=
+hive/20220216/202202160750.leiLH0af-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
+634519e6497be42f5fe323f9a04ed67127)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/63ed1aab3d40aa6=
-1aaa66819bdce9377ac7f40fa
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block bpf/bpf-next/master
-        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D858bdeb046f6dc7a79039d577d03e4d2b39272b7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 858bdeb046f6dc7a79039d577d03e4d2b39272b7
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,292 +55,305 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   net/mctp/af_mctp.c:299:7: note: Calling 'copy_from_sockptr'
-                   if (copy_from_sockptr(&val, optval, sizeof(int)))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
-           return copy_from_sockptr_offset(dst, src, 0, size);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:47:6: note: Assuming the condition is true
-           if (!sockptr_is_kernel(src))
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/fuse/dev.c:1671:7: note: Calling 'kzalloc'
+           ra =3D kzalloc(args_size, GFP_KERNEL);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:684:9: note: Uninitialized value stored to field 'n=
+um_pages'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:684:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev.c:1671:7: note: Returning from 'kzalloc'
+           ra =3D kzalloc(args_size, GFP_KERNEL);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev.c:1672:6: note: Assuming 'ra' is non-null
+           if (!ra)
+               ^~~
+   fs/fuse/dev.c:1672:2: note: Taking false branch
+           if (!ra)
+           ^
+   fs/fuse/dev.c:1688:9: note: Assuming 'num' is not equal to 0
+           while (num && ap->num_pages < num_pages) {
+                  ^~~
+   fs/fuse/dev.c:1688:9: note: Left side of '&&' is true
+   fs/fuse/dev.c:1688:30: note: The left operand of '<' is a garbage value
+           while (num && ap->num_pages < num_pages) {
+                         ~~~~~~~~~~~~~ ^
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   lib/string_helpers.c:111:12: warning: Assigned value is garbage or undef=
+ined [clang-analyzer-core.uninitialized.Assign]
+           remainder +=3D rounding[j];
+                     ^  ~~~~~~~~~~~
+   lib/string_helpers.c:59:6: note: Assuming 'blk_size' is not equal to 0
+           if (blk_size =3D=3D 0)
+               ^~~~~~~~~~~~~
+   lib/string_helpers.c:59:2: note: Taking false branch
+           if (blk_size =3D=3D 0)
+           ^
+   lib/string_helpers.c:61:6: note: Assuming 'size' is not equal to 0
+           if (size =3D=3D 0)
+               ^~~~~~~~~
+   lib/string_helpers.c:61:2: note: Taking false branch
+           if (size =3D=3D 0)
+           ^
+   lib/string_helpers.c:75:2: note: Loop condition is false. Execution cont=
+inues on line 80
+           while (blk_size >> 32) {
+           ^
+   lib/string_helpers.c:80:2: note: Loop condition is false. Execution cont=
+inues on line 87
+           while (size >> 32) {
+           ^
+   lib/string_helpers.c:90:2: note: Loop condition is false. Execution cont=
+inues on line 97
+           while (size >=3D divisor[units]) {
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:32: note: The value 3 is assigned to 'j'
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                                         ^~~
+   lib/string_helpers.c:98:14: note: Assuming the condition is false
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is false. Execution cont=
+inues on line 101
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:101:6: note: Assuming 'units' is not equal to STRIN=
+G_UNITS_2
+           if (units =3D=3D STRING_UNITS_2) {
                ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:47:2: note: Taking true branch
-           if (!sockptr_is_kernel(src))
+   lib/string_helpers.c:101:2: note: Taking false branch
+           if (units =3D=3D STRING_UNITS_2) {
            ^
-   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
-                   return copy_from_user(dst, src.user + offset, size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
-o '*to'
-           return __cu_len_r;
-           ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
-           return res;
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
+   lib/string_helpers.c:111:12: note: Assigned value is garbage or undefined
+           remainder +=3D rounding[j];
+                     ^  ~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+           size_t size =3D (1UL << (PAGE_SHIFT + order));
+                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:203:9: note: Value stored to 'size' during its initiali=
+zation is never read
+           size_t size =3D (1UL << (PAGE_SHIFT + order));
+                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:315:40: warning: Use of memory after it is freed [clang=
+-analyzer-unix.Malloc]
+           KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 =3D *ptr2);
+                                                 ^
+   lib/test_kasan.c:88:2: note: expanded from macro 'KUNIT_EXPECT_KASAN_FAI=
+L'
+           expression;                                             \
            ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
-           return n;
+   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
            ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   include/linux/sockptr.h:48:10: note: Returning from 'copy_from_user'
-                   return copy_from_user(dst, src.user + offset, size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:48:3: note: Returning without writing to '*dst'
-                   return copy_from_user(dst, src.user + offset, size);
-                   ^
-   include/linux/sockptr.h:48:3: note: Returning zero, which participates i=
-n a condition later
-                   return copy_from_user(dst, src.user + offset, size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:9: note: Returning from 'copy_from_sockptr_of=
-fset'
-           return copy_from_sockptr_offset(dst, src, 0, size);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:2: note: Returning without writing to '*dst'
-           return copy_from_sockptr_offset(dst, src, 0, size);
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
            ^
-   include/linux/sockptr.h:55:2: note: Returning zero, which participates i=
-n a condition later
-           return copy_from_sockptr_offset(dst, src, 0, size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:299:7: note: Returning from 'copy_from_sockptr'
-                   if (copy_from_sockptr(&val, optval, sizeof(int)))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:299:3: note: Taking false branch
-                   if (copy_from_sockptr(&val, optval, sizeof(int)))
-                   ^
-   net/mctp/af_mctp.c:301:17: note: Assigned value is garbage or undefined
-                   msk->addr_ext =3D val;
-                                 ^ ~~~
->> net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garba=
-ge value [clang-analyzer-core.uninitialized.Branch]
-           if (ctl.tag)
-               ^
-   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35296:'  at line =
-415
-           switch (cmd) {
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
            ^
-   net/mctp/af_mctp.c:416:10: note: Calling 'mctp_ioctl_alloctag'
-                   return mctp_ioctl_alloctag(msk, arg);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:340:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
+   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
            ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+   include/kunit/test.h:679:74: note: expanded from macro 'KUNIT_ASSERTION'
+   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
+ do {  \
+                                                                           =
+ ^
+   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
            ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
-o 'to->tag'
-           return __cu_len_r;
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
            ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                       ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
            ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->t=
-ag'
-           return res;
+   include/kunit/test.h:1191:21: note: expanded from macro 'KUNIT_PTR_NOT_E=
+RR_OR_NULL_MSG_ASSERTION'
+                                                   ...)                    =
+       \
+                                                                           =
+       ^
+   lib/test_kasan.c:312:2: note: Calling 'IS_ERR_OR_NULL'
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
            ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->t=
-ag'
-           return n;
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+                           !IS_ERR_OR_NULL(__ptr),                         =
+       \
+                            ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   include/linux/err.h:41:18: note: Assuming 'ptr' is non-null
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                           ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:41:9: note: Left side of '||' is false
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^
+   include/linux/err.h:41:27: note: Assuming the condition is false
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                                    ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   lib/test_kasan.c:312:2: note: Returning from 'IS_ERR_OR_NULL'
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
            ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   net/mctp/af_mctp.c:340:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:340:2: note: Taking false branch
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+                           !IS_ERR_OR_NULL(__ptr),                         =
+       \
+                            ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   lib/test_kasan.c:312:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
            ^
-   net/mctp/af_mctp.c:343:6: note: Branch condition evaluates to a garbage =
-value
-           if (ctl.tag)
-               ^~~~~~~
-   net/mctp/af_mctp.c:379:6: warning: Branch condition evaluates to a garba=
-ge value [clang-analyzer-core.uninitialized.Branch]
-           if (ctl.flags)
-               ^
-   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35297:'  at line =
-417
-           switch (cmd) {
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
            ^
-   net/mctp/af_mctp.c:418:10: note: Calling 'mctp_ioctl_droptag'
-                   return mctp_ioctl_droptag(msk, arg);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:376:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
            ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
+   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
 
-vim +343 net/mctp/af_mctp.c
+vim +/size +203 lib/test_kasan.c
 
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  331  =
+e6e8379c876de1 Alexander Potapenko 2016-03-25  197  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  332  static int mctp_ioctl_allocta=
-g(struct mctp_sock *msk, unsigned long arg)
-63ed1aab3d40aa Matt Johnston 2022-02-09  333  {
-63ed1aab3d40aa Matt Johnston 2022-02-09  334  	struct net *net =3D sock_net=
-(&msk->sk);
-63ed1aab3d40aa Matt Johnston 2022-02-09  335  	struct mctp_sk_key *key =3D =
-NULL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  336  	struct mctp_ioc_tag_ctl ctl;
-63ed1aab3d40aa Matt Johnston 2022-02-09  337  	unsigned long flags;
-63ed1aab3d40aa Matt Johnston 2022-02-09  338  	u8 tag;
-63ed1aab3d40aa Matt Johnston 2022-02-09  339  =
+858bdeb046f6dc Andrey Konovalov    2021-02-24  198  static void pagealloc_o=
+ob_right(struct kunit *test)
+858bdeb046f6dc Andrey Konovalov    2021-02-24  199  {
+858bdeb046f6dc Andrey Konovalov    2021-02-24  200  	char *ptr;
+858bdeb046f6dc Andrey Konovalov    2021-02-24  201  	struct page *pages;
+858bdeb046f6dc Andrey Konovalov    2021-02-24  202  	size_t order =3D 4;
+858bdeb046f6dc Andrey Konovalov    2021-02-24 @203  	size_t size =3D (1UL <=
+< (PAGE_SHIFT + order));
+858bdeb046f6dc Andrey Konovalov    2021-02-24  204  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  340  	if (copy_from_user(&ctl, (vo=
-id __user *)arg, sizeof(ctl)))
-63ed1aab3d40aa Matt Johnston 2022-02-09  341  		return -EFAULT;
-63ed1aab3d40aa Matt Johnston 2022-02-09  342  =
+858bdeb046f6dc Andrey Konovalov    2021-02-24  205  	/*
+858bdeb046f6dc Andrey Konovalov    2021-02-24  206  	 * With generic KASAN =
+page allocations have no redzones, thus
+858bdeb046f6dc Andrey Konovalov    2021-02-24  207  	 * out-of-bounds detec=
+tion is not guaranteed.
+858bdeb046f6dc Andrey Konovalov    2021-02-24  208  	 * See https://bugzill=
+a.kernel.org/show_bug.cgi?id=3D210503.
+858bdeb046f6dc Andrey Konovalov    2021-02-24  209  	 */
+858bdeb046f6dc Andrey Konovalov    2021-02-24  210  	KASAN_TEST_NEEDS_CONFI=
+G_OFF(test, CONFIG_KASAN_GENERIC);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  211  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09 @343  	if (ctl.tag)
-63ed1aab3d40aa Matt Johnston 2022-02-09  344  		return -EINVAL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  345  =
+858bdeb046f6dc Andrey Konovalov    2021-02-24  212  	pages =3D alloc_pages(=
+GFP_KERNEL, order);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  213  	ptr =3D page_address(p=
+ages);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  214  	KUNIT_ASSERT_NOT_ERR_O=
+R_NULL(test, ptr);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  215  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  346  	if (ctl.flags)
-63ed1aab3d40aa Matt Johnston 2022-02-09  347  		return -EINVAL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  348  =
-
-63ed1aab3d40aa Matt Johnston 2022-02-09  349  	key =3D mctp_alloc_local_tag=
-(msk, ctl.peer_addr, MCTP_ADDR_ANY,
-63ed1aab3d40aa Matt Johnston 2022-02-09  350  				   true, &tag);
-63ed1aab3d40aa Matt Johnston 2022-02-09  351  	if (IS_ERR(key))
-63ed1aab3d40aa Matt Johnston 2022-02-09  352  		return PTR_ERR(key);
-63ed1aab3d40aa Matt Johnston 2022-02-09  353  =
-
-63ed1aab3d40aa Matt Johnston 2022-02-09  354  	ctl.tag =3D tag | MCTP_TAG_O=
-WNER | MCTP_TAG_PREALLOC;
-63ed1aab3d40aa Matt Johnston 2022-02-09  355  	if (copy_to_user((void __use=
-r *)arg, &ctl, sizeof(ctl))) {
-63ed1aab3d40aa Matt Johnston 2022-02-09  356  		spin_lock_irqsave(&key->loc=
-k, flags);
-63ed1aab3d40aa Matt Johnston 2022-02-09  357  		__mctp_key_remove(key, net,=
- flags, MCTP_TRACE_KEY_DROPPED);
-63ed1aab3d40aa Matt Johnston 2022-02-09  358  		mctp_key_unref(key);
-63ed1aab3d40aa Matt Johnston 2022-02-09  359  		return -EFAULT;
-63ed1aab3d40aa Matt Johnston 2022-02-09  360  	}
-63ed1aab3d40aa Matt Johnston 2022-02-09  361  =
-
-63ed1aab3d40aa Matt Johnston 2022-02-09  362  	mctp_key_unref(key);
-63ed1aab3d40aa Matt Johnston 2022-02-09  363  	return 0;
-63ed1aab3d40aa Matt Johnston 2022-02-09  364  }
-63ed1aab3d40aa Matt Johnston 2022-02-09  365  =
+858bdeb046f6dc Andrey Konovalov    2021-02-24  216  	KUNIT_EXPECT_KASAN_FAI=
+L(test, ptr[size] =3D 0);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  217  	free_pages((unsigned l=
+ong)ptr, order);
+858bdeb046f6dc Andrey Konovalov    2021-02-24  218  }
+858bdeb046f6dc Andrey Konovalov    2021-02-24  219  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4570483492412287184==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============5610406158417413161==--
 
