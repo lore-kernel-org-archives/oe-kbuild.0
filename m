@@ -1,144 +1,125 @@
-Content-Type: multipart/mixed; boundary="===============3222760724150176268=="
+Content-Type: multipart/mixed; boundary="===============8691880237222108576=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/ttm/ttm_bo.c:553:35: warning: Uninitialized variable: evict_mem [uninitvar]
-Date: Tue, 15 Feb 2022 19:22:23 +0800
-Message-ID: <202202151740.Tt8mccWa-lkp@intel.com>
+Subject: arch/s390/boot/startup.c:300 startup_kernel() error: uninitialized symbol 'img'.
+Date: Tue, 15 Feb 2022 17:10:59 +0800
+Message-ID: <202202151705.VvdfFQH4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3222760724150176268==
+--===============8691880237222108576==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: Alexander Gordeev <agordeev@linux.ibm.com>
+CC: Heiko Carstens <hca@linux.ibm.com>
+CC: Vasily Gorbik <gor@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d567f5db412ed52de0b3b3efca4a451263de6108
-commit: 403797925768d9fa870f5b1ebcd20016b397083b drm/ttm: Fix multihop asse=
-rt on eviction.
-date:   8 months ago
+commit: e8f06683d40e705da2d85bc6bc498e651d1ef31b s390/boot: factor out offs=
+et_vmlinux_info() function
+date:   6 months ago
 :::::: branch date: 15 hours ago
-:::::: commit date: 8 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+:::::: commit date: 6 months ago
+config: s390-randconfig-m031-20220214 (https://download.01.org/0day-ci/arch=
+ive/20220215/202202151705.VvdfFQH4-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+arch/s390/boot/startup.c:300 startup_kernel() error: uninitialized symbol '=
+img'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/img +300 arch/s390/boot/startup.c
 
->> drivers/gpu/drm/ttm/ttm_bo.c:553:35: warning: Uninitialized variable: ev=
-ict_mem [uninitvar]
-    ret =3D ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
-                                     ^
+e8f06683d40e70 Alexander Gordeev   2021-08-06  261  =
 
-vim +553 drivers/gpu/drm/ttm/ttm_bo.c
+8f75582a2fb6e2 Vasily Gorbik       2018-07-19  262  void startup_kernel(voi=
+d)
+8f75582a2fb6e2 Vasily Gorbik       2018-07-19  263  {
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  264  	unsigned long random_l=
+ma;
+9641b8cc733f70 Martin Schwidefsky  2019-02-21  265  	unsigned long safe_add=
+r;
+369f91c374514f Vasily Gorbik       2018-07-19  266  	void *img;
+8f75582a2fb6e2 Vasily Gorbik       2018-07-19  267  =
 
-403797925768d9 Andrey Grodzovsky 2021-06-22  512  =
+84733284f67b1a Alexander Egorenkov 2021-06-15  268  	initrd_data.start =3D =
+parmarea.initrd_start;
+84733284f67b1a Alexander Egorenkov 2021-06-15  269  	initrd_data.size =3D p=
+armarea.initrd_size;
+e9e7870f90e358 Alexander Egorenkov 2021-06-15  270  	oldmem_data.start =3D =
+parmarea.oldmem_base;
+e9e7870f90e358 Alexander Egorenkov 2021-06-15  271  	oldmem_data.size =3D p=
+armarea.oldmem_size;
+84733284f67b1a Alexander Egorenkov 2021-06-15  272  =
 
-83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  513  static int ttm_bo_ev=
-ict(struct ttm_buffer_object *bo,
-83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  514  			struct ttm_operat=
-ion_ctx *ctx)
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  515  {
-8af8a109b34fa8 Christian K=C3=B6nig   2020-10-01  516  	struct ttm_device *=
-bdev =3D bo->bdev;
-bfa3357ef9abc9 Christian K=C3=B6nig   2021-04-15  517  	struct ttm_resource=
- *evict_mem;
-ca262a9998d461 Jerome Glisse     2009-12-08  518  	struct ttm_placement pla=
-cement;
-ebdf565169af00 Dave Airlie       2020-10-29  519  	struct ttm_place hop;
-ca262a9998d461 Jerome Glisse     2009-12-08  520  	int ret =3D 0;
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  521  =
+d7e7fbba67a32a Vasily Gorbik       2020-10-09  273  	setup_lpp();
+9641b8cc733f70 Martin Schwidefsky  2019-02-21  274  	store_ipl_parmblock();
+9641b8cc733f70 Martin Schwidefsky  2019-02-21  275  	safe_addr =3D mem_safe=
+_offset();
+9641b8cc733f70 Martin Schwidefsky  2019-02-21  276  	safe_addr =3D read_ipl=
+_report(safe_addr);
+5abb9351dfd937 Vasily Gorbik       2019-04-01  277  	uv_query_info();
+9641b8cc733f70 Martin Schwidefsky  2019-02-21  278  	rescue_initrd(safe_add=
+r);
+17aacfbfa1ae38 Vasily Gorbik       2018-05-23  279  	sclp_early_read_info();
+49698745e53c41 Vasily Gorbik       2018-05-15  280  	setup_boot_command_lin=
+e();
+b5e804598d5949 Vasily Gorbik       2019-02-27  281  	parse_boot_command_lin=
+e();
+42c89439b9fa03 Alexander Egorenkov 2021-07-05  282  	sanitize_prot_virt_hos=
+t();
+73045a08cf5549 Vasily Gorbik       2020-10-19  283  	setup_ident_map_size(d=
+etect_memory());
+90178c19007986 Heiko Carstens      2020-09-18  284  	setup_vmalloc_size();
+0c4f2623b95779 Vasily Gorbik       2020-10-06  285  	setup_kernel_memory_la=
+yout();
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  286  =
 
-ebdf565169af00 Dave Airlie       2020-10-29  522  	memset(&hop, 0, sizeof(h=
-op));
-ebdf565169af00 Dave Airlie       2020-10-29  523  =
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  287  	if (IS_ENABLED(CONFIG_=
+RANDOMIZE_BASE) && kaslr_enabled) {
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  288  		random_lma =3D get_ra=
+ndom_base(safe_addr);
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  289  		if (random_lma) {
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  290  			__kaslr_offset =3D r=
+andom_lma - vmlinux.default_lma;
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  291  			img =3D (void *)vmli=
+nux.default_lma;
+e8f06683d40e70 Alexander Gordeev   2021-08-06  292  			offset_vmlinux_info(=
+__kaslr_offset);
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  293  		}
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  294  	}
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  295  =
 
-52791eeec1d9f4 Christian K=C3=B6nig   2019-08-11  524  	dma_resv_assert_hel=
-d(bo->base.resv);
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  525  =
+8f75582a2fb6e2 Vasily Gorbik       2018-07-19  296  	if (!IS_ENABLED(CONFIG=
+_KERNEL_UNCOMPRESSED)) {
+369f91c374514f Vasily Gorbik       2018-07-19  297  		img =3D decompress_ke=
+rnel();
+369f91c374514f Vasily Gorbik       2018-07-19  298  		memmove((void *)vmlin=
+ux.default_lma, img, vmlinux.image_size);
+b2d24b97b2a969 Gerald Schaefer     2019-02-03  299  	} else if (__kaslr_off=
+set)
+b2d24b97b2a969 Gerald Schaefer     2019-02-03 @300  		memcpy((void *)vmlinu=
+x.default_lma, img, vmlinux.image_size);
 
-5d95109815493e Christian K=C3=B6nig   2018-02-20  526  	placement.num_place=
-ment =3D 0;
-5d95109815493e Christian K=C3=B6nig   2018-02-20  527  	placement.num_busy_=
-placement =3D 0;
-8af8a109b34fa8 Christian K=C3=B6nig   2020-10-01  528  	bdev->funcs->evict_=
-flags(bo, &placement);
-5d95109815493e Christian K=C3=B6nig   2018-02-20  529  =
+:::::: The code at line 300 was first introduced by commit
+:::::: b2d24b97b2a9691351920e700bfda4368c177232 s390/kernel: add support fo=
+r kernel address space layout randomization (KASLR)
 
-d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  530  	if (!placement.num_=
-placement && !placement.num_busy_placement) {
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  531  		ret =3D ttm_bo_wai=
-t(bo, true, false);
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  532  		if (ret)
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  533  			return ret;
-d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  534  =
-
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  535  		/*
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  536  		 * Since we've alr=
-eady synced, this frees backing store
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  537  		 * immediately.
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  538  		 */
-a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  539  		return ttm_bo_pipe=
-line_gutting(bo);
-d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  540  	}
-5d95109815493e Christian K=C3=B6nig   2018-02-20  541  =
-
-83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  542  	ret =3D ttm_bo_mem_=
-space(bo, &placement, &evict_mem, ctx);
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  543  	if (ret) {
-fb53f8621a3fab Jerome Glisse     2009-12-09  544  		if (ret !=3D -ERESTARTS=
-YS) {
-25d0479a592556 Joe Perches       2012-03-16  545  			pr_err("Failed to find=
- memory space for buffer 0x%p eviction\n",
-25d0479a592556 Joe Perches       2012-03-16  546  			       bo);
-fb53f8621a3fab Jerome Glisse     2009-12-09  547  			ttm_bo_mem_space_debug=
-(bo, &placement);
-fb53f8621a3fab Jerome Glisse     2009-12-09  548  		}
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  549  		goto out;
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  550  	}
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  551  =
-
-403797925768d9 Andrey Grodzovsky 2021-06-22  552  bounce:
-bfa3357ef9abc9 Christian K=C3=B6nig   2021-04-15 @553  	ret =3D ttm_bo_hand=
-le_move_mem(bo, evict_mem, true, ctx, &hop);
-403797925768d9 Andrey Grodzovsky 2021-06-22  554  	if (ret =3D=3D -EMULTIHO=
-P) {
-403797925768d9 Andrey Grodzovsky 2021-06-22  555  		ret =3D ttm_bo_bounce_t=
-emp_buffer(bo, &evict_mem, ctx, &hop);
-403797925768d9 Andrey Grodzovsky 2021-06-22  556  		if (ret) {
-25d0479a592556 Joe Perches       2012-03-16  557  			pr_err("Buffer evictio=
-n failed\n");
-b2458726b38cb6 Christian K=C3=B6nig   2020-08-03  558  			ttm_resource_free=
-(bo, &evict_mem);
-403797925768d9 Andrey Grodzovsky 2021-06-22  559  			goto out;
-403797925768d9 Andrey Grodzovsky 2021-06-22  560  		}
-403797925768d9 Andrey Grodzovsky 2021-06-22  561  		/* try and move to fina=
-l place now. */
-403797925768d9 Andrey Grodzovsky 2021-06-22  562  		goto bounce;
-ca262a9998d461 Jerome Glisse     2009-12-08  563  	}
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  564  out:
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  565  	return ret;
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  566  }
-ba4e7d973dd09b Thomas Hellstrom  2009-06-10  567  =
-
-
-:::::: The code at line 553 was first introduced by commit
-:::::: bfa3357ef9abc9d56a2910222d2deeb9f15c91ff drm/ttm: allocate resource =
-object instead of embedding it v2
-
-:::::: TO: Christian K=C3=B6nig <christian.koenig@amd.com>
-:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+:::::: TO: Gerald Schaefer <gerald.schaefer@de.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3222760724150176268==--
+--===============8691880237222108576==--
 
