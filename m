@@ -1,48 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============3950913532186458997=="
+Content-Type: multipart/mixed; boundary="===============7421837008134425563=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/nvidia/forcedeth.c:2966:21: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Wed, 16 Feb 2022 07:08:16 +0800
-Message-ID: <202202160659.dH3q091I-lkp@intel.com>
+Subject: Re: [PATCH 2/3] clk: Introduce 'critical-clocks' property
+Date: Wed, 16 Feb 2022 04:55:52 +0800
+Message-ID: <202202160402.Uh6K8l1J-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3950913532186458997==
+--===============7421837008134425563==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
-CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+In-Reply-To: <20220215084412.8090-2-marex@denx.de>
+References: <20220215084412.8090-2-marex@denx.de>
+TO: Marek Vasut <marex@denx.de>
+TO: linux-clk(a)vger.kernel.org
+CC: Marek Vasut <marex@denx.de>
+CC: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen =
+<mazziesaccount@gmail.com>
+CC: Michael Turquette <mturquette@baylibre.com>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Stephen Boyd <sboyd@kernel.org>
+CC: devicetree(a)vger.kernel.org
+CC: linux-power(a)fi.rohmeurope.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d567f5db412ed52de0b3b3efca4a451263de6108
-commit: 03f61041c17914355dde7261be9ccdc821ddd454 skbuff: Switch structure b=
-ounds to struct_group()
-date:   3 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-c007-20220214 (https://download.01.org/0day-ci/ar=
-chive/20220216/202202160659.dH3q091I-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ea0718=
-84b0cc7210b3cc5fe858f0e892a779a23b)
+Hi Marek,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on v5.17-rc4 next-20220215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Marek-Vasut/dt-bindings-cl=
+k-Introduce-critical-clocks-property/20220215-164757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
+ext
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: i386-randconfig-c001-20220214 (https://download.01.org/0day-ci/arch=
+ive/20220216/202202160402.Uh6K8l1J-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 37f422=
+f4ac31c8b8041c6b62065263314282dab6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D03f61041c17914355dde7261be9ccdc821ddd454
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 03f61041c17914355dde7261be9ccdc821ddd454
+        # https://github.com/0day-ci/linux/commit/aded04bc3dec13df3f940621d=
+94d84e32ff8a5ea
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Marek-Vasut/dt-bindings-clk-Introd=
+uce-critical-clocks-property/20220215-164757
+        git checkout aded04bc3dec13df3f940621d94d84e32ff8a5ea
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,500 +67,326 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
- is < 'limit'
-                   (rx_work < limit)) {
-                    ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
-true.  Entering loop body
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1893:22: note: Passing=
+ 'dest' via 1st parameter 'dest'
+                   if (!dest_is_valid(&dest[i], flow_act, ft))
+                                      ^~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1893:8: note: Calling =
+'dest_is_valid'
+                   if (!dest_is_valid(&dest[i], flow_act, ft))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1656:6: note: Assuming=
+ 'dest' is null
+           if (dest && (dest->type =3D=3D MLX5_FLOW_DESTINATION_TYPE_COUNTE=
+R))
+               ^~~~
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1656:11: note: Left si=
+de of '&&' is false
+           if (dest && (dest->type =3D=3D MLX5_FLOW_DESTINATION_TYPE_COUNTE=
+R))
+                    ^
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1659:6: note: Assuming=
+ the condition is false
+           if (!(action & MLX5_FLOW_CONTEXT_ACTION_FWD_DEST))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1659:2: note: Taking f=
+alse branch
+           if (!(action & MLX5_FLOW_CONTEXT_ACTION_FWD_DEST))
            ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2912:3: note: Null pointer value=
- stored to field 'skb'
-                   np->get_rx_ctx->skb =3D NULL;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:11: note: Field 'desc_ver' =
-is not equal to DESC_VER_1
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
-                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:3: note: Taking false branch
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2943:8: note: Assuming the condi=
-tion is true
-                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-                               ^
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2943:4: note: Taking false branch
-                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2969:5: note: Control jumps to l=
-ine 2981
-                                   goto next_pkt;
-                                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2981:7: note: Assuming the condi=
-tion is false
-                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
-                       ^
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2981:3: note: Taking false branch
-                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2983:16: note: Assuming the cond=
-ition is true
-                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
-                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2983:3: note: Taking true branch
-                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:10: note: Assuming 'np->get=
-_rx.orig' is not equal to 'np->put_rx.orig'
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
-is true
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2900:8: note: Assuming the condi=
-tion is true
-                 !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) & NV_R=
-X_AVAIL) &&
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1662:6: note: Assuming=
+ 'ignore_level' is true
+           if (ignore_level) {
+               ^~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1662:2: note: Taking t=
+rue branch
+           if (ignore_level) {
+           ^
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1663:7: note: Assuming=
+ field 'type' is equal to FS_FT_FDB
+                   if (ft->type !=3D FS_FT_FDB &&
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1663:29: note: Left si=
+de of '&&' is false
+                   if (ft->type !=3D FS_FT_FDB &&
+                                             ^
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c:1667:7: note: Access t=
+o field 'type' results in a dereference of a null pointer (loaded from vari=
+able 'dest')
+                   if (dest->type =3D=3D MLX5_FLOW_DESTINATION_TYPE_FLOW_TA=
+BLE &&
+                       ^~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/rtc/rtc-pcf2127.c:686:3: warning: Value stored to 'ret' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D devm_rtc_nvmem_register(pcf2127->rtc, &nvmem_cfg=
+);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-pcf2127.c:686:3: note: Value stored to 'ret' is never re=
+ad
+                   ret =3D devm_rtc_nvmem_register(pcf2127->rtc, &nvmem_cfg=
+);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/rtc/rtc-rs5c372.c:743:2: warning: Value stored to 'addr' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           addr   =3D RS5C_ADDR(RS5C_REG_CTRL1);
+           ^
+   drivers/rtc/rtc-rs5c372.c:743:2: note: Value stored to 'addr' is never r=
+ead
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/clk/clk.c:1952:3: warning: Value stored to 'best_parent_rate' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   best_parent_rate =3D parent->rate;
+                   ^                  ~~~~~~~~~~~~
+   drivers/clk/clk.c:1952:3: note: Value stored to 'best_parent_rate' is ne=
+ver read
+                   best_parent_rate =3D parent->rate;
+                   ^                  ~~~~~~~~~~~~
+>> drivers/clk/clk.c:3905:4: warning: Value stored to 'ret' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                           ret =3D of_property_read_u32_index(np, "critical=
+-clocks",
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/clk/clk.c:3905:4: note: Value stored to 'ret' is never read
+                           ret =3D of_property_read_u32_index(np, "critical=
+-clocks",
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   Suppressed 16 warnings (15 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/clk/clk-divider.c:330:9: warning: Division by zero [clang-analyz=
+er-core.DivideZero]
+                   now =3D DIV_ROUND_UP_ULL((u64)parent_rate, i);
+                         ^
+   include/linux/math.h:42:2: note: expanded from macro 'DIV_ROUND_UP_ULL'
+           DIV_ROUND_DOWN_ULL((unsigned long long)(ll) + (d) - 1, (d))
+           ^
+   include/linux/math.h:39:37: note: expanded from macro 'DIV_ROUND_DOWN_UL=
+L'
+           ({ unsigned long long _tmp =3D (ll); do_div(_tmp, d); _tmp; })
+                                              ^
+   arch/x86/include/asm/div64.h:33:21: note: expanded from macro 'do_div'
+                           __upper =3D __high % (__base);            \
+                                            ^
+   drivers/clk/clk-divider.c:455:6: note: Assuming the condition is false
+           if (divider->flags & CLK_DIVIDER_READ_ONLY) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:455:2: note: Taking false branch
+           if (divider->flags & CLK_DIVIDER_READ_ONLY) {
+           ^
+   drivers/clk/clk-divider.c:466:9: note: Calling 'divider_determine_rate'
+           return divider_determine_rate(hw, req, divider->table, divider->=
+width,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
 ~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
-is true
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
- is < 'limit'
-                   (rx_work < limit)) {
-                    ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
-true.  Entering loop body
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+   drivers/clk/clk-divider.c:352:8: note: Calling 'clk_divider_bestdiv'
+           div =3D clk_divider_bestdiv(hw, req->best_parent_hw, req->rate,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:299:6: note: Assuming 'rate' is 0
+           if (!rate)
+               ^~~~~
+   drivers/clk/clk-divider.c:299:2: note: Taking true branch
+           if (!rate)
            ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2911:3: note: Null pointer value=
- stored to 'skb'
-                   skb =3D np->get_rx_ctx->skb;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:11: note: Field 'desc_ver' =
-is not equal to DESC_VER_1
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
-                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:3: note: Taking false branch
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2943:8: note: Assuming the condi=
-tion is false
-                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-                               ^
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2943:4: note: Taking true branch
-                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2945:9: note: Assuming the condi=
-tion is false
-                                   if (unlikely(flags & NV_RX2_ERROR)) {
-                                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2945:5: note: Taking true branch
-                                   if (unlikely(flags & NV_RX2_ERROR)) {
-                                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2946:10: note: Assuming the cond=
-ition is true
-                                           if ((flags & NV_RX2_ERROR_MASK) =
-=3D=3D NV_RX2_ERROR4) {
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2946:6: note: Taking true branch
-                                           if ((flags & NV_RX2_ERROR_MASK) =
-=3D=3D NV_RX2_ERROR4) {
-                                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2947:28: note: Access to field '=
-data' results in a dereference of a null pointer (loaded from variable 'skb=
-')
-                                                   len =3D nv_getlen(dev, s=
-kb->data, len);
-                                                                        ^~~
->> drivers/net/ethernet/nvidia/forcedeth.c:2966:21: warning: Dereference of=
- null pointer [clang-analyzer-core.NullDereference]
-                                           skb->ip_summed =3D CHECKSUM_UNNE=
-CESSARY;
-                                           ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:10: note: Assuming 'np->get=
-_rx.orig' is not equal to 'np->put_rx.orig'
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
-is true
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2900:8: note: Assuming the condi=
-tion is true
-                 !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) & NV_R=
-X_AVAIL) &&
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
-is true
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
- is < 'limit'
-                   (rx_work < limit)) {
-                    ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
-true.  Entering loop body
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+   drivers/clk/clk-divider.c:302:11: note: Calling '_get_maxdiv'
+           maxdiv =3D _get_maxdiv(table, width, flags);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:71:6: note: Assuming the condition is false
+           if (flags & CLK_DIVIDER_ONE_BASED)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:71:2: note: Taking false branch
+           if (flags & CLK_DIVIDER_ONE_BASED)
            ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:7: note: Assuming field 'de=
-sc_ver' is not equal to DESC_VER_1
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:3: note: Taking false branch
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2943:8: note: Assuming the condi=
-tion is false
-                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-                               ^
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2943:4: note: Taking true branch
-                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2945:9: note: Assuming the condi=
-tion is false
-                                   if (unlikely(flags & NV_RX2_ERROR)) {
-                                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2945:5: note: Taking true branch
-                                   if (unlikely(flags & NV_RX2_ERROR)) {
-                                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2946:10: note: Assuming the cond=
-ition is false
-                                           if ((flags & NV_RX2_ERROR_MASK) =
-=3D=3D NV_RX2_ERROR4) {
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2946:6: note: Taking false branch
-                                           if ((flags & NV_RX2_ERROR_MASK) =
-=3D=3D NV_RX2_ERROR4) {
-                                           ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2954:15: note: Assuming the cond=
-ition is false
-                                           else if ((flags & NV_RX2_ERROR_M=
-ASK) =3D=3D NV_RX2_FRAMINGERR) {
-                                                    ^~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2954:11: note: Taking false bran=
-ch
-                                           else if ((flags & NV_RX2_ERROR_M=
-ASK) =3D=3D NV_RX2_FRAMINGERR) {
-                                                ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2961:7: note: Control jumps to l=
-ine 2981
-                                                   goto next_pkt;
-                                                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2981:16: note: Assuming the cond=
-ition is false
-                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
-                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2981:3: note: Taking false branch
-                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2983:16: note: Assuming the cond=
-ition is true
-                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
-                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2983:3: note: Taking true branch
-                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
-                   ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:10: note: Assuming 'np->get=
-_rx.orig' is not equal to 'np->put_rx.orig'
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
-is true
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2900:8: note: Assuming the condi=
-tion is true
-                 !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) & NV_R=
-X_AVAIL) &&
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
-is true
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-                  ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
- is < 'limit'
-                   (rx_work < limit)) {
-                    ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
-true.  Entering loop body
-           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+   drivers/clk/clk-divider.c:73:6: note: Assuming the condition is false
+           if (flags & CLK_DIVIDER_POWER_OF_TWO)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:73:2: note: Taking false branch
+           if (flags & CLK_DIVIDER_POWER_OF_TWO)
            ^
-   drivers/net/ethernet/nvidia/forcedeth.c:2912:3: note: Null pointer value=
- stored to field 'skb'
-                   np->get_rx_ctx->skb =3D NULL;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/nvidia/forcedeth.c:2915:11: note: Field 'desc_ver' =
-is not equal to DESC_VER_1
-                   if (np->desc_ver =3D=3D DESC_VER_1) {
+   drivers/clk/clk-divider.c:75:6: note: Assuming 'table' is non-null, whic=
+h participates in a condition later
+           if (table)
+               ^~~~~
+   drivers/clk/clk-divider.c:75:2: note: Taking true branch
+           if (table)
+           ^
+   drivers/clk/clk-divider.c:302:11: note: Returning from '_get_maxdiv'
+           maxdiv =3D _get_maxdiv(table, width, flags);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:304:6: note: Assuming the condition is false
+           if (!(clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-divider.c:304:2: note: Taking false branch
+           if (!(clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT)) {
+           ^
+   drivers/clk/clk-divider.c:316:11: note: '__UNIQUE_ID___x162' is >=3D '__=
+UNIQUE_ID___y163'
+           maxdiv =3D min(ULONG_MAX / rate, maxdiv);
+                    ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   drivers/clk/clk-divider.c:316:11: note: '?' condition is false
+           maxdiv =3D min(ULONG_MAX / rate, maxdiv);
+                    ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/clk/clk-divider.c:318:11: note: Calling '_next_div'
+           for (i =3D _next_div(table, 0, flags); i <=3D maxdiv;
 
-vim +2966 drivers/net/ethernet/nvidia/forcedeth.c
+vim +/ret +3905 drivers/clk/clk.c
 
-f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-19-09-05  2890  =
+fc0c209c147f35 Stephen Boyd 2019-04-12  3874  =
 
-e27cdba53b8ad5 drivers/net/forcedeth.c                 Stephen Hemminger 20=
-06-07-31  2891  static int nv_rx_process(struct net_device *dev, int limit)
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2892  {
-ac9c18974f7d08 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-05-10-26  2893  	struct fe_priv *np =3D netdev_priv(dev);
-f82a9352f6b955 drivers/net/forcedeth.c                 Stephen Hemminger 20=
-06-07-27  2894  	u32 flags;
-bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
-07-10-16  2895  	int rx_work =3D 0;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2896  	struct sk_buff *skb;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2897  	int len;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2898  =
+aded04bc3dec13 Marek Vasut  2022-02-15  3875  static void
+aded04bc3dec13 Marek Vasut  2022-02-15  3876  __clk_register_critical_clock=
+(struct device_node *np, struct clk_core *core,
+aded04bc3dec13 Marek Vasut  2022-02-15  3877  			      struct clk_hw *hw)
+aded04bc3dec13 Marek Vasut  2022-02-15  3878  {
+aded04bc3dec13 Marek Vasut  2022-02-15  3879  	struct of_phandle_args clksp=
+ec;
+aded04bc3dec13 Marek Vasut  2022-02-15  3880  	u32 clksize, clktotal;
+aded04bc3dec13 Marek Vasut  2022-02-15  3881  	int ret, i, index;
+aded04bc3dec13 Marek Vasut  2022-02-15  3882  =
 
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2899  	while ((np->get_rx.orig !=3D np->put_rx.orig) &&
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2900  	      !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) =
-& NV_RX_AVAIL) &&
-bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
-07-10-16  2901  		(rx_work < limit)) {
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2902  =
+aded04bc3dec13 Marek Vasut  2022-02-15  3883  	if (!np)
+aded04bc3dec13 Marek Vasut  2022-02-15  3884  		return;
+aded04bc3dec13 Marek Vasut  2022-02-15  3885  =
 
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2903  		/*
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2904  		 * the packet is for us - immediately tear down the pci m=
-apping.
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2905  		 * TODO: check if a prefetch of the first cacheline impro=
-ves
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2906  		 * the performance.
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2907  		 */
-7598b3498bfdad drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-17-09-14  2908  		dma_unmap_single(&np->pci_dev->dev, np->get_rx_ctx->dma,
-761fcd9e3e0aa2 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2909  				 np->get_rx_ctx->dma_len,
-7598b3498bfdad drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-17-09-14  2910  				 DMA_FROM_DEVICE);
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2911  		skb =3D np->get_rx_ctx->skb;
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2912  		np->get_rx_ctx->skb =3D NULL;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2913  =
+aded04bc3dec13 Marek Vasut  2022-02-15  3886  	if (!core->ops->match_clkspe=
+c)
+aded04bc3dec13 Marek Vasut  2022-02-15  3887  		return;
+aded04bc3dec13 Marek Vasut  2022-02-15  3888  =
 
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2914  		/* look at what we actually got: */
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2915  		if (np->desc_ver =3D=3D DESC_VER_1) {
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2916  			if (likely(flags & NV_RX_DESCRIPTORVALID)) {
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2917  				len =3D flags & LEN_MASK_V1;
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2918  				if (unlikely(flags & NV_RX_ERROR)) {
-1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-08-08-06  2919  					if ((flags & NV_RX_ERROR_MASK) =3D=3D NV_RX_ERROR4) {
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2920  						len =3D nv_getlen(dev, skb->data, len);
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2921  						if (len < 0) {
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2922  							dev_kfree_skb(skb);
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2923  							goto next_pkt;
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2924  						}
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2925  					}
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2926  					/* framing errors are soft errors */
-1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-08-08-06  2927  					else if ((flags & NV_RX_ERROR_MASK) =3D=3D NV_RX_FRAMI=
-NGERR) {
-cef33c815a80bf drivers/net/ethernet/nvidia/forcedeth.c Antonio Ospite    20=
-14-06-04  2928  						if (flags & NV_RX_SUBTRACT1)
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2929  							len--;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2930  					}
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2931  					/* the rest are hard errors */
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2932  					else {
-f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-19-09-05  2933  						rx_missing_handler(flags, np);
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2934  						dev_kfree_skb(skb);
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2935  						goto next_pkt;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2936  					}
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2937  				}
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2938  			} else {
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2939  				dev_kfree_skb(skb);
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2940  				goto next_pkt;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2941  			}
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2942  		} else {
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2943  			if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2944  				len =3D flags & LEN_MASK_V2;
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2945  				if (unlikely(flags & NV_RX2_ERROR)) {
-1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-08-08-06  2946  					if ((flags & NV_RX2_ERROR_MASK) =3D=3D NV_RX2_ERROR4) {
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2947  						len =3D nv_getlen(dev, skb->data, len);
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2948  						if (len < 0) {
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09  2949  							dev_kfree_skb(skb);
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2950  							goto next_pkt;
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2951  						}
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2952  					}
-22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
-05-04-19  2953  					/* framing errors are soft errors */
-1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-08-08-06  2954  					else if ((flags & NV_RX2_ERROR_MASK) =3D=3D NV_RX2_FRA=
-MINGERR) {
-cef33c815a80bf drivers/net/ethernet/nvidia/forcedeth.c Antonio Ospite    20=
-14-06-04  2955  						if (flags & NV_RX2_SUBTRACT1)
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2956  							len--;
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2957  					}
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2958  					/* the rest are hard errors */
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2959  					else {
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2960  						dev_kfree_skb(skb);
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2961  						goto next_pkt;
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2962  					}
-a971c32488569b drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-05-11-11  2963  				}
-bfaffe8fae0273 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-08-01-13  2964  				if (((flags & NV_RX2_CHECKSUMMASK) =3D=3D NV_RX2_CHECKS=
-UM_IP_TCP) || /*ip and tcp */
-bfaffe8fae0273 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-08-01-13  2965  				    ((flags & NV_RX2_CHECKSUMMASK) =3D=3D NV_RX2_CHECKS=
-UM_IP_UDP))   /*ip and udp */
-0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-09 @2966  					skb->ip_summed =3D CHECKSUM_UNNECESSARY;
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2967  			} else {
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2968  				dev_kfree_skb(skb);
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2969  				goto next_pkt;
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2970  			}
-5ed2616f621b41 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-06-06-10  2971  		}
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2972  		/* got a valid packet - forward it to the network core */
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2973  		skb_put(skb, len);
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2974  		skb->protocol =3D eth_type_trans(skb, dev);
-53f224cc5f8f65 drivers/net/forcedeth.c                 Tom Herbert       20=
-10-05-03  2975  		napi_gro_receive(&np->napi, skb);
-f5d827aece3630 drivers/net/ethernet/nvidia/forcedeth.c david decotigny   20=
-11-11-16  2976  		u64_stats_update_begin(&np->swstats_rx_syncp);
-f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-19-09-05  2977  		nv_txrx_stats_inc(stat_rx_packets);
-f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-19-09-05  2978  		nv_txrx_stats_add(stat_rx_bytes, len);
-f5d827aece3630 drivers/net/ethernet/nvidia/forcedeth.c david decotigny   20=
-11-11-16  2979  		u64_stats_update_end(&np->swstats_rx_syncp);
-^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
-05-04-16  2980  next_pkt:
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2981  		if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
-64f26abb17ca2e drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-18-01-04  2982  			np->get_rx.orig =3D np->rx_ring.orig;
-b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2983  		if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
-a9124ec443babc drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
-18-01-23  2984  			np->get_rx_ctx =3D np->rx_skb;
-bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
-07-10-16  2985  =
+aded04bc3dec13 Marek Vasut  2022-02-15  3889  	if (of_property_read_u32(np,=
+ "#clock-cells", &clksize))
+aded04bc3dec13 Marek Vasut  2022-02-15  3890  		return;
+aded04bc3dec13 Marek Vasut  2022-02-15  3891  =
 
-bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
-07-10-16  2986  		rx_work++;
-86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2987  	}
-86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2988  =
+aded04bc3dec13 Marek Vasut  2022-02-15  3892  	/* Clock node with #clock-ce=
+lls =3D <0> uses critical-clocks; */
+aded04bc3dec13 Marek Vasut  2022-02-15  3893  	if (clksize =3D=3D 0) {
+aded04bc3dec13 Marek Vasut  2022-02-15  3894  		if (of_property_read_bool(n=
+p, "critical-clocks") &&
+aded04bc3dec13 Marek Vasut  2022-02-15  3895  		    !core->ops->match_clksp=
+ec(hw, &clkspec))
+aded04bc3dec13 Marek Vasut  2022-02-15  3896  			core->flags |=3D CLK_IS_CR=
+ITICAL;
+aded04bc3dec13 Marek Vasut  2022-02-15  3897  		return;
+aded04bc3dec13 Marek Vasut  2022-02-15  3898  	}
+aded04bc3dec13 Marek Vasut  2022-02-15  3899  =
 
-bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
-07-10-16  2989  	return rx_work;
-86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2990  }
-86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
-07-01-21  2991  =
+aded04bc3dec13 Marek Vasut  2022-02-15  3900  	clkspec.np =3D np;
+aded04bc3dec13 Marek Vasut  2022-02-15  3901  	clktotal =3D of_property_cou=
+nt_u32_elems(np, "critical-clocks");
+aded04bc3dec13 Marek Vasut  2022-02-15  3902  	clktotal /=3D clksize;
+aded04bc3dec13 Marek Vasut  2022-02-15  3903  	for (index =3D 0; index < cl=
+ktotal; index++) {
+aded04bc3dec13 Marek Vasut  2022-02-15  3904  		for (i =3D 0; i < clksize; =
+i++) {
+aded04bc3dec13 Marek Vasut  2022-02-15 @3905  			ret =3D of_property_read_u=
+32_index(np, "critical-clocks",
+aded04bc3dec13 Marek Vasut  2022-02-15  3906  							 (index * clksize) + i,
+aded04bc3dec13 Marek Vasut  2022-02-15  3907  							 &(clkspec.args[i]));
+aded04bc3dec13 Marek Vasut  2022-02-15  3908  		}
+aded04bc3dec13 Marek Vasut  2022-02-15  3909  		if (!core->ops->match_clksp=
+ec(hw, &clkspec))
+aded04bc3dec13 Marek Vasut  2022-02-15  3910  			core->flags |=3D CLK_IS_CR=
+ITICAL;
+aded04bc3dec13 Marek Vasut  2022-02-15  3911  	}
+aded04bc3dec13 Marek Vasut  2022-02-15  3912  }
+aded04bc3dec13 Marek Vasut  2022-02-15  3913  =
 
-
-:::::: The code at line 2966 was first introduced by commit
-:::::: 0d63fb32b2b8c3464d9c1afc3ce3fd3ceec025b6 forcedeth: rx skb recycle
-
-:::::: TO: Ayaz Abdulla <aabdulla@nvidia.com>
-:::::: CC: Jeff Garzik <jeff@garzik.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3950913532186458997==--
+--===============7421837008134425563==--
 
