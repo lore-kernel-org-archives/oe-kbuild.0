@@ -1,88 +1,121 @@
-Content-Type: multipart/mixed; boundary="===============4566279478262356339=="
+Content-Type: multipart/mixed; boundary="===============7870756359435529057=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/mock_engine.c:48 mock_timeline_pin() warn: inconsistent returns 'tl->hwsp_ggtt->obj->base.resv'.
-Date: Tue, 15 Feb 2022 10:41:44 +0800
-Message-ID: <202202151006.Kze8Vvcq-lkp@intel.com>
+Subject: Re: [RESEND v13 07/10] ASoC: qcom: Add support for codec dma driver
+Date: Tue, 15 Feb 2022 10:31:26 +0800
+Message-ID: <202202151059.hEuYfkLa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4566279478262356339==
+--===============7870756359435529057==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <1644850708-11099-8-git-send-email-quic_srivasam@quicinc.com>
+References: <1644850708-11099-8-git-send-email-quic_srivasam@quicinc.com>
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+TO: agross(a)kernel.org
+TO: bjorn.andersson(a)linaro.org
+TO: lgirdwood(a)gmail.com
+TO: broonie(a)kernel.org
+TO: robh+dt(a)kernel.org
+TO: quic_plai(a)quicinc.com
+TO: bgoswami(a)codeaurora.org
+TO: perex(a)perex.cz
+TO: tiwai(a)suse.com
+TO: srinivas.kandagatla(a)linaro.org
+TO: rohitkr(a)codeaurora.org
+TO: linux-arm-msm(a)vger.kernel.org
+TO: alsa-devel(a)alsa-project.org
+TO: devicetree(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+TO: swboyd(a)chromium.org
+TO: judyhsiao(a)chromium.org
+CC: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d567f5db412ed52de0b3b3efca4a451263de6108
-commit: 2c8ab3339e398bbbcb0980933e266b93bedaae52 drm/i915: Pin timeline map=
- after first timeline pin, v4.
-date:   11 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-m021-20220214 (https://download.01.org/0day-ci/arch=
-ive/20220215/202202151006.Kze8Vvcq-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+Hi Srinivasa,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on v5.17-rc4 next-20220214]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Srinivasa-Rao-Mandadapu/Ad=
+d-support-for-audio-on-SC7280-based-targets/20220214-230256
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git f=
+or-next
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: m68k-randconfig-m031-20220214 (https://download.01.org/0day-ci/arch=
+ive/20220215/202202151059.hEuYfkLa-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/i915/gt/mock_engine.c:48 mock_timeline_pin() warn: inconsis=
-tent returns 'tl->hwsp_ggtt->obj->base.resv'.
+sound/soc/qcom/lpass-platform.c:1233 lpass_platform_copy() warn: maybe retu=
+rn -EFAULT instead of the bytes remaining?
 
-vim +48 drivers/gpu/drm/i915/gt/mock_engine.c
+vim +1233 sound/soc/qcom/lpass-platform.c
 
-f97fbf9606a1a9 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2017-02-13  34  =
+8d1bfc04c97407 Srinivasa Rao Mandadapu 2020-12-17  1209  =
 
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  35  static int mock_timeline_pin(struct intel_timeline *tl)
-5013eb8cd601c3 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2019-01-28  36  {
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  37  	int err;
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  38  =
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1210  static int lpass_p=
+latform_copy(struct snd_soc_component *component,
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1211  			       struct s=
+nd_pcm_substream *substream, int channel,
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1212  			       unsigned=
+ long pos, void __user *buf, unsigned long bytes)
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1213  {
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1214  	struct snd_pcm_ru=
+ntime *rt =3D substream->runtime;
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1215  	unsigned int dai_=
+id =3D component->id;
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1216  	int ret =3D 0;
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1217  =
 
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  39  	if (WARN_ON(!i915_gem_object_trylock(tl->hwsp_ggtt->obj=
-)))
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  40  		return -EBUSY;
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  41  =
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1218  	void __iomem *dma=
+_buf =3D rt->dma_area + pos +
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1219  				channel * (rt-=
+>dma_bytes / rt->channels);
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1220  =
 
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  42  	err =3D intel_timeline_pin_map(tl);
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  43  	i915_gem_object_unlock(tl->hwsp_ggtt->obj);
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  44  	if (err)
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  45  		return err;
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  46  =
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1221  	if (substream->st=
+ream =3D=3D SNDRV_PCM_STREAM_PLAYBACK) {
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1222  		if (is_cdc_dma_p=
+ort(dai_id))
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1223  			ret =3D copy_fr=
+om_user_toio(dma_buf, buf, bytes);
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1224  		else
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1225  			ret =3D copy_fr=
+om_user((void __force *)dma_buf, buf, bytes);
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1226  	} else if (substr=
+eam->stream =3D=3D SNDRV_PCM_STREAM_CAPTURE) {
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1227  		if (is_cdc_dma_p=
+ort(dai_id))
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1228  			ret =3D copy_to=
+_user_fromio(buf, dma_buf, bytes);
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1229  		else
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1230  			ret =3D copy_to=
+_user(buf, (void __force *)dma_buf, bytes);
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1231  	}
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1232  =
 
-ccb23d2dcc300d drivers/gpu/drm/i915/gt/mock_engine.c        Chris Wilson   =
-   2019-08-15  47  	atomic_inc(&tl->pin_count);
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23 @48  	return 0;
-5013eb8cd601c3 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2019-01-28  49  }
-5013eb8cd601c3 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2019-01-28  50  =
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14 @1233  	return ret;
+e81c7e5d842d2b Srinivasa Rao Mandadapu 2022-02-14  1234  }
+8d1bfc04c97407 Srinivasa Rao Mandadapu 2020-12-17  1235  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4566279478262356339==--
+--===============7870756359435529057==--
 
