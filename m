@@ -1,111 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============3061564473513246989=="
+Content-Type: multipart/mixed; boundary="===============3222760724150176268=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mchinth:sep_socwatch_linux_5_16 1/1] drivers/platform/x86/socperf/pmu_list.c:193 pmu_list_Balance_Tree() error: we previously assumed 'node->left' could be null (see line 181)
-Date: Tue, 15 Feb 2022 19:23:42 +0800
-Message-ID: <202202151829.3TAJtEkM-lkp@intel.com>
+Subject: drivers/gpu/drm/ttm/ttm_bo.c:553:35: warning: Uninitialized variable: evict_mem [uninitvar]
+Date: Tue, 15 Feb 2022 19:22:23 +0800
+Message-ID: <202202151740.Tt8mccWa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3061564473513246989==
+--===============3222760724150176268==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
+TO: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 
-tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_16
-head:   4cbfca15a262729ae8557758b49226fe4769f582
-commit: 4cbfca15a262729ae8557758b49226fe4769f582 [1/1] Platform/x86 Updated=
- SEP/SOCPERF drivers to latest version
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: i386-randconfig-m021-20220214 (https://download.01.org/0day-ci/arch=
-ive/20220215/202202151829.3TAJtEkM-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d567f5db412ed52de0b3b3efca4a451263de6108
+commit: 403797925768d9fa870f5b1ebcd20016b397083b drm/ttm: Fix multihop asse=
+rt on eviction.
+date:   8 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 8 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/x86/socperf/pmu_list.c:193 pmu_list_Balance_Tree() error: =
-we previously assumed 'node->left' could be null (see line 181)
 
-vim +193 drivers/platform/x86/socperf/pmu_list.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  170  =
+>> drivers/gpu/drm/ttm/ttm_bo.c:553:35: warning: Uninitialized variable: ev=
+ict_mem [uninitvar]
+    ret =3D ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+                                     ^
 
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  171  /*********************=
-*******************************************************************
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  172   * Range is not used: =
-for PCI and MMIO
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  173   *********************=
-*******************************************************************/
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  174  =
+vim +553 drivers/gpu/drm/ttm/ttm_bo.c
 
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  175  static PMU_SEARCH_NODE=
- *pmu_list_Balance_Tree(PMU_SEARCH_NODE *node, U64 key)
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  176  {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  177  	S32 height_delta =3D =
-0;
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  178  =
+403797925768d9 Andrey Grodzovsky 2021-06-22  512  =
 
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  179  	if (node->left && nod=
-e->right) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  180  		height_delta =3D nod=
-e->left->height - node->right->height;
-4cbfca15a26272 Manisha Chinthapally 2022-02-02 @181  	} else if (node->left=
-) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  182  		height_delta =3D nod=
-e->left->height;
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  183  	} else if (node->righ=
-t) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  184  		height_delta =3D 0 -=
- (node->right->height);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  185  	}
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  186  =
+83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  513  static int ttm_bo_ev=
+ict(struct ttm_buffer_object *bo,
+83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  514  			struct ttm_operat=
+ion_ctx *ctx)
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  515  {
+8af8a109b34fa8 Christian K=C3=B6nig   2020-10-01  516  	struct ttm_device *=
+bdev =3D bo->bdev;
+bfa3357ef9abc9 Christian K=C3=B6nig   2021-04-15  517  	struct ttm_resource=
+ *evict_mem;
+ca262a9998d461 Jerome Glisse     2009-12-08  518  	struct ttm_placement pla=
+cement;
+ebdf565169af00 Dave Airlie       2020-10-29  519  	struct ttm_place hop;
+ca262a9998d461 Jerome Glisse     2009-12-08  520  	int ret =3D 0;
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  521  =
 
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  187  	if (height_delta =3D=
-=3D 0) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  188  		// tree is balanced
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  189  		return node;
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  190  	}
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  191  	// if Delta > 1, bala=
-nce left tree
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  192  	else if ((height_delt=
-a > 1) && (node->key > key)) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02 @193  		node =3D pmu_list_Ri=
-ght_Rotate(node);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  194  	} else if ((height_de=
-lta > 1) && (node->key < key)) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  195  		node->left =3D pmu_l=
-ist_Left_Rotate(node->left);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  196  		node =3D pmu_list_Ri=
-ght_Rotate(node);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  197  	}
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  198  	// if Delta < -1, bal=
-ance right tree
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  199  	else if ((height_delt=
-a < -1) && (node->key < key)) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  200  		node =3D pmu_list_Le=
-ft_Rotate(node);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  201  	} else if ((height_de=
-lta < -1) && (node->key > key)) {
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  202  		node->right =3D pmu_=
-list_Right_Rotate(node->right);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  203  		node =3D pmu_list_Le=
-ft_Rotate(node);
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  204  	}
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  205  	return node;
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  206  }
-4cbfca15a26272 Manisha Chinthapally 2022-02-02  207  =
+ebdf565169af00 Dave Airlie       2020-10-29  522  	memset(&hop, 0, sizeof(h=
+op));
+ebdf565169af00 Dave Airlie       2020-10-29  523  =
 
+52791eeec1d9f4 Christian K=C3=B6nig   2019-08-11  524  	dma_resv_assert_hel=
+d(bo->base.resv);
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  525  =
+
+5d95109815493e Christian K=C3=B6nig   2018-02-20  526  	placement.num_place=
+ment =3D 0;
+5d95109815493e Christian K=C3=B6nig   2018-02-20  527  	placement.num_busy_=
+placement =3D 0;
+8af8a109b34fa8 Christian K=C3=B6nig   2020-10-01  528  	bdev->funcs->evict_=
+flags(bo, &placement);
+5d95109815493e Christian K=C3=B6nig   2018-02-20  529  =
+
+d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  530  	if (!placement.num_=
+placement && !placement.num_busy_placement) {
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  531  		ret =3D ttm_bo_wai=
+t(bo, true, false);
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  532  		if (ret)
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  533  			return ret;
+d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  534  =
+
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  535  		/*
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  536  		 * Since we've alr=
+eady synced, this frees backing store
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  537  		 * immediately.
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  538  		 */
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  539  		return ttm_bo_pipe=
+line_gutting(bo);
+d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  540  	}
+5d95109815493e Christian K=C3=B6nig   2018-02-20  541  =
+
+83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  542  	ret =3D ttm_bo_mem_=
+space(bo, &placement, &evict_mem, ctx);
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  543  	if (ret) {
+fb53f8621a3fab Jerome Glisse     2009-12-09  544  		if (ret !=3D -ERESTARTS=
+YS) {
+25d0479a592556 Joe Perches       2012-03-16  545  			pr_err("Failed to find=
+ memory space for buffer 0x%p eviction\n",
+25d0479a592556 Joe Perches       2012-03-16  546  			       bo);
+fb53f8621a3fab Jerome Glisse     2009-12-09  547  			ttm_bo_mem_space_debug=
+(bo, &placement);
+fb53f8621a3fab Jerome Glisse     2009-12-09  548  		}
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  549  		goto out;
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  550  	}
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  551  =
+
+403797925768d9 Andrey Grodzovsky 2021-06-22  552  bounce:
+bfa3357ef9abc9 Christian K=C3=B6nig   2021-04-15 @553  	ret =3D ttm_bo_hand=
+le_move_mem(bo, evict_mem, true, ctx, &hop);
+403797925768d9 Andrey Grodzovsky 2021-06-22  554  	if (ret =3D=3D -EMULTIHO=
+P) {
+403797925768d9 Andrey Grodzovsky 2021-06-22  555  		ret =3D ttm_bo_bounce_t=
+emp_buffer(bo, &evict_mem, ctx, &hop);
+403797925768d9 Andrey Grodzovsky 2021-06-22  556  		if (ret) {
+25d0479a592556 Joe Perches       2012-03-16  557  			pr_err("Buffer evictio=
+n failed\n");
+b2458726b38cb6 Christian K=C3=B6nig   2020-08-03  558  			ttm_resource_free=
+(bo, &evict_mem);
+403797925768d9 Andrey Grodzovsky 2021-06-22  559  			goto out;
+403797925768d9 Andrey Grodzovsky 2021-06-22  560  		}
+403797925768d9 Andrey Grodzovsky 2021-06-22  561  		/* try and move to fina=
+l place now. */
+403797925768d9 Andrey Grodzovsky 2021-06-22  562  		goto bounce;
+ca262a9998d461 Jerome Glisse     2009-12-08  563  	}
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  564  out:
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  565  	return ret;
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  566  }
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  567  =
+
+
+:::::: The code at line 553 was first introduced by commit
+:::::: bfa3357ef9abc9d56a2910222d2deeb9f15c91ff drm/ttm: allocate resource =
+object instead of embedding it v2
+
+:::::: TO: Christian K=C3=B6nig <christian.koenig@amd.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3061564473513246989==--
+--===============3222760724150176268==--
 
