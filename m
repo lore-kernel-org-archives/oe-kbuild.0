@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5610406158417413161=="
+Content-Type: multipart/mixed; boundary="===============3950913532186458997=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 16 Feb 2022 07:49:01 +0800
-Message-ID: <202202160750.leiLH0af-lkp@intel.com>
+Subject: drivers/net/ethernet/nvidia/forcedeth.c:2966:21: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Wed, 16 Feb 2022 07:08:16 +0800
+Message-ID: <202202160659.dH3q091I-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5610406158417413161==
+--===============3950913532186458997==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Andrey Konovalov <andreyknvl@google.com>
-CC: Marco Elver <elver@google.com>
-CC: Alexander Potapenko <glider@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kees Cook <keescook@chromium.org>
+CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   705d84a366cfccda1e7aec1113a5399cd2ffee7d
-commit: 858bdeb046f6dc7a79039d577d03e4d2b39272b7 kasan: add proper page all=
-ocator tests
-date:   12 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20220213 (https://download.01.org/0day-ci/arc=
-hive/20220216/202202160750.leiLH0af-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
-634519e6497be42f5fe323f9a04ed67127)
+head:   d567f5db412ed52de0b3b3efca4a451263de6108
+commit: 03f61041c17914355dde7261be9ccdc821ddd454 skbuff: Switch structure b=
+ounds to struct_group()
+date:   3 months ago
+:::::: branch date: 29 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-c007-20220214 (https://download.01.org/0day-ci/ar=
+chive/20220216/202202160659.dH3q091I-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project ea0718=
+84b0cc7210b3cc5fe858f0e892a779a23b)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D858bdeb046f6dc7a79039d577d03e4d2b39272b7
+t/commit/?id=3D03f61041c17914355dde7261be9ccdc821ddd454
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 858bdeb046f6dc7a79039d577d03e4d2b39272b7
+        git checkout 03f61041c17914355dde7261be9ccdc821ddd454
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,305 +50,500 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/fuse/dev.c:1671:7: note: Calling 'kzalloc'
-           ra =3D kzalloc(args_size, GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:9: note: Uninitialized value stored to field 'n=
-um_pages'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:684:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:1671:7: note: Returning from 'kzalloc'
-           ra =3D kzalloc(args_size, GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/dev.c:1672:6: note: Assuming 'ra' is non-null
-           if (!ra)
-               ^~~
-   fs/fuse/dev.c:1672:2: note: Taking false branch
-           if (!ra)
-           ^
-   fs/fuse/dev.c:1688:9: note: Assuming 'num' is not equal to 0
-           while (num && ap->num_pages < num_pages) {
-                  ^~~
-   fs/fuse/dev.c:1688:9: note: Left side of '&&' is true
-   fs/fuse/dev.c:1688:30: note: The left operand of '<' is a garbage value
-           while (num && ap->num_pages < num_pages) {
-                         ~~~~~~~~~~~~~ ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   lib/string_helpers.c:111:12: warning: Assigned value is garbage or undef=
-ined [clang-analyzer-core.uninitialized.Assign]
-           remainder +=3D rounding[j];
-                     ^  ~~~~~~~~~~~
-   lib/string_helpers.c:59:6: note: Assuming 'blk_size' is not equal to 0
-           if (blk_size =3D=3D 0)
-               ^~~~~~~~~~~~~
-   lib/string_helpers.c:59:2: note: Taking false branch
-           if (blk_size =3D=3D 0)
-           ^
-   lib/string_helpers.c:61:6: note: Assuming 'size' is not equal to 0
-           if (size =3D=3D 0)
-               ^~~~~~~~~
-   lib/string_helpers.c:61:2: note: Taking false branch
-           if (size =3D=3D 0)
-           ^
-   lib/string_helpers.c:75:2: note: Loop condition is false. Execution cont=
-inues on line 80
-           while (blk_size >> 32) {
-           ^
-   lib/string_helpers.c:80:2: note: Loop condition is false. Execution cont=
-inues on line 87
-           while (size >> 32) {
-           ^
-   lib/string_helpers.c:90:2: note: Loop condition is false. Execution cont=
-inues on line 97
-           while (size >=3D divisor[units]) {
-           ^
-   lib/string_helpers.c:98:14: note: Assuming the condition is true
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
-body
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:98:14: note: Assuming the condition is true
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
-body
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:98:14: note: Assuming the condition is true
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
-body
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:98:32: note: The value 3 is assigned to 'j'
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                                         ^~~
-   lib/string_helpers.c:98:14: note: Assuming the condition is false
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is false. Execution cont=
-inues on line 101
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:101:6: note: Assuming 'units' is not equal to STRIN=
-G_UNITS_2
-           if (units =3D=3D STRING_UNITS_2) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/string_helpers.c:101:2: note: Taking false branch
-           if (units =3D=3D STRING_UNITS_2) {
-           ^
-   lib/string_helpers.c:111:12: note: Assigned value is garbage or undefined
-           remainder +=3D rounding[j];
-                     ^  ~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
->> lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initi=
-alization is never read [clang-analyzer-deadcode.DeadStores]
-           size_t size =3D (1UL << (PAGE_SHIFT + order));
-                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan.c:203:9: note: Value stored to 'size' during its initiali=
-zation is never read
-           size_t size =3D (1UL << (PAGE_SHIFT + order));
-                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan.c:315:40: warning: Use of memory after it is freed [clang=
--analyzer-unix.Malloc]
-           KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 =3D *ptr2);
-                                                 ^
-   lib/test_kasan.c:88:2: note: expanded from macro 'KUNIT_EXPECT_KASAN_FAI=
-L'
-           expression;                                             \
-           ^~~~~~~~~~
-   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^
-   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-           KUNIT_ASSERTION(test,                                           =
-       \
-           ^
-   include/kunit/test.h:679:74: note: expanded from macro 'KUNIT_ASSERTION'
-   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
- do {  \
-                                                                           =
- ^
-   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^
-   include/kunit/test.h:1191:21: note: expanded from macro 'KUNIT_PTR_NOT_E=
-RR_OR_NULL_MSG_ASSERTION'
-                                                   ...)                    =
-       \
-                                                                           =
-       ^
-   lib/test_kasan.c:312:2: note: Calling 'IS_ERR_OR_NULL'
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-                           !IS_ERR_OR_NULL(__ptr),                         =
-       \
-                            ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   include/linux/err.h:41:18: note: Assuming 'ptr' is non-null
-           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
-                           ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:41:9: note: Left side of '||' is false
-           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
+ is < 'limit'
+                   (rx_work < limit)) {
+                    ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
+true.  Entering loop body
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2912:3: note: Null pointer value=
+ stored to field 'skb'
+                   np->get_rx_ctx->skb =3D NULL;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:11: note: Field 'desc_ver' =
+is not equal to DESC_VER_1
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
+                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:3: note: Taking false branch
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2943:8: note: Assuming the condi=
+tion is true
+                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+                               ^
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2943:4: note: Taking false branch
+                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2969:5: note: Control jumps to l=
+ine 2981
+                                   goto next_pkt;
+                                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2981:7: note: Assuming the condi=
+tion is false
+                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
+                       ^
    include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
    # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^
-   include/linux/err.h:41:27: note: Assuming the condition is false
-           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
-                                    ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2981:3: note: Taking false branch
+                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2983:16: note: Assuming the cond=
+ition is true
+                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
+                                ^
    include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
    # define unlikely(x)    __builtin_expect(!!(x), 0)
                                                ^
-   lib/test_kasan.c:312:2: note: Returning from 'IS_ERR_OR_NULL'
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+   drivers/net/ethernet/nvidia/forcedeth.c:2983:3: note: Taking true branch
+                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:10: note: Assuming 'np->get=
+_rx.orig' is not equal to 'np->put_rx.orig'
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
+is true
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                  ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2900:8: note: Assuming the condi=
+tion is true
+                 !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) & NV_R=
+X_AVAIL) &&
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
+is true
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                  ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
+ is < 'limit'
+                   (rx_work < limit)) {
+                    ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
+true.  Entering loop body
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
            ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-                           !IS_ERR_OR_NULL(__ptr),                         =
-       \
-                            ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   lib/test_kasan.c:312:2: note: Loop condition is false.  Exiting loop
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+   drivers/net/ethernet/nvidia/forcedeth.c:2911:3: note: Null pointer value=
+ stored to 'skb'
+                   skb =3D np->get_rx_ctx->skb;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:11: note: Field 'desc_ver' =
+is not equal to DESC_VER_1
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
+                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:3: note: Taking false branch
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2943:8: note: Assuming the condi=
+tion is false
+                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+                               ^
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2943:4: note: Taking true branch
+                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2945:9: note: Assuming the condi=
+tion is false
+                                   if (unlikely(flags & NV_RX2_ERROR)) {
+                                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2945:5: note: Taking true branch
+                                   if (unlikely(flags & NV_RX2_ERROR)) {
+                                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2946:10: note: Assuming the cond=
+ition is true
+                                           if ((flags & NV_RX2_ERROR_MASK) =
+=3D=3D NV_RX2_ERROR4) {
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2946:6: note: Taking true branch
+                                           if ((flags & NV_RX2_ERROR_MASK) =
+=3D=3D NV_RX2_ERROR4) {
+                                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2947:28: note: Access to field '=
+data' results in a dereference of a null pointer (loaded from variable 'skb=
+')
+                                                   len =3D nv_getlen(dev, s=
+kb->data, len);
+                                                                        ^~~
+>> drivers/net/ethernet/nvidia/forcedeth.c:2966:21: warning: Dereference of=
+ null pointer [clang-analyzer-core.NullDereference]
+                                           skb->ip_summed =3D CHECKSUM_UNNE=
+CESSARY;
+                                           ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:10: note: Assuming 'np->get=
+_rx.orig' is not equal to 'np->put_rx.orig'
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
+is true
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                  ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2900:8: note: Assuming the condi=
+tion is true
+                 !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) & NV_R=
+X_AVAIL) &&
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
+is true
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                  ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
+ is < 'limit'
+                   (rx_work < limit)) {
+                    ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
+true.  Entering loop body
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
            ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:7: note: Assuming field 'de=
+sc_ver' is not equal to DESC_VER_1
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:3: note: Taking false branch
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2943:8: note: Assuming the condi=
+tion is false
+                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+                               ^
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2943:4: note: Taking true branch
+                           if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2945:9: note: Assuming the condi=
+tion is false
+                                   if (unlikely(flags & NV_RX2_ERROR)) {
+                                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2945:5: note: Taking true branch
+                                   if (unlikely(flags & NV_RX2_ERROR)) {
+                                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2946:10: note: Assuming the cond=
+ition is false
+                                           if ((flags & NV_RX2_ERROR_MASK) =
+=3D=3D NV_RX2_ERROR4) {
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2946:6: note: Taking false branch
+                                           if ((flags & NV_RX2_ERROR_MASK) =
+=3D=3D NV_RX2_ERROR4) {
+                                           ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2954:15: note: Assuming the cond=
+ition is false
+                                           else if ((flags & NV_RX2_ERROR_M=
+ASK) =3D=3D NV_RX2_FRAMINGERR) {
+                                                    ^~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2954:11: note: Taking false bran=
+ch
+                                           else if ((flags & NV_RX2_ERROR_M=
+ASK) =3D=3D NV_RX2_FRAMINGERR) {
+                                                ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2961:7: note: Control jumps to l=
+ine 2981
+                                                   goto next_pkt;
+                                                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2981:16: note: Assuming the cond=
+ition is false
+                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
+                                ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2981:3: note: Taking false branch
+                   if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2983:16: note: Assuming the cond=
+ition is true
+                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
+                                ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2983:3: note: Taking true branch
+                   if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
+                   ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:10: note: Assuming 'np->get=
+_rx.orig' is not equal to 'np->put_rx.orig'
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
+is true
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                  ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2900:8: note: Assuming the condi=
+tion is true
+                 !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) & NV_R=
+X_AVAIL) &&
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:9: note: Left side of '&&' =
+is true
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+                  ^
+   drivers/net/ethernet/nvidia/forcedeth.c:2901:4: note: Assuming 'rx_work'=
+ is < 'limit'
+                   (rx_work < limit)) {
+                    ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2899:2: note: Loop condition is =
+true.  Entering loop body
+           while ((np->get_rx.orig !=3D np->put_rx.orig) &&
            ^
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^
-   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-           KUNIT_ASSERTION(test,                                           =
-       \
+   drivers/net/ethernet/nvidia/forcedeth.c:2912:3: note: Null pointer value=
+ stored to field 'skb'
+                   np->get_rx_ctx->skb =3D NULL;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/nvidia/forcedeth.c:2915:11: note: Field 'desc_ver' =
+is not equal to DESC_VER_1
+                   if (np->desc_ver =3D=3D DESC_VER_1) {
 
-vim +/size +203 lib/test_kasan.c
+vim +2966 drivers/net/ethernet/nvidia/forcedeth.c
 
-e6e8379c876de1 Alexander Potapenko 2016-03-25  197  =
+f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+19-09-05  2890  =
 
-858bdeb046f6dc Andrey Konovalov    2021-02-24  198  static void pagealloc_o=
-ob_right(struct kunit *test)
-858bdeb046f6dc Andrey Konovalov    2021-02-24  199  {
-858bdeb046f6dc Andrey Konovalov    2021-02-24  200  	char *ptr;
-858bdeb046f6dc Andrey Konovalov    2021-02-24  201  	struct page *pages;
-858bdeb046f6dc Andrey Konovalov    2021-02-24  202  	size_t order =3D 4;
-858bdeb046f6dc Andrey Konovalov    2021-02-24 @203  	size_t size =3D (1UL <=
-< (PAGE_SHIFT + order));
-858bdeb046f6dc Andrey Konovalov    2021-02-24  204  =
+e27cdba53b8ad5 drivers/net/forcedeth.c                 Stephen Hemminger 20=
+06-07-31  2891  static int nv_rx_process(struct net_device *dev, int limit)
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2892  {
+ac9c18974f7d08 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+05-10-26  2893  	struct fe_priv *np =3D netdev_priv(dev);
+f82a9352f6b955 drivers/net/forcedeth.c                 Stephen Hemminger 20=
+06-07-27  2894  	u32 flags;
+bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
+07-10-16  2895  	int rx_work =3D 0;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2896  	struct sk_buff *skb;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2897  	int len;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2898  =
 
-858bdeb046f6dc Andrey Konovalov    2021-02-24  205  	/*
-858bdeb046f6dc Andrey Konovalov    2021-02-24  206  	 * With generic KASAN =
-page allocations have no redzones, thus
-858bdeb046f6dc Andrey Konovalov    2021-02-24  207  	 * out-of-bounds detec=
-tion is not guaranteed.
-858bdeb046f6dc Andrey Konovalov    2021-02-24  208  	 * See https://bugzill=
-a.kernel.org/show_bug.cgi?id=3D210503.
-858bdeb046f6dc Andrey Konovalov    2021-02-24  209  	 */
-858bdeb046f6dc Andrey Konovalov    2021-02-24  210  	KASAN_TEST_NEEDS_CONFI=
-G_OFF(test, CONFIG_KASAN_GENERIC);
-858bdeb046f6dc Andrey Konovalov    2021-02-24  211  =
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2899  	while ((np->get_rx.orig !=3D np->put_rx.orig) &&
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2900  	      !((flags =3D le32_to_cpu(np->get_rx.orig->flaglen)) =
+& NV_RX_AVAIL) &&
+bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
+07-10-16  2901  		(rx_work < limit)) {
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2902  =
 
-858bdeb046f6dc Andrey Konovalov    2021-02-24  212  	pages =3D alloc_pages(=
-GFP_KERNEL, order);
-858bdeb046f6dc Andrey Konovalov    2021-02-24  213  	ptr =3D page_address(p=
-ages);
-858bdeb046f6dc Andrey Konovalov    2021-02-24  214  	KUNIT_ASSERT_NOT_ERR_O=
-R_NULL(test, ptr);
-858bdeb046f6dc Andrey Konovalov    2021-02-24  215  =
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2903  		/*
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2904  		 * the packet is for us - immediately tear down the pci m=
+apping.
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2905  		 * TODO: check if a prefetch of the first cacheline impro=
+ves
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2906  		 * the performance.
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2907  		 */
+7598b3498bfdad drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+17-09-14  2908  		dma_unmap_single(&np->pci_dev->dev, np->get_rx_ctx->dma,
+761fcd9e3e0aa2 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2909  				 np->get_rx_ctx->dma_len,
+7598b3498bfdad drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+17-09-14  2910  				 DMA_FROM_DEVICE);
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2911  		skb =3D np->get_rx_ctx->skb;
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2912  		np->get_rx_ctx->skb =3D NULL;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2913  =
 
-858bdeb046f6dc Andrey Konovalov    2021-02-24  216  	KUNIT_EXPECT_KASAN_FAI=
-L(test, ptr[size] =3D 0);
-858bdeb046f6dc Andrey Konovalov    2021-02-24  217  	free_pages((unsigned l=
-ong)ptr, order);
-858bdeb046f6dc Andrey Konovalov    2021-02-24  218  }
-858bdeb046f6dc Andrey Konovalov    2021-02-24  219  =
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2914  		/* look at what we actually got: */
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2915  		if (np->desc_ver =3D=3D DESC_VER_1) {
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2916  			if (likely(flags & NV_RX_DESCRIPTORVALID)) {
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2917  				len =3D flags & LEN_MASK_V1;
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2918  				if (unlikely(flags & NV_RX_ERROR)) {
+1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+08-08-06  2919  					if ((flags & NV_RX_ERROR_MASK) =3D=3D NV_RX_ERROR4) {
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2920  						len =3D nv_getlen(dev, skb->data, len);
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2921  						if (len < 0) {
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2922  							dev_kfree_skb(skb);
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2923  							goto next_pkt;
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2924  						}
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2925  					}
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2926  					/* framing errors are soft errors */
+1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+08-08-06  2927  					else if ((flags & NV_RX_ERROR_MASK) =3D=3D NV_RX_FRAMI=
+NGERR) {
+cef33c815a80bf drivers/net/ethernet/nvidia/forcedeth.c Antonio Ospite    20=
+14-06-04  2928  						if (flags & NV_RX_SUBTRACT1)
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2929  							len--;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2930  					}
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2931  					/* the rest are hard errors */
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2932  					else {
+f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+19-09-05  2933  						rx_missing_handler(flags, np);
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2934  						dev_kfree_skb(skb);
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2935  						goto next_pkt;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2936  					}
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2937  				}
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2938  			} else {
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2939  				dev_kfree_skb(skb);
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2940  				goto next_pkt;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2941  			}
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2942  		} else {
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2943  			if (likely(flags & NV_RX2_DESCRIPTORVALID)) {
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2944  				len =3D flags & LEN_MASK_V2;
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2945  				if (unlikely(flags & NV_RX2_ERROR)) {
+1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+08-08-06  2946  					if ((flags & NV_RX2_ERROR_MASK) =3D=3D NV_RX2_ERROR4) {
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2947  						len =3D nv_getlen(dev, skb->data, len);
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2948  						if (len < 0) {
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09  2949  							dev_kfree_skb(skb);
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2950  							goto next_pkt;
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2951  						}
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2952  					}
+22c6d143f33f10 drivers/net/forcedeth.c                 Manfred Spraul    20=
+05-04-19  2953  					/* framing errors are soft errors */
+1ef6841b4c4d9c drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+08-08-06  2954  					else if ((flags & NV_RX2_ERROR_MASK) =3D=3D NV_RX2_FRA=
+MINGERR) {
+cef33c815a80bf drivers/net/ethernet/nvidia/forcedeth.c Antonio Ospite    20=
+14-06-04  2955  						if (flags & NV_RX2_SUBTRACT1)
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2956  							len--;
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2957  					}
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2958  					/* the rest are hard errors */
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2959  					else {
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2960  						dev_kfree_skb(skb);
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2961  						goto next_pkt;
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2962  					}
+a971c32488569b drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+05-11-11  2963  				}
+bfaffe8fae0273 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+08-01-13  2964  				if (((flags & NV_RX2_CHECKSUMMASK) =3D=3D NV_RX2_CHECKS=
+UM_IP_TCP) || /*ip and tcp */
+bfaffe8fae0273 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+08-01-13  2965  				    ((flags & NV_RX2_CHECKSUMMASK) =3D=3D NV_RX2_CHECKS=
+UM_IP_UDP))   /*ip and udp */
+0d63fb32b2b8c3 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-09 @2966  					skb->ip_summed =3D CHECKSUM_UNNECESSARY;
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2967  			} else {
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2968  				dev_kfree_skb(skb);
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2969  				goto next_pkt;
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2970  			}
+5ed2616f621b41 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+06-06-10  2971  		}
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2972  		/* got a valid packet - forward it to the network core */
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2973  		skb_put(skb, len);
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2974  		skb->protocol =3D eth_type_trans(skb, dev);
+53f224cc5f8f65 drivers/net/forcedeth.c                 Tom Herbert       20=
+10-05-03  2975  		napi_gro_receive(&np->napi, skb);
+f5d827aece3630 drivers/net/ethernet/nvidia/forcedeth.c david decotigny   20=
+11-11-16  2976  		u64_stats_update_begin(&np->swstats_rx_syncp);
+f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+19-09-05  2977  		nv_txrx_stats_inc(stat_rx_packets);
+f4b633b911fd3b drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+19-09-05  2978  		nv_txrx_stats_add(stat_rx_bytes, len);
+f5d827aece3630 drivers/net/ethernet/nvidia/forcedeth.c david decotigny   20=
+11-11-16  2979  		u64_stats_update_end(&np->swstats_rx_syncp);
+^1da177e4c3f41 drivers/net/forcedeth.c                 Linus Torvalds    20=
+05-04-16  2980  next_pkt:
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2981  		if (unlikely(np->get_rx.orig++ =3D=3D np->last_rx.orig))
+64f26abb17ca2e drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+18-01-04  2982  			np->get_rx.orig =3D np->rx_ring.orig;
+b01867cbd18539 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2983  		if (unlikely(np->get_rx_ctx++ =3D=3D np->last_rx_ctx))
+a9124ec443babc drivers/net/ethernet/nvidia/forcedeth.c Zhu Yanjun        20=
+18-01-23  2984  			np->get_rx_ctx =3D np->rx_skb;
+bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
+07-10-16  2985  =
 
+bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
+07-10-16  2986  		rx_work++;
+86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2987  	}
+86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2988  =
+
+bcb5febb248f7c drivers/net/forcedeth.c                 Ingo Molnar       20=
+07-10-16  2989  	return rx_work;
+86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2990  }
+86b22b0dfbf462 drivers/net/forcedeth.c                 Ayaz Abdulla      20=
+07-01-21  2991  =
+
+
+:::::: The code at line 2966 was first introduced by commit
+:::::: 0d63fb32b2b8c3464d9c1afc3ce3fd3ceec025b6 forcedeth: rx skb recycle
+
+:::::: TO: Ayaz Abdulla <aabdulla@nvidia.com>
+:::::: CC: Jeff Garzik <jeff@garzik.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============5610406158417413161==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3950913532186458997==--
 
