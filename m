@@ -1,47 +1,64 @@
-Content-Type: multipart/mixed; boundary="===============2730063916681596763=="
+Content-Type: multipart/mixed; boundary="===============2704065087282860909=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 556/6237] drivers/net/wireless/ath/wcn36xx/main.c:409:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Thu, 17 Feb 2022 05:35:27 +0800
-Message-ID: <202202170554.WYrgcFtq-lkp@intel.com>
+Subject: Re: [PATCH 3/3] ACPI: bus: For platform OSC negotiate capabilities
+Date: Thu, 17 Feb 2022 05:15:01 +0800
+Message-ID: <202202170529.KhZQO9pK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2730063916681596763==
+--===============2704065087282860909==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+In-Reply-To: <20220215185209.1046551-3-mario.limonciello@amd.com>
+References: <20220215185209.1046551-3-mario.limonciello@amd.com>
+TO: Mario Limonciello <mario.limonciello@amd.com>
+TO: "Rafael J . Wysocki" <rjw@rjwysocki.net>
+TO: linux-acpi(a)vger.kernel.org
+CC: Mika Westerberg <mika.westerberg@linux.intel.com>
+CC: Xiaomeng.Hou(a)amd.com
+CC: Aaron.Liu(a)amd.com
+CC: Ray.Huang(a)amd.com
+CC: hdegoede(a)redhat.com
+CC: Mario Limonciello <mario.limonciello@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   763a906a02e961eedabab7dbedd16904a3bd0184
-commit: d6f2746691cb10e484f15ab9e44e2cc2ccf9bd86 [556/6237] wcn36xx: Track =
-the band and channel we are tuned to
-:::::: branch date: 13 hours ago
-:::::: commit date: 4 weeks ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20217/202202170554.WYrgcFtq-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0e628a=
-783b935c70c80815db6c061ec84f884af5)
+Hi Mario,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on v5.17-rc4 next-20220216]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Mario-Limonciello/ACPI-APE=
+I-Adjust-for-acpi_run_osc-logic-changes/20220216-025736
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+ linux-next
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: i386-randconfig-c001-20220214 (https://download.01.org/0day-ci/arch=
+ive/20220217/202202170529.KhZQO9pK-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 37f422=
+f4ac31c8b8041c6b62065263314282dab6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Dd6f2746691cb10e484f15ab9e44e2cc2ccf9bd86
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout d6f2746691cb10e484f15ab9e44e2cc2ccf9bd86
+        # https://github.com/0day-ci/linux/commit/602548e9eec8dc7598a1e6423=
+04e8c084b2e0c60
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Mario-Limonciello/ACPI-APEI-Adjust=
+-for-acpi_run_osc-logic-changes/20220216-025736
+        git checkout 602548e9eec8dc7598a1e642304e8c084b2e0c60
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,327 +66,372 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:303:2: note: Taking false branch
-           if (!tbl.data)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:307:6: note: Assuming 'n_keys' is not equal t=
-o 0
-           if (!n_keys) {
-               ^~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:307:2: note: Taking false branch
-           if (!n_keys) {
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is true
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is true
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is false
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is false. Executi=
-on continues on line 315
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:315:14: note: Assuming 'i' is < 'n_keys'
-           for (i =3D 0; i < n_keys; i++) {
-                       ^~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:315:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys; i++) {
-           ^
-   net/ipv4/sysctl_net_ipv4.c:316:10: note: 6th function call argument is a=
-n uninitialized value
-                   off +=3D snprintf(tbl.data + off, tbl.maxlen - off,
-                          ^
-   net/ipv4/sysctl_net_ipv4.c:316:10: warning: 7th function call argument i=
-s an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   off +=3D snprintf(tbl.data + off, tbl.maxlen - off,
-                          ^
-   net/ipv4/sysctl_net_ipv4.c:302:13: note: Calling 'kmalloc'
-           tbl.data =3D kmalloc(tbl.maxlen, GFP_KERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:578:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:595:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:302:13: note: Returning from 'kmalloc'
-           tbl.data =3D kmalloc(tbl.maxlen, GFP_KERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:303:6: note: Assuming field 'data' is non-null
-           if (!tbl.data)
-               ^~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:303:2: note: Taking false branch
-           if (!tbl.data)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:307:6: note: Assuming 'n_keys' is not equal t=
-o 0
-           if (!n_keys) {
-               ^~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:307:2: note: Taking false branch
-           if (!n_keys) {
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is true
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is true
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is true
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:312:14: note: Assuming the condition is false
-           for (i =3D 0; i < n_keys * 4; i++)
-                       ^~~~~~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:312:2: note: Loop condition is false. Executi=
-on continues on line 315
-           for (i =3D 0; i < n_keys * 4; i++)
-           ^
-   net/ipv4/sysctl_net_ipv4.c:315:14: note: Assuming 'i' is < 'n_keys'
-           for (i =3D 0; i < n_keys; i++) {
-                       ^~~~~~~~~~
-   net/ipv4/sysctl_net_ipv4.c:315:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < n_keys; i++) {
-           ^
-   net/ipv4/sysctl_net_ipv4.c:316:10: note: 7th function call argument is a=
-n uninitialized value
-                   off +=3D snprintf(tbl.data + off, tbl.maxlen - off,
-                          ^
-   Suppressed 9 warnings (9 in non-user code).
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   kernel/time/ntp.c:345:33: note: The result of the left shift is undefine=
+d because the left operand is negative
+           time_offset =3D div_s64(offset64 << NTP_SCALE_SHIFT, NTP_INTERVA=
+L_FREQ);
+                                 ~~~~~~~~ ^
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
->> drivers/net/wireless/ath/wcn36xx/main.c:409:7: warning: Branch condition=
- evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-                   if (channel)
-                       ^
-   drivers/net/wireless/ath/wcn36xx/main.c:434:2: note: Assuming the condit=
-ion is false
-           wcn36xx_dbg(WCN36XX_DBG_MAC, "mac config changed 0x%08x\n", chan=
-ged);
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/base/platform.c:578:3: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(pa->name, name);
+                   ^~~~~~
+   drivers/base/platform.c:578:3: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+                   strcpy(pa->name, name);
+                   ^~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/acpi/bus.c:249:5: warning: Value stored to 'status' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                                   status =3D AE_SUPPORT;
+                                   ^
+   drivers/acpi/bus.c:249:5: note: Value stored to 'status' is never read
+   drivers/acpi/bus.c:257:2: warning: Value stored to 'status' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           status =3D  AE_OK;
            ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:69:6: note: expanded from mac=
-ro 'wcn36xx_dbg'
-           if (wcn36xx_dbg_mask & mask)                                    \
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:434:2: note: Taking false branch
-           wcn36xx_dbg(WCN36XX_DBG_MAC, "mac config changed 0x%08x\n", chan=
-ged);
+   drivers/acpi/bus.c:257:2: note: Value stored to 'status' is never read
+>> drivers/acpi/bus.c:345:31: warning: Array access (from variable 'capbuf_=
+ret') results in a null pointer dereference [clang-analyzer-core.NullDerefe=
+rence]
+                   capbuf[OSC_SUPPORT_DWORD] =3D capbuf_ret[OSC_SUPPORT_DWO=
+RD];
+                                               ^~~~~~~~~~
+   drivers/acpi/bus.c:293:2: note: 'context.ret.pointer' initialized to a n=
+ull pointer value
+           struct acpi_osc_context context =3D {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/bus.c:305:2: note: Taking false branch
+           if (IS_ENABLED(CONFIG_ACPI_PROCESSOR_AGGREGATOR))
            ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:69:2: note: expanded from mac=
-ro 'wcn36xx_dbg'
-           if (wcn36xx_dbg_mask & mask)                                    \
+   drivers/acpi/bus.c:307:2: note: Taking true branch
+           if (IS_ENABLED(CONFIG_ACPI_PROCESSOR))
            ^
-   drivers/net/wireless/ath/wcn36xx/main.c:434:2: note: Loop condition is f=
-alse.  Exiting loop
-           wcn36xx_dbg(WCN36XX_DBG_MAC, "mac config changed 0x%08x\n", chan=
-ged);
+   drivers/acpi/bus.c:312:2: note: Taking false branch
+           if (IS_ENABLED(CONFIG_ACPI_PRMT))
            ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:68:40: note: expanded from ma=
-cro 'wcn36xx_dbg'
-   #define wcn36xx_dbg(mask, fmt, arg...) do {                     \
-                                          ^
-   drivers/net/wireless/ath/wcn36xx/main.c:438:6: note: Assuming the condit=
-ion is true
-           if (changed & IEEE80211_CONF_CHANGE_CHANNEL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:438:2: note: Taking true branch
-           if (changed & IEEE80211_CONF_CHANGE_CHANNEL) {
-           ^
-   drivers/net/wireless/ath/wcn36xx/main.c:440:3: note: Assuming the condit=
-ion is false
-                   wcn36xx_dbg(WCN36XX_DBG_MAC, "wcn36xx_config channel swi=
-tch=3D%d\n",
-                   ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:69:6: note: expanded from mac=
-ro 'wcn36xx_dbg'
-           if (wcn36xx_dbg_mask & mask)                                    \
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:440:3: note: Taking false branch
-                   wcn36xx_dbg(WCN36XX_DBG_MAC, "wcn36xx_config channel swi=
-tch=3D%d\n",
-                   ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:69:2: note: expanded from mac=
-ro 'wcn36xx_dbg'
-           if (wcn36xx_dbg_mask & mask)                                    \
-           ^
-   drivers/net/wireless/ath/wcn36xx/main.c:440:3: note: Loop condition is f=
-alse.  Exiting loop
-                   wcn36xx_dbg(WCN36XX_DBG_MAC, "wcn36xx_config channel swi=
-tch=3D%d\n",
-                   ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:68:40: note: expanded from ma=
-cro 'wcn36xx_dbg'
-   #define wcn36xx_dbg(mask, fmt, arg...) do {                     \
-                                          ^
-   drivers/net/wireless/ath/wcn36xx/main.c:443:7: note: Assuming 'ch' is no=
-t equal to field 'sw_scan_opchannel'
-                   if (wcn->sw_scan_opchannel =3D=3D ch && wcn->sw_scan_cha=
-nnel) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:443:36: note: Left side of '&&' =
-is false
-                   if (wcn->sw_scan_opchannel =3D=3D ch && wcn->sw_scan_cha=
-nnel) {
-                                                    ^
-   drivers/net/wireless/ath/wcn36xx/main.c:454:14: note: Assuming field 'sw=
-_scan' is false
-                   } else if (wcn->sw_scan) {
-                              ^~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:454:10: note: Taking false branch
-                   } else if (wcn->sw_scan) {
-                          ^
-   drivers/net/wireless/ath/wcn36xx/main.c:474:4: note: Calling 'wcn36xx_ch=
-ange_opchannel'
-                           wcn36xx_change_opchannel(wcn, ch);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:396:2: note: 'channel' declared =
-without an initial value
-           struct ieee80211_channel *channel;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:399:2: note: Loop condition is t=
-rue.  Entering loop body
-           for (i =3D 0; i < ARRAY_SIZE(wcn->hw->wiphy->bands); i++) {
-           ^
-   drivers/net/wireless/ath/wcn36xx/main.c:401:7: note: Assuming 'band' is =
-non-null
-                   if (!band)
-                       ^~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:401:3: note: Taking false branch
-                   if (!band)
-                   ^
-   drivers/net/wireless/ath/wcn36xx/main.c:403:15: note: Assuming 'j' is >=
-=3D field 'n_channels'
-                   for (j =3D 0; j < band->n_channels; j++) {
-                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:403:3: note: Loop condition is f=
-alse. Execution continues on line 409
-                   for (j =3D 0; j < band->n_channels; j++) {
-                   ^
-   drivers/net/wireless/ath/wcn36xx/main.c:409:7: note: Branch condition ev=
-aluates to a garbage value
-                   if (channel)
-                       ^~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:413:6: warning: Branch condition=
- evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (!channel) {
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is true
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
                ^
-   drivers/net/wireless/ath/wcn36xx/main.c:434:2: note: Assuming the condit=
-ion is false
-           wcn36xx_dbg(WCN36XX_DBG_MAC, "mac config changed 0x%08x\n", chan=
-ged);
-           ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:69:6: note: expanded from mac=
-ro 'wcn36xx_dbg'
-           if (wcn36xx_dbg_mask & mask)                                    \
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/wcn36xx/main.c:434:2: note: Taking false branch
-           wcn36xx_dbg(WCN36XX_DBG_MAC, "mac config changed 0x%08x\n", chan=
-ged);
-           ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:69:2: note: expanded from mac=
-ro 'wcn36xx_dbg'
-           if (wcn36xx_dbg_mask & mask)                                    \
-           ^
-   drivers/net/wireless/ath/wcn36xx/main.c:434:2: note: Loop condition is f=
-alse.  Exiting loop
-           wcn36xx_dbg(WCN36XX_DBG_MAC, "mac config changed 0x%08x\n", chan=
-ged);
-           ^
-   drivers/net/wireless/ath/wcn36xx/wcn36xx.h:68:40: note: expanded from ma=
-cro 'wcn36xx_dbg'
-   #define wcn36xx_dbg(mask, fmt, arg...) do {                     \
+   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
+t_cpu_has'
+   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
+                                   ^
+   arch/x86/include/asm/cpufeature.h:122:3: note: expanded from macro 'cpu_=
+has'
+           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
+            ^
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is false
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
+               ^
+   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
+t_cpu_has'
+   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
+                                   ^
+   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
+_has'
+           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
+                                         ^
+   arch/x86/include/asm/cpufeature.h:74:5: note: expanded from macro 'REQUI=
+RED_MASK_BIT_SET'
+            ( CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK,  0, feature_bit) ||    \
+              ^
+   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
+K_BIT_IN_MASK_WORD'
+           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
+                               ^
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is false
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
+               ^
+   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
+t_cpu_has'
+   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
+                                   ^
+   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
+_has'
+           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
+                                         ^
+   arch/x86/include/asm/cpufeature.h:75:5: note: expanded from macro 'REQUI=
+RED_MASK_BIT_SET'
+              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK,  1, feature_bit) ||    \
+              ^
+   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
+K_BIT_IN_MASK_WORD'
+           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
+                               ^
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is false
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
+               ^
+   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
+t_cpu_has'
+   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
+                                   ^
+   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
+_has'
+           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
+                                         ^
+   arch/x86/include/asm/cpufeature.h:76:5: note: expanded from macro 'REQUI=
+RED_MASK_BIT_SET'
+              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK,  2, feature_bit) ||    \
+              ^
+   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
+K_BIT_IN_MASK_WORD'
+           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
+                               ^
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is false
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
+               ^
+   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
+t_cpu_has'
+   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
+                                   ^
+   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
+_has'
+           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
+                                         ^
+   arch/x86/include/asm/cpufeature.h:77:5: note: expanded from macro 'REQUI=
+RED_MASK_BIT_SET'
+              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK,  3, feature_bit) ||    \
+              ^
+   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
+K_BIT_IN_MASK_WORD'
+           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
+                               ^
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is false
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
+               ^
+   arch/x86/include/asm/cpufeature.h:141:27: note: expanded from macro 'boo=
+t_cpu_has'
+   #define boot_cpu_has(bit)       cpu_has(&boot_cpu_data, bit)
+                                   ^
+   arch/x86/include/asm/cpufeature.h:122:32: note: expanded from macro 'cpu=
+_has'
+           (__builtin_constant_p(bit) && REQUIRED_MASK_BIT_SET(bit) ? 1 :  \
+                                         ^
+   arch/x86/include/asm/cpufeature.h:78:5: note: expanded from macro 'REQUI=
+RED_MASK_BIT_SET'
+              CHECK_BIT_IN_MASK_WORD(REQUIRED_MASK,  4, feature_bit) ||    \
+              ^
+   arch/x86/include/asm/cpufeature.h:64:22: note: expanded from macro 'CHEC=
+K_BIT_IN_MASK_WORD'
+           (((bit)>>5)=3D=3D(word) && (1UL<<((bit)&31) & maskname##word ))
+                               ^
+   drivers/acpi/bus.c:320:6: note: Left side of '&&' is false
+           if (boot_cpu_has(X86_FEATURE_HWP)) {
 
-vim +409 drivers/net/wireless/ath/wcn36xx/main.c
+vim +/capbuf_ret +345 drivers/acpi/bus.c
 
-5973a2947430a29 Loic Poulain     2020-08-24  390  =
+5c2832e91a3ed45 Srinivas Pandruvada 2016-11-22  325  =
 
-5973a2947430a29 Loic Poulain     2020-08-24  391  static void wcn36xx_chang=
-e_opchannel(struct wcn36xx *wcn, int ch)
-5973a2947430a29 Loic Poulain     2020-08-24  392  {
-5973a2947430a29 Loic Poulain     2020-08-24  393  	struct ieee80211_vif *vi=
-f =3D NULL;
-5973a2947430a29 Loic Poulain     2020-08-24  394  	struct wcn36xx_vif *tmp;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  395  	struct ieee80211_support=
-ed_band *band;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  396  	struct ieee80211_channel=
- *channel;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  397  	int i, j;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  398  =
+de966cf4a4fa8d4 Tim Chen            2016-11-29  326  	if (IS_ENABLED(CONFIG=
+_SCHED_MC_PRIO))
+8b533a0eeefc586 Srinivas Pandruvada 2016-11-22  327  		capbuf[OSC_SUPPORT_D=
+WORD] |=3D OSC_SB_CPC_DIVERSE_HIGH_SUPPORT;
+8b533a0eeefc586 Srinivas Pandruvada 2016-11-22  328  =
 
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  399  	for (i =3D 0; i < ARRAY_=
-SIZE(wcn->hw->wiphy->bands); i++) {
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  400  		band =3D wcn->hw->wiphy=
-->bands[i];
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  401  		if (!band)
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  402  			break;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  403  		for (j =3D 0; j < band-=
->n_channels; j++) {
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  404  			if (HW_VALUE_CHANNEL(b=
-and->channels[j].hw_value) =3D=3D ch) {
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  405  				channel =3D &band->ch=
-annels[j];
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  406  				break;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  407  			}
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  408  		}
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15 @409  		if (channel)
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  410  			break;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  411  	}
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  412  =
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  329  	if (IS_ENABLED(CONFIG=
+_USB4))
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  330  		capbuf[OSC_SUPPORT_D=
+WORD] |=3D OSC_SB_NATIVE_USB4_SUPPORT;
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  331  =
 
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  413  	if (!channel) {
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  414  		wcn36xx_err("Cannot tun=
-e to channel %d\n", ch);
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  415  		return;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  416  	}
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  417  =
+eccddd32ced0df8 Huang Ying          2011-07-13  332  	if (!ghes_disable)
+b938a229c85a567 Bjorn Helgaas       2013-09-05  333  		capbuf[OSC_SUPPORT_D=
+WORD] |=3D OSC_SB_APEI_SUPPORT;
+3563ff964fdc363 Shaohua Li          2009-10-29  334  	if (ACPI_FAILURE(acpi=
+_get_handle(NULL, "\\_SB", &handle)))
+3563ff964fdc363 Shaohua Li          2009-10-29  335  		return;
+719e1f561afbe02 Mario Limonciello   2020-10-26  336  =
 
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  418  	wcn->band =3D band;
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  419  	wcn->channel =3D channel;
-5973a2947430a29 Loic Poulain     2020-08-24  420  =
+602548e9eec8dc7 Mario Limonciello   2022-02-15  337  	/*
+602548e9eec8dc7 Mario Limonciello   2022-02-15  338  	 * check if bits were=
+ masked, we need to negotiate
+602548e9eec8dc7 Mario Limonciello   2022-02-15  339  	 * prevent potential =
+endless loop by limited number of
+602548e9eec8dc7 Mario Limonciello   2022-02-15  340  	 * negotiation cycles
+602548e9eec8dc7 Mario Limonciello   2022-02-15  341  	 */
+602548e9eec8dc7 Mario Limonciello   2022-02-15  342  	for (i =3D 0; i < 5; =
+i++) {
+602548e9eec8dc7 Mario Limonciello   2022-02-15  343  		status =3D acpi_run_=
+osc(handle, &context);
+602548e9eec8dc7 Mario Limonciello   2022-02-15  344  		capbuf_ret =3D conte=
+xt.ret.pointer;
+602548e9eec8dc7 Mario Limonciello   2022-02-15 @345  		capbuf[OSC_SUPPORT_D=
+WORD] =3D capbuf_ret[OSC_SUPPORT_DWORD];
+602548e9eec8dc7 Mario Limonciello   2022-02-15  346  		kfree(context.ret.po=
+inter);
+602548e9eec8dc7 Mario Limonciello   2022-02-15  347  		if (status !=3D AE_S=
+UPPORT)
+602548e9eec8dc7 Mario Limonciello   2022-02-15  348  			break;
+602548e9eec8dc7 Mario Limonciello   2022-02-15  349  	}
+602548e9eec8dc7 Mario Limonciello   2022-02-15  350  	if (ACPI_FAILURE(stat=
+us))
+719e1f561afbe02 Mario Limonciello   2020-10-26  351  		return;
+719e1f561afbe02 Mario Limonciello   2020-10-26  352  =
 
-5973a2947430a29 Loic Poulain     2020-08-24  421  	list_for_each_entry(tmp,=
- &wcn->vif_list, list) {
-5973a2947430a29 Loic Poulain     2020-08-24  422  		vif =3D wcn36xx_priv_to=
-_vif(tmp);
-5973a2947430a29 Loic Poulain     2020-08-24  423  		wcn36xx_smd_switch_chan=
-nel(wcn, vif, ch);
-5973a2947430a29 Loic Poulain     2020-08-24  424  	}
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  425  =
+602548e9eec8dc7 Mario Limonciello   2022-02-15  353  	/*
+602548e9eec8dc7 Mario Limonciello   2022-02-15  354  	 * avoid problems wit=
+h BIOS dynamically loading tables by indicating
+602548e9eec8dc7 Mario Limonciello   2022-02-15  355  	 * support for CPPC e=
+ven if it was masked
+602548e9eec8dc7 Mario Limonciello   2022-02-15  356  	 */
+602548e9eec8dc7 Mario Limonciello   2022-02-15  357  #ifdef CONFIG_X86
+602548e9eec8dc7 Mario Limonciello   2022-02-15  358  	if (boot_cpu_has(X86_=
+FEATURE_HWP)) {
+602548e9eec8dc7 Mario Limonciello   2022-02-15  359  		capbuf[OSC_SUPPORT_D=
+WORD] |=3D OSC_SB_CPC_SUPPORT;
+602548e9eec8dc7 Mario Limonciello   2022-02-15  360  		capbuf[OSC_SUPPORT_D=
+WORD] |=3D OSC_SB_CPCV2_SUPPORT;
+602548e9eec8dc7 Mario Limonciello   2022-02-15  361  	}
+602548e9eec8dc7 Mario Limonciello   2022-02-15  362  #endif
+719e1f561afbe02 Mario Limonciello   2020-10-26  363  =
 
-d6f2746691cb10e Bryan O'Donoghue 2022-01-15  426  	return;
-5973a2947430a29 Loic Poulain     2020-08-24  427  }
-5973a2947430a29 Loic Poulain     2020-08-24  428  =
+159d8c274fd9243 Mika Westerberg     2021-06-09  364  	/* Now run _OSC again=
+ with query flag clear */
+719e1f561afbe02 Mario Limonciello   2020-10-26  365  	capbuf[OSC_QUERY_DWOR=
+D] =3D 0;
+719e1f561afbe02 Mario Limonciello   2020-10-26  366  =
+
+719e1f561afbe02 Mario Limonciello   2020-10-26  367  	if (ACPI_FAILURE(acpi=
+_run_osc(handle, &context)))
+719e1f561afbe02 Mario Limonciello   2020-10-26  368  		return;
+719e1f561afbe02 Mario Limonciello   2020-10-26  369  =
+
+719e1f561afbe02 Mario Limonciello   2020-10-26  370  	capbuf_ret =3D contex=
+t.ret.pointer;
+eccddd32ced0df8 Huang Ying          2011-07-13  371  	osc_sb_apei_support_a=
+cked =3D
+b938a229c85a567 Bjorn Helgaas       2013-09-05  372  		capbuf_ret[OSC_SUPPO=
+RT_DWORD] & OSC_SB_APEI_SUPPORT;
+a36a7fecfe60717 Sudeep Holla        2016-07-21  373  	osc_pc_lpi_support_co=
+nfirmed =3D
+a36a7fecfe60717 Sudeep Holla        2016-07-21  374  		capbuf_ret[OSC_SUPPO=
+RT_DWORD] & OSC_SB_PCLPI_SUPPORT;
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  375  	osc_sb_native_usb4_su=
+pport_confirmed =3D
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  376  		capbuf_ret[OSC_SUPPO=
+RT_DWORD] & OSC_SB_NATIVE_USB4_SUPPORT;
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  377  =
+
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  378  	kfree(context.ret.poi=
+nter);
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  379  }
+5a6a2c0f0f43676 Mika Westerberg     2020-02-18  380  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2730063916681596763==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============2704065087282860909==--
 
