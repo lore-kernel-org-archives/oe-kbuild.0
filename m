@@ -1,176 +1,342 @@
-Content-Type: multipart/mixed; boundary="===============3820128017897015891=="
+Content-Type: multipart/mixed; boundary="===============4570483492412287184=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 3/3] Bluetooth: mgmt: add set_quality_report for MGMT_OP_SET_QUALITY_REPORT
-Date: Wed, 16 Feb 2022 09:47:45 +0800
-Message-ID: <202202160942.cEiT1MKh-lkp@intel.com>
+Subject: [ammarfaizi2-block:bpf/bpf-next/master 185/265] net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Wed, 16 Feb 2022 08:09:39 +0800
+Message-ID: <202202160838.POPiJ4nt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3820128017897015891==
+--===============4570483492412287184==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220215133546.2826837-1-josephsih@chromium.org>
-References: <20220215133546.2826837-1-josephsih@chromium.org>
-TO: Joseph Hwang <josephsih@chromium.org>
-TO: linux-bluetooth(a)vger.kernel.org
-TO: marcel(a)holtmann.org
-TO: luiz.dentz(a)gmail.com
-TO: pali(a)kernel.org
-CC: chromeos-bluetooth-upstreaming(a)chromium.org
-CC: josephsih(a)google.com
-CC: Joseph Hwang <josephsih@chromium.org>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Johan Hedberg <johan.hedberg@gmail.com>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-CC: netdev(a)vger.kernel.org
+TO: Matt Johnston <matt@codeconstruct.com.au>
+CC: Jeremy Kerr <jk@codeconstruct.com.au>
 
-Hi Joseph,
+tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
+head:   8cbf062a250ed52148badf6f3ffd03657dd4a3f0
+commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa [185/265] mctp: Add SIOCMC=
+TP{ALLOC,DROP}TAG ioctls for tag control
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 days ago
+config: mips-randconfig-c004-20220211 (https://download.01.org/0day-ci/arch=
+ive/20220216/202202160838.POPiJ4nt-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project f6685f=
+774697c85d6a352dcea013f46a99f9fe31)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/63ed1aab3d40aa6=
+1aaa66819bdce9377ac7f40fa
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block bpf/bpf-next/master
+        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dmips clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on net-next/master next-20220215]
-[cannot apply to net/master bluetooth/master v5.17-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Joseph-Hwang/Bluetooth-aos=
-p-surface-AOSP-quality-report-through-mgmt/20220215-213800
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
--next.git master
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: i386-randconfig-m021-20220214 (https://download.01.org/0day-ci/arch=
-ive/20220216/202202160942.cEiT1MKh-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/bluetooth/mgmt.c:860 get_supported_settings() warn: variable dereferenc=
-ed before check 'hdev' (see line 826)
 
-Old smatch warnings:
-net/bluetooth/mgmt.c:4898 read_local_oob_data_complete() error: 'skb' deref=
-erencing possible ERR_PTR()
-net/bluetooth/mgmt.c:4912 read_local_oob_data_complete() error: 'skb' deref=
-erencing possible ERR_PTR()
-net/bluetooth/mgmt.c:7437 read_local_oob_ext_data_complete() error: 'skb' d=
-ereferencing possible ERR_PTR()
-net/bluetooth/mgmt.c:7453 read_local_oob_ext_data_complete() error: 'skb' d=
-ereferencing possible ERR_PTR()
-net/bluetooth/mgmt.c:8155 add_ext_adv_params_complete() warn: variable dere=
-ferenced before check 'cmd' (see line 8114)
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^
+   net/mctp/af_mctp.c:299:7: note: Calling 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:6: note: Assuming the condition is true
+           if (!sockptr_is_kernel(src))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:2: note: Taking true branch
+           if (!sockptr_is_kernel(src))
+           ^
+   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   include/linux/sockptr.h:48:10: note: Returning from 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:48:3: note: Returning without writing to '*dst'
+                   return copy_from_user(dst, src.user + offset, size);
+                   ^
+   include/linux/sockptr.h:48:3: note: Returning zero, which participates i=
+n a condition later
+                   return copy_from_user(dst, src.user + offset, size);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Returning from 'copy_from_sockptr_of=
+fset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:2: note: Returning without writing to '*dst'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+           ^
+   include/linux/sockptr.h:55:2: note: Returning zero, which participates i=
+n a condition later
+           return copy_from_sockptr_offset(dst, src, 0, size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:299:7: note: Returning from 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:299:3: note: Taking false branch
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                   ^
+   net/mctp/af_mctp.c:301:17: note: Assigned value is garbage or undefined
+                   msk->addr_ext =3D val;
+                                 ^ ~~~
+>> net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garba=
+ge value [clang-analyzer-core.uninitialized.Branch]
+           if (ctl.tag)
+               ^
+   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35296:'  at line =
+415
+           switch (cmd) {
+           ^
+   net/mctp/af_mctp.c:416:10: note: Calling 'mctp_ioctl_alloctag'
+                   return mctp_ioctl_alloctag(msk, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:340:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o 'to->tag'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->t=
+ag'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->t=
+ag'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   net/mctp/af_mctp.c:340:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:340:2: note: Taking false branch
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+           ^
+   net/mctp/af_mctp.c:343:6: note: Branch condition evaluates to a garbage =
+value
+           if (ctl.tag)
+               ^~~~~~~
+   net/mctp/af_mctp.c:379:6: warning: Branch condition evaluates to a garba=
+ge value [clang-analyzer-core.uninitialized.Branch]
+           if (ctl.flags)
+               ^
+   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35297:'  at line =
+417
+           switch (cmd) {
+           ^
+   net/mctp/af_mctp.c:418:10: note: Calling 'mctp_ioctl_droptag'
+                   return mctp_ioctl_droptag(msk, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:376:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
 
-vim +/hdev +860 net/bluetooth/mgmt.c
+vim +343 net/mctp/af_mctp.c
 
-6244691fec4dd0 Jaganath Kanakkassery  2018-07-19  815  =
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  331  =
 
-69ab39ea5da03e Johan Hedberg          2011-12-15  816  static u32 get_suppo=
-rted_settings(struct hci_dev *hdev)
-69ab39ea5da03e Johan Hedberg          2011-12-15  817  {
-69ab39ea5da03e Johan Hedberg          2011-12-15  818  	u32 settings =3D 0;
-69ab39ea5da03e Johan Hedberg          2011-12-15  819  =
+63ed1aab3d40aa Matt Johnston 2022-02-09  332  static int mctp_ioctl_allocta=
+g(struct mctp_sock *msk, unsigned long arg)
+63ed1aab3d40aa Matt Johnston 2022-02-09  333  {
+63ed1aab3d40aa Matt Johnston 2022-02-09  334  	struct net *net =3D sock_net=
+(&msk->sk);
+63ed1aab3d40aa Matt Johnston 2022-02-09  335  	struct mctp_sk_key *key =3D =
+NULL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  336  	struct mctp_ioc_tag_ctl ctl;
+63ed1aab3d40aa Matt Johnston 2022-02-09  337  	unsigned long flags;
+63ed1aab3d40aa Matt Johnston 2022-02-09  338  	u8 tag;
+63ed1aab3d40aa Matt Johnston 2022-02-09  339  =
 
-69ab39ea5da03e Johan Hedberg          2011-12-15  820  	settings |=3D MGMT_=
-SETTING_POWERED;
-b2939475eb6a35 Johan Hedberg          2014-07-30  821  	settings |=3D MGMT_=
-SETTING_BONDABLE;
-b1de97d8c06d9d Marcel Holtmann        2014-01-31  822  	settings |=3D MGMT_=
-SETTING_DEBUG_KEYS;
-3742abfc4e853f Johan Hedberg          2014-07-08  823  	settings |=3D MGMT_=
-SETTING_CONNECTABLE;
-3742abfc4e853f Johan Hedberg          2014-07-08  824  	settings |=3D MGMT_=
-SETTING_DISCOVERABLE;
-69ab39ea5da03e Johan Hedberg          2011-12-15  825  =
+63ed1aab3d40aa Matt Johnston 2022-02-09  340  	if (copy_from_user(&ctl, (vo=
+id __user *)arg, sizeof(ctl)))
+63ed1aab3d40aa Matt Johnston 2022-02-09  341  		return -EFAULT;
+63ed1aab3d40aa Matt Johnston 2022-02-09  342  =
 
-ed3fa31f35896b Andre Guedes           2012-07-24 @826  	if (lmp_bredr_capab=
-le(hdev)) {
-1a47aee85f8a08 Johan Hedberg          2013-03-15  827  		if (hdev->hci_ver =
->=3D BLUETOOTH_VER_1_2)
-33c525c0a37abd Johan Hedberg          2012-10-24  828  			settings |=3D MGM=
-T_SETTING_FAST_CONNECTABLE;
-69ab39ea5da03e Johan Hedberg          2011-12-15  829  		settings |=3D MGMT=
-_SETTING_BREDR;
-69ab39ea5da03e Johan Hedberg          2011-12-15  830  		settings |=3D MGMT=
-_SETTING_LINK_SECURITY;
-a82974c9f4ed07 Marcel Holtmann        2013-10-11  831  =
+63ed1aab3d40aa Matt Johnston 2022-02-09 @343  	if (ctl.tag)
+63ed1aab3d40aa Matt Johnston 2022-02-09  344  		return -EINVAL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  345  =
 
-a82974c9f4ed07 Marcel Holtmann        2013-10-11  832  		if (lmp_ssp_capabl=
-e(hdev)) {
-a82974c9f4ed07 Marcel Holtmann        2013-10-11  833  			settings |=3D MGM=
-T_SETTING_SSP;
-b560a208cda029 Luiz Augusto von Dentz 2020-08-06  834  			if (IS_ENABLED(CO=
-NFIG_BT_HS))
-d7b7e79688c07b Marcel Holtmann        2012-02-20  835  				settings |=3D MG=
-MT_SETTING_HS;
-848566b381e72b Marcel Holtmann        2013-10-01  836  		}
-e98d2ce293a941 Marcel Holtmann        2014-01-10  837  =
+63ed1aab3d40aa Matt Johnston 2022-02-09  346  	if (ctl.flags)
+63ed1aab3d40aa Matt Johnston 2022-02-09  347  		return -EINVAL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  348  =
 
-05b3c3e7905d00 Marcel Holtmann        2014-12-31  838  		if (lmp_sc_capable=
-(hdev))
-e98d2ce293a941 Marcel Holtmann        2014-01-10  839  			settings |=3D MGM=
-T_SETTING_SECURE_CONN;
-4b127bd5f2cc1b Alain Michaud          2020-02-27  840  =
+63ed1aab3d40aa Matt Johnston 2022-02-09  349  	key =3D mctp_alloc_local_tag=
+(msk, ctl.peer_addr, MCTP_ADDR_ANY,
+63ed1aab3d40aa Matt Johnston 2022-02-09  350  				   true, &tag);
+63ed1aab3d40aa Matt Johnston 2022-02-09  351  	if (IS_ERR(key))
+63ed1aab3d40aa Matt Johnston 2022-02-09  352  		return PTR_ERR(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  353  =
 
-00bce3fb0642b3 Alain Michaud          2020-03-05  841  		if (test_bit(HCI_Q=
-UIRK_WIDEBAND_SPEECH_SUPPORTED,
-4b127bd5f2cc1b Alain Michaud          2020-02-27  842  			     &hdev->quirk=
-s))
-00bce3fb0642b3 Alain Michaud          2020-03-05  843  			settings |=3D MGM=
-T_SETTING_WIDEBAND_SPEECH;
-a82974c9f4ed07 Marcel Holtmann        2013-10-11  844  	}
-d7b7e79688c07b Marcel Holtmann        2012-02-20  845  =
+63ed1aab3d40aa Matt Johnston 2022-02-09  354  	ctl.tag =3D tag | MCTP_TAG_O=
+WNER | MCTP_TAG_PREALLOC;
+63ed1aab3d40aa Matt Johnston 2022-02-09  355  	if (copy_to_user((void __use=
+r *)arg, &ctl, sizeof(ctl))) {
+63ed1aab3d40aa Matt Johnston 2022-02-09  356  		spin_lock_irqsave(&key->loc=
+k, flags);
+63ed1aab3d40aa Matt Johnston 2022-02-09  357  		__mctp_key_remove(key, net,=
+ flags, MCTP_TRACE_KEY_DROPPED);
+63ed1aab3d40aa Matt Johnston 2022-02-09  358  		mctp_key_unref(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  359  		return -EFAULT;
+63ed1aab3d40aa Matt Johnston 2022-02-09  360  	}
+63ed1aab3d40aa Matt Johnston 2022-02-09  361  =
 
-eeca6f891305a8 Johan Hedberg          2013-09-25  846  	if (lmp_le_capable(=
-hdev)) {
-69ab39ea5da03e Johan Hedberg          2011-12-15  847  		settings |=3D MGMT=
-_SETTING_LE;
-a3209694f82a22 Johan Hedberg          2014-05-26  848  		settings |=3D MGMT=
-_SETTING_SECURE_CONN;
-0f4bd942f13dd1 Johan Hedberg          2014-02-22  849  		settings |=3D MGMT=
-_SETTING_PRIVACY;
-93690c227acf08 Marcel Holtmann        2015-03-06  850  		settings |=3D MGMT=
-_SETTING_STATIC_ADDRESS;
-cbbdfa6f331980 Sathish Narasimman     2020-07-23  851  		settings |=3D MGMT=
-_SETTING_ADVERTISING;
-eeca6f891305a8 Johan Hedberg          2013-09-25  852  	}
-69ab39ea5da03e Johan Hedberg          2011-12-15  853  =
-
-eb1904f49d3e11 Marcel Holtmann        2014-07-04  854  	if (test_bit(HCI_QU=
-IRK_EXTERNAL_CONFIG, &hdev->quirks) ||
-eb1904f49d3e11 Marcel Holtmann        2014-07-04  855  	    hdev->set_bdadd=
-r)
-9fc3bfb681bdf5 Marcel Holtmann        2014-07-04  856  		settings |=3D MGMT=
-_SETTING_CONFIGURATION;
-9fc3bfb681bdf5 Marcel Holtmann        2014-07-04  857  =
-
-6244691fec4dd0 Jaganath Kanakkassery  2018-07-19  858  	settings |=3D MGMT_=
-SETTING_PHY_CONFIGURATION;
-6244691fec4dd0 Jaganath Kanakkassery  2018-07-19  859  =
-
-edbb68b1006482 Joseph Hwang           2022-02-15 @860  	if (hdev && (aosp_h=
-as_quality_report(hdev) ||
-edbb68b1006482 Joseph Hwang           2022-02-15  861  		     hdev->set_qua=
-lity_report))
-edbb68b1006482 Joseph Hwang           2022-02-15  862  		settings |=3D MGMT=
-_SETTING_QUALITY_REPORT;
-edbb68b1006482 Joseph Hwang           2022-02-15  863  =
-
-69ab39ea5da03e Johan Hedberg          2011-12-15  864  	return settings;
-69ab39ea5da03e Johan Hedberg          2011-12-15  865  }
-69ab39ea5da03e Johan Hedberg          2011-12-15  866  =
+63ed1aab3d40aa Matt Johnston 2022-02-09  362  	mctp_key_unref(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  363  	return 0;
+63ed1aab3d40aa Matt Johnston 2022-02-09  364  }
+63ed1aab3d40aa Matt Johnston 2022-02-09  365  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3820128017897015891==--
+--===============4570483492412287184==--
 
