@@ -1,358 +1,95 @@
-Content-Type: multipart/mixed; boundary="===============4516893843674923892=="
+Content-Type: multipart/mixed; boundary="===============0299821708682324379=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 17 Feb 2022 12:03:05 +0800
-Message-ID: <202202171247.zzpkfAeS-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.10 9976/9999] drivers/gpu/drm/i915/display/intel_ddi.c:4177 intel_ddi_encoder_destroy() warn: variable dereferenced before check 'dig_port' (see line 4169)
+Date: Thu, 17 Feb 2022 05:55:47 +0800
+Message-ID: <202202170550.Y6vQX0Fm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4516893843674923892==
+--===============0299821708682324379==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Andrey Konovalov <andreyknvl@google.com>
-CC: Marco Elver <elver@google.com>
-CC: Alexander Potapenko <glider@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3593030761630e09200072a4bd06468892c27be3
-commit: 858bdeb046f6dc7a79039d577d03e4d2b39272b7 kasan: add proper page all=
-ocator tests
-date:   12 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20220213 (https://download.01.org/0day-ci/arc=
-hive/20220217/202202171247.zzpkfAeS-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
-634519e6497be42f5fe323f9a04ed67127)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D858bdeb046f6dc7a79039d577d03e4d2b39272b7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 858bdeb046f6dc7a79039d577d03e4d2b39272b7
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.10
+head:   93e7d232f85b0d597f8e9884386b9e3d43cedd3a
+commit: b192f39b07ce2cf4436dd6a18fb5e11da05fcff5 [9976/9999] UPSTREAM: drm/=
+i915/tc: Fix TypeC PHY connect/disconnect logic on ADL-P
+:::::: branch date: 6 hours ago
+:::::: commit date: 32 hours ago
+config: i386-randconfig-m021-20220214 (https://download.01.org/0day-ci/arch=
+ive/20220217/202202170550.Y6vQX0Fm-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_ddi.c:4177 intel_ddi_encoder_destroy() w=
+arn: variable dereferenced before check 'dig_port' (see line 4169)
+
+vim +/dig_port +4177 drivers/gpu/drm/i915/display/intel_ddi.c
+
+b50a1aa6e1e9471 drivers/gpu/drm/i915/display/intel_ddi.c Manasi Navare  202=
+0-02-14  4164  =
+
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4165  static void intel_ddi_encoder_destroy(struct drm_encoder *en=
+coder)
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4166  {
+cd7826aa85f1f30 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak      202=
+1-05-26  4167  	struct drm_i915_private *i915 =3D to_i915(encoder->dev);
+b7d02c3a124d9be drivers/gpu/drm/i915/display/intel_ddi.c Ville Syrj=C3=A4l=
+=C3=A4  2019-12-04  4168  	struct intel_digital_port *dig_port =3D enc_to_d=
+ig_port(to_intel_encoder(encoder));
+b192f39b07ce2cf drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak      202=
+1-09-29 @4169  	enum phy phy =3D intel_port_to_phy(i915, dig_port->base.por=
+t);
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4170  =
+
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4171  	intel_dp_encoder_flush_work(encoder);
+b192f39b07ce2cf drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak      202=
+1-09-29  4172  	if (intel_phy_is_tc(i915, phy))
+b192f39b07ce2cf drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak      202=
+1-09-29  4173  		intel_tc_port_flush_work(dig_port);
+cd7826aa85f1f30 drivers/gpu/drm/i915/display/intel_ddi.c Imre Deak      202=
+1-05-26  4174  	intel_display_power_flush_work(i915);
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4175  =
+
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4176  	drm_encoder_cleanup(encoder);
+41dcbc7513c69d3 drivers/gpu/drm/i915/display/intel_ddi.c Anshuman Gupta 202=
+1-01-11 @4177  	if (dig_port)
+41dcbc7513c69d3 drivers/gpu/drm/i915/display/intel_ddi.c Anshuman Gupta 202=
+1-01-11  4178  		kfree(dig_port->hdcp_port_data.streams);
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4179  	kfree(dig_port);
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4180  }
+f6bff60e927b2f1 drivers/gpu/drm/i915/intel_ddi.c         Imre Deak      201=
+8-12-14  4181  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                           ^
-   mm/memblock.c:1140:9: note: Assuming 'out_start' is null
-                                   if (out_start)
-                                       ^~~~~~~~~
-   mm/memblock.c:1140:5: note: Taking false branch
-                                   if (out_start)
-                                   ^
-   mm/memblock.c:1142:9: note: Assuming 'out_end' is null
-                                   if (out_end)
-                                       ^~~~~~~
-   mm/memblock.c:1142:5: note: Taking false branch
-                                   if (out_end)
-                                   ^
-   mm/memblock.c:1144:9: note: Assuming 'out_nid' is null
-                                   if (out_nid)
-                                       ^~~~~~~
-   mm/memblock.c:1144:5: note: Taking false branch
-                                   if (out_nid)
-                                   ^
-   mm/memblock.c:1146:9: note: 'm_start' is >=3D 'r_start'
-                                   if (m_start >=3D r_start)
-                                       ^~~~~~~
-   mm/memblock.c:1146:5: note: Taking true branch
-                                   if (m_start >=3D r_start)
-                                   ^
-   mm/memblock.c:1150:36: note: The result of the '<<' expression is undefi=
-ned
-                                   *idx =3D (u32)idx_a | (u64)idx_b << 32;
-                                                       ~~~~~~~~~~~^~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   lib/string_helpers.c:111:12: warning: Assigned value is garbage or undef=
-ined [clang-analyzer-core.uninitialized.Assign]
-           remainder +=3D rounding[j];
-                     ^  ~~~~~~~~~~~
-   lib/string_helpers.c:59:6: note: Assuming 'blk_size' is not equal to 0
-           if (blk_size =3D=3D 0)
-               ^~~~~~~~~~~~~
-   lib/string_helpers.c:59:2: note: Taking false branch
-           if (blk_size =3D=3D 0)
-           ^
-   lib/string_helpers.c:61:6: note: Assuming 'size' is not equal to 0
-           if (size =3D=3D 0)
-               ^~~~~~~~~
-   lib/string_helpers.c:61:2: note: Taking false branch
-           if (size =3D=3D 0)
-           ^
-   lib/string_helpers.c:75:2: note: Loop condition is false. Execution cont=
-inues on line 80
-           while (blk_size >> 32) {
-           ^
-   lib/string_helpers.c:80:2: note: Loop condition is false. Execution cont=
-inues on line 87
-           while (size >> 32) {
-           ^
-   lib/string_helpers.c:90:2: note: Loop condition is false. Execution cont=
-inues on line 97
-           while (size >=3D divisor[units]) {
-           ^
-   lib/string_helpers.c:98:14: note: Assuming the condition is true
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
-body
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:98:14: note: Assuming the condition is true
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
-body
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:98:14: note: Assuming the condition is true
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
-body
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:98:32: note: The value 3 is assigned to 'j'
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                                         ^~~
-   lib/string_helpers.c:98:14: note: Assuming the condition is false
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-                       ^~~~~~~~~~~~~~~~
-   lib/string_helpers.c:98:2: note: Loop condition is false. Execution cont=
-inues on line 101
-           for (j =3D 0; sf_cap*10 < 1000; j++)
-           ^
-   lib/string_helpers.c:101:6: note: Assuming 'units' is not equal to STRIN=
-G_UNITS_2
-           if (units =3D=3D STRING_UNITS_2) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/string_helpers.c:101:2: note: Taking false branch
-           if (units =3D=3D STRING_UNITS_2) {
-           ^
-   lib/string_helpers.c:111:12: note: Assigned value is garbage or undefined
-           remainder +=3D rounding[j];
-                     ^  ~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
->> lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initi=
-alization is never read [clang-analyzer-deadcode.DeadStores]
-           size_t size =3D (1UL << (PAGE_SHIFT + order));
-                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan.c:203:9: note: Value stored to 'size' during its initiali=
-zation is never read
-           size_t size =3D (1UL << (PAGE_SHIFT + order));
-                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan.c:315:40: warning: Use of memory after it is freed [clang=
--analyzer-unix.Malloc]
-           KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 =3D *ptr2);
-                                                 ^
-   lib/test_kasan.c:88:2: note: expanded from macro 'KUNIT_EXPECT_KASAN_FAI=
-L'
-           expression;                                             \
-           ^~~~~~~~~~
-   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^
-   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-           KUNIT_ASSERTION(test,                                           =
-       \
-           ^
-   include/kunit/test.h:679:74: note: expanded from macro 'KUNIT_ASSERTION'
-   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
- do {  \
-                                                                           =
- ^
-   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^
-   include/kunit/test.h:1191:21: note: expanded from macro 'KUNIT_PTR_NOT_E=
-RR_OR_NULL_MSG_ASSERTION'
-                                                   ...)                    =
-       \
-                                                                           =
-       ^
-   lib/test_kasan.c:312:2: note: Calling 'IS_ERR_OR_NULL'
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-                           !IS_ERR_OR_NULL(__ptr),                         =
-       \
-                            ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   include/linux/err.h:41:18: note: Assuming 'ptr' is non-null
-           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
-                           ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:41:9: note: Left side of '||' is false
-           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^
-   include/linux/err.h:41:27: note: Assuming the condition is false
-           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
-                                    ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   lib/test_kasan.c:312:2: note: Returning from 'IS_ERR_OR_NULL'
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-                           !IS_ERR_OR_NULL(__ptr),                         =
-       \
-                            ^~~~~~~~~~~~~~~~~~~~~
-   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
-                              pass,                                        =
-       \
-                              ^~~~
-   lib/test_kasan.c:312:2: note: Loop condition is false.  Exiting loop
-           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
-           ^
-   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
-_ERR_OR_NULL'
-           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
-           ^
-   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_ASSERTION'
-           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
-       \
-           ^
-   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
-R_OR_NULL_MSG_ASSERTION'
-           KUNIT_ASSERTION(test,                                           =
-       \
+:::::: The code at line 4177 was first introduced by commit
+:::::: 41dcbc7513c69d355cc52a1b4239109ed51f0cf9 UPSTREAM: drm/i915/hdcp: En=
+capsulate hdcp_port_data to dig_port
 
-vim +/size +203 lib/test_kasan.c
-
-e6e8379c876de16 Alexander Potapenko 2016-03-25  197  =
-
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  198  static void pagealloc_=
-oob_right(struct kunit *test)
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  199  {
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  200  	char *ptr;
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  201  	struct page *pages;
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  202  	size_t order =3D 4;
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24 @203  	size_t size =3D (1UL =
-<< (PAGE_SHIFT + order));
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  204  =
-
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  205  	/*
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  206  	 * With generic KASAN=
- page allocations have no redzones, thus
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  207  	 * out-of-bounds dete=
-ction is not guaranteed.
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  208  	 * See https://bugzil=
-la.kernel.org/show_bug.cgi?id=3D210503.
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  209  	 */
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  210  	KASAN_TEST_NEEDS_CONF=
-IG_OFF(test, CONFIG_KASAN_GENERIC);
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  211  =
-
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  212  	pages =3D alloc_pages=
-(GFP_KERNEL, order);
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  213  	ptr =3D page_address(=
-pages);
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  214  	KUNIT_ASSERT_NOT_ERR_=
-OR_NULL(test, ptr);
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  215  =
-
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  216  	KUNIT_EXPECT_KASAN_FA=
-IL(test, ptr[size] =3D 0);
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  217  	free_pages((unsigned =
-long)ptr, order);
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  218  }
-858bdeb046f6dc7 Andrey Konovalov    2021-02-24  219  =
-
+:::::: TO: Anshuman Gupta <anshuman.gupta@intel.com>
+:::::: CC: Sean Paul <seanpaul@chromium.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============4516893843674923892==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0299821708682324379==--
 
