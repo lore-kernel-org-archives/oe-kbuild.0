@@ -1,190 +1,358 @@
-Content-Type: multipart/mixed; boundary="===============1749890998602174201=="
+Content-Type: multipart/mixed; boundary="===============4516893843674923892=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rppt:cet/kvm 15/49] arch/x86/mm/fault.c:1116 access_error() warn: bitwise AND condition is false here
-Date: Thu, 17 Feb 2022 12:13:26 +0800
-Message-ID: <202202171239.1grhRhs7-lkp@intel.com>
+Subject: lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 17 Feb 2022 12:03:05 +0800
+Message-ID: <202202171247.zzpkfAeS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1749890998602174201==
+--===============4516893843674923892==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Mike Rapoport <rppt@kernel.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Yu-cheng Yu" <yu-cheng.yu@intel.com>
-CC: Mike Rapoport <rppt@linux.ibm.com>
-CC: Kees Cook <keescook@chromium.org>
-CC: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-CC: Rick Edgecombe <rick.p.edgecombe@intel.com>
+TO: Andrey Konovalov <andreyknvl@google.com>
+CC: Marco Elver <elver@google.com>
+CC: Alexander Potapenko <glider@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git cet/=
-kvm
-head:   e2f9808bd7530f44cd5d95332036bb660b66b8db
-commit: b5bfd6df3c1fb925b14d03211e4a9fed46f0a211 [15/49] x86/mm: Check Shad=
-ow Stack page fault errors
-:::::: branch date: 9 hours ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20217/202202171239.1grhRhs7-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3593030761630e09200072a4bd06468892c27be3
+commit: 858bdeb046f6dc7a79039d577d03e4d2b39272b7 kasan: add proper page all=
+ocator tests
+date:   12 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-c006-20220213 (https://download.01.org/0day-ci/arc=
+hive/20220217/202202171247.zzpkfAeS-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c7eb84=
+634519e6497be42f5fe323f9a04ed67127)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D858bdeb046f6dc7a79039d577d03e4d2b39272b7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 858bdeb046f6dc7a79039d577d03e4d2b39272b7
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/x86/mm/fault.c:1116 access_error() warn: bitwise AND condition is fals=
-e here
 
-vim +1116 arch/x86/mm/fault.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                           ^
+   mm/memblock.c:1140:9: note: Assuming 'out_start' is null
+                                   if (out_start)
+                                       ^~~~~~~~~
+   mm/memblock.c:1140:5: note: Taking false branch
+                                   if (out_start)
+                                   ^
+   mm/memblock.c:1142:9: note: Assuming 'out_end' is null
+                                   if (out_end)
+                                       ^~~~~~~
+   mm/memblock.c:1142:5: note: Taking false branch
+                                   if (out_end)
+                                   ^
+   mm/memblock.c:1144:9: note: Assuming 'out_nid' is null
+                                   if (out_nid)
+                                       ^~~~~~~
+   mm/memblock.c:1144:5: note: Taking false branch
+                                   if (out_nid)
+                                   ^
+   mm/memblock.c:1146:9: note: 'm_start' is >=3D 'r_start'
+                                   if (m_start >=3D r_start)
+                                       ^~~~~~~
+   mm/memblock.c:1146:5: note: Taking true branch
+                                   if (m_start >=3D r_start)
+                                   ^
+   mm/memblock.c:1150:36: note: The result of the '<<' expression is undefi=
+ned
+                                   *idx =3D (u32)idx_a | (u64)idx_b << 32;
+                                                       ~~~~~~~~~~~^~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   lib/string_helpers.c:111:12: warning: Assigned value is garbage or undef=
+ined [clang-analyzer-core.uninitialized.Assign]
+           remainder +=3D rounding[j];
+                     ^  ~~~~~~~~~~~
+   lib/string_helpers.c:59:6: note: Assuming 'blk_size' is not equal to 0
+           if (blk_size =3D=3D 0)
+               ^~~~~~~~~~~~~
+   lib/string_helpers.c:59:2: note: Taking false branch
+           if (blk_size =3D=3D 0)
+           ^
+   lib/string_helpers.c:61:6: note: Assuming 'size' is not equal to 0
+           if (size =3D=3D 0)
+               ^~~~~~~~~
+   lib/string_helpers.c:61:2: note: Taking false branch
+           if (size =3D=3D 0)
+           ^
+   lib/string_helpers.c:75:2: note: Loop condition is false. Execution cont=
+inues on line 80
+           while (blk_size >> 32) {
+           ^
+   lib/string_helpers.c:80:2: note: Loop condition is false. Execution cont=
+inues on line 87
+           while (size >> 32) {
+           ^
+   lib/string_helpers.c:90:2: note: Loop condition is false. Execution cont=
+inues on line 97
+           while (size >=3D divisor[units]) {
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:14: note: Assuming the condition is true
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is true.  Entering loop =
+body
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:98:32: note: The value 3 is assigned to 'j'
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                                         ^~~
+   lib/string_helpers.c:98:14: note: Assuming the condition is false
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+                       ^~~~~~~~~~~~~~~~
+   lib/string_helpers.c:98:2: note: Loop condition is false. Execution cont=
+inues on line 101
+           for (j =3D 0; sf_cap*10 < 1000; j++)
+           ^
+   lib/string_helpers.c:101:6: note: Assuming 'units' is not equal to STRIN=
+G_UNITS_2
+           if (units =3D=3D STRING_UNITS_2) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   lib/string_helpers.c:101:2: note: Taking false branch
+           if (units =3D=3D STRING_UNITS_2) {
+           ^
+   lib/string_helpers.c:111:12: note: Assigned value is garbage or undefined
+           remainder +=3D rounding[j];
+                     ^  ~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> lib/test_kasan.c:203:9: warning: Value stored to 'size' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+           size_t size =3D (1UL << (PAGE_SHIFT + order));
+                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:203:9: note: Value stored to 'size' during its initiali=
+zation is never read
+           size_t size =3D (1UL << (PAGE_SHIFT + order));
+                  ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/test_kasan.c:315:40: warning: Use of memory after it is freed [clang=
+-analyzer-unix.Malloc]
+           KUNIT_EXPECT_KASAN_FAIL(test, *ptr1 =3D *ptr2);
+                                                 ^
+   lib/test_kasan.c:88:2: note: expanded from macro 'KUNIT_EXPECT_KASAN_FAI=
+L'
+           expression;                                             \
+           ^~~~~~~~~~
+   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^
+   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
+           ^
+   include/kunit/test.h:679:74: note: expanded from macro 'KUNIT_ASSERTION'
+   #define KUNIT_ASSERTION(test, pass, assert_class, INITIALIZER, fmt, ...)=
+ do {  \
+                                                                           =
+ ^
+   lib/test_kasan.c:309:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^
+   include/kunit/test.h:1191:21: note: expanded from macro 'KUNIT_PTR_NOT_E=
+RR_OR_NULL_MSG_ASSERTION'
+                                                   ...)                    =
+       \
+                                                                           =
+       ^
+   lib/test_kasan.c:312:2: note: Calling 'IS_ERR_OR_NULL'
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+                           !IS_ERR_OR_NULL(__ptr),                         =
+       \
+                            ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   include/linux/err.h:41:18: note: Assuming 'ptr' is non-null
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                           ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:41:9: note: Left side of '||' is false
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^
+   include/linux/err.h:41:27: note: Assuming the condition is false
+           return unlikely(!ptr) || IS_ERR_VALUE((unsigned long)ptr);
+                                    ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   lib/test_kasan.c:312:2: note: Returning from 'IS_ERR_OR_NULL'
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   include/kunit/test.h:1196:5: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+                           !IS_ERR_OR_NULL(__ptr),                         =
+       \
+                            ^~~~~~~~~~~~~~~~~~~~~
+   include/kunit/test.h:683:7: note: expanded from macro 'KUNIT_ASSERTION'
+                              pass,                                        =
+       \
+                              ^~~~
+   lib/test_kasan.c:312:2: note: Loop condition is false.  Exiting loop
+           KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr2);
+           ^
+   include/kunit/test.h:1766:2: note: expanded from macro 'KUNIT_ASSERT_NOT=
+_ERR_OR_NULL'
+           KUNIT_PTR_NOT_ERR_OR_NULL_ASSERTION(test, KUNIT_ASSERTION, ptr)
+           ^
+   include/kunit/test.h:1207:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_ASSERTION'
+           KUNIT_PTR_NOT_ERR_OR_NULL_MSG_ASSERTION(test,                   =
+       \
+           ^
+   include/kunit/test.h:1195:2: note: expanded from macro 'KUNIT_PTR_NOT_ER=
+R_OR_NULL_MSG_ASSERTION'
+           KUNIT_ASSERTION(test,                                           =
+       \
 
-^1da177e4c3f415 arch/x86_64/mm/fault.c Linus Torvalds      2005-04-16  1074=
-  =
+vim +/size +203 lib/test_kasan.c
 
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1075=
-  static inline int
-68da336a14e16c2 arch/x86/mm/fault.c    Michel Lespinasse   2010-10-26  1076=
-  access_error(unsigned long error_code, struct vm_area_struct *vma)
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1077=
-  {
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1078=
-  	/* This is only called for the current mm, so: */
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1079=
-  	bool foreign =3D false;
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1080=
-  =
+e6e8379c876de16 Alexander Potapenko 2016-03-25  197  =
 
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1081=
-  	/*
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1082=
-  	 * Read or write was blocked by protection keys.  This is
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1083=
-  	 * always an unconditional error and can never result in
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1084=
-  	 * a follow-up action to resolve the fault, like a COW.
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1085=
-  	 */
-1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1086=
-  	if (error_code & X86_PF_PK)
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1087=
-  		return 1;
-e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1088=
-  =
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  198  static void pagealloc_=
+oob_right(struct kunit *test)
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  199  {
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  200  	char *ptr;
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  201  	struct page *pages;
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  202  	size_t order =3D 4;
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24 @203  	size_t size =3D (1UL =
+<< (PAGE_SHIFT + order));
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  204  =
 
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1089=
-  	/*
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1090=
-  	 * SGX hardware blocked the access.  This usually happens
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1091=
-  	 * when the enclave memory contents have been destroyed, like
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1092=
-  	 * after a suspend/resume cycle. In any case, the kernel can't
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1093=
-  	 * fix the cause of the fault.  Handle the fault as an access
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1094=
-  	 * error even in cases where no actual access violation
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1095=
-  	 * occurred.  This allows userspace to rebuild the enclave in
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1096=
-  	 * response to the signal.
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1097=
-  	 */
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1098=
-  	if (unlikely(error_code & X86_PF_SGX))
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1099=
-  		return 1;
-74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1100=
-  =
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  205  	/*
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  206  	 * With generic KASAN=
+ page allocations have no redzones, thus
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  207  	 * out-of-bounds dete=
+ction is not guaranteed.
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  208  	 * See https://bugzil=
+la.kernel.org/show_bug.cgi?id=3D210503.
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  209  	 */
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  210  	KASAN_TEST_NEEDS_CONF=
+IG_OFF(test, CONFIG_KASAN_GENERIC);
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  211  =
 
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1101=
-  	/*
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1102=
-  	 * Make sure to check the VMA so that we do not perform
-1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1103=
-  	 * faults just to hit a X86_PF_PK as soon as we fill in a
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1104=
-  	 * page.
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1105=
-  	 */
-1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1106=
-  	if (!arch_vma_access_permitted(vma, (error_code & X86_PF_WRITE),
-1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1107=
-  				       (error_code & X86_PF_INSTR), foreign))
-07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1108=
-  		return 1;
-33a709b25a760b9 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1109=
-  =
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  212  	pages =3D alloc_pages=
+(GFP_KERNEL, order);
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  213  	ptr =3D page_address(=
+pages);
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  214  	KUNIT_ASSERT_NOT_ERR_=
+OR_NULL(test, ptr);
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  215  =
 
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1110=
-  	/*
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1111=
-  	 * Verify a shadow stack access is within a shadow stack VMA.
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1112=
-  	 * It is always an error otherwise.  Normal data access to a
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1113=
-  	 * shadow stack area is checked in the case followed.
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1114=
-  	 */
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1115=
-  	if (error_code & X86_PF_SHSTK) {
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30 @1116=
-  		if (!(vma->vm_flags & VM_SHADOW_STACK))
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1117=
-  			return 1;
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1118=
-  		return 0;
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1119=
-  	}
-b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1120=
-  =
-
-1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1121=
-  	if (error_code & X86_PF_WRITE) {
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1122=
-  		/* write, present and write, not present: */
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1123=
-  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1124=
-  			return 1;
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1125=
-  		return 0;
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1126=
-  	}
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1127=
-  =
-
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1128=
-  	/* read, present: */
-1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1129=
-  	if (unlikely(error_code & X86_PF_PROT))
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1130=
-  		return 1;
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1131=
-  =
-
-2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1132=
-  	/* read, not present: */
-3122e80efc0faf4 arch/x86/mm/fault.c    Anshuman Khandual   2020-04-06  1133=
-  	if (unlikely(!vma_is_accessible(vma)))
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1134=
-  		return 1;
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1135=
-  =
-
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1136=
-  	return 0;
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1137=
-  }
-92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1138=
-  =
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  216  	KUNIT_EXPECT_KASAN_FA=
+IL(test, ptr[size] =3D 0);
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  217  	free_pages((unsigned =
+long)ptr, order);
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  218  }
+858bdeb046f6dc7 Andrey Konovalov    2021-02-24  219  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1749890998602174201==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============4516893843674923892==--
 
