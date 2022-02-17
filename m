@@ -1,295 +1,190 @@
-Content-Type: multipart/mixed; boundary="===============1591107396547674204=="
+Content-Type: multipart/mixed; boundary="===============1749890998602174201=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/intel/iwlwifi/pcie/trans.c:422 iwl_pcie_apm_lp_xtal_enable() error: call of '__iwl_err' with no format argument
-Date: Wed, 23 Feb 2022 20:47:57 +0800
-Message-ID: <202202232011.XRB4iWSv-lkp@intel.com>
+Subject: [rppt:cet/kvm 15/49] arch/x86/mm/fault.c:1116 access_error() warn: bitwise AND condition is false here
+Date: Thu, 17 Feb 2022 12:13:26 +0800
+Message-ID: <202202171239.1grhRhs7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1591107396547674204==
+--===============1749890998602174201==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: Mike Rapoport <rppt@kernel.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
-CC: Luca Coelho <luciano.coelho@intel.com>
+TO: "Yu-cheng Yu" <yu-cheng.yu@intel.com>
+CC: Mike Rapoport <rppt@linux.ibm.com>
+CC: Kees Cook <keescook@chromium.org>
+CC: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+CC: Rick Edgecombe <rick.p.edgecombe@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5c1ee569660d4a205dced9cb4d0306b907fb7599
-commit: 15bf5ac6cd93b655ef82c6bb837cb3c19bce7f36 iwlwifi: pcie: retake owne=
-rship after reset
-date:   3 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 months ago
-config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
-ive/20220223/202202232011.XRB4iWSv-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git cet/=
+kvm
+head:   e2f9808bd7530f44cd5d95332036bb660b66b8db
+commit: b5bfd6df3c1fb925b14d03211e4a9fed46f0a211 [15/49] x86/mm: Check Shad=
+ow Stack page fault errors
+:::::: branch date: 9 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20217/202202171239.1grhRhs7-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:422 iwl_pcie_apm_lp_xtal_en=
-able() error: call of '__iwl_err' with no format argument
+smatch warnings:
+arch/x86/mm/fault.c:1116 access_error() warn: bitwise AND condition is fals=
+e here
 
-Old smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:66 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:70 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:76 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:83 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:636 iwl_pcie_prepare_card_h=
-w() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:648 iwl_pcie_prepare_card_h=
-w() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:703 iwl_pcie_load_firmware_=
-chunk() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1377 iwl_trans_pcie_start_f=
-w() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1608 iwl_trans_pcie_d3_resu=
-me() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1785 iwl_trans_pcie_clear_p=
-ersistence_bit() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2130 __iwl_trans_pcie_grab_=
-nic_access() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2139 __iwl_trans_pcie_grab_=
-nic_access() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2487 iwl_pcie_dump_csr() er=
-ror: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2488 iwl_pcie_dump_csr() er=
-ror: call of '__iwl_err' with no format argument
+vim +1116 arch/x86/mm/fault.c
 
-vim +/__iwl_err +422 drivers/net/wireless/intel/iwlwifi/pcie/trans.c
+^1da177e4c3f415 arch/x86_64/mm/fault.c Linus Torvalds      2005-04-16  1074=
+  =
 
-a6c684ee489a99 drivers/net/wireless/iwlwifi/iwl-trans-pcie.c   Emmanuel Gru=
-mbach 2012-01-08  372  =
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1075=
+  static inline int
+68da336a14e16c2 arch/x86/mm/fault.c    Michel Lespinasse   2010-10-26  1076=
+  access_error(unsigned long error_code, struct vm_area_struct *vma)
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1077=
+  {
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1078=
+  	/* This is only called for the current mm, so: */
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1079=
+  	bool foreign =3D false;
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1080=
+  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  373  /*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  374   * Enable LP XTAL to avoid HW bug where device may c=
-onsume much power if
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  375   * FW is not loaded after device reset. LP XTAL is d=
-isabled by default
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  376   * after device HW reset. Do it only if XTAL is fed =
-by internal source.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  377   * Configure device's "persistence" mode to avoid re=
-setting XTAL again when
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  378   * SHRD_HW_RST occurs in S3.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  379   */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  380  static void iwl_pcie_apm_lp_xtal_enable(struct iwl_t=
-rans *trans)
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  381  {
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  382  	int ret;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  383  	u32 apmg_gp1_reg;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  384  	u32 apmg_xtal_cfg_reg;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  385  	u32 dl_cfg_reg;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  386  =
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1081=
+  	/*
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1082=
+  	 * Read or write was blocked by protection keys.  This is
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1083=
+  	 * always an unconditional error and can never result in
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1084=
+  	 * a follow-up action to resolve the fault, like a COW.
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1085=
+  	 */
+1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1086=
+  	if (error_code & X86_PF_PK)
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1087=
+  		return 1;
+e8c6226d483cb28 arch/x86/mm/fault.c    Dave Hansen         2016-07-29  1088=
+  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  387  	/* Force XTAL ON */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  388  	__iwl_trans_pcie_set_bit(trans, CSR_GP_CNTRL,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  389  				 CSR_GP_CNTRL_REG_FLAG_XTAL_ON);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  390  =
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1089=
+  	/*
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1090=
+  	 * SGX hardware blocked the access.  This usually happens
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1091=
+  	 * when the enclave memory contents have been destroyed, like
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1092=
+  	 * after a suspend/resume cycle. In any case, the kernel can't
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1093=
+  	 * fix the cause of the fault.  Handle the fault as an access
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1094=
+  	 * error even in cases where no actual access violation
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1095=
+  	 * occurred.  This allows userspace to rebuild the enclave in
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1096=
+  	 * response to the signal.
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1097=
+  	 */
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1098=
+  	if (unlikely(error_code & X86_PF_SGX))
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1099=
+  		return 1;
+74faeee06db81a0 arch/x86/mm/fault.c    Sean Christopherson 2020-11-13  1100=
+  =
 
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  391  	ret =3D iwl_trans_pcie_sw_reset(trans, true);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  392  =
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1101=
+  	/*
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1102=
+  	 * Make sure to check the VMA so that we do not perform
+1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1103=
+  	 * faults just to hit a X86_PF_PK as soon as we fill in a
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1104=
+  	 * page.
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1105=
+  	 */
+1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1106=
+  	if (!arch_vma_access_permitted(vma, (error_code & X86_PF_WRITE),
+1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1107=
+  				       (error_code & X86_PF_INSTR), foreign))
+07f146f53e8de82 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1108=
+  		return 1;
+33a709b25a760b9 arch/x86/mm/fault.c    Dave Hansen         2016-02-12  1109=
+  =
 
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  393  	if (!ret)
-425d66d8ddfc4a drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-10-17  394  		ret =3D iwl_finish_nic_init(trans);
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  395  =
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1110=
+  	/*
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1111=
+  	 * Verify a shadow stack access is within a shadow stack VMA.
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1112=
+  	 * It is always an error otherwise.  Normal data access to a
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1113=
+  	 * shadow stack area is checked in the case followed.
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1114=
+  	 */
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1115=
+  	if (error_code & X86_PF_SHSTK) {
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30 @1116=
+  		if (!(vma->vm_flags & VM_SHADOW_STACK))
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1117=
+  			return 1;
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1118=
+  		return 0;
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1119=
+  	}
+b5bfd6df3c1fb92 arch/x86/mm/fault.c    Yu-cheng Yu         2022-01-30  1120=
+  =
 
-c96b5eec2105cc drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2018-12-10  396  	if (WARN_ON(ret)) {
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  397  		/* Release XTAL ON request */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  398  		__iwl_trans_pcie_clear_bit(trans, CSR_GP_CNTRL,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  399  					   CSR_GP_CNTRL_REG_FLAG_XTAL_ON);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  400  		return;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  401  	}
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  402  =
+1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1121=
+  	if (error_code & X86_PF_WRITE) {
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1122=
+  		/* write, present and write, not present: */
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1123=
+  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1124=
+  			return 1;
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1125=
+  		return 0;
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1126=
+  	}
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1127=
+  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  403  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  404  	 * Clear "disable persistence" to avoid LP XTAL res=
-etting when
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  405  	 * SHRD_HW_RST is applied in S3.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  406  	 */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  407  	iwl_clear_bits_prph(trans, APMG_PCIDEV_STT_REG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  408  				    APMG_PCIDEV_STT_VAL_PERSIST_DIS);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  409  =
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1128=
+  	/* read, present: */
+1067f030994c69c arch/x86/mm/fault.c    Ricardo Neri        2017-10-27  1129=
+  	if (unlikely(error_code & X86_PF_PROT))
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1130=
+  		return 1;
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1131=
+  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  410  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  411  	 * Force APMG XTAL to be active to prevent its disa=
-bling by HW
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  412  	 * caused by APMG idle state.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  413  	 */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  414  	apmg_xtal_cfg_reg =3D iwl_trans_pcie_read_shr(trans,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  415  						    SHR_APMG_XTAL_CFG_REG);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  416  	iwl_trans_pcie_write_shr(trans, SHR_APMG_XTAL_CFG_R=
-EG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  417  				 apmg_xtal_cfg_reg |
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  418  				 SHR_APMG_XTAL_CFG_XTAL_ON_REQ);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  419  =
+2d4a71676f4d894 arch/x86/mm/fault.c    Ingo Molnar         2009-02-20  1132=
+  	/* read, not present: */
+3122e80efc0faf4 arch/x86/mm/fault.c    Anshuman Khandual   2020-04-06  1133=
+  	if (unlikely(!vma_is_accessible(vma)))
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1134=
+  		return 1;
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1135=
+  =
 
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  420  	ret =3D iwl_trans_pcie_sw_reset(trans, true);
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  421  	if (ret)
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04 @422  		IWL_ERR(trans,
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  423  			"iwl_pcie_apm_lp_xtal_enable: failed to retake NI=
-C ownership\n");
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  424  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  425  	/* Enable LP XTAL by indirect access through CSR */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  426  	apmg_gp1_reg =3D iwl_trans_pcie_read_shr(trans, SHR=
-_APMG_GP1_REG);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  427  	iwl_trans_pcie_write_shr(trans, SHR_APMG_GP1_REG, a=
-pmg_gp1_reg |
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  428  				 SHR_APMG_GP1_WF_XTAL_LP_EN |
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  429  				 SHR_APMG_GP1_CHICKEN_BIT_SELECT);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  430  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  431  	/* Clear delay line clock power up */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  432  	dl_cfg_reg =3D iwl_trans_pcie_read_shr(trans, SHR_A=
-PMG_DL_CFG_REG);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  433  	iwl_trans_pcie_write_shr(trans, SHR_APMG_DL_CFG_REG=
-, dl_cfg_reg &
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  434  				 ~SHR_APMG_DL_CFG_DL_CLOCK_POWER_UP);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  435  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  436  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  437  	 * Enable persistence mode to avoid LP XTAL resetti=
-ng when
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  438  	 * SHRD_HW_RST is applied in S3.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  439  	 */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  440  	iwl_set_bit(trans, CSR_HW_IF_CONFIG_REG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  441  		    CSR_HW_IF_CONFIG_REG_PERSIST_MODE);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  442  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  443  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  444  	 * Clear "initialization complete" bit to move adap=
-ter from
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  445  	 * D0A* (powered-up Active) --> D0U* (Uninitialized=
-) state.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  446  	 */
-6dece0e99faa2a drivers/net/wireless/intel/iwlwifi/pcie/trans.c Luca Coelho =
-      2019-10-10  447  	iwl_clear_bit(trans, CSR_GP_CNTRL, CSR_GP_CNTRL_REG=
-_FLAG_INIT_DONE);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  448  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  449  	/* Activates XTAL resources monitor */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  450  	__iwl_trans_pcie_set_bit(trans, CSR_MONITOR_CFG_REG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  451  				 CSR_MONITOR_XTAL_RESOURCES);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  452  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  453  	/* Release XTAL ON request */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  454  	__iwl_trans_pcie_clear_bit(trans, CSR_GP_CNTRL,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  455  				   CSR_GP_CNTRL_REG_FLAG_XTAL_ON);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  456  	udelay(10);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  457  =
-
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  458  	/* Release APMG XTAL */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  459  	iwl_trans_pcie_write_shr(trans, SHR_APMG_XTAL_CFG_R=
-EG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  460  				 apmg_xtal_cfg_reg &
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  461  				 ~SHR_APMG_XTAL_CFG_XTAL_ON_REQ);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  462  }
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  463  =
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1136=
+  	return 0;
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1137=
+  }
+92181f190b649f7 arch/x86/mm/fault.c    Nicholas Piggin     2009-01-20  1138=
+  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1591107396547674204==--
+--===============1749890998602174201==--
 
