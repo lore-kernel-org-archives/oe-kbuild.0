@@ -1,228 +1,138 @@
-Content-Type: multipart/mixed; boundary="===============6102520083212817146=="
+Content-Type: multipart/mixed; boundary="===============1200452675328036105=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 337/936] drivers/usb/storage/uas.c:564 uas_workaround() warn: possible memory leak of 'temp_request'
-Date: Fri, 18 Feb 2022 11:27:20 +0800
-Message-ID: <202202181145.Adp5tPQ9-lkp@intel.com>
+Subject: [cel:topic-rpc-with-tls 9999/9999] net/sunrpc/svcauth_unix.c:814 svcauth_tls_accept() warn: was && intended here instead of ||?
+Date: Fri, 18 Feb 2022 11:06:59 +0800
+Message-ID: <202202181110.sRoUO7gc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6102520083212817146==
+--===============1200452675328036105==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Piyush Mehta <piyush.mehta@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-CC: Manish Narani <manish.narani@xilinx.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Chuck Lever <chuck.lever@oracle.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   886c70d87387be99d999c90f7fe576273cdb8a7b
-commit: 6e36c8e67532397180bc05d39599d0d16a82269c [337/936] usb: uas: Add wo=
-rkaround for DATA IN urb's returned with status -EAGAIN
-:::::: branch date: 3 days ago
-:::::: commit date: 2 weeks ago
-config: s390-randconfig-m031-20220217 (https://download.01.org/0day-ci/arch=
-ive/20220218/202202181145.Adp5tPQ9-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-rpc-w=
+ith-tls
+head:   b2635ca75c1014803ce82f7cbbcc09a111852e0a
+commit: b2635ca75c1014803ce82f7cbbcc09a111852e0a [9999/9999] SUNRPC: Teach =
+server to recognize RPC_AUTH_TLS
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20218/202202181110.sRoUO7gc-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/usb/storage/uas.c:564 uas_workaround() warn: possible memory leak o=
-f 'temp_request'
+New smatch warnings:
+net/sunrpc/svcauth_unix.c:814 svcauth_tls_accept() warn: was && intended he=
+re instead of ||?
 
-vim +/temp_request +564 drivers/usb/storage/uas.c
+Old smatch warnings:
+net/sunrpc/svcauth_unix.c:721 svcauth_unix_set_client() warn: passing zero =
+to 'PTR_ERR'
+net/sunrpc/svcauth_unix.c:752 svcauth_null_accept() warn: was && intended h=
+ere instead of ||?
+net/sunrpc/svcauth_unix.c:898 svcauth_unix_accept() warn: was && intended h=
+ere instead of ||?
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  448  =
+vim +814 net/sunrpc/svcauth_unix.c
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  449  /*
-6e36c8e67532397 Piyush Mehta 2022-01-26  450   * This function is called on=
-ly if the DATA IN stream timer expired, which
-6e36c8e67532397 Piyush Mehta 2022-01-26  451   * means xhci host controller=
- has failed to process the TRB's present in the
-6e36c8e67532397 Piyush Mehta 2022-01-26  452   * stream ring. As a part of =
-recovery sequence, this function re-submits the
-6e36c8e67532397 Piyush Mehta 2022-01-26  453   * previous stopped urb on wh=
-ich xhci failed to process data and along with
-6e36c8e67532397 Piyush Mehta 2022-01-26  454   * that urb it prepares & sub=
-mits sense, data and cmnd urb with scsi command
-6e36c8e67532397 Piyush Mehta 2022-01-26  455   * set to standard inquiry re=
-quest containing the next free stream id tag.
-6e36c8e67532397 Piyush Mehta 2022-01-26  456   * Doing so will make the xhc=
-i start processing the previous stopped urb
-6e36c8e67532397 Piyush Mehta 2022-01-26  457   * along with the urb that ha=
-s standard inquiry scsi command.
-6e36c8e67532397 Piyush Mehta 2022-01-26  458   */
-6e36c8e67532397 Piyush Mehta 2022-01-26  459  static int uas_workaround(str=
-uct urb *urb)
-6e36c8e67532397 Piyush Mehta 2022-01-26  460  {
-6e36c8e67532397 Piyush Mehta 2022-01-26  461  	struct scsi_cmnd *cmnd =3D u=
-rb->context;
-6e36c8e67532397 Piyush Mehta 2022-01-26  462  	struct scsi_device *sdev =3D=
- cmnd->device;
-6e36c8e67532397 Piyush Mehta 2022-01-26  463  	struct uas_dev_info *devinfo=
- =3D (void *)cmnd->device->hostdata;
-6e36c8e67532397 Piyush Mehta 2022-01-26  464  	struct scsi_cmnd *temp_cmnd;
-6e36c8e67532397 Piyush Mehta 2022-01-26  465  	struct uas_cmd_info *temp_cm=
-dinfo;
-6e36c8e67532397 Piyush Mehta 2022-01-26  466  	struct urb *sense_urb, *data=
-_urb, *cmnd_urb;
-6e36c8e67532397 Piyush Mehta 2022-01-26  467  	struct request *temp_request;
-6e36c8e67532397 Piyush Mehta 2022-01-26  468  	unsigned int idx;
-6e36c8e67532397 Piyush Mehta 2022-01-26  469  	int err;
-6e36c8e67532397 Piyush Mehta 2022-01-26  470  	char inquiry[16] =3D { 0x12,=
- 0x0, 0x0, 0x0, 0x10, 0x0, 0x0, 0x0,
-6e36c8e67532397 Piyush Mehta 2022-01-26  471  				0x0, 0x0, 0x0, 0x0, 0x0, =
-0x0, 0x0, 0x0 };
-6e36c8e67532397 Piyush Mehta 2022-01-26  472  =
+^1da177e4c3f415 Linus Torvalds 2005-04-16  795  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  473  =
+^1da177e4c3f415 Linus Torvalds 2005-04-16  796  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  474  	/* Find a free uas-tag */
-6e36c8e67532397 Piyush Mehta 2022-01-26  475  	for (idx =3D 0; idx < devinf=
-o->qdepth; idx++) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  476  		if (!devinfo->cmnd[idx])
-6e36c8e67532397 Piyush Mehta 2022-01-26  477  			break;
-6e36c8e67532397 Piyush Mehta 2022-01-26  478  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  479  =
+b2635ca75c10148 Chuck Lever    2021-08-05  797  static int
+b2635ca75c10148 Chuck Lever    2021-08-05  798  svcauth_tls_accept(struct s=
+vc_rqst *rqstp, __be32 *authp)
+b2635ca75c10148 Chuck Lever    2021-08-05  799  {
+b2635ca75c10148 Chuck Lever    2021-08-05  800  	struct svc_cred	*cred =3D =
+&rqstp->rq_cred;
+b2635ca75c10148 Chuck Lever    2021-08-05  801  	struct kvec *argv =3D rqst=
+p->rq_arg.head;
+b2635ca75c10148 Chuck Lever    2021-08-05  802  	struct kvec *resv =3D rqst=
+p->rq_res.head;
+b2635ca75c10148 Chuck Lever    2021-08-05  803  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  480  	if (idx =3D=3D devinfo->qdep=
-th) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  481  		shost_printk(KERN_INFO, sde=
-v->host,
-6e36c8e67532397 Piyush Mehta 2022-01-26  482  			"%s: Failed to find free t=
-ag\n", __func__);
-6e36c8e67532397 Piyush Mehta 2022-01-26  483  		err =3D -EINVAL;
-6e36c8e67532397 Piyush Mehta 2022-01-26  484  		goto free;
-6e36c8e67532397 Piyush Mehta 2022-01-26  485  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  486  =
+b2635ca75c10148 Chuck Lever    2021-08-05  804  	if (argv->iov_len < XDR_UN=
+IT * 3)
+b2635ca75c10148 Chuck Lever    2021-08-05  805  		return SVC_GARBAGE;
+b2635ca75c10148 Chuck Lever    2021-08-05  806  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  487  	/* Create a scsi_cmnd and se=
-nd dummy inquiry data on the next
-6e36c8e67532397 Piyush Mehta 2022-01-26  488  	 * available tag
-6e36c8e67532397 Piyush Mehta 2022-01-26  489  	 */
-6e36c8e67532397 Piyush Mehta 2022-01-26  490  	temp_cmnd =3D kzalloc(sizeof=
-(struct scsi_cmnd), GFP_ATOMIC);
-6e36c8e67532397 Piyush Mehta 2022-01-26  491  	if (!temp_cmnd) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  492  		shost_printk(KERN_INFO, sde=
-v->host,
-6e36c8e67532397 Piyush Mehta 2022-01-26  493  			"%s: Failed to allocate me=
-mory for scsi_cmnd\n",
-6e36c8e67532397 Piyush Mehta 2022-01-26  494  			__func__);
-6e36c8e67532397 Piyush Mehta 2022-01-26  495  		err =3D -ENOMEM;
-6e36c8e67532397 Piyush Mehta 2022-01-26  496  		goto free;
-6e36c8e67532397 Piyush Mehta 2022-01-26  497  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  498  =
+b2635ca75c10148 Chuck Lever    2021-08-05  807  	/* Call's cred length */
+b2635ca75c10148 Chuck Lever    2021-08-05  808  	if (svc_getu32(argv) !=3D =
+xdr_zero) {
+b2635ca75c10148 Chuck Lever    2021-08-05  809  		*authp =3D rpc_autherr_ba=
+dcred;
+b2635ca75c10148 Chuck Lever    2021-08-05  810  		return SVC_DENIED;
+b2635ca75c10148 Chuck Lever    2021-08-05  811  	}
+b2635ca75c10148 Chuck Lever    2021-08-05  812  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  499  	temp_request =3D kzalloc(siz=
-eof(struct request), GFP_ATOMIC);
-6e36c8e67532397 Piyush Mehta 2022-01-26  500  	if (!temp_cmnd) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  501  		shost_printk(KERN_INFO, sde=
-v->host,
-6e36c8e67532397 Piyush Mehta 2022-01-26  502  			"%s: Failed to allocate me=
-mory for request\n",
-6e36c8e67532397 Piyush Mehta 2022-01-26  503  			__func__);
-6e36c8e67532397 Piyush Mehta 2022-01-26  504  		err =3D -ENOMEM;
-6e36c8e67532397 Piyush Mehta 2022-01-26  505  		goto free;
-6e36c8e67532397 Piyush Mehta 2022-01-26  506  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  507  =
+b2635ca75c10148 Chuck Lever    2021-08-05  813  	/* Call's verifier flavor =
+and its length */
+b2635ca75c10148 Chuck Lever    2021-08-05 @814  	if (svc_getu32(argv) !=3D =
+rpc_auth_null ||
+b2635ca75c10148 Chuck Lever    2021-08-05  815  	    svc_getu32(argv) !=3D =
+xdr_zero) {
+b2635ca75c10148 Chuck Lever    2021-08-05  816  		*authp =3D rpc_autherr_ba=
+dverf;
+b2635ca75c10148 Chuck Lever    2021-08-05  817  		return SVC_DENIED;
+b2635ca75c10148 Chuck Lever    2021-08-05  818  	}
+b2635ca75c10148 Chuck Lever    2021-08-05  819  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  508  	temp_cmnd->device =3D cmnd->=
-device;
-6e36c8e67532397 Piyush Mehta 2022-01-26  509  	temp_cmnd->cmnd =3D inquiry;
-6e36c8e67532397 Piyush Mehta 2022-01-26  510  	temp_cmnd->cmd_len =3D 16;
-6e36c8e67532397 Piyush Mehta 2022-01-26  511  	temp_cmnd->sdb.length =3D 0x=
-10;
-6e36c8e67532397 Piyush Mehta 2022-01-26  512  	temp_cmnd->scsi_done =3D dum=
-my_scsi_done;
-6e36c8e67532397 Piyush Mehta 2022-01-26  513  	temp_request->tag =3D idx;
-6e36c8e67532397 Piyush Mehta 2022-01-26  514  =
+b2635ca75c10148 Chuck Lever    2021-08-05  820  	/* AUTH_TLS is not valid o=
+n non-NULL procedures */
+b2635ca75c10148 Chuck Lever    2021-08-05  821  	if (rqstp->rq_proc !=3D 0)=
+ {
+b2635ca75c10148 Chuck Lever    2021-08-05  822  		*authp =3D rpc_autherr_ba=
+dcred;
+b2635ca75c10148 Chuck Lever    2021-08-05  823  		return SVC_DENIED;
+b2635ca75c10148 Chuck Lever    2021-08-05  824  	}
+b2635ca75c10148 Chuck Lever    2021-08-05  825  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  515  	temp_cmdinfo =3D (struct uas=
-_cmd_info *)&temp_cmnd->SCp;
-6e36c8e67532397 Piyush Mehta 2022-01-26  516  	memset(temp_cmdinfo, 0, size=
-of(struct uas_cmd_info));
-6e36c8e67532397 Piyush Mehta 2022-01-26  517  =
+b2635ca75c10148 Chuck Lever    2021-08-05  826  	/* Mapping to nobody uid/g=
+id is required */
+b2635ca75c10148 Chuck Lever    2021-08-05  827  	cred->cr_uid =3D INVALID_U=
+ID;
+b2635ca75c10148 Chuck Lever    2021-08-05  828  	cred->cr_gid =3D INVALID_G=
+ID;
+b2635ca75c10148 Chuck Lever    2021-08-05  829  	cred->cr_group_info =3D gr=
+oups_alloc(0);
+b2635ca75c10148 Chuck Lever    2021-08-05  830  	if (cred->cr_group_info =
+=3D=3D NULL)
+b2635ca75c10148 Chuck Lever    2021-08-05  831  		return SVC_CLOSE; /* kmal=
+loc failure - client must retry */
+b2635ca75c10148 Chuck Lever    2021-08-05  832  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  518  	temp_cmdinfo->uas_tag =3D id=
-x + 1;
-6e36c8e67532397 Piyush Mehta 2022-01-26  519  	devinfo->cmnd[idx] =3D temp_=
-cmnd;
-6e36c8e67532397 Piyush Mehta 2022-01-26  520  =
+b2635ca75c10148 Chuck Lever    2021-08-05  833  	/* Reply's verifier */
+b2635ca75c10148 Chuck Lever    2021-08-05  834  	svc_putnl(resv, RPC_AUTH_N=
+ULL);
+b2635ca75c10148 Chuck Lever    2021-08-05  835  	if (rqstp->rq_xprt->xpt_op=
+s->xpo_start_tls) {
+b2635ca75c10148 Chuck Lever    2021-08-05  836  		svc_putnl(resv, 8);
+b2635ca75c10148 Chuck Lever    2021-08-05  837  		memcpy(resv->iov_base + r=
+esv->iov_len, "STARTTLS", 8);
+b2635ca75c10148 Chuck Lever    2021-08-05  838  		resv->iov_len +=3D 8;
+b2635ca75c10148 Chuck Lever    2021-08-05  839  	} else
+b2635ca75c10148 Chuck Lever    2021-08-05  840  		svc_putnl(resv, 0);
+b2635ca75c10148 Chuck Lever    2021-08-05  841  =
 
-6e36c8e67532397 Piyush Mehta 2022-01-26  521  	/* Submit previously stopped=
- URB first */
-6e36c8e67532397 Piyush Mehta 2022-01-26  522  	err =3D usb_submit_urb(urb, =
-GFP_ATOMIC);
-6e36c8e67532397 Piyush Mehta 2022-01-26  523  	if (err) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  524  		shost_printk(KERN_INFO, sde=
-v->host,
-6e36c8e67532397 Piyush Mehta 2022-01-26  525  			"%s: submit err %d\n", __f=
-unc__, err);
-6e36c8e67532397 Piyush Mehta 2022-01-26  526  		kfree(temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  527  		kfree(temp_request);
-6e36c8e67532397 Piyush Mehta 2022-01-26  528  		goto free;
-6e36c8e67532397 Piyush Mehta 2022-01-26  529  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  530  	usb_anchor_urb(urb, &devinfo=
-->data_urbs);
-6e36c8e67532397 Piyush Mehta 2022-01-26  531  =
-
-6e36c8e67532397 Piyush Mehta 2022-01-26  532  	/* Allocate and submit SENSE=
- urb for next available tag */
-6e36c8e67532397 Piyush Mehta 2022-01-26  533  	sense_urb =3D uas_workaround=
-_sense(devinfo, GFP_ATOMIC, temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  534  	if (!sense_urb) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  535  		kfree(temp_request);
-6e36c8e67532397 Piyush Mehta 2022-01-26  536  		kfree(temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  537  		goto free;
-6e36c8e67532397 Piyush Mehta 2022-01-26  538  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  539  =
-
-6e36c8e67532397 Piyush Mehta 2022-01-26  540  	/* Allocate and submit DATA =
-IN urb for next available tag */
-6e36c8e67532397 Piyush Mehta 2022-01-26  541  	data_urb =3D uas_workaround_=
-data(devinfo, GFP_ATOMIC, temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  542  	if (!data_urb) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  543  		/* Kill previously allocate=
-d sense urb */
-6e36c8e67532397 Piyush Mehta 2022-01-26  544  		sense_urb->context =3D NULL;
-6e36c8e67532397 Piyush Mehta 2022-01-26  545  		usb_kill_urb(sense_urb);
-6e36c8e67532397 Piyush Mehta 2022-01-26  546  		usb_put_urb(sense_urb);
-6e36c8e67532397 Piyush Mehta 2022-01-26  547  		kfree(temp_request);
-6e36c8e67532397 Piyush Mehta 2022-01-26  548  		kfree(temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  549  		goto free;
-6e36c8e67532397 Piyush Mehta 2022-01-26  550  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  551  =
-
-6e36c8e67532397 Piyush Mehta 2022-01-26  552  	/* Allocate and submit CMND =
-urb with dummy inquiry data */
-6e36c8e67532397 Piyush Mehta 2022-01-26  553  	cmnd_urb =3D uas_workaround_=
-cmnd(devinfo, GFP_ATOMIC, temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  554  	if (!cmnd_urb) {
-6e36c8e67532397 Piyush Mehta 2022-01-26  555  		/* Kill previously allocate=
-d data urb */
-6e36c8e67532397 Piyush Mehta 2022-01-26  556  		data_urb->context =3D NULL;
-6e36c8e67532397 Piyush Mehta 2022-01-26  557  		usb_kill_urb(data_urb);
-6e36c8e67532397 Piyush Mehta 2022-01-26  558  		usb_put_urb(data_urb);
-6e36c8e67532397 Piyush Mehta 2022-01-26  559  		kfree(temp_request);
-6e36c8e67532397 Piyush Mehta 2022-01-26  560  		kfree(temp_cmnd);
-6e36c8e67532397 Piyush Mehta 2022-01-26  561  	}
-6e36c8e67532397 Piyush Mehta 2022-01-26  562  =
-
-6e36c8e67532397 Piyush Mehta 2022-01-26  563  free:
-6e36c8e67532397 Piyush Mehta 2022-01-26 @564  	return err;
-6e36c8e67532397 Piyush Mehta 2022-01-26  565  }
-6e36c8e67532397 Piyush Mehta 2022-01-26  566  =
+b2635ca75c10148 Chuck Lever    2021-08-05  842  	rqstp->rq_cred.cr_flavor =
+=3D RPC_AUTH_TLS;
+b2635ca75c10148 Chuck Lever    2021-08-05  843  	return SVC_OK;
+b2635ca75c10148 Chuck Lever    2021-08-05  844  }
+b2635ca75c10148 Chuck Lever    2021-08-05  845  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6102520083212817146==--
+--===============1200452675328036105==--
 
