@@ -1,45 +1,79 @@
-Content-Type: multipart/mixed; boundary="===============2986223267505826186=="
+Content-Type: multipart/mixed; boundary="===============1041370447025020523=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 5930/6564] mm/memfd.c:80:2: warning: Value stored to 'count' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 18 Feb 2022 09:15:03 +0800
-Message-ID: <202202180934.WeFxWgEq-lkp@intel.com>
+Subject: Re: [PATCH net-next 8/9] net: tcp: use tcp_drop_reason() for tcp_data_queue()
+Date: Fri, 18 Feb 2022 08:13:52 +0800
+Message-ID: <202202180859.0jwsUrAj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2986223267505826186==
+--===============1041370447025020523==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: wangyong <wang.yong12@zte.com.cn>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20220216035426.2233808-9-imagedong@tencent.com>
+References: <20220216035426.2233808-9-imagedong@tencent.com>
+TO: menglong8.dong(a)gmail.com
+TO: dsahern(a)kernel.org
+TO: kuba(a)kernel.org
+CC: edumazet(a)google.com
+CC: davem(a)davemloft.net
+CC: rostedt(a)goodmis.org
+CC: mingo(a)redhat.com
+CC: yoshfuji(a)linux-ipv6.org
+CC: ast(a)kernel.org
+CC: daniel(a)iogearbox.net
+CC: hawk(a)kernel.org
+CC: john.fastabend(a)gmail.com
+CC: imagedong(a)tencent.com
+CC: talalahmad(a)google.com
+CC: keescook(a)chromium.org
+CC: ilias.apalodimas(a)linaro.org
+CC: alobakin(a)pm.me
+CC: memxor(a)gmail.com
+CC: atenart(a)kernel.org
+CC: bigeasy(a)linutronix.de
+CC: pabeni(a)redhat.com
+CC: linyunsheng(a)huawei.com
+CC: arnd(a)arndb.de
+CC: yajun.deng(a)linux.dev
+CC: roopa(a)nvidia.com
+CC: willemb(a)google.com
+CC: vvs(a)virtuozzo.com
+CC: cong.wang(a)bytedance.com
+CC: luiz.von.dentz(a)intel.com
+CC: linux-kernel(a)vger.kernel.org
+CC: netdev(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   3c30cf91b5ecc7272b3d2942ae0505dd8320b81c
-commit: 27323748616bf2fd2f3b70e1a5fff9843dae5840 [5930/6564] memfd: fix shm=
-em huge page failed to set F_SEAL_WRITE attribute problem
-:::::: branch date: 15 hours ago
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/menglong8-dong-gmail-com/n=
+et-add-skb-drop-reasons-to-TCP-packet-receive/20220216-115735
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+b0471c26108160217fc17acec4a9fdce92aaeeea
+:::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
 config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20218/202202180934.WeFxWgEq-lkp(a)intel.com/config)
+20218/202202180859.0jwsUrAj-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0e628a=
 783b935c70c80815db6c061ec84f884af5)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D27323748616bf2fd2f3b70e1a5fff9843dae5840
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 27323748616bf2fd2f3b70e1a5fff9843dae5840
+        # https://github.com/0day-ci/linux/commit/d3fa06a06317774b62dc4ffa9=
+3cf2a8ee67508ef
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review menglong8-dong-gmail-com/net-add-s=
+kb-drop-reasons-to-TCP-packet-receive/20220216-115735
+        git checkout d3fa06a06317774b62dc4ffa93cf2a8ee67508ef
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -50,366 +84,477 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           tmp =3D (nr) ? LM75_TEMP_TO_REG(val) : TEMP_TO_REG(val);
-                        ^~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/lm75.h:27:14: note: Assuming '__UNIQUE_ID___x257' is <=3D =
-'__UNIQUE_ID___y258'
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/minmax.h:104:48: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x =3D (x);               \
-                                         ^
-   drivers/hwmon/lm75.h:27:14: note: '?' condition is false
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                                  ^
-   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:639:6: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+               ^~~~~~~~~~~~~~~~~
+   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
+limit'
+   #define __ratelimit(state) ___ratelimit(state, __func__)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:1036:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
                    ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:639:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/hid.h:1036:3: note: Loop condition is false.  Exiting loop
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
                    ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
+ted'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                   ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
                             ^
-   drivers/hwmon/lm75.h:27:14: note: '__UNIQUE_ID___x259' is < '__UNIQUE_ID=
-___y260'
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~
-   drivers/hwmon/lm75.h:27:14: note: '?' condition is true
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
                    ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/lm75.h:29:12: note: 'ntemp' is < 0
-           ntemp +=3D (ntemp < 0 ? -250 : 250);
-                     ^~~~~
-   drivers/hwmon/lm75.h:29:12: note: '?' condition is true
-   drivers/hwmon/lm75.h:30:29: note: The result of the left shift is undefi=
-ned because the left operand is negative
-           return (u16)((ntemp / 500) << 7);
-                        ~~~~~~~~~~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> mm/memfd.c:80:2: warning: Value stored to 'count' is never read [clang-a=
-nalyzer-deadcode.DeadStores]
-           count =3D 0;
-           ^       ~
-   mm/memfd.c:80:2: note: Value stored to 'count' is never read
-           count =3D 0;
-           ^       ~
-   mm/memfd.c:291:2: warning: Call to function 'strcpy' is insecure as it d=
-oes not provide bounding of the memory buffer. Replace unbounded copy funct=
-ions with analogous functions that support length arguments such as 'strlcp=
-y'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(name, MFD_NAME_PREFIX);
-           ^~~~~~
-   mm/memfd.c:291:2: note: Call to function 'strcpy' is insecure as it does=
- not provide bounding of the memory buffer. Replace unbounded copy function=
-s with analogous functions that support length arguments such as 'strlcpy'.=
- CWE-119
-           strcpy(name, MFD_NAME_PREFIX);
-           ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   include/linux/hid.h:1037:9: note: Access to field 'name' results in a de=
+reference of a null pointer (loaded from variable 'input')
+                                       input->name, c, type);
+                                       ^
+   include/linux/printk.h:656:49: note: expanded from macro 'pr_warn_rateli=
+mited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+                                                          ^~~~~~~~~~~
+   include/linux/printk.h:640:17: note: expanded from macro 'printk_ratelim=
+ited'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                                 ^~~~~~~~~~~
+   include/linux/printk.h:446:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                              ^~~~~~~~~~~
+   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
+rap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
    Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   fs/stat.c:227:20: warning: The left expression of the compound assignmen=
-t is an uninitialized value. The computed value will also be garbage [clang=
--analyzer-core.uninitialized.Assign]
-           stat->result_mask |=3D STATX_MNT_ID;
-                             ^
-   fs/stat.c:392:1: note: Calling '__se_sys_newlstat'
-   SYSCALL_DEFINE2(newlstat, const char __user *, filename,
-   ^
-   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFI=
-NE2'
-   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:231:2: note: expanded from macro =
-'__SYSCALL_DEFINEx'
-           __X64_SYS_STUBx(x, name, __VA_ARGS__)                           \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:97:2: note: expanded from macro '=
-__X64_SYS_STUBx'
-           __SYS_STUBx(x64, sys##name,                                     \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
-'__SYS_STUBx'
-                   return __se_##name(__VA_ARGS__);                        \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   fs/stat.c:392:1: note: Calling '__do_sys_newlstat'
-   SYSCALL_DEFINE2(newlstat, const char __user *, filename,
-   ^
-   include/linux/syscalls.h:218:36: note: expanded from macro 'SYSCALL_DEFI=
-NE2'
-   #define SYSCALL_DEFINE2(name, ...) SYSCALL_DEFINEx(2, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:235:14: note: expanded from macro=
- '__SYSCALL_DEFINEx'
-                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
-_));\
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   fs/stat.c:398:10: note: Calling 'vfs_lstat'
-           error =3D vfs_lstat(filename, &stat);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fs.h:3288:9: note: Calling 'vfs_fstatat'
-           return vfs_fstatat(AT_FDCWD, name, stat, AT_SYMLINK_NOFOLLOW);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/stat.c:243:9: note: Calling 'vfs_statx'
-           return vfs_statx(dfd, filename, flags | AT_NO_AUTOMOUNT,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/stat.c:209:2: note: Taking false branch
-           if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT | AT_EMPTY_P=
-ATH |
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   fs/cifs/smb2ops.c:4216:3: warning: Call to function 'strcat' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(message, "R");
+                   ^~~~~~
+   fs/cifs/smb2ops.c:4216:3: note: Call to function 'strcat' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcat'. CWE-119
+                   strcat(message, "R");
+                   ^~~~~~
+   fs/cifs/smb2ops.c:4220:3: warning: Call to function 'strcat' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(message, "H");
+                   ^~~~~~
+   fs/cifs/smb2ops.c:4220:3: note: Call to function 'strcat' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcat'. CWE-119
+                   strcat(message, "H");
+                   ^~~~~~
+   fs/cifs/smb2ops.c:4224:3: warning: Call to function 'strcat' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(message, "W");
+                   ^~~~~~
+   fs/cifs/smb2ops.c:4224:3: note: Call to function 'strcat' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcat'. CWE-119
+                   strcat(message, "W");
+                   ^~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   fs/cifs/smb2transport.c:442:3: warning: Value stored to 'rc' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+                   rc =3D generate_key(ses, ptriplet->encryption.label,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2transport.c:442:3: note: Value stored to 'rc' is never read
+                   rc =3D generate_key(ses, ptriplet->encryption.label,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   net/ipv4/tcp_input.c:3404:3: warning: Value stored to 'icsk' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+                   icsk =3D inet_csk(sk);
+                   ^      ~~~~~~~~~~~~
+   net/ipv4/tcp_input.c:3404:3: note: Value stored to 'icsk' is never read
+                   icsk =3D inet_csk(sk);
+                   ^      ~~~~~~~~~~~~
+>> net/ipv4/tcp_input.c:5010:2: warning: Value stored to 'reason' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           reason =3D SKB_DROP_REASON_NOT_SPECIFIED;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_input.c:5010:2: note: Value stored to 'reason' is never read
+           reason =3D SKB_DROP_REASON_NOT_SPECIFIED;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_input.c:5334:11: warning: Access to field 'truesize' result=
+s in a dereference of a null pointer [clang-analyzer-core.NullDereference]
+                   goal -=3D rb_to_skb(node)->truesize;
+                           ^
+   include/linux/skbuff.h:3658:23: note: expanded from macro 'rb_to_skb'
+   #define rb_to_skb(rb) rb_entry_safe(rb, struct sk_buff, rbnode)
+                         ^
+   include/linux/rbtree.h:78:2: note: expanded from macro 'rb_entry_safe'
+           ({ typeof(ptr) ____ptr =3D (ptr); \
            ^
-   fs/stat.c:213:2: note: Taking false branch
-           if (!(flags & AT_SYMLINK_NOFOLLOW))
+   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is false
+           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
+               ^
+   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
+   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   fs/stat.c:215:2: note: Taking false branch
-           if (!(flags & AT_NO_AUTOMOUNT))
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:316:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is false
+           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
+               ^
+   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
+   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   fs/stat.c:217:2: note: Taking false branch
-           if (flags & AT_EMPTY_PATH)
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:316:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is false
+           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
+               ^
+   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
+   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   fs/stat.c:222:6: note: Assuming 'error' is 0
-           if (error)
-               ^~~~~
-   fs/stat.c:222:2: note: Taking false branch
-           if (error)
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:316:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is true
+           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
+               ^
+   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
+   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
            ^
-   fs/stat.c:225:10: note: Calling 'vfs_getattr'
-           error =3D vfs_getattr(&path, stat, request_mask, flags);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                                               ^
+   net/ipv4/tcp_input.c:5325:6: note: Taking false branch
+           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
+               ^
+   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
+   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:349:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:337:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:329:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/ipv4/tcp_input.c:5325:6: note: Loop condition is false.  Exiting loop
+           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
+               ^
+   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
+   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
+                                 ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
 
-vim +/count +80 mm/memfd.c
+vim +/reason +5010 net/ipv4/tcp_input.c
 
-5d752600a8c373 Mike Kravetz            2018-06-07   61  =
+03f45c883c6f39 Eric Dumazet             2018-04-16  4987  =
 
-5d752600a8c373 Mike Kravetz            2018-06-07   62  /*
-5d752600a8c373 Mike Kravetz            2018-06-07   63   * Setting SEAL_WRI=
-TE requires us to verify there's no pending writer. However,
-5d752600a8c373 Mike Kravetz            2018-06-07   64   * via get_user_pag=
-es(), drivers might have some pending I/O without any active
-5d752600a8c373 Mike Kravetz            2018-06-07   65   * user-space mappi=
-ngs (eg., direct-IO, AIO). Therefore, we look at all pages
-5d752600a8c373 Mike Kravetz            2018-06-07   66   * and see whether =
-it has an elevated ref-count. If so, we tag them and wait for
-5d752600a8c373 Mike Kravetz            2018-06-07   67   * them to be dropp=
-ed.
-5d752600a8c373 Mike Kravetz            2018-06-07   68   * The caller must =
-guarantee that no new user will acquire writable references
-5d752600a8c373 Mike Kravetz            2018-06-07   69   * to those pages t=
-o avoid races.
-5d752600a8c373 Mike Kravetz            2018-06-07   70   */
-5d752600a8c373 Mike Kravetz            2018-06-07   71  static int memfd_wa=
-it_for_pins(struct address_space *mapping)
-5d752600a8c373 Mike Kravetz            2018-06-07   72  {
-2313216f861f95 Matthew Wilcox          2017-11-22   73  	XA_STATE(xas, &map=
-ping->i_pages, 0);
-5d752600a8c373 Mike Kravetz            2018-06-07   74  	struct page *page;
-27323748616bf2 wangyong                2022-02-16   75  	int error, scan, c=
-ount;
-5d752600a8c373 Mike Kravetz            2018-06-07   76  =
+^1da177e4c3f41 Linus Torvalds           2005-04-16  4988  static void tcp_d=
+ata_queue(struct sock *sk, struct sk_buff *skb)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  4989  {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  4990  	struct tcp_sock =
+*tp =3D tcp_sk(sk);
+d3fa06a0631777 Menglong Dong            2022-02-16  4991  	enum skb_drop_re=
+ason reason;
+5357f0bd4edf0b Eric Dumazet             2017-08-01  4992  	bool fragstolen;
+5357f0bd4edf0b Eric Dumazet             2017-08-01  4993  	int eaten;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  4994  =
 
-ef3038a573aa8b Matthew Wilcox          2017-11-22   77  	memfd_tag_pins(&xa=
-s);
-5d752600a8c373 Mike Kravetz            2018-06-07   78  =
-
-5d752600a8c373 Mike Kravetz            2018-06-07   79  	error =3D 0;
-27323748616bf2 wangyong                2022-02-16  @80  	count =3D 0;
-5d752600a8c373 Mike Kravetz            2018-06-07   81  	for (scan =3D 0; s=
-can <=3D LAST_SCAN; scan++) {
-2313216f861f95 Matthew Wilcox          2017-11-22   82  		unsigned int tagg=
-ed =3D 0;
-2313216f861f95 Matthew Wilcox          2017-11-22   83  =
-
-2313216f861f95 Matthew Wilcox          2017-11-22   84  		if (!xas_marked(&=
-xas, MEMFD_TAG_PINNED))
-5d752600a8c373 Mike Kravetz            2018-06-07   85  			break;
-5d752600a8c373 Mike Kravetz            2018-06-07   86  =
-
-5d752600a8c373 Mike Kravetz            2018-06-07   87  		if (!scan)
-5d752600a8c373 Mike Kravetz            2018-06-07   88  			lru_add_drain_al=
-l();
-5d752600a8c373 Mike Kravetz            2018-06-07   89  		else if (schedule=
-_timeout_killable((HZ << scan) / 200))
-5d752600a8c373 Mike Kravetz            2018-06-07   90  			scan =3D LAST_SC=
-AN;
-5d752600a8c373 Mike Kravetz            2018-06-07   91  =
-
-2313216f861f95 Matthew Wilcox          2017-11-22   92  		xas_set(&xas, 0);
-2313216f861f95 Matthew Wilcox          2017-11-22   93  		xas_lock_irq(&xas=
+6787b7e350d355 Jianguo Wu               2021-07-09  4995  	/* If a subflow =
+has been reset, the packet should not continue
+6787b7e350d355 Jianguo Wu               2021-07-09  4996  	 * to be process=
+ed, drop the packet.
+6787b7e350d355 Jianguo Wu               2021-07-09  4997  	 */
+6787b7e350d355 Jianguo Wu               2021-07-09  4998  	if (sk_is_mptcp(=
+sk) && !mptcp_incoming_options(sk, skb)) {
+6787b7e350d355 Jianguo Wu               2021-07-09  4999  		__kfree_skb(skb=
 );
-2313216f861f95 Matthew Wilcox          2017-11-22   94  		xas_for_each_mark=
-ed(&xas, page, ULONG_MAX, MEMFD_TAG_PINNED) {
-2313216f861f95 Matthew Wilcox          2017-11-22   95  			bool clear =3D t=
-rue;
-2313216f861f95 Matthew Wilcox          2017-11-22   96  			if (xa_is_value(=
-page))
-5d752600a8c373 Mike Kravetz            2018-06-07   97  				continue;
-27323748616bf2 wangyong                2022-02-16   98  =
+6787b7e350d355 Jianguo Wu               2021-07-09  5000  		return;
+6787b7e350d355 Jianguo Wu               2021-07-09  5001  	}
+648ef4b88673da Mat Martineau            2020-01-21  5002  =
 
-4101196b19d7f9 Matthew Wilcox (Oracle  2019-09-23   99) 			page =3D find_su=
-bpage(page, xas.xa_index);
-27323748616bf2 wangyong                2022-02-16  100  			count =3D page_c=
-ount(page);
-27323748616bf2 wangyong                2022-02-16  101  			if (PageTransCom=
-pound(page))
-27323748616bf2 wangyong                2022-02-16  102  				count -=3D (1 <=
-< compound_order(compound_head(page))) - 1;
-27323748616bf2 wangyong                2022-02-16  103  			if (count - page=
-_mapcount(page) !=3D 1) {
-5d752600a8c373 Mike Kravetz            2018-06-07  104  				/*
-5d752600a8c373 Mike Kravetz            2018-06-07  105  				 * On the last =
-scan, we clean up all those tags
-5d752600a8c373 Mike Kravetz            2018-06-07  106  				 * we inserted;=
- but make a note that we still
-5d752600a8c373 Mike Kravetz            2018-06-07  107  				 * found pages =
-pinned.
-5d752600a8c373 Mike Kravetz            2018-06-07  108  				 */
-2313216f861f95 Matthew Wilcox          2017-11-22  109  				if (scan =3D=3D=
- LAST_SCAN)
-5d752600a8c373 Mike Kravetz            2018-06-07  110  					error =3D -EBU=
-SY;
-2313216f861f95 Matthew Wilcox          2017-11-22  111  				else
-2313216f861f95 Matthew Wilcox          2017-11-22  112  					clear =3D fals=
-e;
-5d752600a8c373 Mike Kravetz            2018-06-07  113  			}
-2313216f861f95 Matthew Wilcox          2017-11-22  114  			if (clear)
-2313216f861f95 Matthew Wilcox          2017-11-22  115  				xas_clear_mark(=
-&xas, MEMFD_TAG_PINNED);
-2313216f861f95 Matthew Wilcox          2017-11-22  116  			if (++tagged % X=
-A_CHECK_SCHED)
-2313216f861f95 Matthew Wilcox          2017-11-22  117  				continue;
-5d752600a8c373 Mike Kravetz            2018-06-07  118  =
+532182cd610782 Eric Dumazet             2016-04-01  5003  	if (TCP_SKB_CB(s=
+kb)->seq =3D=3D TCP_SKB_CB(skb)->end_seq) {
+532182cd610782 Eric Dumazet             2016-04-01  5004  		__kfree_skb(skb=
+);
+532182cd610782 Eric Dumazet             2016-04-01  5005  		return;
+532182cd610782 Eric Dumazet             2016-04-01  5006  	}
+f84af32cbca70a Eric Dumazet             2010-04-28  5007  	skb_dst_drop(skb=
+);
+155c6e1ad4a778 Peter Pan(=E6=BD=98=E5=8D=AB=E5=B9=B3         2014-09-24  50=
+08) 	__skb_pull(skb, tcp_hdr(skb)->doff * 4);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5009  =
 
-2313216f861f95 Matthew Wilcox          2017-11-22  119  			xas_pause(&xas);
-2313216f861f95 Matthew Wilcox          2017-11-22  120  			xas_unlock_irq(&=
-xas);
-2313216f861f95 Matthew Wilcox          2017-11-22  121  			cond_resched();
-2313216f861f95 Matthew Wilcox          2017-11-22  122  			xas_lock_irq(&xa=
-s);
-5d752600a8c373 Mike Kravetz            2018-06-07  123  		}
-2313216f861f95 Matthew Wilcox          2017-11-22  124  		xas_unlock_irq(&x=
-as);
-5d752600a8c373 Mike Kravetz            2018-06-07  125  	}
-5d752600a8c373 Mike Kravetz            2018-06-07  126  =
+d3fa06a0631777 Menglong Dong            2022-02-16 @5010  	reason =3D SKB_D=
+ROP_REASON_NOT_SPECIFIED;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5011  	tp->rx_opt.dsack=
+ =3D 0;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5012  =
 
-5d752600a8c373 Mike Kravetz            2018-06-07  127  	return error;
-5d752600a8c373 Mike Kravetz            2018-06-07  128  }
-5d752600a8c373 Mike Kravetz            2018-06-07  129  =
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5013  	/*  Queue data f=
+or delivery to the user.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5014  	 *  Packets in s=
+equence go to the receive queue.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5015  	 *  Out of seque=
+nce packets to the out_of_order_queue.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5016  	 */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5017  	if (TCP_SKB_CB(s=
+kb)->seq =3D=3D tp->rcv_nxt) {
+fb223502ec0889 Yafang Shao              2018-06-24  5018  		if (tcp_receive=
+_window(tp) =3D=3D 0) {
+d3fa06a0631777 Menglong Dong            2022-02-16  5019  			reason =3D SKB=
+_DROP_REASON_TCP_ZEROWINDOW;
+fb223502ec0889 Yafang Shao              2018-06-24  5020  			NET_INC_STATS(=
+sock_net(sk), LINUX_MIB_TCPZEROWINDOWDROP);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5021  			goto out_of_wi=
+ndow;
+fb223502ec0889 Yafang Shao              2018-06-24  5022  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5023  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5024  		/* Ok. In seque=
+nce. In window. */
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5025  queue_and_out:
+76dfa6082032b5 Eric Dumazet             2015-05-15  5026  		if (skb_queue_l=
+en(&sk->sk_receive_queue) =3D=3D 0)
+76dfa6082032b5 Eric Dumazet             2015-05-15  5027  			sk_forced_mem_=
+schedule(sk, skb->truesize);
+ea5d0c32498e1a Yafang Shao              2018-06-28  5028  		else if (tcp_tr=
+y_rmem_schedule(sk, skb, skb->truesize)) {
+d3fa06a0631777 Menglong Dong            2022-02-16  5029  			reason =3D SKB=
+_DROP_REASON_PROTO_MEM;
+ea5d0c32498e1a Yafang Shao              2018-06-28  5030  			NET_INC_STATS(=
+sock_net(sk), LINUX_MIB_TCPRCVQDROP);
+ba3bb0e76ccd46 Eric Dumazet             2020-06-30  5031  			sk->sk_data_re=
+ady(sk);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5032  			goto drop;
+ea5d0c32498e1a Yafang Shao              2018-06-28  5033  		}
+5357f0bd4edf0b Eric Dumazet             2017-08-01  5034  =
+
+e7395f1f4ba24d Eric Dumazet             2018-11-26  5035  		eaten =3D tcp_q=
+ueue_rcv(sk, skb, &fragstolen);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5036  		if (skb->len)
+9e412ba7632f71 Ilpo J=C3=A4rvinen            2007-04-20  5037  			tcp_event=
+_data_recv(sk, skb);
+155c6e1ad4a778 Peter Pan(=E6=BD=98=E5=8D=AB=E5=B9=B3         2014-09-24  50=
+38) 		if (TCP_SKB_CB(skb)->tcp_flags & TCPHDR_FIN)
+20c4cb792de2b5 Eric Dumazet             2011-10-20  5039  			tcp_fin(sk);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5040  =
+
+9f5afeae51526b Yaogong Wang             2016-09-07  5041  		if (!RB_EMPTY_R=
+OOT(&tp->out_of_order_queue)) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5042  			tcp_ofo_queue(=
+sk);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5043  =
+
+15bdd5686c2c61 Yuchung Cheng            2018-08-09  5044  			/* RFC5681. 4.=
+2. SHOULD send immediate ACK, when
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5045  			 * gap in queu=
+e is filled.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5046  			 */
+9f5afeae51526b Yaogong Wang             2016-09-07  5047  			if (RB_EMPTY_R=
+OOT(&tp->out_of_order_queue))
+15bdd5686c2c61 Yuchung Cheng            2018-08-09  5048  				inet_csk(sk)-=
+>icsk_ack.pending |=3D ICSK_ACK_NOW;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5049  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5050  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5051  		if (tp->rx_opt.=
+num_sacks)
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5052  			tcp_sack_remov=
+e(tp);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5053  =
+
+31770e34e43d6c Florian Westphal         2017-08-30  5054  		tcp_fast_path_c=
+heck(sk);
+31770e34e43d6c Florian Westphal         2017-08-30  5055  =
+
+923dd347b8904c Eric Dumazet             2012-05-02  5056  		if (eaten > 0)
+923dd347b8904c Eric Dumazet             2012-05-02  5057  			kfree_skb_part=
+ial(skb, fragstolen);
+1d57f19539c074 Eric Dumazet             2012-09-17  5058  		if (!sock_flag(=
+sk, SOCK_DEAD))
+03f45c883c6f39 Eric Dumazet             2018-04-16  5059  			tcp_data_ready=
+(sk);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5060  		return;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5061  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5062  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5063  	if (!after(TCP_S=
+KB_CB(skb)->end_seq, tp->rcv_nxt)) {
+7788174e8726c3 Yuchung Cheng            2018-08-29  5064  		tcp_rcv_spuriou=
+s_retrans(sk, skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5065  		/* A retransmit=
+, 2nd most common case.  Force an immediate ack. */
+d3fa06a0631777 Menglong Dong            2022-02-16  5066  		reason =3D SKB_=
+DROP_REASON_TCP_OLD_DATA;
+c10d9310edf5aa Eric Dumazet             2016-04-29  5067  		NET_INC_STATS(s=
+ock_net(sk), LINUX_MIB_DELAYEDACKLOST);
+1ed834655a0d42 Pavel Emelyanov          2008-07-16  5068  		tcp_dsack_set(s=
+k, TCP_SKB_CB(skb)->seq, TCP_SKB_CB(skb)->end_seq);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5069  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5070  out_of_window:
+9a9c9b51e54618 Eric Dumazet             2018-05-21  5071  		tcp_enter_quick=
+ack_mode(sk, TCP_MAX_QUICKACKS);
+463c84b97f2401 Arnaldo Carvalho de Melo 2005-08-09  5072  		inet_csk_schedu=
+le_ack(sk);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5073  drop:
+d3fa06a0631777 Menglong Dong            2022-02-16  5074  		tcp_drop_reason=
+(sk, skb, reason);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5075  		return;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5076  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5077  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5078  	/* Out of window=
+. F.e. zero window probe. */
+d3fa06a0631777 Menglong Dong            2022-02-16  5079  	if (!before(TCP_=
+SKB_CB(skb)->seq,
+d3fa06a0631777 Menglong Dong            2022-02-16  5080  		    tp->rcv_nxt=
+ + tcp_receive_window(tp))) {
+d3fa06a0631777 Menglong Dong            2022-02-16  5081  		reason =3D SKB_=
+DROP_REASON_TCP_OVERWINDOW;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5082  		goto out_of_win=
+dow;
+d3fa06a0631777 Menglong Dong            2022-02-16  5083  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5084  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5085  	if (before(TCP_S=
+KB_CB(skb)->seq, tp->rcv_nxt)) {
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5086  		/* Partial pack=
+et, seq < rcv_next < end_seq */
+1ed834655a0d42 Pavel Emelyanov          2008-07-16  5087  		tcp_dsack_set(s=
+k, TCP_SKB_CB(skb)->seq, tp->rcv_nxt);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5088  =
+
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5089  		/* If window is=
+ closed, drop tail of packet. But after
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5090  		 * remembering =
+D-SACK for its head made in previous line.
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5091  		 */
+fb223502ec0889 Yafang Shao              2018-06-24  5092  		if (!tcp_receiv=
+e_window(tp)) {
+d3fa06a0631777 Menglong Dong            2022-02-16  5093  			reason =3D SKB=
+_DROP_REASON_TCP_ZEROWINDOW;
+fb223502ec0889 Yafang Shao              2018-06-24  5094  			NET_INC_STATS(=
+sock_net(sk), LINUX_MIB_TCPZEROWINDOWDROP);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5095  			goto out_of_wi=
+ndow;
+fb223502ec0889 Yafang Shao              2018-06-24  5096  		}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5097  		goto queue_and_=
+out;
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5098  	}
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5099  =
+
+e86b291962cbf4 Eric Dumazet             2012-03-18  5100  	tcp_data_queue_o=
+fo(sk, skb);
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5101  }
+^1da177e4c3f41 Linus Torvalds           2005-04-16  5102  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============2986223267505826186==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============1041370447025020523==--
 
