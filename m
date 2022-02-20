@@ -1,167 +1,353 @@
-Content-Type: multipart/mixed; boundary="===============2395114038000757790=="
+Content-Type: multipart/mixed; boundary="===============2290200291655729808=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/intel/iwlwifi/fw/pnvm.c:332 iwl_pnvm_load() error: uninitialized symbol 'len'.
-Date: Mon, 21 Feb 2022 08:08:25 +0800
-Message-ID: <202202210804.tIMJFM53-lkp@intel.com>
+Subject: drivers/iommu/apple-dart.c:671:22: warning: Value stored to 'res' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 21 Feb 2022 07:06:08 +0800
+Message-ID: <202202210746.IXOCDPKb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2395114038000757790==
+--===============2290200291655729808==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Luca Coelho <luciano.coelho@intel.com>
+TO: Sven Peter <sven@svenpeter.dev>
+CC: Joerg Roedel <jroedel@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3324e6e803156b4296975555f566892e4e3f4fcf
-commit: 9dad325f9d57508b154f0bebbc341a8528e5729c iwlwifi: support loading t=
-he reduced power table from UEFI
-date:   8 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
-ive/20220221/202202210804.tIMJFM53-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+commit: 46d1fb072e76b161b0fb1ada9e37bf7e4d1f123f iommu/dart: Add DART iommu=
+ driver
+date:   6 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-c006-20220215 (https://download.01.org/0day-ci/arc=
+hive/20220221/202202210746.IXOCDPKb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 37f422=
+f4ac31c8b8041c6b62065263314282dab6)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D46d1fb072e76b161b0fb1ada9e37bf7e4d1f123f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 46d1fb072e76b161b0fb1ada9e37bf7e4d1f123f
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/wireless/intel/iwlwifi/fw/pnvm.c:332 iwl_pnvm_load() error: uni=
-nitialized symbol 'len'.
 
-vim +/len +332 drivers/net/wireless/intel/iwlwifi/fw/pnvm.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/base/regmap/regmap-debugfs.c:75:3: note: Calling 'list_del'
+                   list_del(&c->list);
+                   ^~~~~~~~~~~~~~~~~~
+   include/linux/list.h:146:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:132:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:135:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   fs/ubifs/tnc_misc.c:51:35: warning: Access to field 'level' results in a=
+ dereference of a null pointer (loaded from variable 'zr') [clang-analyzer-=
+core.NullDereference]
+                   ubifs_assert(c, znode->level <=3D zr->level);
+                                                   ^
+   fs/ubifs/debug.h:143:17: note: expanded from macro 'ubifs_assert'
+           if (unlikely(!(expr))) {                                        =
+       \
+                          ^~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   fs/ubifs/tnc_misc.c:36:2: note: Assuming 'zr' is null
+           ubifs_assert(c, zr);
+           ^
+   fs/ubifs/debug.h:143:15: note: expanded from macro 'ubifs_assert'
+           if (unlikely(!(expr))) {                                        =
+       \
+               ~~~~~~~~~^~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   fs/ubifs/tnc_misc.c:36:2: note: Taking true branch
+           ubifs_assert(c, zr);
+           ^
+   fs/ubifs/debug.h:143:2: note: expanded from macro 'ubifs_assert'
+           if (unlikely(!(expr))) {                                        =
+       \
+           ^
+   fs/ubifs/tnc_misc.c:36:2: note: Loop condition is false.  Exiting loop
+           ubifs_assert(c, zr);
+           ^
+   fs/ubifs/debug.h:142:31: note: expanded from macro 'ubifs_assert'
+   #define ubifs_assert(c, expr) do {                                      =
+       \
+                                 ^
+   fs/ubifs/tnc_misc.c:38:15: note: Assuming 'znode' is non-null
+           if (unlikely(!znode))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   fs/ubifs/tnc_misc.c:38:2: note: Taking false branch
+           if (unlikely(!znode))
+           ^
+   fs/ubifs/tnc_misc.c:41:15: note: 'znode' is not equal to 'zr'
+           if (unlikely(znode =3D=3D zr)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   fs/ubifs/tnc_misc.c:41:2: note: Taking false branch
+           if (unlikely(znode =3D=3D zr)) {
+           ^
+   fs/ubifs/tnc_misc.c:50:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (1) {
+           ^
+   fs/ubifs/tnc_misc.c:51:35: note: Access to field 'level' results in a de=
+reference of a null pointer (loaded from variable 'zr')
+                   ubifs_assert(c, znode->level <=3D zr->level);
+                                                   ^
+   fs/ubifs/debug.h:143:17: note: expanded from macro 'ubifs_assert'
+           if (unlikely(!(expr))) {                                        =
+       \
+                          ^~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/iommu/apple-dart.c:671:22: warning: Value stored to 'res' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct iommu_group *res =3D ERR_PTR(-EINVAL);
+                               ^~~   ~~~~~~~~~~~~~~~~
+   drivers/iommu/apple-dart.c:671:22: note: Value stored to 'res' during it=
+s initialization is never read
+           struct iommu_group *res =3D ERR_PTR(-EINVAL);
+                               ^~~   ~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/iio/adc/meson_saradc.c:1049:13: warning: The left operand of '<=
+=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (value1 <=3D value0) {
+                      ^
+   drivers/iio/adc/meson_saradc.c:1186:6: note: Assuming 'indio_dev' is non=
+-null
+           if (!indio_dev) {
+               ^~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1186:2: note: Taking false branch
+           if (!indio_dev) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1195:6: note: Assuming 'match_data' is no=
+n-null
+           if (!match_data) {
+               ^~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1195:2: note: Taking false branch
+           if (!match_data) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1207:2: note: Taking false branch
+           if (IS_ERR(base))
+           ^
+   drivers/iio/adc/meson_saradc.c:1212:2: note: Taking false branch
+           if (IS_ERR(priv->regmap))
+           ^
+   drivers/iio/adc/meson_saradc.c:1216:6: note: Assuming 'irq' is not equal=
+ to 0
+           if (!irq)
+               ^~~~
+   drivers/iio/adc/meson_saradc.c:1216:2: note: Taking false branch
+           if (!irq)
+           ^
+   drivers/iio/adc/meson_saradc.c:1221:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/iio/adc/meson_saradc.c:1221:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/iio/adc/meson_saradc.c:1225:2: note: Taking false branch
+           if (IS_ERR(priv->clkin)) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1231:2: note: Taking false branch
+           if (IS_ERR(priv->core_clk)) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1237:2: note: Taking false branch
+           if (IS_ERR(priv->adc_clk)) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1247:2: note: Taking false branch
+           if (IS_ERR(priv->adc_sel_clk)) {
+           ^
+   drivers/iio/adc/meson_saradc.c:1257:6: note: Assuming field 'adc_clk' is=
+ non-null
+           if (!priv->adc_clk) {
+               ^~~~~~~~~~~~~~
+   drivers/iio/adc/meson_saradc.c:1257:2: note: Taking false branch
+           if (!priv->adc_clk) {
 
-cdda18fbbefafc Luca Coelho   2021-02-10  255  =
+vim +/res +671 drivers/iommu/apple-dart.c
 
-cdda18fbbefafc Luca Coelho   2021-02-10  256  int iwl_pnvm_load(struct iwl_=
-trans *trans,
-cdda18fbbefafc Luca Coelho   2021-02-10  257  		  struct iwl_notif_wait_dat=
-a *notif_wait)
-cdda18fbbefafc Luca Coelho   2021-02-10  258  {
-cdda18fbbefafc Luca Coelho   2021-02-10  259  	u8 *data;
-cdda18fbbefafc Luca Coelho   2021-02-10  260  	size_t len;
-84c3c9952afbf7 Luca Coelho   2021-06-21  261  	struct pnvm_sku_package *pac=
-kage;
-cdda18fbbefafc Luca Coelho   2021-02-10  262  	struct iwl_notification_wait=
- pnvm_wait;
-cdda18fbbefafc Luca Coelho   2021-02-10  263  	static const u16 ntf_cmds[] =
-=3D { WIDE_ID(REGULATORY_AND_NVM_GROUP,
-cdda18fbbefafc Luca Coelho   2021-02-10  264  						PNVM_INIT_COMPLETE_NTFY=
-) };
-cdda18fbbefafc Luca Coelho   2021-02-10  265  	int ret;
-cdda18fbbefafc Luca Coelho   2021-02-10  266  =
+46d1fb072e76b1 Sven Peter 2021-08-03  663  =
 
-cdda18fbbefafc Luca Coelho   2021-02-10  267  	/* if the SKU_ID is empty, t=
-here's nothing to do */
-cdda18fbbefafc Luca Coelho   2021-02-10  268  	if (!trans->sku_id[0] && !tr=
-ans->sku_id[1] && !trans->sku_id[2])
-cdda18fbbefafc Luca Coelho   2021-02-10  269  		return 0;
-cdda18fbbefafc Luca Coelho   2021-02-10  270  =
+46d1fb072e76b1 Sven Peter 2021-08-03  664  static struct iommu_group *apple=
+_dart_device_group(struct device *dev)
+46d1fb072e76b1 Sven Peter 2021-08-03  665  {
+46d1fb072e76b1 Sven Peter 2021-08-03  666  	static DEFINE_MUTEX(lock);
+46d1fb072e76b1 Sven Peter 2021-08-03  667  	int i, sid;
+46d1fb072e76b1 Sven Peter 2021-08-03  668  	struct apple_dart_master_cfg *c=
+fg =3D dev_iommu_priv_get(dev);
+46d1fb072e76b1 Sven Peter 2021-08-03  669  	struct apple_dart_stream_map *s=
+tream_map;
+46d1fb072e76b1 Sven Peter 2021-08-03  670  	struct iommu_group *group =3D N=
+ULL;
+46d1fb072e76b1 Sven Peter 2021-08-03 @671  	struct iommu_group *res =3D ERR=
+_PTR(-EINVAL);
+46d1fb072e76b1 Sven Peter 2021-08-03  672  =
 
-cdda18fbbefafc Luca Coelho   2021-02-10  271  	/*
-cdda18fbbefafc Luca Coelho   2021-02-10  272  	 * If we already loaded (or =
-tried to load) it before, we just
-cdda18fbbefafc Luca Coelho   2021-02-10  273  	 * need to set it again.
-cdda18fbbefafc Luca Coelho   2021-02-10  274  	 */
-cdda18fbbefafc Luca Coelho   2021-02-10  275  	if (trans->pnvm_loaded) {
-cdda18fbbefafc Luca Coelho   2021-02-10  276  		ret =3D iwl_trans_set_pnvm(=
-trans, NULL, 0);
-cdda18fbbefafc Luca Coelho   2021-02-10  277  		if (ret)
-cdda18fbbefafc Luca Coelho   2021-02-10  278  			return ret;
-cdda18fbbefafc Luca Coelho   2021-02-10  279  		goto skip_parse;
-cdda18fbbefafc Luca Coelho   2021-02-10  280  	}
-cdda18fbbefafc Luca Coelho   2021-02-10  281  =
+46d1fb072e76b1 Sven Peter 2021-08-03  673  	mutex_lock(&lock);
+46d1fb072e76b1 Sven Peter 2021-08-03  674  =
 
-a1a6a4cf49eceb Luca Coelho   2021-02-11  282  	/* First attempt to get the =
-PNVM from BIOS */
-84c3c9952afbf7 Luca Coelho   2021-06-21  283  	package =3D iwl_uefi_get_pnv=
-m(trans, &len);
-84c3c9952afbf7 Luca Coelho   2021-06-21  284  	if (!IS_ERR_OR_NULL(package)=
-) {
-84c3c9952afbf7 Luca Coelho   2021-06-21  285  		data =3D kmemdup(package->d=
-ata, len, GFP_KERNEL);
-84c3c9952afbf7 Luca Coelho   2021-06-21  286  =
+46d1fb072e76b1 Sven Peter 2021-08-03  675  	for_each_stream_map(i, cfg, str=
+eam_map) {
+46d1fb072e76b1 Sven Peter 2021-08-03  676  		for_each_set_bit(sid, &stream_=
+map->sidmap, DART_MAX_STREAMS) {
+46d1fb072e76b1 Sven Peter 2021-08-03  677  			struct iommu_group *stream_gr=
+oup =3D
+46d1fb072e76b1 Sven Peter 2021-08-03  678  				stream_map->dart->sid2group[=
+sid];
+46d1fb072e76b1 Sven Peter 2021-08-03  679  =
 
-84c3c9952afbf7 Luca Coelho   2021-06-21  287  		/* free package regardless =
-of whether kmemdup succeeded */
-84c3c9952afbf7 Luca Coelho   2021-06-21  288  		kfree(package);
-84c3c9952afbf7 Luca Coelho   2021-06-21  289  =
+46d1fb072e76b1 Sven Peter 2021-08-03  680  			if (group && group !=3D strea=
+m_group) {
+46d1fb072e76b1 Sven Peter 2021-08-03  681  				res =3D ERR_PTR(-EINVAL);
+46d1fb072e76b1 Sven Peter 2021-08-03  682  				goto out;
+46d1fb072e76b1 Sven Peter 2021-08-03  683  			}
+46d1fb072e76b1 Sven Peter 2021-08-03  684  =
 
-84c3c9952afbf7 Luca Coelho   2021-06-21  290  		if (data) {
-84c3c9952afbf7 Luca Coelho   2021-06-21  291  			/* we need only the data s=
-ize */
-84c3c9952afbf7 Luca Coelho   2021-06-21  292  			len -=3D sizeof(*package);
-a1a6a4cf49eceb Luca Coelho   2021-02-11  293  			goto parse;
-84c3c9952afbf7 Luca Coelho   2021-06-21  294  		}
-84c3c9952afbf7 Luca Coelho   2021-06-21  295  	}
-a1a6a4cf49eceb Luca Coelho   2021-02-11  296  =
+46d1fb072e76b1 Sven Peter 2021-08-03  685  			group =3D stream_group;
+46d1fb072e76b1 Sven Peter 2021-08-03  686  		}
+46d1fb072e76b1 Sven Peter 2021-08-03  687  	}
+46d1fb072e76b1 Sven Peter 2021-08-03  688  =
 
-a1a6a4cf49eceb Luca Coelho   2021-02-11  297  	/* If it's not available, tr=
-y from the filesystem */
-cdda18fbbefafc Luca Coelho   2021-02-10  298  	ret =3D iwl_pnvm_get_from_fs=
-(trans, &data, &len);
-cdda18fbbefafc Luca Coelho   2021-02-10  299  	if (ret) {
-82a08d0cd7b503 Johannes Berg 2021-01-15  300  		/*
-82a08d0cd7b503 Johannes Berg 2021-01-15  301  		 * Pretend we've loaded it =
-- at least we've tried and
-82a08d0cd7b503 Johannes Berg 2021-01-15  302  		 * couldn't load it at all,=
- so there's no point in
-82a08d0cd7b503 Johannes Berg 2021-01-15  303  		 * trying again over and ov=
-er.
-82a08d0cd7b503 Johannes Berg 2021-01-15  304  		 */
-82a08d0cd7b503 Johannes Berg 2021-01-15  305  		trans->pnvm_loaded =3D true;
-6972592850c00e Luca Coelho   2020-10-08  306  =
+46d1fb072e76b1 Sven Peter 2021-08-03  689  	if (group) {
+46d1fb072e76b1 Sven Peter 2021-08-03  690  		res =3D iommu_group_ref_get(gr=
+oup);
+46d1fb072e76b1 Sven Peter 2021-08-03  691  		goto out;
+46d1fb072e76b1 Sven Peter 2021-08-03  692  	}
+46d1fb072e76b1 Sven Peter 2021-08-03  693  =
 
-cdda18fbbefafc Luca Coelho   2021-02-10  307  		goto skip_parse;
-1c58bed4b7f755 Johannes Berg 2021-01-15  308  	}
-b3e4c0f34c1752 Luca Coelho   2020-10-08  309  =
-
-a1a6a4cf49eceb Luca Coelho   2021-02-11  310  parse:
-cdda18fbbefafc Luca Coelho   2021-02-10  311  	iwl_pnvm_parse(trans, data, =
-len);
-cdda18fbbefafc Luca Coelho   2021-02-10  312  =
-
-cdda18fbbefafc Luca Coelho   2021-02-10  313  	kfree(data);
-cdda18fbbefafc Luca Coelho   2021-02-10  314  =
-
-cdda18fbbefafc Luca Coelho   2021-02-10  315  skip_parse:
-9dad325f9d5750 Luca Coelho   2021-06-21  316  	data =3D NULL;
-9dad325f9d5750 Luca Coelho   2021-06-21  317  	/* now try to get the reduce=
- power table, if not loaded yet */
-9dad325f9d5750 Luca Coelho   2021-06-21  318  	if (!trans->reduce_power_loa=
-ded) {
-9dad325f9d5750 Luca Coelho   2021-06-21  319  		data =3D iwl_uefi_get_reduc=
-ed_power(trans, &len);
-9dad325f9d5750 Luca Coelho   2021-06-21  320  		if (IS_ERR_OR_NULL(data)) {
-9dad325f9d5750 Luca Coelho   2021-06-21  321  			/*
-9dad325f9d5750 Luca Coelho   2021-06-21  322  			 * Pretend we've loaded it=
- - at least we've tried and
-9dad325f9d5750 Luca Coelho   2021-06-21  323  			 * couldn't load it at all=
-, so there's no point in
-9dad325f9d5750 Luca Coelho   2021-06-21  324  			 * trying again over and o=
-ver.
-9dad325f9d5750 Luca Coelho   2021-06-21  325  			 */
-9dad325f9d5750 Luca Coelho   2021-06-21  326  			trans->reduce_power_loaded=
- =3D true;
-9dad325f9d5750 Luca Coelho   2021-06-21  327  =
-
-9dad325f9d5750 Luca Coelho   2021-06-21  328  			goto skip_reduce_power;
-9dad325f9d5750 Luca Coelho   2021-06-21  329  		}
-9dad325f9d5750 Luca Coelho   2021-06-21  330  	}
-9dad325f9d5750 Luca Coelho   2021-06-21  331  =
-
-9dad325f9d5750 Luca Coelho   2021-06-21 @332  	ret =3D iwl_trans_set_reduce=
-_power(trans, data, len);
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2395114038000757790==--
+--===============2290200291655729808==--
 
