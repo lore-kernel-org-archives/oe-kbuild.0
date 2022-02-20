@@ -1,163 +1,134 @@
-Content-Type: multipart/mixed; boundary="===============3053978581890864744=="
+Content-Type: multipart/mixed; boundary="===============0604125633229483133=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chenxing:msc313_mainlining 46/93] drivers/gpio/gpiolib.c:1166 gpiochip_hierarchy_irq_domain_alloc() warn: variable dereferenced before check 'd->parent' (see line 1155)
-Date: Thu, 24 Feb 2022 08:14:36 +0800
-Message-ID: <202202240817.tUm7FhAK-lkp@intel.com>
+Subject: drivers/gpu/drm/armada/armada_plane.c:124 armada_drm_plane_atomic_check() warn: variable dereferenced before check 'state' (see line 111)
+Date: Mon, 21 Feb 2022 05:22:48 +0800
+Message-ID: <202202210558.AzkWUCZf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3053978581890864744==
+--===============0604125633229483133==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Palmer <daniel@0x0f.com>
+TO: Maxime Ripard <maxime@cerno.tech>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   git://github.com/linux-chenxing/linux.git msc313_mainlining
-head:   99a396728dcff78ca3eddcbd2085f11eeb8a01b8
-commit: b1c18474d73ad17638f8369a7e8be6582a12c1ee [46/93] gpiolib: Move sett=
-ing the flow handler and don't set it at all if there is a parent domain
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: x86_64-randconfig-m001-20220221 (https://download.01.org/0day-ci/ar=
-chive/20220224/202202240817.tUm7FhAK-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   4f12b742eb2b3a850ac8be7dc4ed52976fc6cb0b
+commit: dec92020671c48da231189eb06a5f755f492f87f drm: Use the state pointer=
+ directly in planes atomic_check
+date:   12 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-m031-20220220 (https://download.01.org/0day-ci/archi=
+ve/20220221/202202210558.AzkWUCZf-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpio/gpiolib.c:1166 gpiochip_hierarchy_irq_domain_alloc() warn: var=
-iable dereferenced before check 'd->parent' (see line 1155)
+drivers/gpu/drm/armada/armada_plane.c:124 armada_drm_plane_atomic_check() w=
+arn: variable dereferenced before check 'state' (see line 111)
 
-vim +1166 drivers/gpio/gpiolib.c
+vim +/state +124 drivers/gpu/drm/armada/armada_plane.c
 
-fdd61a013a24f2 Linus Walleij 2019-08-08  1106  =
+d40af7b1ae23da Russell King  2018-07-30  107  =
 
-fdd61a013a24f2 Linus Walleij 2019-08-08  1107  static int gpiochip_hierarch=
-y_irq_domain_alloc(struct irq_domain *d,
-fdd61a013a24f2 Linus Walleij 2019-08-08  1108  					       unsigned int irq,
-fdd61a013a24f2 Linus Walleij 2019-08-08  1109  					       unsigned int nr_=
-irqs,
-fdd61a013a24f2 Linus Walleij 2019-08-08  1110  					       void *data)
-fdd61a013a24f2 Linus Walleij 2019-08-08  1111  {
-fdd61a013a24f2 Linus Walleij 2019-08-08  1112  	struct gpio_chip *gc =3D d-=
->host_data;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1113  	irq_hw_number_t hwirq;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1114  	unsigned int type =3D IRQ_T=
-YPE_NONE;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1115  	struct irq_fwspec *fwspec =
-=3D data;
-24258761671057 Kevin Hao     2020-01-14  1116  	void *parent_arg;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1117  	unsigned int parent_hwirq;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1118  	unsigned int parent_type;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1119  	struct gpio_irq_chip *girq =
-=3D &gc->irq;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1120  	int ret;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1121  =
+d40af7b1ae23da Russell King  2018-07-30  108  int armada_drm_plane_atomic_c=
+heck(struct drm_plane *plane,
+7c11b99a8e58c0 Maxime Ripard 2021-02-19  109  	struct drm_atomic_state *sta=
+te)
+d40af7b1ae23da Russell King  2018-07-30  110  {
+7c11b99a8e58c0 Maxime Ripard 2021-02-19 @111  	struct drm_plane_state *new_=
+plane_state =3D drm_atomic_get_new_plane_state(state,
+7c11b99a8e58c0 Maxime Ripard 2021-02-19  112  										 plane);
+ba5c1649465d40 Maxime Ripard 2021-02-19  113  	struct armada_plane_state *s=
+t =3D to_armada_plane_state(new_plane_state);
+ba5c1649465d40 Maxime Ripard 2021-02-19  114  	struct drm_crtc *crtc =3D ne=
+w_plane_state->crtc;
+d40af7b1ae23da Russell King  2018-07-30  115  	struct drm_crtc_state *crtc_=
+state;
+1d1547ec12bc7d Russell King  2019-01-25  116  	bool interlace;
+1d1547ec12bc7d Russell King  2019-01-25  117  	int ret;
+1d1547ec12bc7d Russell King  2019-01-25  118  =
 
-fdd61a013a24f2 Linus Walleij 2019-08-08  1122  	/*
-fdd61a013a24f2 Linus Walleij 2019-08-08  1123  	 * The nr_irqs parameter is=
- always one except for PCI multi-MSI
-fdd61a013a24f2 Linus Walleij 2019-08-08  1124  	 * so this should not happe=
-n.
-fdd61a013a24f2 Linus Walleij 2019-08-08  1125  	 */
-fdd61a013a24f2 Linus Walleij 2019-08-08  1126  	WARN_ON(nr_irqs !=3D 1);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1127  =
+ba5c1649465d40 Maxime Ripard 2021-02-19  119  	if (!new_plane_state->fb || =
+WARN_ON(!new_plane_state->crtc)) {
+ba5c1649465d40 Maxime Ripard 2021-02-19  120  		new_plane_state->visible =
+=3D false;
+1d1547ec12bc7d Russell King  2019-01-25  121  		return 0;
+1d1547ec12bc7d Russell King  2019-01-25  122  	}
+d40af7b1ae23da Russell King  2018-07-30  123  =
 
-fdd61a013a24f2 Linus Walleij 2019-08-08  1128  	ret =3D gc->irq.child_irq_d=
-omain_ops.translate(d, fwspec, &hwirq, &type);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1129  	if (ret)
-fdd61a013a24f2 Linus Walleij 2019-08-08  1130  		return ret;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1131  =
+dec92020671c48 Maxime Ripard 2021-02-19 @124  	if (state)
+dec92020671c48 Maxime Ripard 2021-02-19  125  		crtc_state =3D drm_atomic_g=
+et_existing_crtc_state(state,
+ba5c1649465d40 Maxime Ripard 2021-02-19  126  								crtc);
+d40af7b1ae23da Russell King  2018-07-30  127  	else
+d40af7b1ae23da Russell King  2018-07-30  128  		crtc_state =3D crtc->state;
+1d1547ec12bc7d Russell King  2019-01-25  129  =
 
-366950eeb6ee7b Kevin Hao     2020-01-20  1132  	chip_dbg(gc, "allocate IRQ =
-%d, hwirq %lu\n", irq,  hwirq);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1133  =
+ba5c1649465d40 Maxime Ripard 2021-02-19  130  	ret =3D drm_atomic_helper_ch=
+eck_plane_state(new_plane_state, crtc_state,
+ba5c1649465d40 Maxime Ripard 2021-02-19  131  						  0,
+1d1547ec12bc7d Russell King  2019-01-25  132  						  INT_MAX, true, false);
+1d1547ec12bc7d Russell King  2019-01-25  133  	if (ret)
+1d1547ec12bc7d Russell King  2019-01-25  134  		return ret;
+1d1547ec12bc7d Russell King  2019-01-25  135  =
 
-fdd61a013a24f2 Linus Walleij 2019-08-08  1134  	ret =3D girq->child_to_pare=
-nt_hwirq(gc, hwirq, type,
-fdd61a013a24f2 Linus Walleij 2019-08-08  1135  					  &parent_hwirq, &paren=
-t_type);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1136  	if (ret) {
-fdd61a013a24f2 Linus Walleij 2019-08-08  1137  		chip_err(gc, "can't look u=
-p hwirq %lu\n", hwirq);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1138  		return ret;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1139  	}
-366950eeb6ee7b Kevin Hao     2020-01-20  1140  	chip_dbg(gc, "found parent =
-hwirq %u\n", parent_hwirq);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1141  =
+1d1547ec12bc7d Russell King  2019-01-25  136  	interlace =3D crtc_state->ad=
+justed_mode.flags & DRM_MODE_FLAG_INTERLACE;
+1d1547ec12bc7d Russell King  2019-01-25  137  	if (interlace) {
+ba5c1649465d40 Maxime Ripard 2021-02-19  138  		if ((new_plane_state->dst.y=
+1 | new_plane_state->dst.y2) & 1)
+1d1547ec12bc7d Russell King  2019-01-25  139  			return -EINVAL;
+ba5c1649465d40 Maxime Ripard 2021-02-19  140  		st->src_hw =3D drm_rect_hei=
+ght(&new_plane_state->src) >> 17;
+ba5c1649465d40 Maxime Ripard 2021-02-19  141  		st->dst_yx =3D new_plane_st=
+ate->dst.y1 >> 1;
+ba5c1649465d40 Maxime Ripard 2021-02-19  142  		st->dst_hw =3D drm_rect_hei=
+ght(&new_plane_state->dst) >> 1;
+d40af7b1ae23da Russell King  2018-07-30  143  	} else {
+ba5c1649465d40 Maxime Ripard 2021-02-19  144  		st->src_hw =3D drm_rect_hei=
+ght(&new_plane_state->src) >> 16;
+ba5c1649465d40 Maxime Ripard 2021-02-19  145  		st->dst_yx =3D new_plane_st=
+ate->dst.y1;
+ba5c1649465d40 Maxime Ripard 2021-02-19  146  		st->dst_hw =3D drm_rect_hei=
+ght(&new_plane_state->dst);
+d40af7b1ae23da Russell King  2018-07-30  147  	}
+1d1547ec12bc7d Russell King  2019-01-25  148  =
 
-fdd61a013a24f2 Linus Walleij 2019-08-08  1142  	/* This parent only handles=
- asserted level IRQs */
-24258761671057 Kevin Hao     2020-01-14  1143  	parent_arg =3D girq->popula=
-te_parent_alloc_arg(gc, parent_hwirq, parent_type);
-24258761671057 Kevin Hao     2020-01-14  1144  	if (!parent_arg)
-24258761671057 Kevin Hao     2020-01-14  1145  		return -ENOMEM;
-24258761671057 Kevin Hao     2020-01-14  1146  =
+1d1547ec12bc7d Russell King  2019-01-25  149  	st->src_hw <<=3D 16;
+ba5c1649465d40 Maxime Ripard 2021-02-19  150  	st->src_hw |=3D drm_rect_wid=
+th(&new_plane_state->src) >> 16;
+1d1547ec12bc7d Russell King  2019-01-25  151  	st->dst_yx <<=3D 16;
+ba5c1649465d40 Maxime Ripard 2021-02-19  152  	st->dst_yx |=3D new_plane_st=
+ate->dst.x1 & 0x0000ffff;
+1d1547ec12bc7d Russell King  2019-01-25  153  	st->dst_hw <<=3D 16;
+ba5c1649465d40 Maxime Ripard 2021-02-19  154  	st->dst_hw |=3D drm_rect_wid=
+th(&new_plane_state->dst) & 0x0000ffff;
+1d1547ec12bc7d Russell King  2019-01-25  155  =
 
-366950eeb6ee7b Kevin Hao     2020-01-20  1147  	chip_dbg(gc, "alloc_irqs_pa=
-rent for %d parent hwirq %d\n",
-fdd61a013a24f2 Linus Walleij 2019-08-08  1148  		  irq, parent_hwirq);
-c34f6dc8c9e6bb Stephen Boyd  2020-01-14  1149  	irq_set_lockdep_class(irq, =
-gc->irq.lock_key, gc->irq.request_key);
-24258761671057 Kevin Hao     2020-01-14  1150  	ret =3D irq_domain_alloc_ir=
-qs_parent(d, irq, 1, parent_arg);
-880b7cf22e8ca0 Kevin Hao     2020-01-14  1151  	/*
-880b7cf22e8ca0 Kevin Hao     2020-01-14  1152  	 * If the parent irqdomain =
-is msi, the interrupts have already
-880b7cf22e8ca0 Kevin Hao     2020-01-14  1153  	 * been allocated, so the E=
-EXIST is good.
-880b7cf22e8ca0 Kevin Hao     2020-01-14  1154  	 */
-880b7cf22e8ca0 Kevin Hao     2020-01-14 @1155  	if (irq_domain_is_msi(d->pa=
-rent) && (ret =3D=3D -EEXIST))
-880b7cf22e8ca0 Kevin Hao     2020-01-14  1156  		ret =3D 0;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1157  	if (ret)
-fdd61a013a24f2 Linus Walleij 2019-08-08  1158  		chip_err(gc,
-fdd61a013a24f2 Linus Walleij 2019-08-08  1159  			 "failed to allocate pare=
-nt hwirq %d for hwirq %lu\n",
-fdd61a013a24f2 Linus Walleij 2019-08-08  1160  			 parent_hwirq, hwirq);
-fdd61a013a24f2 Linus Walleij 2019-08-08  1161  =
+ba5c1649465d40 Maxime Ripard 2021-02-19  156  	armada_drm_plane_calc(new_pl=
+ane_state, st->addrs, st->pitches,
+ba5c1649465d40 Maxime Ripard 2021-02-19  157  			      interlace);
+7d62237da6ec07 Russell King  2019-01-25  158  	st->interlace =3D interlace;
+7d62237da6ec07 Russell King  2019-01-25  159  =
 
-24258761671057 Kevin Hao     2020-01-14  1162  	kfree(parent_arg);
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1163  =
-
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1164  	if (!ret) {
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1165  		/* If there is a parent do=
-main leave the flow handler alone */
-b1c18474d73ad1 Daniel Palmer 2021-09-30 @1166  		if (d->parent)
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1167  			irq_domain_set_hwirq_and_=
-chip(d,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1168  						      irq,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1169  						      hwirq,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1170  						      gc->irq.chip,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1171  						      gc);
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1172  		/* Otherwise set the flow =
-handler supplied by the gpio driver */
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1173  		else
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1174  			irq_domain_set_info(d,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1175  					    irq,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1176  					    hwirq,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1177  					    gc->irq.chip,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1178  					    gc,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1179  					    girq->handler,
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1180  					    NULL, NULL);
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1181  		irq_set_probe(irq);
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1182  	}
-b1c18474d73ad1 Daniel Palmer 2021-09-30  1183  =
-
-fdd61a013a24f2 Linus Walleij 2019-08-08  1184  	return ret;
-fdd61a013a24f2 Linus Walleij 2019-08-08  1185  }
-fdd61a013a24f2 Linus Walleij 2019-08-08  1186  =
+d40af7b1ae23da Russell King  2018-07-30  160  	return 0;
+d40af7b1ae23da Russell King  2018-07-30  161  }
+d40af7b1ae23da Russell King  2018-07-30  162  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3053978581890864744==--
+--===============0604125633229483133==--
 
