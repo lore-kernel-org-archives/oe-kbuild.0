@@ -1,288 +1,143 @@
-Content-Type: multipart/mixed; boundary="===============3146201573611820436=="
+Content-Type: multipart/mixed; boundary="===============6547530318489995861=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symbol 'addr'.
-Date: Mon, 21 Feb 2022 18:33:00 +0800
-Message-ID: <202202211842.CUuYrKD3-lkp@intel.com>
+Subject: [sashal-stable:pending-4.9 28/31] fs/nfs/inode.c:693:1: sparse: sparse: unused label 'out'
+Date: Mon, 21 Feb 2022 16:40:06 +0800
+Message-ID: <202202211634.vMS60QYe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3146201573611820436==
+--===============6547530318489995861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Sasha Levin <sashal@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   cfb92440ee71adcc2105b0890bb01ac3cddb8507
-commit: 45deb5faeb9e02951361ceba5ffee721745661c3 MIPS: uaccess: Remove get_=
-fs/set_fs call sites
-date:   11 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 11 months ago
-config: mips-randconfig-m031-20220221 (https://download.01.org/0day-ci/arch=
-ive/20220221/202202211842.CUuYrKD3-lkp(a)intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable=
+.git pending-4.9
+head:   4b5a13c7c300502dc61385a0a6858c1d747884ec
+commit: 3975f55d867b6d3061405f787ff1cd6034a5b90b [28/31] NFS: Do not report=
+ writeback errors in nfs_getattr()
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: i386-randconfig-s001-20220221 (https://download.01.org/0day-ci/arch=
+ive/20220221/202202211634.vMS60QYe-lkp(a)intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stab=
+le.git/commit/?id=3D3975f55d867b6d3061405f787ff1cd6034a5b90b
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/k=
+ernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-4.9
+        git checkout 3975f55d867b6d3061405f787ff1cd6034a5b90b
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Di386 SHELL=3D/bin/bash fs/nfs/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symb=
-ol 'addr'.
-arch/mips/kernel/traps.c:195 show_stacktrace() error: uninitialized symbol =
-'stackdata'.
-arch/mips/kernel/traps.c:240 show_code() error: uninitialized symbol 'insn1=
-6'.
-arch/mips/kernel/traps.c:247 show_code() error: uninitialized symbol 'insn3=
-2'.
-arch/mips/kernel/traps.c:1054 do_bp() error: uninitialized symbol 'opcode'.
-arch/mips/kernel/traps.c:1132 do_tr() error: uninitialized symbol 'opcode'.
-
-Old smatch warnings:
-arch/mips/include/asm/fpu.h:79 __enable_fpu() warn: ignoring unreachable co=
-de.
-arch/mips/kernel/traps.c:1996 nmi_exception_handler() warn: ignoring unreac=
-hable code.
-
-vim +/addr +128 arch/mips/kernel/traps.c
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  112  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  113  static void show_raw_ba=
-cktrace(unsigned long reg29, const char *loglvl,
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  114  			       bool user)
-e889d78fd5775d Atsushi Nemoto      2006-07-25  115  {
-39b8d5254246ac Ralf Baechle        2008-04-28  116  	unsigned long *sp =3D =
-(unsigned long *)(reg29 & ~3);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  117  	unsigned long addr;
-e889d78fd5775d Atsushi Nemoto      2006-07-25  118  =
-
-96f0458a96892d Dmitry Safonov      2020-06-08  119  	printk("%sCall Trace:"=
-, loglvl);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  120  #ifdef CONFIG_KALLSYMS
-96f0458a96892d Dmitry Safonov      2020-06-08  121  	printk("%s\n", loglvl);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  122  #endif
-87151ae39bf555 Franck Bui-Huu      2006-08-03  123  	while (!kstack_end(sp)=
-) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  124  		if (__get_addr(&addr,=
- sp++, user)) {
-96f0458a96892d Dmitry Safonov      2020-06-08  125  			printk("%s (Bad stac=
-k address)", loglvl);
-10220c884444a1 Thomas Bogendoerfer 2008-05-12  126  			break;
-10220c884444a1 Thomas Bogendoerfer 2008-05-12  127  		}
-87151ae39bf555 Franck Bui-Huu      2006-08-03 @128  		if (__kernel_text_add=
-ress(addr))
-96f0458a96892d Dmitry Safonov      2020-06-08  129  			print_ip_sym(loglvl,=
- addr);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  130  	}
-96f0458a96892d Dmitry Safonov      2020-06-08  131  	printk("%s\n", loglvl);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  132  }
-e889d78fd5775d Atsushi Nemoto      2006-07-25  133  =
-
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  134  #ifdef CONFIG_KALLSYMS
-1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  135  int raw_show_trace;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  136  static int __init set_r=
-aw_show_trace(char *str)
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  137  {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  138  	raw_show_trace =3D 1;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  139  	return 1;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  140  }
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  141  __setup("raw_show_trace=
-", set_raw_show_trace);
-1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  142  #endif
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  143  =
-
-96f0458a96892d Dmitry Safonov      2020-06-08  144  static void show_backtr=
-ace(struct task_struct *task, const struct pt_regs *regs,
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  145  			   const char *loglv=
-l, bool user)
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  146  {
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  147  	unsigned long sp =3D r=
-egs->regs[29];
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  148  	unsigned long ra =3D r=
-egs->regs[31];
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  149  	unsigned long pc =3D r=
-egs->cp0_epc;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  150  =
-
-e909be825212da Vincent Wen         2012-07-19  151  	if (!task)
-e909be825212da Vincent Wen         2012-07-19  152  		task =3D current;
-e909be825212da Vincent Wen         2012-07-19  153  =
-
-81a76d7119f63c James Hogan         2015-12-04  154  	if (raw_show_trace || =
-user_mode(regs) || !__kernel_text_address(pc)) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  155  		show_raw_backtrace(sp=
-, loglvl, user);
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  156  		return;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  157  	}
-96f0458a96892d Dmitry Safonov      2020-06-08  158  	printk("%sCall Trace:\=
-n", loglvl);
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  159  	do {
-96f0458a96892d Dmitry Safonov      2020-06-08  160  		print_ip_sym(loglvl, =
-pc);
-1924600cdb3143 Atsushi Nemoto      2006-09-29  161  		pc =3D unwind_stack(t=
-ask, &sp, pc, &ra);
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  162  	} while (pc);
-bcf084de5d429c Matt Redfearn       2016-10-19  163  	pr_cont("\n");
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  164  }
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  165  =
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  166  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  167   * This routine abuses =
-get_user()/put_user() to reference pointers
-^1da177e4c3f41 Linus Torvalds      2005-04-16  168   * with at least a bit =
-of error checking ...
-^1da177e4c3f41 Linus Torvalds      2005-04-16  169   */
-eae23f2c2ac1e4 Ralf Baechle        2007-10-14  170  static void show_stackt=
-race(struct task_struct *task,
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  171  	const struct pt_regs *=
-regs, const char *loglvl, bool user)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  172  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  173  	const int field =3D 2 =
-* sizeof(unsigned long);
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  174  	unsigned long stackdat=
-a;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  175  	int i;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  176  	unsigned long *sp =3D =
-(unsigned long *)regs->regs[29];
-^1da177e4c3f41 Linus Torvalds      2005-04-16  177  =
-
-96f0458a96892d Dmitry Safonov      2020-06-08  178  	printk("%sStack :", lo=
-glvl);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  179  	i =3D 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  180  	while ((unsigned long)=
- sp & (PAGE_SIZE - 1)) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  181  		if (i && ((i % (64 / =
-field)) =3D=3D 0)) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  182  			pr_cont("\n");
-96f0458a96892d Dmitry Safonov      2020-06-08  183  			printk("%s       ", =
-loglvl);
-fe4e09e7012132 Matt Redfearn       2016-10-19  184  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  185  		if (i > 39) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  186  			pr_cont(" ...");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  187  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  188  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  189  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  190  		if (__get_addr(&stack=
-data, sp++, user)) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  191  			pr_cont(" (Bad stack=
- address)");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  192  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  193  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  194  =
-
-fe4e09e7012132 Matt Redfearn       2016-10-19 @195  		pr_cont(" %0*lx", fie=
-ld, stackdata);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  196  		i++;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  197  	}
-fe4e09e7012132 Matt Redfearn       2016-10-19  198  	pr_cont("\n");
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  199  	show_backtrace(task, r=
-egs, loglvl, user);
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  200  }
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  201  =
-
-9cb8f069deeed7 Dmitry Safonov      2020-06-08  202  void show_stack(struct =
-task_struct *task, unsigned long *sp, const char *loglvl)
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  203  {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  204  	struct pt_regs regs;
-85423636337099 James Hogan         2017-06-29  205  =
-
-85423636337099 James Hogan         2017-06-29  206  	regs.cp0_status =3D KS=
-U_KERNEL;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  207  	if (sp) {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  208  		regs.regs[29] =3D (un=
-signed long)sp;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  209  		regs.regs[31] =3D 0;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  210  		regs.cp0_epc =3D 0;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  211  	} else {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  212  		if (task && task !=3D=
- current) {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  213  			regs.regs[29] =3D ta=
-sk->thread.reg29;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  214  			regs.regs[31] =3D 0;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  215  			regs.cp0_epc =3D tas=
-k->thread.reg31;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  216  		} else {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  217  			prepare_frametrace(&=
-regs);
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  218  		}
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  219  	}
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  220  	show_stacktrace(task, =
-&regs, loglvl, false);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  221  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  222  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  223  static void show_code(v=
-oid *pc, bool user)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  224  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  225  	long i;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  226  	unsigned short *pc16 =
-=3D NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  227  =
-
-41000c5819ee5a Matt Redfearn       2016-10-19  228  	printk("Code:");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  229  =
-
-39b8d5254246ac Ralf Baechle        2008-04-28  230  	if ((unsigned long)pc =
-& 1)
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  231  		pc16 =3D (u16 *)((uns=
-igned long)pc & ~1);
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  232  =
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  233  	for(i =3D -3 ; i < 6 ;=
- i++) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  234  		if (pc16) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  235  			u16 insn16;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  236  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  237  			if (__get_inst16(&in=
-sn16, pc16 + i, user))
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  238  				goto bad_address;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  239  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @240  			pr_cont("%c%04x%c", =
-(i?' ':'<'), insn16, (i?' ':'>'));
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  241  		} else {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  242  			u32 insn32;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  243  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  244  			if (__get_inst32(&in=
-sn32, (u32 *)pc + i, user))
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  245  				goto bad_address;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  246  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @247  			pr_cont("%c%08x%c", =
-(i?' ':'<'), insn32, (i?' ':'>'));
-^1da177e4c3f41 Linus Torvalds      2005-04-16  248  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  249  	}
-41000c5819ee5a Matt Redfearn       2016-10-19  250  	pr_cont("\n");
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  251  	return;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  252  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  253  bad_address:
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  254  	pr_cont(" (Bad address=
- in epc)\n\n");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  255  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  256  =
 
 
-:::::: The code at line 128 was first introduced by commit
-:::::: 87151ae39bf5556abe83d69af0be9580c32c501b [MIPS] Miscellaneous cleanu=
-p in prologue analysis code
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfs/inode.c:693:1: sparse: sparse: unused label 'out'
+   fs/nfs/inode.c: In function 'nfs_getattr':
+   fs/nfs/inode.c:693:1: warning: label 'out' defined but not used [-Wunuse=
+d-label]
+    out:
+    ^~~
 
-:::::: TO: Franck Bui-Huu <vagabon.xyz@gmail.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+vim +/out +693 fs/nfs/inode.c
+
+311324ad171366 Trond Myklebust   2014-02-07  655  =
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  656  int nfs_getattr(struct vf=
+smount *mnt, struct dentry *dentry, struct kstat *stat)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  657  {
+2b0143b5c986be David Howells     2015-03-17  658  	struct inode *inode =3D =
+d_inode(dentry);
+5529680981807b Chuck Lever       2005-08-18  659  	int need_atime =3D NFS_I=
+(inode)->cache_validity & NFS_INO_INVALID_ATIME;
+16caf5b6101d03 Jan Kara          2014-10-23  660  	int err =3D 0;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  661  =
+
+f4ce1299b329e9 Trond Myklebust   2013-08-19  662  	trace_nfs_getattr_enter(=
+inode);
+acdc53b2146c7e Trond Myklebust   2010-02-19  663  	/* Flush out writes to t=
+he server in order to update c/mtime.  */
+3975f55d867b6d Trond Myklebust   2022-02-15  664  	if (S_ISREG(inode->i_mod=
+e))
+3975f55d867b6d Trond Myklebust   2022-02-15  665  		filemap_write_and_wait(=
+inode->i_mapping);
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  666  =
+
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  667  	/*
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  668  	 * We may force a getatt=
+r if the user cares about atime.
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  669  	 *
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  670  	 * Note that we only hav=
+e to check the vfsmount flags here:
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  671  	 *  - NFS always sets S_=
+NOATIME by so checking it would give a
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  672  	 *    bogus result
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  673  	 *  - NFS never sets MS_=
+NOATIME or MS_NODIRATIME so there is
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  674  	 *    no point in checki=
+ng those.
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  675  	 */
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  676   	if ((mnt->mnt_flags & M=
+NT_NOATIME) ||
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  677   	    ((mnt->mnt_flags & =
+MNT_NODIRATIME) && S_ISDIR(inode->i_mode)))
+^1da177e4c3f41 Linus Torvalds    2005-04-16  678  		need_atime =3D 0;
+fc33a7bb9c6dd8 Christoph Hellwig 2006-01-09  679  =
+
+311324ad171366 Trond Myklebust   2014-02-07  680  	if (need_atime || nfs_ne=
+ed_revalidate_inode(inode)) {
+311324ad171366 Trond Myklebust   2014-02-07  681  		struct nfs_server *serv=
+er =3D NFS_SERVER(inode);
+311324ad171366 Trond Myklebust   2014-02-07  682  =
+
+311324ad171366 Trond Myklebust   2014-02-07  683  		if (server->caps & NFS_=
+CAP_READDIRPLUS)
+311324ad171366 Trond Myklebust   2014-02-07  684  			nfs_request_parent_use=
+_readdirplus(dentry);
+311324ad171366 Trond Myklebust   2014-02-07  685  		err =3D __nfs_revalidat=
+e_inode(server, inode);
+311324ad171366 Trond Myklebust   2014-02-07  686  	}
+4e769b934e7638 Peter Staubach    2007-08-03  687  	if (!err) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  688  		generic_fillattr(inode,=
+ stat);
+f43bf0bebed7c3 Trond Myklebust   2007-10-09  689  		stat->ino =3D nfs_compa=
+t_user_ino64(NFS_FILEID(inode));
+7ef5ca4fe41e6a NeilBrown         2015-05-08  690  		if (S_ISDIR(inode->i_mo=
+de))
+7ef5ca4fe41e6a NeilBrown         2015-05-08  691  			stat->blksize =3D NFS_=
+SERVER(inode)->dtsize;
+4e769b934e7638 Peter Staubach    2007-08-03  692  	}
+acdc53b2146c7e Trond Myklebust   2010-02-19 @693  out:
+f4ce1299b329e9 Trond Myklebust   2013-08-19  694  	trace_nfs_getattr_exit(i=
+node, err);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  695  	return err;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  696  }
+ddda8e0aa8b955 Bryan Schumaker   2012-07-30  697  EXPORT_SYMBOL_GPL(nfs_get=
+attr);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  698  =
+
+
+:::::: The code at line 693 was first introduced by commit
+:::::: acdc53b2146c7ee67feb1f02f7bc3020126514b8 NFS: Replace __nfs_write_ma=
+pping with sync_inode()
+
+:::::: TO: Trond Myklebust <Trond.Myklebust@netapp.com>
+:::::: CC: Trond Myklebust <Trond.Myklebust@netapp.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3146201573611820436==--
+--===============6547530318489995861==--
 
