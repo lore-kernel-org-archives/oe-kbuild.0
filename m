@@ -1,1141 +1,817 @@
-Content-Type: multipart/mixed; boundary="===============3184775538534363164=="
+Content-Type: multipart/mixed; boundary="===============0544454509675099120=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [net-next v9 2/2] net: sched: support hash/classid/cpuid selecting tx queue
-Date: Wed, 23 Feb 2022 21:49:58 +0800
-Message-ID: <202202232144.YI7vJiub-lkp@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/pcie/rx.c:1869 iwl_pcie_irq_handler() error: call of '__iwl_err' with no format argument
+Date: Mon, 21 Feb 2022 13:57:17 +0800
+Message-ID: <202202211320.VtxL4IEd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3184775538534363164==
+--===============0544454509675099120==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20220222112326.15070-3-xiangxia.m.yue@gmail.com>
-References: <20220222112326.15070-3-xiangxia.m.yue@gmail.com>
-TO: xiangxia.m.yue(a)gmail.com
-TO: netdev(a)vger.kernel.org
-CC: Tonghao Zhang <xiangxia.m.yue@gmail.com>
-CC: Jamal Hadi Salim <jhs@mojatatu.com>
-CC: Cong Wang <xiyou.wangcong@gmail.com>
-CC: Jiri Pirko <jiri@resnulli.us>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Jonathan Lemon <jonathan.lemon@gmail.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: Alexander Lobakin <alobakin@pm.me>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Talal Ahmad <talalahmad@google.com>
-CC: Kevin Hao <haokexin@gmail.com>
-CC: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-CC: Kees Cook <keescook@chromium.org>
-CC: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-CC: Antoine Tenart <atenart@kernel.org>
-CC: Wei Wang <weiwan@google.com>
-CC: Arnd Bergmann <arnd@arndb.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Johannes Berg <johannes.berg@intel.com>
+CC: Luca Coelho <luciano.coelho@intel.com>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/xiangxia-m-yue-gmail-com/n=
-et-sched-allow-user-to-select-txqueue/20220222-192425
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-7b779cc8846ae0bfdad8eca7b751109a5cf930b7
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: riscv-randconfig-c006-20220221 (https://download.01.org/0day-ci/arc=
-hive/20220223/202202232144.YI7vJiub-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/7e77dbcb9661c380571e649ee=
-555f715938b5326
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review xiangxia-m-yue-gmail-com/net-sched=
--allow-user-to-select-txqueue/20220222-192425
-        git checkout 7e77dbcb9661c380571e649ee555f715938b5326
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   cfb92440ee71adcc2105b0890bb01ac3cddb8507
+commit: e5f1cc98cc1bd07bc6d4f75e34d89db06a2f8bdb iwlwifi: allow rate-limite=
+d error messages
+date:   4 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
+ive/20220221/202202211320.VtxL4IEd-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/net/wireless/intel/iwlwifi/pcie/rx.c:1869 iwl_pcie_irq_handler() er=
+ror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/rx.c:2286 iwl_pcie_irq_msix_handler=
+() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/queue/tx.c:1108 iwl_txq_dyn_alloc_dma() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/queue/tx.c:1271 iwl_txq_gen2_init() erro=
+r: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:65 iwl_trans_pcie_dump_regs=
+() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:620 iwl_pcie_prepare_card_h=
+w() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:675 iwl_pcie_load_firmware_=
+chunk() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1331 iwl_trans_pcie_start_f=
+w() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1540 iwl_trans_pcie_d3_resu=
+me() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1732 iwl_trans_pcie_clear_p=
+ersistence_bit() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2077 __iwl_trans_pcie_grab_=
+nic_access() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2434 iwl_pcie_dump_csr() er=
+ror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:162 iwl_fwrt_dump_umac_error_l=
+og() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:212 iwl_fwrt_dump_lmac_error_l=
+og() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:358 iwl_fwrt_dump_iml_error_lo=
+g() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:399 iwl_fwrt_dump_fseq_regs() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:412 iwl_fwrt_dump_error_logs()=
+ error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-io.c:315 iwl_dump_rfh() error: call =
+of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-io.c:392 iwl_dump_fh() error: call o=
+f '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/ctxt-info-gen3.c:71 iwl_pcie_ctxt_i=
+nfo_dbg_enable() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-phy-db.c:390 iwl_send_phy_db_data() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/drv.c:1230 get_crf_id() error: call=
+ of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/tx-gen2.c:121 iwl_pcie_gen2_enqueue=
+_hcmd() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:95 iwl_eeprom_verify_s=
+ignature() warn: excess argument passed to '__iwl_err'
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:95 iwl_eeprom_verify_s=
+ignature() warn: excess argument passed to '__iwl_err'
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:123 iwl_nvm_is_otp() e=
+rror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:188 iwl_read_otp_word(=
+) error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:214 iwl_is_otp_empty()=
+ error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:326 iwl_read_eeprom() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c:432 iwl_trans_pcie_gen=
+2_start_fw() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1034 iwl_set_hw_address_=
+family_8000() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1076 iwl_set_hw_address(=
+) error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1171 iwl_parse_nvm_data(=
+) error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1526 iwl_read_external_n=
+vm() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1688 iwl_get_nvm() error=
+: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c:874 iwl_dbg_tlv_set_period=
+ic_trigs() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/tx.c:208 iwl_pcie_txq_unmap() error=
+: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/tx.c:513 iwl_pcie_tx_alloc() error:=
+ call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/tx.c:1006 iwl_pcie_enqueue_hcmd() e=
+rror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dbg.c:1655 iwl_dump_ini_mon_fill_head=
+er() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dbg.c:2698 iwl_fw_dbg_collect_sync() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dbg.c:2813 iwl_fw_dbg_read_d3_debug_d=
+ata() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:183 iwl_request_firmware() err=
+or: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:469 iwl_parse_v1_v2_firmware()=
+ error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:696 iwl_parse_tlv_firmware() e=
+rror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:1391 iwl_req_fw_callback() err=
+or: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:1692 iwl_drv_start() error: ca=
+ll of '__iwl_err' with no format argument
+
+Old smatch warnings:
+drivers/net/wireless/intel/iwlwifi/pcie/rx.c:1915 iwl_pcie_irq_handler() er=
+ror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/rx.c:2295 iwl_pcie_irq_msix_handler=
+() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/queue/tx.c:1115 iwl_txq_dyn_alloc_dma() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/queue/tx.c:1120 iwl_txq_dyn_alloc_dma() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:69 iwl_trans_pcie_dump_regs=
+() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:75 iwl_trans_pcie_dump_regs=
+() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:82 iwl_trans_pcie_dump_regs=
+() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1488 iwl_trans_pcie_d3_susp=
+end() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1570 iwl_trans_pcie_d3_resu=
+me() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2086 __iwl_trans_pcie_grab_=
+nic_access() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2435 iwl_pcie_dump_csr() er=
+ror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:228 iwl_fwrt_dump_lmac_error_l=
+og() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:312 iwl_fwrt_dump_tcm_error_lo=
+g() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dump.c:335 iwl_fwrt_dump_tcm_error_lo=
+g() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-phy-db.c:396 iwl_send_phy_db_data() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-phy-db.c:404 iwl_send_phy_db_data() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-phy-db.c:411 iwl_send_phy_db_data() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-phy-db.c:421 iwl_send_phy_db_data() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-phy-db.c:431 iwl_send_phy_db_data() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/drv.c:1337 iwl_pci_probe() warn: we=
+ never enter this loop
+drivers/net/wireless/intel/iwlwifi/pcie/drv.c:1486 iwl_pci_probe() error: u=
+ninitialized symbol 'ret'.
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:196 iwl_read_otp_word(=
+) error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:218 iwl_is_otp_empty()=
+ error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-eeprom-read.c:333 iwl_read_eeprom() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1050 iwl_set_hw_address_=
+family_8000() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1562 iwl_read_external_n=
+vm() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-nvm-parse.c:1593 iwl_read_external_n=
+vm() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c:890 iwl_dbg_tlv_set_period=
+ic_trigs() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/tx.c:520 iwl_pcie_tx_alloc() error:=
+ call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/pcie/tx.c:528 iwl_pcie_tx_alloc() error:=
+ call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/fw/dbg.c:2704 iwl_fw_dbg_collect_sync() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:195 iwl_request_firmware() err=
+or: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:488 iwl_parse_v1_v2_firmware()=
+ error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:861 iwl_parse_tlv_firmware() e=
+rror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:917 iwl_parse_tlv_firmware() e=
+rror: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:1009 iwl_parse_tlv_firmware() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:1195 iwl_parse_tlv_firmware() =
+error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-drv.c:1219 iwl_parse_tlv_firmware() =
+error: call of '__iwl_err' with no format argument
+
+vim +/__iwl_err +1869 drivers/net/wireless/intel/iwlwifi/pcie/rx.c
+
+3a6e168baa7097 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2017-04-25  1784  =
+
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  1785  irqreturn_t iwl_pcie_irq_handler(int irq, void *de=
+v_id)
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1786  {
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  1787  	struct iwl_trans *trans =3D dev_id;
+20d3b6475226fb drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Johannes Be=
+rg     2012-05-16  1788  	struct iwl_trans_pcie *trans_pcie =3D IWL_TRANS_G=
+ET_PCIE_TRANS(trans);
+20d3b6475226fb drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Johannes Be=
+rg     2012-05-16  1789  	struct isr_statistics *isr_stats =3D &trans_pcie-=
+>isr_stats;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1790  	u32 inta =3D 0;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1791  	u32 handled =3D 0;
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1792  	bool polling =3D false;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1793  =
+
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  1794  	lock_map_acquire(&trans->sync_cmd_lockdep_map);
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  1795  =
+
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1796  	spin_lock_bh(&trans_pcie->irq_lock);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1797  =
+
+0fec954249b553 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1798  	/* dram interrupt table not set yet,
+0fec954249b553 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1799  	 * use legacy interrupt.
+0fec954249b553 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1800  	 */
+0fec954249b553 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1801  	if (likely(trans_pcie->use_ict))
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1802  		inta =3D iwl_pcie_int_cause_ict(trans);
+0fec954249b553 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1803  	else
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1804  		inta =3D iwl_pcie_int_cause_non_ict(trans);
+0fec954249b553 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1805  =
+
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1806  	if (iwl_have_debug_level(IWL_DL_ISR)) {
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1807  		IWL_DEBUG_ISR(trans,
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1808  			      "ISR inta 0x%08x, enabled 0x%08x(sw), ena=
+bled(hw) 0x%08x, fh 0x%08x\n",
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1809  			      inta, trans_pcie->inta_mask,
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1810  			      iwl_read32(trans, CSR_INT_MASK),
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1811  			      iwl_read32(trans, CSR_FH_INT_STATUS));
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1812  		if (inta & (~trans_pcie->inta_mask))
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1813  			IWL_DEBUG_ISR(trans,
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1814  				      "We got a masked interrupt (0x%08x)\n",
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1815  				      inta & (~trans_pcie->inta_mask));
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1816  	}
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1817  =
+
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1818  	inta &=3D trans_pcie->inta_mask;
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1819  =
+
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1820  	/*
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1821  	 * Ignore interrupt if there's nothing in NIC to =
+service.
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1822  	 * This may be due to IRQ shared with another dev=
+ice,
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1823  	 * or due to sporadic interrupts thrown from our =
+NIC.
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1824  	 */
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1825  	if (unlikely(!inta)) {
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1826  		IWL_DEBUG_ISR(trans, "Ignore interrupt, inta =3D=
+=3D 0\n");
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1827  		/*
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1828  		 * Re-enable interrupts here since we don't
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1829  		 * have anything to service
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1830  		 */
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1831  		if (test_bit(STATUS_INT_ENABLED, &trans->status))
+f16c3ebfa64fdf drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-06-13  1832  			_iwl_enable_interrupts(trans);
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1833  		spin_unlock_bh(&trans_pcie->irq_lock);
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1834  		lock_map_release(&trans->sync_cmd_lockdep_map);
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1835  		return IRQ_NONE;
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1836  	}
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1837  =
+
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1838  	if (unlikely(inta =3D=3D 0xFFFFFFFF || (inta & 0x=
+FFFFFFF0) =3D=3D 0xa5a5a5a0)) {
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1839  		/*
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1840  		 * Hardware disappeared. It might have
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1841  		 * already raised an interrupt.
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1842  		 */
+7ba1faa45f5d1e drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1843  		IWL_WARN(trans, "HARDWARE GONE?? INTA =3D=3D 0x%=
+08x\n", inta);
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1844  		spin_unlock_bh(&trans_pcie->irq_lock);
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1845  		goto out;
+a0f337cc3592b8 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1846  	}
+a0f337cc3592b8 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1847  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1848  	/* Ack/clear/reset pending uCode interrupts.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1849  	 * Note:  Some bits in CSR_INT are "OR" of bits i=
+n CSR_FH_INT_STATUS,
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1850  	 */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1851  	/* There is a hardware bug in the interrupt mask =
+function that some
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1852  	 * interrupts (i.e. CSR_INT_BIT_SCD) can still be=
+ generated even if
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1853  	 * they are disabled in the CSR_INT_MASK register=
+. Furthermore the
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1854  	 * ICT interrupt handling mechanism has another b=
+ug that might cause
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1855  	 * these unmasked interrupts fail to be detected.=
+ We workaround the
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1856  	 * hardware bugs here by ACKing all the possible =
+interrupts so that
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1857  	 * interrupt coalescing can still be achieved.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1858  	 */
+7117c000c83700 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2013-12-11  1859  	iwl_write32(trans, CSR_INT, inta | ~trans_pcie->i=
+nta_mask);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1860  =
+
+51cd53ad120f33 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2013-06-12  1861  	if (iwl_have_debug_level(IWL_DL_ISR))
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1862  		IWL_DEBUG_ISR(trans, "inta 0x%08x, enabled 0x%08=
+x\n",
+51cd53ad120f33 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2013-06-12  1863  			      inta, iwl_read32(trans, CSR_INT_MASK));
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1864  =
+
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1865  	spin_unlock_bh(&trans_pcie->irq_lock);
+b49ba04a3a0382 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Johannes Be=
+rg     2012-01-19  1866  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1867  	/* Now service all interrupt bits discovered abov=
+e. */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1868  	if (inta & CSR_INT_BIT_HW_ERR) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25 @1869  		IWL_ERR(trans, "Hardware error detected.  Restar=
+ting.\n");
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1870  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1871  		/* Tell the device to stop sending interrupts */
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1872  		iwl_disable_interrupts(trans);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1873  =
+
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1874  		isr_stats->hw++;
+990aa6d7b28d26 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2012-11-14  1875  		iwl_pcie_irq_handle_error(trans);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1876  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1877  		handled |=3D CSR_INT_BIT_HW_ERR;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1878  =
+
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  1879  		goto out;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1880  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1881  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1882  	/* NIC fires this, but we don't use it, redundant=
+ with WAKEUP */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1883  	if (inta & CSR_INT_BIT_SCD) {
+51cd53ad120f33 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2013-06-12  1884  		IWL_DEBUG_ISR(trans,
+51cd53ad120f33 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2013-06-12  1885  			      "Scheduler finished to transmit the frame=
+/frames.\n");
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1886  		isr_stats->sch++;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1887  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1888  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1889  	/* Alive notification via Rx interrupt will do th=
+e real work */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1890  	if (inta & CSR_INT_BIT_ALIVE) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1891  		IWL_DEBUG_ISR(trans, "Alive interrupt\n");
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1892  		isr_stats->alive++;
+286ca8eb4d0a97 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Luca Coelho=
+       2019-07-12  1893  		if (trans->trans_cfg->gen2) {
+eda50cde58de73 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Sara Sharon=
+       2016-09-28  1894  			/*
+eda50cde58de73 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Sara Sharon=
+       2016-09-28  1895  			 * We can restock, since firmware configured
+eda50cde58de73 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Sara Sharon=
+       2016-09-28  1896  			 * the RFH
+eda50cde58de73 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Sara Sharon=
+       2016-09-28  1897  			 */
+eda50cde58de73 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Sara Sharon=
+       2016-09-28  1898  			iwl_pcie_rxmq_restock(trans, trans_pcie->rxq);
+eda50cde58de73 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Sara Sharon=
+       2016-09-28  1899  		}
+ed3e4c6d3cd8f0 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2019-05-20  1900  =
+
+ed3e4c6d3cd8f0 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2019-05-20  1901  		handled |=3D CSR_INT_BIT_ALIVE;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1902  	}
+51cd53ad120f33 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2013-06-12  1903  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1904  	/* Safely ignore these bits for debug checks belo=
+w */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1905  	inta &=3D ~(CSR_INT_BIT_SCD | CSR_INT_BIT_ALIVE);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1906  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1907  	/* HW RF KILL switch toggled */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1908  	if (inta & CSR_INT_BIT_RF_KILL) {
+3a6e168baa7097 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2017-04-25  1909  		iwl_pcie_handle_rfkill_irq(trans);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1910  		handled |=3D CSR_INT_BIT_RF_KILL;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1911  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1912  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1913  	/* Chip got too hot and stopped itself */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1914  	if (inta & CSR_INT_BIT_CT_KILL) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1915  		IWL_ERR(trans, "Microcode CT kill error detected=
+.\n");
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1916  		isr_stats->ctkill++;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1917  		handled |=3D CSR_INT_BIT_CT_KILL;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1918  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1919  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1920  	/* Error detected by uCode */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1921  	if (inta & CSR_INT_BIT_SW_ERR) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1922  		IWL_ERR(trans, "Microcode SW error detected. "
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1923  			" Restarting 0x%X.\n", inta);
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1924  		isr_stats->sw++;
+990aa6d7b28d26 drivers/net/wireless/iwlwifi/pcie/rx.c           Emmanuel Gr=
+umbach 2012-11-14  1925  		iwl_pcie_irq_handle_error(trans);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1926  		handled |=3D CSR_INT_BIT_SW_ERR;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1927  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1928  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1929  	/* uCode wakes up after power-down sleep */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1930  	if (inta & CSR_INT_BIT_WAKEUP) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1931  		IWL_DEBUG_ISR(trans, "Wakeup interrupt\n");
+5d63f926d119ff drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2014-02-27  1932  		iwl_pcie_rxq_check_wrptr(trans);
+ea68f46070c7ba drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2014-02-27  1933  		iwl_pcie_txq_check_wrptrs(trans);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1934  =
+
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1935  		isr_stats->wakeup++;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1936  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1937  		handled |=3D CSR_INT_BIT_WAKEUP;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1938  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1939  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1940  	/* All uCode command responses, including Tx comm=
+and responses,
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1941  	 * Rx "responses" (frame-received notification), =
+and other
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1942  	 * notifications from uCode come through here*/
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1943  	if (inta & (CSR_INT_BIT_FH_RX | CSR_INT_BIT_SW_RX=
+ |
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1944  		    CSR_INT_BIT_RX_PERIODIC)) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1945  		IWL_DEBUG_ISR(trans, "Rx interrupt\n");
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1946  		if (inta & (CSR_INT_BIT_FH_RX | CSR_INT_BIT_SW_R=
+X)) {
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1947  			handled |=3D (CSR_INT_BIT_FH_RX | CSR_INT_BIT_S=
+W_RX);
+1042db2af183b9 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Emmanuel Gr=
+umbach 2012-01-03  1948  			iwl_write32(trans, CSR_FH_INT_STATUS,
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1949  					CSR_FH_INT_RX_MASK);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1950  		}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1951  		if (inta & CSR_INT_BIT_RX_PERIODIC) {
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1952  			handled |=3D CSR_INT_BIT_RX_PERIODIC;
+1042db2af183b9 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Emmanuel Gr=
+umbach 2012-01-03  1953  			iwl_write32(trans,
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1954  				CSR_INT, CSR_INT_BIT_RX_PERIODIC);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1955  		}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1956  		/* Sending RX interrupt require many steps to be=
+ done in the
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1957  		 * the device:
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1958  		 * 1- write interrupt to current index in ICT ta=
+ble.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1959  		 * 2- dma RX frame.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1960  		 * 3- update RX shared data to indicate last wri=
+te index.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1961  		 * 4- send interrupt.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1962  		 * This could lead to RX race, driver could rece=
+ive RX interrupt
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1963  		 * but the shared data changes does not reflect =
+this;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1964  		 * periodic interrupt will detect any dangling R=
+x activity.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1965  		 */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1966  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1967  		/* Disable periodic interrupt; we use it as just=
+ a one-shot. */
+1042db2af183b9 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Emmanuel Gr=
+umbach 2012-01-03  1968  		iwl_write8(trans, CSR_INT_PERIODIC_REG,
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1969  			    CSR_INT_PERIODIC_DIS);
+6379103e896a5e drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-09-06  1970  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1971  		/*
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1972  		 * Enable periodic interrupt in 8 msec only if w=
+e received
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1973  		 * real RX interrupt (instead of just periodic i=
+nt), to catch
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1974  		 * any dangling Rx interrupt.  If it was just th=
+e periodic
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1975  		 * interrupt, there was no dangling Rx activity,=
+ and no need
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1976  		 * to extend the periodic interrupt; one-shot is=
+ enough.
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1977  		 */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1978  		if (inta & (CSR_INT_BIT_FH_RX | CSR_INT_BIT_SW_R=
+X))
+1042db2af183b9 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Emmanuel Gr=
+umbach 2012-01-03  1979  			iwl_write8(trans, CSR_INT_PERIODIC_REG,
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1980  				   CSR_INT_PERIODIC_ENA);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1981  =
+
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1982  		isr_stats->rx++;
+f14d6b39c0b351 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2014-03-21  1983  =
+
+f14d6b39c0b351 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2014-03-21  1984  		local_bh_disable();
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1985  		if (napi_schedule_prep(&trans_pcie->rxq[0].napi)=
+) {
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1986  			polling =3D true;
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1987  			__napi_schedule(&trans_pcie->rxq[0].napi);
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  1988  		}
+f14d6b39c0b351 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2014-03-21  1989  		local_bh_enable();
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1990  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1991  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1992  	/* This "Tx" DMA channel is used only for loading=
+ uCode */
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1993  	if (inta & CSR_INT_BIT_FH_TX) {
+1042db2af183b9 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Emmanuel Gr=
+umbach 2012-01-03  1994  		iwl_write32(trans, CSR_FH_INT_STATUS, CSR_FH_INT=
+_TX_MASK);
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1995  		IWL_DEBUG_ISR(trans, "uCode load interrupt\n");
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  1996  		isr_stats->tx++;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1997  		handled |=3D CSR_INT_BIT_FH_TX;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  1998  		/* Wake up uCode load routine, now that load is =
+complete */
+13df1aab4aa3cd drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Johannes Be=
+rg     2012-03-06  1999  		trans_pcie->ucode_write_complete =3D true;
+13df1aab4aa3cd drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Johannes Be=
+rg     2012-03-06  2000  		wake_up(&trans_pcie->ucode_write_waitq);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2001  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2002  =
+
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2003  	if (inta & ~handled) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  2004  		IWL_ERR(trans, "Unhandled INTA bits 0x%08x\n", i=
+nta & ~handled);
+1f7b6172db86e9 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  2005  		isr_stats->unhandled++;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2006  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2007  =
+
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  2008  	if (inta & ~(trans_pcie->inta_mask)) {
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  2009  		IWL_WARN(trans, "Disabled INTA bits 0x%08x were =
+pending\n",
+0c325769a39455 drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-08-25  2010  			 inta & ~trans_pcie->inta_mask);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2011  	}
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2012  =
+
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  2013  	if (!polling) {
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  2014  		spin_lock_bh(&trans_pcie->irq_lock);
+f16c3ebfa64fdf drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-06-13  2015  		/* only Re-enable all interrupt if disabled by i=
+rq */
+f16c3ebfa64fdf drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-06-13  2016  		if (test_bit(STATUS_INT_ENABLED, &trans->status))
+f16c3ebfa64fdf drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-06-13  2017  			_iwl_enable_interrupts(trans);
+a6bd005fe92dc1 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-01-31  2018  		/* we are loading the firmware, enable FH_TX int=
+errupt only */
+f16c3ebfa64fdf drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-06-13  2019  		else if (handled & CSR_INT_BIT_FH_TX)
+a6bd005fe92dc1 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2016-01-31  2020  			iwl_enable_fw_load_int(trans);
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2021  		/* Re-enable RF_KILL if it occurred */
+8722c899a07f45 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Stanislaw G=
+ruszka 2012-03-07  2022  		else if (handled & CSR_INT_BIT_RF_KILL)
+8722c899a07f45 drivers/net/wireless/iwlwifi/iwl-trans-pcie-rx.c Stanislaw G=
+ruszka 2012-03-07  2023  			iwl_enable_rfkill_int(trans);
+ed3e4c6d3cd8f0 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2019-05-20  2024  		/* Re-enable the ALIVE / Rx interrupt if it occu=
+rred */
+ed3e4c6d3cd8f0 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2019-05-20  2025  		else if (handled & (CSR_INT_BIT_ALIVE | CSR_INT_=
+BIT_FH_RX))
+ed3e4c6d3cd8f0 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Emmanuel Gr=
+umbach 2019-05-20  2026  			iwl_enable_fw_load_int_ctx_info(trans);
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  2027  		spin_unlock_bh(&trans_pcie->irq_lock);
+25edc8f259c710 drivers/net/wireless/intel/iwlwifi/pcie/rx.c     Johannes Be=
+rg     2021-01-17  2028  	}
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  2029  =
+
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  2030  out:
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  2031  	lock_map_release(&trans->sync_cmd_lockdep_map);
+2bfb50924c7e92 drivers/net/wireless/iwlwifi/pcie/rx.c           Johannes Be=
+rg     2012-12-27  2032  	return IRQ_HANDLED;
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2033  }
+ab697a9f1e73ba drivers/net/wireless/iwlwifi/iwl-trans-rx-pcie.c Emmanuel Gr=
+umbach 2011-07-11  2034  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/lm75.h:27:14: note: '__UNIQUE_ID___x189' is < '__UNIQUE_ID=
-___y190'
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~
-   drivers/hwmon/lm75.h:27:14: note: '?' condition is true
-           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
-                       ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/lm75.h:29:12: note: 'ntemp' is < 0
-           ntemp +=3D (ntemp < 0 ? -250 : 250);
-                     ^~~~~
-   drivers/hwmon/lm75.h:29:12: note: '?' condition is true
-   drivers/hwmon/lm75.h:30:29: note: The result of the left shift is undefi=
-ned because the left operand is negative
-           return (u16)((ntemp / 500) << 7);
-                        ~~~~~~~~~~~~~ ^
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/media/dvb-frontends/cxd2820r_t.c:14:21: warning: Value stored to=
- 'client' during its initialization is never read [clang-analyzer-deadcode.=
-DeadStores]
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:14:21: note: Value stored to 'c=
-lient' during its initialization is never read
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:130:21: warning: Value stored t=
-o 'client' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:130:21: note: Value stored to '=
-client' during its initialization is never read
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:250:21: warning: Value stored t=
-o 'client' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:250:21: note: Value stored to '=
-client' during its initialization is never read
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:375:21: warning: Value stored t=
-o 'client' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:375:21: note: Value stored to '=
-client' during its initialization is never read
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:393:21: warning: Value stored t=
-o 'client' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/cxd2820r_t.c:393:21: note: Value stored to '=
-client' during its initialization is never read
-           struct i2c_client *client =3D priv->client[0];
-                              ^~~~~~   ~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
->> net/sched/act_skbedit.c:272:26: warning: Dereference of null pointer (lo=
-aded from variable 'priority') [clang-analyzer-core.NullDereference]
-                   params_new->priority =3D *priority;
-                                          ^~~~~~~~~
-   net/sched/act_skbedit.c:147:18: note: 'priority' initialized to a null p=
-ointer value
-           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
-ULL;
-                           ^~~~~~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                   ^
-   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:229:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
-           if (exists && bind)
-               ^~~~~~
-   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
-   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
-           if (exists && bind)
-                         ^~~~
-   net/sched/act_skbedit.c:232:2: note: Taking false branch
-           if (exists && bind)
-           ^
-   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
-           if (!flags) {
-                ^~~~~
-   net/sched/act_skbedit.c:235:2: note: Taking false branch
-           if (!flags) {
-           ^
-   net/sched/act_skbedit.c:243:7: note: 'exists' is true
-           if (!exists) {
-                ^~~~~~
-   net/sched/act_skbedit.c:243:2: note: Taking false branch
-           if (!exists) {
-           ^
-   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:255:3: note: Taking false branch
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                   ^
-   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:261:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
-           if (unlikely(!params_new)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/act_skbedit.c:265:2: note: Taking false branch
-           if (unlikely(!params_new)) {
-           ^
-   net/sched/act_skbedit.c:271:6: note: Assuming the condition is true
-           if (flags & SKBEDIT_F_PRIORITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:271:2: note: Taking true branch
-           if (flags & SKBEDIT_F_PRIORITY)
-           ^
-   net/sched/act_skbedit.c:272:26: note: Dereference of null pointer (loade=
-d from variable 'priority')
-                   params_new->priority =3D *priority;
-                                          ^~~~~~~~~
->> net/sched/act_skbedit.c:278:22: warning: Dereference of null pointer (lo=
-aded from variable 'mark') [clang-analyzer-core.NullDereference]
-                   params_new->mark =3D *mark;
-                                      ^~~~~
-   net/sched/act_skbedit.c:147:36: note: 'mark' initialized to a null point=
-er value
-           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
-ULL;
-                                             ^~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                   ^
-   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:229:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
-           if (exists && bind)
-               ^~~~~~
-   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
-   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
-           if (exists && bind)
-                         ^~~~
-   net/sched/act_skbedit.c:232:2: note: Taking false branch
-           if (exists && bind)
-           ^
-   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
-           if (!flags) {
-                ^~~~~
-   net/sched/act_skbedit.c:235:2: note: Taking false branch
-           if (!flags) {
-           ^
-   net/sched/act_skbedit.c:243:7: note: 'exists' is true
-           if (!exists) {
-                ^~~~~~
-   net/sched/act_skbedit.c:243:2: note: Taking false branch
-           if (!exists) {
-           ^
-   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:255:3: note: Taking false branch
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                   ^
-   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:261:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
-           if (unlikely(!params_new)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/act_skbedit.c:265:2: note: Taking false branch
-           if (unlikely(!params_new)) {
-           ^
-   net/sched/act_skbedit.c:271:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_PRIORITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:271:2: note: Taking false branch
-           if (flags & SKBEDIT_F_PRIORITY)
-           ^
-   net/sched/act_skbedit.c:273:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:273:2: note: Taking false branch
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-           ^
-   net/sched/act_skbedit.c:277:6: note: Assuming the condition is true
-           if (flags & SKBEDIT_F_MARK)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:277:2: note: Taking true branch
-           if (flags & SKBEDIT_F_MARK)
-           ^
-   net/sched/act_skbedit.c:278:22: note: Dereference of null pointer (loade=
-d from variable 'mark')
-                   params_new->mark =3D *mark;
-                                      ^~~~~
->> net/sched/act_skbedit.c:280:23: warning: Dereference of null pointer (lo=
-aded from variable 'ptype') [clang-analyzer-core.NullDereference]
-                   params_new->ptype =3D *ptype;
-                                       ^~~~~~
-   net/sched/act_skbedit.c:148:30: note: 'ptype' initialized to a null poin=
-ter value
-           u16 *queue_mapping =3D NULL, *ptype =3D NULL;
-                                       ^~~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                   ^
-   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:229:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
-           if (exists && bind)
-               ^~~~~~
-   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
-   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
-           if (exists && bind)
-                         ^~~~
-   net/sched/act_skbedit.c:232:2: note: Taking false branch
-           if (exists && bind)
-           ^
-   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
-           if (!flags) {
-                ^~~~~
-   net/sched/act_skbedit.c:235:2: note: Taking false branch
-           if (!flags) {
-           ^
-   net/sched/act_skbedit.c:243:7: note: 'exists' is true
-           if (!exists) {
-                ^~~~~~
-   net/sched/act_skbedit.c:243:2: note: Taking false branch
-           if (!exists) {
-           ^
-   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:255:3: note: Taking false branch
-                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
-                   ^
-   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:261:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
-           if (unlikely(!params_new)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/sched/act_skbedit.c:265:2: note: Taking false branch
-           if (unlikely(!params_new)) {
-           ^
-   net/sched/act_skbedit.c:271:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_PRIORITY)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:271:2: note: Taking false branch
-           if (flags & SKBEDIT_F_PRIORITY)
-           ^
-   net/sched/act_skbedit.c:273:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:273:2: note: Taking false branch
-           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
-           ^
-   net/sched/act_skbedit.c:277:6: note: Assuming the condition is false
-           if (flags & SKBEDIT_F_MARK)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:277:2: note: Taking false branch
-           if (flags & SKBEDIT_F_MARK)
-           ^
-   net/sched/act_skbedit.c:279:6: note: Assuming the condition is true
-           if (flags & SKBEDIT_F_PTYPE)
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:279:2: note: Taking true branch
-           if (flags & SKBEDIT_F_PTYPE)
-           ^
-   net/sched/act_skbedit.c:280:23: note: Dereference of null pointer (loade=
-d from variable 'ptype')
-                   params_new->ptype =3D *ptype;
-                                       ^~~~~~
->> net/sched/act_skbedit.c:284:22: warning: Dereference of null pointer (lo=
-aded from variable 'mask') [clang-analyzer-core.NullDereference]
-                   params_new->mask =3D *mask;
-                                      ^~~~~
-   net/sched/act_skbedit.c:147:50: note: 'mask' initialized to a null point=
-er value
-           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
-ULL;
-                                                           ^~~~
-   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
-           if (nla =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/sched/act_skbedit.c:154:2: note: Taking false branch
-           if (nla =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
-d'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/netlink.h:1231:9: note: Assigning value, which participates =
-in a condition later
-           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
-icy,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
-precated'
-           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   net/sched/act_skbedit.c:159:2: note: Taking false branch
-           if (err < 0)
-           ^
-   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:162:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
-           ^
-   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:165:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:170:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:175:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:182:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:187:2: note: Taking false branch
-           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:192:2: note: Taking true branch
-           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
-           ^
-   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
- equal to 0
-                   if (mapping_hash_type) {
-                       ^~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:197:3: note: Taking true branch
-                   if (mapping_hash_type) {
-                   ^
-   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:201:4: note: Taking false branch
-                           if (mapping_hash_type & (mapping_hash_type - 1))=
- {
-                           ^
-   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                               ^
-   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
-                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:206:4: note: Taking false branch
-                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
-                           ^
-   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
-                           if (*queue_mapping_max < *queue_mapping) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:214:4: note: Taking false branch
-                           if (*queue_mapping_max < *queue_mapping) {
-                           ^
-   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sched/act_skbedit.c:222:3: note: Taking false branch
-                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+:::::: The code at line 1869 was first introduced by commit
+:::::: 0c325769a394559941acda83e888a1d9b1ef8b7f iwlagn: move ISR related da=
+ta to transport layer
 
-vim +/priority +272 net/sched/act_skbedit.c
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  134  =
-
-c1b52739e45f59 Benjamin LaHaise  2013-01-14  135  static int tcf_skbedit_in=
-it(struct net *net, struct nlattr *nla,
-a85a970af265f1 WANG Cong         2016-07-25  136  			    struct nlattr *est=
-, struct tc_action **a,
-abbb0d33632ce9 Vlad Buslov       2019-10-30  137  			    struct tcf_proto *=
-tp, u32 act_flags,
-789871bb2a0381 Vlad Buslov       2018-07-05  138  			    struct netlink_ext=
-_ack *extack)
-ca9b0e27e072be Alexander Duyck   2008-09-12  139  {
-ddf97ccdd7cb7e WANG Cong         2016-02-22  140  	struct tc_action_net *tn=
- =3D net_generic(net, skbedit_net_id);
-695176bfe5dec2 Cong Wang         2021-07-29  141  	bool bind =3D act_flags =
-& TCA_ACT_FLAGS_BIND;
-6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  142  	struct tcf_skbedit_param=
-s *params_new;
-ca9b0e27e072be Alexander Duyck   2008-09-12  143  	struct nlattr *tb[TCA_SK=
-BEDIT_MAX + 1];
-ec7727bb24b01e Davide Caratti    2019-03-20  144  	struct tcf_chain *goto_c=
-h =3D NULL;
-ca9b0e27e072be Alexander Duyck   2008-09-12  145  	struct tc_skbedit *parm;
-ca9b0e27e072be Alexander Duyck   2008-09-12  146  	struct tcf_skbedit *d;
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  147  	u32 flags =3D 0, *priori=
-ty =3D NULL, *mark =3D NULL, *mask =3D NULL;
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  148  	u16 *queue_mapping =3D N=
-ULL, *ptype =3D NULL;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  149  	u16 mapping_mod =3D 1;
-b2313077ed0db3 WANG Cong         2016-06-13  150  	bool exists =3D false;
-b2313077ed0db3 WANG Cong         2016-06-13  151  	int ret =3D 0, err;
-7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  152  	u32 index;
-ca9b0e27e072be Alexander Duyck   2008-09-12  153  =
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  154  	if (nla =3D=3D NULL)
-ca9b0e27e072be Alexander Duyck   2008-09-12  155  		return -EINVAL;
-ca9b0e27e072be Alexander Duyck   2008-09-12  156  =
-
-8cb081746c031f Johannes Berg     2019-04-26  157  	err =3D nla_parse_nested=
-_deprecated(tb, TCA_SKBEDIT_MAX, nla,
-8cb081746c031f Johannes Berg     2019-04-26  158  					  skbedit_policy, NU=
-LL);
-ca9b0e27e072be Alexander Duyck   2008-09-12  159  	if (err < 0)
-ca9b0e27e072be Alexander Duyck   2008-09-12  160  		return err;
-ca9b0e27e072be Alexander Duyck   2008-09-12  161  =
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  162  	if (tb[TCA_SKBEDIT_PARMS=
-] =3D=3D NULL)
-ca9b0e27e072be Alexander Duyck   2008-09-12  163  		return -EINVAL;
-ca9b0e27e072be Alexander Duyck   2008-09-12  164  =
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  165  	if (tb[TCA_SKBEDIT_PRIOR=
-ITY] !=3D NULL) {
-ca9b0e27e072be Alexander Duyck   2008-09-12  166  		flags |=3D SKBEDIT_F_PR=
-IORITY;
-ca9b0e27e072be Alexander Duyck   2008-09-12  167  		priority =3D nla_data(t=
-b[TCA_SKBEDIT_PRIORITY]);
-ca9b0e27e072be Alexander Duyck   2008-09-12  168  	}
-ca9b0e27e072be Alexander Duyck   2008-09-12  169  =
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  170  	if (tb[TCA_SKBEDIT_QUEUE=
-_MAPPING] !=3D NULL) {
-ca9b0e27e072be Alexander Duyck   2008-09-12  171  		flags |=3D SKBEDIT_F_QU=
-EUE_MAPPING;
-ca9b0e27e072be Alexander Duyck   2008-09-12  172  		queue_mapping =3D nla_d=
-ata(tb[TCA_SKBEDIT_QUEUE_MAPPING]);
-ca9b0e27e072be Alexander Duyck   2008-09-12  173  	}
-1c55d62e77fa16 jamal             2009-10-15  174  =
-
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  175  	if (tb[TCA_SKBEDIT_PTYPE=
-] !=3D NULL) {
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  176  		ptype =3D nla_data(tb[T=
-CA_SKBEDIT_PTYPE]);
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  177  		if (!skb_pkt_type_ok(*p=
-type))
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  178  			return -EINVAL;
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  179  		flags |=3D SKBEDIT_F_PT=
-YPE;
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  180  	}
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  181  =
-
-1c55d62e77fa16 jamal             2009-10-15  182  	if (tb[TCA_SKBEDIT_MARK]=
- !=3D NULL) {
-1c55d62e77fa16 jamal             2009-10-15  183  		flags |=3D SKBEDIT_F_MA=
-RK;
-1c55d62e77fa16 jamal             2009-10-15  184  		mark =3D nla_data(tb[TC=
-A_SKBEDIT_MARK]);
-1c55d62e77fa16 jamal             2009-10-15  185  	}
-1c55d62e77fa16 jamal             2009-10-15  186  =
-
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  187  	if (tb[TCA_SKBEDIT_MASK]=
- !=3D NULL) {
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  188  		flags |=3D SKBEDIT_F_MA=
-SK;
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  189  		mask =3D nla_data(tb[TC=
-A_SKBEDIT_MASK]);
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  190  	}
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  191  =
-
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  192  	if (tb[TCA_SKBEDIT_FLAGS=
-] !=3D NULL) {
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  193  		u64 *pure_flags =3D nla=
-_data(tb[TCA_SKBEDIT_FLAGS]);
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  194  		u64 mapping_hash_type;
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  195  =
-
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  196  		mapping_hash_type =3D *=
-pure_flags & SKBEDIT_F_TXQ_HASH_MASK;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  197  		if (mapping_hash_type) {
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  198  			u16 *queue_mapping_max;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  199  =
-
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  200  			/* Hash types are mutu=
-ally exclusive. */
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  201  			if (mapping_hash_type =
-& (mapping_hash_type - 1)) {
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  202  				NL_SET_ERR_MSG_MOD(ex=
-tack, "Multi types of hash are specified.");
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  203  				return -EINVAL;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  204  			}
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  205  =
-
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  206  			if (!tb[TCA_SKBEDIT_QU=
-EUE_MAPPING] ||
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  207  			    !tb[TCA_SKBEDIT_QU=
-EUE_MAPPING_MAX]) {
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  208  				NL_SET_ERR_MSG_MOD(ex=
-tack, "Missing required range of queue_mapping.");
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  209  				return -EINVAL;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  210  			}
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  211  =
-
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  212  			queue_mapping_max =3D
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  213  				nla_data(tb[TCA_SKBED=
-IT_QUEUE_MAPPING_MAX]);
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  214  			if (*queue_mapping_max=
- < *queue_mapping) {
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  215  				NL_SET_ERR_MSG_MOD(ex=
-tack, "The range of queue_mapping is invalid, max < min.");
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  216  				return -EINVAL;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  217  			}
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  218  =
-
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  219  			mapping_mod =3D *queue=
-_mapping_max - *queue_mapping + 1;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  220  			flags |=3D mapping_has=
-h_type;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  221  		}
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  222  		if (*pure_flags & SKBED=
-IT_F_INHERITDSFIELD)
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  223  			flags |=3D SKBEDIT_F_I=
-NHERITDSFIELD;
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  224  	}
-e7e3728bd776d1 Qiaobin Fu        2018-07-01  225  =
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  226  	parm =3D nla_data(tb[TCA=
-_SKBEDIT_PARMS]);
-7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  227  	index =3D parm->index;
-7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  228  	err =3D tcf_idr_check_al=
-loc(tn, &index, a, bind);
-0190c1d452a91c Vlad Buslov       2018-07-05  229  	if (err < 0)
-0190c1d452a91c Vlad Buslov       2018-07-05  230  		return err;
-0190c1d452a91c Vlad Buslov       2018-07-05  231  	exists =3D err;
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  232  	if (exists && bind)
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  233  		return 0;
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  234  =
-
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  235  	if (!flags) {
-af5d01842fe1fb Roman Mashak      2018-05-11  236  		if (exists)
-65a206c01e8e7f Chris Mi          2017-08-30  237  			tcf_idr_release(*a, bi=
-nd);
-0190c1d452a91c Vlad Buslov       2018-07-05  238  		else
-7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  239  			tcf_idr_cleanup(tn, in=
-dex);
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  240  		return -EINVAL;
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  241  	}
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  242  =
-
-5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  243  	if (!exists) {
-7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  244  		ret =3D tcf_idr_create(=
-tn, index, est, a,
-40bd094d65fc9f Baowen Zheng      2021-12-17  245  				     &act_skbedit_ops=
-, bind, true, act_flags);
-0190c1d452a91c Vlad Buslov       2018-07-05  246  		if (ret) {
-7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  247  			tcf_idr_cleanup(tn, in=
-dex);
-86062033feb8a1 WANG Cong         2014-02-11  248  			return ret;
-0190c1d452a91c Vlad Buslov       2018-07-05  249  		}
-ca9b0e27e072be Alexander Duyck   2008-09-12  250  =
-
-a85a970af265f1 WANG Cong         2016-07-25  251  		d =3D to_skbedit(*a);
-ca9b0e27e072be Alexander Duyck   2008-09-12  252  		ret =3D ACT_P_CREATED;
-ca9b0e27e072be Alexander Duyck   2008-09-12  253  	} else {
-a85a970af265f1 WANG Cong         2016-07-25  254  		d =3D to_skbedit(*a);
-695176bfe5dec2 Cong Wang         2021-07-29  255  		if (!(act_flags & TCA_A=
-CT_FLAGS_REPLACE)) {
-65a206c01e8e7f Chris Mi          2017-08-30  256  			tcf_idr_release(*a, bi=
-nd);
-ca9b0e27e072be Alexander Duyck   2008-09-12  257  			return -EEXIST;
-ca9b0e27e072be Alexander Duyck   2008-09-12  258  		}
-4e8ddd7f1758ca Vlad Buslov       2018-07-05  259  	}
-ec7727bb24b01e Davide Caratti    2019-03-20  260  	err =3D tcf_action_check=
-_ctrlact(parm->action, tp, &goto_ch, extack);
-ec7727bb24b01e Davide Caratti    2019-03-20  261  	if (err < 0)
-ec7727bb24b01e Davide Caratti    2019-03-20  262  		goto release_idr;
-ca9b0e27e072be Alexander Duyck   2008-09-12  263  =
-
-c749cdda9089eb Davide Caratti    2018-07-11  264  	params_new =3D kzalloc(s=
-izeof(*params_new), GFP_KERNEL);
-c749cdda9089eb Davide Caratti    2018-07-11  265  	if (unlikely(!params_new=
-)) {
-ec7727bb24b01e Davide Caratti    2019-03-20  266  		err =3D -ENOMEM;
-ec7727bb24b01e Davide Caratti    2019-03-20  267  		goto put_chain;
-c749cdda9089eb Davide Caratti    2018-07-11  268  	}
-ca9b0e27e072be Alexander Duyck   2008-09-12  269  =
-
-c749cdda9089eb Davide Caratti    2018-07-11  270  	params_new->flags =3D fl=
-ags;
-ca9b0e27e072be Alexander Duyck   2008-09-12  271  	if (flags & SKBEDIT_F_PR=
-IORITY)
-c749cdda9089eb Davide Caratti    2018-07-11 @272  		params_new->priority =
-=3D *priority;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  273  	if (flags & SKBEDIT_F_QU=
-EUE_MAPPING) {
-c749cdda9089eb Davide Caratti    2018-07-11  274  		params_new->queue_mappi=
-ng =3D *queue_mapping;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  275  		params_new->mapping_mod=
- =3D mapping_mod;
-7e77dbcb9661c3 Tonghao Zhang     2022-02-22  276  	}
-1c55d62e77fa16 jamal             2009-10-15  277  	if (flags & SKBEDIT_F_MA=
-RK)
-c749cdda9089eb Davide Caratti    2018-07-11 @278  		params_new->mark =3D *m=
-ark;
-ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  279  	if (flags & SKBEDIT_F_PT=
-YPE)
-c749cdda9089eb Davide Caratti    2018-07-11 @280  		params_new->ptype =3D *=
-ptype;
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  281  	/* default behaviour is =
-to use all the bits */
-c749cdda9089eb Davide Caratti    2018-07-11  282  	params_new->mask =3D 0xf=
-fffffff;
-4fe77d82ef80c7 Antonio Quartulli 2016-10-24  283  	if (flags & SKBEDIT_F_MA=
-SK)
-c749cdda9089eb Davide Caratti    2018-07-11 @284  		params_new->mask =3D *m=
-ask;
-1c55d62e77fa16 jamal             2009-10-15  285  =
-
-6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  286  	spin_lock_bh(&d->tcf_loc=
-k);
-ec7727bb24b01e Davide Caratti    2019-03-20  287  	goto_ch =3D tcf_action_s=
-et_ctrlact(*a, parm->action, goto_ch);
-445d3749315f34 Paul E. McKenney  2019-09-23  288  	params_new =3D rcu_repla=
-ce_pointer(d->params, params_new,
-6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  289  					 lockdep_is_held(&d-=
->tcf_lock));
-6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  290  	spin_unlock_bh(&d->tcf_l=
-ock);
-6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  291  	if (params_new)
-6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  292  		kfree_rcu(params_new, r=
-cu);
-ec7727bb24b01e Davide Caratti    2019-03-20  293  	if (goto_ch)
-ec7727bb24b01e Davide Caratti    2019-03-20  294  		tcf_chain_put_by_act(go=
-to_ch);
-ca9b0e27e072be Alexander Duyck   2008-09-12  295  =
-
-ca9b0e27e072be Alexander Duyck   2008-09-12  296  	return ret;
-ec7727bb24b01e Davide Caratti    2019-03-20  297  put_chain:
-ec7727bb24b01e Davide Caratti    2019-03-20  298  	if (goto_ch)
-ec7727bb24b01e Davide Caratti    2019-03-20  299  		tcf_chain_put_by_act(go=
-to_ch);
-ec7727bb24b01e Davide Caratti    2019-03-20  300  release_idr:
-ec7727bb24b01e Davide Caratti    2019-03-20  301  	tcf_idr_release(*a, bind=
-);
-ec7727bb24b01e Davide Caratti    2019-03-20  302  	return err;
-ca9b0e27e072be Alexander Duyck   2008-09-12  303  }
-ca9b0e27e072be Alexander Duyck   2008-09-12  304  =
-
+:::::: TO: Emmanuel Grumbach <emmanuel.grumbach@intel.com>
+:::::: CC: John W. Linville <linville@tuxdriver.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3184775538534363164==--
+--===============0544454509675099120==--
 
