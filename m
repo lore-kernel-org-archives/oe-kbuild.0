@@ -1,585 +1,186 @@
-Content-Type: multipart/mixed; boundary="===============2688914520999488997=="
+Content-Type: multipart/mixed; boundary="===============0311434618747008978=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/iavf/iavf_main.c:2309 iavf_reset_task() warn: inconsistent returns '&adapter->crit_lock'.
-Date: Mon, 21 Feb 2022 10:11:58 +0800
-Message-ID: <202202211059.WMsT3X8t-lkp@intel.com>
+Subject: kernel/kcsan/kcsan_test.c:953:1: warning: the frame size of 2928 bytes is larger than 2048 bytes
+Date: Mon, 21 Feb 2022 08:39:41 +0800
+Message-ID: <202202210849.bnXkHus8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2688914520999488997==
+--===============0311434618747008978==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Stefan Assmann <sassmann@kpanic.de>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+TO: Ilya Leoshkevich <iii@linux.ibm.com>
+CC: Heiko Carstens <hca@linux.ibm.com>
+
+Hi Ilya,
+
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   cfb92440ee71adcc2105b0890bb01ac3cddb8507
-commit: 5ac49f3c2702f269d31cc37eb9308bc557953c4d iavf: use mutexes for lock=
-ing of critical sections
-date:   6 months ago
+head:   77478077349f14c78e30faeac358cf1187c0f0c1
+commit: e37b3dd063a1a68e28a7cfaf77c84c472112e330 s390: enable KCSAN
+date:   7 months ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
-ive/20220221/202202211059.WMsT3X8t-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+:::::: commit date: 7 months ago
+config: s390-randconfig-p002-20220220 (https://download.01.org/0day-ci/arch=
+ive/20220221/202202210849.bnXkHus8-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De37b3dd063a1a68e28a7cfaf77c84c472112e330
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e37b3dd063a1a68e28a7cfaf77c84c472112e330
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ O=3Dbuild_dir ARCH=3Ds390 SHELL=3D/bin/bash kernel/kcsan/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/intel/iavf/iavf_main.c:2309 iavf_reset_task() warn: in=
-consistent returns '&adapter->crit_lock'.
+All warnings (new ones prefixed by >>):
 
-vim +2309 drivers/net/ethernet/intel/iavf/iavf_main.c
-
-dedecb6d429bd3 drivers/net/ethernet/intel/i40evf/i40evf_main.c Joe Perches =
-          2016-11-01  2088  =
-
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2089  /**
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2090   * iavf_reset_task - Call-back task to handle h=
-ardware reset
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2091   * @work: pointer to work_struct
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2092   *
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2093   * During reset we need to shut down and reinit=
-ialize the admin queue
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2094   * before we can use it to communicate with the=
- PF again. We also clear
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2095   * and reinit the rings because that context is=
- lost as well.
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2096   **/
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2097  static void iavf_reset_task(struct work_struct =
-*work)
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2098  {
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2099  	struct iavf_adapter *adapter =3D container_of(=
-work,
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2100  						      struct iavf_adapter,
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2101  						      reset_task);
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2102  	struct virtchnl_vf_resource *vfres =3D adapter=
-->vf_res;
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2103  	struct net_device *netdev =3D adapter->netdev;
-f349daa58809ae drivers/net/ethernet/intel/iavf/iavf_main.c     Jesse Brande=
-burg      2018-09-14  2104  	struct iavf_hw *hw =3D &adapter->hw;
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2105  	struct iavf_mac_filter *f, *ftmp;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2106  	struct iavf_vlan_filter *vlf;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2107  	struct iavf_cloud_filter *cf;
-ee5c1e92dd01d3 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-08-28  2108  	u32 reg_val;
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2109  	int i =3D 0, err;
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2110  	bool running;
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2111  =
-
-06aa040f039404 drivers/net/ethernet/intel/i40evf/i40evf_main.c Avinash Daya=
-nand      2017-12-18  2112  	/* When device is being removed it doesn't mak=
-e sense to run the reset
-06aa040f039404 drivers/net/ethernet/intel/i40evf/i40evf_main.c Avinash Daya=
-nand      2017-12-18  2113  	 * task, just return in such a case.
-06aa040f039404 drivers/net/ethernet/intel/i40evf/i40evf_main.c Avinash Daya=
-nand      2017-12-18  2114  	 */
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2115  	if (mutex_is_locked(&adapter->remove_lock))
-06aa040f039404 drivers/net/ethernet/intel/i40evf/i40evf_main.c Avinash Daya=
-nand      2017-12-18  2116  		return;
-06aa040f039404 drivers/net/ethernet/intel/i40evf/i40evf_main.c Avinash Daya=
-nand      2017-12-18  2117  =
-
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2118  	if (iavf_lock_timeout(&adapter->crit_lock, 200=
-)) {
-226d528512cfac drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-03-16  2119  		schedule_work(&adapter->reset_task);
-226d528512cfac drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-03-16  2120  		return;
-226d528512cfac drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-03-16  2121  	}
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2122  	while (!mutex_trylock(&adapter->client_lock))
-f98a20068dfcc1 drivers/net/ethernet/intel/i40evf/i40evf_main.c Neerav Parik=
-h         2014-09-13  2123  		usleep_range(500, 1000);
-ed0e894de7c133 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2017-01-24  2124  	if (CLIENT_ENABLED(adapter)) {
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2125  		adapter->flags &=3D ~(IAVF_FLAG_CLIENT_NEEDS_=
-OPEN |
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2126  				    IAVF_FLAG_CLIENT_NEEDS_CLOSE |
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2127  				    IAVF_FLAG_CLIENT_NEEDS_L2_PARAMS |
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2128  				    IAVF_FLAG_SERVICE_CLIENT_REQUESTED);
-ed0e894de7c133 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2017-01-24  2129  		cancel_delayed_work_sync(&adapter->client_tas=
-k);
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2130  		iavf_notify_client_close(&adapter->vsi, true);
-ed0e894de7c133 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2017-01-24  2131  	}
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2132  	iavf_misc_irq_disable(adapter);
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2133  	if (adapter->flags & IAVF_FLAG_RESET_NEEDED) {
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2134  		adapter->flags &=3D ~IAVF_FLAG_RESET_NEEDED;
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2135  		/* Restart the AQ here. If we have been reset=
- but didn't
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2136  		 * detect it, or if the PF had to reinit, our=
- AQ will be hosed.
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2137  		 */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2138  		iavf_shutdown_adminq(hw);
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2139  		iavf_init_adminq(hw);
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2140  		iavf_request_reset(adapter);
-3526d8005f23da drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-03-06  2141  	}
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2142  	adapter->flags |=3D IAVF_FLAG_RESET_PENDING;
-3526d8005f23da drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-03-06  2143  =
-
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2144  	/* poll until we see the reset actually happen=
- */
-8e3e4b9da7e626 drivers/net/ethernet/intel/iavf/iavf_main.c     Paul Greenwa=
-lt        2020-06-05  2145  	for (i =3D 0; i < IAVF_RESET_WAIT_DETECTED_COU=
-NT; i++) {
-f1cad2ce06f28c drivers/net/ethernet/intel/iavf/iavf_main.c     Jesse Brande=
-burg      2018-09-14  2146  		reg_val =3D rd32(hw, IAVF_VF_ARQLEN1) &
-f1cad2ce06f28c drivers/net/ethernet/intel/iavf/iavf_main.c     Jesse Brande=
-burg      2018-09-14  2147  			  IAVF_VF_ARQLEN1_ARQENABLE_MASK;
-ee5c1e92dd01d3 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-08-28  2148  		if (!reg_val)
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2149  			break;
-ee5c1e92dd01d3 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-08-28  2150  		usleep_range(5000, 10000);
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2151  	}
-8e3e4b9da7e626 drivers/net/ethernet/intel/iavf/iavf_main.c     Paul Greenwa=
-lt        2020-06-05  2152  	if (i =3D=3D IAVF_RESET_WAIT_DETECTED_COUNT) {
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2153  		dev_info(&adapter->pdev->dev, "Never saw rese=
-t\n");
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2154  		goto continue_reset; /* act like the reset ha=
-ppened */
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2155  	}
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2156  =
-
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2157  	/* wait until the reset is complete and the PF=
- is responding to us */
-8e3e4b9da7e626 drivers/net/ethernet/intel/iavf/iavf_main.c     Paul Greenwa=
-lt        2020-06-05  2158  	for (i =3D 0; i < IAVF_RESET_WAIT_COMPLETE_COU=
-NT; i++) {
-7d3f04af69bed2 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2016-10-05  2159  		/* sleep first to make sure a minimum wait ti=
-me is met */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2160  		msleep(IAVF_RESET_WAIT_MS);
-7d3f04af69bed2 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2016-10-05  2161  =
-
-f1cad2ce06f28c drivers/net/ethernet/intel/iavf/iavf_main.c     Jesse Brande=
-burg      2018-09-14  2162  		reg_val =3D rd32(hw, IAVF_VFGEN_RSTAT) &
-f1cad2ce06f28c drivers/net/ethernet/intel/iavf/iavf_main.c     Jesse Brande=
-burg      2018-09-14  2163  			  IAVF_VFGEN_RSTAT_VFR_STATE_MASK;
-310a2ad92e3fd9 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jesse Brande=
-burg      2017-05-11  2164  		if (reg_val =3D=3D VIRTCHNL_VFR_VFACTIVE)
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2165  			break;
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2166  	}
-7d3f04af69bed2 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2016-10-05  2167  =
-
-509a447ae80c2e drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-12-23  2168  	pci_set_master(adapter->pdev);
-7d3f04af69bed2 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2016-10-05  2169  =
-
-8e3e4b9da7e626 drivers/net/ethernet/intel/iavf/iavf_main.c     Paul Greenwa=
-lt        2020-06-05  2170  	if (i =3D=3D IAVF_RESET_WAIT_COMPLETE_COUNT) {
-80e7289356cdba drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-05-10  2171  		dev_err(&adapter->pdev->dev, "Reset never fin=
-ished (%x)\n",
-ee5c1e92dd01d3 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-08-28  2172  			reg_val);
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2173  		iavf_disable_vf(adapter);
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2174  		mutex_unlock(&adapter->client_lock);
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2175  		return; /* Do not attempt to reinit. It's dea=
-d, Jim. */
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2176  	}
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2177  =
-
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-02-13  2178  continue_reset:
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2179  	/* We don't use netif_running() because it may=
- be true prior to
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2180  	 * ndo_open() returning, so we can't assume it=
- means all our open
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2181  	 * tasks have finished, since we're not holdin=
-g the rtnl_lock here.
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2182  	 */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2183  	running =3D ((adapter->state =3D=3D __IAVF_RUN=
-NING) ||
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2184  		   (adapter->state =3D=3D __IAVF_RESETTING));
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2185  =
-
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2186  	if (running) {
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2187  		netif_carrier_off(netdev);
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2188  		netif_tx_stop_all_queues(netdev);
-3f341acc1c65b8 drivers/net/ethernet/intel/i40evf/i40evf_main.c Sridhar Samu=
-drala     2016-09-01  2189  		adapter->link_up =3D false;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2190  		iavf_napi_disable_all(adapter);
-3c8e0b989aa1af drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-02-27  2191  	}
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2192  	iavf_irq_disable(adapter);
-3c8e0b989aa1af drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-02-27  2193  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2194  	adapter->state =3D __IAVF_RESETTING;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2195  	adapter->flags &=3D ~IAVF_FLAG_RESET_PENDING;
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2196  =
-
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2197  	/* free the Tx/Rx rings and descriptors, might=
- be better to just
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2198  	 * re-use them sometime in the future
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2199  	 */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2200  	iavf_free_all_rx_resources(adapter);
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2201  	iavf_free_all_tx_resources(adapter);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2202  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2203  	adapter->flags |=3D IAVF_FLAG_QUEUES_DISABLED;
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2204  	/* kill and reinit the admin queue */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2205  	iavf_shutdown_adminq(hw);
-310a2ad92e3fd9 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jesse Brande=
-burg      2017-05-11  2206  	adapter->current_op =3D VIRTCHNL_OP_UNKNOWN;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2207  	err =3D iavf_init_adminq(hw);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2208  	if (err)
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2209  		dev_info(&adapter->pdev->dev, "Failed to init=
- adminq: %d\n",
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2210  			 err);
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2211  	adapter->aq_required =3D 0;
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2212  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2213  	if (adapter->flags & IAVF_FLAG_REINIT_ITR_NEED=
-ED) {
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2214  		err =3D iavf_reinit_interrupt_scheme(adapter);
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2215  		if (err)
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2216  			goto reset_err;
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2217  	}
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2218  =
-
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2219  	if (RSS_AQ(adapter)) {
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2220  		adapter->aq_required |=3D IAVF_FLAG_AQ_CONFIG=
-URE_RSS;
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2221  	} else {
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2222  		err =3D iavf_init_rss(adapter);
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2223  		if (err)
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2224  			goto reset_err;
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2225  	}
-a7550f8b1c9712 drivers/net/ethernet/intel/iavf/iavf_main.c     Md Fahad Iqb=
-al Polash 2021-06-04  2226  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2227  	adapter->aq_required |=3D IAVF_FLAG_AQ_GET_CON=
-FIG;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2228  	adapter->aq_required |=3D IAVF_FLAG_AQ_MAP_VEC=
-TORS;
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2229  =
-
-504398f0a78e72 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2230  	spin_lock_bh(&adapter->mac_vlan_list_lock);
-504398f0a78e72 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2231  =
-
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2232  	/* Delete filter for the current MAC address, =
-it could have
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2233  	 * been changed by the PF via administratively=
- set MAC.
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2234  	 * Will be re-added via VIRTCHNL_OP_GET_VF_RES=
-OURCES.
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2235  	 */
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2236  	list_for_each_entry_safe(f, ftmp, &adapter->ma=
-c_filter_list, list) {
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2237  		if (ether_addr_equal(f->macaddr, adapter->hw.=
-mac.addr)) {
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2238  			list_del(&f->list);
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2239  			kfree(f);
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2240  		}
-9e05229190380f drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2019-12-17  2241  	}
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2242  	/* re-add all MAC filters */
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2243  	list_for_each_entry(f, &adapter->mac_filter_li=
-st, list) {
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2244  		f->add =3D true;
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2245  	}
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2246  	/* re-add all VLAN filters */
-40d01366e6dd5e drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-10-01  2247  	list_for_each_entry(vlf, &adapter->vlan_filter=
-_list, list) {
-40d01366e6dd5e drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-10-01  2248  		vlf->add =3D true;
-ac833bbf7958bb drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-01-29  2249  	}
-504398f0a78e72 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2250  =
-
-504398f0a78e72 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2251  	spin_unlock_bh(&adapter->mac_vlan_list_lock);
-504398f0a78e72 drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2252  =
-
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2253  	/* check if TCs are running and re-add all clo=
-ud filters */
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2254  	spin_lock_bh(&adapter->cloud_filter_list_lock);
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2255  	if ((vfres->vf_cap_flags & VIRTCHNL_VF_OFFLOAD=
-_ADQ) &&
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2256  	    adapter->num_tc) {
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2257  		list_for_each_entry(cf, &adapter->cloud_filte=
-r_list, list) {
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2258  			cf->add =3D true;
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2259  		}
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2260  	}
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2261  	spin_unlock_bh(&adapter->cloud_filter_list_loc=
-k);
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy  2018-01-23  2262  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2263  	adapter->aq_required |=3D IAVF_FLAG_AQ_ADD_MAC=
-_FILTER;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2264  	adapter->aq_required |=3D IAVF_FLAG_AQ_ADD_VLA=
-N_FILTER;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2265  	adapter->aq_required |=3D IAVF_FLAG_AQ_ADD_CLO=
-UD_FILTER;
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2266  	iavf_misc_irq_enable(adapter);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2267  =
-
-fdd4044ffdc831 drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-          2019-05-14  2268  	mod_delayed_work(iavf_wq, &adapter->watchdog_t=
-ask, 2);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2269  =
-
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2270  	/* We were running when the reset started, so =
-we need to restore some
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2271  	 * state here.
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2272  	 */
-44b034b406211f drivers/net/ethernet/intel/i40evf/i40evf_main.c Jacob Keller=
-          2017-10-27  2273  	if (running) {
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2274  		/* allocate transmit descriptors */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2275  		err =3D iavf_setup_all_tx_resources(adapter);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2276  		if (err)
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2277  			goto reset_err;
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2278  =
-
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2279  		/* allocate receive descriptors */
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2280  		err =3D iavf_setup_all_rx_resources(adapter);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2281  		if (err)
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2282  			goto reset_err;
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2283  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2284  		if (adapter->flags & IAVF_FLAG_REINIT_ITR_NEE=
-DED) {
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2285  			err =3D iavf_request_traffic_irqs(adapter, n=
-etdev->name);
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2286  			if (err)
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2287  				goto reset_err;
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2288  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2289  			adapter->flags &=3D ~IAVF_FLAG_REINIT_ITR_NE=
-EDED;
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2290  		}
-5b36e8d04b4439 drivers/net/ethernet/intel/i40evf/i40evf_main.c Alan Brady  =
-          2017-08-22  2291  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2292  		iavf_configure(adapter);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2293  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2294  		iavf_up_complete(adapter);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2295  =
-
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2296  		iavf_irq_enable(adapter, true);
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2297  	} else {
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14  2298  		adapter->state =3D __IAVF_DOWN;
-fe2647ab0c9970 drivers/net/ethernet/intel/i40evf/i40evf_main.c Sudheer Mogi=
-lappagari 2017-06-23  2299  		wake_up(&adapter->down_waitqueue);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2300  	}
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2301  	mutex_unlock(&adapter->client_lock);
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2302  	mutex_unlock(&adapter->crit_lock);
-67c818a1d58c78 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2015-06-19  2303  =
-
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2304  	return;
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2305  reset_err:
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2306  	mutex_unlock(&adapter->client_lock);
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn        2021-08-04  2307  	mutex_unlock(&adapter->crit_lock);
-80e7289356cdba drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms        2014-05-10  2308  	dev_err(&adapter->pdev->dev, "failed to alloca=
-te resources during reinit\n");
-129cf89e585676 drivers/net/ethernet/intel/iavf/i40evf_main.c   Jesse Brande=
-burg      2018-09-14 @2309  	iavf_close(netdev);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2310  }
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-          2013-12-21  2311  =
+   kernel/kcsan/kcsan_test.c: In function 'test_atomic_builtins':
+   kernel/kcsan/kcsan_test.c:945:17: warning: 'atomic_thread_fence' is not =
+supported with '-fsanitize=3Dthread' [-Wtsan]
+     945 |                 __atomic_thread_fence(__ATOMIC_SEQ_CST);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/kcsan/kcsan_test.c:953:1: warning: the frame size of 2928 bytes i=
+s larger than 2048 bytes [-Wframe-larger-than=3D]
+     953 | }
+         | ^
 
 
-:::::: The code at line 2309 was first introduced by commit
-:::::: 129cf89e585676ea4cc4c096bad46ad73c46e21f iavf: rename functions and =
-structs to new name
+vim +953 kernel/kcsan/kcsan_test.c
 
-:::::: TO: Jesse Brandeburg <jesse.brandeburg@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+1fe84fd4a4027a kernel/kcsan/kcsan-test.c Marco Elver 2020-05-05  901  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  902  /*
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  903   * Te=
+st atomic builtins work and required instrumentation functions exist. We
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  904   * al=
+so test that KCSAN understands they're atomic by racing with them via
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  905   * te=
+st_kernel_atomic_builtins(), and expect no reports.
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  906   *
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  907   * Th=
+e atomic builtins _SHOULD NOT_ be used in normal kernel code!
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  908   */
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  909  stati=
+c void test_atomic_builtins(struct kunit *test)
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  910  {
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  911  	bool=
+ match_never =3D false;
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  912  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  913  	begi=
+n_test_checks(test_kernel_atomic_builtins, test_kernel_atomic_builtins);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  914  	do {
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  915  		lon=
+g tmp;
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  916  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  917  		kcs=
+an_enable_current();
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  918  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  919  		__a=
+tomic_store_n(&test_var, 42L, __ATOMIC_RELAXED);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  920  		KUN=
+IT_EXPECT_EQ(test, 42L, __atomic_load_n(&test_var, __ATOMIC_RELAXED));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  921  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  922  		KUN=
+IT_EXPECT_EQ(test, 42L, __atomic_exchange_n(&test_var, 20, __ATOMIC_RELAXED=
+));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  923  		KUN=
+IT_EXPECT_EQ(test, 20L, test_var);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  924  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  925  		tmp=
+ =3D 20L;
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  926  		KUN=
+IT_EXPECT_TRUE(test, __atomic_compare_exchange_n(&test_var, &tmp, 30L,
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  927  					=
+			    0, __ATOMIC_RELAXED,
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  928  					=
+			    __ATOMIC_RELAXED));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  929  		KUN=
+IT_EXPECT_EQ(test, tmp, 20L);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  930  		KUN=
+IT_EXPECT_EQ(test, test_var, 30L);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  931  		KUN=
+IT_EXPECT_FALSE(test, __atomic_compare_exchange_n(&test_var, &tmp, 40L,
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  932  					=
+			     1, __ATOMIC_RELAXED,
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  933  					=
+			     __ATOMIC_RELAXED));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  934  		KUN=
+IT_EXPECT_EQ(test, tmp, 30L);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  935  		KUN=
+IT_EXPECT_EQ(test, test_var, 30L);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  936  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  937  		KUN=
+IT_EXPECT_EQ(test, 30L, __atomic_fetch_add(&test_var, 1, __ATOMIC_RELAXED));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  938  		KUN=
+IT_EXPECT_EQ(test, 31L, __atomic_fetch_sub(&test_var, 1, __ATOMIC_RELAXED));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  939  		KUN=
+IT_EXPECT_EQ(test, 30L, __atomic_fetch_and(&test_var, 0xf, __ATOMIC_RELAXED=
+));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  940  		KUN=
+IT_EXPECT_EQ(test, 14L, __atomic_fetch_xor(&test_var, 0xf, __ATOMIC_RELAXED=
+));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  941  		KUN=
+IT_EXPECT_EQ(test, 1L, __atomic_fetch_or(&test_var, 0xf0, __ATOMIC_RELAXED)=
+);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  942  		KUN=
+IT_EXPECT_EQ(test, 241L, __atomic_fetch_nand(&test_var, 0xf, __ATOMIC_RELAX=
+ED));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  943  		KUN=
+IT_EXPECT_EQ(test, -2L, test_var);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  944  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  945  		__a=
+tomic_thread_fence(__ATOMIC_SEQ_CST);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  946  		__a=
+tomic_signal_fence(__ATOMIC_SEQ_CST);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  947  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  948  		kcs=
+an_disable_current();
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  949  =
+
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  950  		mat=
+ch_never =3D report_available();
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  951  	} wh=
+ile (!end_test_checks(match_never));
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  952  	KUNI=
+T_EXPECT_FALSE(test, match_never);
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03 @953  }
+f9ea6319313547 kernel/kcsan/kcsan-test.c Marco Elver 2020-07-03  954  =
+
+
+:::::: The code at line 953 was first introduced by commit
+:::::: f9ea63193135473ed6b6ff06f016eb6248100041 kcsan: Add atomic builtin t=
+est case
+
+:::::: TO: Marco Elver <elver@google.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2688914520999488997==--
+--===============0311434618747008978==--
 
