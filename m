@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4763635882558589280=="
+Content-Type: multipart/mixed; boundary="===============3090170942588395874=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: misc: fix minmax.cocci warnings
-Date: Wed, 23 Feb 2022 03:51:51 +0800
-Message-ID: <20220222195151.GA174427@086b3271c347>
+Date: Wed, 23 Feb 2022 03:51:47 +0800
+Message-ID: <20220222195147.GA173468@086b3271c347>
 In-Reply-To: <202202230332.kEB4LBR9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4763635882558589280==
+--===============3090170942588395874==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -24,8 +24,7 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/gpu/drm/savage/savage_state.c:267:26-27: WARNING opportunity for mi=
-n()
+drivers/gpu/drm/r128/r128_state.c:53:19-20: WARNING opportunity for min()
 
 
  Check for opencoded min(), max() implementations.
@@ -49,20 +48,21 @@ ax script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- drivers/gpu/drm/savage/savage_state.c |    2 +-
+ drivers/gpu/drm/r128/r128_state.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/savage/savage_state.c
-+++ b/drivers/gpu/drm/savage/savage_state.c
-@@ -264,7 +264,7 @@ static int savage_dispatch_state(drm_sav
+--- a/drivers/gpu/drm/r128/r128_state.c
++++ b/drivers/gpu/drm/r128/r128_state.c
+@@ -50,7 +50,7 @@ static void r128_emit_clip_rects(drm_r12
+ 	RING_LOCALS;
+ 	DRM_DEBUG("\n");
  =
 
- 	do {
- 		while (count > 0) {
--			unsigned int n =3D count < 255 ? count : 255;
-+			unsigned int n =3D min(count, 255);
- 			DMA_SET_REGISTERS(start, n);
- 			DMA_COPY(regs, n);
- 			count -=3D n;
---===============4763635882558589280==--
+-	BEGIN_RING((count < 3 ? count : 3) * 5 + 2);
++	BEGIN_RING(min(count, 3) * 5 + 2);
+ =
+
+ 	if (count >=3D 1) {
+ 		OUT_RING(CCE_PACKET0(R128_AUX1_SC_LEFT, 3));
+--===============3090170942588395874==--
 
