@@ -1,372 +1,91 @@
-Content-Type: multipart/mixed; boundary="===============6424386142721821907=="
+Content-Type: multipart/mixed; boundary="===============0078369471657191994=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/ice/ice_flow.c:663 ice_flow_xtract_fld() error: testing array offset 'sib' after use.
-Date: Wed, 23 Feb 2022 02:55:04 +0800
-Message-ID: <202202230223.ZeDCP365-lkp@intel.com>
+Subject: [atishp04:sbi_pmu_v6 14/17] drivers/perf/riscv_pmu_sbi.c:464 pmu_sbi_get_ctrinfo() warn: potentially one past the end of array 'pmu_ctr_list[i]'
+Date: Wed, 23 Feb 2022 01:43:43 +0800
+Message-ID: <202202230110.onIE1TGT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6424386142721821907==
+--===============0078369471657191994==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: Atish Patra <Atish.Patra@wdc.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Qi Zhang <qi.z.zhang@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Dan Nowlin <dan.nowlin@intel.com>
+TO: Atish Patra <atish.patra@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   038101e6b2cd5c55f888f85db42ea2ad3aecb4b6
-commit: b199dddbd399536d5470e10e6bfd7d0e1b5fb71a ice: Support non word alig=
-ned input set field
-date:   11 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 11 months ago
-config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
-ive/20220223/202202230223.ZeDCP365-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/atishp04/linux sbi_pmu_v6
+head:   876094386d4f915d81ec2ee5b8b412987a10d808
+commit: 626af3184b715c86adace38af397cf4223f2cb75 [14/17] RISC-V: Add perf p=
+latform driver based on SBI PMU extension
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-m031-20220222 (https://download.01.org/0day-ci/arc=
+hive/20220223/202202230110.onIE1TGT-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/intel/ice/ice_flow.c:663 ice_flow_xtract_fld() error: =
-testing array offset 'sib' after use.
+smatch warnings:
+drivers/perf/riscv_pmu_sbi.c:464 pmu_sbi_get_ctrinfo() warn: potentially on=
+e past the end of array 'pmu_ctr_list[i]'
+drivers/perf/riscv_pmu_sbi.c:464 pmu_sbi_get_ctrinfo() warn: potentially on=
+e past the end of array 'pmu_ctr_list[i]'
 
-Old smatch warnings:
-drivers/net/ethernet/intel/ice/ice_flow.c:1698 ice_add_rss_cfg_sync() error=
-: we previously assumed 'prof' could be null (see line 1680)
+vim +464 drivers/perf/riscv_pmu_sbi.c
 
-vim +/sib +663 drivers/net/ethernet/intel/ice/ice_flow.c
+626af3184b715c Atish Patra 2021-03-17  443  =
 
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  511  =
+626af3184b715c Atish Patra 2021-03-17  444  static int pmu_sbi_get_ctrinfo(=
+int nctr)
+626af3184b715c Atish Patra 2021-03-17  445  {
+626af3184b715c Atish Patra 2021-03-17  446  	struct sbiret ret;
+626af3184b715c Atish Patra 2021-03-17  447  	int i, num_hw_ctr =3D 0, num_f=
+w_ctr =3D 0;
+626af3184b715c Atish Patra 2021-03-17  448  	union sbi_pmu_ctr_info cinfo;
+626af3184b715c Atish Patra 2021-03-17  449  =
 
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  512  /**
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  513   * ice_flow_xtract_fl=
-d - Create an extraction sequence entry for the given field
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  514   * @hw: pointer to th=
-e HW struct
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  515   * @params: informati=
-on about the flow to be processed
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  516   * @seg: packet segme=
-nt index of the field to be extracted
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  517   * @fld: ID of field =
-to be extracted
-b199dddbd39953 Qi Zhang              2021-03-09  518   * @match: bit field =
-of all fields
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  519   *
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  520   * This function dete=
-rmines the protocol ID, offset, and size of the given
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  521   * field. It then all=
-ocates one or more extraction sequence entries for the
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  522   * given field, and f=
-ill the entries with protocol ID and offset information.
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  523   */
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  524  static enum ice_status
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  525  ice_flow_xtract_fld(s=
-truct ice_hw *hw, struct ice_flow_prof_params *params,
-b199dddbd39953 Qi Zhang              2021-03-09  526  		    u8 seg, enum ic=
-e_flow_field fld, u64 match)
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  527  {
-b199dddbd39953 Qi Zhang              2021-03-09  528  	enum ice_flow_field =
-sib =3D ICE_FLOW_FIELD_IDX_MAX;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  529  	enum ice_prot_id pro=
-t_id =3D ICE_PROT_ID_INVAL;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  530  	u8 fv_words =3D hw->=
-blk[params->blk].es.fvw;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  531  	struct ice_flow_fld_=
-info *flds;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  532  	u16 cnt, ese_bits, i;
-b199dddbd39953 Qi Zhang              2021-03-09  533  	u16 sib_mask =3D 0;
-b199dddbd39953 Qi Zhang              2021-03-09  534  	u16 mask;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  535  	u16 off;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  536  =
+626af3184b715c Atish Patra 2021-03-17  450  	pmu_ctr_list =3D kcalloc(nctr,=
+ sizeof(*pmu_ctr_list), GFP_KERNEL);
+626af3184b715c Atish Patra 2021-03-17  451  	if (!pmu_ctr_list)
+626af3184b715c Atish Patra 2021-03-17  452  		return -ENOMEM;
+626af3184b715c Atish Patra 2021-03-17  453  =
 
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  537  	flds =3D params->pro=
-f->segs[seg].fields;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  538  =
+626af3184b715c Atish Patra 2021-03-17  454  	for (i =3D 0; i <=3D nctr; i++=
+) {
+626af3184b715c Atish Patra 2021-03-17  455  		ret =3D sbi_ecall(SBI_EXT_PMU=
+, SBI_EXT_PMU_COUNTER_GET_INFO, i, 0, 0, 0, 0, 0);
+626af3184b715c Atish Patra 2021-03-17  456  		if (ret.error)
+626af3184b715c Atish Patra 2021-03-17  457  			/* The logical counter ids a=
+re not expected to be contiguous */
+626af3184b715c Atish Patra 2021-03-17  458  			continue;
+626af3184b715c Atish Patra 2021-03-17  459  		cinfo.value =3D ret.value;
+626af3184b715c Atish Patra 2021-03-17  460  		if (cinfo.type =3D=3D SBI_PMU=
+_CTR_TYPE_FW)
+626af3184b715c Atish Patra 2021-03-17  461  			num_fw_ctr++;
+626af3184b715c Atish Patra 2021-03-17  462  		else
+626af3184b715c Atish Patra 2021-03-17  463  			num_hw_ctr++;
+626af3184b715c Atish Patra 2021-03-17 @464  		pmu_ctr_list[i].value =3D cin=
+fo.value;
+626af3184b715c Atish Patra 2021-03-17  465  	}
+626af3184b715c Atish Patra 2021-03-17  466  =
 
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  539  	switch (fld) {
-390bd141808d50 Qi Zhang              2021-03-09  540  	case ICE_FLOW_FIELD_=
-IDX_ETH_DA:
-390bd141808d50 Qi Zhang              2021-03-09  541  	case ICE_FLOW_FIELD_=
-IDX_ETH_SA:
-390bd141808d50 Qi Zhang              2021-03-09  542  	case ICE_FLOW_FIELD_=
-IDX_S_VLAN:
-390bd141808d50 Qi Zhang              2021-03-09  543  	case ICE_FLOW_FIELD_=
-IDX_C_VLAN:
-390bd141808d50 Qi Zhang              2021-03-09  544  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_MAC_OF_OR_S : ICE_PROT_MAC_IL;
-390bd141808d50 Qi Zhang              2021-03-09  545  		break;
-390bd141808d50 Qi Zhang              2021-03-09  546  	case ICE_FLOW_FIELD_=
-IDX_ETH_TYPE:
-390bd141808d50 Qi Zhang              2021-03-09  547  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_ETYPE_OL : ICE_PROT_ETYPE_IL;
-390bd141808d50 Qi Zhang              2021-03-09  548  		break;
-b199dddbd39953 Qi Zhang              2021-03-09  549  	case ICE_FLOW_FIELD_=
-IDX_IPV4_DSCP:
-b199dddbd39953 Qi Zhang              2021-03-09  550  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_IPV4_OF_OR_S : ICE_PROT_IPV4_IL;
-b199dddbd39953 Qi Zhang              2021-03-09  551  		break;
-b199dddbd39953 Qi Zhang              2021-03-09  552  	case ICE_FLOW_FIELD_=
-IDX_IPV6_DSCP:
-b199dddbd39953 Qi Zhang              2021-03-09  553  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_IPV6_OF_OR_S : ICE_PROT_IPV6_IL;
-b199dddbd39953 Qi Zhang              2021-03-09  554  		break;
-b199dddbd39953 Qi Zhang              2021-03-09  555  	case ICE_FLOW_FIELD_=
-IDX_IPV4_TTL:
-b199dddbd39953 Qi Zhang              2021-03-09  556  	case ICE_FLOW_FIELD_=
-IDX_IPV4_PROT:
-b199dddbd39953 Qi Zhang              2021-03-09  557  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_IPV4_OF_OR_S : ICE_PROT_IPV4_IL;
-b199dddbd39953 Qi Zhang              2021-03-09  558  =
+626af3184b715c Atish Patra 2021-03-17  467  	pr_info("%d firmware and %d ha=
+rdware counters\n", num_fw_ctr, num_hw_ctr);
+626af3184b715c Atish Patra 2021-03-17  468  =
 
-b199dddbd39953 Qi Zhang              2021-03-09  559  		/* TTL and PROT sha=
-re the same extraction seq. entry.
-b199dddbd39953 Qi Zhang              2021-03-09  560  		 * Each is consider=
-ed a sibling to the other in terms of sharing
-b199dddbd39953 Qi Zhang              2021-03-09  561  		 * the same extract=
-ion sequence entry.
-b199dddbd39953 Qi Zhang              2021-03-09  562  		 */
-b199dddbd39953 Qi Zhang              2021-03-09  563  		if (fld =3D=3D ICE_=
-FLOW_FIELD_IDX_IPV4_TTL)
-b199dddbd39953 Qi Zhang              2021-03-09  564  			sib =3D ICE_FLOW_F=
-IELD_IDX_IPV4_PROT;
-b199dddbd39953 Qi Zhang              2021-03-09  565  		else if (fld =3D=3D=
- ICE_FLOW_FIELD_IDX_IPV4_PROT)
-b199dddbd39953 Qi Zhang              2021-03-09  566  			sib =3D ICE_FLOW_F=
-IELD_IDX_IPV4_TTL;
-b199dddbd39953 Qi Zhang              2021-03-09  567  =
-
-b199dddbd39953 Qi Zhang              2021-03-09  568  		/* If the sibling f=
-ield is also included, that field's
-b199dddbd39953 Qi Zhang              2021-03-09  569  		 * mask needs to be=
- included.
-b199dddbd39953 Qi Zhang              2021-03-09  570  		 */
-b199dddbd39953 Qi Zhang              2021-03-09  571  		if (match & BIT(sib=
-))
-b199dddbd39953 Qi Zhang              2021-03-09  572  			sib_mask =3D ice_f=
-lds_info[sib].mask;
-b199dddbd39953 Qi Zhang              2021-03-09  573  		break;
-b199dddbd39953 Qi Zhang              2021-03-09  574  	case ICE_FLOW_FIELD_=
-IDX_IPV6_TTL:
-b199dddbd39953 Qi Zhang              2021-03-09  575  	case ICE_FLOW_FIELD_=
-IDX_IPV6_PROT:
-b199dddbd39953 Qi Zhang              2021-03-09  576  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_IPV6_OF_OR_S : ICE_PROT_IPV6_IL;
-b199dddbd39953 Qi Zhang              2021-03-09  577  =
-
-b199dddbd39953 Qi Zhang              2021-03-09  578  		/* TTL and PROT sha=
-re the same extraction seq. entry.
-b199dddbd39953 Qi Zhang              2021-03-09  579  		 * Each is consider=
-ed a sibling to the other in terms of sharing
-b199dddbd39953 Qi Zhang              2021-03-09  580  		 * the same extract=
-ion sequence entry.
-b199dddbd39953 Qi Zhang              2021-03-09  581  		 */
-b199dddbd39953 Qi Zhang              2021-03-09  582  		if (fld =3D=3D ICE_=
-FLOW_FIELD_IDX_IPV6_TTL)
-b199dddbd39953 Qi Zhang              2021-03-09  583  			sib =3D ICE_FLOW_F=
-IELD_IDX_IPV6_PROT;
-b199dddbd39953 Qi Zhang              2021-03-09  584  		else if (fld =3D=3D=
- ICE_FLOW_FIELD_IDX_IPV6_PROT)
-b199dddbd39953 Qi Zhang              2021-03-09  585  			sib =3D ICE_FLOW_F=
-IELD_IDX_IPV6_TTL;
-b199dddbd39953 Qi Zhang              2021-03-09  586  =
-
-b199dddbd39953 Qi Zhang              2021-03-09  587  		/* If the sibling f=
-ield is also included, that field's
-b199dddbd39953 Qi Zhang              2021-03-09  588  		 * mask needs to be=
- included.
-b199dddbd39953 Qi Zhang              2021-03-09  589  		 */
-b199dddbd39953 Qi Zhang              2021-03-09  590  		if (match & BIT(sib=
-))
-b199dddbd39953 Qi Zhang              2021-03-09  591  			sib_mask =3D ice_f=
-lds_info[sib].mask;
-b199dddbd39953 Qi Zhang              2021-03-09  592  		break;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  593  	case ICE_FLOW_FIELD_=
-IDX_IPV4_SA:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  594  	case ICE_FLOW_FIELD_=
-IDX_IPV4_DA:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  595  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_IPV4_OF_OR_S : ICE_PROT_IPV4_IL;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  596  		break;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  597  	case ICE_FLOW_FIELD_=
-IDX_IPV6_SA:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  598  	case ICE_FLOW_FIELD_=
-IDX_IPV6_DA:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  599  		prot_id =3D seg =3D=
-=3D 0 ? ICE_PROT_IPV6_OF_OR_S : ICE_PROT_IPV6_IL;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  600  		break;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  601  	case ICE_FLOW_FIELD_=
-IDX_TCP_SRC_PORT:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  602  	case ICE_FLOW_FIELD_=
-IDX_TCP_DST_PORT:
-390bd141808d50 Qi Zhang              2021-03-09  603  	case ICE_FLOW_FIELD_=
-IDX_TCP_FLAGS:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  604  		prot_id =3D ICE_PRO=
-T_TCP_IL;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  605  		break;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  606  	case ICE_FLOW_FIELD_=
-IDX_UDP_SRC_PORT:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  607  	case ICE_FLOW_FIELD_=
-IDX_UDP_DST_PORT:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  608  		prot_id =3D ICE_PRO=
-T_UDP_IL_OR_S;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  609  		break;
-1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  610  	case ICE_FLOW_FIELD_=
-IDX_SCTP_SRC_PORT:
-1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  611  	case ICE_FLOW_FIELD_=
-IDX_SCTP_DST_PORT:
-1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  612  		prot_id =3D ICE_PRO=
-T_SCTP_IL;
-1c01c8c6c969a9 Md Fahad Iqbal Polash 2020-01-17  613  		break;
-390bd141808d50 Qi Zhang              2021-03-09  614  	case ICE_FLOW_FIELD_=
-IDX_ARP_SIP:
-390bd141808d50 Qi Zhang              2021-03-09  615  	case ICE_FLOW_FIELD_=
-IDX_ARP_DIP:
-390bd141808d50 Qi Zhang              2021-03-09  616  	case ICE_FLOW_FIELD_=
-IDX_ARP_SHA:
-390bd141808d50 Qi Zhang              2021-03-09  617  	case ICE_FLOW_FIELD_=
-IDX_ARP_DHA:
-390bd141808d50 Qi Zhang              2021-03-09  618  	case ICE_FLOW_FIELD_=
-IDX_ARP_OP:
-390bd141808d50 Qi Zhang              2021-03-09  619  		prot_id =3D ICE_PRO=
-T_ARP_OF;
-390bd141808d50 Qi Zhang              2021-03-09  620  		break;
-390bd141808d50 Qi Zhang              2021-03-09  621  	case ICE_FLOW_FIELD_=
-IDX_ICMP_TYPE:
-390bd141808d50 Qi Zhang              2021-03-09  622  	case ICE_FLOW_FIELD_=
-IDX_ICMP_CODE:
-390bd141808d50 Qi Zhang              2021-03-09  623  		/* ICMP type and co=
-de share the same extraction seq. entry */
-390bd141808d50 Qi Zhang              2021-03-09  624  		prot_id =3D (params=
-->prof->segs[seg].hdrs & ICE_FLOW_SEG_HDR_IPV4) ?
-390bd141808d50 Qi Zhang              2021-03-09  625  				ICE_PROT_ICMP_IL =
-: ICE_PROT_ICMPV6_IL;
-b199dddbd39953 Qi Zhang              2021-03-09  626  		sib =3D fld =3D=3D =
-ICE_FLOW_FIELD_IDX_ICMP_TYPE ?
-b199dddbd39953 Qi Zhang              2021-03-09  627  			ICE_FLOW_FIELD_IDX=
-_ICMP_CODE :
-b199dddbd39953 Qi Zhang              2021-03-09  628  			ICE_FLOW_FIELD_IDX=
-_ICMP_TYPE;
-390bd141808d50 Qi Zhang              2021-03-09  629  		break;
-a4e82a81f57387 Tony Nguyen           2020-05-06  630  	case ICE_FLOW_FIELD_=
-IDX_GRE_KEYID:
-a4e82a81f57387 Tony Nguyen           2020-05-06  631  		prot_id =3D ICE_PRO=
-T_GRE_OF;
-a4e82a81f57387 Tony Nguyen           2020-05-06  632  		break;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  633  	default:
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  634  		return ICE_ERR_NOT_=
-IMPL;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  635  	}
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  636  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  637  	/* Each extraction s=
-equence entry is a word in size, and extracts a
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  638  	 * word-aligned offs=
-et from a protocol header.
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  639  	 */
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  640  	ese_bits =3D ICE_FLO=
-W_FV_EXTRACT_SZ * BITS_PER_BYTE;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  641  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  642  	flds[fld].xtrct.prot=
-_id =3D prot_id;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  643  	flds[fld].xtrct.off =
-=3D (ice_flds_info[fld].off / ese_bits) *
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  644  		ICE_FLOW_FV_EXTRACT=
-_SZ;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  645  	flds[fld].xtrct.disp=
- =3D (u8)(ice_flds_info[fld].off % ese_bits);
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  646  	flds[fld].xtrct.idx =
-=3D params->es_cnt;
-b199dddbd39953 Qi Zhang              2021-03-09  647  	flds[fld].xtrct.mask=
- =3D ice_flds_info[fld].mask;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  648  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  649  	/* Adjust the next f=
-ield-entry index after accommodating the number of
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  650  	 * entries this fiel=
-d consumes
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  651  	 */
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  652  	cnt =3D DIV_ROUND_UP=
-(flds[fld].xtrct.disp + ice_flds_info[fld].size,
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  653  			   ese_bits);
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  654  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  655  	/* Fill in the extra=
-ction sequence entries needed for this field */
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  656  	off =3D flds[fld].xt=
-rct.off;
-b199dddbd39953 Qi Zhang              2021-03-09  657  	mask =3D flds[fld].x=
-trct.mask;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  658  	for (i =3D 0; i < cn=
-t; i++) {
-b199dddbd39953 Qi Zhang              2021-03-09  659  		/* Only consume an =
-extraction sequence entry if there is no
-b199dddbd39953 Qi Zhang              2021-03-09  660  		 * sibling field as=
-sociated with this field or the sibling entry
-b199dddbd39953 Qi Zhang              2021-03-09  661  		 * already extracts=
- the word shared with this field.
-b199dddbd39953 Qi Zhang              2021-03-09  662  		 */
-b199dddbd39953 Qi Zhang              2021-03-09 @663  		if (sib =3D=3D ICE_=
-FLOW_FIELD_IDX_MAX ||
-b199dddbd39953 Qi Zhang              2021-03-09  664  		    flds[sib].xtrct=
-.prot_id =3D=3D ICE_PROT_ID_INVAL ||
-b199dddbd39953 Qi Zhang              2021-03-09  665  		    flds[sib].xtrct=
-.off !=3D off) {
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  666  			u8 idx;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  667  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  668  			/* Make sure the n=
-umber of extraction sequence required
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  669  			 * does not exceed=
- the block's capability
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  670  			 */
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  671  			if (params->es_cnt=
- >=3D fv_words)
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  672  				return ICE_ERR_MA=
-X_LIMIT;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  673  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  674  			/* some blocks req=
-uire a reversed field vector layout */
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  675  			if (hw->blk[params=
-->blk].es.reverse)
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  676  				idx =3D fv_words =
-- params->es_cnt - 1;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  677  			else
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  678  				idx =3D params->e=
-s_cnt;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  679  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  680  			params->es[idx].pr=
-ot_id =3D prot_id;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  681  			params->es[idx].of=
-f =3D off;
-b199dddbd39953 Qi Zhang              2021-03-09  682  			params->mask[idx] =
-=3D mask | sib_mask;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  683  			params->es_cnt++;
-b199dddbd39953 Qi Zhang              2021-03-09  684  		}
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  685  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  686  		off +=3D ICE_FLOW_F=
-V_EXTRACT_SZ;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  687  	}
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  688  =
-
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  689  	return 0;
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  690  }
-31ad4e4ee1e4e2 Tony Nguyen           2020-01-17  691  =
+626af3184b715c Atish Patra 2021-03-17  469  	return 0;
+626af3184b715c Atish Patra 2021-03-17  470  }
+626af3184b715c Atish Patra 2021-03-17  471  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6424386142721821907==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============0078369471657191994==--
 
