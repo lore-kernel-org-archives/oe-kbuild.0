@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6779049488562453394=="
+Content-Type: multipart/mixed; boundary="===============6846989353849746254=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/cxl/pmem.c:143:7: warning: Value stored to 'rc' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 23 Feb 2022 00:52:43 +0800
-Message-ID: <202202230052.LcyF8IAG-lkp@intel.com>
+Subject: sound/soc/soc-ops.c:461:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 22 Feb 2022 23:41:25 +0800
+Message-ID: <202202222354.ZlEAU0lX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6779049488562453394==
+--===============6846989353849746254==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Dan Williams <dan.j.williams@intel.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   038101e6b2cd5c55f888f85db42ea2ad3aecb4b6
-commit: 21083f51521fb0f60dbac591f175c3ed48435af4 cxl/pmem: Register 'pmem' =
-/ cxl_nvdimm devices
-date:   8 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 8 months ago
-config: riscv-randconfig-c006-20220221 (https://download.01.org/0day-ci/arc=
-hive/20220223/202202230052.LcyF8IAG-lkp(a)intel.com/config)
+commit: 7f3d90a3519680dfa23e750f80bfdefc0f5eda4a ASoC: ops: Fix stereo chan=
+ge notifications in snd_soc_put_volsw_sx()
+date:   3 weeks ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-c007-20220221 (https://download.01.org/0day-ci/ar=
+chive/20220222/202202222354.ZlEAU0lX-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D21083f51521fb0f60dbac591f175c3ed48435af4
+t/commit/?id=3D7f3d90a3519680dfa23e750f80bfdefc0f5eda4a
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 21083f51521fb0f60dbac591f175c3ed48435af4
+        git checkout 7f3d90a3519680dfa23e750f80bfdefc0f5eda4a
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,308 +49,380 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                                   ^
-   fs/jfs/jfs_dtree.c:787:2: note: Assuming the condition is true
-           DT_PUTPAGE(mp);
-           ^
-   fs/jfs/jfs_dtree.c:131:24: note: expanded from macro 'DT_PUTPAGE'
-   #define DT_PUTPAGE(MP) BT_PUTPAGE(MP)
-                          ^~~~~~~~~~~~~~
-   fs/jfs/jfs_btree.h:87:8: note: expanded from macro 'BT_PUTPAGE'
-           if (! BT_IS_ROOT(MP)) \
-                 ^~~~~~~~~~~~~~
-   fs/jfs/jfs_btree.h:47:25: note: expanded from macro 'BT_IS_ROOT'
-   #define BT_IS_ROOT(MP) (((MP)->xflag & COMMIT_PAGE) =3D=3D 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_dtree.c:787:2: note: Taking false branch
-           DT_PUTPAGE(mp);
-           ^
-   fs/jfs/jfs_dtree.c:131:24: note: expanded from macro 'DT_PUTPAGE'
-   #define DT_PUTPAGE(MP) BT_PUTPAGE(MP)
-                          ^
-   fs/jfs/jfs_btree.h:87:2: note: expanded from macro 'BT_PUTPAGE'
-           if (! BT_IS_ROOT(MP)) \
-           ^
-   fs/jfs/jfs_dtree.c:4528:12: note: Returning from 'dtSearch'
-           if ((rc =3D dtSearch(ip, key, orig_ino, &btstack, flag)))
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_dtree.c:4528:7: note: Assuming 'rc' is 0
-           if ((rc =3D dtSearch(ip, key, orig_ino, &btstack, flag)))
-                ^~
-   fs/jfs/jfs_dtree.c:4528:2: note: Taking false branch
-           if ((rc =3D dtSearch(ip, key, orig_ino, &btstack, flag)))
-           ^
-   fs/jfs/jfs_dtree.c:4532:2: note: Assigned value is garbage or undefined
-           DT_GETSEARCH(ip, btstack.top, bn, mp, p, index);
-           ^
-   fs/jfs/jfs_dtree.c:134:2: note: expanded from macro 'DT_GETSEARCH'
-           BT_GETSEARCH(IP, LEAF, BN, MP, dtpage_t, P, INDEX, i_dtroot)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_btree.h:144:5: note: expanded from macro 'BT_GETSEARCH'
-           BN =3D (LEAF)->bn;\
-              ^ ~~~~~~~~~~
-   fs/jfs/jfs_types.h:67:33: warning: The left operand of '&' is a garbage =
-value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
-                                          ^
-   fs/jfs/jfs_dtree.c:946:7: note: Assuming the condition is false
-           sp =3D DT_PAGE(ip, smp);
-                ^
-   fs/jfs/jfs_dtree.c:111:25: note: expanded from macro 'DT_PAGE'
-   #define DT_PAGE(IP, MP) BT_PAGE(IP, MP, dtpage_t, i_dtroot)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_btree.h:51:3: note: expanded from macro 'BT_PAGE'
-           (BT_IS_ROOT(MP) ? (TYPE *)&JFS_IP(IP)->ROOT : (TYPE *)(MP)->data)
-            ^~~~~~~~~~~~~~
-   fs/jfs/jfs_btree.h:47:25: note: expanded from macro 'BT_IS_ROOT'
-   #define BT_IS_ROOT(MP) (((MP)->xflag & COMMIT_PAGE) =3D=3D 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_dtree.c:946:7: note: '?' condition is false
-           sp =3D DT_PAGE(ip, smp);
-                ^
-   fs/jfs/jfs_dtree.c:111:25: note: expanded from macro 'DT_PAGE'
-   #define DT_PAGE(IP, MP) BT_PAGE(IP, MP, dtpage_t, i_dtroot)
-                           ^
-   fs/jfs/jfs_btree.h:51:3: note: expanded from macro 'BT_PAGE'
-           (BT_IS_ROOT(MP) ? (TYPE *)&JFS_IP(IP)->ROOT : (TYPE *)(MP)->data)
-            ^
-   fs/jfs/jfs_btree.h:47:24: note: expanded from macro 'BT_IS_ROOT'
-   #define BT_IS_ROOT(MP) (((MP)->xflag & COMMIT_PAGE) =3D=3D 0)
-                          ^
-   fs/jfs/jfs_dtree.c:949:6: note: Assuming field 'name' is non-null
-           if (!key.name) {
-               ^~~~~~~~~
-   fs/jfs/jfs_dtree.c:949:2: note: Taking false branch
-           if (!key.name) {
-           ^
-   fs/jfs/jfs_dtree.c:964:6: note: Assuming the condition is true
-           if (sp->header.flag & BT_ROOT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_dtree.c:964:2: note: Taking true branch
-           if (sp->header.flag & BT_ROOT) {
-           ^
-   fs/jfs/jfs_dtree.c:972:7: note: Assuming 'n' is > field 'nslot'
-                   if (n <=3D split->nslot)
-                       ^~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_dtree.c:972:3: note: Taking false branch
-                   if (n <=3D split->nslot)
-                   ^
-   fs/jfs/jfs_dtree.c:974:8: note: Assuming 'rc' is 0
-                   if ((rc =3D dbAlloc(ip, 0, (s64) xlen, &xaddr))) {
-                        ^~
-   fs/jfs/jfs_dtree.c:974:3: note: Taking false branch
-                   if ((rc =3D dbAlloc(ip, 0, (s64) xlen, &xaddr))) {
-                   ^
-   fs/jfs/jfs_dtree.c:982:3: note: Calling 'PXDaddress'
-                   PXDaddress(pxd, xaddr);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_types.h:67:33: note: The left operand of '&' is a garbage val=
-ue
-           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
-                            ~~~~~~~~~~~~~ ^
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+                     ^        ~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   fs/btrfs/extent_map.c:615:3: warning: Value stored to 'ret' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   fs/btrfs/extent_map.c:615:3: note: Value stored to 'ret' is never read
+                   ret =3D 0;
+                   ^     ~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/media/tuners/fc0011.c:252:3: warning: Value stored to 'bandwidth=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   bandwidth =3D 6000;
+                   ^           ~~~~
+   drivers/media/tuners/fc0011.c:252:3: note: Value stored to 'bandwidth' i=
+s never read
+                   bandwidth =3D 6000;
+                   ^           ~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   fs/ntfs3/inode.c:372:2: warning: Value stored to 'err' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   fs/ntfs3/inode.c:372:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   fs/ntfs3/index.c:2463:3: warning: Value stored to 'err' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   err =3D attr_set_size(ni, ATTR_ALLOC, in->name, in->name=
+_len,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   fs/ntfs3/index.c:2463:3: note: Value stored to 'err' is never read
+                   err =3D attr_set_size(ni, ATTR_ALLOC, in->name, in->name=
+_len,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   fs/ntfs3/index.c:2465:3: warning: Value stored to 'err' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   err =3D ni_remove_attr(ni, ATTR_ALLOC, in->name, in->nam=
+e_len,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/ntfs3/index.c:2465:3: note: Value stored to 'err' is never read
+                   err =3D ni_remove_attr(ni, ATTR_ALLOC, in->name, in->nam=
+e_len,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/ntfs3/index.c:2469:3: warning: Value stored to 'err' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   err =3D attr_set_size(ni, ATTR_BITMAP, in->name, in->nam=
+e_len,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/ntfs3/index.c:2469:3: note: Value stored to 'err' is never read
+                   err =3D attr_set_size(ni, ATTR_BITMAP, in->name, in->nam=
+e_len,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> sound/soc/soc-ops.c:461:4: warning: Value stored to 'ret' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                           ret =3D err;
+                           ^     ~~~
+   sound/soc/soc-ops.c:461:4: note: Value stored to 'ret' is never read
+                           ret =3D err;
+                           ^     ~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   fs/nfs/nfs4state.c:2635:4: warning: Value stored to 'section' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           section =3D "detect expired delegations";
+                           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4state.c:2635:4: note: Value stored to 'section' is never read
+                           section =3D "detect expired delegations";
+                           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   10 warnings generated.
+   15 warnings generated.
+   20 warnings generated.
+   25 warnings generated.
+   30 warnings generated.
+   35 warnings generated.
+   40 warnings generated.
+   Suppressed 40 warnings (40 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/mtd/mtdconcat.c:67:4: warning: Value stored to 'size' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           size =3D 0;
+                           ^      ~
+   drivers/mtd/mtdconcat.c:67:4: note: Value stored to 'size' is never read
+                           size =3D 0;
+                           ^      ~
+   drivers/mtd/mtdconcat.c:159:4: warning: Value stored to 'size' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                           size =3D 0;
+                           ^      ~
+   drivers/mtd/mtdconcat.c:159:4: note: Value stored to 'size' is never read
+                           size =3D 0;
+                           ^      ~
+   drivers/mtd/mtdconcat.c:492:4: warning: Value stored to 'size' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                           size =3D 0;
+                           ^      ~
+   drivers/mtd/mtdconcat.c:492:4: note: Value stored to 'size' is never read
+                           size =3D 0;
+                           ^      ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/mtd/mtdchar.c:1176:19: warning: Value stored to 'map' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct map_info *map =3D mtd->priv;
+                            ^~~   ~~~~~~~~~
+   drivers/mtd/mtdchar.c:1176:19: note: Value stored to 'map' during its in=
+itialization is never read
+           struct map_info *map =3D mtd->priv;
+                            ^~~   ~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    10 warnings generated.
->> drivers/cxl/pmem.c:143:7: warning: Value stored to 'rc' during its initi=
-alization is never read [clang-analyzer-deadcode.DeadStores]
-                   int rc =3D bus_rescan_devices(&cxl_bus_type);
-                       ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/pmem.c:143:7: note: Value stored to 'rc' during its initiali=
-zation is never read
-                   int rc =3D bus_rescan_devices(&cxl_bus_type);
-                       ^~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Suppressed 10 warnings (10 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/ata/libata-core.c:92:8: warning: Excessive padding in 'struct at=
-a_force_param' (12 padding bytes, where 4 is optimal). =
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (10 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   net/ipv4/tcp_timer.c:484:21: warning: Value stored to 'inet' during its =
+initialization is never read [clang-analyzer-deadcode.DeadStores]
+                   struct inet_sock *inet =3D inet_sk(sk);
+                                     ^~~~   ~~~~~~~~~~~
+   net/ipv4/tcp_timer.c:484:21: note: Value stored to 'inet' during its ini=
+tialization is never read
 
-   Optimal fields order: =
+vim +/ret +461 sound/soc/soc-ops.c
 
-   name, =
+7077148fb50a12 Mark Brown        2014-10-28  405  =
 
-   xfer_mask, =
+7077148fb50a12 Mark Brown        2014-10-28  406  /**
+7077148fb50a12 Mark Brown        2014-10-28  407   * snd_soc_put_volsw_sx -=
+ double mixer set callback
+7077148fb50a12 Mark Brown        2014-10-28  408   * @kcontrol: mixer contr=
+ol
+9a11ef7ff00e08 Randy Dunlap      2015-11-23  409   * @ucontrol: control ele=
+ment information
+7077148fb50a12 Mark Brown        2014-10-28  410   *
+7077148fb50a12 Mark Brown        2014-10-28  411   * Callback to set the va=
+lue of a double mixer control that spans 2 registers.
+7077148fb50a12 Mark Brown        2014-10-28  412   *
+7077148fb50a12 Mark Brown        2014-10-28  413   * Returns 0 for success.
+7077148fb50a12 Mark Brown        2014-10-28  414   */
+7077148fb50a12 Mark Brown        2014-10-28  415  int snd_soc_put_volsw_sx(=
+struct snd_kcontrol *kcontrol,
+7077148fb50a12 Mark Brown        2014-10-28  416  			 struct snd_ctl_elem_v=
+alue *ucontrol)
+7077148fb50a12 Mark Brown        2014-10-28  417  {
+7077148fb50a12 Mark Brown        2014-10-28  418  	struct snd_soc_component=
+ *component =3D snd_kcontrol_chip(kcontrol);
+7077148fb50a12 Mark Brown        2014-10-28  419  	struct soc_mixer_control=
+ *mc =3D
+7077148fb50a12 Mark Brown        2014-10-28  420  	    (struct soc_mixer_co=
+ntrol *)kcontrol->private_value;
+7077148fb50a12 Mark Brown        2014-10-28  421  =
 
-   horkage_on, =
+7077148fb50a12 Mark Brown        2014-10-28  422  	unsigned int reg =3D mc-=
+>reg;
+7077148fb50a12 Mark Brown        2014-10-28  423  	unsigned int reg2 =3D mc=
+->rreg;
+7077148fb50a12 Mark Brown        2014-10-28  424  	unsigned int shift =3D m=
+c->shift;
+7077148fb50a12 Mark Brown        2014-10-28  425  	unsigned int rshift =3D =
+mc->rshift;
+7077148fb50a12 Mark Brown        2014-10-28  426  	int max =3D mc->max;
+7077148fb50a12 Mark Brown        2014-10-28  427  	int min =3D mc->min;
+ae7d1247d8673e Rohit kumar       2018-09-11  428  	unsigned int mask =3D (1=
+U << (fls(min + max) - 1)) - 1;
+7077148fb50a12 Mark Brown        2014-10-28  429  	int err =3D 0;
+7f3d90a3519680 Mark Brown        2022-02-01  430  	int ret;
+58f42dfd797759 Kuninori Morimoto 2021-08-03  431  	unsigned int val, val_ma=
+sk;
+7077148fb50a12 Mark Brown        2014-10-28  432  =
 
-   horkage_off, =
+1601033da2dd20 Mark Brown        2022-01-28  433  	if (ucontrol->value.inte=
+ger.value[0] < 0)
+1601033da2dd20 Mark Brown        2022-01-28  434  		return -EINVAL;
+4f1e50d6a9cf9c Mark Brown        2022-01-24  435  	val =3D ucontrol->value.=
+integer.value[0];
+4f1e50d6a9cf9c Mark Brown        2022-01-24  436  	if (mc->platform_max && =
+val > mc->platform_max)
+4f1e50d6a9cf9c Mark Brown        2022-01-24  437  		return -EINVAL;
+4f1e50d6a9cf9c Mark Brown        2022-01-24  438  	if (val > max - min)
+4f1e50d6a9cf9c Mark Brown        2022-01-24  439  		return -EINVAL;
+7077148fb50a12 Mark Brown        2014-10-28  440  	val_mask =3D mask << shi=
+ft;
+4f1e50d6a9cf9c Mark Brown        2022-01-24  441  	val =3D (val + min) & ma=
+sk;
+7077148fb50a12 Mark Brown        2014-10-28  442  	val =3D val << shift;
+7077148fb50a12 Mark Brown        2014-10-28  443  =
 
-   lflags, =
+7077148fb50a12 Mark Brown        2014-10-28  444  	err =3D snd_soc_componen=
+t_update_bits(component, reg, val_mask, val);
+7077148fb50a12 Mark Brown        2014-10-28  445  	if (err < 0)
+7077148fb50a12 Mark Brown        2014-10-28  446  		return err;
+7f3d90a3519680 Mark Brown        2022-02-01  447  	ret =3D err;
+7077148fb50a12 Mark Brown        2014-10-28  448  =
 
-   cbl, =
+7077148fb50a12 Mark Brown        2014-10-28  449  	if (snd_soc_volsw_is_ste=
+reo(mc)) {
+58f42dfd797759 Kuninori Morimoto 2021-08-03  450  		unsigned int val2;
+58f42dfd797759 Kuninori Morimoto 2021-08-03  451  =
 
-   spd_limit, =
+7077148fb50a12 Mark Brown        2014-10-28  452  		val_mask =3D mask << rs=
+hift;
+7077148fb50a12 Mark Brown        2014-10-28  453  		val2 =3D (ucontrol->val=
+ue.integer.value[1] + min) & mask;
+7077148fb50a12 Mark Brown        2014-10-28  454  		val2 =3D val2 << rshift;
+7077148fb50a12 Mark Brown        2014-10-28  455  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ata_force_param {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:92:8: note: Excessive padding in 'struct ata_f=
-orce_param' (12 padding bytes, where 4 is optimal). Optimal fields order: n=
-ame, xfer_mask, horkage_on, horkage_off, lflags, cbl, spd_limit, consider r=
-eordering the fields or adding explicit padding members
-   struct ata_force_param {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:4544:7: warning: Access to field 'ap' results =
-in a dereference of a null pointer (loaded from variable 'qc') [clang-analy=
-zer-core.NullDereference]
-           ap =3D qc->ap;
-                ^~
-   drivers/ata/libata-core.c:4543:15: note: Assuming 'qc' is equal to null
-           WARN_ON_ONCE(qc =3D=3D NULL); /* ata_qc_from_tag _might_ return =
-NULL */
-                        ^
-   include/asm-generic/bug.h:201:41: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                   ~~~~~~~~^~~~~~~~~~
-   include/asm-generic/bug.h:188:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/ata/libata-core.c:4544:7: note: Access to field 'ap' results in =
-a dereference of a null pointer (loaded from variable 'qc')
-           ap =3D qc->ap;
-                ^~
-   drivers/ata/libata-core.c:5454:18: warning: Access to field 'pio_mask' r=
-esults in a dereference of a null pointer (loaded from variable 'pi') [clan=
-g-analyzer-core.NullDereference]
-                   ap->pio_mask =3D pi->pio_mask;
-                                  ^~
-   drivers/ata/libata-core.c:5445:6: note: Assuming 'host' is non-null
-           if (!host)
-               ^~~~~
-   drivers/ata/libata-core.c:5445:2: note: Taking false branch
-           if (!host)
-           ^
-   drivers/ata/libata-core.c:5448:21: note: Null pointer value stored to 'p=
-i'
-           for (i =3D 0, j =3D 0, pi =3D NULL; i < host->n_ports; i++) {
-                              ^~~~~~~~~
-   drivers/ata/libata-core.c:5448:32: note: Assuming 'i' is < field 'n_port=
-s'
-           for (i =3D 0, j =3D 0, pi =3D NULL; i < host->n_ports; i++) {
-                                         ^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5448:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0, j =3D 0, pi =3D NULL; i < host->n_ports; i++) {
-           ^
-   drivers/ata/libata-core.c:5451:7: note: Assuming the condition is false
-                   if (ppi[j])
-                       ^~~~~~
-   drivers/ata/libata-core.c:5451:3: note: Taking false branch
-                   if (ppi[j])
-                   ^
-   drivers/ata/libata-core.c:5454:18: note: Access to field 'pio_mask' resu=
-lts in a dereference of a null pointer (loaded from variable 'pi')
-                   ap->pio_mask =3D pi->pio_mask;
-                                  ^~
-   drivers/ata/libata-core.c:5576:6: warning: Access to field 'host_stop' r=
-esults in a dereference of a null pointer (loaded from field 'ops') [clang-=
-analyzer-core.NullDereference]
-           if (host->ops->host_stop)
-               ^
-   drivers/ata/libata-core.c:5823:7: note: Calling 'ata_host_start'
-           rc =3D ata_host_start(host);
-                ^~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5559:6: note: Assuming the condition is false
-           if (host->flags & ATA_HOST_STARTED)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5559:2: note: Taking false branch
-           if (host->flags & ATA_HOST_STARTED)
-           ^
-   drivers/ata/libata-core.c:5564:14: note: Assuming 'i' is < field 'n_port=
-s'
-           for (i =3D 0; i < host->n_ports; i++) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5564:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (i =3D 0; i < host->n_ports; i++) {
-           ^
-   drivers/ata/libata-core.c:5569:7: note: Assuming field 'ops' is null
-                   if (!host->ops && !ata_port_is_dummy(ap))
-                       ^~~~~~~~~~
-   drivers/ata/libata-core.c:5569:7: note: Assuming pointer value is null
-                   if (!host->ops && !ata_port_is_dummy(ap))
-                       ^~~~~~~~~~
-   drivers/ata/libata-core.c:5569:7: note: Left side of '&&' is true
-   drivers/ata/libata-core.c:5569:21: note: Assuming the condition is false
-                   if (!host->ops && !ata_port_is_dummy(ap))
-                                     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5569:3: note: Taking false branch
-                   if (!host->ops && !ata_port_is_dummy(ap))
-                   ^
-   drivers/ata/libata-core.c:5572:7: note: Assuming field 'port_stop' is nu=
-ll
-                   if (ap->ops->port_stop)
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-core.c:5572:3: note: Taking false branch
+7077148fb50a12 Mark Brown        2014-10-28  456  		err =3D snd_soc_compone=
+nt_update_bits(component, reg2, val_mask,
+7077148fb50a12 Mark Brown        2014-10-28  457  			val2);
+7f3d90a3519680 Mark Brown        2022-02-01  458  =
 
-vim +/rc +143 drivers/cxl/pmem.c
-
-8fdcb1704f61a8 Dan Williams 2021-06-15  112  =
-
-8fdcb1704f61a8 Dan Williams 2021-06-15  113  static void cxl_nvb_update_sta=
-te(struct work_struct *work)
-8fdcb1704f61a8 Dan Williams 2021-06-15  114  {
-8fdcb1704f61a8 Dan Williams 2021-06-15  115  	struct cxl_nvdimm_bridge *cxl=
-_nvb =3D
-8fdcb1704f61a8 Dan Williams 2021-06-15  116  		container_of(work, typeof(*c=
-xl_nvb), state_work);
-21083f51521fb0 Dan Williams 2021-06-15  117  	struct nvdimm_bus *victim_bus=
- =3D NULL;
-21083f51521fb0 Dan Williams 2021-06-15  118  	bool release =3D false, resca=
-n =3D false;
-8fdcb1704f61a8 Dan Williams 2021-06-15  119  =
-
-8fdcb1704f61a8 Dan Williams 2021-06-15  120  	device_lock(&cxl_nvb->dev);
-8fdcb1704f61a8 Dan Williams 2021-06-15  121  	switch (cxl_nvb->state) {
-8fdcb1704f61a8 Dan Williams 2021-06-15  122  	case CXL_NVB_ONLINE:
-8fdcb1704f61a8 Dan Williams 2021-06-15  123  		if (!online_nvdimm_bus(cxl_n=
-vb)) {
-8fdcb1704f61a8 Dan Williams 2021-06-15  124  			dev_err(&cxl_nvb->dev,
-8fdcb1704f61a8 Dan Williams 2021-06-15  125  				"failed to establish nvdim=
-m bus\n");
-8fdcb1704f61a8 Dan Williams 2021-06-15  126  			release =3D true;
-21083f51521fb0 Dan Williams 2021-06-15  127  		} else
-21083f51521fb0 Dan Williams 2021-06-15  128  			rescan =3D true;
-8fdcb1704f61a8 Dan Williams 2021-06-15  129  		break;
-8fdcb1704f61a8 Dan Williams 2021-06-15  130  	case CXL_NVB_OFFLINE:
-8fdcb1704f61a8 Dan Williams 2021-06-15  131  	case CXL_NVB_DEAD:
-21083f51521fb0 Dan Williams 2021-06-15  132  		victim_bus =3D cxl_nvb->nvdi=
-mm_bus;
-21083f51521fb0 Dan Williams 2021-06-15  133  		cxl_nvb->nvdimm_bus =3D NULL;
-8fdcb1704f61a8 Dan Williams 2021-06-15  134  		break;
-8fdcb1704f61a8 Dan Williams 2021-06-15  135  	default:
-8fdcb1704f61a8 Dan Williams 2021-06-15  136  		break;
-8fdcb1704f61a8 Dan Williams 2021-06-15  137  	}
-8fdcb1704f61a8 Dan Williams 2021-06-15  138  	device_unlock(&cxl_nvb->dev);
-8fdcb1704f61a8 Dan Williams 2021-06-15  139  =
-
-8fdcb1704f61a8 Dan Williams 2021-06-15  140  	if (release)
-8fdcb1704f61a8 Dan Williams 2021-06-15  141  		device_release_driver(&cxl_n=
-vb->dev);
-21083f51521fb0 Dan Williams 2021-06-15  142  	if (rescan) {
-21083f51521fb0 Dan Williams 2021-06-15 @143  		int rc =3D bus_rescan_device=
-s(&cxl_bus_type);
-21083f51521fb0 Dan Williams 2021-06-15  144  =
-
-21083f51521fb0 Dan Williams 2021-06-15  145  		dev_dbg(&cxl_nvb->dev, "resc=
-an: %d\n", rc);
-21083f51521fb0 Dan Williams 2021-06-15  146  	}
-21083f51521fb0 Dan Williams 2021-06-15  147  	offline_nvdimm_bus(victim_bus=
-);
-8fdcb1704f61a8 Dan Williams 2021-06-15  148  =
-
-8fdcb1704f61a8 Dan Williams 2021-06-15  149  	put_device(&cxl_nvb->dev);
-8fdcb1704f61a8 Dan Williams 2021-06-15  150  }
-8fdcb1704f61a8 Dan Williams 2021-06-15  151  =
+7f3d90a3519680 Mark Brown        2022-02-01  459  		/* Don't discard any er=
+ror code or drop change flag */
+7f3d90a3519680 Mark Brown        2022-02-01  460  		if (ret =3D=3D 0 || err=
+ < 0) {
+7f3d90a3519680 Mark Brown        2022-02-01 @461  			ret =3D err;
+7f3d90a3519680 Mark Brown        2022-02-01  462  		}
+7077148fb50a12 Mark Brown        2014-10-28  463  	}
+7077148fb50a12 Mark Brown        2014-10-28  464  	return err;
+7077148fb50a12 Mark Brown        2014-10-28  465  }
+7077148fb50a12 Mark Brown        2014-10-28  466  EXPORT_SYMBOL_GPL(snd_soc=
+_put_volsw_sx);
+7077148fb50a12 Mark Brown        2014-10-28  467  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6779049488562453394==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============6846989353849746254==--
 
