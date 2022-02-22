@@ -1,441 +1,328 @@
-Content-Type: multipart/mixed; boundary="===============7806844065162985610=="
+Content-Type: multipart/mixed; boundary="===============1963449939286601109=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/crypto/atmel-tdes.c:683:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 22 Feb 2022 19:17:20 +0800
-Message-ID: <202202221939.g3OdDxDA-lkp@intel.com>
+Subject: Re: [PATCH 3/5] mm/slab: Do not call kmalloc_large() for unsupported size
+Date: Tue, 22 Feb 2022 15:53:42 +0800
+Message-ID: <202202221538.EHaGbteQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7806844065162985610==
+--===============1963449939286601109==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20220221105336.522086-4-42.hyeyoo@gmail.com>
+References: <20220221105336.522086-4-42.hyeyoo@gmail.com>
+TO: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+TO: linux-mm(a)kvack.org
+CC: Roman Gushchin <guro@fb.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Vlastimil Babka <vbabka@suse.cz>
 CC: linux-kernel(a)vger.kernel.org
-TO: Tudor Ambarus <tudor.ambarus@microchip.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+CC: David Rientjes <rientjes@google.com>
+CC: Christoph Lameter <cl@linux-foundation.org>
+CC: Pekka Enberg <penberg@kernel.org>
+CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   038101e6b2cd5c55f888f85db42ea2ad3aecb4b6
-commit: 817b804ca36747f0c9db667d7d8aa9fdd55335c7 crypto: atmel-tdes - Handl=
-e error messages
-date:   7 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 7 months ago
-config: riscv-randconfig-c006-20220216 (https://download.01.org/0day-ci/arc=
-hive/20220222/202202221939.g3OdDxDA-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0e628a=
-783b935c70c80815db6c061ec84f884af5)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D817b804ca36747f0c9db667d7d8aa9fdd55335c7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 817b804ca36747f0c9db667d7d8aa9fdd55335c7
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+Hi Hyeonggon,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on hnaz-mm/master]
+[also build test WARNING on linus/master v5.17-rc5 next-20220217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Hyeonggon-Yoo/slab-cleanup=
+s/20220221-185522
+base:   https://github.com/hnaz/linux-mm master
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
+config: x86_64-randconfig-m001-20220221 (https://download.01.org/0day-ci/ar=
+chive/20220222/202202221538.EHaGbteQ-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/ubifs/debug.c:2043 check_leaf() warn: is 'node' large enough for 'struct=
+ ubifs_ch'? s32min
+fs/ubifs/debug.c:2072 check_leaf() warn: is 'node' large enough for 'struct=
+ ubifs_data_node'? s32min
+fs/ubifs/debug.c:2094 check_leaf() warn: is 'node' large enough for 'struct=
+ ubifs_dent_node'? s32min
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/usb/uvc/uvc_ctrl.c:836:37: warning: The result of the left=
- shift is undefined because the left operand is negative [clang-analyzer-co=
-re.UndefinedBinaryOperatorResult]
-                   *data =3D (*data & ~mask) | ((value << offset) & mask);
-                                               ~~~~~ ^
-   drivers/media/usb/uvc/uvc_ctrl.c:828:6: note: Assuming field 'v4l2_type'=
- is equal to V4L2_CTRL_TYPE_BUTTON
-           if (mapping->v4l2_type =3D=3D V4L2_CTRL_TYPE_BUTTON)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:828:2: note: Taking true branch
-           if (mapping->v4l2_type =3D=3D V4L2_CTRL_TYPE_BUTTON)
-           ^
-   drivers/media/usb/uvc/uvc_ctrl.c:834:9: note: Assuming 'bits' is > 0
-           for (; bits > 0; data++) {
-                  ^~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:834:2: note: Loop condition is true.  E=
-ntering loop body
-           for (; bits > 0; data++) {
-           ^
-   drivers/media/usb/uvc/uvc_ctrl.c:837:13: note: Assuming 'offset' is 0
-                   value >>=3D offset ? offset : 8;
-                             ^~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:837:13: note: '?' condition is false
-   drivers/media/usb/uvc/uvc_ctrl.c:837:3: note: The value -1 is assigned t=
-o 'value'
-                   value >>=3D offset ? offset : 8;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:834:9: note: Assuming 'bits' is > 0
-           for (; bits > 0; data++) {
-                  ^~~~~~~~
-   drivers/media/usb/uvc/uvc_ctrl.c:834:2: note: Loop condition is true.  E=
-ntering loop body
-           for (; bits > 0; data++) {
-           ^
-   drivers/media/usb/uvc/uvc_ctrl.c:836:37: note: The result of the left sh=
-ift is undefined because the left operand is negative
-                   *data =3D (*data & ~mask) | ((value << offset) & mask);
-                                               ~~~~~ ^
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   sound/usb/line6/midi.c:229:2: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(rmidi->id, line6->properties->id);
-           ^~~~~~
-   sound/usb/line6/midi.c:229:2: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-           strcpy(rmidi->id, line6->properties->id);
-           ^~~~~~
-   sound/usb/line6/midi.c:230:2: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(rmidi->name, line6->properties->name);
-           ^~~~~~
-   sound/usb/line6/midi.c:230:2: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-           strcpy(rmidi->name, line6->properties->name);
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   sound/usb/line6/pcm.c:489:2: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(pcm->name, line6->properties->name);
-           ^~~~~~
-   sound/usb/line6/pcm.c:489:2: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-           strcpy(pcm->name, line6->properties->name);
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/crypto/atmel-tdes.c:683:17: warning: Value stored to 'dev' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D ctx->dd->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/crypto/atmel-tdes.c:683:17: note: Value stored to 'dev' during i=
-ts initialization is never read
-           struct device *dev =3D ctx->dd->dev;
-                          ^~~   ~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/mmc/host/bcm2835.c:195:17: warning: Value stored to 'dev' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/mmc/host/bcm2835.c:195:17: note: Value stored to 'dev' during it=
-s initialization is never read
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/mmc/host/bcm2835.c:210:17: warning: Value stored to 'dev' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/mmc/host/bcm2835.c:210:17: note: Value stored to 'dev' during it=
-s initialization is never read
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/mmc/host/bcm2835.c:718:17: warning: Value stored to 'dev' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/mmc/host/bcm2835.c:718:17: note: Value stored to 'dev' during it=
-s initialization is never read
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/usb/gspca/topro.c:4745:3: warning: Value stored to 'ret' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D gspca_expo_autogain(gspca_dev, luma,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/usb/gspca/topro.c:4745:3: note: Value stored to 'ret' is n=
-ever read
-                   ret =3D gspca_expo_autogain(gspca_dev, luma,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/usb/gspca/vc032x.c:2793:8: warning: Excessive padding in '=
-struct sensor_info' (2 padding bytes, where 0 is optimal). =
+vim +2043 fs/ubifs/debug.c
 
-   Optimal fields order: =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1980  =
 
-   VpId, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1981  /**
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1982   * check_leaf - check l=
+eaf node.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1983   * @c: UBIFS file-syste=
+m description object
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1984   * @zbr: zbranch of the=
+ leaf node to check
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1985   * @priv: FS checking i=
+nformation
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1986   *
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1987   * This is a helper fun=
+ction for 'dbg_check_filesystem()' which is called for
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1988   * every single leaf no=
+de while walking the indexing tree. It checks that the
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1989   * leaf node referred f=
+rom the indexing tree exists, has correct CRC, and does
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1990   * some other basic val=
+idation. This function is also responsible for building
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1991   * an RB-tree of inodes=
+ - it adds all inodes into the RB-tree. It also
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1992   * calculates reference=
+ count, size, etc for each inode in order to later
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1993   * compare them to the =
+information stored inside the inodes and detect possible
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1994   * inconsistencies. Ret=
+urns zero in case of success and a negative error code
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1995   * in case of failure.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1996   */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1997  static int check_leaf(s=
+truct ubifs_info *c, struct ubifs_zbranch *zbr,
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1998  		      void *priv)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  1999  {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2000  	ino_t inum;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2001  	void *node;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2002  	struct ubifs_ch *ch;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2003  	int err, type =3D key_=
+type(c, &zbr->key);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2004  	struct fsck_inode *fsc=
+ki;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2005  =
 
-   sensorId, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2006  	if (zbr->len < UBIFS_C=
+H_SZ) {
+235c362bd0f6af Sheng Yong         2015-03-20  2007  		ubifs_err(c, "bad lea=
+f length %d (LEB %d:%d)",
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2008  			  zbr->len, zbr->lnu=
+m, zbr->offs);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2009  		return -EINVAL;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2010  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2011  =
 
-   I2cAdd, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2012  	node =3D kmalloc(zbr->=
+len, GFP_NOFS);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2013  	if (!node)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2014  		return -ENOMEM;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2015  =
 
-   IdAdd, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2016  	err =3D ubifs_tnc_read=
+_node(c, zbr, node);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2017  	if (err) {
+235c362bd0f6af Sheng Yong         2015-03-20  2018  		ubifs_err(c, "cannot =
+read leaf node at LEB %d:%d, error %d",
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2019  			  zbr->lnum, zbr->of=
+fs, err);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2020  		goto out_free;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2021  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2022  =
 
-   m1, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2023  	/* If this is an inode=
+ node, add it to RB-tree of inodes */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2024  	if (type =3D=3D UBIFS_=
+INO_KEY) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2025  		fscki =3D add_inode(c=
+, priv, node);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2026  		if (IS_ERR(fscki)) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2027  			err =3D PTR_ERR(fsck=
+i);
+235c362bd0f6af Sheng Yong         2015-03-20  2028  			ubifs_err(c, "error =
+%d while adding inode node", err);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2029  			goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2030  		}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2031  		goto out;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2032  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2033  =
 
-   m2, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2034  	if (type !=3D UBIFS_DE=
+NT_KEY && type !=3D UBIFS_XENT_KEY &&
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2035  	    type !=3D UBIFS_DA=
+TA_KEY) {
+235c362bd0f6af Sheng Yong         2015-03-20  2036  		ubifs_err(c, "unexpec=
+ted node type %d at LEB %d:%d",
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2037  			  type, zbr->lnum, z=
+br->offs);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2038  		err =3D -EINVAL;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2039  		goto out_free;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2040  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2041  =
 
-   op, =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2042  	ch =3D node;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @2043  	if (le64_to_cpu(ch->sq=
+num) > c->max_sqnum) {
+235c362bd0f6af Sheng Yong         2015-03-20  2044  		ubifs_err(c, "too hig=
+h sequence number, max. is %llu",
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2045  			  c->max_sqnum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2046  		err =3D -EINVAL;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2047  		goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2048  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2049  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct sensor_info {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/media/usb/gspca/vc032x.c:2793:8: note: Excessive padding in 'str=
-uct sensor_info' (2 padding bytes, where 0 is optimal). Optimal fields orde=
-r: VpId, sensorId, I2cAdd, IdAdd, m1, m2, op, consider reordering the field=
-s or adding explicit padding members
-   struct sensor_info {
-   ~~~~~~~^~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2050  	if (type =3D=3D UBIFS_=
+DATA_KEY) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2051  		long long blk_offs;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2052  		struct ubifs_data_nod=
+e *dn =3D node;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2053  =
 
-vim +/dev +683 drivers/crypto/atmel-tdes.c
+6eb61d587f4515 Richard Weinberger 2018-07-12  2054  		ubifs_assert(c, zbr->=
+len >=3D UBIFS_DATA_NODE_SZ);
+fb4325a3d9f983 Artem Bityutskiy   2014-11-25  2055  =
 
-13802005d8f2db Nicolas Royer  2012-07-01  677  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2056  		/*
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2057  		 * Search the inode n=
+ode this data node belongs to and insert
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2058  		 * it to the RB-tree =
+of inodes.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2059  		 */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2060  		inum =3D key_inum_fla=
+sh(c, &dn->key);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2061  		fscki =3D read_add_in=
+ode(c, priv, inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2062  		if (IS_ERR(fscki)) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2063  			err =3D PTR_ERR(fsck=
+i);
+235c362bd0f6af Sheng Yong         2015-03-20  2064  			ubifs_err(c, "error =
+%d while processing data node and trying to find inode node %lu",
+e84461ad9c4f0f Artem Bityutskiy   2008-10-29  2065  				  err, (unsigned lo=
+ng)inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2066  			goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2067  		}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2068  =
 
-967d4910ef0e83 Ard Biesheuvel 2019-11-09  678  static int atmel_tdes_crypt(=
-struct skcipher_request *req, unsigned long mode)
-13802005d8f2db Nicolas Royer  2012-07-01  679  {
-61b0dd664fa187 Tudor Ambarus  2019-11-15  680  	struct crypto_skcipher *skc=
-ipher =3D crypto_skcipher_reqtfm(req);
-61b0dd664fa187 Tudor Ambarus  2019-11-15  681  	struct atmel_tdes_ctx *ctx =
-=3D crypto_skcipher_ctx(skcipher);
-967d4910ef0e83 Ard Biesheuvel 2019-11-09  682  	struct atmel_tdes_reqctx *r=
-ctx =3D skcipher_request_ctx(req);
-817b804ca36747 Tudor Ambarus  2021-07-20 @683  	struct device *dev =3D ctx-=
->dd->dev;
-13802005d8f2db Nicolas Royer  2012-07-01  684  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2069  		/* Make sure the data=
+ node is within inode size */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2070  		blk_offs =3D key_bloc=
+k_flash(c, &dn->key);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2071  		blk_offs <<=3D UBIFS_=
+BLOCK_SHIFT;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @2072  		blk_offs +=3D le32_to=
+_cpu(dn->size);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2073  		if (blk_offs > fscki-=
+>size) {
+235c362bd0f6af Sheng Yong         2015-03-20  2074  			ubifs_err(c, "data n=
+ode at LEB %d:%d is not within inode size %lld",
+79fda5179a5227 Artem Bityutskiy   2012-08-27  2075  				  zbr->lnum, zbr->o=
+ffs, fscki->size);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2076  			err =3D -EINVAL;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2077  			goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2078  		}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2079  	} else {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2080  		int nlen;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2081  		struct ubifs_dent_nod=
+e *dent =3D node;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2082  		struct fsck_inode *fs=
+cki1;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2083  =
 
-848572f8177214 Tudor Ambarus  2019-12-05  685  	switch (mode & TDES_FLAGS_O=
-PMODE_MASK) {
-848572f8177214 Tudor Ambarus  2019-12-05  686  	case TDES_FLAGS_CFB8:
-967d4910ef0e83 Ard Biesheuvel 2019-11-09  687  		if (!IS_ALIGNED(req->crypt=
-len, CFB8_BLOCK_SIZE)) {
-817b804ca36747 Tudor Ambarus  2021-07-20  688  			dev_dbg(dev, "request siz=
-e is not exact amount of CFB8 blocks\n");
-13802005d8f2db Nicolas Royer  2012-07-01  689  			return -EINVAL;
-13802005d8f2db Nicolas Royer  2012-07-01  690  		}
-1f858040c2f780 Nicolas Royer  2013-02-20  691  		ctx->block_size =3D CFB8_B=
-LOCK_SIZE;
-848572f8177214 Tudor Ambarus  2019-12-05  692  		break;
-848572f8177214 Tudor Ambarus  2019-12-05  693  =
+6eb61d587f4515 Richard Weinberger 2018-07-12  2084  		ubifs_assert(c, zbr->=
+len >=3D UBIFS_DENT_NODE_SZ);
+fb4325a3d9f983 Artem Bityutskiy   2014-11-25  2085  =
 
-848572f8177214 Tudor Ambarus  2019-12-05  694  	case TDES_FLAGS_CFB16:
-967d4910ef0e83 Ard Biesheuvel 2019-11-09  695  		if (!IS_ALIGNED(req->crypt=
-len, CFB16_BLOCK_SIZE)) {
-817b804ca36747 Tudor Ambarus  2021-07-20  696  			dev_dbg(dev, "request siz=
-e is not exact amount of CFB16 blocks\n");
-13802005d8f2db Nicolas Royer  2012-07-01  697  			return -EINVAL;
-13802005d8f2db Nicolas Royer  2012-07-01  698  		}
-1f858040c2f780 Nicolas Royer  2013-02-20  699  		ctx->block_size =3D CFB16_=
-BLOCK_SIZE;
-848572f8177214 Tudor Ambarus  2019-12-05  700  		break;
-848572f8177214 Tudor Ambarus  2019-12-05  701  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2086  		err =3D ubifs_validat=
+e_entry(c, dent);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2087  		if (err)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2088  			goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2089  =
 
-848572f8177214 Tudor Ambarus  2019-12-05  702  	case TDES_FLAGS_CFB32:
-967d4910ef0e83 Ard Biesheuvel 2019-11-09  703  		if (!IS_ALIGNED(req->crypt=
-len, CFB32_BLOCK_SIZE)) {
-817b804ca36747 Tudor Ambarus  2021-07-20  704  			dev_dbg(dev, "request siz=
-e is not exact amount of CFB32 blocks\n");
-13802005d8f2db Nicolas Royer  2012-07-01  705  			return -EINVAL;
-13802005d8f2db Nicolas Royer  2012-07-01  706  		}
-1f858040c2f780 Nicolas Royer  2013-02-20  707  		ctx->block_size =3D CFB32_=
-BLOCK_SIZE;
-848572f8177214 Tudor Ambarus  2019-12-05  708  		break;
-848572f8177214 Tudor Ambarus  2019-12-05  709  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2090  		/*
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2091  		 * Search the inode n=
+ode this entry refers to and the parent
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2092  		 * inode node and ins=
+ert them to the RB-tree of inodes.
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2093  		 */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14 @2094  		inum =3D le64_to_cpu(=
+dent->inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2095  		fscki =3D read_add_in=
+ode(c, priv, inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2096  		if (IS_ERR(fscki)) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2097  			err =3D PTR_ERR(fsck=
+i);
+235c362bd0f6af Sheng Yong         2015-03-20  2098  			ubifs_err(c, "error =
+%d while processing entry node and trying to find inode node %lu",
+e84461ad9c4f0f Artem Bityutskiy   2008-10-29  2099  				  err, (unsigned lo=
+ng)inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2100  			goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2101  		}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2102  =
 
-848572f8177214 Tudor Ambarus  2019-12-05  710  	default:
-967d4910ef0e83 Ard Biesheuvel 2019-11-09  711  		if (!IS_ALIGNED(req->crypt=
-len, DES_BLOCK_SIZE)) {
-817b804ca36747 Tudor Ambarus  2021-07-20  712  			dev_dbg(dev, "request siz=
-e is not exact amount of DES blocks\n");
-13802005d8f2db Nicolas Royer  2012-07-01  713  			return -EINVAL;
-13802005d8f2db Nicolas Royer  2012-07-01  714  		}
-1f858040c2f780 Nicolas Royer  2013-02-20  715  		ctx->block_size =3D DES_BL=
-OCK_SIZE;
-848572f8177214 Tudor Ambarus  2019-12-05  716  		break;
-1f858040c2f780 Nicolas Royer  2013-02-20  717  	}
-13802005d8f2db Nicolas Royer  2012-07-01  718  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2103  		/* Count how many dir=
+entries or xentries refers this inode */
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2104  		fscki->references +=
+=3D 1;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2105  =
 
-1f858040c2f780 Nicolas Royer  2013-02-20  719  	rctx->mode =3D mode;
-1f858040c2f780 Nicolas Royer  2013-02-20  720  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2106  		inum =3D key_inum_fla=
+sh(c, &dent->key);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2107  		fscki1 =3D read_add_i=
+node(c, priv, inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2108  		if (IS_ERR(fscki1)) {
+b38882f5c066dc Roel Kluin         2009-12-07  2109  			err =3D PTR_ERR(fsck=
+i1);
+235c362bd0f6af Sheng Yong         2015-03-20  2110  			ubifs_err(c, "error =
+%d while processing entry node and trying to find parent inode node %lu",
+e84461ad9c4f0f Artem Bityutskiy   2008-10-29  2111  				  err, (unsigned lo=
+ng)inum);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2112  			goto out_dump;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2113  		}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2114  =
 
-c65d123742a7bf Tudor Ambarus  2019-12-05  721  	if ((mode & TDES_FLAGS_OPMO=
-DE_MASK) !=3D TDES_FLAGS_ECB &&
-c65d123742a7bf Tudor Ambarus  2019-12-05  722  	    !(mode & TDES_FLAGS_ENC=
-RYPT) && req->src =3D=3D req->dst) {
-61b0dd664fa187 Tudor Ambarus  2019-11-15  723  		unsigned int ivsize =3D cr=
-ypto_skcipher_ivsize(skcipher);
-61b0dd664fa187 Tudor Ambarus  2019-11-15  724  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2115  		nlen =3D le16_to_cpu(=
+dent->nlen);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2116  		if (type =3D=3D UBIFS=
+_XENT_KEY) {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2117  			fscki1->calc_xcnt +=
+=3D 1;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2118  			fscki1->calc_xsz +=
+=3D CALC_DENT_SIZE(nlen);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2119  			fscki1->calc_xsz +=
+=3D CALC_XATTR_BYTES(fscki->size);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2120  			fscki1->calc_xnms +=
+=3D nlen;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2121  		} else {
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2122  			fscki1->calc_sz +=3D=
+ CALC_DENT_SIZE(nlen);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2123  			if (dent->type =3D=
+=3D UBIFS_ITYPE_DIR)
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2124  				fscki1->calc_cnt +=
+=3D 1;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2125  		}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2126  	}
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2127  =
 
-61b0dd664fa187 Tudor Ambarus  2019-11-15  725  		if (req->cryptlen >=3D ivs=
-ize)
-61b0dd664fa187 Tudor Ambarus  2019-11-15  726  			scatterwalk_map_and_copy(=
-rctx->lastc, req->src,
-61b0dd664fa187 Tudor Ambarus  2019-11-15  727  						 req->cryptlen - ivsiz=
-e,
-61b0dd664fa187 Tudor Ambarus  2019-11-15  728  						 ivsize, 0);
-61b0dd664fa187 Tudor Ambarus  2019-11-15  729  	}
-61b0dd664fa187 Tudor Ambarus  2019-11-15  730  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2128  out:
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2129  	kfree(node);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2130  	return 0;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2131  =
 
-1f858040c2f780 Nicolas Royer  2013-02-20  731  	return atmel_tdes_handle_qu=
-eue(ctx->dd, req);
-1f858040c2f780 Nicolas Royer  2013-02-20  732  }
-1f858040c2f780 Nicolas Royer  2013-02-20  733  =
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2132  out_dump:
+235c362bd0f6af Sheng Yong         2015-03-20  2133  	ubifs_msg(c, "dump of =
+node at LEB %d:%d", zbr->lnum, zbr->offs);
+a33e30a0e023e9 Zhihao Cheng       2020-06-16  2134  	ubifs_dump_node(c, nod=
+e, zbr->len);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2135  out_free:
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2136  	kfree(node);
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2137  	return err;
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2138  }
+1e51764a3c2ac0 Artem Bityutskiy   2008-07-14  2139  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7806844065162985610==--
+--===============1963449939286601109==--
 
