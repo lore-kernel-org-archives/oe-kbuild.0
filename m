@@ -1,46 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============5873198921243665962=="
+Content-Type: multipart/mixed; boundary="===============8007629846447835374=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ls-zhu:shared_irq_v4 4/5] drivers/vdpa/ifcvf/ifcvf_main.c:49:4: warning: Called function pointer is null (null dereference) [clang-analyzer-core.CallAndMessage]
-Date: Tue, 22 Feb 2022 09:34:15 +0800
-Message-ID: <202202220921.4rPNwf1x-lkp@intel.com>
+Subject: [linux-next:master 5970/6564] mm/huge_memory.c:2145:4: warning: Value stored to 'page' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 22 Feb 2022 09:23:56 +0800
+Message-ID: <202202220917.CFUvfxmY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5873198921243665962==
+--===============8007629846447835374==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Zhu Lingshan <lingshan.zhu@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hugh Dickins <hughd@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/ls-zhu/linux shared_irq_v4
-head:   779e67fb04b3f8ea466db8cc146cc09075c7ae4e
-commit: 9587b3d164c2be41372d7c422058ffac3668ccb4 [4/5] vDPA/ifcvf: implemen=
-t shared IRQ feature
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: riscv-randconfig-c006-20220221 (https://download.01.org/0day-ci/arc=
-hive/20220222/202202220921.4rPNwf1x-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   3c30cf91b5ecc7272b3d2942ae0505dd8320b81c
+commit: c1879365d325d0f44337fedcfffe8bf200092f95 [5970/6564] mm/munlock: rm=
+ap call mlock_vma_page() munlock_vma_page()
+:::::: branch date: 5 days ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-c007-20220221 (https://download.01.org/0day-ci/ar=
+chive/20220222/202202220917.CFUvfxmY-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/ls-zhu/linux/commit/9587b3d164c2be41372d7c4220=
-58ffac3668ccb4
-        git remote add ls-zhu https://github.com/ls-zhu/linux
-        git fetch --no-tags ls-zhu shared_irq_v4
-        git checkout 9587b3d164c2be41372d7c422058ffac3668ccb4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dc1879365d325d0f44337fedcfffe8bf200092f95
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout c1879365d325d0f44337fedcfffe8bf200092f95
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -48,581 +50,356 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~
-   net/bluetooth/hci_request.c:2190:6: warning: Branch condition evaluates =
-to a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (status) {
-               ^~~~~~
-   net/bluetooth/hci_request.c:2185:2: note: 'status' declared without an i=
-nitial value
-           u8 status;
-           ^~~~~~~~~
-   net/bluetooth/hci_request.c:2187:2: note: Taking false branch
-           bt_dev_dbg(hdev, "");
-           ^
-   include/net/bluetooth/bluetooth.h:214:2: note: expanded from macro 'bt_d=
-ev_dbg'
-           BT_DBG("%s: " fmt, (hdev)->name, ##__VA_ARGS__)
-           ^
-   include/net/bluetooth/bluetooth.h:204:26: note: expanded from macro 'BT_=
-DBG'
-   #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
-                                   ^
-   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   net/bluetooth/hci_request.c:2189:2: note: Calling 'hci_req_sync'
-           hci_req_sync(hdev, le_scan_restart, 0, HCI_CMD_TIMEOUT, &status);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/bluetooth/hci_request.c:203:6: note: Assuming the condition is false
-           if (test_bit(HCI_UP, &hdev->flags))
-               ^
-   include/asm-generic/bitops/non-atomic.h:120:18: note: expanded from macr=
-o 'test_bit'
-   #define test_bit arch_test_bit
-                    ^
-   net/bluetooth/hci_request.c:203:2: note: Taking false branch
-           if (test_bit(HCI_UP, &hdev->flags))
-           ^
-   net/bluetooth/hci_request.c:209:2: note: Returning without writing to '*=
-hci_status'
-           return ret;
-           ^
-   net/bluetooth/hci_request.c:2189:2: note: Returning from 'hci_req_sync'
-           hci_req_sync(hdev, le_scan_restart, 0, HCI_CMD_TIMEOUT, &status);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/bluetooth/hci_request.c:2190:6: note: Branch condition evaluates to =
-a garbage value
-           if (status) {
-               ^~~~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/rapidio/rio_cm.c:678:4: warning: Value stored to 'rc' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           rc =3D rio_add_outb_message(cm->mport, req->rdev=
-, cmbox,
-                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/rapidio/rio_cm.c:678:4: note: Value stored to 'rc' is never read
-                           rc =3D rio_add_outb_message(cm->mport, req->rdev=
-, cmbox,
-                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   Suppressed 10 warnings (2 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/vdpa/ifcvf/ifcvf_main.c:49:4: warning: Called function pointer i=
-s null (null dereference) [clang-analyzer-core.CallAndMessage]
-                           vf->vring->cb.callback(vring->cb.private);
-                           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:61:6: note: Assuming the condition is fa=
-lse
-           if (isr & VIRTIO_PCI_ISR_CONFIG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:61:2: note: Taking false branch
-           if (isr & VIRTIO_PCI_ISR_CONFIG)
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:64:9: note: Calling 'ifcvf_vqs_reused_in=
-tr_handler'
-           return ifcvf_vqs_reused_intr_handler(irq, arg);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:46:14: note: Assuming 'i' is < field 'nr=
-_vring'
-           for (i =3D 0; i < vf->nr_vring; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:46:2: note: Loop condition is true.  Ent=
-ering loop body
-           for (i =3D 0; i < vf->nr_vring; i++) {
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:48:7: note: Assuming field 'callback' is=
- null
-                   if (vring->cb.callback)
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:48:3: note: Taking false branch
-                   if (vring->cb.callback)
-                   ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:46:14: note: Assuming 'i' is < field 'nr=
-_vring'
-           for (i =3D 0; i < vf->nr_vring; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:46:2: note: Loop condition is true.  Ent=
-ering loop body
-           for (i =3D 0; i < vf->nr_vring; i++) {
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:48:7: note: Assuming field 'callback' is=
- non-null
-                   if (vring->cb.callback)
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:48:3: note: Taking true branch
-                   if (vring->cb.callback)
-                   ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:49:4: note: Called function pointer is n=
-ull (null dereference)
-                           vf->vring->cb.callback(vring->cb.private);
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:305:19: warning: 2nd function call argum=
-ent is an uninitialized value [clang-analyzer-core.CallAndMessage]
-           vf->config_irq =3D pci_irq_vector(pdev, config_vector);
-                            ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:476:6: note: Assuming 'status_old' is no=
-t equal to 'status'
-           if (status_old =3D=3D status)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:476:2: note: Taking false branch
-           if (status_old =3D=3D status)
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:479:7: note: Assuming the condition is t=
-rue
-           if ((status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:479:6: note: Left side of '&&' is true
-           if ((status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-               ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:480:6: note: Assuming the condition is t=
-rue
-               !(status_old & VIRTIO_CONFIG_S_DRIVER_OK)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:479:2: note: Taking true branch
-           if ((status & VIRTIO_CONFIG_S_DRIVER_OK) &&
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:481:9: note: Calling 'ifcvf_request_irq'
-                   ret =3D ifcvf_request_irq(adapter);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:333:8: note: 'nvectors' is > 0
-           if (!(nvectors > 0))
-                 ^~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:333:2: note: Taking false branch
-           if (!(nvectors > 0))
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:338:6: note: 'nvectors' is >=3D 'max_int=
-r'
-           if (nvectors < max_intr)
-               ^~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:338:2: note: Taking false branch
-           if (nvectors < max_intr)
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:341:6: note: Assuming 'nvectors' is not =
-equal to 1
-           if (nvectors =3D=3D 1) {
-               ^~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:341:2: note: Taking false branch
-           if (nvectors =3D=3D 1) {
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:349:6: note: Assuming 'ret' is 0
-           if (ret)
                ^~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:349:2: note: Taking false branch
-           if (ret)
+   drivers/base/bus.c:53:2: note: Taking true branch
+           if (bus)
            ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:352:8: note: Calling 'ifcvf_request_conf=
-ig_irq'
-           ret =3D ifcvf_request_config_irq(adapter);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:290:6: note: 'config_vector' declared wi=
-thout an initial value
-           int config_vector, ret;
-               ^~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:292:6: note: Assuming field 'msix_vector=
-_status' is not equal to MSIX_VECTOR_DEV_SHARED
-           if (vf->msix_vector_status =3D=3D MSIX_VECTOR_DEV_SHARED)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_main.c:292:2: note: Taking false branch
-           if (vf->msix_vector_status =3D=3D MSIX_VECTOR_DEV_SHARED)
-           ^
-   drivers/vdpa/ifcvf/ifcvf_main.c:295:6: note: Assuming field 'msix_vector=
-_status' is not equal to MSIX_VECTOR_PER_VQ_AND_CONFIG
-           if (vf->msix_vector_status =3D=3D MSIX_VECTOR_PER_VQ_AND_CONFIG)
---
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   drivers/base/bus.c:55:1: note: Returning without writing to 'bus->p'
+   }
+   ^
+   drivers/base/bus.c:147:3: note: Returning from 'bus_put'
+                   bus_put(bus);
+                   ^~~~~~~~~~~~
+   drivers/base/bus.c:149:1: note: Returning without writing to '->p'
+   }
+   ^
+   drivers/base/bus.c:573:2: note: Returning from 'bus_remove_file'
+           bus_remove_file(bus, &bus_attr_drivers_probe);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/bus.c:574:1: note: Returning without writing to 'bus->p'
+   }
+   ^
+   drivers/base/bus.c:872:2: note: Returning from 'remove_probe_files'
+           remove_probe_files(bus);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/bus.c:873:18: note: Access to field 'drivers_kset' results =
+in a dereference of a null pointer (loaded from field 'p')
+           kset_unregister(bus->p->drivers_kset);
+                           ^    ~
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/misc/habanalabs/gaudi/gaudi_coresight.c:770:31: warning: Value s=
-tored to 'input' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           struct hl_debug_params_spmu *input =3D params->input;
-                                        ^~~~~   ~~~~~~~~~~~~~
-   drivers/misc/habanalabs/gaudi/gaudi_coresight.c:770:31: note: Value stor=
-ed to 'input' during its initialization is never read
-           struct hl_debug_params_spmu *input =3D params->input;
-                                        ^~~~~   ~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/misc/habanalabs/common/debugfs.c:892:3: warning: Value stored to=
- 'rc' is never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D pci_enable_device(hdev->pdev);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/debugfs.c:892:3: note: Value stored to 'r=
-c' is never read
-                   rc =3D pci_enable_device(hdev->pdev);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   drivers/char/tpm/eventlog/tpm1.c:276:2: warning: Value stored to 'len' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           len +=3D get_event_name(eventname, event, event_entry);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/eventlog/tpm1.c:276:2: note: Value stored to 'len' is n=
+ever read
+           len +=3D get_event_name(eventname, event, event_entry);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (7 in non-user code, 2 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   8 warnings generated.
+   drivers/char/tpm/tpm_tis_core.c:423:2: warning: Value stored to 'rc' is =
+never read [clang-analyzer-deadcode.DeadStores]
+           rc =3D tpm_tis_write32(priv, TPM_INT_ENABLE(priv->locality), int=
+mask);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/char/tpm/tpm_tis_core.c:423:2: note: Value stored to 'rc' is nev=
+er read
+           rc =3D tpm_tis_write32(priv, TPM_INT_ENABLE(priv->locality), int=
+mask);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   drivers/media/mc/mc-request.c:190:23: warning: Value stored to 'mdev' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct media_device *mdev =3D req->mdev;
-                                ^~~~   ~~~~~~~~~
-   drivers/media/mc/mc-request.c:190:23: note: Value stored to 'mdev' durin=
-g its initialization is never read
-           struct media_device *mdev =3D req->mdev;
-                                ^~~~   ~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   mm/huge_memory.c:583:9: warning: Value stored to 'off' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           loff_t off =3D (loff_t)pgoff << PAGE_SHIFT;
+                  ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/huge_memory.c:583:9: note: Value stored to 'off' during its initializ=
+ation is never read
+           loff_t off =3D (loff_t)pgoff << PAGE_SHIFT;
+                  ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/huge_memory.c:2145:4: warning: Value stored to 'page' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                           page =3D pmd_page(*pmd);
+                           ^
+   mm/huge_memory.c:2145:4: note: Value stored to 'page' is never read
+   mm/huge_memory.c:2991:4: warning: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcpy(file_path, tok);
+                           ^~~~~~
+   mm/huge_memory.c:2991:4: note: Call to function 'strcpy' is insecure as =
+it does not provide bounding of the memory buffer. Replace unbounded copy f=
+unctions with analogous functions that support length arguments such as 'st=
+rlcpy'. CWE-119
+                           strcpy(file_path, tok);
+                           ^~~~~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> drivers/vdpa/ifcvf/ifcvf_base.c:30:40: warning: Value stored to 'cfg' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct virtio_pci_common_cfg __iomem *cfg =3D hw->common_cfg;
-                                                 ^~~   ~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_base.c:30:40: note: Value stored to 'cfg' durin=
-g its initialization is never read
-           struct virtio_pci_common_cfg __iomem *cfg =3D hw->common_cfg;
-                                                 ^~~   ~~~~~~~~~~~~~~
->> drivers/vdpa/ifcvf/ifcvf_base.c:346:2: warning: Value stored to 'ifcvf' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           ifcvf =3D vf_to_adapter(hw);
-           ^       ~~~~~~~~~~~~~~~~~
-   drivers/vdpa/ifcvf/ifcvf_base.c:346:2: note: Value stored to 'ifcvf' is =
-never read
-           ifcvf =3D vf_to_adapter(hw);
-           ^       ~~~~~~~~~~~~~~~~~
-   Suppressed 10 warnings (2 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/mmc/host/tmio_mmc_core.c:929:17: warning: Value stored to 'dev' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/mmc/host/tmio_mmc_core.c:929:17: note: Value stored to 'dev' dur=
-ing its initialization is never read
-           struct device *dev =3D &host->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   Suppressed 10 warnings (2 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/nvdimm/namespace_devs.c:107:20: warning: Value stored to 'nd_reg=
-ion' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct nd_region *nd_region =3D to_nd_region(dev->parent);
-                             ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvdimm/namespace_devs.c:107:20: note: Value stored to 'nd_region=
-' during its initialization is never read
-           struct nd_region *nd_region =3D to_nd_region(dev->parent);
-                             ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvdimm/namespace_devs.c:108:30: warning: Value stored to 'ndns' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct nd_namespace_common *ndns =3D to_ndns(dev);
-                                       ^~~~   ~~~~~~~~~~~~
-   drivers/nvdimm/namespace_devs.c:108:30: note: Value stored to 'ndns' dur=
-ing its initialization is never read
-           struct nd_namespace_common *ndns =3D to_ndns(dev);
-                                       ^~~~   ~~~~~~~~~~~~
-   drivers/nvdimm/namespace_devs.c:712:4: warning: Value stored to 'new_res=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                           new_res =3D res;
-                           ^         ~~~
-   drivers/nvdimm/namespace_devs.c:712:4: note: Value stored to 'new_res' i=
-s never read
-                           new_res =3D res;
-                           ^         ~~~
-   drivers/nvdimm/namespace_devs.c:790:2: warning: Call to function 'strcat=
-' is insecure as it does not provide bounding of the memory buffer. Replace=
- unbounded copy functions with analogous functions that support length argu=
-ments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcp=
-y]
-           strcat(label_id.id, "pmem-reserve");
-           ^~~~~~
-   drivers/nvdimm/namespace_devs.c:790:2: note: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119
-           strcat(label_id.id, "pmem-reserve");
-           ^~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/media/tuners/tuner-xc2028.c:1037:3: warning: Value stored to 'rc=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D send_seq(priv, {0x00, 0x00});
+   mm/khugepaged.c:1651:3: warning: Value stored to 'result' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   result =3D SCAN_ALLOC_HUGE_PAGE_FAIL;
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/khugepaged.c:1651:3: note: Value stored to 'result' is never read
+                   result =3D SCAN_ALLOC_HUGE_PAGE_FAIL;
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/khugepaged.c:1656:3: warning: Value stored to 'result' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   result =3D SCAN_CGROUP_CHARGE_FAIL;
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   mm/khugepaged.c:1656:3: note: Value stored to 'result' is never read
+                   result =3D SCAN_CGROUP_CHARGE_FAIL;
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   mm/khugepaged.c:1672:4: warning: Value stored to 'result' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                           result =3D SCAN_FAIL;
+                           ^        ~~~~~~~~~
+   mm/khugepaged.c:1672:4: note: Value stored to 'result' is never read
+                           result =3D SCAN_FAIL;
+                           ^        ~~~~~~~~~
+   mm/khugepaged.c:1904:3: warning: Assigned value is garbage or undefined =
+[clang-analyzer-core.uninitialized.Assign]
+                   list_for_each_entry_safe(page, tmp, &pagelist, lru) {
                    ^
-   drivers/media/tuners/tuner-xc2028.c:1037:3: note: Value stored to 'rc' i=
-s never read
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   net/nfc/digital_dep.c:1199:3: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                   rc =3D 0;
-                   ^    ~
-   net/nfc/digital_dep.c:1199:3: note: Value stored to 'rc' is never read
-                   rc =3D 0;
-                   ^    ~
-   net/nfc/digital_dep.c:1407:3: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                   rc =3D PTR_ERR(resp);
-                   ^    ~~~~~~~~~~~~~
-   net/nfc/digital_dep.c:1407:3: note: Value stored to 'rc' is never read
-                   rc =3D PTR_ERR(resp);
-                   ^    ~~~~~~~~~~~~~
-   net/nfc/digital_dep.c:1429:3: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
+   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
+of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^              ~~~~~~~~~~~~~
+   mm/khugepaged.c:1638:2: note: '?' condition is false
+           XA_STATE_ORDER(xas, &mapping->i_pages, start, HPAGE_PMD_ORDER);
+           ^
+   include/linux/xarray.h:1367:21: note: expanded from macro 'XA_STATE_ORDE=
+R'
+                           order - (order % XA_CHUNK_SHIFT),       \
+                                            ^
+   include/linux/xarray.h:1110:26: note: expanded from macro 'XA_CHUNK_SHIF=
+T'
+   #define XA_CHUNK_SHIFT          (CONFIG_BASE_SMALL ? 4 : 6)
+                                    ^
+   ./include/generated/autoconf.h:2359:27: note: expanded from macro 'CONFI=
+G_BASE_SMALL'
+   #define CONFIG_BASE_SMALL 0
+                             ^
+   mm/khugepaged.c:1638:2: note: '?' condition is false
+           XA_STATE_ORDER(xas, &mapping->i_pages, start, HPAGE_PMD_ORDER);
+           ^
+   include/linux/xarray.h:1368:20: note: expanded from macro 'XA_STATE_ORDE=
+R'
+                           (1U << (order % XA_CHUNK_SHIFT)) - 1)
+                                           ^
+   include/linux/xarray.h:1110:26: note: expanded from macro 'XA_CHUNK_SHIF=
+T'
+   #define XA_CHUNK_SHIFT          (CONFIG_BASE_SMALL ? 4 : 6)
+                                    ^
+   ./include/generated/autoconf.h:2359:27: note: expanded from macro 'CONFI=
+G_BASE_SMALL'
+   #define CONFIG_BASE_SMALL 0
+                             ^
+   mm/khugepaged.c:1643:12: note: Left side of '&&' is true
+           VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+                     ^
+   mm/khugepaged.c:1643:56: note: Assuming 'is_shmem' is true
+           VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+                                                                 ^
+   include/linux/mmdebug.h:17:32: note: expanded from macro 'VM_BUG_ON'
+   #define VM_BUG_ON(cond) BUG_ON(cond)
+                                  ^~~~
+   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   mm/khugepaged.c:1643:2: note: Taking false branch
+           VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+           ^
+   include/linux/mmdebug.h:17:25: note: expanded from macro 'VM_BUG_ON'
+   #define VM_BUG_ON(cond) BUG_ON(cond)
+                           ^
+   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   mm/khugepaged.c:1643:2: note: Loop condition is false.  Exiting loop
+           VM_BUG_ON(!IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) && !is_shmem);
+           ^
+   include/linux/mmdebug.h:17:25: note: expanded from macro 'VM_BUG_ON'
+   #define VM_BUG_ON(cond) BUG_ON(cond)
+                           ^
+   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
 
-vim +49 drivers/vdpa/ifcvf/ifcvf_main.c
+vim +/page +2145 mm/huge_memory.c
 
-5a2414bc454e89 drivers/virtio/vdpa/ifcvf/ifcvf_main.c Zhu Lingshan 2020-03-=
-26  39  =
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2119  =
 
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  40  static irqreturn_t ifcvf_vqs_reused_intr_handler(int irq, void *arg)
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  41  {
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  42  	struct ifcvf_hw *vf =3D arg;
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  43  	struct vring_info *vring;
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  44  	int i;
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  45  =
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2120  void __split_huge_pmd(s=
+truct vm_area_struct *vma, pmd_t *pmd,
+33f4751e99601b Naoya Horiguchi    2016-07-14  2121  		unsigned long address=
+, bool freeze, struct page *page)
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2122  {
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2123  	spinlock_t *ptl;
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  2124  	struct mmu_n=
+otifier_range range;
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2125  =
 
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  46  	for (i =3D 0; i < vf->nr_vring; i++) {
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  47  		vring =3D &vf->vring[i];
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  48  		if (vring->cb.callback)
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17 @49  			vf->vring->cb.callback(vring->cb.private);
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  50  	}
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  51  =
+7269f999934b28 J=C3=A9r=C3=B4me Glisse      2019-05-13  2126  	mmu_notifier=
+_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
+6f4f13e8d9e27c J=C3=A9r=C3=B4me Glisse      2019-05-13  2127  				address &=
+ HPAGE_PMD_MASK,
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  2128  				(address =
+& HPAGE_PMD_MASK) + HPAGE_PMD_SIZE);
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  2129  	mmu_notifier=
+_invalidate_range_start(&range);
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  2130  	ptl =3D pmd_=
+lock(vma->vm_mm, pmd);
+33f4751e99601b Naoya Horiguchi    2016-07-14  2131  =
 
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  52  	return IRQ_HANDLED;
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  53  }
-9587b3d164c2be drivers/vdpa/ifcvf/ifcvf_main.c        Zhu Lingshan 2022-02-=
-17  54  =
+33f4751e99601b Naoya Horiguchi    2016-07-14  2132  	/*
+33f4751e99601b Naoya Horiguchi    2016-07-14  2133  	 * If caller asks to s=
+etup a migration entries, we need a page to check
+33f4751e99601b Naoya Horiguchi    2016-07-14  2134  	 * pmd against. Otherw=
+ise we can end up replacing wrong page.
+33f4751e99601b Naoya Horiguchi    2016-07-14  2135  	 */
+33f4751e99601b Naoya Horiguchi    2016-07-14  2136  	VM_BUG_ON(freeze && !p=
+age);
+c444eb564fb166 Andrea Arcangeli   2020-05-27  2137  	if (page) {
+c444eb564fb166 Andrea Arcangeli   2020-05-27  2138  		VM_WARN_ON_ONCE(!Page=
+Locked(page));
+c444eb564fb166 Andrea Arcangeli   2020-05-27  2139  		if (page !=3D pmd_pag=
+e(*pmd))
+33f4751e99601b Naoya Horiguchi    2016-07-14  2140  			goto out;
+c444eb564fb166 Andrea Arcangeli   2020-05-27  2141  	}
+33f4751e99601b Naoya Horiguchi    2016-07-14  2142  =
 
+5c7fb56e5e3f70 Dan Williams       2016-01-15  2143  	if (pmd_trans_huge(*pm=
+d)) {
+dbe67be3d9f30a David Hildenbrand  2022-02-16  2144  		if (!page)
+33f4751e99601b Naoya Horiguchi    2016-07-14 @2145  			page =3D pmd_page(*p=
+md);
+84c3fc4e9c563d Zi Yan             2017-09-08  2146  	} else if (!(pmd_devma=
+p(*pmd) || is_pmd_migration_entry(*pmd)))
+5c7fb56e5e3f70 Dan Williams       2016-01-15  2147  		goto out;
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  2148  	__split_huge=
+_pmd_locked(vma, pmd, range.start, freeze);
+e90309c9f7722d Kirill A. Shutemov 2016-01-15  2149  out:
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2150  	spin_unlock(ptl);
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2151  	/*
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2152  	 * No need t=
+o double call mmu_notifier->invalidate_range() callback.
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2153  	 * They are =
+3 cases to consider inside __split_huge_pmd_locked():
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2154  	 *  1) pmdp_=
+huge_clear_flush_notify() call invalidate_range() obvious
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2155  	 *  2) __spl=
+it_huge_zero_page_pmd() read only zero page and any write
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2156  	 *    fault =
+will trigger a flush_notify before pointing to a new page
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2157  	 *    (it is=
+ fine if the secondary mmu keeps pointing to the old zero
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2158  	 *    page i=
+n the meantime)
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2159  	 *  3) Split=
+ a huge pmd into pte pointing to the same page. No need
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2160  	 *     to in=
+validate secondary tlb entry they are all still valid.
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2161  	 *     any f=
+urther changes to individual pte will notify. So no need
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2162  	 *     to ca=
+ll mmu_notifier->invalidate_range()
+4645b9fe84bf48 J=C3=A9r=C3=B4me Glisse      2017-11-15  2163  	 */
+ac46d4f3c43241 J=C3=A9r=C3=B4me Glisse      2018-12-28  2164  	mmu_notifier=
+_invalidate_range_only_end(&range);
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2165  }
+eef1b3ba053aa6 Kirill A. Shutemov 2016-01-15  2166  =
+
+
+:::::: The code at line 2145 was first introduced by commit
+:::::: 33f4751e99601b7bfd1d66aedabd3ee9140922de mm: thp: move pmd check ins=
+ide ptl for freeze_page()
+
+:::::: TO: Naoya Horiguchi <n-horiguchi@ah.jp.nec.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5873198921243665962==--
+--===============8007629846447835374==--
 
