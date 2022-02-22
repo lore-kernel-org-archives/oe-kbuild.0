@@ -1,40 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============6533766577063060265=="
+Content-Type: multipart/mixed; boundary="===============7806844065162985610=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-block:freeze-5.18 5/12] drivers/scsi/sr.c:486:23: warning: Although the value stored to 'cd' is used in the enclosing expression, the value is never actually read from 'cd' [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 22 Feb 2022 22:40:00 +0800
-Message-ID: <202202222219.UaX3FsHz-lkp@intel.com>
+Subject: drivers/crypto/atmel-tdes.c:683:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 22 Feb 2022 19:17:20 +0800
+Message-ID: <202202221939.g3OdDxDA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6533766577063060265==
+--===============7806844065162985610==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-tree:   git://git.infradead.org/users/hch/block.git freeze-5.18
-head:   160aadf96a0cc9afd4b49f9a097e23494f7f33b6
-commit: 511f348c57ee61fe305de34c2860a6663175c3cc [5/12] sr: implement ->fre=
-e_disk
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-222/202202222219.UaX3FsHz-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   038101e6b2cd5c55f888f85db42ea2ad3aecb4b6
+commit: 817b804ca36747f0c9db667d7d8aa9fdd55335c7 crypto: atmel-tdes - Handl=
+e error messages
+date:   7 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 7 months ago
+config: riscv-randconfig-c006-20220216 (https://download.01.org/0day-ci/arc=
+hive/20220222/202202221939.g3OdDxDA-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0e628a=
+783b935c70c80815db6c061ec84f884af5)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add hch-block git://git.infradead.org/users/hch/block.git
-        git fetch --no-tags hch-block freeze-5.18
-        git checkout 511f348c57ee61fe305de34c2860a6663175c3cc
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D817b804ca36747f0c9db667d7d8aa9fdd55335c7
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 817b804ca36747f0c9db667d7d8aa9fdd55335c7
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -42,302 +52,390 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/base/cacheinfo.c:241:3: note: Taking false branch
-                   if (!cpumask_empty(&this_leaf->shared_cpu_map))
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/base/cacheinfo.c:245:3: note: Loop condition is true.  Entering =
-loop body
-                   for_each_online_cpu(i) {
-                   ^
-   include/linux/cpumask.h:815:36: note: expanded from macro 'for_each_onli=
-ne_cpu'
-   #define for_each_online_cpu(cpu)   for_each_cpu((cpu), cpu_online_mask)
-                                      ^
-   include/linux/cpumask.h:190:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
-           ^
-   drivers/base/cacheinfo.c:248:8: note: 'i' is not equal to 'cpu'
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/base/cacheinfo.c:248:8: note: Left side of '||' is false
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                               ^
-   drivers/base/cacheinfo.c:248:20: note: Assuming field 'info_list' is null
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                                           ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/base/cacheinfo.c:248:4: note: '?' condition is false
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/base/cacheinfo.c:248:8: note: 'i' is not equal to 'cpu'
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/base/cacheinfo.c:248:8: note: Left side of '||' is false
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                               ^
-   drivers/base/cacheinfo.c:248:4: note: '?' condition is true
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/base/cacheinfo.c:248:4: note: Taking true branch
-                           if (i =3D=3D cpu || !sib_cpu_ci->info_list)
-                           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/base/cacheinfo.c:249:5: note:  Execution continues on line 245
-                                   continue;/* skip if itself or no cachein=
-fo */
-                                   ^
-   drivers/base/cacheinfo.c:245:3: note: Loop condition is false. Execution=
- continues on line 257
-                   for_each_online_cpu(i) {
-                   ^
-   include/linux/cpumask.h:815:36: note: expanded from macro 'for_each_onli=
-ne_cpu'
-   #define for_each_online_cpu(cpu)   for_each_cpu((cpu), cpu_online_mask)
-                                      ^
-   include/linux/cpumask.h:190:2: note: expanded from macro 'for_each_cpu'
-           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
-           ^
-   drivers/base/cacheinfo.c:257:7: note: Access to field 'coherency_line_si=
-ze' results in a dereference of a null pointer (loaded from variable 'this_=
-leaf')
-                   if (this_leaf->coherency_line_size > coherency_max_size)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   1 warning generated.
->> drivers/scsi/sr.c:486:23: warning: Although the value stored to 'cd' is =
-used in the enclosing expression, the value is never actually read from 'cd=
-' [clang-analyzer-deadcode.DeadStores]
-           struct scsi_cd *cd =3D cd =3D scsi_cd(bdev->bd_disk);
-                                ^    ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/sr.c:486:23: note: Although the value stored to 'cd' is use=
-d in the enclosing expression, the value is never actually read from 'cd'
-           struct scsi_cd *cd =3D cd =3D scsi_cd(bdev->bd_disk);
-                                ^    ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    2 warnings generated.
-   drivers/nvme/host/core.c:3957:3: warning: Use of memory after it is free=
-d [clang-analyzer-unix.Malloc]
-                   nvme_put_ns(ns);
-                   ^
-   drivers/nvme/host/core.c:4147:6: note: Assuming field 'state' is equal t=
-o NVME_CTRL_LIVE
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/nvme/host/core.c:4147:6: note: Left side of '||' is false
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-               ^
-   drivers/nvme/host/core.c:4147:39: note: Assuming field 'tagset' is non-n=
-ull
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-                                                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/nvme/host/core.c:4147:2: note: '?' condition is false
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/media/usb/uvc/uvc_ctrl.c:836:37: warning: The result of the left=
+ shift is undefined because the left operand is negative [clang-analyzer-co=
+re.UndefinedBinaryOperatorResult]
+                   *data =3D (*data & ~mask) | ((value << offset) & mask);
+                                               ~~~~~ ^
+   drivers/media/usb/uvc/uvc_ctrl.c:828:6: note: Assuming field 'v4l2_type'=
+ is equal to V4L2_CTRL_TYPE_BUTTON
+           if (mapping->v4l2_type =3D=3D V4L2_CTRL_TYPE_BUTTON)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/uvc/uvc_ctrl.c:828:2: note: Taking true branch
+           if (mapping->v4l2_type =3D=3D V4L2_CTRL_TYPE_BUTTON)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:4147:12: note: Field 'state' is equal to NVME_C=
-TRL_LIVE
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-                     ^
-   drivers/nvme/host/core.c:4147:6: note: Left side of '||' is false
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-               ^
-   drivers/nvme/host/core.c:4147:46: note: Field 'tagset' is non-null
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-                                                       ^
-   drivers/nvme/host/core.c:4147:2: note: '?' condition is false
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
+   drivers/media/usb/uvc/uvc_ctrl.c:834:9: note: Assuming 'bits' is > 0
+           for (; bits > 0; data++) {
+                  ^~~~~~~~
+   drivers/media/usb/uvc/uvc_ctrl.c:834:2: note: Loop condition is true.  E=
+ntering loop body
+           for (; bits > 0; data++) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/media/usb/uvc/uvc_ctrl.c:837:13: note: Assuming 'offset' is 0
+                   value >>=3D offset ? offset : 8;
+                             ^~~~~~
+   drivers/media/usb/uvc/uvc_ctrl.c:837:13: note: '?' condition is false
+   drivers/media/usb/uvc/uvc_ctrl.c:837:3: note: The value -1 is assigned t=
+o 'value'
+                   value >>=3D offset ? offset : 8;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/uvc/uvc_ctrl.c:834:9: note: Assuming 'bits' is > 0
+           for (; bits > 0; data++) {
+                  ^~~~~~~~
+   drivers/media/usb/uvc/uvc_ctrl.c:834:2: note: Loop condition is true.  E=
+ntering loop body
+           for (; bits > 0; data++) {
            ^
-   drivers/nvme/host/core.c:4147:2: note: Taking false branch
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/nvme/host/core.c:4150:2: note: '?' condition is false
-           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
-)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/nvme/host/core.c:4150:2: note: Assuming the condition is false
-           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
-)) {
-           ^
-   include/linux/compiler.h:56:44: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/nvme/host/core.c:4150:2: note: '?' condition is false
-           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
-)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/nvme/host/core.c:4150:2: note: Taking false branch
+   drivers/media/usb/uvc/uvc_ctrl.c:836:37: note: The result of the left sh=
+ift is undefined because the left operand is negative
+                   *data =3D (*data & ~mask) | ((value << offset) & mask);
+                                               ~~~~~ ^
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   sound/usb/line6/midi.c:229:2: warning: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(rmidi->id, line6->properties->id);
+           ^~~~~~
+   sound/usb/line6/midi.c:229:2: note: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119
+           strcpy(rmidi->id, line6->properties->id);
+           ^~~~~~
+   sound/usb/line6/midi.c:230:2: warning: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(rmidi->name, line6->properties->name);
+           ^~~~~~
+   sound/usb/line6/midi.c:230:2: note: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119
+           strcpy(rmidi->name, line6->properties->name);
+           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   sound/usb/line6/pcm.c:489:2: warning: Call to function 'strcpy' is insec=
+ure as it does not provide bounding of the memory buffer. Replace unbounded=
+ copy functions with analogous functions that support length arguments such=
+ as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(pcm->name, line6->properties->name);
+           ^~~~~~
+   sound/usb/line6/pcm.c:489:2: note: Call to function 'strcpy' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcpy'. CWE-119
+           strcpy(pcm->name, line6->properties->name);
+           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> drivers/crypto/atmel-tdes.c:683:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D ctx->dd->dev;
+                          ^~~   ~~~~~~~~~~~~
+   drivers/crypto/atmel-tdes.c:683:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D ctx->dd->dev;
+                          ^~~   ~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/mmc/host/bcm2835.c:195:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &host->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/mmc/host/bcm2835.c:195:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &host->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/mmc/host/bcm2835.c:210:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &host->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/mmc/host/bcm2835.c:210:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &host->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/mmc/host/bcm2835.c:718:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &host->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/mmc/host/bcm2835.c:718:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &host->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/media/usb/gspca/topro.c:4745:3: warning: Value stored to 'ret' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D gspca_expo_autogain(gspca_dev, luma,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/usb/gspca/topro.c:4745:3: note: Value stored to 'ret' is n=
+ever read
+                   ret =3D gspca_expo_autogain(gspca_dev, luma,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/media/usb/gspca/vc032x.c:2793:8: warning: Excessive padding in '=
+struct sensor_info' (2 padding bytes, where 0 is optimal). =
 
-vim +486 drivers/scsi/sr.c
+   Optimal fields order: =
 
-38a2b557e23874 Christoph Hellwig 2020-09-08  483  =
+   VpId, =
 
-40cc51be699e37 Al Viro           2008-03-02  484  static int sr_block_open(=
-struct block_device *bdev, fmode_t mode)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  485  {
-511f348c57ee61 Christoph Hellwig 2022-02-18 @486  	struct scsi_cd *cd =3D c=
-d =3D scsi_cd(bdev->bd_disk);
-511f348c57ee61 Christoph Hellwig 2022-02-18  487  	struct scsi_device *sdev=
- =3D cd->device;
-40cc51be699e37 Al Viro           2008-03-02  488  	int ret =3D -ENXIO;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  489  =
+   sensorId, =
 
-511f348c57ee61 Christoph Hellwig 2022-02-18  490  	if (scsi_device_get(cd->=
-device))
-511f348c57ee61 Christoph Hellwig 2022-02-18  491  		return -ENXIO;
-1214fd7b497400 Bart Van Assche   2018-08-02  492  =
+   I2cAdd, =
 
-1214fd7b497400 Bart Van Assche   2018-08-02  493  	scsi_autopm_get_device(s=
-dev);
-afd35c4f573d7e Christoph Hellwig 2020-09-08  494  	if (bdev_check_media_cha=
-nge(bdev))
-38a2b557e23874 Christoph Hellwig 2020-09-08  495  		sr_revalidate_disk(cd);
-2bbea6e117357d Maurizio Lombardi 2018-03-09  496  =
+   IdAdd, =
 
-51a858817dcdbb Merlijn Wajer     2020-02-18  497  	mutex_lock(&cd->lock);
-40cc51be699e37 Al Viro           2008-03-02  498  	ret =3D cdrom_open(&cd->=
-cdi, bdev, mode);
-51a858817dcdbb Merlijn Wajer     2020-02-18  499  	mutex_unlock(&cd->lock);
-1214fd7b497400 Bart Van Assche   2018-08-02  500  =
+   m1, =
 
-1214fd7b497400 Bart Van Assche   2018-08-02  501  	scsi_autopm_put_device(s=
-dev);
-40cc51be699e37 Al Viro           2008-03-02  502  	if (ret)
-511f348c57ee61 Christoph Hellwig 2022-02-18  503  		scsi_device_put(cd->dev=
-ice);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  504  	return ret;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  505  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  506  =
+   m2, =
+
+   op, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct sensor_info {
+   ~~~~~~~^~~~~~~~~~~~~
+   drivers/media/usb/gspca/vc032x.c:2793:8: note: Excessive padding in 'str=
+uct sensor_info' (2 padding bytes, where 0 is optimal). Optimal fields orde=
+r: VpId, sensorId, I2cAdd, IdAdd, m1, m2, op, consider reordering the field=
+s or adding explicit padding members
+   struct sensor_info {
+   ~~~~~~~^~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+
+vim +/dev +683 drivers/crypto/atmel-tdes.c
+
+13802005d8f2db Nicolas Royer  2012-07-01  677  =
+
+967d4910ef0e83 Ard Biesheuvel 2019-11-09  678  static int atmel_tdes_crypt(=
+struct skcipher_request *req, unsigned long mode)
+13802005d8f2db Nicolas Royer  2012-07-01  679  {
+61b0dd664fa187 Tudor Ambarus  2019-11-15  680  	struct crypto_skcipher *skc=
+ipher =3D crypto_skcipher_reqtfm(req);
+61b0dd664fa187 Tudor Ambarus  2019-11-15  681  	struct atmel_tdes_ctx *ctx =
+=3D crypto_skcipher_ctx(skcipher);
+967d4910ef0e83 Ard Biesheuvel 2019-11-09  682  	struct atmel_tdes_reqctx *r=
+ctx =3D skcipher_request_ctx(req);
+817b804ca36747 Tudor Ambarus  2021-07-20 @683  	struct device *dev =3D ctx-=
+>dd->dev;
+13802005d8f2db Nicolas Royer  2012-07-01  684  =
+
+848572f8177214 Tudor Ambarus  2019-12-05  685  	switch (mode & TDES_FLAGS_O=
+PMODE_MASK) {
+848572f8177214 Tudor Ambarus  2019-12-05  686  	case TDES_FLAGS_CFB8:
+967d4910ef0e83 Ard Biesheuvel 2019-11-09  687  		if (!IS_ALIGNED(req->crypt=
+len, CFB8_BLOCK_SIZE)) {
+817b804ca36747 Tudor Ambarus  2021-07-20  688  			dev_dbg(dev, "request siz=
+e is not exact amount of CFB8 blocks\n");
+13802005d8f2db Nicolas Royer  2012-07-01  689  			return -EINVAL;
+13802005d8f2db Nicolas Royer  2012-07-01  690  		}
+1f858040c2f780 Nicolas Royer  2013-02-20  691  		ctx->block_size =3D CFB8_B=
+LOCK_SIZE;
+848572f8177214 Tudor Ambarus  2019-12-05  692  		break;
+848572f8177214 Tudor Ambarus  2019-12-05  693  =
+
+848572f8177214 Tudor Ambarus  2019-12-05  694  	case TDES_FLAGS_CFB16:
+967d4910ef0e83 Ard Biesheuvel 2019-11-09  695  		if (!IS_ALIGNED(req->crypt=
+len, CFB16_BLOCK_SIZE)) {
+817b804ca36747 Tudor Ambarus  2021-07-20  696  			dev_dbg(dev, "request siz=
+e is not exact amount of CFB16 blocks\n");
+13802005d8f2db Nicolas Royer  2012-07-01  697  			return -EINVAL;
+13802005d8f2db Nicolas Royer  2012-07-01  698  		}
+1f858040c2f780 Nicolas Royer  2013-02-20  699  		ctx->block_size =3D CFB16_=
+BLOCK_SIZE;
+848572f8177214 Tudor Ambarus  2019-12-05  700  		break;
+848572f8177214 Tudor Ambarus  2019-12-05  701  =
+
+848572f8177214 Tudor Ambarus  2019-12-05  702  	case TDES_FLAGS_CFB32:
+967d4910ef0e83 Ard Biesheuvel 2019-11-09  703  		if (!IS_ALIGNED(req->crypt=
+len, CFB32_BLOCK_SIZE)) {
+817b804ca36747 Tudor Ambarus  2021-07-20  704  			dev_dbg(dev, "request siz=
+e is not exact amount of CFB32 blocks\n");
+13802005d8f2db Nicolas Royer  2012-07-01  705  			return -EINVAL;
+13802005d8f2db Nicolas Royer  2012-07-01  706  		}
+1f858040c2f780 Nicolas Royer  2013-02-20  707  		ctx->block_size =3D CFB32_=
+BLOCK_SIZE;
+848572f8177214 Tudor Ambarus  2019-12-05  708  		break;
+848572f8177214 Tudor Ambarus  2019-12-05  709  =
+
+848572f8177214 Tudor Ambarus  2019-12-05  710  	default:
+967d4910ef0e83 Ard Biesheuvel 2019-11-09  711  		if (!IS_ALIGNED(req->crypt=
+len, DES_BLOCK_SIZE)) {
+817b804ca36747 Tudor Ambarus  2021-07-20  712  			dev_dbg(dev, "request siz=
+e is not exact amount of DES blocks\n");
+13802005d8f2db Nicolas Royer  2012-07-01  713  			return -EINVAL;
+13802005d8f2db Nicolas Royer  2012-07-01  714  		}
+1f858040c2f780 Nicolas Royer  2013-02-20  715  		ctx->block_size =3D DES_BL=
+OCK_SIZE;
+848572f8177214 Tudor Ambarus  2019-12-05  716  		break;
+1f858040c2f780 Nicolas Royer  2013-02-20  717  	}
+13802005d8f2db Nicolas Royer  2012-07-01  718  =
+
+1f858040c2f780 Nicolas Royer  2013-02-20  719  	rctx->mode =3D mode;
+1f858040c2f780 Nicolas Royer  2013-02-20  720  =
+
+c65d123742a7bf Tudor Ambarus  2019-12-05  721  	if ((mode & TDES_FLAGS_OPMO=
+DE_MASK) !=3D TDES_FLAGS_ECB &&
+c65d123742a7bf Tudor Ambarus  2019-12-05  722  	    !(mode & TDES_FLAGS_ENC=
+RYPT) && req->src =3D=3D req->dst) {
+61b0dd664fa187 Tudor Ambarus  2019-11-15  723  		unsigned int ivsize =3D cr=
+ypto_skcipher_ivsize(skcipher);
+61b0dd664fa187 Tudor Ambarus  2019-11-15  724  =
+
+61b0dd664fa187 Tudor Ambarus  2019-11-15  725  		if (req->cryptlen >=3D ivs=
+ize)
+61b0dd664fa187 Tudor Ambarus  2019-11-15  726  			scatterwalk_map_and_copy(=
+rctx->lastc, req->src,
+61b0dd664fa187 Tudor Ambarus  2019-11-15  727  						 req->cryptlen - ivsiz=
+e,
+61b0dd664fa187 Tudor Ambarus  2019-11-15  728  						 ivsize, 0);
+61b0dd664fa187 Tudor Ambarus  2019-11-15  729  	}
+61b0dd664fa187 Tudor Ambarus  2019-11-15  730  =
+
+1f858040c2f780 Nicolas Royer  2013-02-20  731  	return atmel_tdes_handle_qu=
+eue(ctx->dd, req);
+1f858040c2f780 Nicolas Royer  2013-02-20  732  }
+1f858040c2f780 Nicolas Royer  2013-02-20  733  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6533766577063060265==--
+--===============7806844065162985610==--
 
