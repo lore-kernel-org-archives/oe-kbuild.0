@@ -1,441 +1,302 @@
-Content-Type: multipart/mixed; boundary="===============6045748128936897273=="
+Content-Type: multipart/mixed; boundary="===============2904419163238211954=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mcgrof:modules-next 1/10] kernel/module/main.c:3475:4: warning: Null pointer passed as 1st argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Tue, 22 Feb 2022 07:10:11 +0800
-Message-ID: <202202220739.d6DHS80N-lkp@intel.com>
+Subject: [hverkuil-media-tree:for-v5.18r 134/217] drivers/iommu/mtk_iommu.c:855:3-9: ERROR: missing put_device; call of_find_device_by_node on line 848, but without a corresponding object release within this function.
+Date: Thu, 24 Feb 2022 04:07:27 +0800
+Message-ID: <202202240412.6A5PNE5p-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6045748128936897273==
+--===============2904419163238211954==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Aaron Tomlin <atomlin@redhat.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>
+TO: Yong Wu <yong.wu@mediatek.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git mo=
-dules-next
-head:   c55dc78176e6fe97a9e92d24a7ff3015b14ac858
-commit: 87b31159f78ab89d8ccda30d3eb9966af51bca64 [1/10] module: Move all in=
-to module/
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-c007-20220221 (https://download.01.org/0day-ci/ar=
-chive/20220222/202202220739.d6DHS80N-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/=
-commit/?id=3D87b31159f78ab89d8ccda30d3eb9966af51bca64
-        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/g=
-it/mcgrof/linux.git
-        git fetch --no-tags mcgrof modules-next
-        git checkout 87b31159f78ab89d8ccda30d3eb9966af51bca64
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   git://linuxtv.org/hverkuil/media_tree.git for-v5.18r
+head:   ce9df78ab89f9fc79875af9fac11b4ca329c7e35
+commit: 7d09aaf831b35ab62c5c24efbe716b8f60ad46ad [134/217] media: iommu/med=
+iatek: Add probe_defer for smi-larb
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 weeks ago
+config: arm-randconfig-c023-20220223 (https://download.01.org/0day-ci/archi=
+ve/20220224/202202240412.6A5PNE5p-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   fs/proc/proc_sysctl.c:1231:3: warning: Value stored to 'link' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   link =3D find_entry(&head, dir, procname, strlen(procnam=
-e));
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/proc/proc_sysctl.c:1231:3: note: Value stored to 'link' is never read
-                   link =3D find_entry(&head, dir, procname, strlen(procnam=
-e));
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/acpi/thermal.c:1035:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(tz->name, device->pnp.bus_id);
-           ^~~~~~
-   drivers/acpi/thermal.c:1035:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(tz->name, device->pnp.bus_id);
-           ^~~~~~
-   drivers/acpi/thermal.c:1036:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_name(device), ACPI_THERMAL_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/thermal.c:1036:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(acpi_device_name(device), ACPI_THERMAL_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/thermal.c:1037:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_class(device), ACPI_THERMAL_CLASS);
-           ^~~~~~
-   drivers/acpi/thermal.c:1037:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(acpi_device_class(device), ACPI_THERMAL_CLASS);
-           ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (5 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
->> kernel/module/main.c:3475:4: warning: Null pointer passed as 1st argumen=
-t to memory copy function [clang-analyzer-unix.cstring.NullArg]
-                           memcpy(dest, (void *)shdr->sh_addr, shdr->sh_siz=
-e);
-                           ^
-   kernel/module/main.c:4169:1: note: Calling '__se_sys_init_module'
-   SYSCALL_DEFINE3(init_module, void __user *, umod,
-   ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFI=
-NE3'
-   #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:232:2: note: expanded from macro =
-'__SYSCALL_DEFINEx'
-           __IA32_SYS_STUBx(x, name, __VA_ARGS__)                          \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:117:2: note: expanded from macro =
-'__IA32_SYS_STUBx'
-           __SYS_STUBx(ia32, sys##name,                                    \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
-'__SYS_STUBx'
-                   return __se_##name(__VA_ARGS__);                        \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   kernel/module/main.c:4169:1: note: Calling '__do_sys_init_module'
-   SYSCALL_DEFINE3(init_module, void __user *, umod,
-   ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFI=
-NE3'
-   #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:235:14: note: expanded from macro=
- '__SYSCALL_DEFINEx'
-                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
-_));\
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   kernel/module/main.c:4176:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:4176:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:4179:2: note: Taking false branch
-           pr_debug("init_module: umod=3D%p, len=3D%lu, uargs=3D%p\n",
-           ^
-   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   kernel/module/main.c:4183:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:4183:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:4186:9: note: Calling 'load_module'
-           return load_module(&info, uargs, 0);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/module/main.c:3962:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3962:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3970:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3970:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3978:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3978:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3985:2: note: Taking false branch
-           if (blacklisted(info->name)) {
-           ^
-   kernel/module/main.c:3992:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3992:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3996:2: note: Taking false branch
-           if (!check_modstruct_version(info, info->mod)) {
-           ^
-   kernel/module/main.c:4002:8: note: Calling 'layout_and_allocate'
-           mod =3D layout_and_allocate(info, flags);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/module/main.c:3571:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3571:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3577:6: note: 'err' is >=3D 0
-           if (err < 0)
-               ^~~
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iommu/mtk_iommu.c:855:3-9: ERROR: missing put_device; call of_fi=
+nd_device_by_node on line 848, but without a corresponding object release w=
+ithin this function.
+--
+>> drivers/iommu/mtk_iommu_v1.c:611:3-9: ERROR: missing put_device; call of=
+_find_device_by_node on line 604, but without a corresponding object releas=
+e within this function.
 
-vim +3475 kernel/module/main.c
+vim +855 drivers/iommu/mtk_iommu.c
 
-f91a13bb99b739 kernel/module.c Linus Torvalds 2010-08-05  3421  =
+0df4fabe208d95 Yong Wu       2016-02-23  759  =
 
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3422  static int =
-move_module(struct module *mod, struct load_info *info)
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3423  {
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3424  	int i;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3425  	void *ptr;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3426  =
+0df4fabe208d95 Yong Wu       2016-02-23  760  static int mtk_iommu_probe(st=
+ruct platform_device *pdev)
+0df4fabe208d95 Yong Wu       2016-02-23  761  {
+0df4fabe208d95 Yong Wu       2016-02-23  762  	struct mtk_iommu_data   *dat=
+a;
+0df4fabe208d95 Yong Wu       2016-02-23  763  	struct device           *dev=
+ =3D &pdev->dev;
+baf94e6ebff962 Yong Wu       2021-01-11  764  	struct device_node	*larbnode=
+, *smicomm_node;
+baf94e6ebff962 Yong Wu       2021-01-11  765  	struct platform_device	*plar=
+bdev;
+baf94e6ebff962 Yong Wu       2021-01-11  766  	struct device_link	*link;
+0df4fabe208d95 Yong Wu       2016-02-23  767  	struct resource         *res;
+b16c0170b53cfb Joerg Roedel  2017-02-03  768  	resource_size_t		ioaddr;
+0df4fabe208d95 Yong Wu       2016-02-23  769  	struct component_match  *mat=
+ch =3D NULL;
+c2c59456e1fcad Miles Chen    2020-09-04  770  	struct regmap		*infracfg;
+0df4fabe208d95 Yong Wu       2016-02-23  771  	void                    *pro=
+tect;
+0b6c0ad3cfe6bc Andrzej Hajda 2016-03-01  772  	int                     i, l=
+arb_nr, ret;
+c2c59456e1fcad Miles Chen    2020-09-04  773  	u32			val;
+c2c59456e1fcad Miles Chen    2020-09-04  774  	char                    *p;
+0df4fabe208d95 Yong Wu       2016-02-23  775  =
 
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3427  	/* Do the =
-allocs. */
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3428  	ptr =3D mo=
-dule_alloc(mod->core_layout.size);
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3429  	/*
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3430  	 * The poi=
-nter to this block is stored in the module structure
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3431  	 * which i=
-s inside the block. Just mark it as not being a
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3432  	 * leak.
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3433  	 */
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3434  	kmemleak_n=
-ot_leak(ptr);
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3435  	if (!ptr)
-d913188c751911 kernel/module.c Rusty Russell  2010-08-05  3436  		return -E=
-NOMEM;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3437  =
+0df4fabe208d95 Yong Wu       2016-02-23  776  	data =3D devm_kzalloc(dev, s=
+izeof(*data), GFP_KERNEL);
+0df4fabe208d95 Yong Wu       2016-02-23  777  	if (!data)
+0df4fabe208d95 Yong Wu       2016-02-23  778  		return -ENOMEM;
+0df4fabe208d95 Yong Wu       2016-02-23  779  	data->dev =3D dev;
+cecdce9d7eed33 Yong Wu       2019-08-24  780  	data->plat_data =3D of_devic=
+e_get_match_data(dev);
+0df4fabe208d95 Yong Wu       2016-02-23  781  =
 
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3438  	memset(ptr=
-, 0, mod->core_layout.size);
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3439  	mod->core_=
-layout.base =3D ptr;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3440  =
+0df4fabe208d95 Yong Wu       2016-02-23  782  	/* Protect memory. HW will a=
+ccess here while translation fault.*/
+0df4fabe208d95 Yong Wu       2016-02-23  783  	protect =3D devm_kzalloc(dev=
+, MTK_PROTECT_PA_ALIGN * 2, GFP_KERNEL);
+0df4fabe208d95 Yong Wu       2016-02-23  784  	if (!protect)
+0df4fabe208d95 Yong Wu       2016-02-23  785  		return -ENOMEM;
+0df4fabe208d95 Yong Wu       2016-02-23  786  	data->protect_base =3D ALIGN=
+(virt_to_phys(protect), MTK_PROTECT_PA_ALIGN);
+0df4fabe208d95 Yong Wu       2016-02-23  787  =
 
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3441  	if (mod->i=
-nit_layout.size) {
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3442  		ptr =3D m=
-odule_alloc(mod->init_layout.size);
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3443  		/*
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3444  		 * The po=
-inter to this block is stored in the module structure
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3445  		 * which =
-is inside the block. This block doesn't need to be
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3446  		 * scanne=
-d as it contains data and code that will be freed
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3447  		 * after =
-the module is initialized.
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3448  		 */
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3449  		kmemleak_=
-ignore(ptr);
-82fab442f5322b kernel/module.c Rusty Russell  2012-12-11  3450  		if (!ptr)=
- {
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3451  			module_m=
-emfree(mod->core_layout.base);
-d913188c751911 kernel/module.c Rusty Russell  2010-08-05  3452  			return -=
-ENOMEM;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3453  		}
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3454  		memset(pt=
-r, 0, mod->init_layout.size);
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3455  		mod->init=
-_layout.base =3D ptr;
-82fab442f5322b kernel/module.c Rusty Russell  2012-12-11  3456  	} else
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3457  		mod->init=
-_layout.base =3D NULL;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3458  =
+c2c59456e1fcad Miles Chen    2020-09-04  788  	if (MTK_IOMMU_HAS_FLAG(data-=
+>plat_data, HAS_4GB_MODE)) {
+c2c59456e1fcad Miles Chen    2020-09-04  789  		switch (data->plat_data->m4=
+u_plat) {
+c2c59456e1fcad Miles Chen    2020-09-04  790  		case M4U_MT2712:
+c2c59456e1fcad Miles Chen    2020-09-04  791  			p =3D "mediatek,mt2712-inf=
+racfg";
+c2c59456e1fcad Miles Chen    2020-09-04  792  			break;
+c2c59456e1fcad Miles Chen    2020-09-04  793  		case M4U_MT8173:
+c2c59456e1fcad Miles Chen    2020-09-04  794  			p =3D "mediatek,mt8173-inf=
+racfg";
+c2c59456e1fcad Miles Chen    2020-09-04  795  			break;
+c2c59456e1fcad Miles Chen    2020-09-04  796  		default:
+c2c59456e1fcad Miles Chen    2020-09-04  797  			p =3D NULL;
+c2c59456e1fcad Miles Chen    2020-09-04  798  		}
+c2c59456e1fcad Miles Chen    2020-09-04  799  =
 
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3459  	/* Transfe=
-r each section which specifies SHF_ALLOC */
-5e12416927975a kernel/module.c Jim Cromie     2011-12-06  3460  	pr_debug("=
-final section addresses:\n");
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3461  	for (i =3D=
- 0; i < info->hdr->e_shnum; i++) {
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3462  		void *des=
-t;
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3463  		Elf_Shdr =
-*shdr =3D &info->sechdrs[i];
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3464  =
+c2c59456e1fcad Miles Chen    2020-09-04  800  		infracfg =3D syscon_regmap_=
+lookup_by_compatible(p);
+c2c59456e1fcad Miles Chen    2020-09-04  801  =
 
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3465  		if (!(shd=
-r->sh_flags & SHF_ALLOC))
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3466  			continue;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3467  =
+c2c59456e1fcad Miles Chen    2020-09-04  802  		if (IS_ERR(infracfg))
+c2c59456e1fcad Miles Chen    2020-09-04  803  			return PTR_ERR(infracfg);
+c2c59456e1fcad Miles Chen    2020-09-04  804  =
 
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3468  		if (shdr-=
->sh_entsize & INIT_OFFSET_MASK)
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3469  			dest =3D=
- mod->init_layout.base
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3470  				+ (shdr=
-->sh_entsize & ~INIT_OFFSET_MASK);
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3471  		else
-7523e4dc5057e1 kernel/module.c Rusty Russell  2015-11-26  3472  			dest =3D=
- mod->core_layout.base + shdr->sh_entsize;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3473  =
+c2c59456e1fcad Miles Chen    2020-09-04  805  		ret =3D regmap_read(infracf=
+g, REG_INFRA_MISC, &val);
+c2c59456e1fcad Miles Chen    2020-09-04  806  		if (ret)
+c2c59456e1fcad Miles Chen    2020-09-04  807  			return ret;
+c2c59456e1fcad Miles Chen    2020-09-04  808  		data->enable_4GB =3D !!(val=
+ & F_DDR_4GB_SUPPORT_EN);
+c2c59456e1fcad Miles Chen    2020-09-04  809  	}
+01e23c93868884 Yong Wu       2016-03-14  810  =
 
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3474  		if (shdr-=
->sh_type !=3D SHT_NOBITS)
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05 @3475  			memcpy(d=
-est, (void *)shdr->sh_addr, shdr->sh_size);
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3476  		/* Update=
- sh_addr to point to copy in image. */
-49668688dd5a5f kernel/module.c Rusty Russell  2010-08-05  3477  		shdr->sh_=
-addr =3D (unsigned long)dest;
-5e12416927975a kernel/module.c Jim Cromie     2011-12-06  3478  		pr_debug(=
-"\t0x%lx %s\n",
-5e12416927975a kernel/module.c Jim Cromie     2011-12-06  3479  			 (long)s=
-hdr->sh_addr, info->secstrings + shdr->sh_name);
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3480  	}
-d913188c751911 kernel/module.c Rusty Russell  2010-08-05  3481  =
+0df4fabe208d95 Yong Wu       2016-02-23  811  	res =3D platform_get_resourc=
+e(pdev, IORESOURCE_MEM, 0);
+0df4fabe208d95 Yong Wu       2016-02-23  812  	data->base =3D devm_ioremap_=
+resource(dev, res);
+0df4fabe208d95 Yong Wu       2016-02-23  813  	if (IS_ERR(data->base))
+0df4fabe208d95 Yong Wu       2016-02-23  814  		return PTR_ERR(data->base);
+b16c0170b53cfb Joerg Roedel  2017-02-03  815  	ioaddr =3D res->start;
+0df4fabe208d95 Yong Wu       2016-02-23  816  =
 
-d913188c751911 kernel/module.c Rusty Russell  2010-08-05  3482  	return 0;
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3483  }
-65b8a9b4d55253 kernel/module.c Linus Torvalds 2010-08-05  3484  =
+0df4fabe208d95 Yong Wu       2016-02-23  817  	data->irq =3D platform_get_i=
+rq(pdev, 0);
+0df4fabe208d95 Yong Wu       2016-02-23  818  	if (data->irq < 0)
+0df4fabe208d95 Yong Wu       2016-02-23  819  		return data->irq;
+0df4fabe208d95 Yong Wu       2016-02-23  820  =
 
+6b717796227ec8 Chao Hao      2020-07-03  821  	if (MTK_IOMMU_HAS_FLAG(data-=
+>plat_data, HAS_BCLK)) {
+0df4fabe208d95 Yong Wu       2016-02-23  822  		data->bclk =3D devm_clk_get=
+(dev, "bclk");
+0df4fabe208d95 Yong Wu       2016-02-23  823  		if (IS_ERR(data->bclk))
+0df4fabe208d95 Yong Wu       2016-02-23  824  			return PTR_ERR(data->bclk);
+2aa4c2597cd671 Yong Wu       2019-08-24  825  	}
+0df4fabe208d95 Yong Wu       2016-02-23  826  =
 
-:::::: The code at line 3475 was first introduced by commit
-:::::: 49668688dd5a5f46c72f965835388ed16c596055 module: pass load_info into=
- other functions
+0df4fabe208d95 Yong Wu       2016-02-23  827  	larb_nr =3D of_count_phandle=
+_with_args(dev->of_node,
+0df4fabe208d95 Yong Wu       2016-02-23  828  					     "mediatek,larbs", N=
+ULL);
+0df4fabe208d95 Yong Wu       2016-02-23  829  	if (larb_nr < 0)
+0df4fabe208d95 Yong Wu       2016-02-23  830  		return larb_nr;
+0df4fabe208d95 Yong Wu       2016-02-23  831  =
 
-:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
-:::::: CC: Rusty Russell <rusty@rustcorp.com.au>
+0df4fabe208d95 Yong Wu       2016-02-23  832  	for (i =3D 0; i < larb_nr; i=
+++) {
+e6dec92308628c Yong Wu       2017-08-21  833  		u32 id;
+0df4fabe208d95 Yong Wu       2016-02-23  834  =
+
+0df4fabe208d95 Yong Wu       2016-02-23  835  		larbnode =3D of_parse_phand=
+le(dev->of_node, "mediatek,larbs", i);
+0df4fabe208d95 Yong Wu       2016-02-23  836  		if (!larbnode)
+0df4fabe208d95 Yong Wu       2016-02-23  837  			return -EINVAL;
+0df4fabe208d95 Yong Wu       2016-02-23  838  =
+
+1eb8e4e2b35b4d Wen Yang      2019-04-17  839  		if (!of_device_is_available=
+(larbnode)) {
+1eb8e4e2b35b4d Wen Yang      2019-04-17  840  			of_node_put(larbnode);
+0df4fabe208d95 Yong Wu       2016-02-23  841  			continue;
+1eb8e4e2b35b4d Wen Yang      2019-04-17  842  		}
+0df4fabe208d95 Yong Wu       2016-02-23  843  =
+
+e6dec92308628c Yong Wu       2017-08-21  844  		ret =3D of_property_read_u3=
+2(larbnode, "mediatek,larb-id", &id);
+e6dec92308628c Yong Wu       2017-08-21  845  		if (ret)/* The id is consec=
+utive if there is no this property */
+e6dec92308628c Yong Wu       2017-08-21  846  			id =3D i;
+e6dec92308628c Yong Wu       2017-08-21  847  =
+
+0df4fabe208d95 Yong Wu       2016-02-23 @848  		plarbdev =3D of_find_device=
+_by_node(larbnode);
+1eb8e4e2b35b4d Wen Yang      2019-04-17  849  		if (!plarbdev) {
+1eb8e4e2b35b4d Wen Yang      2019-04-17  850  			of_node_put(larbnode);
+2fb0feed51085d Yong Wu       2022-01-17  851  			return -ENODEV;
+1eb8e4e2b35b4d Wen Yang      2019-04-17  852  		}
+7d09aaf831b35a Yong Wu       2022-01-17  853  		if (!plarbdev->dev.driver) {
+7d09aaf831b35a Yong Wu       2022-01-17  854  			of_node_put(larbnode);
+7d09aaf831b35a Yong Wu       2022-01-17 @855  			return -EPROBE_DEFER;
+7d09aaf831b35a Yong Wu       2022-01-17  856  		}
+1ee9feb2c9f893 Yong Wu       2019-08-24  857  		data->larb_imu[id].dev =3D =
+&plarbdev->dev;
+0df4fabe208d95 Yong Wu       2016-02-23  858  =
+
+00c7c81f7b49d9 Russell King  2016-10-19  859  		component_match_add_release=
+(dev, &match, release_of,
+00c7c81f7b49d9 Russell King  2016-10-19  860  					    compare_of, larbnode=
+);
+0df4fabe208d95 Yong Wu       2016-02-23  861  	}
+0df4fabe208d95 Yong Wu       2016-02-23  862  =
+
+baf94e6ebff962 Yong Wu       2021-01-11  863  	/* Get smi-common dev from t=
+he last larb. */
+baf94e6ebff962 Yong Wu       2021-01-11  864  	smicomm_node =3D of_parse_ph=
+andle(larbnode, "mediatek,smi", 0);
+baf94e6ebff962 Yong Wu       2021-01-11  865  	if (!smicomm_node)
+baf94e6ebff962 Yong Wu       2021-01-11  866  		return -EINVAL;
+baf94e6ebff962 Yong Wu       2021-01-11  867  =
+
+baf94e6ebff962 Yong Wu       2021-01-11  868  	plarbdev =3D of_find_device_=
+by_node(smicomm_node);
+baf94e6ebff962 Yong Wu       2021-01-11  869  	of_node_put(smicomm_node);
+baf94e6ebff962 Yong Wu       2021-01-11  870  	data->smicomm_dev =3D &plarb=
+dev->dev;
+baf94e6ebff962 Yong Wu       2021-01-11  871  =
+
+c0b57581b73be7 Yong Wu       2021-01-11  872  	pm_runtime_enable(dev);
+c0b57581b73be7 Yong Wu       2021-01-11  873  =
+
+baf94e6ebff962 Yong Wu       2021-01-11  874  	link =3D device_link_add(dat=
+a->smicomm_dev, dev,
+baf94e6ebff962 Yong Wu       2021-01-11  875  			DL_FLAG_STATELESS | DL_FLA=
+G_PM_RUNTIME);
+baf94e6ebff962 Yong Wu       2021-01-11  876  	if (!link) {
+a92a90ac62d328 Dan Carpenter 2021-02-05  877  		dev_err(dev, "Unable to lin=
+k %s.\n", dev_name(data->smicomm_dev));
+a92a90ac62d328 Dan Carpenter 2021-02-05  878  		ret =3D -EINVAL;
+c0b57581b73be7 Yong Wu       2021-01-11  879  		goto out_runtime_disable;
+baf94e6ebff962 Yong Wu       2021-01-11  880  	}
+baf94e6ebff962 Yong Wu       2021-01-11  881  =
+
+0df4fabe208d95 Yong Wu       2016-02-23  882  	platform_set_drvdata(pdev, d=
+ata);
+0df4fabe208d95 Yong Wu       2016-02-23  883  =
+
+b16c0170b53cfb Joerg Roedel  2017-02-03  884  	ret =3D iommu_device_sysfs_a=
+dd(&data->iommu, dev, NULL,
+b16c0170b53cfb Joerg Roedel  2017-02-03  885  				     "mtk-iommu.%pa", &io=
+addr);
+b16c0170b53cfb Joerg Roedel  2017-02-03  886  	if (ret)
+baf94e6ebff962 Yong Wu       2021-01-11  887  		goto out_link_remove;
+b16c0170b53cfb Joerg Roedel  2017-02-03  888  =
+
+2d471b20c55e13 Robin Murphy  2021-04-01  889  	ret =3D iommu_device_registe=
+r(&data->iommu, &mtk_iommu_ops, dev);
+b16c0170b53cfb Joerg Roedel  2017-02-03  890  	if (ret)
+986d9ec5f176ff Yong Wu       2021-01-11  891  		goto out_sysfs_remove;
+b16c0170b53cfb Joerg Roedel  2017-02-03  892  =
+
+da3cc91b8db403 Yong Wu       2019-11-04  893  	spin_lock_init(&data->tlb_lo=
+ck);
+7c3a2ec02806a6 Yong Wu       2017-08-21  894  	list_add_tail(&data->list, &=
+m4ulist);
+7c3a2ec02806a6 Yong Wu       2017-08-21  895  =
+
+986d9ec5f176ff Yong Wu       2021-01-11  896  	if (!iommu_present(&platform=
+_bus_type)) {
+986d9ec5f176ff Yong Wu       2021-01-11  897  		ret =3D bus_set_iommu(&plat=
+form_bus_type, &mtk_iommu_ops);
+986d9ec5f176ff Yong Wu       2021-01-11  898  		if (ret)
+986d9ec5f176ff Yong Wu       2021-01-11  899  			goto out_list_del;
+986d9ec5f176ff Yong Wu       2021-01-11  900  	}
+986d9ec5f176ff Yong Wu       2021-01-11  901  =
+
+986d9ec5f176ff Yong Wu       2021-01-11  902  	ret =3D component_master_add=
+_with_match(dev, &mtk_iommu_com_ops, match);
+986d9ec5f176ff Yong Wu       2021-01-11  903  	if (ret)
+986d9ec5f176ff Yong Wu       2021-01-11  904  		goto out_bus_set_null;
+986d9ec5f176ff Yong Wu       2021-01-11  905  	return ret;
+0df4fabe208d95 Yong Wu       2016-02-23  906  =
+
+986d9ec5f176ff Yong Wu       2021-01-11  907  out_bus_set_null:
+986d9ec5f176ff Yong Wu       2021-01-11  908  	bus_set_iommu(&platform_bus_=
+type, NULL);
+986d9ec5f176ff Yong Wu       2021-01-11  909  out_list_del:
+986d9ec5f176ff Yong Wu       2021-01-11  910  	list_del(&data->list);
+986d9ec5f176ff Yong Wu       2021-01-11  911  	iommu_device_unregister(&dat=
+a->iommu);
+986d9ec5f176ff Yong Wu       2021-01-11  912  out_sysfs_remove:
+986d9ec5f176ff Yong Wu       2021-01-11  913  	iommu_device_sysfs_remove(&d=
+ata->iommu);
+baf94e6ebff962 Yong Wu       2021-01-11  914  out_link_remove:
+baf94e6ebff962 Yong Wu       2021-01-11  915  	device_link_remove(data->smi=
+comm_dev, dev);
+c0b57581b73be7 Yong Wu       2021-01-11  916  out_runtime_disable:
+c0b57581b73be7 Yong Wu       2021-01-11  917  	pm_runtime_disable(dev);
+986d9ec5f176ff Yong Wu       2021-01-11  918  	return ret;
+0df4fabe208d95 Yong Wu       2016-02-23  919  }
+0df4fabe208d95 Yong Wu       2016-02-23  920  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6045748128936897273==--
+--===============2904419163238211954==--
 
