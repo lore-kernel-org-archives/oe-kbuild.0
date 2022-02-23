@@ -1,46 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============8181009180769401645=="
+Content-Type: multipart/mixed; boundary="===============7167415937466665189=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ambarus:spi-nor/next 1/15] drivers/spi/atmel-quadspi.c:1080:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 13 Feb 2022 13:44:49 +0800
-Message-ID: <202202131315.EkkujSNQ-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.10 9748/9999] drivers/net/wireless/ath/ath11k/core.c:1364:3: warning: Value stored to 'fail_cont_count' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 23 Feb 2022 15:23:35 +0800
+Message-ID: <202202231504.K56Ll89h-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8181009180769401645==
+--===============7167415937466665189==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://github.com/ambarus/linux-0day spi-nor/next
-head:   038b3fa2d89f1a00fdb8767704cdb799a0fe746b
-commit: ff51c966a3c5144ae964797349747e680ee47c3a [1/15] spi: atmel-quadspi:=
- Add support for sama7g5 QSPI
-:::::: branch date: 3 days ago
-:::::: commit date: 6 days ago
-config: riscv-randconfig-c006-20220210 (https://download.01.org/0day-ci/arc=
-hive/20220213/202202131315.EkkujSNQ-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project e8bff9=
-ae54a55b4dbfeb6ba55f723abbd81bf494)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.10
+head:   e9d25e91a257da70c77f1f4b8397a82fe5ba2298
+commit: da4be8dec6ed58e488189c2d7e13da7509552bb1 [9748/9999] BACKPORT: FROM=
+LIST: ath11k: add support for device recovery for QCA6390/WCN6855
+:::::: branch date: 8 hours ago
+:::::: commit date: 11 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20223/202202231504.K56Ll89h-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/ambarus/linux-0day/commit/ff51c966a3c5144ae964=
-797349747e680ee47c3a
-        git remote add ambarus https://github.com/ambarus/linux-0day
-        git fetch --no-tags ambarus spi-nor/next
-        git checkout ff51c966a3c5144ae964797349747e680ee47c3a
+        git remote add chrome-os https://chromium.googlesource.com/chromium=
+os/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.10
+        git checkout da4be8dec6ed58e488189c2d7e13da7509552bb1
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -48,365 +45,367 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/misc/habanalabs/goya/goya.c:1512:2: warning: Value stored to 'va=
-l' is never read [clang-analyzer-deadcode.DeadStores]
-           val =3D RREG32(tpc_slm_offset);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:743:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(spdif->clk_sys)) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:743:2: note: Taking false branch
+           if (IS_ERR(spdif->clk_sys)) {
            ^
-   drivers/misc/habanalabs/goya/goya.c:1512:2: note: Value stored to 'val' =
-is never read
-   drivers/misc/habanalabs/goya/goya.c:4250:2: warning: Value stored to 'i'=
- is never read [clang-analyzer-deadcode.DeadStores]
-           i =3D RREG32(mmSYNC_MNGR_SOB_OBJ_0);
+   sound/soc/img/img-spdif-in.c:750:7: note: Calling 'pm_runtime_enabled'
+           if (!pm_runtime_enabled(&pdev->dev)) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm_runtime.h:173:9: note: Assuming field 'disable_depth' i=
+s 0, which participates in a condition later
+           return !dev->power.disable_depth;
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/pm_runtime.h:173:2: note: Returning without writing to 'de=
+v->power.disable_depth', which participates in a condition later
+           return !dev->power.disable_depth;
            ^
-   drivers/misc/habanalabs/goya/goya.c:4250:2: note: Value stored to 'i' is=
- never read
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   kernel/trace/trace_printk.c:77:5: warning: Call to function 'strcpy' is =
-insecure as it does not provide bounding of the memory buffer. Replace unbo=
-unded copy functions with analogous functions that support length arguments=
- such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                                   strcpy(fmt, *iter);
-                                   ^~~~~~
-   kernel/trace/trace_printk.c:77:5: note: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119
-                                   strcpy(fmt, *iter);
-                                   ^~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (7 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/spi/atmel-quadspi.c:1080:3: warning: Value stored to 'ret' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D  readl_poll_timeout(aq->regs + QSPI_SR2, val,
+   include/linux/pm_runtime.h:173:2: note: Returning the value 1, which par=
+ticipates in a condition later
+           return !dev->power.disable_depth;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:750:7: note: Returning from 'pm_runtime_ena=
+bled'
+           if (!pm_runtime_enabled(&pdev->dev)) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:750:2: note: Taking false branch
+           if (!pm_runtime_enabled(&pdev->dev)) {
+           ^
+   sound/soc/img/img-spdif-in.c:756:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~~~~~
+   sound/soc/img/img-spdif-in.c:756:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   sound/soc/img/img-spdif-in.c:762:6: note: Calling 'IS_ERR'
+           if (IS_ERR(rst)) {
+               ^~~~~~~~~~~
+   include/linux/err.h:36:2: note: Returning the value 1, which participate=
+s in a condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:762:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(rst)) {
+               ^~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:762:2: note: Taking true branch
+           if (IS_ERR(rst)) {
+           ^
+   sound/soc/img/img-spdif-in.c:763:3: note: Taking false branch
+                   if (PTR_ERR(rst) =3D=3D -EPROBE_DEFER) {
                    ^
-   drivers/spi/atmel-quadspi.c:1080:3: note: Value stored to 'ret' is never=
- read
-   Suppressed 7 warnings (7 in non-user code).
+   sound/soc/img/img-spdif-in.c:767:3: note: Taking false branch
+                   dev_dbg(dev, "No top level reset found\n");
+                   ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
+           ^
+   sound/soc/img/img-spdif-in.c:768:3: note: Calling 'img_spdif_in_writel'
+                   img_spdif_in_writel(spdif, IMG_SPDIF_IN_SOFT_RESET_MASK,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:117:1: note: Returning without writing to '=
+spdif->lock_release'
+   }
+   ^
+   sound/soc/img/img-spdif-in.c:768:3: note: Returning from 'img_spdif_in_w=
+ritel'
+                   img_spdif_in_writel(spdif, IMG_SPDIF_IN_SOFT_RESET_MASK,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:770:3: note: Calling 'img_spdif_in_writel'
+                   img_spdif_in_writel(spdif, 0, IMG_SPDIF_IN_SOFT_RESET);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:117:1: note: Returning without writing to '=
+spdif->lock_release'
+   }
+   ^
+   sound/soc/img/img-spdif-in.c:770:3: note: Returning from 'img_spdif_in_w=
+ritel'
+                   img_spdif_in_writel(spdif, 0, IMG_SPDIF_IN_SOFT_RESET);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:776:2: note: Loop condition is false.  Exit=
+ing loop
+           spin_lock_init(&spdif->lock);
+           ^
+   include/linux/spinlock.h:334:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   sound/soc/img/img-spdif-in.c:783:2: note: The value -128 is assigned to =
+field 'lock_release'
+           spdif->lock_release =3D -128;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/img/img-spdif-in.c:787:30: note: The result of the left shift =
+is undefined because the left operand is negative
+           reg |=3D (spdif->lock_release << IMG_SPDIF_IN_CTL_LOCKLO_SHIFT) &
+                   ~~~~~~~~~~~~~~~~~~~ ^
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/spi/spi-axi-spi-engine.c:324:4: warning: Array access (from vari=
-able 'buf') results in a null pointer dereference [clang-analyzer-core.Null=
-Dereference]
-                           writel_relaxed(buf[i], addr);
-                           ^
-   arch/riscv/include/asm/mmio.h:120:45: note: expanded from macro 'writel_=
-relaxed'
-   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __i=
-o_raw(); })
-                                                  ^
-   arch/riscv/include/asm/mmio.h:93:59: note: expanded from macro 'writel_c=
-pu'
-   #define writel_cpu(v, c)        ((void)__raw_writel((__force u32)cpu_to_=
-le32(v), (c)))
-                                                                    ^
-   include/linux/byteorder/generic.h:88:21: note: expanded from macro 'cpu_=
-to_le32'
-   #define cpu_to_le32 __cpu_to_le32
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:34:50: note: expanded from =
-macro '__cpu_to_le32'
-   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
-                                                    ^
-   drivers/spi/spi-axi-spi-engine.c:425:2: note: Calling 'spi_engine_compil=
-e_message'
-           spi_engine_compile_message(spi_engine, msg, true, &p_dry);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:215:2: note: Loop condition is false. E=
-xecution continues on line 238
-           list_for_each_entry(xfer, &msg->transfers, transfer_list) {
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+>> drivers/net/wireless/ath/ath11k/core.c:1364:3: warning: Value stored to =
+'fail_cont_count' is never read [clang-analyzer-deadcode.DeadStores]
+                   fail_cont_count =3D atomic_inc_return(&ab->fail_cont_cou=
+nt);
+                   ^
+   drivers/net/wireless/ath/ath11k/core.c:1364:3: note: Value stored to 'fa=
+il_cont_count' is never read
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   drivers/net/wireless/ath/ath11k/wmi.c:947:2: warning: Value stored to 'p=
+tr' is never read [clang-analyzer-deadcode.DeadStores]
+           ptr +=3D sizeof(*tlv);
+           ^      ~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath11k/wmi.c:947:2: note: Value stored to 'ptr'=
+ is never read
+           ptr +=3D sizeof(*tlv);
+           ^      ~~~~~~~~~~~~
+   drivers/net/wireless/ath/ath11k/wmi.c:6273:7: warning: 2nd function call=
+ argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           ar =3D ath11k_mac_get_ar_by_vdev_id(ab, peer_del_resp.vdev_id);
+                ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7358:7: note: Taking false branch
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:108:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:46:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/spi/spi-axi-spi-engine.c:238:2: note: Returning without writing =
-to 'spi_engine->tx_length', which participates in a condition later
-           return 0;
+   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7358:7: note: Loop condition is fa=
+lse.  Exiting loop
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:108:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:46:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/spi/spi-axi-spi-engine.c:238:2: note: Returning without writing =
-to 'spi_engine->tx_buf'
-   drivers/spi/spi-axi-spi-engine.c:425:2: note: Returning from 'spi_engine=
-_compile_message'
-           spi_engine_compile_message(spi_engine, msg, true, &p_dry);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:429:6: note: Assuming 'p' is non-null
-           if (!p)
-               ^~
-   drivers/spi/spi-axi-spi-engine.c:429:2: note: Taking false branch
-           if (!p)
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/spi/spi-axi-spi-engine.c:431:2: note: Calling 'spi_engine_compil=
-e_message'
-           spi_engine_compile_message(spi_engine, msg, false, p);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:215:2: note: Loop condition is false. E=
-xecution continues on line 238
-           list_for_each_entry(xfer, &msg->transfers, transfer_list) {
+   include/linux/compiler_types.h:293:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
            ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
+   drivers/net/wireless/ath/ath11k/wmi.c:7358:7: note: Taking false branch
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:108:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:48:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG((_mask) =3D=3D 0, _pfx "mask is zero");=
+    \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/spi/spi-axi-spi-engine.c:238:2: note: Returning without writing =
-to 'spi_engine->tx_length', which participates in a condition later
-           return 0;
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/spi/spi-axi-spi-engine.c:238:2: note: Returning without writing =
-to 'spi_engine->tx_buf'
-   drivers/spi/spi-axi-spi-engine.c:431:2: note: Returning from 'spi_engine=
-_compile_message'
-           spi_engine_compile_message(spi_engine, msg, false, p);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:433:2: note: Loop condition is false.  =
-Exiting loop
-           spin_lock_irqsave(&spi_engine->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/spi/spi-axi-spi-engine.c:433:2: note: Loop condition is false.  =
-Exiting loop
-           spin_lock_irqsave(&spi_engine->lock, flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/spi/spi-axi-spi-engine.c:443:6: note: Calling 'spi_engine_write_=
-cmd_fifo'
-           if (spi_engine_write_cmd_fifo(spi_engine))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:299:6: note: Loop condition is false.  =
-Exiting loop
-           n =3D readl_relaxed(spi_engine->base + SPI_ENGINE_REG_CMD_FIFO_R=
-OOM);
-               ^
-   arch/riscv/include/asm/mmio.h:116:38: note: expanded from macro 'readl_r=
-elaxed'
-   #define readl_relaxed(c)        ({ u32 __v; __io_rbr(); __v =3D readl_cp=
-u(c); __io_rar(); __v; })
-                                               ^
-   arch/riscv/include/asm/mmio.h:109:21: note: expanded from macro '__io_rb=
-r'
-   #define __io_rbr()              do {} while (0)
-                                   ^
-   drivers/spi/spi-axi-spi-engine.c:299:6: note: Loop condition is false.  =
-Exiting loop
-           n =3D readl_relaxed(spi_engine->base + SPI_ENGINE_REG_CMD_FIFO_R=
-OOM);
-               ^
-   arch/riscv/include/asm/mmio.h:116:70: note: expanded from macro 'readl_r=
-elaxed'
-   #define readl_relaxed(c)        ({ u32 __v; __io_rbr(); __v =3D readl_cp=
-u(c); __io_rar(); __v; })
-                                                                           =
-    ^
-   arch/riscv/include/asm/mmio.h:110:21: note: expanded from macro '__io_ra=
-r'
-   #define __io_rar()              do {} while (0)
-                                   ^
-   drivers/spi/spi-axi-spi-engine.c:300:9: note: Assuming 'n' is 0
-           while (n && spi_engine->cmd_length) {
-                  ^
-   drivers/spi/spi-axi-spi-engine.c:300:11: note: Left side of '&&' is false
-           while (n && spi_engine->cmd_length) {
+   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/net/wireless/ath/ath11k/wmi.c:7358:7: note: Loop condition is fa=
+lse.  Exiting loop
+           id =3D FIELD_GET(WMI_CMD_HDR_CMD_ID, (cmd_hdr->cmd_id));
+                ^
+   include/linux/bitfield.h:108:3: note: expanded from macro 'FIELD_GET'
+                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+                   ^
+   include/linux/bitfield.h:48:3: note: expanded from macro '__BF_FIELD_CHE=
+CK'
+                   BUILD_BUG_ON_MSG((_mask) =3D=3D 0, _pfx "mask is zero");=
+    \
+                   ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
 
-vim +/ret +1080 drivers/spi/atmel-quadspi.c
+vim +/fail_cont_count +1364 drivers/net/wireless/ath/ath11k/core.c
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1064  =
+d5c65159f28953 Kalle Valo 2019-11-23  1319  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1065  static int atmel_qspi_sama7g=
-5_init(struct atmel_qspi *aq)
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1066  {
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1067  	u32 val;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1068  	int ret;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1069  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1320  static void ath11k_core_reset(s=
+truct work_struct *work)
+da4be8dec6ed58 Wen Gong   2022-02-09  1321  {
+da4be8dec6ed58 Wen Gong   2022-02-09  1322  	struct ath11k_base *ab =3D con=
+tainer_of(work, struct ath11k_base, reset_work);
+da4be8dec6ed58 Wen Gong   2022-02-09  1323  	int reset_count, fail_cont_cou=
+nt;
+da4be8dec6ed58 Wen Gong   2022-02-09  1324  	long time_left;
+da4be8dec6ed58 Wen Gong   2022-02-09  1325  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1070  	ret =3D atmel_qspi_set_gclk=
-(aq);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1071  	if (ret)
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1072  		return ret;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1073  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1326  	if (!(test_bit(ATH11K_FLAG_REG=
+ISTERED, &ab->dev_flags))) {
+da4be8dec6ed58 Wen Gong   2022-02-09  1327  		ath11k_warn(ab, "ignore reset=
+ dev flags 0x%lx\n", ab->dev_flags);
+da4be8dec6ed58 Wen Gong   2022-02-09  1328  		return;
+da4be8dec6ed58 Wen Gong   2022-02-09  1329  	}
+da4be8dec6ed58 Wen Gong   2022-02-09  1330  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1074  	if (aq->caps->octal) {
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1075  		ret =3D atmel_qspi_set_pad=
-_calibration(aq);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1076  		if (ret)
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1077  			return ret;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1078  	} else {
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1079  		atmel_qspi_write(QSPI_CR_D=
-LLON, aq, QSPI_CR);
-ff51c966a3c514 Tudor Ambarus 2020-10-19 @1080  		ret =3D  readl_poll_timeou=
-t(aq->regs + QSPI_SR2, val,
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1081  					  (val & QSPI_SR2_DLOCK=
-), 40,
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1082  					  ATMEL_QSPI_TIMEOUT);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1083  	}
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1084  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1331  	/* Sometimes the recovery will=
+ fail and then the next all recovery fail,
+da4be8dec6ed58 Wen Gong   2022-02-09  1332  	 * this is to avoid infinite r=
+ecovery since it can not recovery success.
+da4be8dec6ed58 Wen Gong   2022-02-09  1333  	 */
+da4be8dec6ed58 Wen Gong   2022-02-09  1334  	fail_cont_count =3D atomic_rea=
+d(&ab->fail_cont_count);
+da4be8dec6ed58 Wen Gong   2022-02-09  1335  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1085  	/* Set the QSPI controller =
-by default in Serial Memory Mode */
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1086  	atmel_qspi_write(QSPI_MR_SM=
-M | QSPI_MR_DQSDLYEN, aq, QSPI_MR);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1087  	aq->mr =3D QSPI_MR_SMM;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1088  	ret =3D atmel_qspi_update_c=
-onfig(aq);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1089  	if (ret)
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1090  		return ret;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1091  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1336  	if (fail_cont_count >=3D ATH11=
+K_RESET_MAX_FAIL_COUNT_FINAL)
+da4be8dec6ed58 Wen Gong   2022-02-09  1337  		return;
+da4be8dec6ed58 Wen Gong   2022-02-09  1338  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1092  	/* Enable the QSPI controll=
-er. */
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1093  	atmel_qspi_write(QSPI_CR_QS=
-PIEN, aq, QSPI_CR);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1094  	ret =3D readl_poll_timeout(=
-aq->regs + QSPI_SR2, val,
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1095  				 val & QSPI_SR2_QSPIENS,=
- 40,
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1096  				 ATMEL_QSPI_SYNC_TIMEOUT=
-);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1097  	if (ret)
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1098  		return ret;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1099  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1339  	if (fail_cont_count >=3D ATH11=
+K_RESET_MAX_FAIL_COUNT_FIRST &&
+da4be8dec6ed58 Wen Gong   2022-02-09  1340  	    time_before(jiffies, ab->r=
+eset_fail_timeout))
+da4be8dec6ed58 Wen Gong   2022-02-09  1341  		return;
+da4be8dec6ed58 Wen Gong   2022-02-09  1342  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1100  	if (aq->caps->octal) {
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1101  		ret =3D readl_poll_timeout=
-(aq->regs + QSPI_SR, val,
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1102  					 val & QSPI_SR_RFRSHD, =
-40,
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1103  					 ATMEL_QSPI_TIMEOUT);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1104  	}
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1105  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1343  	reset_count =3D atomic_inc_ret=
+urn(&ab->reset_count);
+da4be8dec6ed58 Wen Gong   2022-02-09  1344  =
 
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1106  	atmel_qspi_write(QSPI_TOUT_=
-TCNTM, aq, QSPI_TOUT);
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1107  	return ret;
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1108  }
-ff51c966a3c514 Tudor Ambarus 2020-10-19  1109  =
+da4be8dec6ed58 Wen Gong   2022-02-09  1345  	if (reset_count > 1) {
+da4be8dec6ed58 Wen Gong   2022-02-09  1346  		/* Sometimes it happened anot=
+her reset worker before the previous one
+da4be8dec6ed58 Wen Gong   2022-02-09  1347  		 * completed, then the second=
+ reset worker will destroy the previous one,
+da4be8dec6ed58 Wen Gong   2022-02-09  1348  		 * thus below is to avoid tha=
+t.
+da4be8dec6ed58 Wen Gong   2022-02-09  1349  		 */
+da4be8dec6ed58 Wen Gong   2022-02-09  1350  		ath11k_warn(ab, "already rese=
+ting count %d\n", reset_count);
+da4be8dec6ed58 Wen Gong   2022-02-09  1351  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1352  		reinit_completion(&ab->reset_=
+complete);
+da4be8dec6ed58 Wen Gong   2022-02-09  1353  		time_left =3D wait_for_comple=
+tion_timeout(&ab->reset_complete,
+da4be8dec6ed58 Wen Gong   2022-02-09  1354  							ATH11K_RESET_TIMEOUT_HZ);
+da4be8dec6ed58 Wen Gong   2022-02-09  1355  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1356  		if (time_left) {
+da4be8dec6ed58 Wen Gong   2022-02-09  1357  			ath11k_dbg(ab, ATH11K_DBG_BO=
+OT, "to skip reset\n");
+da4be8dec6ed58 Wen Gong   2022-02-09  1358  			atomic_dec(&ab->reset_count);
+da4be8dec6ed58 Wen Gong   2022-02-09  1359  			return;
+da4be8dec6ed58 Wen Gong   2022-02-09  1360  		}
+da4be8dec6ed58 Wen Gong   2022-02-09  1361  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1362  		ab->reset_fail_timeout =3D ji=
+ffies + ATH11K_RESET_FAIL_TIMEOUT_HZ;
+da4be8dec6ed58 Wen Gong   2022-02-09  1363  		/* Record the continuous reco=
+very fail count when recovery failed*/
+da4be8dec6ed58 Wen Gong   2022-02-09 @1364  		fail_cont_count =3D atomic_in=
+c_return(&ab->fail_cont_count);
+da4be8dec6ed58 Wen Gong   2022-02-09  1365  	}
+da4be8dec6ed58 Wen Gong   2022-02-09  1366  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1367  	ath11k_dbg(ab, ATH11K_DBG_BOOT=
+, "reset starting\n");
+da4be8dec6ed58 Wen Gong   2022-02-09  1368  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1369  	ab->is_reset =3D true;
+da4be8dec6ed58 Wen Gong   2022-02-09  1370  	atomic_set(&ab->recovery_count=
+, 0);
+da4be8dec6ed58 Wen Gong   2022-02-09  1371  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1372  	ath11k_hif_power_down(ab);
+da4be8dec6ed58 Wen Gong   2022-02-09  1373  	ath11k_qmi_free_resource(ab);
+da4be8dec6ed58 Wen Gong   2022-02-09  1374  	ath11k_hif_power_up(ab);
+da4be8dec6ed58 Wen Gong   2022-02-09  1375  =
+
+da4be8dec6ed58 Wen Gong   2022-02-09  1376  	ath11k_dbg(ab, ATH11K_DBG_BOOT=
+, "reset started\n");
+da4be8dec6ed58 Wen Gong   2022-02-09  1377  }
+da4be8dec6ed58 Wen Gong   2022-02-09  1378  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8181009180769401645==--
+--===============7167415937466665189==--
 
