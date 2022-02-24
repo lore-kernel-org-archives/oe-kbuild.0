@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3213737617545609618=="
+Content-Type: multipart/mixed; boundary="===============0399833125661575192=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: security/selinux/ss/services.c:1563:17: warning: Null pointer passed as 1st argument to string length function [clang-analyzer-unix.cstring.NullArg]
-Date: Thu, 24 Feb 2022 18:54:32 +0800
-Message-ID: <202202241853.8nKl7Hpc-lkp@intel.com>
+Subject: [linux-next:master 6850/7915] mm/nommu.c:573:2: warning: Value stored to 'prev' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 24 Feb 2022 18:02:54 +0800
+Message-ID: <202202241715.3eVmPnXO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3213737617545609618==
+--===============0399833125661575192==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Ondrej Mosnacek <omosnace@redhat.com>
-CC: Paul Moore <paul@paul-moore.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Liam R. Howlett" <Liam.Howlett@Oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   23d04328444a8fa0ca060c5e532220dac8e8bc26
-commit: 9ad6e9cb39c66366bf7b9aece114aca277981a1f selinux: fix race between =
-old and new sidtab
-date:   11 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-c006-20220224 (https://download.01.org/0day-ci/arc=
-hive/20220224/202202241853.8nKl7Hpc-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   d4a0ae62a277377de396850ed4b709b6bd9b7326
+commit: b3d7ba3cdf23cae36715a695c7569f617e57d39d [6850/7915] mm: Remove the=
+ vma linked list
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-c002-20220223 (https://download.01.org/0day-ci/archi=
+ve/20220224/202202241715.3eVmPnXO-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9ad6e9cb39c66366bf7b9aece114aca277981a1f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9ad6e9cb39c66366bf7b9aece114aca277981a1f
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Db3d7ba3cdf23cae36715a695c7569f617e57d39d
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout b3d7ba3cdf23cae36715a695c7569f617e57d39d
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,381 +51,318 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/btrfs/compression.c:999:14: note: Calling 'alloc_workspace'
-           workspace =3D alloc_workspace(type, level);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/compression.c:875:2: note: Control jumps to 'case BTRFS_COMPRES=
-S_NONE:'  at line 876
-           switch (type) {
-           ^
-   fs/btrfs/compression.c:876:35: note: Calling 'alloc_heuristic_ws'
-           case BTRFS_COMPRESS_NONE: return alloc_heuristic_ws(level);
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/compression.c:838:7: note: Calling 'kzalloc'
-           ws =3D kzalloc(sizeof(*ws), GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Uninitialized value stored to field 'b=
-ucket_b'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/compression.c:838:7: note: Returning from 'kzalloc'
-           ws =3D kzalloc(sizeof(*ws), GFP_KERNEL);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/compression.c:839:6: note: Assuming 'ws' is non-null
-           if (!ws)
-               ^~~
-   fs/btrfs/compression.c:839:2: note: Taking false branch
-           if (!ws)
-           ^
-   fs/btrfs/compression.c:843:6: note: Assuming field 'sample' is non-null
-           if (!ws->sample)
-               ^~~~~~~~~~~
-   fs/btrfs/compression.c:843:2: note: Taking false branch
-           if (!ws->sample)
-           ^
-   fs/btrfs/compression.c:847:6: note: Assuming field 'bucket' is null
-           if (!ws->bucket)
-               ^~~~~~~~~~~
-   fs/btrfs/compression.c:847:2: note: Taking true branch
-           if (!ws->bucket)
-           ^
-   fs/btrfs/compression.c:848:3: note: Control jumps to line 857
-                   goto fail;
+   fs/xfs/libxfs/xfs_defer.c:513:3: note: Taking false branch
+                   if (error)
                    ^
-   fs/btrfs/compression.c:857:2: note: Calling 'free_heuristic_ws'
-           free_heuristic_ws(&ws->list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/compression.c:826:14: note: Left side of '&&' is false
-           workspace =3D list_entry(ws, struct heuristic_ws, list);
-                       ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:694:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/btrfs/compression.c:826:14: note: Taking false branch
-           workspace =3D list_entry(ws, struct heuristic_ws, list);
-                       ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:326:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:314:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   fs/xfs/libxfs/xfs_defer.c:518:7: note: 'error' is 0
+                   if (error)
+                       ^~~~~
+   fs/xfs/libxfs/xfs_defer.c:518:3: note: Taking false branch
+                   if (error)
                    ^
-   fs/btrfs/compression.c:826:14: note: Loop condition is false.  Exiting l=
-oop
-           workspace =3D list_entry(ws, struct heuristic_ws, list);
-                       ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   fs/xfs/libxfs/xfs_defer.c:523:11: note: Calling 'xfs_defer_finish_one'
+                   error =3D xfs_defer_finish_one(*tp, dfp);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:442:2: note: 'error' declared without an initi=
+al value
+           int                             error;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:447:2: note: Loop condition is false. Executio=
+n continues on line 470
+           list_for_each_safe(li, n, &dfp->dfp_work) {
            ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:326:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   fs/xfs/libxfs/xfs_defer.c:473:6: note: Assuming field 'finish_cleanup' i=
+s non-null
+           if (ops->finish_cleanup)
+               ^~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:473:2: note: Taking true branch
+           if (ops->finish_cleanup)
            ^
-   include/linux/compiler_types.h:314:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   fs/xfs/libxfs/xfs_defer.c:474:3: note: 3rd function call argument is an =
+uninitialized value
+                   ops->finish_cleanup(tp, state, error);
+                   ^                              ~~~~~
+   fs/xfs/libxfs/xfs_defer.c:475:2: warning: Undefined or garbage value ret=
+urned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return error;
            ^
-   include/linux/compiler_types.h:304:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
+   fs/xfs/libxfs/xfs_defer.c:550:10: note: Calling 'xfs_defer_finish_noroll'
+           error =3D xfs_defer_finish_noroll(tp);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:494:2: note: Assuming the condition is false
+           ASSERT((*tp)->t_flags & XFS_TRANS_PERM_LOG_RES);
            ^
-   fs/btrfs/compression.c:830:2: note: 1st function call argument is an uni=
-nitialized value
-           kfree(workspace->bucket_b);
-           ^     ~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
->> security/selinux/ss/services.c:1563:17: warning: Null pointer passed as =
-1st argument to string length function [clang-analyzer-unix.cstring.NullArg]
-                   context.len =3D strlen(str) + 1;
-                                 ^
-   security/selinux/ss/services.c:1643:9: note: Calling 'security_context_t=
-o_sid_core'
-           return security_context_to_sid_core(state, scontext, scontext_le=
-n,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   security/selinux/ss/services.c:1523:6: note: Assuming 'scontext_len' is =
-not equal to 0
-           if (!scontext_len)
+   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^~~~~~~~~~~~
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   fs/xfs/libxfs/xfs_defer.c:494:2: note: '?' condition is true
+           ASSERT((*tp)->t_flags & XFS_TRANS_PERM_LOG_RES);
+           ^
+   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_defer.c:499:9: note: Left side of '||' is false
+           while (!list_empty(&dop_pending) || !list_empty(&(*tp)->t_dfops)=
+) {
+                  ^
+   fs/xfs/libxfs/xfs_defer.c:499:2: note: Loop condition is true.  Entering=
+ loop body
+           while (!list_empty(&dop_pending) || !list_empty(&(*tp)->t_dfops)=
+) {
+           ^
+   fs/xfs/libxfs/xfs_defer.c:513:7: note: 'error' is 0
+                   if (error)
+                       ^~~~~
+   fs/xfs/libxfs/xfs_defer.c:513:3: note: Taking false branch
+                   if (error)
+                   ^
+   fs/xfs/libxfs/xfs_defer.c:518:7: note: 'error' is 0
+                   if (error)
+                       ^~~~~
+   fs/xfs/libxfs/xfs_defer.c:518:3: note: Taking false branch
+                   if (error)
+                   ^
+   fs/xfs/libxfs/xfs_defer.c:523:11: note: Calling 'xfs_defer_finish_one'
+                   error =3D xfs_defer_finish_one(*tp, dfp);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:442:2: note: 'error' declared without an initi=
+al value
+           int                             error;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:447:2: note: Loop condition is false. Executio=
+n continues on line 470
+           list_for_each_safe(li, n, &dfp->dfp_work) {
+           ^
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
+           ^
+   fs/xfs/libxfs/xfs_defer.c:473:6: note: Assuming field 'finish_cleanup' i=
+s null
+           if (ops->finish_cleanup)
+               ^~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_defer.c:473:2: note: Taking false branch
+           if (ops->finish_cleanup)
+           ^
+   fs/xfs/libxfs/xfs_defer.c:475:2: note: Undefined or garbage value return=
+ed to caller
+           return error;
+           ^      ~~~~~
+   5 warnings generated.
+   mm/nommu.c:411:2: warning: Value stored to 'ret' is never read [clang-an=
+alyzer-deadcode.DeadStores]
+           ret =3D percpu_counter_init(&vm_committed_as, 0, GFP_KERNEL);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/nommu.c:411:2: note: Value stored to 'ret' is never read
+           ret =3D percpu_counter_init(&vm_committed_as, 0, GFP_KERNEL);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/nommu.c:573:2: warning: Value stored to 'prev' is never read [clang-a=
+nalyzer-deadcode.DeadStores]
+           prev =3D mas_prev(&mas, 0);
+           ^      ~~~~~~~~~~~~~~~~~
+   mm/nommu.c:573:2: note: Value stored to 'prev' is never read
+           prev =3D mas_prev(&mas, 0);
+           ^      ~~~~~~~~~~~~~~~~~
+   mm/nommu.c:796:6: warning: Value stored to 'prot' is never read [clang-a=
+nalyzer-deadcode.DeadStores]
+                                           prot |=3D PROT_EXEC;
+                                           ^
+   mm/nommu.c:796:6: note: Value stored to 'prot' is never read
+   mm/nommu.c:814:4: warning: Value stored to 'prot' is never read [clang-a=
+nalyzer-deadcode.DeadStores]
+                           prot |=3D PROT_EXEC;
+                           ^
+   mm/nommu.c:814:4: note: Value stored to 'prot' is never read
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   include/asm-generic/bitops/non-atomic.h:22:6: warning: The left expressi=
+on of the compound assignment is an uninitialized value. The computed value=
+ will also be garbage [clang-analyzer-core.uninitialized.Assign]
+           *p  |=3D mask;
+               ^
+   drivers/tty/serial/serial_mctrl_gpio.c:52:6: note: Assuming 'gpios' is n=
+ot equal to NULL
+           if (gpios =3D=3D NULL)
                ^~~~~~~~~~~~~
-   security/selinux/ss/services.c:1523:2: note: Taking false branch
-           if (!scontext_len)
+   drivers/tty/serial/serial_mctrl_gpio.c:52:2: note: Taking false branch
+           if (gpios =3D=3D NULL)
            ^
-   security/selinux/ss/services.c:1528:6: note: Assuming 'scontext2' is non=
--null
-           if (!scontext2)
-               ^~~~~~~~~~
-   security/selinux/ss/services.c:1528:2: note: Taking false branch
-           if (!scontext2)
+   drivers/tty/serial/serial_mctrl_gpio.c:55:2: note: Loop condition is tru=
+e.  Entering loop body
+           for (i =3D 0; i < UART_GPIO_MAX; i++)
            ^
-   security/selinux/ss/services.c:1531:7: note: Calling 'selinux_initialize=
-d'
-           if (!selinux_initialized(state)) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/selinux/include/security.h:116:9: note: Left side of '||' is tr=
-ue
-           return smp_load_acquire(&state->initialized);
-                  ^
-   include/asm-generic/barrier.h:142:29: note: expanded from macro 'smp_loa=
-d_acquire'
-   #define smp_load_acquire(p) __smp_load_acquire(p)
-                               ^
-   arch/riscv/include/asm/barrier.h:39:21: note: expanded from macro '__smp=
-_load_acquire'
-           typeof(*p) ___p1 =3D READ_ONCE(*p);                             =
-  \
-                              ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:288:29: note: expanded from macro '__nati=
-ve_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-                                      ^
-   security/selinux/include/security.h:116:9: note: Taking false branch
-           return smp_load_acquire(&state->initialized);
-                  ^
-   include/asm-generic/barrier.h:142:29: note: expanded from macro 'smp_loa=
-d_acquire'
-   #define smp_load_acquire(p) __smp_load_acquire(p)
-                               ^
-   arch/riscv/include/asm/barrier.h:39:21: note: expanded from macro '__smp=
-_load_acquire'
-           typeof(*p) ___p1 =3D READ_ONCE(*p);                             =
-  \
-                              ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:326:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:314:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   drivers/tty/serial/serial_mctrl_gpio.c:56:7: note: Assuming the conditio=
+n is true
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                       ^~~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:56:7: note: Left side of '&&' is =
+true
+   drivers/tty/serial/serial_mctrl_gpio.c:56:25: note: Assuming the conditi=
+on is true
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:56:3: note: Taking true branch
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
                    ^
-   security/selinux/include/security.h:116:9: note: Loop condition is false=
-.  Exiting loop
-           return smp_load_acquire(&state->initialized);
-                  ^
-   include/asm-generic/barrier.h:142:29: note: expanded from macro 'smp_loa=
-d_acquire'
-   #define smp_load_acquire(p) __smp_load_acquire(p)
-                               ^
-   arch/riscv/include/asm/barrier.h:39:21: note: expanded from macro '__smp=
-_load_acquire'
-           typeof(*p) ___p1 =3D READ_ONCE(*p);                             =
-  \
-                              ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   drivers/tty/serial/serial_mctrl_gpio.c:58:4: note: Calling '__assign_bit'
+                           __assign_bit(count, values,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:217:6: note: Assuming 'value' is true
+           if (value)
+               ^~~~~
+   include/linux/bitops.h:217:2: note: Taking true branch
+           if (value)
            ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:326:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   include/linux/bitops.h:218:3: note: Calling 'arch___set_bit'
+                   __set_bit(nr, addr);
+                   ^
+   include/asm-generic/bitops/non-atomic.h:24:19: note: expanded from macro=
+ '__set_bit'
+   #define __set_bit arch___set_bit
+                     ^
+   include/asm-generic/bitops/non-atomic.h:22:6: note: The left expression =
+of the compound assignment is an uninitialized value. The computed value wi=
+ll also be garbage
+           *p  |=3D mask;
+           ~~  ^
+   include/asm-generic/bitops/non-atomic.h:32:5: warning: The left expressi=
+on of the compound assignment is an uninitialized value. The computed value=
+ will also be garbage [clang-analyzer-core.uninitialized.Assign]
+           *p &=3D ~mask;
+              ^
+   drivers/tty/serial/serial_mctrl_gpio.c:52:6: note: Assuming 'gpios' is n=
+ot equal to NULL
+           if (gpios =3D=3D NULL)
+               ^~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:52:2: note: Taking false branch
+           if (gpios =3D=3D NULL)
            ^
-   include/linux/compiler_types.h:314:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   drivers/tty/serial/serial_mctrl_gpio.c:55:2: note: Loop condition is tru=
+e.  Entering loop body
+           for (i =3D 0; i < UART_GPIO_MAX; i++)
            ^
-   include/linux/compiler_types.h:304:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
+   drivers/tty/serial/serial_mctrl_gpio.c:56:7: note: Assuming the conditio=
+n is true
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                       ^~~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:56:7: note: Left side of '&&' is =
+true
+   drivers/tty/serial/serial_mctrl_gpio.c:56:25: note: Assuming the conditi=
+on is true
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:56:3: note: Taking true branch
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                   ^
+   drivers/tty/serial/serial_mctrl_gpio.c:58:4: note: Calling '__assign_bit'
+                           __assign_bit(count, values,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:217:6: note: Assuming 'value' is false
+           if (value)
+               ^~~~~
+   include/linux/bitops.h:217:2: note: Taking false branch
+           if (value)
            ^
-   security/selinux/include/security.h:116:9: note: Left side of '||' is tr=
-ue
-           return smp_load_acquire(&state->initialized);
-                  ^
-   include/asm-generic/barrier.h:142:29: note: expanded from macro 'smp_loa=
-d_acquire'
-   #define smp_load_acquire(p) __smp_load_acquire(p)
-                               ^
-   arch/riscv/include/asm/barrier.h:40:2: note: expanded from macro '__smp_=
-load_acquire'
-           compiletime_assert_atomic_type(*p);                             \
-           ^
-   include/linux/compiler_types.h:329:21: note: expanded from macro 'compil=
-etime_assert_atomic_type'
-           compiletime_assert(__native_word(t),                            \
-                              ^
-   include/linux/compiler_types.h:288:29: note: expanded from macro '__nati=
-ve_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-                                      ^
-   security/selinux/include/security.h:116:9: note: Taking false branch
-           return smp_load_acquire(&state->initialized);
-                  ^
+   include/linux/bitops.h:220:3: note: Calling 'arch___clear_bit'
+                   __clear_bit(nr, addr);
+                   ^
+   include/asm-generic/bitops/non-atomic.h:34:21: note: expanded from macro=
+ '__clear_bit'
+   #define __clear_bit arch___clear_bit
+                       ^
+   include/asm-generic/bitops/non-atomic.h:32:5: note: The left expression =
+of the compound assignment is an uninitialized value. The computed value wi=
+ll also be garbage
+           *p &=3D ~mask;
+           ~~ ^
+   2 warnings generated.
+   fs/jfs/jfs_types.h:67:33: warning: The left operand of '&' is a garbage =
+value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(0xffffff)) |
 
-vim +1563 security/selinux/ss/services.c
+vim +/prev +573 mm/nommu.c
 
-12b29f34558b9b Stephen Smalley 2008-05-07  1509  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  544  =
 
-aa8e712cee93d5 Stephen Smalley 2018-03-01  1510  static int security_contex=
-t_to_sid_core(struct selinux_state *state,
-aa8e712cee93d5 Stephen Smalley 2018-03-01  1511  					const char *scontext,=
- u32 scontext_len,
-12b29f34558b9b Stephen Smalley 2008-05-07  1512  					u32 *sid, u32 def_sid=
-, gfp_t gfp_flags,
-12b29f34558b9b Stephen Smalley 2008-05-07  1513  					int force)
-12b29f34558b9b Stephen Smalley 2008-05-07  1514  {
-1b8b31a2e6120b Stephen Smalley 2020-08-19  1515  	struct selinux_policy *po=
-licy;
-aa8e712cee93d5 Stephen Smalley 2018-03-01  1516  	struct policydb *policydb;
-aa8e712cee93d5 Stephen Smalley 2018-03-01  1517  	struct sidtab *sidtab;
-9a59daa03df725 Stephen Smalley 2008-05-14  1518  	char *scontext2, *str =3D=
- NULL;
-12b29f34558b9b Stephen Smalley 2008-05-07  1519  	struct context context;
-12b29f34558b9b Stephen Smalley 2008-05-07  1520  	int rc =3D 0;
-12b29f34558b9b Stephen Smalley 2008-05-07  1521  =
+3034097a5017dd David Howells     2006-09-27  545  /*
+8feae13110d60c David Howells     2009-01-08  546   * add a VMA into a proce=
+ss's mm_struct in the appropriate place in the list
+8feae13110d60c David Howells     2009-01-08  547   * and tree and add to th=
+e address space's page tree also if not an anonymous
+8feae13110d60c David Howells     2009-01-08  548   * page
+c1e8d7c6a7a682 Michel Lespinasse 2020-06-08  549   * - should be called wit=
+h mm->mmap_lock held writelocked
+3034097a5017dd David Howells     2006-09-27  550   */
+8feae13110d60c David Howells     2009-01-08  551  static void add_vma_to_mm=
+(struct mm_struct *mm, struct vm_area_struct *vma)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  552  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  553  	struct address_space *ma=
+pping;
+4b662c6ba9aa9e Liam R. Howlett   2020-07-24  554  	struct vm_area_struct *p=
+rev;
+4b662c6ba9aa9e Liam R. Howlett   2020-07-24  555  	MA_STATE(mas, &mm->mm_mt=
+, vma->vm_start, vma->vm_end);
+8feae13110d60c David Howells     2009-01-08  556  =
 
-2172fa709ab32c Stephen Smalley 2014-01-30  1522  	/* An empty security cont=
-ext is never valid. */
-2172fa709ab32c Stephen Smalley 2014-01-30  1523  	if (!scontext_len)
-2172fa709ab32c Stephen Smalley 2014-01-30  1524  		return -EINVAL;
-2172fa709ab32c Stephen Smalley 2014-01-30  1525  =
+8feae13110d60c David Howells     2009-01-08  557  	BUG_ON(!vma->vm_region);
+8feae13110d60c David Howells     2009-01-08  558  =
 
-ef28df55ac27e1 Paul Moore      2017-11-28  1526  	/* Copy the string to all=
-ow changes and ensure a NUL terminator */
-ef28df55ac27e1 Paul Moore      2017-11-28  1527  	scontext2 =3D kmemdup_nul=
-(scontext, scontext_len, gfp_flags);
-ef28df55ac27e1 Paul Moore      2017-11-28  1528  	if (!scontext2)
-ef28df55ac27e1 Paul Moore      2017-11-28  1529  		return -ENOMEM;
-ef28df55ac27e1 Paul Moore      2017-11-28  1530  =
+8feae13110d60c David Howells     2009-01-08  559  	mm->map_count++;
+8feae13110d60c David Howells     2009-01-08  560  	vma->vm_mm =3D mm;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  561  =
 
-65cddd50980be8 Ondrej Mosnacek 2020-01-07  1531  	if (!selinux_initialized(=
-state)) {
-12b29f34558b9b Stephen Smalley 2008-05-07  1532  		int i;
-12b29f34558b9b Stephen Smalley 2008-05-07  1533  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  562  	/* add the VMA to the ma=
+pping */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  563  	if (vma->vm_file) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  564  		mapping =3D vma->vm_fil=
+e->f_mapping;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  565  =
 
-12b29f34558b9b Stephen Smalley 2008-05-07  1534  		for (i =3D 1; i < SECINI=
-TSID_NUM; i++) {
-e3e0b582c321ae Stephen Smalley 2020-02-24  1535  			const char *s =3D initi=
-al_sid_to_string[i];
-e3e0b582c321ae Stephen Smalley 2020-02-24  1536  =
+83cde9e8ba95d1 Davidlohr Bueso   2014-12-12  566  		i_mmap_lock_write(mappi=
+ng);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  567  		flush_dcache_mmap_lock(=
+mapping);
+6b2dbba8b6ac4d Michel Lespinasse 2012-10-08  568  		vma_interval_tree_inser=
+t(vma, &mapping->i_mmap);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  569  		flush_dcache_mmap_unloc=
+k(mapping);
+83cde9e8ba95d1 Davidlohr Bueso   2014-12-12  570  		i_mmap_unlock_write(map=
+ping);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  571  	}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  572  =
 
-e3e0b582c321ae Stephen Smalley 2020-02-24  1537  			if (s && !strcmp(s, sco=
-ntext2)) {
-12b29f34558b9b Stephen Smalley 2008-05-07  1538  				*sid =3D i;
-ef28df55ac27e1 Paul Moore      2017-11-28  1539  				goto out;
-12b29f34558b9b Stephen Smalley 2008-05-07  1540  			}
-12b29f34558b9b Stephen Smalley 2008-05-07  1541  		}
-12b29f34558b9b Stephen Smalley 2008-05-07  1542  		*sid =3D SECINITSID_KERN=
-EL;
-ef28df55ac27e1 Paul Moore      2017-11-28  1543  		goto out;
-12b29f34558b9b Stephen Smalley 2008-05-07  1544  	}
-12b29f34558b9b Stephen Smalley 2008-05-07  1545  	*sid =3D SECSID_NULL;
-12b29f34558b9b Stephen Smalley 2008-05-07  1546  =
-
-9a59daa03df725 Stephen Smalley 2008-05-14  1547  	if (force) {
-9a59daa03df725 Stephen Smalley 2008-05-14  1548  		/* Save another copy for=
- storing in uninterpreted form */
-4b02b524487622 Eric Paris      2010-11-23  1549  		rc =3D -ENOMEM;
-9a59daa03df725 Stephen Smalley 2008-05-14  1550  		str =3D kstrdup(scontext=
-2, gfp_flags);
-4b02b524487622 Eric Paris      2010-11-23  1551  		if (!str)
-4b02b524487622 Eric Paris      2010-11-23  1552  			goto out;
-9a59daa03df725 Stephen Smalley 2008-05-14  1553  	}
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1554  retry:
-1b8b31a2e6120b Stephen Smalley 2020-08-19  1555  	rcu_read_lock();
-1b8b31a2e6120b Stephen Smalley 2020-08-19  1556  	policy =3D rcu_dereferenc=
-e(state->policy);
-1b8b31a2e6120b Stephen Smalley 2020-08-19  1557  	policydb =3D &policy->pol=
-icydb;
-1b8b31a2e6120b Stephen Smalley 2020-08-19  1558  	sidtab =3D policy->sidtab;
-aa8e712cee93d5 Stephen Smalley 2018-03-01  1559  	rc =3D string_to_context_=
-struct(policydb, sidtab, scontext2,
-95ffe194204ae3 Jann Horn       2018-08-06  1560  				      &context, def_si=
-d);
-12b29f34558b9b Stephen Smalley 2008-05-07  1561  	if (rc =3D=3D -EINVAL && =
-force) {
-9a59daa03df725 Stephen Smalley 2008-05-14  1562  		context.str =3D str;
-efe3de79e0b52c Sachin Grover   2018-05-25 @1563  		context.len =3D strlen(s=
-tr) + 1;
-9a59daa03df725 Stephen Smalley 2008-05-14  1564  		str =3D NULL;
-12b29f34558b9b Stephen Smalley 2008-05-07  1565  	} else if (rc)
-4b02b524487622 Eric Paris      2010-11-23  1566  		goto out_unlock;
-225621c9348d2a Ondrej Mosnacek 2020-04-17  1567  	rc =3D sidtab_context_to_=
-sid(sidtab, &context, sid);
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1568  	if (rc =3D=3D -ESTALE) {
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1569  		rcu_read_unlock();
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1570  		if (context.str) {
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1571  			str =3D context.str;
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1572  			context.str =3D NULL;
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1573  		}
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1574  		context_destroy(&context=
-);
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1575  		goto retry;
-9ad6e9cb39c663 Ondrej Mosnacek 2021-04-07  1576  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1577  	context_destroy(&context);
-4b02b524487622 Eric Paris      2010-11-23  1578  out_unlock:
-1b8b31a2e6120b Stephen Smalley 2020-08-19  1579  	rcu_read_unlock();
-4b02b524487622 Eric Paris      2010-11-23  1580  out:
-9a59daa03df725 Stephen Smalley 2008-05-14  1581  	kfree(scontext2);
-9a59daa03df725 Stephen Smalley 2008-05-14  1582  	kfree(str);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1583  	return rc;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1584  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1585  =
+4b662c6ba9aa9e Liam R. Howlett   2020-07-24 @573  	prev =3D mas_prev(&mas, =
+0);
+4b662c6ba9aa9e Liam R. Howlett   2020-07-24  574  	mas_reset(&mas);
+8feae13110d60c David Howells     2009-01-08  575  	/* add the VMA to the tr=
+ee */
+4b662c6ba9aa9e Liam R. Howlett   2020-07-24  576  	vma_mas_store(vma, &mas);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  577  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  578  =
 
 
-:::::: The code at line 1563 was first introduced by commit
-:::::: efe3de79e0b52ca281ef6691480c8c68c82a4657 selinux: KASAN: slab-out-of=
--bounds in xattr_getsecurity
+:::::: The code at line 573 was first introduced by commit
+:::::: 4b662c6ba9aa9ed30b302eade5a79e857fc881b4 mm: Remove rb tree.
 
-:::::: TO: Sachin Grover <sgrover@codeaurora.org>
-:::::: CC: Paul Moore <paul@paul-moore.com>
+:::::: TO: Liam R. Howlett <Liam.Howlett@Oracle.com>
+:::::: CC: Liam R. Howlett <Liam.Howlett@oracle.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3213737617545609618==--
+--===============0399833125661575192==--
 
