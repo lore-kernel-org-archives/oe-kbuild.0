@@ -1,135 +1,164 @@
-Content-Type: multipart/mixed; boundary="===============5405581923775496213=="
+Content-Type: multipart/mixed; boundary="===============2103584366814327080=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/clk/versatile/clk-icst.c:277:24: warning: Redundant condition: If 'rate <= 25000000', the comparison 'rate < 29000000' is always true. [redundantCondition]
-Date: Sat, 26 Feb 2022 02:33:41 +0800
-Message-ID: <202202260001.2KjM7DVP-lkp@intel.com>
+Subject: arch/mips/boot/compressed/../../../../lib/lz4/lz4_decompress.c:506:5: warning: no previous prototype for function 'LZ4_decompress_safe_forceExtDict'
+Date: Fri, 25 Feb 2022 23:41:18 +0800
+Message-ID: <202202252346.u16uicku-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5405581923775496213==
+--===============2103584366814327080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Jean Delvare <jdelvare@suse.de>
-CC: Stephen Boyd <sboyd@kernel.org>
-CC: Linus Walleij <linus.walleij@linaro.org>
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen =
+<mazziesaccount@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   53ab78cd6d5aba25575a7cfb95729336ba9497d8
-commit: 323fd5955f844d1b6acf1a1af488da460f657ff2 clk: versatile: Rename ICS=
-T to CLK_ICST
-date:   4 months ago
+commit: 5ba3747dbc9ade2d22a8f5bff3c928cb41d35030 regulator: bd71815: add se=
+lect to fix build
+date:   9 months ago
 :::::: branch date: 14 hours ago
-:::::: commit date: 4 months ago
-compiler: nios2-linux-gcc (GCC) 11.2.0
+:::::: commit date: 9 months ago
+config: mips-randconfig-c004-20220225 (https://download.01.org/0day-ci/arch=
+ive/20220225/202202252346.u16uicku-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D5ba3747dbc9ade2d22a8f5bff3c928cb41d35030
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 5ba3747dbc9ade2d22a8f5bff3c928cb41d35030
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
+All warnings (new ones prefixed by >>):
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+>> arch/mips/boot/compressed/../../../../lib/lz4/lz4_decompress.c:506:5: wa=
+rning: no previous prototype for function 'LZ4_decompress_safe_forceExtDict=
+' [-Wmissing-prototypes]
+   int LZ4_decompress_safe_forceExtDict(const char *source, char *dest,
+       ^
+   arch/mips/boot/compressed/../../../../lib/lz4/lz4_decompress.c:506:1: no=
+te: declare 'static' if the function is not intended to be used outside of =
+this translation unit
+   int LZ4_decompress_safe_forceExtDict(const char *source, char *dest,
+   ^
+   static =
 
->> drivers/clk/versatile/clk-icst.c:277:24: warning: Redundant condition: I=
-f 'rate <=3D 25000000', the comparison 'rate < 29000000' is always true. [r=
-edundantCondition]
-     if (rate <=3D 25000000 || rate < 29000000)
-                          ^
+   arch/mips/boot/compressed/decompress.c:83:6: warning: no previous protot=
+ype for function '__stack_chk_fail' [-Wmissing-prototypes]
+   void __stack_chk_fail(void)
+        ^
+   arch/mips/boot/compressed/decompress.c:83:1: note: declare 'static' if t=
+he function is not intended to be used outside of this translation unit
+   void __stack_chk_fail(void)
+   ^
+   static =
 
-vim +277 drivers/clk/versatile/clk-icst.c
+   arch/mips/boot/compressed/decompress.c:88:6: warning: no previous protot=
+ype for function 'decompress_kernel' [-Wmissing-prototypes]
+   void decompress_kernel(unsigned long boot_heap_start)
+        ^
+   arch/mips/boot/compressed/decompress.c:88:1: note: declare 'static' if t=
+he function is not intended to be used outside of this translation unit
+   void decompress_kernel(unsigned long boot_heap_start)
+   ^
+   static =
 
-91b87a4795c42b Linus Walleij 2012-06-11  236  =
-
-91b87a4795c42b Linus Walleij 2012-06-11  237  static long icst_round_rate(s=
-truct clk_hw *hw, unsigned long rate,
-91b87a4795c42b Linus Walleij 2012-06-11  238  			    unsigned long *prate)
-91b87a4795c42b Linus Walleij 2012-06-11  239  {
-91b87a4795c42b Linus Walleij 2012-06-11  240  	struct clk_icst *icst =3D to=
-_icst(hw);
-91b87a4795c42b Linus Walleij 2012-06-11  241  	struct icst_vco vco;
-91b87a4795c42b Linus Walleij 2012-06-11  242  =
-
-5e23c593057520 Linus Walleij 2016-08-22  243  	if (icst->ctype =3D=3D ICST_=
-INTEGRATOR_AP_CM ||
-5e23c593057520 Linus Walleij 2016-08-22  244  	    icst->ctype =3D=3D ICST_=
-INTEGRATOR_CP_CM_CORE) {
-5e23c593057520 Linus Walleij 2016-08-22  245  		if (rate <=3D 12000000)
-5e23c593057520 Linus Walleij 2016-08-22  246  			return 12000000;
-5e23c593057520 Linus Walleij 2016-08-22  247  		if (rate >=3D 160000000)
-5e23c593057520 Linus Walleij 2016-08-22  248  			return 160000000;
-5e23c593057520 Linus Walleij 2016-08-22  249  		/* Slam to closest megahert=
-z */
-5e23c593057520 Linus Walleij 2016-08-22  250  		return DIV_ROUND_CLOSEST(ra=
-te, 1000000) * 1000000;
-5e23c593057520 Linus Walleij 2016-08-22  251  	}
-5e23c593057520 Linus Walleij 2016-08-22  252  =
-
-5e23c593057520 Linus Walleij 2016-08-22  253  	if (icst->ctype =3D=3D ICST_=
-INTEGRATOR_CP_CM_MEM) {
-5e23c593057520 Linus Walleij 2016-08-22  254  		if (rate <=3D 6000000)
-5e23c593057520 Linus Walleij 2016-08-22  255  			return 6000000;
-5e23c593057520 Linus Walleij 2016-08-22  256  		if (rate >=3D 66000000)
-5e23c593057520 Linus Walleij 2016-08-22  257  			return 66000000;
-5e23c593057520 Linus Walleij 2016-08-22  258  		/* Slam to closest 0.5 mega=
-hertz */
-5e23c593057520 Linus Walleij 2016-08-22  259  		return DIV_ROUND_CLOSEST(ra=
-te, 500000) * 500000;
-5e23c593057520 Linus Walleij 2016-08-22  260  	}
-5e23c593057520 Linus Walleij 2016-08-22  261  =
-
-fa62e10d2613b9 Linus Walleij 2016-08-27  262  	if (icst->ctype =3D=3D ICST_=
-INTEGRATOR_AP_SYS) {
-fa62e10d2613b9 Linus Walleij 2016-08-27  263  		/* Divides between 3 and 50=
- MHz in steps of 0.25 MHz */
-fa62e10d2613b9 Linus Walleij 2016-08-27  264  		if (rate <=3D 3000000)
-fa62e10d2613b9 Linus Walleij 2016-08-27  265  			return 3000000;
-fa62e10d2613b9 Linus Walleij 2016-08-27  266  		if (rate >=3D 50000000)
-fa62e10d2613b9 Linus Walleij 2016-08-27  267  			return 5000000;
-fa62e10d2613b9 Linus Walleij 2016-08-27  268  		/* Slam to closest 0.25 MHz=
- */
-fa62e10d2613b9 Linus Walleij 2016-08-27  269  		return DIV_ROUND_CLOSEST(ra=
-te, 250000) * 250000;
-fa62e10d2613b9 Linus Walleij 2016-08-27  270  	}
-fa62e10d2613b9 Linus Walleij 2016-08-27  271  =
-
-fa62e10d2613b9 Linus Walleij 2016-08-27  272  	if (icst->ctype =3D=3D ICST_=
-INTEGRATOR_AP_PCI) {
-fa62e10d2613b9 Linus Walleij 2016-08-27  273  		/*
-fa62e10d2613b9 Linus Walleij 2016-08-27  274  		 * If we're below or less t=
-han halfway from 25 to 33 MHz
-fa62e10d2613b9 Linus Walleij 2016-08-27  275  		 * select 25 MHz
-fa62e10d2613b9 Linus Walleij 2016-08-27  276  		 */
-fa62e10d2613b9 Linus Walleij 2016-08-27 @277  		if (rate <=3D 25000000 || r=
-ate < 29000000)
-fa62e10d2613b9 Linus Walleij 2016-08-27  278  			return 25000000;
-fa62e10d2613b9 Linus Walleij 2016-08-27  279  		/* Else just return the def=
-ault frequency */
-fa62e10d2613b9 Linus Walleij 2016-08-27  280  		return 33000000;
-fa62e10d2613b9 Linus Walleij 2016-08-27  281  	}
-fa62e10d2613b9 Linus Walleij 2016-08-27  282  =
-
-91b87a4795c42b Linus Walleij 2012-06-11  283  	vco =3D icst_hz_to_vco(icst-=
->params, rate);
-91b87a4795c42b Linus Walleij 2012-06-11  284  	return icst_hz(icst->params,=
- vco);
-91b87a4795c42b Linus Walleij 2012-06-11  285  }
-91b87a4795c42b Linus Walleij 2012-06-11  286  =
+   5 warnings generated.
 
 
-:::::: The code at line 277 was first introduced by commit
-:::::: fa62e10d2613b9e9edbe944b890644b30e9d4ed7 clk: versatile/icst: suppor=
-t for AP baseboard clocks
+vim +/LZ4_decompress_safe_forceExtDict +506 arch/mips/boot/compressed/../..=
+/../../lib/lz4/lz4_decompress.c
 
-:::::: TO: Linus Walleij <linus.walleij@linaro.org>
-:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
+2209fda323e2fd Gao Xiang    2018-10-30  483  =
+
+2209fda323e2fd Gao Xiang    2018-10-30 @484  int LZ4_decompress_safe_withPr=
+efix64k(const char *source, char *dest,
+2209fda323e2fd Gao Xiang    2018-10-30  485  				      int compressedSize, =
+int maxOutputSize)
+2209fda323e2fd Gao Xiang    2018-10-30  486  {
+2209fda323e2fd Gao Xiang    2018-10-30  487  	return LZ4_decompress_generic=
+(source, dest,
+2209fda323e2fd Gao Xiang    2018-10-30  488  				      compressedSize, maxO=
+utputSize,
+2209fda323e2fd Gao Xiang    2018-10-30  489  				      endOnInputSize, deco=
+de_full_block,
+2209fda323e2fd Gao Xiang    2018-10-30  490  				      withPrefix64k,
+2209fda323e2fd Gao Xiang    2018-10-30  491  				      (BYTE *)dest - 64 * =
+KB, NULL, 0);
+2209fda323e2fd Gao Xiang    2018-10-30  492  }
+2209fda323e2fd Gao Xiang    2018-10-30  493  =
+
+2209fda323e2fd Gao Xiang    2018-10-30  494  static int LZ4_decompress_safe=
+_withSmallPrefix(const char *source, char *dest,
+2209fda323e2fd Gao Xiang    2018-10-30  495  					       int compressedSize,
+2209fda323e2fd Gao Xiang    2018-10-30  496  					       int maxOutputSize,
+2209fda323e2fd Gao Xiang    2018-10-30  497  					       size_t prefixSize)
+2209fda323e2fd Gao Xiang    2018-10-30  498  {
+2209fda323e2fd Gao Xiang    2018-10-30  499  	return LZ4_decompress_generic=
+(source, dest,
+2209fda323e2fd Gao Xiang    2018-10-30  500  				      compressedSize, maxO=
+utputSize,
+2209fda323e2fd Gao Xiang    2018-10-30  501  				      endOnInputSize, deco=
+de_full_block,
+2209fda323e2fd Gao Xiang    2018-10-30  502  				      noDict,
+2209fda323e2fd Gao Xiang    2018-10-30  503  				      (BYTE *)dest - prefi=
+xSize, NULL, 0);
+4e1a33b105ddf2 Sven Schmidt 2017-02-24  504  }
+cffb78b0e0b3a3 Kyungsik Lee 2013-07-08  505  =
+
+2209fda323e2fd Gao Xiang    2018-10-30 @506  int LZ4_decompress_safe_forceE=
+xtDict(const char *source, char *dest,
+2209fda323e2fd Gao Xiang    2018-10-30  507  				     int compressedSize, i=
+nt maxOutputSize,
+2209fda323e2fd Gao Xiang    2018-10-30  508  				     const void *dictStart=
+, size_t dictSize)
+2209fda323e2fd Gao Xiang    2018-10-30  509  {
+2209fda323e2fd Gao Xiang    2018-10-30  510  	return LZ4_decompress_generic=
+(source, dest,
+2209fda323e2fd Gao Xiang    2018-10-30  511  				      compressedSize, maxO=
+utputSize,
+2209fda323e2fd Gao Xiang    2018-10-30  512  				      endOnInputSize, deco=
+de_full_block,
+2209fda323e2fd Gao Xiang    2018-10-30  513  				      usingExtDict, (BYTE =
+*)dest,
+2209fda323e2fd Gao Xiang    2018-10-30  514  				      (const BYTE *)dictSt=
+art, dictSize);
+2209fda323e2fd Gao Xiang    2018-10-30  515  }
+2209fda323e2fd Gao Xiang    2018-10-30  516  =
+
+
+:::::: The code at line 506 was first introduced by commit
+:::::: 2209fda323e2fd2a2d0885595fd5097717f8d2aa lib/lz4: update LZ4 decompr=
+essor module
+
+:::::: TO: Gao Xiang <gaoxiang25@huawei.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5405581923775496213==--
+--===============2103584366814327080==--
 
