@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5159728019052621966=="
+Content-Type: multipart/mixed; boundary="===============4116694355012587589=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/controller/dwc/pcie-kirin.c:321:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
-Date: Fri, 25 Feb 2022 08:56:52 +0800
-Message-ID: <202202250839.jqjO1m34-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:428:11: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+Date: Fri, 25 Feb 2022 08:26:18 +0800
+Message-ID: <202202250814.gZ1GXaMa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5159728019052621966==
+--===============4116694355012587589==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,20 +15,19 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+TO: Dennis Li <Dennis.Li@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   73878e5eb1bd3c9656685ca60bc3a49d17311e0c
-commit: 61d37547436dce45e3590db72360df0e230ca969 PCI: kirin: Reorganize the=
- PHY logic inside the driver
-date:   4 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 4 months ago
-compiler: alpha-linux-gcc (GCC) 11.2.0
+head:   23d04328444a8fa0ca060c5e532220dac8e8bc26
+commit: 0e0036c7d13b945260ff1ce8377eca7ea877c008 drm/amdgpu: fix no full co=
+verage issue for gprs initialization
+date:   10 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 10 months ago
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -36,87 +35,118 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/pci/controller/dwc/pcie-kirin.c:321:2: warning: Assignment of fu=
-nction parameter has no effect outside the function. Did you forget derefer=
-encing it? [uselessAssignmentPtrArg]
-    pdev =3D container_of(dev, struct platform_device, dev);
-    ^
->> drivers/scsi/pm8001/pm8001_hwi.c:4493:51: warning: Same expression on bo=
-th sides of '&'. [knownConditionTrueFalse]
-    payload.dtype_dlr_retry =3D cpu_to_le32((retryFlag & 0x01) |
-                                                     ^
-   drivers/scsi/pm8001/pm8001_hwi.c:4458:17: note: 'retryFlag' is assigned =
-value '1' here.
-    u8 retryFlag =3D 0x1;
-                   ^
-   drivers/scsi/pm8001/pm8001_hwi.c:4493:51: note: Same expression on both =
-sides of '&'.
-    payload.dtype_dlr_retry =3D cpu_to_le32((retryFlag & 0x01) |
-                                                     ^
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/arctu=
+rus_ppt.c:
+>> drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c:1559:4: warning: Variable 'num=
+_of_active_display' is modified but its new value is never used. [unreadVar=
+iable]
+      num_of_active_display++;
+      ^
+>> drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c:168:9: warning: Uninitialized =
+variable: clk_freq [uninitvar]
+    return clk_freq * 100;
+           ^
+   drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c:182:9: warning: Uninitialized =
+variable: clk_freq [uninitvar]
+    return clk_freq * 100;
+           ^
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu7_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:5514:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%3d %14s %s: %8d %16d %16d %16d %16d %=
+16dn",
+              ^
+   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:5525:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%3d %16s: %8d %16d %16d ",
+              ^
+   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:5530:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%3d %16s: %8s %16s %16s ",
+              ^
+>> drivers/gpu/drm/amd/amdgpu/si.c:2489:7: warning: Identical inner 'if' co=
+ndition is always true. [identicalInnerCondition]
+     if (!disable_plloff_in_l1) {
+         ^
+   drivers/gpu/drm/amd/amdgpu/si.c:2453:41: note: 'disable_l1' is assigned =
+value 'false' here.
+    bool disable_l0s =3D false, disable_l1 =3D false, disable_plloff_in_l1 =
+=3D false;
+                                           ^
+   drivers/gpu/drm/amd/amdgpu/si.c:2453:71: note: 'disable_plloff_in_l1' is=
+ assigned value 'false' here.
+    bool disable_l0s =3D false, disable_l1 =3D false, disable_plloff_in_l1 =
+=3D false;
+                                                                         ^
+   drivers/gpu/drm/amd/amdgpu/si.c:2483:6: note: outer condition: !disable_=
+l1
+    if (!disable_l1) {
+        ^
+   drivers/gpu/drm/amd/amdgpu/si.c:2489:7: note: identical inner condition:=
+ !disable_plloff_in_l1
+     if (!disable_plloff_in_l1) {
+         ^
 
-vim +321 drivers/pci/controller/dwc/pcie-kirin.c
+vim +428 drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  305  =
+0e0036c7d13b94 Dennis Li 2021-04-27  411  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  306  static int hi3660_pcie_phy_init(struct platform_device *=
-pdev,
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  307  				struct kirin_pcie *pcie)
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  308  {
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  309  	struct device *dev =3D &pdev->dev;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  310  	struct hi3660_pcie_phy *phy;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  311  	int ret;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  312  =
+0e0036c7d13b94 Dennis Li 2021-04-27  412  static void gfx_v9_4_2_log_wave_a=
+ssignment(struct amdgpu_device *adev, uint32_t *wb_ptr)
+0e0036c7d13b94 Dennis Li 2021-04-27  413  {
+0e0036c7d13b94 Dennis Li 2021-04-27  414  	uint32_t se, cu, simd, wave;
+0e0036c7d13b94 Dennis Li 2021-04-27  415  	uint32_t offset =3D 0;
+0e0036c7d13b94 Dennis Li 2021-04-27  416  	char *str;
+0e0036c7d13b94 Dennis Li 2021-04-27  417  	int size;
+0e0036c7d13b94 Dennis Li 2021-04-27  418  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  313  	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  314  	if (!phy)
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  315  		return -ENOMEM;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  316  =
+0e0036c7d13b94 Dennis Li 2021-04-27  419  	str =3D kmalloc(256, GFP_KERNEL);
+0e0036c7d13b94 Dennis Li 2021-04-27  420  	if (!str)
+0e0036c7d13b94 Dennis Li 2021-04-27  421  		return;
+0e0036c7d13b94 Dennis Li 2021-04-27  422  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  317  	pcie->phy_priv =3D phy;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  318  	phy->dev =3D dev;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  319  =
+0e0036c7d13b94 Dennis Li 2021-04-27  423  	dev_dbg(adev->dev, "wave assignm=
+ent:\n");
+0e0036c7d13b94 Dennis Li 2021-04-27  424  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  320  	/* registers */
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21 @321  	pdev =3D container_of(dev, struct platform_device, dev);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  322  =
+0e0036c7d13b94 Dennis Li 2021-04-27  425  	for (se =3D 0; se < adev->gfx.co=
+nfig.max_shader_engines; se++) {
+0e0036c7d13b94 Dennis Li 2021-04-27  426  		for (cu =3D 0; cu < CU_ID_MAX; =
+cu++) {
+0e0036c7d13b94 Dennis Li 2021-04-27  427  			memset(str, 0, 256);
+0e0036c7d13b94 Dennis Li 2021-04-27 @428  			size =3D sprintf(str, "SE[%02d=
+]CU[%02d]: ", se, cu);
+0e0036c7d13b94 Dennis Li 2021-04-27  429  			for (simd =3D 0; simd < SIMD_I=
+D_MAX; simd++) {
+0e0036c7d13b94 Dennis Li 2021-04-27  430  				size +=3D sprintf(str + size,=
+ "[");
+0e0036c7d13b94 Dennis Li 2021-04-27  431  				for (wave =3D 0; wave < WAVE_=
+ID_MAX; wave++) {
+0e0036c7d13b94 Dennis Li 2021-04-27  432  					size +=3D sprintf(str + size=
+, "%x", wb_ptr[offset]);
+0e0036c7d13b94 Dennis Li 2021-04-27  433  					offset++;
+0e0036c7d13b94 Dennis Li 2021-04-27  434  				}
+0e0036c7d13b94 Dennis Li 2021-04-27  435  				size +=3D sprintf(str + size,=
+ "]  ");
+0e0036c7d13b94 Dennis Li 2021-04-27  436  			}
+0e0036c7d13b94 Dennis Li 2021-04-27  437  			dev_dbg(adev->dev, "%s\n", str=
+);
+0e0036c7d13b94 Dennis Li 2021-04-27  438  		}
+0e0036c7d13b94 Dennis Li 2021-04-27  439  	}
+0e0036c7d13b94 Dennis Li 2021-04-27  440  =
 
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  323  	ret =3D hi3660_pcie_phy_get_clk(phy);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  324  	if (ret)
-fc5165db245ac4 drivers/pci/dwc/pcie-kirin.c            Xiaowei Song        =
-  2017-06-19  325  		return ret;
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  326  =
-
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  327  	return hi3660_pcie_phy_get_resource(phy);
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  328  }
-61d37547436dce drivers/pci/controller/dwc/pcie-kirin.c Mauro Carvalho Cheha=
-b 2021-10-21  329  =
+0e0036c7d13b94 Dennis Li 2021-04-27  441  	kfree(str);
+0e0036c7d13b94 Dennis Li 2021-04-27  442  }
+0e0036c7d13b94 Dennis Li 2021-04-27  443  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5159728019052621966==--
+--===============4116694355012587589==--
 
