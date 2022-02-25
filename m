@@ -1,361 +1,142 @@
-Content-Type: multipart/mixed; boundary="===============2637332601537031736=="
+Content-Type: multipart/mixed; boundary="===============0616328399847658825=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:nvme-duplicate-id-check 18/27] drivers/nvme/host/core.c:305:23: warning: Value stored to 'nr' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 25 Feb 2022 17:24:33 +0800
-Message-ID: <202202251719.APryuyCl-lkp@intel.com>
+Subject: [linusw-nomadik:ux500-codina-v5.17-rc1 6/12] drivers/input/touchscreen/zinitix.c:338:36: sparse: sparse: dubious: !x & y
+Date: Fri, 25 Feb 2022 12:20:42 +0800
+Message-ID: <202202251241.7kTh2qKA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2637332601537031736==
+--===============0616328399847658825==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Linus Walleij <linus.walleij@linaro.org>
 
-tree:   git://git.infradead.org/users/hch/misc.git nvme-duplicate-id-check
-head:   c8c48703bc70b45fef90337677f5d4ff20dd5bc7
-commit: 19c37bce5c21decf96d899b692faa33836b5a065 [18/27] nvme: add verbose =
-error logging
-:::::: branch date: 17 hours ago
-:::::: commit date: 9 days ago
-config: riscv-randconfig-c006-20220223 (https://download.01.org/0day-ci/arc=
-hive/20220225/202202251719.APryuyCl-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadi=
+k.git ux500-codina-v5.17-rc1
+head:   55196848adbcea2ea36561a056bb610bf3ab40bf
+commit: 727f5e5be135b8f1f94922093b5c88565fdadcb0 [6/12] Input: zinitix - Do=
+ not report shadow fingers
+:::::: branch date: 3 days ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-s031-20220223 (https://download.01.org/0day-ci/archi=
+ve/20220225/202202251241.7kTh2qKA-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add hch-misc git://git.infradead.org/users/hch/misc.git
-        git fetch --no-tags hch-misc nvme-duplicate-id-check
-        git checkout 19c37bce5c21decf96d899b692faa33836b5a065
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-noma=
+dik.git/commit/?id=3D727f5e5be135b8f1f94922093b5c88565fdadcb0
+        git remote add linusw-nomadik https://git.kernel.org/pub/scm/linux/=
+kernel/git/linusw/linux-nomadik.git
+        git fetch --no-tags linusw-nomadik ux500-codina-v5.17-rc1
+        git checkout 727f5e5be135b8f1f94922093b5c88565fdadcb0
         # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm SHELL=3D/bin/bash drivers/input/touchscreen/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                      ^~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/gpu/drm/drm_crtc_helper.c:635:2: warning: Value stored to 'count=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           count =3D 0;
-           ^       ~
-   drivers/gpu/drm/drm_crtc_helper.c:635:2: note: Value stored to 'count' i=
-s never read
-           count =3D 0;
-           ^       ~
-   drivers/gpu/drm/drm_crtc_helper.c:681:2: warning: Value stored to 'count=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           count =3D 0;
-           ^       ~
-   drivers/gpu/drm/drm_crtc_helper.c:681:2: note: Value stored to 'count' i=
-s never read
-           count =3D 0;
-           ^       ~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   fs/ntfs/compress.c:164:6: warning: Value stored to 'cb_sb_start' during =
-its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           u8 *cb_sb_start =3D cb;   /* Beginning of the current sb in the =
-cb. */
-               ^~~~~~~~~~~   ~~
-   fs/ntfs/compress.c:164:6: note: Value stored to 'cb_sb_start' during its=
- initialization is never read
-           u8 *cb_sb_start =3D cb;   /* Beginning of the current sb in the =
-cb. */
-               ^~~~~~~~~~~   ~~
-   fs/ntfs/compress.c:810:4: warning: Value stored to 'cb_pos' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           cb_pos +=3D cb_max_ofs - cur_ofs;
-                           ^         ~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/compress.c:810:4: note: Value stored to 'cb_pos' is never read
-                           cb_pos +=3D cb_max_ofs - cur_ofs;
-                           ^         ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/nvme/host/core.c:305:23: warning: Value stored to 'nr' during it=
-s initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct nvme_request *nr =3D nvme_req(req);
-                                ^~   ~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:305:23: note: Value stored to 'nr' during its i=
-nitialization is never read
-           struct nvme_request *nr =3D nvme_req(req);
-                                ^~   ~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:3988:3: warning: Use of memory after it is free=
-d [clang-analyzer-unix.Malloc]
-                   nvme_put_ns(ns);
-                   ^
-   drivers/nvme/host/core.c:4178:6: note: Assuming field 'state' is equal t=
-o NVME_CTRL_LIVE
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4178:6: note: Left side of '||' is false
-   drivers/nvme/host/core.c:4178:39: note: Assuming field 'tagset' is non-n=
-ull
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-                                                ^~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4178:2: note: Taking false branch
-           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
-           ^
-   drivers/nvme/host/core.c:4181:6: note: Assuming the condition is false
-           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
-)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4181:2: note: Taking false branch
-           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
-)) {
-           ^
-   drivers/nvme/host/core.c:4187:6: note: Calling 'nvme_scan_ns_list'
-           if (nvme_scan_ns_list(ctrl) !=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4092:2: note: Taking false branch
-           if (nvme_ctrl_limited_cns(ctrl))
-           ^
-   drivers/nvme/host/core.c:4096:6: note: Assuming 'ns_list' is non-null
-           if (!ns_list)
-               ^~~~~~~~
-   drivers/nvme/host/core.c:4096:2: note: Taking false branch
-           if (!ns_list)
-           ^
-   drivers/nvme/host/core.c:4099:2: note: Loop condition is true.  Entering=
- loop body
-           for (;;) {
-           ^
-   drivers/nvme/host/core.c:4108:7: note: Assuming 'ret' is 0
-                   if (ret) {
-                       ^~~
-   drivers/nvme/host/core.c:4108:3: note: Taking false branch
-                   if (ret) {
-                   ^
-   drivers/nvme/host/core.c:4114:3: note: Loop condition is true.  Entering=
- loop body
-                   for (i =3D 0; i < nr_entries; i++) {
-                   ^
-   drivers/nvme/host/core.c:4117:8: note: Assuming 'nsid' is not equal to 0
-                           if (!nsid)      /* end of the list? */
-                               ^~~~~
-   drivers/nvme/host/core.c:4117:4: note: Taking false branch
-                           if (!nsid)      /* end of the list? */
-                           ^
-   drivers/nvme/host/core.c:4120:11: note: Assuming the condition is true
-                           while (++prev < nsid)
-                                  ^~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4120:4: note: Loop condition is true.  Entering=
- loop body
-                           while (++prev < nsid)
-                           ^
-   drivers/nvme/host/core.c:4120:11: note: Assuming the condition is true
-                           while (++prev < nsid)
-                                  ^~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4120:4: note: Loop condition is true.  Entering=
- loop body
-                           while (++prev < nsid)
-                           ^
-   drivers/nvme/host/core.c:4120:11: note: Assuming the condition is true
-                           while (++prev < nsid)
-                                  ^~~~~~~~~~~~~
-   drivers/nvme/host/core.c:4120:4: note: Loop condition is true.  Entering=
- loop body
-                           while (++prev < nsid)
-                           ^
-   drivers/nvme/host/core.c:4121:5: note: Calling 'nvme_ns_remove_by_nsid'
-                                   nvme_ns_remove_by_nsid(ctrl, prev);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:3986:6: note: 'ns' is non-null
-           if (ns) {
-               ^~
-   drivers/nvme/host/core.c:3986:2: note: Taking true branch
-           if (ns) {
-           ^
-   drivers/nvme/host/core.c:3987:3: note: Calling 'nvme_ns_remove'
-                   nvme_ns_remove(ns);
-                   ^~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:3946:6: note: Assuming the condition is false
-           if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:3946:2: note: Taking false branch
-           if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
-           ^
-   drivers/nvme/host/core.c:3955:6: note: Assuming the condition is false
-           if (list_empty(&ns->head->list)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:3955:2: note: Taking false branch
-           if (list_empty(&ns->head->list)) {
-           ^
-   drivers/nvme/host/core.c:3965:6: note: Assuming the condition is false
-           if (nvme_mpath_clear_current_path(ns))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:3965:2: note: Taking false branch
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/zinitix.c:338:36: sparse: sparse: dubious: !x =
+& y
 
-vim +/nr +305 drivers/nvme/host/core.c
+vim +338 drivers/input/touchscreen/zinitix.c
 
-49cd84b6f8b677 Keith Busch  2018-11-27  301  =
+26822652c85eff Michael Srba  2020-10-04  321  =
 
-19c37bce5c21de Alan Adamson 2022-02-03  302  static void nvme_log_error(str=
-uct request *req)
-19c37bce5c21de Alan Adamson 2022-02-03  303  {
-19c37bce5c21de Alan Adamson 2022-02-03  304  	struct nvme_ns *ns =3D req->q=
-->queuedata;
-19c37bce5c21de Alan Adamson 2022-02-03 @305  	struct nvme_request *nr =3D n=
-vme_req(req);
-19c37bce5c21de Alan Adamson 2022-02-03  306  =
+727f5e5be135b8 Linus Walleij 2022-02-14  322  static void zinitix_report_fi=
+ngers(struct bt541_ts_data *bt541, struct touch_event *te)
+26822652c85eff Michael Srba  2020-10-04  323  {
+727f5e5be135b8 Linus Walleij 2022-02-14  324  	struct point_coord *p;
+727f5e5be135b8 Linus Walleij 2022-02-14  325  	u16 x, y;
+727f5e5be135b8 Linus Walleij 2022-02-14  326  	unsigned long fmask;
+727f5e5be135b8 Linus Walleij 2022-02-14  327  	int i;
+727f5e5be135b8 Linus Walleij 2022-02-14  328  =
 
-19c37bce5c21de Alan Adamson 2022-02-03  307  	if (ns) {
-19c37bce5c21de Alan Adamson 2022-02-03  308  		pr_err_ratelimited("%s: %s(0=
-x%x) @ LBA %llu, %llu blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
-19c37bce5c21de Alan Adamson 2022-02-03  309  		       ns->disk ? ns->disk->=
-disk_name : "?",
-19c37bce5c21de Alan Adamson 2022-02-03  310  		       nvme_get_opcode_str(n=
-r->cmd->common.opcode),
-19c37bce5c21de Alan Adamson 2022-02-03  311  		       nr->cmd->common.opcod=
-e,
-19c37bce5c21de Alan Adamson 2022-02-03  312  		       (unsigned long long)n=
-vme_sect_to_lba(ns, blk_rq_pos(req)),
-19c37bce5c21de Alan Adamson 2022-02-03  313  		       (unsigned long long)b=
-lk_rq_bytes(req) >> ns->lba_shift,
-19c37bce5c21de Alan Adamson 2022-02-03  314  		       nvme_get_error_status=
-_str(nr->status),
-19c37bce5c21de Alan Adamson 2022-02-03  315  		       nr->status >> 8 & 7,	=
-/* Status Code Type */
-19c37bce5c21de Alan Adamson 2022-02-03  316  		       nr->status & 0xff,	/*=
- Status Code */
-19c37bce5c21de Alan Adamson 2022-02-03  317  		       nr->status & NVME_SC_=
-MORE ? "MORE " : "",
-19c37bce5c21de Alan Adamson 2022-02-03  318  		       nr->status & NVME_SC_=
-DNR  ? "DNR "  : "");
-19c37bce5c21de Alan Adamson 2022-02-03  319  		return;
-19c37bce5c21de Alan Adamson 2022-02-03  320  	}
-19c37bce5c21de Alan Adamson 2022-02-03  321  =
+727f5e5be135b8 Linus Walleij 2022-02-14  329  	/*
+727f5e5be135b8 Linus Walleij 2022-02-14  330  	 * If the corresponding fing=
+er is not active, do not report
+727f5e5be135b8 Linus Walleij 2022-02-14  331  	 * what is happening on it.
+727f5e5be135b8 Linus Walleij 2022-02-14  332  	 */
+727f5e5be135b8 Linus Walleij 2022-02-14  333  	fmask =3D te->finger_mask;
+727f5e5be135b8 Linus Walleij 2022-02-14  334  	for_each_set_bit(i, &fmask, =
+MAX_SUPPORTED_FINGER_NUM) {
+727f5e5be135b8 Linus Walleij 2022-02-14  335  		p =3D &te->point_coord[i];
+727f5e5be135b8 Linus Walleij 2022-02-14  336  =
 
-19c37bce5c21de Alan Adamson 2022-02-03  322  	pr_err_ratelimited("%s: %s(0x=
-%x), %s (sct 0x%x / sc 0x%x) %s%s\n",
-19c37bce5c21de Alan Adamson 2022-02-03  323  			   dev_name(nr->ctrl->devic=
-e),
-19c37bce5c21de Alan Adamson 2022-02-03  324  			   nvme_get_admin_opcode_st=
-r(nr->cmd->common.opcode),
-19c37bce5c21de Alan Adamson 2022-02-03  325  			   nr->cmd->common.opcode,
-19c37bce5c21de Alan Adamson 2022-02-03  326  			   nvme_get_error_status_st=
-r(nr->status),
-19c37bce5c21de Alan Adamson 2022-02-03  327  			   nr->status >> 8 & 7,	/* =
-Status Code Type */
-19c37bce5c21de Alan Adamson 2022-02-03  328  			   nr->status & 0xff,	/* St=
-atus Code */
-19c37bce5c21de Alan Adamson 2022-02-03  329  			   nr->status & NVME_SC_MOR=
-E ? "MORE " : "",
-19c37bce5c21de Alan Adamson 2022-02-03  330  			   nr->status & NVME_SC_DNR=
-  ? "DNR "  : "");
-19c37bce5c21de Alan Adamson 2022-02-03  331  }
-19c37bce5c21de Alan Adamson 2022-02-03  332  =
+727f5e5be135b8 Linus Walleij 2022-02-14  337  		/* Skip nonexisting fingers=
+ */
+727f5e5be135b8 Linus Walleij 2022-02-14 @338  		if (!p->sub_status & SUB_BI=
+T_EXIST)
+727f5e5be135b8 Linus Walleij 2022-02-14  339  			continue;
+727f5e5be135b8 Linus Walleij 2022-02-14  340  =
+
+727f5e5be135b8 Linus Walleij 2022-02-14  341  		x =3D le16_to_cpu(p->x);
+727f5e5be135b8 Linus Walleij 2022-02-14  342  		y =3D le16_to_cpu(p->y);
+727f5e5be135b8 Linus Walleij 2022-02-14  343  =
+
+727f5e5be135b8 Linus Walleij 2022-02-14  344  		input_mt_slot(bt541->input_=
+dev, i);
+727f5e5be135b8 Linus Walleij 2022-02-14  345  =
+
+727f5e5be135b8 Linus Walleij 2022-02-14  346  		if (p->sub_status & BIT_DOW=
+N) {
+727f5e5be135b8 Linus Walleij 2022-02-14  347  			/* Finger down */
+727f5e5be135b8 Linus Walleij 2022-02-14  348  			input_mt_report_slot_state=
+(bt541->input_dev, MT_TOOL_FINGER, true);
+727f5e5be135b8 Linus Walleij 2022-02-14  349  			touchscreen_report_pos(bt5=
+41->input_dev, &bt541->prop, x, y, true);
+727f5e5be135b8 Linus Walleij 2022-02-14  350  			input_report_abs(bt541->in=
+put_dev, ABS_MT_TOUCH_MAJOR, p->width);
+727f5e5be135b8 Linus Walleij 2022-02-14  351  			dev_dbg(&bt541->client->de=
+v, "finger %d down (%u, %u)\n", i, x, y);
+727f5e5be135b8 Linus Walleij 2022-02-14  352  		} else if (p->sub_status & =
+BIT_UP) {
+727f5e5be135b8 Linus Walleij 2022-02-14  353  			/* Release finger */
+727f5e5be135b8 Linus Walleij 2022-02-14  354  			input_mt_report_slot_state=
+(bt541->input_dev, MT_TOOL_FINGER, false);
+727f5e5be135b8 Linus Walleij 2022-02-14  355  			touchscreen_report_pos(bt5=
+41->input_dev, &bt541->prop, x, y, true);
+727f5e5be135b8 Linus Walleij 2022-02-14  356  			input_report_abs(bt541->in=
+put_dev, ABS_MT_TOUCH_MAJOR, 0);
+727f5e5be135b8 Linus Walleij 2022-02-14  357  			dev_dbg(&bt541->client->de=
+v, "finger %d up (%u, %u)\n", i, x, y);
+727f5e5be135b8 Linus Walleij 2022-02-14  358  		} else if (p->sub_status & =
+BIT_MOVE) {
+727f5e5be135b8 Linus Walleij 2022-02-14  359  			/* Finger moves while pres=
+sed down */
+26822652c85eff Michael Srba  2020-10-04  360  			input_mt_report_slot_state=
+(bt541->input_dev, MT_TOOL_FINGER, true);
+727f5e5be135b8 Linus Walleij 2022-02-14  361  			touchscreen_report_pos(bt5=
+41->input_dev, &bt541->prop, x, y, true);
+26822652c85eff Michael Srba  2020-10-04  362  			input_report_abs(bt541->in=
+put_dev, ABS_MT_TOUCH_MAJOR, p->width);
+727f5e5be135b8 Linus Walleij 2022-02-14  363  			dev_dbg(&bt541->client->de=
+v, "finger %d move (%u, %u)\n", i, x, y);
+727f5e5be135b8 Linus Walleij 2022-02-14  364  		} else {
+727f5e5be135b8 Linus Walleij 2022-02-14  365  			dev_dbg(&bt541->client->de=
+v, "unknown finger event\n");
+727f5e5be135b8 Linus Walleij 2022-02-14  366  		}
+727f5e5be135b8 Linus Walleij 2022-02-14  367  	}
+26822652c85eff Michael Srba  2020-10-04  368  }
+26822652c85eff Michael Srba  2020-10-04  369  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2637332601537031736==--
+--===============0616328399847658825==--
 
