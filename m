@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6943738553393943721=="
+Content-Type: multipart/mixed; boundary="===============0964125259811742366=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1767/8646] drivers/memory/tegra/tegra30-emc.c:1164:3: warning: Value stored to 'dram_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 26 Feb 2022 05:07:15 +0800
-Message-ID: <202202260552.TPnzbKMS-lkp@intel.com>
+Subject: [linux-next:master 5322/8646] drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:718:4: warning: Value stored to 'res' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 26 Feb 2022 03:36:04 +0800
+Message-ID: <202202260350.9eL7S2AV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6943738553393943721==
+--===============0964125259811742366==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,35 +16,35 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Luben Tuikov <luben.tuikov@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   44948bd49d878dad6c9707e34f4a06df73c3a800
-commit: e3aabb3c7dbe66201b45d7b2c20132196f491ad4 [1767/8646] memory: tegra3=
-0-emc: Print additional memory info
-:::::: branch date: 19 hours ago
-:::::: commit date: 4 weeks ago
-config: arm-randconfig-c002-20220223 (https://download.01.org/0day-ci/archi=
-ve/20220226/202202260552.TPnzbKMS-lkp(a)intel.com/config)
+commit: a6c40b178092f41b9d6cc8615697c14b1e5a1c3a [5322/8646] drm/amdgpu: Sh=
+ow IP discovery in sysfs
+:::::: branch date: 17 hours ago
+:::::: commit date: 11 days ago
+config: riscv-randconfig-c006-20220225 (https://download.01.org/0day-ci/arc=
+hive/20220226/202202260350.9eL7S2AV-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3De3aabb3c7dbe66201b45d7b2c20132196f491ad4
+it/commit/?id=3Da6c40b178092f41b9d6cc8615697c14b1e5a1c3a
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
 el/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout e3aabb3c7dbe66201b45d7b2c20132196f491ad4
+        git checkout a6c40b178092f41b9d6cc8615697c14b1e5a1c3a
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,394 +52,406 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/tuners/tuner-xc2028.c:1037:3: note: Value stored to 'rc' i=
-s never read
-   Suppressed 2 warnings (2 with check filters).
-   2 warnings generated.
-   Suppressed 2 warnings (2 with check filters).
-   2 warnings generated.
-   drivers/media/v4l2-core/videobuf-core.c:712:10: warning: Access to field=
- 'state' results in a dereference of a null pointer (loaded from variable '=
-buf') [clang-analyzer-core.NullDereference]
-           switch (buf->state) {
-                   ^~~
-   drivers/media/v4l2-core/videobuf-core.c:698:2: note: 'buf' initialized t=
-o a null pointer value
-           struct videobuf_buffer *buf =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Assuming field 'mag=
-ic' is equal to 304484355
-           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
+   5 warnings generated.
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:492:19: warning: Dereference of =
+null pointer [clang-analyzer-core.NullDereference]
+                   harm->wndw.mask &=3D ~BIT(wndw->id);
+                   ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:444:25: note: 'harm' initialized=
+ to a null pointer value
+           struct nv50_head_atom *harm =3D NULL, *asyh =3D NULL;
+                                  ^~~~
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:448:2: note: Taking false branch
+           NV_ATOMIC(drm, "%s atomic_check\n", plane->name);
            ^
-   drivers/media/v4l2-core/videobuf-core.c:27:16: note: expanded from macro=
- 'MAGIC_CHECK'
-                   if (unlikely((is) !=3D (should))) {                     =
-  \
-                       ~~~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Taking false branch
-           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
+   drivers/gpu/drm/nouveau/nouveau_drv.h:272:2: note: expanded from macro '=
+NV_ATOMIC'
+           if (drm_debug_enabled(DRM_UT_ATOMIC))                           =
+       \
            ^
-   drivers/media/v4l2-core/videobuf-core.c:27:3: note: expanded from macro =
-'MAGIC_CHECK'
-                   if (unlikely((is) !=3D (should))) {                     =
-  \
-                   ^
-   drivers/media/v4l2-core/videobuf-core.c:701:2: note: Loop condition is f=
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:448:2: note: Loop condition is f=
 alse.  Exiting loop
-           MAGIC_CHECK(q->int_ops->magic, MAGIC_QTYPE_OPS);
+           NV_ATOMIC(drm, "%s atomic_check\n", plane->name);
            ^
-   drivers/media/v4l2-core/videobuf-core.c:26:2: note: expanded from macro =
-'MAGIC_CHECK'
-           do {                                                            \
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:706:11: note: Calling 'stream_ne=
-xt_buffer'
-           retval =3D stream_next_buffer(q, &buf, nonblocking);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:682:6: note: Assuming 'retval' i=
-s not equal to 0
-           if (retval)
-               ^~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:682:2: note: Taking true branch
-           if (retval)
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:683:3: note: Control jumps to li=
-ne 692
-                   goto done;
-                   ^
-   drivers/media/v4l2-core/videobuf-core.c:692:2: note: Returning without w=
-riting to '*vb'
-           return retval;
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:706:11: note: Returning from 'st=
-ream_next_buffer'
-           retval =3D stream_next_buffer(q, &buf, nonblocking);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:707:6: note: Assuming 'retval' i=
-s >=3D 0
-           if (retval < 0) {
-               ^~~~~~~~~~
-   drivers/media/v4l2-core/videobuf-core.c:707:2: note: Taking false branch
-           if (retval < 0) {
-           ^
-   drivers/media/v4l2-core/videobuf-core.c:712:10: note: Access to field 's=
-tate' results in a dereference of a null pointer (loaded from variable 'buf=
-')
-           switch (buf->state) {
-                   ^~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/input/keyboard/lm8323.c:333:3: warning: Value stored to 'active'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   active =3D debounce + 3;
-                   ^        ~~~~~~~~~~~~
-   drivers/input/keyboard/lm8323.c:333:3: note: Value stored to 'active' is=
- never read
-                   active =3D debounce + 3;
-                   ^        ~~~~~~~~~~~~
-   1 warning generated.
-   lib/xarray.c:2029:18: warning: Value stored to 'node' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]
-           struct xa_node *node =3D xas->xa_node;
-                           ^~~~   ~~~~~~~~~~~~
-   lib/xarray.c:2029:18: note: Value stored to 'node' during its initializa=
-tion is never read
-           struct xa_node *node =3D xas->xa_node;
-                           ^~~~   ~~~~~~~~~~~~
-   4 warnings generated.
-   drivers/memory/tegra/tegra20-emc.c:645:3: warning: Value stored to 'dram=
-_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "INVALID";
-                   ^               ~~~~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:645:3: note: Value stored to 'dram_ty=
-pe_str' is never read
-                   dram_type_str =3D "INVALID";
-                   ^               ~~~~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:648:3: warning: Value stored to 'dram=
-_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "DDR1";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:648:3: note: Value stored to 'dram_ty=
-pe_str' is never read
-                   dram_type_str =3D "DDR1";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:651:3: warning: Value stored to 'dram=
-_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "LPDDR2";
-                   ^               ~~~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:651:3: note: Value stored to 'dram_ty=
-pe_str' is never read
-                   dram_type_str =3D "LPDDR2";
-                   ^               ~~~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:654:3: warning: Value stored to 'dram=
-_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "DDR2";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra20-emc.c:654:3: note: Value stored to 'dram_ty=
-pe_str' is never read
-                   dram_type_str =3D "DDR2";
-                   ^               ~~~~~~
-   4 warnings generated.
->> drivers/memory/tegra/tegra30-emc.c:1164:3: warning: Value stored to 'dra=
-m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "DDR1";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1164:3: note: Value stored to 'dram_t=
-ype_str' is never read
-                   dram_type_str =3D "DDR1";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1167:3: warning: Value stored to 'dra=
-m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "LPDDR2";
-                   ^               ~~~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1167:3: note: Value stored to 'dram_t=
-ype_str' is never read
-                   dram_type_str =3D "LPDDR2";
-                   ^               ~~~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1170:3: warning: Value stored to 'dra=
-m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "DDR2";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1170:3: note: Value stored to 'dram_t=
-ype_str' is never read
-                   dram_type_str =3D "DDR2";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1173:3: warning: Value stored to 'dra=
-m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
-                   dram_type_str =3D "DDR3";
-                   ^               ~~~~~~
-   drivers/memory/tegra/tegra30-emc.c:1173:3: note: Value stored to 'dram_t=
-ype_str' is never read
-                   dram_type_str =3D "DDR3";
-                   ^               ~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/staging/ks7010/ks_wlan_net.c:2104:2: warning: Value stored to 'p=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           p =3D memcpy(priv->wps.ie + 1, p, len);
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/ks7010/ks_wlan_net.c:2104:2: note: Value stored to 'p' i=
-s never read
-           p =3D memcpy(priv->wps.ie + 1, p, len);
-           ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   drivers/media/tuners/fc0011.c:252:3: warning: Value stored to 'bandwidth=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   bandwidth =3D 6000;
-                   ^           ~~~~
-   drivers/media/tuners/fc0011.c:252:3: note: Value stored to 'bandwidth' i=
-s never read
-                   bandwidth =3D 6000;
-                   ^           ~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   drivers/media/tuners/it913x.c:151:26: warning: Value stored to 'pdev' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct platform_device *pdev =3D dev->pdev;
-                                   ^~~~   ~~~~~~~~~
-   drivers/media/tuners/it913x.c:151:26: note: Value stored to 'pdev' durin=
-g its initialization is never read
-           struct platform_device *pdev =3D dev->pdev;
-                                   ^~~~   ~~~~~~~~~
-   drivers/media/tuners/it913x.c:210:26: warning: Value stored to 'pdev' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct platform_device *pdev =3D dev->pdev;
-                                   ^~~~   ~~~~~~~~~
-   drivers/media/tuners/it913x.c:210:26: note: Value stored to 'pdev' durin=
-g its initialization is never read
-           struct platform_device *pdev =3D dev->pdev;
-                                   ^~~~   ~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/media/tuners/m88rs6000t.c:475:25: warning: Value stored to 'dev'=
- during its initialization is never read [clang-analyzer-deadcode.DeadStore=
-s]
-           struct m88rs6000t_dev *dev =3D fe->tuner_priv;
-                                  ^~~   ~~~~~~~~~~~~~~
-   drivers/media/tuners/m88rs6000t.c:475:25: note: Value stored to 'dev' du=
-ring its initialization is never read
-           struct m88rs6000t_dev *dev =3D fe->tuner_priv;
-                                  ^~~   ~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   lib/radix-tree.c:1046:3: warning: 4th function call argument is an unini=
-tialized value [clang-analyzer-core.CallAndMessage]
-                   node_tag_clear(root, parent, tag, offset);
-                   ^                                 ~~~~~~
-   lib/radix-tree.c:1032:2: note: 'offset' declared without an initial value
-           int offset;
-           ^~~~~~~~~~
-   lib/radix-tree.c:1035:6: note: Assuming 'index' is <=3D 'maxindex'
-           if (index > maxindex)
+   drivers/gpu/drm/nouveau/nouveau_drv.h:271:31: note: expanded from macro =
+'NV_ATOMIC'
+   #define NV_ATOMIC(drm,f,a...) do {                                      =
+       \
+                                 ^
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:453:6: note: Assuming field 'crt=
+c' is null
+           if (asyw->state.crtc) {
                ^~~~~~~~~~~~~~~~
-   lib/radix-tree.c:1035:2: note: Taking false branch
-           if (index > maxindex)
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:453:2: note: Taking false branch
+           if (asyw->state.crtc) {
            ^
-   lib/radix-tree.c:1040:2: note: Loop condition is false. Execution contin=
-ues on line 1045
-           while (radix_tree_is_internal_node(node)) {
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:464:6: note: Assuming field 'crt=
+c' is null
+           if (armw->state.crtc) {
+               ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:464:2: note: Taking false branch
+           if (armw->state.crtc) {
            ^
-   lib/radix-tree.c:1045:6: note: Assuming 'node' is non-null
-           if (node)
-               ^~~~
-   lib/radix-tree.c:1045:2: note: Taking true branch
-           if (node)
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:471:12: note: Field 'visible' is=
+ false
+           if (asyw->visible && wndw->func->xlut_set &&
+                     ^
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:471:20: note: Left side of '&&' =
+is false
+           if (asyw->visible && wndw->func->xlut_set &&
+                             ^
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:482:12: note: Field 'visible' is=
+ false
+           if (asyw->visible) {
+                     ^
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:482:2: note: Taking false branch
+           if (asyw->visible) {
            ^
-   lib/radix-tree.c:1046:3: note: 4th function call argument is an uninitia=
-lized value
-                   node_tag_clear(root, parent, tag, offset);
-                   ^                                 ~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/input/keyboard/atkbd.c:1078:17: warning: Value stored to 'dev' d=
-uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:490:6: note: Assuming field 'vis=
+ible' is true
+           if (armw->visible) {
+               ^~~~~~~~~~~~~
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:490:2: note: Taking true branch
+           if (armw->visible) {
+           ^
+   drivers/gpu/drm/nouveau/dispnv50/wndw.c:492:19: note: Dereference of nul=
+l pointer
+                   harm->wndw.mask &=3D ~BIT(wndw->id);
+                   ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:435:7: warning: Value stored to=
+ 'is_hi_req' during its initialization is never read [clang-analyzer-deadco=
+de.DeadStores]
+           bool is_hi_req =3D pstate =3D=3D AMDGPU_XGMI_PSTATE_MAX_VEGA20;
+                ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:435:7: note: Value stored to 'i=
+s_hi_req' during its initialization is never read
+           bool is_hi_req =3D pstate =3D=3D AMDGPU_XGMI_PSTATE_MAX_VEGA20;
+                ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:442:2: warning: Value stored to=
+ 'request_adev' is never read [clang-analyzer-deadcode.DeadStores]
+           request_adev =3D hive->hi_req_gpu ? hive->hi_req_gpu : adev;
+           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:442:2: note: Value stored to 'r=
+equest_adev' is never read
+           request_adev =3D hive->hi_req_gpu ? hive->hi_req_gpu : adev;
+           ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:443:2: warning: Value stored to=
+ 'init_low' is never read [clang-analyzer-deadcode.DeadStores]
+           init_low =3D hive->pstate =3D=3D AMDGPU_XGMI_PSTATE_UNKNOWN;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_xgmi.c:443:2: note: Value stored to 'i=
+nit_low' is never read
+           init_low =3D hive->pstate =3D=3D AMDGPU_XGMI_PSTATE_UNKNOWN;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:718:4: warning: Value stor=
+ed to 'res' is never read [clang-analyzer-deadcode.DeadStores]
+                           res =3D kobject_add(&ip_hw_instance->kobj, NULL,
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:718:4: note: Value stored =
+to 'res' is never read
+                           res =3D kobject_add(&ip_hw_instance->kobj, NULL,
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   fs/xfs/libxfs/xfs_rmap.c:244:2: warning: 4th function call argument is a=
+n uninitialized value [clang-analyzer-core.CallAndMessage]
+           xfs_warn(mp,
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:9: note: Assuming the condition is false
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+                  ^
+   fs/xfs/libxfs/xfs_format.h:1433:43: note: expanded from macro 'XFS_RMAP_=
+NON_INODE_OWNER'
+   #define XFS_RMAP_NON_INODE_OWNER(owner) (!!((owner) & (1ULL << 63)))
+                                             ^
+   fs/xfs/xfs_linux.h:215:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ~~~~~~~^~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:41: note: Left side of '||' is true
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+                                                  ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:2: note: '?' condition is true
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+           ^
+   fs/xfs/xfs_linux.h:215:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_rmap.c:2682:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/xfs/libxfs/xfs_rmap.c:2682:2: note: Taking false branch
+           if (error)
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:2684:6: note: Assuming 'has_record' is not equa=
+l to 0
+           if (!has_record) {
+               ^~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:2684:2: note: Taking false branch
+           if (!has_record) {
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:2689:10: note: Calling 'xfs_rmap_get_rec'
+           error =3D xfs_rmap_get_rec(cur, &irec, &has_record);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Assuming 'error' is 0
+           if (error || !*stat)
+               ^~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Left side of '||' is false
+   fs/xfs/libxfs/xfs_rmap.c:209:15: note: Assuming the condition is false
+           if (error || !*stat)
+                        ^~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:2: note: Taking false branch
+           if (error || !*stat)
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:212:6: note: Calling 'xfs_rmap_btrec_to_irec'
+           if (xfs_rmap_btrec_to_irec(rec, irec))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:187:24: note: '?' condition is false
+           irec->rm_startblock =3D be32_to_cpu(rec->rmap.rm_startblock);
+                                 ^
+   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
+_to_cpu'
+   #define be32_to_cpu __be32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:41:26: note: expanded from =
+macro '__be32_to_cpu'
+   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+                            ^
+   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
+           (__builtin_constant_p((__u32)(x)) ?     \
+            ^
+   fs/xfs/libxfs/xfs_rmap.c:188:24: note: '?' condition is false
+           irec->rm_blockcount =3D be32_to_cpu(rec->rmap.rm_blockcount);
+                                 ^
+   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
+_to_cpu'
+   #define be32_to_cpu __be32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:41:26: note: expanded from =
+macro '__be32_to_cpu'
+   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+                            ^
+   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
+           (__builtin_constant_p((__u32)(x)) ?     \
+            ^
+   fs/xfs/libxfs/xfs_rmap.c:189:19: note: '?' condition is false
+           irec->rm_owner =3D be64_to_cpu(rec->rmap.rm_owner);
+                            ^
+   include/linux/byteorder/generic.h:93:21: note: expanded from macro 'be64=
+_to_cpu'
 
-vim +/dram_type_str +1164 drivers/memory/tegra/tegra30-emc.c
+vim +/res +718 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1117  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  639  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1118  static int emc_setup_hw(st=
-ruct tegra_emc *emc)
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1119  {
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1120  	u32 fbio_cfg5, emc_cfg, e=
-mc_dbg, emc_adr_cfg;
-930c68180ffb05 Dmitry Osipenko 2020-03-19  1121  	u32 intmask =3D EMC_REFRE=
-SH_OVERFLOW_INT;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1122  	static bool print_sdram_i=
-nfo_once;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1123  	enum emc_dram_type dram_t=
-ype;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1124  	const char *dram_type_str;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1125  	unsigned int emem_numdev;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1126  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  640  static int amdgpu_discovery_sy=
+sfs_ips(struct amdgpu_device *adev,
+a6c40b178092f4 Luben Tuikov 2022-02-03  641  				      struct ip_die_entry =
+*ip_die_entry,
+a6c40b178092f4 Luben Tuikov 2022-02-03  642  				      const size_t _ip_off=
+set, const int num_ips)
+a6c40b178092f4 Luben Tuikov 2022-02-03  643  {
+a6c40b178092f4 Luben Tuikov 2022-02-03  644  	int ii, jj, kk, res;
+a6c40b178092f4 Luben Tuikov 2022-02-03  645  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1127  	fbio_cfg5 =3D readl_relax=
-ed(emc->regs + EMC_FBIO_CFG5);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1128  	dram_type =3D fbio_cfg5 &=
- EMC_FBIO_CFG5_DRAM_TYPE_MASK;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1129  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  646  	DRM_DEBUG("num_ips:%d", num_i=
+ps);
+a6c40b178092f4 Luben Tuikov 2022-02-03  647  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1130  	emc_cfg =3D readl_relaxed=
-(emc->regs + EMC_CFG_2);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1131  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  648  	/* Find all IPs of a given HW=
+ ID, and add their instance to
+a6c40b178092f4 Luben Tuikov 2022-02-03  649  	 * #die/#hw_id/#instance/<att=
+ributes>
+a6c40b178092f4 Luben Tuikov 2022-02-03  650  	 */
+a6c40b178092f4 Luben Tuikov 2022-02-03  651  	for (ii =3D 0; ii < HW_ID_MAX=
+; ii++) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  652  		struct ip_hw_id *ip_hw_id =
+=3D NULL;
+a6c40b178092f4 Luben Tuikov 2022-02-03  653  		size_t ip_offset =3D _ip_off=
+set;
+a6c40b178092f4 Luben Tuikov 2022-02-03  654  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1132  	/* enable EMC and CAR to =
-handshake on PLL divider/source changes */
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1133  	emc_cfg |=3D EMC_CLKCHANG=
-E_REQ_ENABLE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1134  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  655  		for (jj =3D 0; jj < num_ips;=
+ jj++) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  656  			struct ip *ip;
+a6c40b178092f4 Luben Tuikov 2022-02-03  657  			struct ip_hw_instance *ip_h=
+w_instance;
+a6c40b178092f4 Luben Tuikov 2022-02-03  658  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1135  	/* configure clock change=
- mode accordingly to DRAM type */
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1136  	switch (dram_type) {
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1137  	case DRAM_TYPE_LPDDR2:
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1138  		emc_cfg |=3D EMC_CLKCHAN=
-GE_PD_ENABLE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1139  		emc_cfg &=3D ~EMC_CLKCHA=
-NGE_SR_ENABLE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1140  		break;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1141  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  659  			ip =3D (struct ip *)(adev->=
+mman.discovery_bin + ip_offset);
+a6c40b178092f4 Luben Tuikov 2022-02-03  660  			if (amdgpu_discovery_valida=
+te_ip(ip) ||
+a6c40b178092f4 Luben Tuikov 2022-02-03  661  			    le16_to_cpu(ip->hw_id) =
+!=3D ii)
+a6c40b178092f4 Luben Tuikov 2022-02-03  662  				goto next_ip;
+a6c40b178092f4 Luben Tuikov 2022-02-03  663  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1142  	default:
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1143  		emc_cfg &=3D ~EMC_CLKCHA=
-NGE_SR_ENABLE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1144  		emc_cfg &=3D ~EMC_CLKCHA=
-NGE_PD_ENABLE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1145  		break;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1146  	}
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1147  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  664  			DRM_DEBUG("match:%d @ ip_of=
+fset:%ld", ii, ip_offset);
+a6c40b178092f4 Luben Tuikov 2022-02-03  665  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1148  	writel_relaxed(emc_cfg, e=
-mc->regs + EMC_CFG_2);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1149  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  666  			/* We have a hw_id match; r=
+egister the hw
+a6c40b178092f4 Luben Tuikov 2022-02-03  667  			 * block if not yet registe=
+red.
+a6c40b178092f4 Luben Tuikov 2022-02-03  668  			 */
+a6c40b178092f4 Luben Tuikov 2022-02-03  669  			if (!ip_hw_id) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  670  				ip_hw_id =3D kzalloc(sizeo=
+f(*ip_hw_id), GFP_KERNEL);
+a6c40b178092f4 Luben Tuikov 2022-02-03  671  				if (!ip_hw_id)
+a6c40b178092f4 Luben Tuikov 2022-02-03  672  					return -ENOMEM;
+a6c40b178092f4 Luben Tuikov 2022-02-03  673  				ip_hw_id->hw_id =3D ii;
+a6c40b178092f4 Luben Tuikov 2022-02-03  674  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1150  	/* initialize interrupt */
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1151  	writel_relaxed(intmask, e=
-mc->regs + EMC_INTMASK);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1152  	writel_relaxed(0xffffffff=
-, emc->regs + EMC_INTSTATUS);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1153  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  675  				kobject_set_name(&ip_hw_id=
+->hw_id_kset.kobj, "%d", ii);
+a6c40b178092f4 Luben Tuikov 2022-02-03  676  				ip_hw_id->hw_id_kset.kobj.=
+kset =3D &ip_die_entry->ip_kset;
+a6c40b178092f4 Luben Tuikov 2022-02-03  677  				ip_hw_id->hw_id_kset.kobj.=
+ktype =3D &ip_hw_id_ktype;
+a6c40b178092f4 Luben Tuikov 2022-02-03  678  				res =3D kset_register(&ip_=
+hw_id->hw_id_kset);
+a6c40b178092f4 Luben Tuikov 2022-02-03  679  				if (res) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  680  					DRM_ERROR("Couldn't regis=
+ter ip_hw_id kset");
+a6c40b178092f4 Luben Tuikov 2022-02-03  681  					kfree(ip_hw_id);
+a6c40b178092f4 Luben Tuikov 2022-02-03  682  					return res;
+a6c40b178092f4 Luben Tuikov 2022-02-03  683  				}
+a6c40b178092f4 Luben Tuikov 2022-02-03  684  				if (hw_id_names[ii]) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  685  					res =3D sysfs_create_link=
+(&ip_die_entry->ip_kset.kobj,
+a6c40b178092f4 Luben Tuikov 2022-02-03  686  								&ip_hw_id->hw_id_kset.=
+kobj,
+a6c40b178092f4 Luben Tuikov 2022-02-03  687  								hw_id_names[ii]);
+a6c40b178092f4 Luben Tuikov 2022-02-03  688  					if (res) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  689  						DRM_ERROR("Couldn't crea=
+te IP link %s in IP Die:%s\n",
+a6c40b178092f4 Luben Tuikov 2022-02-03  690  							  hw_id_names[ii],
+a6c40b178092f4 Luben Tuikov 2022-02-03  691  							  kobject_name(&ip_die_=
+entry->ip_kset.kobj));
+a6c40b178092f4 Luben Tuikov 2022-02-03  692  					}
+a6c40b178092f4 Luben Tuikov 2022-02-03  693  				}
+a6c40b178092f4 Luben Tuikov 2022-02-03  694  			}
+a6c40b178092f4 Luben Tuikov 2022-02-03  695  =
 
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1154  	/* ensure that unwanted d=
-ebug features are disabled */
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1155  	emc_dbg =3D readl_relaxed=
-(emc->regs + EMC_DBG);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1156  	emc_dbg |=3D EMC_DBG_CFG_=
-PRIORITY;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1157  	emc_dbg &=3D ~EMC_DBG_REA=
-D_MUX_ASSEMBLY;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1158  	emc_dbg &=3D ~EMC_DBG_WRI=
-TE_MUX_ACTIVE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1159  	emc_dbg &=3D ~EMC_DBG_FOR=
-CE_UPDATE;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1160  	writel_relaxed(emc_dbg, e=
-mc->regs + EMC_DBG);
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1161  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  696  			/* Now register its instanc=
+e.
+a6c40b178092f4 Luben Tuikov 2022-02-03  697  			 */
+a6c40b178092f4 Luben Tuikov 2022-02-03  698  			ip_hw_instance =3D kzalloc(=
+struct_size(ip_hw_instance,
+a6c40b178092f4 Luben Tuikov 2022-02-03  699  							     base_addr,
+a6c40b178092f4 Luben Tuikov 2022-02-03  700  							     ip->num_base_addre=
+ss),
+a6c40b178092f4 Luben Tuikov 2022-02-03  701  						 GFP_KERNEL);
+a6c40b178092f4 Luben Tuikov 2022-02-03  702  			if (!ip_hw_instance) {
+a6c40b178092f4 Luben Tuikov 2022-02-03  703  				DRM_ERROR("no memory for i=
+p_hw_instance");
+a6c40b178092f4 Luben Tuikov 2022-02-03  704  				return -ENOMEM;
+a6c40b178092f4 Luben Tuikov 2022-02-03  705  			}
+a6c40b178092f4 Luben Tuikov 2022-02-03  706  			ip_hw_instance->hw_id =3D l=
+e16_to_cpu(ip->hw_id); /* =3D=3D ii */
+a6c40b178092f4 Luben Tuikov 2022-02-03  707  			ip_hw_instance->num_instanc=
+e =3D ip->number_instance;
+a6c40b178092f4 Luben Tuikov 2022-02-03  708  			ip_hw_instance->major =3D i=
+p->major;
+a6c40b178092f4 Luben Tuikov 2022-02-03  709  			ip_hw_instance->minor =3D i=
+p->minor;
+a6c40b178092f4 Luben Tuikov 2022-02-03  710  			ip_hw_instance->revision =
+=3D ip->revision;
+a6c40b178092f4 Luben Tuikov 2022-02-03  711  			ip_hw_instance->num_base_ad=
+dresses =3D ip->num_base_address;
+a6c40b178092f4 Luben Tuikov 2022-02-03  712  =
 
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1162  	switch (dram_type) {
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1163  	case DRAM_TYPE_DDR1:
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22 @1164  		dram_type_str =3D "DDR1";
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1165  		break;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1166  	case DRAM_TYPE_LPDDR2:
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1167  		dram_type_str =3D "LPDDR=
-2";
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1168  		break;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1169  	case DRAM_TYPE_DDR2:
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1170  		dram_type_str =3D "DDR2";
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1171  		break;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1172  	case DRAM_TYPE_DDR3:
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1173  		dram_type_str =3D "DDR3";
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1174  		break;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1175  	}
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1176  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  713  			for (kk =3D 0; kk < ip_hw_i=
+nstance->num_base_addresses; kk++)
+a6c40b178092f4 Luben Tuikov 2022-02-03  714  				ip_hw_instance->base_addr[=
+kk] =3D ip->base_address[kk];
+a6c40b178092f4 Luben Tuikov 2022-02-03  715  =
 
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1177  	emc_adr_cfg =3D readl_rel=
-axed(emc->regs + EMC_ADR_CFG);
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1178  	emem_numdev =3D FIELD_GET=
-(EMC_ADR_CFG_EMEM_NUMDEV, emc_adr_cfg) + 1;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1179  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  716  			kobject_init(&ip_hw_instanc=
+e->kobj, &ip_hw_instance_ktype);
+a6c40b178092f4 Luben Tuikov 2022-02-03  717  			ip_hw_instance->kobj.kset =
+=3D &ip_hw_id->hw_id_kset;
+a6c40b178092f4 Luben Tuikov 2022-02-03 @718  			res =3D kobject_add(&ip_hw_=
+instance->kobj, NULL,
+a6c40b178092f4 Luben Tuikov 2022-02-03  719  					  "%d", ip_hw_instance->n=
+um_instance);
+a6c40b178092f4 Luben Tuikov 2022-02-03  720  next_ip:
+a6c40b178092f4 Luben Tuikov 2022-02-03  721  			ip_offset +=3D sizeof(*ip) =
++ 4 * (ip->num_base_address - 1);
+a6c40b178092f4 Luben Tuikov 2022-02-03  722  		}
+a6c40b178092f4 Luben Tuikov 2022-02-03  723  	}
+a6c40b178092f4 Luben Tuikov 2022-02-03  724  =
 
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1180  	dev_info_once(emc->dev, "=
-%u %s %s attached\n", emem_numdev,
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1181  		      dram_type_str, eme=
-m_numdev =3D=3D 2 ? "devices" : "device");
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1182  =
-
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1183  	if (dram_type =3D=3D DRAM=
-_TYPE_LPDDR2 && !print_sdram_info_once) {
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1184  		while (emem_numdev--)
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1185  			emc_read_lpddr_sdram_in=
-fo(emc, emem_numdev);
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1186  =
-
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1187  		print_sdram_info_once =
-=3D true;
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1188  	}
-e3aabb3c7dbe66 Dmitry Osipenko 2021-12-22  1189  =
-
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1190  	return 0;
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1191  }
-e34212c75a6899 Dmitry Osipenko 2019-08-12  1192  =
+a6c40b178092f4 Luben Tuikov 2022-02-03  725  	return 0;
+a6c40b178092f4 Luben Tuikov 2022-02-03  726  }
+a6c40b178092f4 Luben Tuikov 2022-02-03  727  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6943738553393943721==--
+--===============0964125259811742366==--
 
