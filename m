@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6101077714481512194=="
+Content-Type: multipart/mixed; boundary="===============8012673330119781464=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hnaz-mm:master 47/386] mm/sparse-vmemmap.c:709:17: warning: Value stored to 'next' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 25 Feb 2022 10:08:22 +0800
-Message-ID: <202202251025.0VydFBPN-lkp@intel.com>
+Subject: [media-tree:master 20/206] drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:163:2: warning: Value stored to 'hw_version' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 25 Feb 2022 09:47:52 +0800
+Message-ID: <202202250900.VR0JvEOM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6101077714481512194==
+--===============8012673330119781464==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Joao Martins <joao.m.martins@oracle.com>
-CC: Johannes Weiner <hannes@cmpxchg.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-media(a)vger.kernel.org
+TO: Jonathan Marek <jonathan@marek.ca>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Robert Foss <robert.foss@linaro.org>
+CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-tree:   https://github.com/hnaz/linux-mm master
-head:   218d3ca9c0ea1c35f1bc5099325b7df54b52bbdd
-commit: 853d35e4e8f54be8038523720a7b26119db9adca [47/386] mm/sparse-vmemmap=
-: improve memory savings for compound devmaps
-:::::: branch date: 20 hours ago
-:::::: commit date: 20 hours ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20225/202202251025.0VydFBPN-lkp(a)intel.com/config)
+tree:   git://linuxtv.org/media_tree.git master
+head:   2b891d3980f6c255459d0e1c29ce2152ec7cf678
+commit: dd89115a7c1cf31223cbeab2430d03bf202c8b22 [20/206] media: camss: csi=
+phy-3ph: don't print HW version as an error
+:::::: branch date: 8 days ago
+:::::: commit date: 5 weeks ago
+config: riscv-randconfig-c006-20220223 (https://download.01.org/0day-ci/arc=
+hive/20220225/202202250900.VR0JvEOM-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/hnaz/linux-mm/commit/853d35e4e8f54be8038523720=
-a7b26119db9adca
-        git remote add hnaz-mm https://github.com/hnaz/linux-mm
-        git fetch --no-tags hnaz-mm master
-        git checkout 853d35e4e8f54be8038523720a7b26119db9adca
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add media-tree git://linuxtv.org/media_tree.git
+        git fetch --no-tags media-tree master
+        git checkout dd89115a7c1cf31223cbeab2430d03bf202c8b22
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,345 +52,325 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~
-   mm/swapfile.c:533:28: note: Value stored to 'ci' during its initializati=
-on is never read
-           struct swap_cluster_info *ci =3D si->cluster_info + idx;
-                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~
-   mm/swapfile.c:1322:2: warning: Value stored to 'count' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-           count =3D p->swap_map[offset];
-           ^       ~~~~~~~~~~~~~~~~~~~
-   mm/swapfile.c:1322:2: note: Value stored to 'count' is never read
-           count =3D p->swap_map[offset];
-           ^       ~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   mm/sparse-vmemmap.c:346:2: warning: Assigned value is garbage or undefin=
-ed [clang-analyzer-core.uninitialized.Assign]
-           list_for_each_entry_safe(page, next, list, lru)
            ^
-   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:290:7: note: 'have_clusters' is=
+ false
+           if (!have_clusters)
+                ^~~~~~~~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:290:2: note: Taking true branch
+           if (!have_clusters)
            ^
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^
-   mm/sparse-vmemmap.c:375:9: note: Assuming the condition is false
-           BUG_ON(start - reuse !=3D PAGE_SIZE);
-                  ^
-   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   mm/sparse-vmemmap.c:375:2: note: Taking false branch
-           BUG_ON(start - reuse !=3D PAGE_SIZE);
-           ^
-   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   mm/sparse-vmemmap.c:375:2: note: Loop condition is false.  Exiting loop
-           BUG_ON(start - reuse !=3D PAGE_SIZE);
-           ^
-   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   mm/sparse-vmemmap.c:377:6: note: Calling 'alloc_vmemmap_page_list'
-           if (alloc_vmemmap_page_list(start, end, gfp_mask, &vmemmap_pages=
-))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/sparse-vmemmap.c:337:2: note: Loop condition is true.  Entering loop =
-body
-           while (nr_pages--) {
-           ^
-   mm/sparse-vmemmap.c:338:10: note: Calling 'alloc_pages_node'
-                   page =3D alloc_pages_node(nid, gfp_mask, 0);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/gfp.h:592:2: note: Taking false branch
-           if (nid =3D=3D NUMA_NO_NODE)
-           ^
-   include/linux/gfp.h:595:2: note: Returning pointer, which participates i=
-n a condition later
-           return __alloc_pages_node(nid, gfp_mask, order);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/sparse-vmemmap.c:338:10: note: Returning from 'alloc_pages_node'
-                   page =3D alloc_pages_node(nid, gfp_mask, 0);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/sparse-vmemmap.c:339:7: note: Assuming 'page' is null
-                   if (!page)
-                       ^~~~~
-   mm/sparse-vmemmap.c:339:3: note: Taking true branch
-                   if (!page)
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:291:3: note: Returning without =
+writing to 'helpers->mref'
+                   return 0;
                    ^
-   mm/sparse-vmemmap.c:340:4: note: Control jumps to line 346
-                           goto out;
-                           ^
-   mm/sparse-vmemmap.c:346:2: note: Assigned value is garbage or undefined
-           list_for_each_entry_safe(page, next, list, lru)
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:291:3: note: Returning zero, wh=
+ich participates in a condition later
+                   return 0;
+                   ^~~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:550:8: note: Returning from 'pr=
+epare_ext_ctrls'
+           ret =3D prepare_ext_ctrls(hdl, cs, helpers, vdev, false);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:551:7: note: 'ret' is 0
+           if (!ret)
+                ^~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:551:2: note: Taking true branch
+           if (!ret)
            ^
-   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^              ~~~~~~~~~~~~~
->> mm/sparse-vmemmap.c:709:17: warning: Value stored to 'next' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-                   unsigned long next =3D addr, last =3D addr + size;
-                                 ^~~~   ~~~~
-   mm/sparse-vmemmap.c:709:17: note: Value stored to 'next' during its init=
-ialization is never read
-                   unsigned long next =3D addr, last =3D addr + size;
-                                 ^~~~   ~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:552:9: note: Calling 'validate_=
+ctrls'
+                   ret =3D validate_ctrls(cs, helpers, vdev, set);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:470:2: note: Loop condition is =
+false. Execution continues on line 510
+           for (i =3D 0; i < cs->count; i++) {
+           ^
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:510:2: note: Returning without =
+writing to 'helpers->mref'
+           return 0;
+           ^
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:510:2: note: Returning zero, wh=
+ich participates in a condition later
+           return 0;
+           ^~~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:552:9: note: Returning from 'va=
+lidate_ctrls'
+                   ret =3D validate_ctrls(cs, helpers, vdev, set);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:553:6: note: 'ret' is 0
+           if (ret && set)
+               ^~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:553:10: note: Left side of '&&'=
+ is false
+           if (ret && set)
+                   ^
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:555:15: note: 'ret' is 0
+           for (i =3D 0; !ret && i < cs->count; i++) {
+                        ^~~
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:555:14: note: Left side of '&&'=
+ is true
+           for (i =3D 0; !ret && i < cs->count; i++) {
+                       ^
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:555:2: note: Loop condition is =
+true.  Entering loop body
+           for (i =3D 0; !ret && i < cs->count; i++) {
+           ^
+   drivers/media/v4l2-core/v4l2-ctrls-api.c:559:7: note: Branch condition e=
+valuates to a garbage value
+                   if (!helpers[i].mref)
+                       ^~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: warning: Value=
+ stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
+                   val =3D 0;
+                   ^     ~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:398:3: note: Value st=
+ored to 'val' is never read
+                   val =3D 0;
+                   ^     ~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: warning: Value=
+ stored to 'hw_gen' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:478:2: note: Value st=
+ored to 'hw_gen' is never read
+           hw_gen =3D (hw_version >> HW_VERSION_GENERATION) & 0xF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: warning: Value=
+ stored to 'hw_rev' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:479:2: note: Value st=
+ored to 'hw_rev' is never read
+           hw_rev =3D (hw_version >> HW_VERSION_REVISION) & 0xFFF;
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: warning: Value=
+ stored to 'hw_step' is never read [clang-analyzer-deadcode.DeadStores]
+           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csid-170.c:480:2: note: Value st=
+ored to 'hw_step' is never read
+           hw_step =3D (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: warning: =
+Value stored to 'hw_version' during its initialization is never read [clang=
+-analyzer-deadcode.DeadStores]
+           u8 hw_version =3D readl_relaxed(csiphy->base +
+              ^~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy-2ph-1-0.c:32:5: note: Val=
+ue stored to 'hw_version' during its initialization is never read
+           u8 hw_version =3D readl_relaxed(csiphy->base +
+              ^~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+>> drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:163:2: warning:=
+ Value stored to 'hw_version' is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           hw_version |=3D readl_relaxed(csiphy->base +
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:163:2: note: Va=
+lue stored to 'hw_version' is never read
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   include/media/v4l2-subdev.h:1000:10: warning: Access to field 'pads' res=
+ults in a dereference of a null pointer (loaded from variable 'state') [cla=
+ng-analyzer-core.NullDereference]
+           return &state->pads[pad].try_fmt;
+                   ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:781:8: note: Calling 'c=
+siphy_init_formats'
+           ret =3D csiphy_init_formats(sd, NULL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:545:12: note: 'fh' is n=
+ull
+                   .which =3D fh ? V4L2_SUBDEV_FORMAT_TRY :
+                            ^~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:545:12: note: '?' condi=
+tion is false
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:31: note: 'fh' is n=
+ull
+           return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
+                                        ^~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:31: note: '?' condi=
+tion is false
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:31: note: Passing n=
+ull pointer value via 2nd parameter 'sd_state'
+           return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
+                                        ^~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:554:9: note: Calling 'c=
+siphy_set_format'
+           return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:509:6: note: 'format' i=
+s not equal to NULL
+           if (format =3D=3D NULL)
+               ^~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:509:2: note: Taking fal=
+se branch
+           if (format =3D=3D NULL)
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:517:6: note: Assuming f=
+ield 'pad' is equal to MSM_CSIPHY_PAD_SINK
+           if (fmt->pad =3D=3D MSM_CSIPHY_PAD_SINK) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:517:2: note: Taking tru=
+e branch
+           if (fmt->pad =3D=3D MSM_CSIPHY_PAD_SINK) {
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:518:40: note: Passing n=
+ull pointer value via 2nd parameter 'sd_state'
+                   format =3D __csiphy_get_format(csiphy, sd_state,
+                                                        ^~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:518:12: note: Calling '=
+__csiphy_get_format'
+                   format =3D __csiphy_get_format(csiphy, sd_state,
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:345:6: note: Assuming '=
+which' is equal to V4L2_SUBDEV_FORMAT_TRY
+           if (which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:345:2: note: Taking tru=
+e branch
+           if (which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+           ^
+   drivers/media/platform/qcom/camss/camss-csiphy.c:346:54: note: Passing n=
+ull pointer value via 2nd parameter 'state'
+                   return v4l2_subdev_get_try_format(&csiphy->subdev, sd_st=
+ate,
+                                                                      ^~~~~=
+~~~
+   drivers/media/platform/qcom/camss/camss-csiphy.c:346:10: note: Calling '=
+v4l2_subdev_get_try_format'
+                   return v4l2_subdev_get_try_format(&csiphy->subdev, sd_st=
+ate,
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/media/v4l2-subdev.h:998:14: note: Assuming 'pad' is < field 'num=
+_pads'
+           if (WARN_ON(pad >=3D sd->entity.num_pads))
+                       ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   include/media/v4l2-subdev.h:998:6: note: Taking false branch
+           if (WARN_ON(pad >=3D sd->entity.num_pads))
+               ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   include/media/v4l2-subdev.h:998:2: note: Taking false branch
+           if (WARN_ON(pad >=3D sd->entity.num_pads))
+           ^
+   include/media/v4l2-subdev.h:1000:10: note: Access to field 'pads' result=
+s in a dereference of a null pointer (loaded from variable 'state')
+           return &state->pads[pad].try_fmt;
+                   ^~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
-   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^
-   arch/x86/include/asm/paravirt_types.h:405:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __edi =3D __edi, __esi =3D __esi,             \
-                         ^
-   drivers/hwmon/abituguru3.c:659:16: note: Calling 'inb_p'
-           while (!((x =3D inb_p(data->addr + ABIT_UGURU3_DATA)) &
-                         ^
-   arch/x86/include/asm/io.h:327:15: note: expanded from macro 'inb_p'
-   #define inb_p inb_p
-                 ^
-   arch/x86/include/asm/io.h:320:1: note: Calling 'slow_down_io'
-   BUILDIO(b, b, char)
-   ^
-   arch/x86/include/asm/io.h:284:2: note: expanded from macro 'BUILDIO'
-           slow_down_io();                                                 \
-           ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:55:2: note: Assigned value is garbage or=
- undefined
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:405:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __edi =3D __edi, __esi =3D __esi,             \
-                         ^       ~~~~~
-   drivers/hwmon/abituguru3.c:720:10: warning: Although the value stored to=
- 'x' is used in the enclosing expression, the value is never actually read =
-from 'x' [clang-analyzer-deadcode.DeadStores]
-           while ((x =3D inb(data->addr + ABIT_UGURU3_CMD)) !=3D 0xAC) {
-                   ^
-   drivers/hwmon/abituguru3.c:720:10: note: Although the value stored to 'x=
-' is used in the enclosing expression, the value is never actually read fro=
-m 'x'
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/nvdimm/security.c:55:17: warning: Value stored to 'dev' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &nvdimm->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/security.c:55:17: note: Value stored to 'dev' during its =
-initialization is never read
-           struct device *dev =3D &nvdimm->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/security.c:96:17: warning: Value stored to 'dev' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &nvdimm->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/security.c:96:17: note: Value stored to 'dev' during its =
-initialization is never read
-           struct device *dev =3D &nvdimm->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/security.c:226:17: warning: Value stored to 'dev' during =
-its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &nvdimm->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/security.c:226:17: note: Value stored to 'dev' during its=
- initialization is never read
-           struct device *dev =3D &nvdimm->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/nvdimm/security.c:532:8: warning: 2nd function call argument is =
-an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   rc =3D security_disable(nvdimm, key);
-                        ^                        ~~~
-   drivers/nvdimm/security.c:506:15: note: 'key' declared without an initia=
-l value
-           unsigned int key, newkey;
-                        ^~~
-   drivers/nvdimm/security.c:513:6: note: Assuming 'rc' is >=3D 1
+   net/caif/cfutill.c:45:14: warning: Access to field 'up' results in a der=
+eference of a null pointer (loaded from variable 'layr') [clang-analyzer-co=
+re.NullDereference]
+           caif_assert(layr->up !=3D NULL);
+                       ^
+   include/net/caif/caif_layer.h:29:8: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
+                 ^~~~~~
+   net/caif/cfutill.c:44:14: note: Assuming 'layr' is equal to null
+           caif_assert(layr !=3D NULL);
+                       ^
+   include/net/caif/caif_layer.h:29:8: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
+                 ^~~~~~
+   net/caif/cfutill.c:44:14: note: 'layr' is equal to null
+           caif_assert(layr !=3D NULL);
+                       ^
+   include/net/caif/caif_layer.h:29:8: note: expanded from macro 'caif_asse=
+rt'
+           if (!(assert)) {                                        \
+                 ^~~~~~
+   net/caif/cfutill.c:44:2: note: Taking true branch
+           caif_assert(layr !=3D NULL);
 
-vim +/next +709 mm/sparse-vmemmap.c
+vim +/hw_version +163 drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-=
+0.c
 
-853d35e4e8f54b Joao Martins      2022-02-24  685  =
+2f8b67195e4839 Robert Foss    2021-03-16  148  =
 
-853d35e4e8f54b Joao Martins      2022-02-24  686  static int __meminit vmem=
-map_populate_compound_pages(unsigned long start_pfn,
-853d35e4e8f54b Joao Martins      2022-02-24  687  						     unsigned long =
-start,
-853d35e4e8f54b Joao Martins      2022-02-24  688  						     unsigned long =
-end, int node,
-853d35e4e8f54b Joao Martins      2022-02-24  689  						     struct dev_pag=
-emap *pgmap)
-853d35e4e8f54b Joao Martins      2022-02-24  690  {
-853d35e4e8f54b Joao Martins      2022-02-24  691  	unsigned long size, addr;
-853d35e4e8f54b Joao Martins      2022-02-24  692  	pte_t *pte;
-853d35e4e8f54b Joao Martins      2022-02-24  693  	int rc;
-853d35e4e8f54b Joao Martins      2022-02-24  694  =
+4138a88b6093e1 Todor Tomov    2018-07-25  149  static void csiphy_hw_versio=
+n_read(struct csiphy_device *csiphy,
+4138a88b6093e1 Todor Tomov    2018-07-25  150  				   struct device *dev)
+4138a88b6093e1 Todor Tomov    2018-07-25  151  {
+4138a88b6093e1 Todor Tomov    2018-07-25  152  	u32 hw_version;
+4138a88b6093e1 Todor Tomov    2018-07-25  153  =
 
-853d35e4e8f54b Joao Martins      2022-02-24  695  	if (reuse_compound_secti=
-on(start_pfn, pgmap)) {
-853d35e4e8f54b Joao Martins      2022-02-24  696  		pte =3D compound_sectio=
-n_tail_page(start);
-dae402b517d2a3 Joao Martins      2022-02-24  697  		if (!pte)
-dae402b517d2a3 Joao Martins      2022-02-24  698  			return -ENOMEM;
-853d35e4e8f54b Joao Martins      2022-02-24  699  =
+4138a88b6093e1 Todor Tomov    2018-07-25  154  	writel(CSIPHY_3PH_CMN_CSI_C=
+OMMON_CTRL6_SHOW_REV_ID,
+4138a88b6093e1 Todor Tomov    2018-07-25  155  	       csiphy->base + CSIPH=
+Y_3PH_CMN_CSI_COMMON_CTRLn(6));
+4138a88b6093e1 Todor Tomov    2018-07-25  156  =
 
-853d35e4e8f54b Joao Martins      2022-02-24  700  		/*
-853d35e4e8f54b Joao Martins      2022-02-24  701  		 * Reuse the page that =
-was populated in the prior iteration
-853d35e4e8f54b Joao Martins      2022-02-24  702  		 * with just tail struc=
-t pages.
-853d35e4e8f54b Joao Martins      2022-02-24  703  		 */
-853d35e4e8f54b Joao Martins      2022-02-24  704  		return vmemmap_populate=
-_range(start, end, node, pte_page(*pte));
-853d35e4e8f54b Joao Martins      2022-02-24  705  	}
-853d35e4e8f54b Joao Martins      2022-02-24  706  =
+4138a88b6093e1 Todor Tomov    2018-07-25  157  	hw_version =3D readl_relaxe=
+d(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  158  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(12));
+4138a88b6093e1 Todor Tomov    2018-07-25  159  	hw_version |=3D readl_relax=
+ed(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  160  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(13)) << 8;
+4138a88b6093e1 Todor Tomov    2018-07-25  161  	hw_version |=3D readl_relax=
+ed(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  162  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(14)) << 16;
+4138a88b6093e1 Todor Tomov    2018-07-25 @163  	hw_version |=3D readl_relax=
+ed(csiphy->base +
+4138a88b6093e1 Todor Tomov    2018-07-25  164  				   CSIPHY_3PH_CMN_CSI_CO=
+MMON_STATUSn(15)) << 24;
+4138a88b6093e1 Todor Tomov    2018-07-25  165  =
 
-853d35e4e8f54b Joao Martins      2022-02-24  707  	size =3D min(end - start=
-, pgmap_vmemmap_nr(pgmap) * sizeof(struct page));
-853d35e4e8f54b Joao Martins      2022-02-24  708  	for (addr =3D start; add=
-r < end; addr +=3D size) {
-853d35e4e8f54b Joao Martins      2022-02-24 @709  		unsigned long next =3D =
-addr, last =3D addr + size;
-853d35e4e8f54b Joao Martins      2022-02-24  710  =
+dd89115a7c1cf3 Jonathan Marek 2021-12-22  166  	dev_dbg(dev, "CSIPHY 3PH HW=
+ Version =3D 0x%08x\n", hw_version);
+4138a88b6093e1 Todor Tomov    2018-07-25  167  }
+4138a88b6093e1 Todor Tomov    2018-07-25  168  =
 
-853d35e4e8f54b Joao Martins      2022-02-24  711  		/* Populate the head pa=
-ge vmemmap page */
-853d35e4e8f54b Joao Martins      2022-02-24  712  		pte =3D vmemmap_populat=
-e_address(addr, node, NULL, NULL);
-853d35e4e8f54b Joao Martins      2022-02-24  713  		if (!pte)
-853d35e4e8f54b Joao Martins      2022-02-24  714  			return -ENOMEM;
-853d35e4e8f54b Joao Martins      2022-02-24  715  =
 
-853d35e4e8f54b Joao Martins      2022-02-24  716  		/* Populate the tail pa=
-ges vmemmap page */
-853d35e4e8f54b Joao Martins      2022-02-24  717  		next =3D addr + PAGE_SI=
-ZE;
-853d35e4e8f54b Joao Martins      2022-02-24  718  		pte =3D vmemmap_populat=
-e_address(next, node, NULL, NULL);
-853d35e4e8f54b Joao Martins      2022-02-24  719  		if (!pte)
-853d35e4e8f54b Joao Martins      2022-02-24  720  			return -ENOMEM;
-853d35e4e8f54b Joao Martins      2022-02-24  721  =
+:::::: The code@line 163 was first introduced by commit
+:::::: 4138a88b6093e1f8bf1b8a95c653bec6c854f119 media: camss: csiphy: Add s=
+upport for 8x96
 
-853d35e4e8f54b Joao Martins      2022-02-24  722  		/*
-853d35e4e8f54b Joao Martins      2022-02-24  723  		 * Reuse the previous p=
-age for the rest of tail pages
-853d35e4e8f54b Joao Martins      2022-02-24  724  		 * See layout diagram i=
-n Documentation/vm/vmemmap_dedup.rst
-853d35e4e8f54b Joao Martins      2022-02-24  725  		 */
-853d35e4e8f54b Joao Martins      2022-02-24  726  		next +=3D PAGE_SIZE;
-853d35e4e8f54b Joao Martins      2022-02-24  727  		rc =3D vmemmap_populate=
-_range(next, last, node, pte_page(*pte));
-853d35e4e8f54b Joao Martins      2022-02-24  728  		if (rc)
-853d35e4e8f54b Joao Martins      2022-02-24  729  			return -ENOMEM;
-8f6aac419bd590 Christoph Lameter 2007-10-16  730  	}
-29c71111d05573 Andy Whitcroft    2007-10-16  731  =
-
-29c71111d05573 Andy Whitcroft    2007-10-16  732  	return 0;
-8f6aac419bd590 Christoph Lameter 2007-10-16  733  }
-8f6aac419bd590 Christoph Lameter 2007-10-16  734  =
-
+:::::: TO: Todor Tomov <todor.tomov@linaro.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6101077714481512194==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============8012673330119781464==--
 
