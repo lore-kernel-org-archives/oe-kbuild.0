@@ -1,152 +1,77 @@
-Content-Type: multipart/mixed; boundary="===============4116694355012587589=="
+Content-Type: multipart/mixed; boundary="===============7314647215576035504=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c:428:11: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
-Date: Fri, 25 Feb 2022 08:26:18 +0800
-Message-ID: <202202250814.gZ1GXaMa-lkp@intel.com>
+Subject: [linux-next:master 5017/7915] drivers/staging/gdm724x/gdm_lte.c:86 gdm_lte_rx() error: dereferencing freed memory 'skb'
+Date: Fri, 25 Feb 2022 08:05:50 +0800
+Message-ID: <202202250718.FFjPf4Mt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4116694355012587589==
+--===============7314647215576035504==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Dennis Li <Dennis.Li@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+CC: Eric Dumazet <edumazet@google.com>
+CC: "Toke H=C3=B8iland-J=C3=B8rgensen" <toke@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   23d04328444a8fa0ca060c5e532220dac8e8bc26
-commit: 0e0036c7d13b945260ff1ce8377eca7ea877c008 drm/amdgpu: fix no full co=
-verage issue for gprs initialization
-date:   10 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 10 months ago
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   d4a0ae62a277377de396850ed4b709b6bd9b7326
+commit: baebdf48c360080710f80699eea3affbb13d6c65 [5017/7915] net: dev: Make=
+s sure netif_rx() can be invoked in any context.
+:::::: branch date: 22 hours ago
+:::::: commit date: 10 days ago
+config: ia64-randconfig-m031-20220224 (https://download.01.org/0day-ci/arch=
+ive/20220225/202202250718.FFjPf4Mt-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/staging/gdm724x/gdm_lte.c:86 gdm_lte_rx() error: dereferencing free=
+d memory 'skb'
+
+vim +/skb +86 drivers/staging/gdm724x/gdm_lte.c
+
+61e12104764512 Won Kang 2013-07-25  76  =
+
+61e12104764512 Won Kang 2013-07-25  77  static int gdm_lte_rx(struct sk_buf=
+f *skb, struct nic *nic, int nic_type)
+61e12104764512 Won Kang 2013-07-25  78  {
+61e12104764512 Won Kang 2013-07-25  79  	int ret;
+61e12104764512 Won Kang 2013-07-25  80  =
+
+61e12104764512 Won Kang 2013-07-25  81  	ret =3D netif_rx_ni(skb);
+61e12104764512 Won Kang 2013-07-25  82  	if (ret =3D=3D NET_RX_DROP) {
+61e12104764512 Won Kang 2013-07-25  83  		nic->stats.rx_dropped++;
+61e12104764512 Won Kang 2013-07-25  84  	} else {
+61e12104764512 Won Kang 2013-07-25  85  		nic->stats.rx_packets++;
+61e12104764512 Won Kang 2013-07-25 @86  		nic->stats.rx_bytes +=3D skb->len=
+ + ETH_HLEN;
+61e12104764512 Won Kang 2013-07-25  87  	}
+61e12104764512 Won Kang 2013-07-25  88  =
+
+61e12104764512 Won Kang 2013-07-25  89  	return 0;
+61e12104764512 Won Kang 2013-07-25  90  }
+61e12104764512 Won Kang 2013-07-25  91  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 86 was first introduced by commit
+:::::: 61e121047645122c47714fcda684d0ee67f444af staging: gdm7240: adding LT=
+E USB driver
 
-   In file included from drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/arctu=
-rus_ppt.c:
->> drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c:1559:4: warning: Variable 'num=
-_of_active_display' is modified but its new value is never used. [unreadVar=
-iable]
-      num_of_active_display++;
-      ^
->> drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c:168:9: warning: Uninitialized =
-variable: clk_freq [uninitvar]
-    return clk_freq * 100;
-           ^
-   drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c:182:9: warning: Uninitialized =
-variable: clk_freq [uninitvar]
-    return clk_freq * 100;
-           ^
---
-   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
-mu7_hwmgr.c:
->> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:5514:12: warning: %d=
- in format string (no. 1) requires 'int' but the argument type is 'unsigned=
- int'. [invalidPrintfArgType_sint]
-      size +=3D sprintf(buf + size, "%3d %14s %s: %8d %16d %16d %16d %16d %=
-16dn",
-              ^
-   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:5525:12: warning: %d=
- in format string (no. 1) requires 'int' but the argument type is 'unsigned=
- int'. [invalidPrintfArgType_sint]
-      size +=3D sprintf(buf + size, "%3d %16s: %8d %16d %16d ",
-              ^
-   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu7_hwmgr.c:5530:12: warning: %d=
- in format string (no. 1) requires 'int' but the argument type is 'unsigned=
- int'. [invalidPrintfArgType_sint]
-      size +=3D sprintf(buf + size, "%3d %16s: %8s %16s %16s ",
-              ^
->> drivers/gpu/drm/amd/amdgpu/si.c:2489:7: warning: Identical inner 'if' co=
-ndition is always true. [identicalInnerCondition]
-     if (!disable_plloff_in_l1) {
-         ^
-   drivers/gpu/drm/amd/amdgpu/si.c:2453:41: note: 'disable_l1' is assigned =
-value 'false' here.
-    bool disable_l0s =3D false, disable_l1 =3D false, disable_plloff_in_l1 =
-=3D false;
-                                           ^
-   drivers/gpu/drm/amd/amdgpu/si.c:2453:71: note: 'disable_plloff_in_l1' is=
- assigned value 'false' here.
-    bool disable_l0s =3D false, disable_l1 =3D false, disable_plloff_in_l1 =
-=3D false;
-                                                                         ^
-   drivers/gpu/drm/amd/amdgpu/si.c:2483:6: note: outer condition: !disable_=
-l1
-    if (!disable_l1) {
-        ^
-   drivers/gpu/drm/amd/amdgpu/si.c:2489:7: note: identical inner condition:=
- !disable_plloff_in_l1
-     if (!disable_plloff_in_l1) {
-         ^
-
-vim +428 drivers/gpu/drm/amd/amdgpu/gfx_v9_4_2.c
-
-0e0036c7d13b94 Dennis Li 2021-04-27  411  =
-
-0e0036c7d13b94 Dennis Li 2021-04-27  412  static void gfx_v9_4_2_log_wave_a=
-ssignment(struct amdgpu_device *adev, uint32_t *wb_ptr)
-0e0036c7d13b94 Dennis Li 2021-04-27  413  {
-0e0036c7d13b94 Dennis Li 2021-04-27  414  	uint32_t se, cu, simd, wave;
-0e0036c7d13b94 Dennis Li 2021-04-27  415  	uint32_t offset =3D 0;
-0e0036c7d13b94 Dennis Li 2021-04-27  416  	char *str;
-0e0036c7d13b94 Dennis Li 2021-04-27  417  	int size;
-0e0036c7d13b94 Dennis Li 2021-04-27  418  =
-
-0e0036c7d13b94 Dennis Li 2021-04-27  419  	str =3D kmalloc(256, GFP_KERNEL);
-0e0036c7d13b94 Dennis Li 2021-04-27  420  	if (!str)
-0e0036c7d13b94 Dennis Li 2021-04-27  421  		return;
-0e0036c7d13b94 Dennis Li 2021-04-27  422  =
-
-0e0036c7d13b94 Dennis Li 2021-04-27  423  	dev_dbg(adev->dev, "wave assignm=
-ent:\n");
-0e0036c7d13b94 Dennis Li 2021-04-27  424  =
-
-0e0036c7d13b94 Dennis Li 2021-04-27  425  	for (se =3D 0; se < adev->gfx.co=
-nfig.max_shader_engines; se++) {
-0e0036c7d13b94 Dennis Li 2021-04-27  426  		for (cu =3D 0; cu < CU_ID_MAX; =
-cu++) {
-0e0036c7d13b94 Dennis Li 2021-04-27  427  			memset(str, 0, 256);
-0e0036c7d13b94 Dennis Li 2021-04-27 @428  			size =3D sprintf(str, "SE[%02d=
-]CU[%02d]: ", se, cu);
-0e0036c7d13b94 Dennis Li 2021-04-27  429  			for (simd =3D 0; simd < SIMD_I=
-D_MAX; simd++) {
-0e0036c7d13b94 Dennis Li 2021-04-27  430  				size +=3D sprintf(str + size,=
- "[");
-0e0036c7d13b94 Dennis Li 2021-04-27  431  				for (wave =3D 0; wave < WAVE_=
-ID_MAX; wave++) {
-0e0036c7d13b94 Dennis Li 2021-04-27  432  					size +=3D sprintf(str + size=
-, "%x", wb_ptr[offset]);
-0e0036c7d13b94 Dennis Li 2021-04-27  433  					offset++;
-0e0036c7d13b94 Dennis Li 2021-04-27  434  				}
-0e0036c7d13b94 Dennis Li 2021-04-27  435  				size +=3D sprintf(str + size,=
- "]  ");
-0e0036c7d13b94 Dennis Li 2021-04-27  436  			}
-0e0036c7d13b94 Dennis Li 2021-04-27  437  			dev_dbg(adev->dev, "%s\n", str=
-);
-0e0036c7d13b94 Dennis Li 2021-04-27  438  		}
-0e0036c7d13b94 Dennis Li 2021-04-27  439  	}
-0e0036c7d13b94 Dennis Li 2021-04-27  440  =
-
-0e0036c7d13b94 Dennis Li 2021-04-27  441  	kfree(str);
-0e0036c7d13b94 Dennis Li 2021-04-27  442  }
-0e0036c7d13b94 Dennis Li 2021-04-27  443  =
-
+:::::: TO: Won Kang <wkang77@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4116694355012587589==--
+--===============7314647215576035504==--
 
