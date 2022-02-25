@@ -1,142 +1,133 @@
-Content-Type: multipart/mixed; boundary="===============0616328399847658825=="
+Content-Type: multipart/mixed; boundary="===============3645242879041763740=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linusw-nomadik:ux500-codina-v5.17-rc1 6/12] drivers/input/touchscreen/zinitix.c:338:36: sparse: sparse: dubious: !x & y
-Date: Fri, 25 Feb 2022 12:20:42 +0800
-Message-ID: <202202251241.7kTh2qKA-lkp@intel.com>
+Subject: [ammarfaizi2-block:kvalo/ath/pending 52/91] drivers/net/wireless/ath/ath11k/debugfs.c:907 ath11k_write_fw_dbglog() warn: potential spectre issue 'ar->debug.module_id_bitmap' [w] (local cap)
+Date: Fri, 25 Feb 2022 10:08:26 +0800
+Message-ID: <202202251049.QhUTKOY2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0616328399847658825==
+--===============3645242879041763740==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Linus Walleij <linus.walleij@linaro.org>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Seevalamuthu Mariappan <quic_seevalam@quicinc.com>
+CC: Kalle Valo <quic_kvalo@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-nomadi=
-k.git ux500-codina-v5.17-rc1
-head:   55196848adbcea2ea36561a056bb610bf3ab40bf
-commit: 727f5e5be135b8f1f94922093b5c88565fdadcb0 [6/12] Input: zinitix - Do=
- not report shadow fingers
-:::::: branch date: 3 days ago
-:::::: commit date: 7 days ago
-config: arm-randconfig-s031-20220223 (https://download.01.org/0day-ci/archi=
-ve/20220225/202202251241.7kTh2qKA-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-noma=
-dik.git/commit/?id=3D727f5e5be135b8f1f94922093b5c88565fdadcb0
-        git remote add linusw-nomadik https://git.kernel.org/pub/scm/linux/=
-kernel/git/linusw/linux-nomadik.git
-        git fetch --no-tags linusw-nomadik ux500-codina-v5.17-rc1
-        git checkout 727f5e5be135b8f1f94922093b5c88565fdadcb0
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rm SHELL=3D/bin/bash drivers/input/touchscreen/
+tree:   https://github.com/ammarfaizi2/linux-block kvalo/ath/pending
+head:   dfc438d224e4ad756b276d79e5771c45b523156d
+commit: f295ad912910e08d9b887a0c952f82d9612459d4 [52/91] ath11k: Add debugf=
+s interface to configure firmware debug log level
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 weeks ago
+config: riscv-randconfig-m031-20220223 (https://download.01.org/0day-ci/arc=
+hive/20220225/202202251049.QhUTKOY2-lkp(a)intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/net/wireless/ath/ath11k/debugfs.c:907 ath11k_write_fw_dbglog() warn=
+: potential spectre issue 'ar->debug.module_id_bitmap' [w] (local cap)
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/touchscreen/zinitix.c:338:36: sparse: sparse: dubious: !x =
-& y
+vim +907 drivers/net/wireless/ath/ath11k/debugfs.c
 
-vim +338 drivers/input/touchscreen/zinitix.c
+da3a9d3c15769b Kalle Valo             2020-09-16  878  =
 
-26822652c85eff Michael Srba  2020-10-04  321  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  879  static ssize_t ath11=
+k_write_fw_dbglog(struct file *file,
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  880  				      const char=
+ __user *user_buf,
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  881  				      size_t cou=
+nt, loff_t *ppos)
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  882  {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  883  	struct ath11k *ar =
+=3D file->private_data;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  884  	char buf[128] =3D {=
+0};
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  885  	struct ath11k_fw_db=
+glog dbglog;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  886  	unsigned int param,=
+ mod_id_index, is_end;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  887  	u64 value;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  888  	int ret, num;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  889  =
 
-727f5e5be135b8 Linus Walleij 2022-02-14  322  static void zinitix_report_fi=
-ngers(struct bt541_ts_data *bt541, struct touch_event *te)
-26822652c85eff Michael Srba  2020-10-04  323  {
-727f5e5be135b8 Linus Walleij 2022-02-14  324  	struct point_coord *p;
-727f5e5be135b8 Linus Walleij 2022-02-14  325  	u16 x, y;
-727f5e5be135b8 Linus Walleij 2022-02-14  326  	unsigned long fmask;
-727f5e5be135b8 Linus Walleij 2022-02-14  327  	int i;
-727f5e5be135b8 Linus Walleij 2022-02-14  328  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  890  	ret =3D simple_writ=
+e_to_buffer(buf, sizeof(buf) - 1, ppos,
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  891  				     user_buf, c=
+ount);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  892  	if (ret <=3D 0)
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  893  		return ret;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  894  =
 
-727f5e5be135b8 Linus Walleij 2022-02-14  329  	/*
-727f5e5be135b8 Linus Walleij 2022-02-14  330  	 * If the corresponding fing=
-er is not active, do not report
-727f5e5be135b8 Linus Walleij 2022-02-14  331  	 * what is happening on it.
-727f5e5be135b8 Linus Walleij 2022-02-14  332  	 */
-727f5e5be135b8 Linus Walleij 2022-02-14  333  	fmask =3D te->finger_mask;
-727f5e5be135b8 Linus Walleij 2022-02-14  334  	for_each_set_bit(i, &fmask, =
-MAX_SUPPORTED_FINGER_NUM) {
-727f5e5be135b8 Linus Walleij 2022-02-14  335  		p =3D &te->point_coord[i];
-727f5e5be135b8 Linus Walleij 2022-02-14  336  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  895  	num =3D sscanf(buf,=
+ "%u %llx %u %u", &param, &value, &mod_id_index, &is_end);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  896  =
 
-727f5e5be135b8 Linus Walleij 2022-02-14  337  		/* Skip nonexisting fingers=
- */
-727f5e5be135b8 Linus Walleij 2022-02-14 @338  		if (!p->sub_status & SUB_BI=
-T_EXIST)
-727f5e5be135b8 Linus Walleij 2022-02-14  339  			continue;
-727f5e5be135b8 Linus Walleij 2022-02-14  340  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  897  	if (num < 2)
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  898  		return -EINVAL;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  899  =
 
-727f5e5be135b8 Linus Walleij 2022-02-14  341  		x =3D le16_to_cpu(p->x);
-727f5e5be135b8 Linus Walleij 2022-02-14  342  		y =3D le16_to_cpu(p->y);
-727f5e5be135b8 Linus Walleij 2022-02-14  343  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  900  	mutex_lock(&ar->con=
+f_mutex);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  901  	if (param =3D=3D WM=
+I_DEBUG_LOG_PARAM_MOD_ENABLE_BITMAP ||
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  902  	    param =3D=3D WM=
+I_DEBUG_LOG_PARAM_WOW_MOD_ENABLE_BITMAP) {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  903  		if (num !=3D 4 || =
+mod_id_index > (MAX_MODULE_ID_BITMAP_WORDS - 1)) {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  904  			ret =3D -EINVAL;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  905  			goto out;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  906  		}
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31 @907  		ar->debug.module_i=
+d_bitmap[mod_id_index] =3D upper_32_bits(value);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  908  		if (!is_end) {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  909  			ret =3D count;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  910  			goto out;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  911  		}
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  912  	} else {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  913  		if (num !=3D 2) {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  914  			ret =3D -EINVAL;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  915  			goto out;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  916  		}
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  917  	}
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  918  =
 
-727f5e5be135b8 Linus Walleij 2022-02-14  344  		input_mt_slot(bt541->input_=
-dev, i);
-727f5e5be135b8 Linus Walleij 2022-02-14  345  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  919  	dbglog.param =3D pa=
+ram;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  920  	dbglog.value =3D lo=
+wer_32_bits(value);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  921  	ret =3D ath11k_wmi_=
+fw_dbglog_cfg(ar, ar->debug.module_id_bitmap, &dbglog);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  922  	if (ret) {
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  923  		ath11k_warn(ar->ab=
+, "fw dbglog config failed from debugfs: %d\n",
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  924  			    ret);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  925  		goto out;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  926  	}
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  927  =
 
-727f5e5be135b8 Linus Walleij 2022-02-14  346  		if (p->sub_status & BIT_DOW=
-N) {
-727f5e5be135b8 Linus Walleij 2022-02-14  347  			/* Finger down */
-727f5e5be135b8 Linus Walleij 2022-02-14  348  			input_mt_report_slot_state=
-(bt541->input_dev, MT_TOOL_FINGER, true);
-727f5e5be135b8 Linus Walleij 2022-02-14  349  			touchscreen_report_pos(bt5=
-41->input_dev, &bt541->prop, x, y, true);
-727f5e5be135b8 Linus Walleij 2022-02-14  350  			input_report_abs(bt541->in=
-put_dev, ABS_MT_TOUCH_MAJOR, p->width);
-727f5e5be135b8 Linus Walleij 2022-02-14  351  			dev_dbg(&bt541->client->de=
-v, "finger %d down (%u, %u)\n", i, x, y);
-727f5e5be135b8 Linus Walleij 2022-02-14  352  		} else if (p->sub_status & =
-BIT_UP) {
-727f5e5be135b8 Linus Walleij 2022-02-14  353  			/* Release finger */
-727f5e5be135b8 Linus Walleij 2022-02-14  354  			input_mt_report_slot_state=
-(bt541->input_dev, MT_TOOL_FINGER, false);
-727f5e5be135b8 Linus Walleij 2022-02-14  355  			touchscreen_report_pos(bt5=
-41->input_dev, &bt541->prop, x, y, true);
-727f5e5be135b8 Linus Walleij 2022-02-14  356  			input_report_abs(bt541->in=
-put_dev, ABS_MT_TOUCH_MAJOR, 0);
-727f5e5be135b8 Linus Walleij 2022-02-14  357  			dev_dbg(&bt541->client->de=
-v, "finger %d up (%u, %u)\n", i, x, y);
-727f5e5be135b8 Linus Walleij 2022-02-14  358  		} else if (p->sub_status & =
-BIT_MOVE) {
-727f5e5be135b8 Linus Walleij 2022-02-14  359  			/* Finger moves while pres=
-sed down */
-26822652c85eff Michael Srba  2020-10-04  360  			input_mt_report_slot_state=
-(bt541->input_dev, MT_TOOL_FINGER, true);
-727f5e5be135b8 Linus Walleij 2022-02-14  361  			touchscreen_report_pos(bt5=
-41->input_dev, &bt541->prop, x, y, true);
-26822652c85eff Michael Srba  2020-10-04  362  			input_report_abs(bt541->in=
-put_dev, ABS_MT_TOUCH_MAJOR, p->width);
-727f5e5be135b8 Linus Walleij 2022-02-14  363  			dev_dbg(&bt541->client->de=
-v, "finger %d move (%u, %u)\n", i, x, y);
-727f5e5be135b8 Linus Walleij 2022-02-14  364  		} else {
-727f5e5be135b8 Linus Walleij 2022-02-14  365  			dev_dbg(&bt541->client->de=
-v, "unknown finger event\n");
-727f5e5be135b8 Linus Walleij 2022-02-14  366  		}
-727f5e5be135b8 Linus Walleij 2022-02-14  367  	}
-26822652c85eff Michael Srba  2020-10-04  368  }
-26822652c85eff Michael Srba  2020-10-04  369  =
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  928  	ret =3D count;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  929  =
+
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  930  out:
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  931  	mutex_unlock(&ar->c=
+onf_mutex);
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  932  	return ret;
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  933  }
+f295ad912910e0 Seevalamuthu Mariappan 2022-01-31  934  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0616328399847658825==--
+--===============3645242879041763740==--
 
