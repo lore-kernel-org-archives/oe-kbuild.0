@@ -1,296 +1,209 @@
-Content-Type: multipart/mixed; boundary="===============0105285959196586926=="
+Content-Type: multipart/mixed; boundary="===============8005883889102525230=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/intel/iwlwifi/pcie/trans.c:422 iwl_pcie_apm_lp_xtal_enable() error: call of '__iwl_err' with no format argument
-Date: Sun, 27 Feb 2022 05:07:00 +0800
-Message-ID: <202202270527.O6vbDFx4-lkp@intel.com>
+Subject: [tty:tty-testing 30/42] drivers/tty/serial/meson_uart.c:832 meson_uart_probe() warn: 'pclk' not released on lines: 779, 785, 790, 794, 799.
+Date: Sun, 27 Feb 2022 04:16:10 +0800
+Message-ID: <202202270400.rQqj5xav-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0105285959196586926==
+--===============8005883889102525230==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Johannes Berg <johannes.berg@intel.com>
-CC: Luca Coelho <luciano.coelho@intel.com>
+CC: linux-serial(a)vger.kernel.org
+TO: Yu Tu <yu.tu@amlogic.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9137eda53752ef73148e42b0d7640a00f1bc96b1
-commit: 15bf5ac6cd93b655ef82c6bb837cb3c19bce7f36 iwlwifi: pcie: retake owne=
-rship after reset
-date:   3 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 3 months ago
-config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
-ive/20220227/202202270527.O6vbDFx4-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+head:   71404f653cf7858fdbb81dd5419a8a4ac4ffa20c
+commit: 44023b8e1f14bc72bb773dd84dc3563fc912d210 [30/42] tty: serial: meson=
+: Describes the calculation of the UART baud rate clock using a clock frame
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: arc-randconfig-m031-20220226 (https://download.01.org/0day-ci/archi=
+ve/20220227/202202270400.rQqj5xav-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:422 iwl_pcie_apm_lp_xtal_en=
-able() error: call of '__iwl_err' with no format argument
+smatch warnings:
+drivers/tty/serial/meson_uart.c:832 meson_uart_probe() warn: 'pclk' not rel=
+eased on lines: 779,785,790,794,799.
 
-Old smatch warnings:
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:66 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:70 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:76 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:83 iwl_trans_pcie_dump_regs=
-() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:636 iwl_pcie_prepare_card_h=
-w() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:648 iwl_pcie_prepare_card_h=
-w() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:703 iwl_pcie_load_firmware_=
-chunk() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1377 iwl_trans_pcie_start_f=
-w() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1608 iwl_trans_pcie_d3_resu=
-me() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:1785 iwl_trans_pcie_clear_p=
-ersistence_bit() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2130 __iwl_trans_pcie_grab_=
-nic_access() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2139 __iwl_trans_pcie_grab_=
-nic_access() error: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2487 iwl_pcie_dump_csr() er=
-ror: call of '__iwl_err' with no format argument
-drivers/net/wireless/intel/iwlwifi/pcie/trans.c:2488 iwl_pcie_dump_csr() er=
-ror: call of '__iwl_err' with no format argument
+vim +/pclk +832 drivers/tty/serial/meson_uart.c
 
-vim +/__iwl_err +422 drivers/net/wireless/intel/iwlwifi/pcie/trans.c
+9f60e0e7aea66e Helmut Klein    2017-06-14  736  =
 
-a6c684ee489a99 drivers/net/wireless/iwlwifi/iwl-trans-pcie.c   Emmanuel Gru=
-mbach 2012-01-08  372  =
+ff7693d079e58f Carlo Caione    2014-08-17  737  static int meson_uart_probe=
+(struct platform_device *pdev)
+ff7693d079e58f Carlo Caione    2014-08-17  738  {
+44023b8e1f14bc Yu Tu           2022-02-25  739  	struct meson_uart_data *pr=
+ivate_data;
+5b680619834714 Lad Prabhakar   2021-12-24  740  	struct resource *res_mem;
+ff7693d079e58f Carlo Caione    2014-08-17  741  	struct uart_port *port;
+44023b8e1f14bc Yu Tu           2022-02-25  742  	struct clk *pclk;
+27d44e05d7b85d Neil Armstrong  2021-05-18  743  	u32 fifosize =3D 64; /* De=
+fault is 64, 128 for EE UART_0 */
+ff7693d079e58f Carlo Caione    2014-08-17  744  	int ret =3D 0;
+5b680619834714 Lad Prabhakar   2021-12-24  745  	int irq;
+ff7693d079e58f Carlo Caione    2014-08-17  746  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  373  /*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  374   * Enable LP XTAL to avoid HW bug where device may c=
-onsume much power if
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  375   * FW is not loaded after device reset. LP XTAL is d=
-isabled by default
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  376   * after device HW reset. Do it only if XTAL is fed =
-by internal source.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  377   * Configure device's "persistence" mode to avoid re=
-setting XTAL again when
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  378   * SHRD_HW_RST occurs in S3.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  379   */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  380  static void iwl_pcie_apm_lp_xtal_enable(struct iwl_t=
-rans *trans)
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  381  {
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  382  	int ret;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  383  	u32 apmg_gp1_reg;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  384  	u32 apmg_xtal_cfg_reg;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  385  	u32 dl_cfg_reg;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  386  =
+ff7693d079e58f Carlo Caione    2014-08-17  747  	if (pdev->dev.of_node)
+ff7693d079e58f Carlo Caione    2014-08-17  748  		pdev->id =3D of_alias_get=
+_id(pdev->dev.of_node, "serial");
+ff7693d079e58f Carlo Caione    2014-08-17  749  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  387  	/* Force XTAL ON */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  388  	__iwl_trans_pcie_set_bit(trans, CSR_GP_CNTRL,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  389  				 CSR_GP_CNTRL_REG_FLAG_XTAL_ON);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  390  =
+a26988e8fef4b2 Loys Ollivier   2019-01-14  750  	if (pdev->id < 0) {
+021212f5335229 Colin Ian King  2021-04-26  751  		int id;
+021212f5335229 Colin Ian King  2021-04-26  752  =
 
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  391  	ret =3D iwl_trans_pcie_sw_reset(trans, true);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  392  =
+a26988e8fef4b2 Loys Ollivier   2019-01-14  753  		for (id =3D AML_UART_PORT=
+_OFFSET; id < AML_UART_PORT_NUM; id++) {
+a26988e8fef4b2 Loys Ollivier   2019-01-14  754  			if (!meson_ports[id]) {
+a26988e8fef4b2 Loys Ollivier   2019-01-14  755  				pdev->id =3D id;
+a26988e8fef4b2 Loys Ollivier   2019-01-14  756  				break;
+a26988e8fef4b2 Loys Ollivier   2019-01-14  757  			}
+a26988e8fef4b2 Loys Ollivier   2019-01-14  758  		}
+a26988e8fef4b2 Loys Ollivier   2019-01-14  759  	}
+a26988e8fef4b2 Loys Ollivier   2019-01-14  760  =
 
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  393  	if (!ret)
-425d66d8ddfc4a drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-10-17  394  		ret =3D iwl_finish_nic_init(trans);
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  395  =
+ff7693d079e58f Carlo Caione    2014-08-17  761  	if (pdev->id < 0 || pdev->=
+id >=3D AML_UART_PORT_NUM)
+ff7693d079e58f Carlo Caione    2014-08-17  762  		return -EINVAL;
+ff7693d079e58f Carlo Caione    2014-08-17  763  =
 
-c96b5eec2105cc drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2018-12-10  396  	if (WARN_ON(ret)) {
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  397  		/* Release XTAL ON request */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  398  		__iwl_trans_pcie_clear_bit(trans, CSR_GP_CNTRL,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  399  					   CSR_GP_CNTRL_REG_FLAG_XTAL_ON);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  400  		return;
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  401  	}
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  402  =
+ff7693d079e58f Carlo Caione    2014-08-17  764  	res_mem =3D platform_get_r=
+esource(pdev, IORESOURCE_MEM, 0);
+ff7693d079e58f Carlo Caione    2014-08-17  765  	if (!res_mem)
+ff7693d079e58f Carlo Caione    2014-08-17  766  		return -ENODEV;
+ff7693d079e58f Carlo Caione    2014-08-17  767  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  403  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  404  	 * Clear "disable persistence" to avoid LP XTAL res=
-etting when
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  405  	 * SHRD_HW_RST is applied in S3.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  406  	 */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  407  	iwl_clear_bits_prph(trans, APMG_PCIDEV_STT_REG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  408  				    APMG_PCIDEV_STT_VAL_PERSIST_DIS);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  409  =
+44023b8e1f14bc Yu Tu           2022-02-25  768  	pclk =3D devm_clk_get(&pde=
+v->dev, "pclk");
+44023b8e1f14bc Yu Tu           2022-02-25  769  	if (IS_ERR(pclk))
+44023b8e1f14bc Yu Tu           2022-02-25  770  		return dev_err_probe(&pde=
+v->dev, PTR_ERR(pclk),
+44023b8e1f14bc Yu Tu           2022-02-25  771  				     "Failed to get the=
+ 'pclk' clock\n");
+44023b8e1f14bc Yu Tu           2022-02-25  772  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  410  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  411  	 * Force APMG XTAL to be active to prevent its disa=
-bling by HW
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  412  	 * caused by APMG idle state.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  413  	 */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  414  	apmg_xtal_cfg_reg =3D iwl_trans_pcie_read_shr(trans,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  415  						    SHR_APMG_XTAL_CFG_REG);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  416  	iwl_trans_pcie_write_shr(trans, SHR_APMG_XTAL_CFG_R=
-EG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  417  				 apmg_xtal_cfg_reg |
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  418  				 SHR_APMG_XTAL_CFG_XTAL_ON_REQ);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  419  =
+44023b8e1f14bc Yu Tu           2022-02-25  773  	ret =3D clk_prepare_enable=
+(pclk);
+44023b8e1f14bc Yu Tu           2022-02-25  774  	if (ret)
+44023b8e1f14bc Yu Tu           2022-02-25  775  		return ret;
+44023b8e1f14bc Yu Tu           2022-02-25  776  =
 
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  420  	ret =3D iwl_trans_pcie_sw_reset(trans, true);
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  421  	if (ret)
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04 @422  		IWL_ERR(trans,
-15bf5ac6cd93b6 drivers/net/wireless/intel/iwlwifi/pcie/trans.c Johannes Ber=
-g     2021-12-04  423  			"iwl_pcie_apm_lp_xtal_enable: failed to retake NI=
-C ownership\n");
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  424  =
+5b680619834714 Lad Prabhakar   2021-12-24  777  	irq =3D platform_get_irq(p=
+dev, 0);
+5b680619834714 Lad Prabhakar   2021-12-24  778  	if (irq < 0)
+5b680619834714 Lad Prabhakar   2021-12-24  779  		return irq;
+ff7693d079e58f Carlo Caione    2014-08-17  780  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  425  	/* Enable LP XTAL by indirect access through CSR */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  426  	apmg_gp1_reg =3D iwl_trans_pcie_read_shr(trans, SHR=
-_APMG_GP1_REG);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  427  	iwl_trans_pcie_write_shr(trans, SHR_APMG_GP1_REG, a=
-pmg_gp1_reg |
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  428  				 SHR_APMG_GP1_WF_XTAL_LP_EN |
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  429  				 SHR_APMG_GP1_CHICKEN_BIT_SELECT);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  430  =
+27d44e05d7b85d Neil Armstrong  2021-05-18  781  	of_property_read_u32(pdev-=
+>dev.of_node, "fifo-size", &fifosize);
+27d44e05d7b85d Neil Armstrong  2021-05-18  782  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  431  	/* Clear delay line clock power up */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  432  	dl_cfg_reg =3D iwl_trans_pcie_read_shr(trans, SHR_A=
-PMG_DL_CFG_REG);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  433  	iwl_trans_pcie_write_shr(trans, SHR_APMG_DL_CFG_REG=
-, dl_cfg_reg &
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  434  				 ~SHR_APMG_DL_CFG_DL_CLOCK_POWER_UP);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  435  =
+ff7693d079e58f Carlo Caione    2014-08-17  783  	if (meson_ports[pdev->id])=
+ {
+ff7693d079e58f Carlo Caione    2014-08-17  784  		dev_err(&pdev->dev, "port=
+ %d already allocated\n", pdev->id);
+ff7693d079e58f Carlo Caione    2014-08-17  785  		return -EBUSY;
+ff7693d079e58f Carlo Caione    2014-08-17  786  	}
+ff7693d079e58f Carlo Caione    2014-08-17  787  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  436  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  437  	 * Enable persistence mode to avoid LP XTAL resetti=
-ng when
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  438  	 * SHRD_HW_RST is applied in S3.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  439  	 */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  440  	iwl_set_bit(trans, CSR_HW_IF_CONFIG_REG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  441  		    CSR_HW_IF_CONFIG_REG_PERSIST_MODE);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  442  =
+ff7693d079e58f Carlo Caione    2014-08-17  788  	port =3D devm_kzalloc(&pde=
+v->dev, sizeof(struct uart_port), GFP_KERNEL);
+ff7693d079e58f Carlo Caione    2014-08-17  789  	if (!port)
+ff7693d079e58f Carlo Caione    2014-08-17  790  		return -ENOMEM;
+ff7693d079e58f Carlo Caione    2014-08-17  791  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  443  	/*
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  444  	 * Clear "initialization complete" bit to move adap=
-ter from
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  445  	 * D0A* (powered-up Active) --> D0U* (Uninitialized=
-) state.
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  446  	 */
-6dece0e99faa2a drivers/net/wireless/intel/iwlwifi/pcie/trans.c Luca Coelho =
-      2019-10-10  447  	iwl_clear_bit(trans, CSR_GP_CNTRL, CSR_GP_CNTRL_REG=
-_FLAG_INIT_DONE);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  448  =
+6436dd8f9b25ea Yu Tu           2022-02-25  792  	port->membase =3D devm_ior=
+emap_resource(&pdev->dev, res_mem);
+841f913e770f3c Yu Tu           2022-02-25  793  	if (IS_ERR(port->membase))
+841f913e770f3c Yu Tu           2022-02-25  794  		return PTR_ERR(port->memb=
+ase);
+841f913e770f3c Yu Tu           2022-02-25  795  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  449  	/* Activates XTAL resources monitor */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  450  	__iwl_trans_pcie_set_bit(trans, CSR_MONITOR_CFG_REG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  451  				 CSR_MONITOR_XTAL_RESOURCES);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  452  =
+44023b8e1f14bc Yu Tu           2022-02-25  796  	private_data =3D devm_kzal=
+loc(&pdev->dev, sizeof(*private_data),
+44023b8e1f14bc Yu Tu           2022-02-25  797  				    GFP_KERNEL);
+44023b8e1f14bc Yu Tu           2022-02-25  798  	if (!private_data)
+44023b8e1f14bc Yu Tu           2022-02-25  799  		return -ENOMEM;
+44023b8e1f14bc Yu Tu           2022-02-25  800  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  453  	/* Release XTAL ON request */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  454  	__iwl_trans_pcie_clear_bit(trans, CSR_GP_CNTRL,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  455  				   CSR_GP_CNTRL_REG_FLAG_XTAL_ON);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  456  	udelay(10);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  457  =
+44023b8e1f14bc Yu Tu           2022-02-25  801  	if (device_get_match_data(=
+&pdev->dev))
+44023b8e1f14bc Yu Tu           2022-02-25  802  		private_data->use_xtal_cl=
+k =3D true;
+ff7693d079e58f Carlo Caione    2014-08-17  803  =
 
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  458  	/* Release APMG XTAL */
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  459  	iwl_trans_pcie_write_shr(trans, SHR_APMG_XTAL_CFG_R=
-EG,
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  460  				 apmg_xtal_cfg_reg &
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  461  				 ~SHR_APMG_XTAL_CFG_XTAL_ON_REQ);
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  462  }
-a812cba9bb1412 drivers/net/wireless/iwlwifi/pcie/trans.c       Alexander Bo=
-ndar  2014-02-18  463  =
+ff7693d079e58f Carlo Caione    2014-08-17  804  	port->iotype =3D UPIO_MEM;
+ff7693d079e58f Carlo Caione    2014-08-17  805  	port->mapbase =3D res_mem-=
+>start;
+ff3b9cad7d6309 Heiner Kallweit 2017-04-19  806  	port->mapsize =3D resource=
+_size(res_mem);
+5b680619834714 Lad Prabhakar   2021-12-24  807  	port->irq =3D irq;
+1b1ecaa69c4f90 Heiner Kallweit 2017-04-19  808  	port->flags =3D UPF_BOOT_A=
+UTOCONF | UPF_LOW_LATENCY;
+dca3ac8d3bc943 Dmitry Safonov  2019-12-13  809  	port->has_sysrq =3D IS_ENA=
+BLED(CONFIG_SERIAL_MESON_CONSOLE);
+ff7693d079e58f Carlo Caione    2014-08-17  810  	port->dev =3D &pdev->dev;
+ff7693d079e58f Carlo Caione    2014-08-17  811  	port->line =3D pdev->id;
+ff7693d079e58f Carlo Caione    2014-08-17  812  	port->type =3D PORT_MESON;
+ff7693d079e58f Carlo Caione    2014-08-17  813  	port->x_char =3D 0;
+ff7693d079e58f Carlo Caione    2014-08-17  814  	port->ops =3D &meson_uart_=
+ops;
+27d44e05d7b85d Neil Armstrong  2021-05-18  815  	port->fifosize =3D fifosiz=
+e;
+44023b8e1f14bc Yu Tu           2022-02-25  816  	port->private_data =3D pri=
+vate_data;
+44023b8e1f14bc Yu Tu           2022-02-25  817  =
 
+44023b8e1f14bc Yu Tu           2022-02-25  818  	ret =3D meson_uart_probe_c=
+locks(port);
+44023b8e1f14bc Yu Tu           2022-02-25  819  	if (ret)
+44023b8e1f14bc Yu Tu           2022-02-25  820  		return ret;
+ff7693d079e58f Carlo Caione    2014-08-17  821  =
+
+ff7693d079e58f Carlo Caione    2014-08-17  822  	meson_ports[pdev->id] =3D =
+port;
+ff7693d079e58f Carlo Caione    2014-08-17  823  	platform_set_drvdata(pdev,=
+ port);
+ff7693d079e58f Carlo Caione    2014-08-17  824  =
+
+00661dd855b5b1 Ben Dooks       2015-11-18  825  	/* reset port before regis=
+tering (and possibly registering console) */
+00661dd855b5b1 Ben Dooks       2015-11-18  826  	meson_uart_reset(port);
+00661dd855b5b1 Ben Dooks       2015-11-18  827  =
+
+ff7693d079e58f Carlo Caione    2014-08-17  828  	ret =3D uart_add_one_port(=
+&meson_uart_driver, port);
+ff7693d079e58f Carlo Caione    2014-08-17  829  	if (ret)
+ff7693d079e58f Carlo Caione    2014-08-17  830  		meson_ports[pdev->id] =3D=
+ NULL;
+ff7693d079e58f Carlo Caione    2014-08-17  831  =
+
+ff7693d079e58f Carlo Caione    2014-08-17 @832  	return ret;
+ff7693d079e58f Carlo Caione    2014-08-17  833  }
+ff7693d079e58f Carlo Caione    2014-08-17  834  =
+
+
+:::::: The code at line 832 was first introduced by commit
+:::::: ff7693d079e58fb62d735b7b8085b53fcfb74528 ARM: meson: serial: add Mes=
+onX SoC on-chip uart driver
+
+:::::: TO: Carlo Caione <carlo@caione.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0105285959196586926==--
+--===============8005883889102525230==--
 
