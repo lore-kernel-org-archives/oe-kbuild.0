@@ -1,69 +1,161 @@
-Content-Type: multipart/mixed; boundary="===============1397942718404636229=="
+Content-Type: multipart/mixed; boundary="===============6672915043824664140=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hare-scsi-devel:tls-upcall.v2 91/159] crypto/dh_helper.c:32 get_safe_prime_group() warn: we never enter this loop
-Date: Sun, 27 Feb 2022 08:00:18 +0800
-Message-ID: <202202270749.hyb2lMHg-lkp@intel.com>
+Subject: [linux-next:master 7079/9128] drivers/bus/imx-weim.c:355:18-21: ERROR: pdev is NULL but dereferenced.
+Date: Sun, 27 Feb 2022 07:39:55 +0800
+Message-ID: <202202270705.QkKGBSYi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1397942718404636229==
+--===============6672915043824664140==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Nicolai Stange <nstange@suse.de>
-CC: Hannes Reinecke <hare@suse.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Ivan Bornyakov <i.bornyakov@metrotek.ru>
+CC: Shawn Guo <shawnguo@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git=
- tls-upcall.v2
-head:   21b520ae0b338bd30496feb1ca90a2820dab7a65
-commit: a1f704a055a26f2ac556826c01742bd7776b4a79 [91/159] crypto: dh - opti=
-mize domain parameter serialization for well-known groups
-:::::: branch date: 33 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20227/202202270749.hyb2lMHg-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   06aeb1495c39c86ccfaf1adadc1d2200179f16eb
+commit: e6cb5408289f4202f4088731a4ac98c7ffaedb9d [7079/9128] bus: imx-weim:=
+ add DT overlay support for WEIM bus
+:::::: branch date: 22 hours ago
+:::::: commit date: 5 days ago
+config: arm64-randconfig-c003-20220226 (https://download.01.org/0day-ci/arc=
+hive/20220227/202202270705.QkKGBSYi-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-smatch warnings:
-crypto/dh_helper.c:32 get_safe_prime_group() warn: we never enter this loop
 
-vim +32 crypto/dh_helper.c
+cocci warnings: (new ones prefixed by >>)
+>> drivers/bus/imx-weim.c:355:18-21: ERROR: pdev is NULL but dereferenced.
 
-a1f704a055a26f Nicolai Stange      2021-12-01  26  =
+vim +355 drivers/bus/imx-weim.c
 
-a1f704a055a26f Nicolai Stange      2021-12-01  27  static inline const stru=
-ct safe_prime_group *
-a1f704a055a26f Nicolai Stange      2021-12-01  28  get_safe_prime_group(enu=
-m dh_group_id group_id)
-a1f704a055a26f Nicolai Stange      2021-12-01  29  {
-a1f704a055a26f Nicolai Stange      2021-12-01  30  	int i;
-a1f704a055a26f Nicolai Stange      2021-12-01  31  =
+85bf6d4e4b100e Huang Shijie   2013-05-28  302  =
 
-a1f704a055a26f Nicolai Stange      2021-12-01 @32  	for (i =3D 0; i < ARRAY=
-_SIZE(safe_prime_groups); ++i) {
-a1f704a055a26f Nicolai Stange      2021-12-01  33  		if (safe_prime_groups[=
-i].group_id =3D=3D group_id)
-a1f704a055a26f Nicolai Stange      2021-12-01  34  			return &safe_prime_gr=
-oups[i];
-a1f704a055a26f Nicolai Stange      2021-12-01  35  	}
-a1f704a055a26f Nicolai Stange      2021-12-01  36  =
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  303  #if IS_ENABLED(CONFIG_OF_DYN=
+AMIC)
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  304  static int of_weim_notify(st=
+ruct notifier_block *nb, unsigned long action,
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  305  			  void *arg)
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  306  {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  307  	const struct imx_weim_devty=
+pe *devtype;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  308  	struct of_reconfig_data *rd=
+ =3D arg;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  309  	const struct of_device_id *=
+of_id;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  310  	struct platform_device *pde=
+v;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  311  	int ret =3D NOTIFY_OK;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  312  =
 
-a1f704a055a26f Nicolai Stange      2021-12-01  37  	return NULL;
-a1f704a055a26f Nicolai Stange      2021-12-01  38  }
-802c7f1c84e4b5 Salvatore Benedetto 2016-06-22  39  =
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  313  	switch (of_reconfig_get_sta=
+te_change(action, rd)) {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  314  	case OF_RECONFIG_CHANGE_ADD:
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  315  		of_id =3D of_match_node(we=
+im_id_table, rd->dn->parent);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  316  		if (!of_id)
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  317  			return NOTIFY_OK; /* not =
+for us */
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  318  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  319  		devtype =3D of_id->data;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  320  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  321  		pdev =3D of_find_device_by=
+_node(rd->dn->parent);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  322  		if (!pdev) {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  323  			pr_err("%s: could not fin=
+d platform device for '%pOF'\n",
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  324  				__func__, rd->dn->parent=
+);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  325  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  326  			return notifier_from_errn=
+o(-EINVAL);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  327  		}
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  328  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  329  		if (weim_timing_setup(&pde=
+v->dev, rd->dn, devtype))
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  330  			dev_warn(&pdev->dev,
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  331  				 "Failed to setup timing=
+ for '%pOF'\n", rd->dn);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  332  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  333  		if (!of_node_check_flag(rd=
+->dn, OF_POPULATED)) {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  334  			if (!of_platform_device_c=
+reate(rd->dn, NULL, &pdev->dev)) {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  335  				dev_err(&pdev->dev,
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  336  					"Failed to create child=
+ device '%pOF'\n",
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  337  					rd->dn);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  338  				ret =3D notifier_from_er=
+rno(-EINVAL);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  339  			}
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  340  		}
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  341  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  342  		platform_device_put(pdev);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  343  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  344  		break;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  345  	case OF_RECONFIG_CHANGE_REM=
+OVE:
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  346  		if (!of_node_check_flag(rd=
+->dn, OF_POPULATED))
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  347  			return NOTIFY_OK; /* devi=
+ce already destroyed */
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  348  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  349  		of_id =3D of_match_node(we=
+im_id_table, rd->dn->parent);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  350  		if (!of_id)
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  351  			return NOTIFY_OK; /* not =
+for us */
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  352  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  353  		pdev =3D of_find_device_by=
+_node(rd->dn);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  354  		if (!pdev) {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22 @355  			dev_err(&pdev->dev,
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  356  				"Could not find platform=
+ device for '%pOF'\n",
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  357  				rd->dn);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  358  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  359  			ret =3D notifier_from_err=
+no(-EINVAL);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  360  		} else {
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  361  			of_platform_device_destro=
+y(&pdev->dev, NULL);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  362  			platform_device_put(pdev);
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  363  		}
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  364  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  365  		break;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  366  	default:
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  367  		break;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  368  	}
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  369  =
+
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  370  	return ret;
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  371  }
+e6cb5408289f42 Ivan Bornyakov 2022-02-22  372  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============1397942718404636229==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============6672915043824664140==--
 
