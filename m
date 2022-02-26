@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8280143869486823645=="
+Content-Type: multipart/mixed; boundary="===============1440447743631567422=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 6903/8646] net/ipv4/tcp_input.c:5010:2: warning: Value stored to 'reason' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 26 Feb 2022 12:34:56 +0800
-Message-ID: <202202261220.JcaWXs0L-lkp@intel.com>
+Subject: [ammarfaizi2-block:next/linux-next/master 378/379] mm/sparse-vmemmap.c:747:17: warning: Value stored to 'next' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 26 Feb 2022 12:24:39 +0800
+Message-ID: <202202261206.iayFIHUI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8280143869486823645==
+--===============1440447743631567422==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,30 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Menglong Dong <imagedong@tencent.com>
-CC: Mengen Sun <mengensun@tencent.com>
-CC: Hao Peng <flyingpeng@tencent.com>
-CC: Eric Dumazet <edumazet@google.com>
-CC: David Ahern <dsahern@kernel.org>
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
+tree:   https://github.com/ammarfaizi2/linux-block next/linux-next/master
 head:   44948bd49d878dad6c9707e34f4a06df73c3a800
-commit: a7ec381049c0d1f03e342063d75f5c3b314d0ec2 [6903/8646] net: tcp: use =
-tcp_drop_reason() for tcp_data_queue()
+commit: 15aa3a056caa5192fe614cacebf054634b4c5e90 [378/379] Fix up more mism=
+erges
 :::::: branch date: 26 hours ago
-:::::: commit date: 6 days ago
+:::::: commit date: 27 hours ago
 config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20226/202202261220.JcaWXs0L-lkp(a)intel.com/config)
+20226/202202261206.iayFIHUI-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Da7ec381049c0d1f03e342063d75f5c3b314d0ec2
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout a7ec381049c0d1f03e342063d75f5c3b314d0ec2
+        # https://github.com/ammarfaizi2/linux-block/commit/15aa3a056caa519=
+2fe614cacebf054634b4c5e90
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block next/linux-next/master
+        git checkout 15aa3a056caa5192fe614cacebf054634b4c5e90
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -53,115 +49,141 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/ocfs2/extent_map.c:491:7: note: Assuming the condition is false
-                   if (i =3D=3D (le16_to_cpu(el->l_next_free_rec) - 1)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ocfs2/extent_map.c:491:3: note: Taking false branch
-                   if (i =3D=3D (le16_to_cpu(el->l_next_free_rec) - 1)) {
-                   ^
-   fs/ocfs2/extent_map.c:512:2: note: Returning without writing to '*hole_l=
-en'
-           return ret;
-           ^
-   fs/ocfs2/extent_map.c:512:2: note: Returning zero (loaded from 'ret'), w=
-hich participates in a condition later
-           return ret;
-           ^~~~~~~~~~
-   fs/ocfs2/extent_map.c:899:9: note: Returning from 'ocfs2_get_clusters_no=
-cache'
-                   ret =3D ocfs2_get_clusters_nocache(inode, di_bh, cpos, &=
-hole_size,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   fs/ocfs2/extent_map.c:901:7: note: 'ret' is 0
-                   if (ret) {
-                       ^~~
-   fs/ocfs2/extent_map.c:901:3: note: Taking false branch
-                   if (ret) {
-                   ^
-   fs/ocfs2/extent_map.c:909:7: note: Assuming field 'e_blkno' is equal to 0
-                   if (rec.e_blkno =3D=3D 0ULL) {
-                       ^~~~~~~~~~~~~~~~~~~
-   fs/ocfs2/extent_map.c:909:3: note: Taking true branch
-                   if (rec.e_blkno =3D=3D 0ULL) {
-                   ^
-   fs/ocfs2/extent_map.c:910:9: note: Assigned value is garbage or undefined
-                           clen =3D hole_size;
-                                ^ ~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   drivers/pinctrl/intel/pinctrl-intel.c:1777:15: note: Value stored to 'n'=
+ during its initialization is never read
+           unsigned int n =3D reg / sizeof(u32);
+                        ^   ~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1778:17: warning: Value stored to =
+'dev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   drivers/pinctrl/intel/pinctrl-intel.c:1778:17: note: Value stored to 'de=
+v' during its initialization is never read
+           struct device *dev =3D pctrl->dev;
+                          ^~~   ~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/hwmon/f71882fg.c:1801:4: warning: Division by zero [clang-analyz=
+er-core.DivideZero]
+                           / fan_from_reg(data->fan_full_speed[nr]);
+   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/f71882fg.c:1795:6: note: Assuming the condition is false
+           if (data->pwm_enable & (1 << (2 * nr)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/f71882fg.c:1795:2: note: Taking false branch
+           if (data->pwm_enable & (1 << (2 * nr)))
+           ^
+   drivers/hwmon/f71882fg.c:1801:6: note: Calling 'fan_from_reg'
+                           / fan_from_reg(data->fan_full_speed[nr]);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/f71882fg.c:1148:9: note: Assuming 'reg' is 0
+           return reg ? (1500000 / reg) : 0;
+                  ^~~
+   drivers/hwmon/f71882fg.c:1148:9: note: '?' condition is false
+   drivers/hwmon/f71882fg.c:1148:2: note: Returning zero
+           return reg ? (1500000 / reg) : 0;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/f71882fg.c:1801:6: note: Returning from 'fan_from_reg'
+                           / fan_from_reg(data->fan_full_speed[nr]);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/f71882fg.c:1801:4: note: Division by zero
+                           / fan_from_reg(data->fan_full_speed[nr]);
+   ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   mm/swap_state.c:165:9: warning: Value stored to 'entry' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+                   void *entry =3D xas_store(&xas, shadow);
+                         ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   mm/swap_state.c:165:9: note: Value stored to 'entry' during its initiali=
+zation is never read
+                   void *entry =3D xas_store(&xas, shadow);
+                         ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   mm/swapfile.c:533:28: warning: Value stored to 'ci' during its initializ=
+ation is never read [clang-analyzer-deadcode.DeadStores]
+           struct swap_cluster_info *ci =3D si->cluster_info + idx;
+                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~
+   mm/swapfile.c:533:28: note: Value stored to 'ci' during its initializati=
+on is never read
+           struct swap_cluster_info *ci =3D si->cluster_info + idx;
+                                     ^~   ~~~~~~~~~~~~~~~~~~~~~~
+   mm/swapfile.c:1312:2: warning: Value stored to 'count' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           count =3D p->swap_map[offset];
+           ^       ~~~~~~~~~~~~~~~~~~~
+   mm/swapfile.c:1312:2: note: Value stored to 'count' is never read
+           count =3D p->swap_map[offset];
+           ^       ~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> mm/sparse-vmemmap.c:747:17: warning: Value stored to 'next' during its i=
+nitialization is never read [clang-analyzer-deadcode.DeadStores]
+                   unsigned long next =3D addr, last =3D addr + size;
+                                 ^~~~   ~~~~
+   mm/sparse-vmemmap.c:747:17: note: Value stored to 'next' during its init=
+ialization is never read
+                   unsigned long next =3D addr, last =3D addr + size;
+                                 ^~~~   ~~~~
    Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
@@ -173,345 +195,206 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    14 warnings generated.
-   net/ipv4/tcp_input.c:3404:3: warning: Value stored to 'icsk' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-                   icsk =3D inet_csk(sk);
-                   ^      ~~~~~~~~~~~~
-   net/ipv4/tcp_input.c:3404:3: note: Value stored to 'icsk' is never read
-                   icsk =3D inet_csk(sk);
-                   ^      ~~~~~~~~~~~~
->> net/ipv4/tcp_input.c:5010:2: warning: Value stored to 'reason' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           reason =3D SKB_DROP_REASON_NOT_SPECIFIED;
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_input.c:5010:2: note: Value stored to 'reason' is never read
-           reason =3D SKB_DROP_REASON_NOT_SPECIFIED;
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_input.c:5334:11: warning: Access to field 'truesize' result=
-s in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-                   goal -=3D rb_to_skb(node)->truesize;
-                           ^
-   include/linux/skbuff.h:3663:23: note: expanded from macro 'rb_to_skb'
-   #define rb_to_skb(rb) rb_entry_safe(rb, struct sk_buff, rbnode)
-                         ^
-   include/linux/rbtree.h:78:2: note: expanded from macro 'rb_entry_safe'
-           ({ typeof(ptr) ____ptr =3D (ptr); \
+   drivers/block/aoe/aoecmd.c:152:13: warning: Although the value stored to=
+ 'lba' is used in the enclosing expression, the value is never actually rea=
+d from 'lba' [clang-analyzer-deadcode.DeadStores]
+           ah->lba5 =3D lba >>=3D 8;
+                      ^       ~
+   drivers/block/aoe/aoecmd.c:152:13: note: Although the value stored to 'l=
+ba' is used in the enclosing expression, the value is never actually read f=
+rom 'lba'
+           ah->lba5 =3D lba >>=3D 8;
+                      ^       ~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
+ or undefined [clang-analyzer-core.uninitialized.Assign]
+           PVOP_VCALL0(cpu.io_delay);
            ^
-   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is false
-           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
-               ^
-   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
-   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
-                                 ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
+PVOP_VCALL0'
+           __PVOP_VCALL(op)
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:316:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is false
-           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
-               ^
-   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
-   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
-                                 ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:316:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is false
-           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
-               ^
-   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
-   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
-                                 ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:316:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   net/ipv4/tcp_input.c:5325:6: note: Left side of '||' is true
-           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
-               ^
-   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
-   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
-                                 ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                                               ^
-   net/ipv4/tcp_input.c:5325:6: note: Taking false branch
-           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
-               ^
-   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
-   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
-                                 ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:349:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:337:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:329:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
+__PVOP_VCALL'
+           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
+                 ^
+   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
+____PVOP_CALL'
+                   PVOP_CALL_ARGS;                                         \
                    ^
-   net/ipv4/tcp_input.c:5325:6: note: Loop condition is false.  Exiting loop
-           if (RB_EMPTY_ROOT(&tp->out_of_order_queue))
-               ^
-   include/linux/rbtree.h:30:31: note: expanded from macro 'RB_EMPTY_ROOT'
-   #define RB_EMPTY_ROOT(root)  (READ_ONCE((root)->rb_node) =3D=3D NULL)
-                                 ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   arch/x86/include/asm/paravirt_types.h:405:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __edi =3D __edi, __esi =3D __esi,             \
+                         ^
+   drivers/usb/host/pci-quirks.c:509:2: note: Calling 'usb_amd_quirk_pll'
+           usb_amd_quirk_pll(0);
+           ^~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/pci-quirks.c:343:12: note: 'disable' is 0
+           u32 bit =3D disable ? 0 : 1;
+                     ^~~~~~~
+   drivers/usb/host/pci-quirks.c:343:12: note: '?' condition is false
+   drivers/usb/host/pci-quirks.c:346:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(&amd_lock, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   drivers/usb/host/pci-quirks.c:346:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(&amd_lock, flags);
+           ^
+   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
+qsave'
+   #define spin_lock_irqsave(lock, flags)                          \
+                                                                   ^
+   drivers/usb/host/pci-quirks.c:348:6: note: 'disable' is 0
+           if (disable) {
+               ^~~~~~~
+   drivers/usb/host/pci-quirks.c:348:2: note: Taking false branch
+           if (disable) {
+           ^
+   drivers/usb/host/pci-quirks.c:356:7: note: Assuming field 'isoc_reqs' is=
+ <=3D 0
+                   if (amd_chipset.isoc_reqs > 0) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/pci-quirks.c:356:3: note: Taking false branch
+                   if (amd_chipset.isoc_reqs > 0) {
+                   ^
+   drivers/usb/host/pci-quirks.c:362:6: note: Assuming field 'gen' is equal=
+ to AMD_CHIPSET_SB800
+           if (amd_chipset.sb_type.gen =3D=3D AMD_CHIPSET_SB800 ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/host/pci-quirks.c:362:51: note: Left side of '||' is true
+           if (amd_chipset.sb_type.gen =3D=3D AMD_CHIPSET_SB800 ||
+                                                            ^
+   drivers/usb/host/pci-quirks.c:365:3: note: Calling 'outb_p'
+                   outb_p(AB_REG_BAR_LOW, 0xcd6);
+                   ^
+   arch/x86/include/asm/io.h:337:16: note: expanded from macro 'outb_p'
+   #define outb_p outb_p
+                  ^
+   arch/x86/include/asm/io.h:320:1: note: Calling 'slow_down_io'
+   BUILDIO(b, b, char)
+   ^
+   arch/x86/include/asm/io.h:278:2: note: expanded from macro 'BUILDIO'
+           slow_down_io();                                                 \
+           ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h:55:2: note: Assigned value is garbage or=
+ undefined
 
-vim +/reason +5010 net/ipv4/tcp_input.c
+vim +/next +747 mm/sparse-vmemmap.c
 
-03f45c883c6f391 Eric Dumazet             2018-04-16  4987  =
+69543e15fc8fb75 Joao Martins      2022-02-24  723  =
 
-^1da177e4c3f415 Linus Torvalds           2005-04-16  4988  static void tcp_=
-data_queue(struct sock *sk, struct sk_buff *skb)
-^1da177e4c3f415 Linus Torvalds           2005-04-16  4989  {
-^1da177e4c3f415 Linus Torvalds           2005-04-16  4990  	struct tcp_sock=
- *tp =3D tcp_sk(sk);
-a7ec381049c0d1f Menglong Dong            2022-02-20  4991  	enum skb_drop_r=
-eason reason;
-5357f0bd4edf0b3 Eric Dumazet             2017-08-01  4992  	bool fragstolen;
-5357f0bd4edf0b3 Eric Dumazet             2017-08-01  4993  	int eaten;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  4994  =
+69543e15fc8fb75 Joao Martins      2022-02-24  724  static int __meminit vme=
+mmap_populate_compound_pages(unsigned long start_pfn,
+69543e15fc8fb75 Joao Martins      2022-02-24  725  						     unsigned long=
+ start,
+69543e15fc8fb75 Joao Martins      2022-02-24  726  						     unsigned long=
+ end, int node,
+69543e15fc8fb75 Joao Martins      2022-02-24  727  						     struct dev_pa=
+gemap *pgmap)
+69543e15fc8fb75 Joao Martins      2022-02-24  728  {
+69543e15fc8fb75 Joao Martins      2022-02-24  729  	unsigned long size, add=
+r;
+69543e15fc8fb75 Joao Martins      2022-02-24  730  	pte_t *pte;
+69543e15fc8fb75 Joao Martins      2022-02-24  731  	int rc;
+69543e15fc8fb75 Joao Martins      2022-02-24  732  =
 
-6787b7e350d3552 Jianguo Wu               2021-07-09  4995  	/* If a subflow=
- has been reset, the packet should not continue
-6787b7e350d3552 Jianguo Wu               2021-07-09  4996  	 * to be proces=
-sed, drop the packet.
-6787b7e350d3552 Jianguo Wu               2021-07-09  4997  	 */
-6787b7e350d3552 Jianguo Wu               2021-07-09  4998  	if (sk_is_mptcp=
-(sk) && !mptcp_incoming_options(sk, skb)) {
-6787b7e350d3552 Jianguo Wu               2021-07-09  4999  		__kfree_skb(sk=
-b);
-6787b7e350d3552 Jianguo Wu               2021-07-09  5000  		return;
-6787b7e350d3552 Jianguo Wu               2021-07-09  5001  	}
-648ef4b88673dad Mat Martineau            2020-01-21  5002  =
+69543e15fc8fb75 Joao Martins      2022-02-24  733  	if (reuse_compound_sect=
+ion(start_pfn, pgmap)) {
+69543e15fc8fb75 Joao Martins      2022-02-24  734  		pte =3D compound_secti=
+on_tail_page(start);
+4076bbc93eda6e1 Joao Martins      2022-02-24  735  		if (!pte)
+4076bbc93eda6e1 Joao Martins      2022-02-24  736  			return -ENOMEM;
+69543e15fc8fb75 Joao Martins      2022-02-24  737  =
 
-532182cd610782d Eric Dumazet             2016-04-01  5003  	if (TCP_SKB_CB(=
-skb)->seq =3D=3D TCP_SKB_CB(skb)->end_seq) {
-532182cd610782d Eric Dumazet             2016-04-01  5004  		__kfree_skb(sk=
-b);
-532182cd610782d Eric Dumazet             2016-04-01  5005  		return;
-532182cd610782d Eric Dumazet             2016-04-01  5006  	}
-f84af32cbca70a3 Eric Dumazet             2010-04-28  5007  	skb_dst_drop(sk=
-b);
-155c6e1ad4a778c Peter Pan(=E6=BD=98=E5=8D=AB=E5=B9=B3         2014-09-24  5=
-008) 	__skb_pull(skb, tcp_hdr(skb)->doff * 4);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5009  =
+69543e15fc8fb75 Joao Martins      2022-02-24  738  		/*
+69543e15fc8fb75 Joao Martins      2022-02-24  739  		 * Reuse the page that=
+ was populated in the prior iteration
+69543e15fc8fb75 Joao Martins      2022-02-24  740  		 * with just tail stru=
+ct pages.
+69543e15fc8fb75 Joao Martins      2022-02-24  741  		 */
+69543e15fc8fb75 Joao Martins      2022-02-24  742  		return vmemmap_populat=
+e_range(start, end, node, pte_page(*pte));
+69543e15fc8fb75 Joao Martins      2022-02-24  743  	}
+69543e15fc8fb75 Joao Martins      2022-02-24  744  =
 
-a7ec381049c0d1f Menglong Dong            2022-02-20 @5010  	reason =3D SKB_=
-DROP_REASON_NOT_SPECIFIED;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5011  	tp->rx_opt.dsac=
-k =3D 0;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5012  =
+69543e15fc8fb75 Joao Martins      2022-02-24  745  	size =3D min(end - star=
+t, pgmap_vmemmap_nr(pgmap) * sizeof(struct page));
+69543e15fc8fb75 Joao Martins      2022-02-24  746  	for (addr =3D start; ad=
+dr < end; addr +=3D size) {
+69543e15fc8fb75 Joao Martins      2022-02-24 @747  		unsigned long next =3D=
+ addr, last =3D addr + size;
+69543e15fc8fb75 Joao Martins      2022-02-24  748  =
 
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5013  	/*  Queue data =
-for delivery to the user.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5014  	 *  Packets in =
-sequence go to the receive queue.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5015  	 *  Out of sequ=
-ence packets to the out_of_order_queue.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5016  	 */
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5017  	if (TCP_SKB_CB(=
-skb)->seq =3D=3D tp->rcv_nxt) {
-fb223502ec08894 Yafang Shao              2018-06-24  5018  		if (tcp_receiv=
-e_window(tp) =3D=3D 0) {
-a7ec381049c0d1f Menglong Dong            2022-02-20  5019  			reason =3D SK=
-B_DROP_REASON_TCP_ZEROWINDOW;
-fb223502ec08894 Yafang Shao              2018-06-24  5020  			NET_INC_STATS=
-(sock_net(sk), LINUX_MIB_TCPZEROWINDOWDROP);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5021  			goto out_of_w=
-indow;
-fb223502ec08894 Yafang Shao              2018-06-24  5022  		}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5023  =
+69543e15fc8fb75 Joao Martins      2022-02-24  749  		/* Populate the head p=
+age vmemmap page */
+69543e15fc8fb75 Joao Martins      2022-02-24  750  		pte =3D vmemmap_popula=
+te_address(addr, node, NULL, NULL);
+69543e15fc8fb75 Joao Martins      2022-02-24  751  		if (!pte)
+69543e15fc8fb75 Joao Martins      2022-02-24  752  			return -ENOMEM;
+69543e15fc8fb75 Joao Martins      2022-02-24  753  =
 
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5024  		/* Ok. In sequ=
-ence. In window. */
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5025  queue_and_out:
-76dfa6082032b5c Eric Dumazet             2015-05-15  5026  		if (skb_queue_=
-len(&sk->sk_receive_queue) =3D=3D 0)
-76dfa6082032b5c Eric Dumazet             2015-05-15  5027  			sk_forced_mem=
-_schedule(sk, skb->truesize);
-ea5d0c32498e1a0 Yafang Shao              2018-06-28  5028  		else if (tcp_t=
-ry_rmem_schedule(sk, skb, skb->truesize)) {
-a7ec381049c0d1f Menglong Dong            2022-02-20  5029  			reason =3D SK=
-B_DROP_REASON_PROTO_MEM;
-ea5d0c32498e1a0 Yafang Shao              2018-06-28  5030  			NET_INC_STATS=
-(sock_net(sk), LINUX_MIB_TCPRCVQDROP);
-ba3bb0e76ccd464 Eric Dumazet             2020-06-30  5031  			sk->sk_data_r=
-eady(sk);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5032  			goto drop;
-ea5d0c32498e1a0 Yafang Shao              2018-06-28  5033  		}
-5357f0bd4edf0b3 Eric Dumazet             2017-08-01  5034  =
+69543e15fc8fb75 Joao Martins      2022-02-24  754  		/* Populate the tail p=
+ages vmemmap page */
+69543e15fc8fb75 Joao Martins      2022-02-24  755  		next =3D addr + PAGE_S=
+IZE;
+69543e15fc8fb75 Joao Martins      2022-02-24  756  		pte =3D vmemmap_popula=
+te_address(next, node, NULL, NULL);
+69543e15fc8fb75 Joao Martins      2022-02-24  757  		if (!pte)
+69543e15fc8fb75 Joao Martins      2022-02-24  758  			return -ENOMEM;
+69543e15fc8fb75 Joao Martins      2022-02-24  759  =
 
-e7395f1f4ba24dc Eric Dumazet             2018-11-26  5035  		eaten =3D tcp_=
-queue_rcv(sk, skb, &fragstolen);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5036  		if (skb->len)
-9e412ba7632f712 Ilpo J=C3=A4rvinen            2007-04-20  5037  			tcp_even=
-t_data_recv(sk, skb);
-155c6e1ad4a778c Peter Pan(=E6=BD=98=E5=8D=AB=E5=B9=B3         2014-09-24  5=
-038) 		if (TCP_SKB_CB(skb)->tcp_flags & TCPHDR_FIN)
-20c4cb792de2b58 Eric Dumazet             2011-10-20  5039  			tcp_fin(sk);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5040  =
+69543e15fc8fb75 Joao Martins      2022-02-24  760  		/*
+69543e15fc8fb75 Joao Martins      2022-02-24  761  		 * Reuse the previous =
+page for the rest of tail pages
+69543e15fc8fb75 Joao Martins      2022-02-24  762  		 * See layout diagram =
+in Documentation/vm/vmemmap_dedup.rst
+69543e15fc8fb75 Joao Martins      2022-02-24  763  		 */
+69543e15fc8fb75 Joao Martins      2022-02-24  764  		next +=3D PAGE_SIZE;
+69543e15fc8fb75 Joao Martins      2022-02-24  765  		rc =3D vmemmap_populat=
+e_range(next, last, node, pte_page(*pte));
+69543e15fc8fb75 Joao Martins      2022-02-24  766  		if (rc)
+69543e15fc8fb75 Joao Martins      2022-02-24  767  			return -ENOMEM;
+8f6aac419bd590f Christoph Lameter 2007-10-16  768  	}
+29c71111d055738 Andy Whitcroft    2007-10-16  769  =
 
-9f5afeae51526b3 Yaogong Wang             2016-09-07  5041  		if (!RB_EMPTY_=
-ROOT(&tp->out_of_order_queue)) {
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5042  			tcp_ofo_queue=
-(sk);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5043  =
+29c71111d055738 Andy Whitcroft    2007-10-16  770  	return 0;
+8f6aac419bd590f Christoph Lameter 2007-10-16  771  }
+8f6aac419bd590f Christoph Lameter 2007-10-16  772  =
 
-15bdd5686c2c613 Yuchung Cheng            2018-08-09  5044  			/* RFC5681. 4=
-.2. SHOULD send immediate ACK, when
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5045  			 * gap in que=
-ue is filled.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5046  			 */
-9f5afeae51526b3 Yaogong Wang             2016-09-07  5047  			if (RB_EMPTY_=
-ROOT(&tp->out_of_order_queue))
-15bdd5686c2c613 Yuchung Cheng            2018-08-09  5048  				inet_csk(sk)=
-->icsk_ack.pending |=3D ICSK_ACK_NOW;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5049  		}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5050  =
 
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5051  		if (tp->rx_opt=
-.num_sacks)
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5052  			tcp_sack_remo=
-ve(tp);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5053  =
+:::::: The code@line 747 was first introduced by commit
+:::::: 69543e15fc8fb75dac97bd88442acbcd8d016704 mm/sparse-vmemmap: improve =
+memory savings for compound devmaps
 
-31770e34e43d6c8 Florian Westphal         2017-08-30  5054  		tcp_fast_path_=
-check(sk);
-31770e34e43d6c8 Florian Westphal         2017-08-30  5055  =
-
-923dd347b8904c2 Eric Dumazet             2012-05-02  5056  		if (eaten > 0)
-923dd347b8904c2 Eric Dumazet             2012-05-02  5057  			kfree_skb_par=
-tial(skb, fragstolen);
-1d57f19539c0741 Eric Dumazet             2012-09-17  5058  		if (!sock_flag=
-(sk, SOCK_DEAD))
-03f45c883c6f391 Eric Dumazet             2018-04-16  5059  			tcp_data_read=
-y(sk);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5060  		return;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5061  	}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5062  =
-
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5063  	if (!after(TCP_=
-SKB_CB(skb)->end_seq, tp->rcv_nxt)) {
-7788174e8726c30 Yuchung Cheng            2018-08-29  5064  		tcp_rcv_spurio=
-us_retrans(sk, skb);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5065  		/* A retransmi=
-t, 2nd most common case.  Force an immediate ack. */
-a7ec381049c0d1f Menglong Dong            2022-02-20  5066  		reason =3D SKB=
-_DROP_REASON_TCP_OLD_DATA;
-c10d9310edf5aa4 Eric Dumazet             2016-04-29  5067  		NET_INC_STATS(=
-sock_net(sk), LINUX_MIB_DELAYEDACKLOST);
-1ed834655a0d42e Pavel Emelyanov          2008-07-16  5068  		tcp_dsack_set(=
-sk, TCP_SKB_CB(skb)->seq, TCP_SKB_CB(skb)->end_seq);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5069  =
-
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5070  out_of_window:
-9a9c9b51e546188 Eric Dumazet             2018-05-21  5071  		tcp_enter_quic=
-kack_mode(sk, TCP_MAX_QUICKACKS);
-463c84b97f24010 Arnaldo Carvalho de Melo 2005-08-09  5072  		inet_csk_sched=
-ule_ack(sk);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5073  drop:
-a7ec381049c0d1f Menglong Dong            2022-02-20  5074  		tcp_drop_reaso=
-n(sk, skb, reason);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5075  		return;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5076  	}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5077  =
-
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5078  	/* Out of windo=
-w. F.e. zero window probe. */
-a7ec381049c0d1f Menglong Dong            2022-02-20  5079  	if (!before(TCP=
-_SKB_CB(skb)->seq,
-a7ec381049c0d1f Menglong Dong            2022-02-20  5080  		    tp->rcv_nx=
-t + tcp_receive_window(tp))) {
-a7ec381049c0d1f Menglong Dong            2022-02-20  5081  		reason =3D SKB=
-_DROP_REASON_TCP_OVERWINDOW;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5082  		goto out_of_wi=
-ndow;
-a7ec381049c0d1f Menglong Dong            2022-02-20  5083  	}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5084  =
-
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5085  	if (before(TCP_=
-SKB_CB(skb)->seq, tp->rcv_nxt)) {
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5086  		/* Partial pac=
-ket, seq < rcv_next < end_seq */
-1ed834655a0d42e Pavel Emelyanov          2008-07-16  5087  		tcp_dsack_set(=
-sk, TCP_SKB_CB(skb)->seq, tp->rcv_nxt);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5088  =
-
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5089  		/* If window i=
-s closed, drop tail of packet. But after
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5090  		 * remembering=
- D-SACK for its head made in previous line.
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5091  		 */
-fb223502ec08894 Yafang Shao              2018-06-24  5092  		if (!tcp_recei=
-ve_window(tp)) {
-a7ec381049c0d1f Menglong Dong            2022-02-20  5093  			reason =3D SK=
-B_DROP_REASON_TCP_ZEROWINDOW;
-fb223502ec08894 Yafang Shao              2018-06-24  5094  			NET_INC_STATS=
-(sock_net(sk), LINUX_MIB_TCPZEROWINDOWDROP);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5095  			goto out_of_w=
-indow;
-fb223502ec08894 Yafang Shao              2018-06-24  5096  		}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5097  		goto queue_and=
-_out;
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5098  	}
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5099  =
-
-e86b291962cbf47 Eric Dumazet             2012-03-18  5100  	tcp_data_queue_=
-ofo(sk, skb);
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5101  }
-^1da177e4c3f415 Linus Torvalds           2005-04-16  5102  =
-
+:::::: TO: Joao Martins <joao.m.martins@oracle.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8280143869486823645==--
+--===============1440447743631567422==--
 
