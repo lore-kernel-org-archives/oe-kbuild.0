@@ -1,298 +1,211 @@
-Content-Type: multipart/mixed; boundary="===============6469658335791243866=="
+Content-Type: multipart/mixed; boundary="===============3353021329964618356=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [cxl:preview 62/78] drivers/cxl/region.c:550:5-16: ERROR: invalid reference to the index variable of the iterator on line 543
-Date: Sun, 27 Feb 2022 03:15:11 +0800
-Message-ID: <202202270349.MikaZ9ZX-lkp@intel.com>
+Subject: drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c:871 iwl_dbg_tlv_apply_config() error: call of '__iwl_err' with no format argument
+Date: Sun, 27 Feb 2022 03:15:04 +0800
+Message-ID: <202202270253.ZLJRWYpx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6469658335791243866==
+--===============3353021329964618356==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Ben Widawsky <ben.widawsky@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
+TO: Mukesh Sisodiya <mukesh.sisodiya@intel.com>
+CC: Luca Coelho <luciano.coelho@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
-head:   9b688fc651b9d2b633e8d959454670aba1c39162
-commit: 2ecd98fe1cb0746e61b6543d93939d87519e2df9 [62/78] cxl/region: Add su=
-pport for single switch level
-:::::: branch date: 25 hours ago
-:::::: commit date: 9 days ago
-config: alpha-randconfig-c004-20220227 (https://download.01.org/0day-ci/arc=
-hive/20220227/202202270349.MikaZ9ZX-lkp(a)intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9137eda53752ef73148e42b0d7640a00f1bc96b1
+commit: 1a5daead217c4b2243e6ab061e19a1190e4325ac iwlwifi: yoyo: support for=
+ ROM usniffer
+date:   4 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 months ago
+config: ia64-randconfig-m031-20220220 (https://download.01.org/0day-ci/arch=
+ive/20220227/202202270253.ZLJRWYpx-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c:871 iwl_dbg_tlv_apply_conf=
+ig() error: call of '__iwl_err' with no format argument
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/cxl/region.c:550:5-16: ERROR: invalid reference to the index var=
-iable of the iterator on line 543
+Old smatch warnings:
+drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c:933 iwl_dbg_tlv_set_period=
+ic_trigs() error: call of '__iwl_err' with no format argument
+drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c:949 iwl_dbg_tlv_set_period=
+ic_trigs() error: call of '__iwl_err' with no format argument
 
-vim +550 drivers/cxl/region.c
+vim +/__iwl_err +871 drivers/net/wireless/intel/iwlwifi/iwl-dbg-tlv.c
 
-b15cb12c2369e0 Ben Widawsky 2022-02-11  413  =
+cf29c5b66b9f83 Shahar S Matityahu 2019-07-23  800  =
 
-786e9e58377374 Ben Widawsky 2022-02-11  414  /**
-786e9e58377374 Ben Widawsky 2022-02-11  415   * region_hb_rp_config_valid()=
- - determine root port ordering is correct
-786e9e58377374 Ben Widawsky 2022-02-11  416   * @cxlr: Region to validate
-786e9e58377374 Ben Widawsky 2022-02-11  417   * @rootd: root decoder for th=
-is @cxlr
-b15cb12c2369e0 Ben Widawsky 2022-02-11  418   * @state_update: Whether or n=
-ot to update port state
-786e9e58377374 Ben Widawsky 2022-02-11  419   *
-786e9e58377374 Ben Widawsky 2022-02-11  420   * The algorithm is outlined i=
-n 2.13.15 "Verify HB root port configuration
-786e9e58377374 Ben Widawsky 2022-02-11  421   * sequence" of the CXL Memory=
- Device SW Guide (Rev1p0).
-786e9e58377374 Ben Widawsky 2022-02-11  422   *
-786e9e58377374 Ben Widawsky 2022-02-11  423   * Returns true if the configu=
-ration is valid.
-786e9e58377374 Ben Widawsky 2022-02-11  424   */
-b15cb12c2369e0 Ben Widawsky 2022-02-11  425  static bool region_hb_rp_confi=
-g_valid(struct cxl_region *cxlr,
-b15cb12c2369e0 Ben Widawsky 2022-02-11  426  				      const struct cxl_dec=
-oder *rootd,
-b15cb12c2369e0 Ben Widawsky 2022-02-11  427  				      bool state_update)
-786e9e58377374 Ben Widawsky 2022-02-11  428  {
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  429  	const int region_ig =3D cxl_t=
-o_ig(cxlr->config.interleave_granularity);
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  430  	const int region_eniw =3D cxl=
-_to_eniw(cxlr->config.interleave_ways);
-8ed598d187016c Ben Widawsky 2022-02-11  431  	const int num_root_ports =3D =
-get_num_root_ports(cxlr);
-8ed598d187016c Ben Widawsky 2022-02-11  432  	struct cxl_port *hbs[CXL_DECO=
-DER_MAX_INTERLEAVE];
-b15cb12c2369e0 Ben Widawsky 2022-02-11  433  	struct cxl_decoder *cxld, *c;
-8ed598d187016c Ben Widawsky 2022-02-11  434  	int hb_count, i;
-8ed598d187016c Ben Widawsky 2022-02-11  435  =
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  801  static void iwl_dbg_tlv_=
+apply_config(struct iwl_fw_runtime *fwrt,
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  802  				     struct list_hea=
+d *config_list)
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  803  {
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  804  	struct iwl_dbg_tlv_node=
+ *node;
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  805  =
 
-8ed598d187016c Ben Widawsky 2022-02-11  436  	hb_count =3D get_unique_hostb=
-ridges(cxlr, hbs);
-8ed598d187016c Ben Widawsky 2022-02-11  437  =
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  806  	list_for_each_entry(nod=
+e, config_list, list) {
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  807  		struct iwl_fw_ini_conf=
+_set_tlv *config_list =3D (void *)node->tlv.data;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  808  		u32 count, address, va=
+lue;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  809  		u32 len =3D (le32_to_c=
+pu(node->tlv.length) - sizeof(*config_list)) / 8;
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  810  		u32 type =3D le32_to_c=
+pu(config_list->set_type);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  811  		u32 offset =3D le32_to=
+_cpu(config_list->addr_offset);
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  812  =
 
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  438  	/* TODO: support multiple lev=
-els of switches */
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  439  	if (has_multi_switch(cxlr))
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  440  		return false;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  441  =
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  813  		switch (type) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  814  		case IWL_FW_INI_CONFIG=
+_SET_TYPE_DEVICE_PERIPHERY_MAC: {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  815  			if (!iwl_trans_grab_n=
+ic_access(fwrt->trans)) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  816  				IWL_DEBUG_FW(fwrt, "=
+WRT: failed to get nic access\n");
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  817  				IWL_DEBUG_FW(fwrt, "=
+WRT: skipping MAC PERIPHERY config\n");
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  818  				continue;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  819  			}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  820  			IWL_DEBUG_FW(fwrt, "W=
+RT:  MAC PERIPHERY config len: len %u\n", len);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  821  			for (count =3D 0; cou=
+nt < len; count++) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  822  				address =3D le32_to_=
+cpu(config_list->addr_val[count].address);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  823  				value =3D le32_to_cp=
+u(config_list->addr_val[count].value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  824  				iwl_trans_write_prph=
+(fwrt->trans, address + offset, value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  825  			}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  826  			iwl_trans_release_nic=
+_access(fwrt->trans);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  827  		break;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  828  		}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  829  		case IWL_FW_INI_CONFIG=
+_SET_TYPE_DEVICE_MEMORY: {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  830  			for (count =3D 0; cou=
+nt < len; count++) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  831  				address =3D le32_to_=
+cpu(config_list->addr_val[count].address);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  832  				value =3D le32_to_cp=
+u(config_list->addr_val[count].value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  833  				iwl_trans_write_mem3=
+2(fwrt->trans, address + offset, value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  834  				IWL_DEBUG_FW(fwrt, "=
+WRT: DEV_MEM: count %u, add: %u val: %u\n",
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  835  					     count, address=
+, value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  836  			}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  837  		break;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  838  		}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  839  		case IWL_FW_INI_CONFIG=
+_SET_TYPE_CSR: {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  840  			for (count =3D 0; cou=
+nt < len; count++) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  841  				address =3D le32_to_=
+cpu(config_list->addr_val[count].address);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  842  				value =3D le32_to_cp=
+u(config_list->addr_val[count].value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  843  				iwl_write32(fwrt->tr=
+ans, address + offset, value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  844  				IWL_DEBUG_FW(fwrt, "=
+WRT: CSR: count %u, add: %u val: %u\n",
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  845  					     count, address=
+, value);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  846  			}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  847  		break;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  848  		}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  849  		case IWL_FW_INI_CONFIG=
+_SET_TYPE_DBGC_DRAM_ADDR: {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  850  			struct iwl_dbgc1_info=
+ dram_info =3D {};
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  851  			struct iwl_dram_data =
+*frags =3D &fwrt->trans->dbg.fw_mon_ini[1].frags[0];
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  852  			__le64 dram_base_addr=
+ =3D cpu_to_le64(frags->physical);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  853  			__le32 dram_size =3D =
+cpu_to_le32(frags->size);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  854  			u64  dram_addr =3D le=
+64_to_cpu(dram_base_addr);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  855  			u32 ret;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  856  =
 
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  442  	/* TODO: x3 interleave for sw=
-itches is hard. */
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  443  	if (has_switch(cxlr) && !is_p=
-ower_of_2(region_ways(cxlr)))
-8ed598d187016c Ben Widawsky 2022-02-11  444  		return false;
-8ed598d187016c Ben Widawsky 2022-02-11  445  =
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  857  			IWL_DEBUG_FW(fwrt, "W=
+RT: dram_base_addr 0x%016llx, dram_size 0x%x\n",
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  858  				     dram_base_addr,=
+ dram_size);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  859  			IWL_DEBUG_FW(fwrt, "W=
+RT: config_list->addr_offset: %u\n",
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  860  				     le32_to_cpu(con=
+fig_list->addr_offset));
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  861  			for (count =3D 0; cou=
+nt < len; count++) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  862  				address =3D le32_to_=
+cpu(config_list->addr_val[count].address);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  863  				dram_info.dbgc1_add_=
+lsb =3D
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  864  					cpu_to_le32((dram_a=
+ddr & 0x00000000FFFFFFFFULL) + 0x400);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  865  				dram_info.dbgc1_add_=
+msb =3D
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  866  					cpu_to_le32((dram_a=
+ddr & 0xFFFFFFFF00000000ULL) >> 32);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  867  				dram_info.dbgc1_size=
+ =3D cpu_to_le32(le32_to_cpu(dram_size) - 0x400);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  868  				ret =3D iwl_trans_wr=
+ite_mem(fwrt->trans,
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  869  							  address + offse=
+t, &dram_info, 4);
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  870  				if (ret) {
+1a5daead217c4b Mukesh Sisodiya    2021-10-24 @871  					IWL_ERR(fwrt, "Fail=
+ed to write dram_info to HW_SMEM\n");
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  872  					break;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  873  				}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  874  			}
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  875  			break;
+1a5daead217c4b Mukesh Sisodiya    2021-10-24  876  		}
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  877  		case IWL_FW_INI_CONFIG=
+_SET_TYPE_PERIPH_SCRATCH_HWM: {
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  878  			u32 debug_token_confi=
+g =3D
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  879  				le32_to_cpu(config_l=
+ist->addr_val[0].value);
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  880  =
 
-8ed598d187016c Ben Widawsky 2022-02-11  446  	/*
-8ed598d187016c Ben Widawsky 2022-02-11  447  	 * Are all devices in this re=
-gion on the same CXL Host Bridge
-8ed598d187016c Ben Widawsky 2022-02-11  448  	 * Root Port?
-8ed598d187016c Ben Widawsky 2022-02-11  449  	 */
-b15cb12c2369e0 Ben Widawsky 2022-02-11  450  	if (num_root_ports =3D=3D 1 &=
-& !has_switch(cxlr) && state_update)
-b15cb12c2369e0 Ben Widawsky 2022-02-11  451  		return simple_config(cxlr, h=
-bs[0]);
-8ed598d187016c Ben Widawsky 2022-02-11  452  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  453  	for (i =3D 0; i < hb_count; i=
-++) {
-a87877add7dded Ben Widawsky 2022-02-11  454  		struct cxl_decoder *cxld;
-8ed598d187016c Ben Widawsky 2022-02-11  455  		int idx, position_mask;
-8ed598d187016c Ben Widawsky 2022-02-11  456  		struct cxl_dport *rp;
-8ed598d187016c Ben Widawsky 2022-02-11  457  		struct cxl_port *hb;
-8ed598d187016c Ben Widawsky 2022-02-11  458  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  459  		/* Get next CXL Host Bridge =
-this region spans */
-8ed598d187016c Ben Widawsky 2022-02-11  460  		hb =3D hbs[i];
-8ed598d187016c Ben Widawsky 2022-02-11  461  =
-
-b15cb12c2369e0 Ben Widawsky 2022-02-11  462  		if (state_update) {
-b15cb12c2369e0 Ben Widawsky 2022-02-11  463  			cxld =3D get_decoder(cxlr, =
-hb);
-b15cb12c2369e0 Ben Widawsky 2022-02-11  464  			if (IS_ERR(cxld)) {
-b15cb12c2369e0 Ben Widawsky 2022-02-11  465  				dev_dbg(&cxlr->dev,
-b15cb12c2369e0 Ben Widawsky 2022-02-11  466  					"Couldn't get decoder for=
- %s\n",
-b15cb12c2369e0 Ben Widawsky 2022-02-11  467  					dev_name(&hb->dev));
-b15cb12c2369e0 Ben Widawsky 2022-02-11  468  				goto err;
-b15cb12c2369e0 Ben Widawsky 2022-02-11  469  			}
-b15cb12c2369e0 Ben Widawsky 2022-02-11  470  			cxld->interleave_ways =3D 0;
-b15cb12c2369e0 Ben Widawsky 2022-02-11  471  			cxld->interleave_granularit=
-y =3D region_granularity(cxlr);
-b15cb12c2369e0 Ben Widawsky 2022-02-11  472  		} else {
-b15cb12c2369e0 Ben Widawsky 2022-02-11  473  			cxld =3D NULL;
-b15cb12c2369e0 Ben Widawsky 2022-02-11  474  		}
-b15cb12c2369e0 Ben Widawsky 2022-02-11  475  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  476  		/*
-8ed598d187016c Ben Widawsky 2022-02-11  477  		 * Calculate the position ma=
-sk: NumRootPorts =3D 2^PositionMask
-8ed598d187016c Ben Widawsky 2022-02-11  478  		 * for this region.
-8ed598d187016c Ben Widawsky 2022-02-11  479  		 *
-8ed598d187016c Ben Widawsky 2022-02-11  480  		 * XXX: pos_mask is actually=
- (1 << PositionMask)  - 1
-8ed598d187016c Ben Widawsky 2022-02-11  481  		 */
-8ed598d187016c Ben Widawsky 2022-02-11  482  		position_mask =3D (1 << (ilo=
-g2(num_root_ports))) - 1;
-8ed598d187016c Ben Widawsky 2022-02-11  483  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  484  		/*
-8ed598d187016c Ben Widawsky 2022-02-11  485  		 * Calculate the PortGroupin=
-g for each device on this CXL Host
-8ed598d187016c Ben Widawsky 2022-02-11  486  		 * Bridge Root Port:
-8ed598d187016c Ben Widawsky 2022-02-11  487  		 * PortGrouping =3D RegionLa=
-bel.Position & PositionMask
-8ed598d187016c Ben Widawsky 2022-02-11  488  		 *
-8ed598d187016c Ben Widawsky 2022-02-11  489  		 * The following nest iterat=
-ors effectively iterate over each
-8ed598d187016c Ben Widawsky 2022-02-11  490  		 * root port in the region.
-8ed598d187016c Ben Widawsky 2022-02-11  491  		 *   for_each_unique_rootpor=
-t(rp, cxlr)
-8ed598d187016c Ben Widawsky 2022-02-11  492  		 */
-8ed598d187016c Ben Widawsky 2022-02-11  493  		list_for_each_entry(rp, &hb-=
->dports, list) {
-8ed598d187016c Ben Widawsky 2022-02-11  494  			struct cxl_memdev *ep;
-8ed598d187016c Ben Widawsky 2022-02-11  495  			int port_grouping =3D -1;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  496  			int target_ndx;
-8ed598d187016c Ben Widawsky 2022-02-11  497  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  498  			for_each_cxl_endpoint_hb(ep=
-, cxlr, hb, idx) {
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  499  				struct cxl_decoder *switch=
-_cxld;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  500  				struct cxl_dport *target;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  501  				struct cxl_port *switch_po=
-rt;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  502  				bool found =3D false;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  503  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  504  				if (get_rp(ep) !=3D rp)
-8ed598d187016c Ben Widawsky 2022-02-11  505  					continue;
-8ed598d187016c Ben Widawsky 2022-02-11  506  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  507  				if (port_grouping =3D=3D -=
-1)
-8ed598d187016c Ben Widawsky 2022-02-11  508  					port_grouping =3D idx & p=
-osition_mask;
-8ed598d187016c Ben Widawsky 2022-02-11  509  =
-
-8ed598d187016c Ben Widawsky 2022-02-11  510  				/*
-8ed598d187016c Ben Widawsky 2022-02-11  511  				 * Do all devices in the r=
-egion connected to this CXL
-8ed598d187016c Ben Widawsky 2022-02-11  512  				 * Host Bridge Root Port h=
-ave the same PortGrouping?
-8ed598d187016c Ben Widawsky 2022-02-11  513  				 */
-8ed598d187016c Ben Widawsky 2022-02-11  514  				if ((idx & position_mask) =
-!=3D port_grouping) {
-8ed598d187016c Ben Widawsky 2022-02-11  515  					dev_dbg(&cxlr->dev,
-8ed598d187016c Ben Widawsky 2022-02-11  516  						"One or more devices are=
- not connected to the correct Host Bridge Root Port\n");
-b15cb12c2369e0 Ben Widawsky 2022-02-11  517  					goto err;
-8ed598d187016c Ben Widawsky 2022-02-11  518  				}
-a87877add7dded Ben Widawsky 2022-02-11  519  =
-
-a87877add7dded Ben Widawsky 2022-02-11  520  				if (!state_update)
-a87877add7dded Ben Widawsky 2022-02-11  521  					continue;
-a87877add7dded Ben Widawsky 2022-02-11  522  =
-
-a87877add7dded Ben Widawsky 2022-02-11  523  				if (dev_WARN_ONCE(&cxld->d=
-ev,
-a87877add7dded Ben Widawsky 2022-02-11  524  						  port_grouping >=3D cxl=
-d->nr_targets,
-a87877add7dded Ben Widawsky 2022-02-11  525  						  "Invalid port grouping=
- %d/%d\n",
-a87877add7dded Ben Widawsky 2022-02-11  526  						  port_grouping, cxld->n=
-r_targets))
-a87877add7dded Ben Widawsky 2022-02-11  527  					goto err;
-a87877add7dded Ben Widawsky 2022-02-11  528  =
-
-a87877add7dded Ben Widawsky 2022-02-11  529  				cxld->interleave_ways++;
-a87877add7dded Ben Widawsky 2022-02-11  530  				cxld->target[port_grouping=
-] =3D get_rp(ep);
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  531  =
-
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  532  				/*
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  533  				 * At least one switch is =
-connected here if the endpoint
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  534  				 * has a depth > 2
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  535  				 */
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  536  				if (ep->port->depth =3D=3D=
- 2)
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  537  					continue;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  538  =
-
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  539  				/* Check the staged list t=
-o see if this
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  540  				 * port has already been a=
-dded
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  541  				 */
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  542  				switch_port =3D get_switch=
-(ep);
-2ecd98fe1cb074 Ben Widawsky 2022-02-11 @543  				list_for_each_entry(switch=
-_cxld, &cxlr->staged_list, region_link) {
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  544  					if (to_cxl_port(switch_cx=
-ld->dev.parent) =3D=3D switch_port)
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  545  						found =3D true;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  546  				}
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  547  =
-
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  548  				if (found) {
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  549  					target =3D cxl_find_dport=
-_by_dev(switch_port, ep->dev.parent->parent);
-2ecd98fe1cb074 Ben Widawsky 2022-02-11 @550  					switch_cxld->target[targe=
-t_ndx++] =3D target;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  551  					continue;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  552  				}
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  553  =
-
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  554  				target_ndx =3D 0;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  555  =
-
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  556  				switch_cxld =3D get_decode=
-r(cxlr, switch_port);
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  557  				switch_cxld->interleave_wa=
-ys++;
-2ecd98fe1cb074 Ben Widawsky 2022-02-11  558  				switch_cxld->interleave_gr=
-anularity =3D cxl_to_ways(region_ig + region_eniw);
-8ed598d187016c Ben Widawsky 2022-02-11  559  			}
-8ed598d187016c Ben Widawsky 2022-02-11  560  		}
-8ed598d187016c Ben Widawsky 2022-02-11  561  	}
-8ed598d187016c Ben Widawsky 2022-02-11  562  =
-
-786e9e58377374 Ben Widawsky 2022-02-11  563  	return true;
-b15cb12c2369e0 Ben Widawsky 2022-02-11  564  =
-
-b15cb12c2369e0 Ben Widawsky 2022-02-11  565  err:
-b15cb12c2369e0 Ben Widawsky 2022-02-11  566  	dev_dbg(&cxlr->dev, "Couldn't=
- get decoder for region\n");
-b15cb12c2369e0 Ben Widawsky 2022-02-11  567  	list_for_each_entry_safe(cxld=
-, c, &cxlr->staged_list, region_link)
-b15cb12c2369e0 Ben Widawsky 2022-02-11  568  		cxl_put_decoder(cxld);
-b15cb12c2369e0 Ben Widawsky 2022-02-11  569  =
-
-b15cb12c2369e0 Ben Widawsky 2022-02-11  570  	return false;
-786e9e58377374 Ben Widawsky 2022-02-11  571  }
-786e9e58377374 Ben Widawsky 2022-02-11  572  =
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  881  			IWL_DEBUG_FW(fwrt, "W=
+RT: Setting HWM debug token config: %u\n",
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  882  				     debug_token_con=
+fig);
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  883  			fwrt->trans->dbg.ucod=
+e_preset =3D debug_token_config;
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  884  			break;
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  885  		}
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  886  		default:
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  887  			break;
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  888  		}
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  889  	}
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  890  }
+f21baf244112e6 Mukesh Sisodiya    2021-10-17  891  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6469658335791243866==--
+--===============3353021329964618356==--
 
