@@ -1,340 +1,298 @@
-Content-Type: multipart/mixed; boundary="===============7517138247299451671=="
+Content-Type: multipart/mixed; boundary="===============6469658335791243866=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4104/9128] net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Sun, 27 Feb 2022 03:45:42 +0800
-Message-ID: <202202270356.eMEOO7Ph-lkp@intel.com>
+Subject: [cxl:preview 62/78] drivers/cxl/region.c:550:5-16: ERROR: invalid reference to the index variable of the iterator on line 543
+Date: Sun, 27 Feb 2022 03:15:11 +0800
+Message-ID: <202202270349.MikaZ9ZX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7517138247299451671==
+--===============6469658335791243866==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Matt Johnston <matt@codeconstruct.com.au>
-CC: Jeremy Kerr <jk@codeconstruct.com.au>
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   06aeb1495c39c86ccfaf1adadc1d2200179f16eb
-commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa [4104/9128] mctp: Add SIOC=
-MCTP{ALLOC,DROP}TAG ioctls for tag control
-:::::: branch date: 18 hours ago
-:::::: commit date: 2 weeks ago
-config: mips-randconfig-c004-20220225 (https://download.01.org/0day-ci/arch=
-ive/20220227/202202270356.eMEOO7Ph-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git preview
+head:   9b688fc651b9d2b633e8d959454670aba1c39162
+commit: 2ecd98fe1cb0746e61b6543d93939d87519e2df9 [62/78] cxl/region: Add su=
+pport for single switch level
+:::::: branch date: 25 hours ago
+:::::: commit date: 9 days ago
+config: alpha-randconfig-c004-20220227 (https://download.01.org/0day-ci/arc=
+hive/20220227/202202270349.MikaZ9ZX-lkp(a)intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:297:3: note: Taking false branch
-                   if (optlen !=3D sizeof(int))
-                   ^
-   net/mctp/af_mctp.c:299:7: note: Calling 'copy_from_sockptr'
-                   if (copy_from_sockptr(&val, optval, sizeof(int)))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
-           return copy_from_sockptr_offset(dst, src, 0, size);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:47:6: note: Assuming the condition is true
-           if (!sockptr_is_kernel(src))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:47:2: note: Taking true branch
-           if (!sockptr_is_kernel(src))
-           ^
-   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
-                   return copy_from_user(dst, src.user + offset, size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
-o '*to'
-           return __cu_len_r;
-           ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
-           return res;
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
-           return n;
-           ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   include/linux/sockptr.h:48:10: note: Returning from 'copy_from_user'
-                   return copy_from_user(dst, src.user + offset, size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:48:3: note: Returning without writing to '*dst'
-                   return copy_from_user(dst, src.user + offset, size);
-                   ^
-   include/linux/sockptr.h:48:3: note: Returning zero, which participates i=
-n a condition later
-                   return copy_from_user(dst, src.user + offset, size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:9: note: Returning from 'copy_from_sockptr_of=
-fset'
-           return copy_from_sockptr_offset(dst, src, 0, size);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:2: note: Returning without writing to '*dst'
-           return copy_from_sockptr_offset(dst, src, 0, size);
-           ^
-   include/linux/sockptr.h:55:2: note: Returning zero, which participates i=
-n a condition later
-           return copy_from_sockptr_offset(dst, src, 0, size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:299:7: note: Returning from 'copy_from_sockptr'
-                   if (copy_from_sockptr(&val, optval, sizeof(int)))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:299:3: note: Taking false branch
-                   if (copy_from_sockptr(&val, optval, sizeof(int)))
-                   ^
-   net/mctp/af_mctp.c:301:17: note: Assigned value is garbage or undefined
-                   msk->addr_ext =3D val;
-                                 ^ ~~~
->> net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garba=
-ge value [clang-analyzer-core.uninitialized.Branch]
-           if (ctl.tag)
-               ^
-   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35296:'  at line =
-415
-           switch (cmd) {
-           ^
-   net/mctp/af_mctp.c:416:10: note: Calling 'mctp_ioctl_alloctag'
-                   return mctp_ioctl_alloctag(msk, arg);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:340:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
-o 'to->tag'
-           return __cu_len_r;
-           ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->t=
-ag'
-           return res;
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->t=
-ag'
-           return n;
-           ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   net/mctp/af_mctp.c:340:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:340:2: note: Taking false branch
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-           ^
-   net/mctp/af_mctp.c:343:6: note: Branch condition evaluates to a garbage =
-value
-           if (ctl.tag)
-               ^~~~~~~
-   net/mctp/af_mctp.c:379:6: warning: Branch condition evaluates to a garba=
-ge value [clang-analyzer-core.uninitialized.Branch]
-           if (ctl.flags)
-               ^
-   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35297:'  at line =
-417
-           switch (cmd) {
-           ^
-   net/mctp/af_mctp.c:418:10: note: Calling 'mctp_ioctl_droptag'
-                   return mctp_ioctl_droptag(msk, arg);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/af_mctp.c:376:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cxl/region.c:550:5-16: ERROR: invalid reference to the index var=
+iable of the iterator on line 543
 
-vim +343 net/mctp/af_mctp.c
+vim +550 drivers/cxl/region.c
 
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  331  =
+b15cb12c2369e0 Ben Widawsky 2022-02-11  413  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  332  static int mctp_ioctl_allocta=
-g(struct mctp_sock *msk, unsigned long arg)
-63ed1aab3d40aa Matt Johnston 2022-02-09  333  {
-63ed1aab3d40aa Matt Johnston 2022-02-09  334  	struct net *net =3D sock_net=
-(&msk->sk);
-63ed1aab3d40aa Matt Johnston 2022-02-09  335  	struct mctp_sk_key *key =3D =
-NULL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  336  	struct mctp_ioc_tag_ctl ctl;
-63ed1aab3d40aa Matt Johnston 2022-02-09  337  	unsigned long flags;
-63ed1aab3d40aa Matt Johnston 2022-02-09  338  	u8 tag;
-63ed1aab3d40aa Matt Johnston 2022-02-09  339  =
+786e9e58377374 Ben Widawsky 2022-02-11  414  /**
+786e9e58377374 Ben Widawsky 2022-02-11  415   * region_hb_rp_config_valid()=
+ - determine root port ordering is correct
+786e9e58377374 Ben Widawsky 2022-02-11  416   * @cxlr: Region to validate
+786e9e58377374 Ben Widawsky 2022-02-11  417   * @rootd: root decoder for th=
+is @cxlr
+b15cb12c2369e0 Ben Widawsky 2022-02-11  418   * @state_update: Whether or n=
+ot to update port state
+786e9e58377374 Ben Widawsky 2022-02-11  419   *
+786e9e58377374 Ben Widawsky 2022-02-11  420   * The algorithm is outlined i=
+n 2.13.15 "Verify HB root port configuration
+786e9e58377374 Ben Widawsky 2022-02-11  421   * sequence" of the CXL Memory=
+ Device SW Guide (Rev1p0).
+786e9e58377374 Ben Widawsky 2022-02-11  422   *
+786e9e58377374 Ben Widawsky 2022-02-11  423   * Returns true if the configu=
+ration is valid.
+786e9e58377374 Ben Widawsky 2022-02-11  424   */
+b15cb12c2369e0 Ben Widawsky 2022-02-11  425  static bool region_hb_rp_confi=
+g_valid(struct cxl_region *cxlr,
+b15cb12c2369e0 Ben Widawsky 2022-02-11  426  				      const struct cxl_dec=
+oder *rootd,
+b15cb12c2369e0 Ben Widawsky 2022-02-11  427  				      bool state_update)
+786e9e58377374 Ben Widawsky 2022-02-11  428  {
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  429  	const int region_ig =3D cxl_t=
+o_ig(cxlr->config.interleave_granularity);
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  430  	const int region_eniw =3D cxl=
+_to_eniw(cxlr->config.interleave_ways);
+8ed598d187016c Ben Widawsky 2022-02-11  431  	const int num_root_ports =3D =
+get_num_root_ports(cxlr);
+8ed598d187016c Ben Widawsky 2022-02-11  432  	struct cxl_port *hbs[CXL_DECO=
+DER_MAX_INTERLEAVE];
+b15cb12c2369e0 Ben Widawsky 2022-02-11  433  	struct cxl_decoder *cxld, *c;
+8ed598d187016c Ben Widawsky 2022-02-11  434  	int hb_count, i;
+8ed598d187016c Ben Widawsky 2022-02-11  435  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  340  	if (copy_from_user(&ctl, (vo=
-id __user *)arg, sizeof(ctl)))
-63ed1aab3d40aa Matt Johnston 2022-02-09  341  		return -EFAULT;
-63ed1aab3d40aa Matt Johnston 2022-02-09  342  =
+8ed598d187016c Ben Widawsky 2022-02-11  436  	hb_count =3D get_unique_hostb=
+ridges(cxlr, hbs);
+8ed598d187016c Ben Widawsky 2022-02-11  437  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09 @343  	if (ctl.tag)
-63ed1aab3d40aa Matt Johnston 2022-02-09  344  		return -EINVAL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  345  =
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  438  	/* TODO: support multiple lev=
+els of switches */
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  439  	if (has_multi_switch(cxlr))
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  440  		return false;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  441  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  346  	if (ctl.flags)
-63ed1aab3d40aa Matt Johnston 2022-02-09  347  		return -EINVAL;
-63ed1aab3d40aa Matt Johnston 2022-02-09  348  =
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  442  	/* TODO: x3 interleave for sw=
+itches is hard. */
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  443  	if (has_switch(cxlr) && !is_p=
+ower_of_2(region_ways(cxlr)))
+8ed598d187016c Ben Widawsky 2022-02-11  444  		return false;
+8ed598d187016c Ben Widawsky 2022-02-11  445  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  349  	key =3D mctp_alloc_local_tag=
-(msk, ctl.peer_addr, MCTP_ADDR_ANY,
-63ed1aab3d40aa Matt Johnston 2022-02-09  350  				   true, &tag);
-63ed1aab3d40aa Matt Johnston 2022-02-09  351  	if (IS_ERR(key))
-63ed1aab3d40aa Matt Johnston 2022-02-09  352  		return PTR_ERR(key);
-63ed1aab3d40aa Matt Johnston 2022-02-09  353  =
+8ed598d187016c Ben Widawsky 2022-02-11  446  	/*
+8ed598d187016c Ben Widawsky 2022-02-11  447  	 * Are all devices in this re=
+gion on the same CXL Host Bridge
+8ed598d187016c Ben Widawsky 2022-02-11  448  	 * Root Port?
+8ed598d187016c Ben Widawsky 2022-02-11  449  	 */
+b15cb12c2369e0 Ben Widawsky 2022-02-11  450  	if (num_root_ports =3D=3D 1 &=
+& !has_switch(cxlr) && state_update)
+b15cb12c2369e0 Ben Widawsky 2022-02-11  451  		return simple_config(cxlr, h=
+bs[0]);
+8ed598d187016c Ben Widawsky 2022-02-11  452  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  354  	ctl.tag =3D tag | MCTP_TAG_O=
-WNER | MCTP_TAG_PREALLOC;
-63ed1aab3d40aa Matt Johnston 2022-02-09  355  	if (copy_to_user((void __use=
-r *)arg, &ctl, sizeof(ctl))) {
-63ed1aab3d40aa Matt Johnston 2022-02-09  356  		spin_lock_irqsave(&key->loc=
-k, flags);
-63ed1aab3d40aa Matt Johnston 2022-02-09  357  		__mctp_key_remove(key, net,=
- flags, MCTP_TRACE_KEY_DROPPED);
-63ed1aab3d40aa Matt Johnston 2022-02-09  358  		mctp_key_unref(key);
-63ed1aab3d40aa Matt Johnston 2022-02-09  359  		return -EFAULT;
-63ed1aab3d40aa Matt Johnston 2022-02-09  360  	}
-63ed1aab3d40aa Matt Johnston 2022-02-09  361  =
+8ed598d187016c Ben Widawsky 2022-02-11  453  	for (i =3D 0; i < hb_count; i=
+++) {
+a87877add7dded Ben Widawsky 2022-02-11  454  		struct cxl_decoder *cxld;
+8ed598d187016c Ben Widawsky 2022-02-11  455  		int idx, position_mask;
+8ed598d187016c Ben Widawsky 2022-02-11  456  		struct cxl_dport *rp;
+8ed598d187016c Ben Widawsky 2022-02-11  457  		struct cxl_port *hb;
+8ed598d187016c Ben Widawsky 2022-02-11  458  =
 
-63ed1aab3d40aa Matt Johnston 2022-02-09  362  	mctp_key_unref(key);
-63ed1aab3d40aa Matt Johnston 2022-02-09  363  	return 0;
-63ed1aab3d40aa Matt Johnston 2022-02-09  364  }
-63ed1aab3d40aa Matt Johnston 2022-02-09  365  =
+8ed598d187016c Ben Widawsky 2022-02-11  459  		/* Get next CXL Host Bridge =
+this region spans */
+8ed598d187016c Ben Widawsky 2022-02-11  460  		hb =3D hbs[i];
+8ed598d187016c Ben Widawsky 2022-02-11  461  =
+
+b15cb12c2369e0 Ben Widawsky 2022-02-11  462  		if (state_update) {
+b15cb12c2369e0 Ben Widawsky 2022-02-11  463  			cxld =3D get_decoder(cxlr, =
+hb);
+b15cb12c2369e0 Ben Widawsky 2022-02-11  464  			if (IS_ERR(cxld)) {
+b15cb12c2369e0 Ben Widawsky 2022-02-11  465  				dev_dbg(&cxlr->dev,
+b15cb12c2369e0 Ben Widawsky 2022-02-11  466  					"Couldn't get decoder for=
+ %s\n",
+b15cb12c2369e0 Ben Widawsky 2022-02-11  467  					dev_name(&hb->dev));
+b15cb12c2369e0 Ben Widawsky 2022-02-11  468  				goto err;
+b15cb12c2369e0 Ben Widawsky 2022-02-11  469  			}
+b15cb12c2369e0 Ben Widawsky 2022-02-11  470  			cxld->interleave_ways =3D 0;
+b15cb12c2369e0 Ben Widawsky 2022-02-11  471  			cxld->interleave_granularit=
+y =3D region_granularity(cxlr);
+b15cb12c2369e0 Ben Widawsky 2022-02-11  472  		} else {
+b15cb12c2369e0 Ben Widawsky 2022-02-11  473  			cxld =3D NULL;
+b15cb12c2369e0 Ben Widawsky 2022-02-11  474  		}
+b15cb12c2369e0 Ben Widawsky 2022-02-11  475  =
+
+8ed598d187016c Ben Widawsky 2022-02-11  476  		/*
+8ed598d187016c Ben Widawsky 2022-02-11  477  		 * Calculate the position ma=
+sk: NumRootPorts =3D 2^PositionMask
+8ed598d187016c Ben Widawsky 2022-02-11  478  		 * for this region.
+8ed598d187016c Ben Widawsky 2022-02-11  479  		 *
+8ed598d187016c Ben Widawsky 2022-02-11  480  		 * XXX: pos_mask is actually=
+ (1 << PositionMask)  - 1
+8ed598d187016c Ben Widawsky 2022-02-11  481  		 */
+8ed598d187016c Ben Widawsky 2022-02-11  482  		position_mask =3D (1 << (ilo=
+g2(num_root_ports))) - 1;
+8ed598d187016c Ben Widawsky 2022-02-11  483  =
+
+8ed598d187016c Ben Widawsky 2022-02-11  484  		/*
+8ed598d187016c Ben Widawsky 2022-02-11  485  		 * Calculate the PortGroupin=
+g for each device on this CXL Host
+8ed598d187016c Ben Widawsky 2022-02-11  486  		 * Bridge Root Port:
+8ed598d187016c Ben Widawsky 2022-02-11  487  		 * PortGrouping =3D RegionLa=
+bel.Position & PositionMask
+8ed598d187016c Ben Widawsky 2022-02-11  488  		 *
+8ed598d187016c Ben Widawsky 2022-02-11  489  		 * The following nest iterat=
+ors effectively iterate over each
+8ed598d187016c Ben Widawsky 2022-02-11  490  		 * root port in the region.
+8ed598d187016c Ben Widawsky 2022-02-11  491  		 *   for_each_unique_rootpor=
+t(rp, cxlr)
+8ed598d187016c Ben Widawsky 2022-02-11  492  		 */
+8ed598d187016c Ben Widawsky 2022-02-11  493  		list_for_each_entry(rp, &hb-=
+>dports, list) {
+8ed598d187016c Ben Widawsky 2022-02-11  494  			struct cxl_memdev *ep;
+8ed598d187016c Ben Widawsky 2022-02-11  495  			int port_grouping =3D -1;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  496  			int target_ndx;
+8ed598d187016c Ben Widawsky 2022-02-11  497  =
+
+8ed598d187016c Ben Widawsky 2022-02-11  498  			for_each_cxl_endpoint_hb(ep=
+, cxlr, hb, idx) {
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  499  				struct cxl_decoder *switch=
+_cxld;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  500  				struct cxl_dport *target;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  501  				struct cxl_port *switch_po=
+rt;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  502  				bool found =3D false;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  503  =
+
+8ed598d187016c Ben Widawsky 2022-02-11  504  				if (get_rp(ep) !=3D rp)
+8ed598d187016c Ben Widawsky 2022-02-11  505  					continue;
+8ed598d187016c Ben Widawsky 2022-02-11  506  =
+
+8ed598d187016c Ben Widawsky 2022-02-11  507  				if (port_grouping =3D=3D -=
+1)
+8ed598d187016c Ben Widawsky 2022-02-11  508  					port_grouping =3D idx & p=
+osition_mask;
+8ed598d187016c Ben Widawsky 2022-02-11  509  =
+
+8ed598d187016c Ben Widawsky 2022-02-11  510  				/*
+8ed598d187016c Ben Widawsky 2022-02-11  511  				 * Do all devices in the r=
+egion connected to this CXL
+8ed598d187016c Ben Widawsky 2022-02-11  512  				 * Host Bridge Root Port h=
+ave the same PortGrouping?
+8ed598d187016c Ben Widawsky 2022-02-11  513  				 */
+8ed598d187016c Ben Widawsky 2022-02-11  514  				if ((idx & position_mask) =
+!=3D port_grouping) {
+8ed598d187016c Ben Widawsky 2022-02-11  515  					dev_dbg(&cxlr->dev,
+8ed598d187016c Ben Widawsky 2022-02-11  516  						"One or more devices are=
+ not connected to the correct Host Bridge Root Port\n");
+b15cb12c2369e0 Ben Widawsky 2022-02-11  517  					goto err;
+8ed598d187016c Ben Widawsky 2022-02-11  518  				}
+a87877add7dded Ben Widawsky 2022-02-11  519  =
+
+a87877add7dded Ben Widawsky 2022-02-11  520  				if (!state_update)
+a87877add7dded Ben Widawsky 2022-02-11  521  					continue;
+a87877add7dded Ben Widawsky 2022-02-11  522  =
+
+a87877add7dded Ben Widawsky 2022-02-11  523  				if (dev_WARN_ONCE(&cxld->d=
+ev,
+a87877add7dded Ben Widawsky 2022-02-11  524  						  port_grouping >=3D cxl=
+d->nr_targets,
+a87877add7dded Ben Widawsky 2022-02-11  525  						  "Invalid port grouping=
+ %d/%d\n",
+a87877add7dded Ben Widawsky 2022-02-11  526  						  port_grouping, cxld->n=
+r_targets))
+a87877add7dded Ben Widawsky 2022-02-11  527  					goto err;
+a87877add7dded Ben Widawsky 2022-02-11  528  =
+
+a87877add7dded Ben Widawsky 2022-02-11  529  				cxld->interleave_ways++;
+a87877add7dded Ben Widawsky 2022-02-11  530  				cxld->target[port_grouping=
+] =3D get_rp(ep);
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  531  =
+
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  532  				/*
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  533  				 * At least one switch is =
+connected here if the endpoint
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  534  				 * has a depth > 2
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  535  				 */
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  536  				if (ep->port->depth =3D=3D=
+ 2)
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  537  					continue;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  538  =
+
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  539  				/* Check the staged list t=
+o see if this
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  540  				 * port has already been a=
+dded
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  541  				 */
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  542  				switch_port =3D get_switch=
+(ep);
+2ecd98fe1cb074 Ben Widawsky 2022-02-11 @543  				list_for_each_entry(switch=
+_cxld, &cxlr->staged_list, region_link) {
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  544  					if (to_cxl_port(switch_cx=
+ld->dev.parent) =3D=3D switch_port)
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  545  						found =3D true;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  546  				}
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  547  =
+
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  548  				if (found) {
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  549  					target =3D cxl_find_dport=
+_by_dev(switch_port, ep->dev.parent->parent);
+2ecd98fe1cb074 Ben Widawsky 2022-02-11 @550  					switch_cxld->target[targe=
+t_ndx++] =3D target;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  551  					continue;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  552  				}
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  553  =
+
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  554  				target_ndx =3D 0;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  555  =
+
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  556  				switch_cxld =3D get_decode=
+r(cxlr, switch_port);
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  557  				switch_cxld->interleave_wa=
+ys++;
+2ecd98fe1cb074 Ben Widawsky 2022-02-11  558  				switch_cxld->interleave_gr=
+anularity =3D cxl_to_ways(region_ig + region_eniw);
+8ed598d187016c Ben Widawsky 2022-02-11  559  			}
+8ed598d187016c Ben Widawsky 2022-02-11  560  		}
+8ed598d187016c Ben Widawsky 2022-02-11  561  	}
+8ed598d187016c Ben Widawsky 2022-02-11  562  =
+
+786e9e58377374 Ben Widawsky 2022-02-11  563  	return true;
+b15cb12c2369e0 Ben Widawsky 2022-02-11  564  =
+
+b15cb12c2369e0 Ben Widawsky 2022-02-11  565  err:
+b15cb12c2369e0 Ben Widawsky 2022-02-11  566  	dev_dbg(&cxlr->dev, "Couldn't=
+ get decoder for region\n");
+b15cb12c2369e0 Ben Widawsky 2022-02-11  567  	list_for_each_entry_safe(cxld=
+, c, &cxlr->staged_list, region_link)
+b15cb12c2369e0 Ben Widawsky 2022-02-11  568  		cxl_put_decoder(cxld);
+b15cb12c2369e0 Ben Widawsky 2022-02-11  569  =
+
+b15cb12c2369e0 Ben Widawsky 2022-02-11  570  	return false;
+786e9e58377374 Ben Widawsky 2022-02-11  571  }
+786e9e58377374 Ben Widawsky 2022-02-11  572  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7517138247299451671==--
+--===============6469658335791243866==--
 
