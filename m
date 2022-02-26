@@ -1,209 +1,340 @@
-Content-Type: multipart/mixed; boundary="===============8005883889102525230=="
+Content-Type: multipart/mixed; boundary="===============7517138247299451671=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tty:tty-testing 30/42] drivers/tty/serial/meson_uart.c:832 meson_uart_probe() warn: 'pclk' not released on lines: 779, 785, 790, 794, 799.
-Date: Sun, 27 Feb 2022 04:16:10 +0800
-Message-ID: <202202270400.rQqj5xav-lkp@intel.com>
+Subject: [linux-next:master 4104/9128] net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sun, 27 Feb 2022 03:45:42 +0800
+Message-ID: <202202270356.eMEOO7Ph-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8005883889102525230==
+--===============7517138247299451671==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-serial(a)vger.kernel.org
-TO: Yu Tu <yu.tu@amlogic.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Matt Johnston <matt@codeconstruct.com.au>
+CC: Jeremy Kerr <jk@codeconstruct.com.au>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
-testing
-head:   71404f653cf7858fdbb81dd5419a8a4ac4ffa20c
-commit: 44023b8e1f14bc72bb773dd84dc3563fc912d210 [30/42] tty: serial: meson=
-: Describes the calculation of the UART baud rate clock using a clock frame
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: arc-randconfig-m031-20220226 (https://download.01.org/0day-ci/archi=
-ve/20220227/202202270400.rQqj5xav-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   06aeb1495c39c86ccfaf1adadc1d2200179f16eb
+commit: 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa [4104/9128] mctp: Add SIOC=
+MCTP{ALLOC,DROP}TAG ioctls for tag control
+:::::: branch date: 18 hours ago
+:::::: commit date: 2 weeks ago
+config: mips-randconfig-c004-20220225 (https://download.01.org/0day-ci/arch=
+ive/20220227/202202270356.eMEOO7Ph-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 63ed1aab3d40aa61aaa66819bdce9377ac7f40fa
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dmips clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/tty/serial/meson_uart.c:832 meson_uart_probe() warn: 'pclk' not rel=
-eased on lines: 779,785,790,794,799.
-
-vim +/pclk +832 drivers/tty/serial/meson_uart.c
-
-9f60e0e7aea66e Helmut Klein    2017-06-14  736  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  737  static int meson_uart_probe=
-(struct platform_device *pdev)
-ff7693d079e58f Carlo Caione    2014-08-17  738  {
-44023b8e1f14bc Yu Tu           2022-02-25  739  	struct meson_uart_data *pr=
-ivate_data;
-5b680619834714 Lad Prabhakar   2021-12-24  740  	struct resource *res_mem;
-ff7693d079e58f Carlo Caione    2014-08-17  741  	struct uart_port *port;
-44023b8e1f14bc Yu Tu           2022-02-25  742  	struct clk *pclk;
-27d44e05d7b85d Neil Armstrong  2021-05-18  743  	u32 fifosize =3D 64; /* De=
-fault is 64, 128 for EE UART_0 */
-ff7693d079e58f Carlo Caione    2014-08-17  744  	int ret =3D 0;
-5b680619834714 Lad Prabhakar   2021-12-24  745  	int irq;
-ff7693d079e58f Carlo Caione    2014-08-17  746  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  747  	if (pdev->dev.of_node)
-ff7693d079e58f Carlo Caione    2014-08-17  748  		pdev->id =3D of_alias_get=
-_id(pdev->dev.of_node, "serial");
-ff7693d079e58f Carlo Caione    2014-08-17  749  =
-
-a26988e8fef4b2 Loys Ollivier   2019-01-14  750  	if (pdev->id < 0) {
-021212f5335229 Colin Ian King  2021-04-26  751  		int id;
-021212f5335229 Colin Ian King  2021-04-26  752  =
-
-a26988e8fef4b2 Loys Ollivier   2019-01-14  753  		for (id =3D AML_UART_PORT=
-_OFFSET; id < AML_UART_PORT_NUM; id++) {
-a26988e8fef4b2 Loys Ollivier   2019-01-14  754  			if (!meson_ports[id]) {
-a26988e8fef4b2 Loys Ollivier   2019-01-14  755  				pdev->id =3D id;
-a26988e8fef4b2 Loys Ollivier   2019-01-14  756  				break;
-a26988e8fef4b2 Loys Ollivier   2019-01-14  757  			}
-a26988e8fef4b2 Loys Ollivier   2019-01-14  758  		}
-a26988e8fef4b2 Loys Ollivier   2019-01-14  759  	}
-a26988e8fef4b2 Loys Ollivier   2019-01-14  760  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  761  	if (pdev->id < 0 || pdev->=
-id >=3D AML_UART_PORT_NUM)
-ff7693d079e58f Carlo Caione    2014-08-17  762  		return -EINVAL;
-ff7693d079e58f Carlo Caione    2014-08-17  763  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  764  	res_mem =3D platform_get_r=
-esource(pdev, IORESOURCE_MEM, 0);
-ff7693d079e58f Carlo Caione    2014-08-17  765  	if (!res_mem)
-ff7693d079e58f Carlo Caione    2014-08-17  766  		return -ENODEV;
-ff7693d079e58f Carlo Caione    2014-08-17  767  =
-
-44023b8e1f14bc Yu Tu           2022-02-25  768  	pclk =3D devm_clk_get(&pde=
-v->dev, "pclk");
-44023b8e1f14bc Yu Tu           2022-02-25  769  	if (IS_ERR(pclk))
-44023b8e1f14bc Yu Tu           2022-02-25  770  		return dev_err_probe(&pde=
-v->dev, PTR_ERR(pclk),
-44023b8e1f14bc Yu Tu           2022-02-25  771  				     "Failed to get the=
- 'pclk' clock\n");
-44023b8e1f14bc Yu Tu           2022-02-25  772  =
-
-44023b8e1f14bc Yu Tu           2022-02-25  773  	ret =3D clk_prepare_enable=
-(pclk);
-44023b8e1f14bc Yu Tu           2022-02-25  774  	if (ret)
-44023b8e1f14bc Yu Tu           2022-02-25  775  		return ret;
-44023b8e1f14bc Yu Tu           2022-02-25  776  =
-
-5b680619834714 Lad Prabhakar   2021-12-24  777  	irq =3D platform_get_irq(p=
-dev, 0);
-5b680619834714 Lad Prabhakar   2021-12-24  778  	if (irq < 0)
-5b680619834714 Lad Prabhakar   2021-12-24  779  		return irq;
-ff7693d079e58f Carlo Caione    2014-08-17  780  =
-
-27d44e05d7b85d Neil Armstrong  2021-05-18  781  	of_property_read_u32(pdev-=
->dev.of_node, "fifo-size", &fifosize);
-27d44e05d7b85d Neil Armstrong  2021-05-18  782  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  783  	if (meson_ports[pdev->id])=
- {
-ff7693d079e58f Carlo Caione    2014-08-17  784  		dev_err(&pdev->dev, "port=
- %d already allocated\n", pdev->id);
-ff7693d079e58f Carlo Caione    2014-08-17  785  		return -EBUSY;
-ff7693d079e58f Carlo Caione    2014-08-17  786  	}
-ff7693d079e58f Carlo Caione    2014-08-17  787  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  788  	port =3D devm_kzalloc(&pde=
-v->dev, sizeof(struct uart_port), GFP_KERNEL);
-ff7693d079e58f Carlo Caione    2014-08-17  789  	if (!port)
-ff7693d079e58f Carlo Caione    2014-08-17  790  		return -ENOMEM;
-ff7693d079e58f Carlo Caione    2014-08-17  791  =
-
-6436dd8f9b25ea Yu Tu           2022-02-25  792  	port->membase =3D devm_ior=
-emap_resource(&pdev->dev, res_mem);
-841f913e770f3c Yu Tu           2022-02-25  793  	if (IS_ERR(port->membase))
-841f913e770f3c Yu Tu           2022-02-25  794  		return PTR_ERR(port->memb=
-ase);
-841f913e770f3c Yu Tu           2022-02-25  795  =
-
-44023b8e1f14bc Yu Tu           2022-02-25  796  	private_data =3D devm_kzal=
-loc(&pdev->dev, sizeof(*private_data),
-44023b8e1f14bc Yu Tu           2022-02-25  797  				    GFP_KERNEL);
-44023b8e1f14bc Yu Tu           2022-02-25  798  	if (!private_data)
-44023b8e1f14bc Yu Tu           2022-02-25  799  		return -ENOMEM;
-44023b8e1f14bc Yu Tu           2022-02-25  800  =
-
-44023b8e1f14bc Yu Tu           2022-02-25  801  	if (device_get_match_data(=
-&pdev->dev))
-44023b8e1f14bc Yu Tu           2022-02-25  802  		private_data->use_xtal_cl=
-k =3D true;
-ff7693d079e58f Carlo Caione    2014-08-17  803  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  804  	port->iotype =3D UPIO_MEM;
-ff7693d079e58f Carlo Caione    2014-08-17  805  	port->mapbase =3D res_mem-=
->start;
-ff3b9cad7d6309 Heiner Kallweit 2017-04-19  806  	port->mapsize =3D resource=
-_size(res_mem);
-5b680619834714 Lad Prabhakar   2021-12-24  807  	port->irq =3D irq;
-1b1ecaa69c4f90 Heiner Kallweit 2017-04-19  808  	port->flags =3D UPF_BOOT_A=
-UTOCONF | UPF_LOW_LATENCY;
-dca3ac8d3bc943 Dmitry Safonov  2019-12-13  809  	port->has_sysrq =3D IS_ENA=
-BLED(CONFIG_SERIAL_MESON_CONSOLE);
-ff7693d079e58f Carlo Caione    2014-08-17  810  	port->dev =3D &pdev->dev;
-ff7693d079e58f Carlo Caione    2014-08-17  811  	port->line =3D pdev->id;
-ff7693d079e58f Carlo Caione    2014-08-17  812  	port->type =3D PORT_MESON;
-ff7693d079e58f Carlo Caione    2014-08-17  813  	port->x_char =3D 0;
-ff7693d079e58f Carlo Caione    2014-08-17  814  	port->ops =3D &meson_uart_=
-ops;
-27d44e05d7b85d Neil Armstrong  2021-05-18  815  	port->fifosize =3D fifosiz=
-e;
-44023b8e1f14bc Yu Tu           2022-02-25  816  	port->private_data =3D pri=
-vate_data;
-44023b8e1f14bc Yu Tu           2022-02-25  817  =
-
-44023b8e1f14bc Yu Tu           2022-02-25  818  	ret =3D meson_uart_probe_c=
-locks(port);
-44023b8e1f14bc Yu Tu           2022-02-25  819  	if (ret)
-44023b8e1f14bc Yu Tu           2022-02-25  820  		return ret;
-ff7693d079e58f Carlo Caione    2014-08-17  821  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  822  	meson_ports[pdev->id] =3D =
-port;
-ff7693d079e58f Carlo Caione    2014-08-17  823  	platform_set_drvdata(pdev,=
- port);
-ff7693d079e58f Carlo Caione    2014-08-17  824  =
-
-00661dd855b5b1 Ben Dooks       2015-11-18  825  	/* reset port before regis=
-tering (and possibly registering console) */
-00661dd855b5b1 Ben Dooks       2015-11-18  826  	meson_uart_reset(port);
-00661dd855b5b1 Ben Dooks       2015-11-18  827  =
-
-ff7693d079e58f Carlo Caione    2014-08-17  828  	ret =3D uart_add_one_port(=
-&meson_uart_driver, port);
-ff7693d079e58f Carlo Caione    2014-08-17  829  	if (ret)
-ff7693d079e58f Carlo Caione    2014-08-17  830  		meson_ports[pdev->id] =3D=
- NULL;
-ff7693d079e58f Carlo Caione    2014-08-17  831  =
-
-ff7693d079e58f Carlo Caione    2014-08-17 @832  	return ret;
-ff7693d079e58f Carlo Caione    2014-08-17  833  }
-ff7693d079e58f Carlo Caione    2014-08-17  834  =
 
 
-:::::: The code at line 832 was first introduced by commit
-:::::: ff7693d079e58fb62d735b7b8085b53fcfb74528 ARM: meson: serial: add Mes=
-onX SoC on-chip uart driver
+clang-analyzer warnings: (new ones prefixed by >>)
+                       ^~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:297:3: note: Taking false branch
+                   if (optlen !=3D sizeof(int))
+                   ^
+   net/mctp/af_mctp.c:299:7: note: Calling 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:6: note: Assuming the condition is true
+           if (!sockptr_is_kernel(src))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:2: note: Taking true branch
+           if (!sockptr_is_kernel(src))
+           ^
+   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   include/linux/sockptr.h:48:10: note: Returning from 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:48:3: note: Returning without writing to '*dst'
+                   return copy_from_user(dst, src.user + offset, size);
+                   ^
+   include/linux/sockptr.h:48:3: note: Returning zero, which participates i=
+n a condition later
+                   return copy_from_user(dst, src.user + offset, size);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Returning from 'copy_from_sockptr_of=
+fset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:2: note: Returning without writing to '*dst'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+           ^
+   include/linux/sockptr.h:55:2: note: Returning zero, which participates i=
+n a condition later
+           return copy_from_sockptr_offset(dst, src, 0, size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:299:7: note: Returning from 'copy_from_sockptr'
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:299:3: note: Taking false branch
+                   if (copy_from_sockptr(&val, optval, sizeof(int)))
+                   ^
+   net/mctp/af_mctp.c:301:17: note: Assigned value is garbage or undefined
+                   msk->addr_ext =3D val;
+                                 ^ ~~~
+>> net/mctp/af_mctp.c:343:6: warning: Branch condition evaluates to a garba=
+ge value [clang-analyzer-core.uninitialized.Branch]
+           if (ctl.tag)
+               ^
+   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35296:'  at line =
+415
+           switch (cmd) {
+           ^
+   net/mctp/af_mctp.c:416:10: note: Calling 'mctp_ioctl_alloctag'
+                   return mctp_ioctl_alloctag(msk, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:340:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o 'to->tag'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->t=
+ag'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->t=
+ag'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   net/mctp/af_mctp.c:340:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:340:2: note: Taking false branch
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+           ^
+   net/mctp/af_mctp.c:343:6: note: Branch condition evaluates to a garbage =
+value
+           if (ctl.tag)
+               ^~~~~~~
+   net/mctp/af_mctp.c:379:6: warning: Branch condition evaluates to a garba=
+ge value [clang-analyzer-core.uninitialized.Branch]
+           if (ctl.flags)
+               ^
+   net/mctp/af_mctp.c:414:2: note: Control jumps to 'case 35297:'  at line =
+417
+           switch (cmd) {
+           ^
+   net/mctp/af_mctp.c:418:10: note: Calling 'mctp_ioctl_droptag'
+                   return mctp_ioctl_droptag(msk, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/mctp/af_mctp.c:376:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&ctl, (void __user *)arg, sizeof(ctl)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
 
-:::::: TO: Carlo Caione <carlo@caione.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+vim +343 net/mctp/af_mctp.c
+
+8f601a1e4f8c84 Jeremy Kerr   2021-07-29  331  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  332  static int mctp_ioctl_allocta=
+g(struct mctp_sock *msk, unsigned long arg)
+63ed1aab3d40aa Matt Johnston 2022-02-09  333  {
+63ed1aab3d40aa Matt Johnston 2022-02-09  334  	struct net *net =3D sock_net=
+(&msk->sk);
+63ed1aab3d40aa Matt Johnston 2022-02-09  335  	struct mctp_sk_key *key =3D =
+NULL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  336  	struct mctp_ioc_tag_ctl ctl;
+63ed1aab3d40aa Matt Johnston 2022-02-09  337  	unsigned long flags;
+63ed1aab3d40aa Matt Johnston 2022-02-09  338  	u8 tag;
+63ed1aab3d40aa Matt Johnston 2022-02-09  339  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  340  	if (copy_from_user(&ctl, (vo=
+id __user *)arg, sizeof(ctl)))
+63ed1aab3d40aa Matt Johnston 2022-02-09  341  		return -EFAULT;
+63ed1aab3d40aa Matt Johnston 2022-02-09  342  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09 @343  	if (ctl.tag)
+63ed1aab3d40aa Matt Johnston 2022-02-09  344  		return -EINVAL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  345  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  346  	if (ctl.flags)
+63ed1aab3d40aa Matt Johnston 2022-02-09  347  		return -EINVAL;
+63ed1aab3d40aa Matt Johnston 2022-02-09  348  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  349  	key =3D mctp_alloc_local_tag=
+(msk, ctl.peer_addr, MCTP_ADDR_ANY,
+63ed1aab3d40aa Matt Johnston 2022-02-09  350  				   true, &tag);
+63ed1aab3d40aa Matt Johnston 2022-02-09  351  	if (IS_ERR(key))
+63ed1aab3d40aa Matt Johnston 2022-02-09  352  		return PTR_ERR(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  353  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  354  	ctl.tag =3D tag | MCTP_TAG_O=
+WNER | MCTP_TAG_PREALLOC;
+63ed1aab3d40aa Matt Johnston 2022-02-09  355  	if (copy_to_user((void __use=
+r *)arg, &ctl, sizeof(ctl))) {
+63ed1aab3d40aa Matt Johnston 2022-02-09  356  		spin_lock_irqsave(&key->loc=
+k, flags);
+63ed1aab3d40aa Matt Johnston 2022-02-09  357  		__mctp_key_remove(key, net,=
+ flags, MCTP_TRACE_KEY_DROPPED);
+63ed1aab3d40aa Matt Johnston 2022-02-09  358  		mctp_key_unref(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  359  		return -EFAULT;
+63ed1aab3d40aa Matt Johnston 2022-02-09  360  	}
+63ed1aab3d40aa Matt Johnston 2022-02-09  361  =
+
+63ed1aab3d40aa Matt Johnston 2022-02-09  362  	mctp_key_unref(key);
+63ed1aab3d40aa Matt Johnston 2022-02-09  363  	return 0;
+63ed1aab3d40aa Matt Johnston 2022-02-09  364  }
+63ed1aab3d40aa Matt Johnston 2022-02-09  365  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8005883889102525230==--
+--===============7517138247299451671==--
 
