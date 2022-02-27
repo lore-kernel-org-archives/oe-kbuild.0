@@ -1,236 +1,470 @@
-Content-Type: multipart/mixed; boundary="===============6047985353929768298=="
+Content-Type: multipart/mixed; boundary="===============6749831159715782220=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4218/9128] drivers/clk/imx/clk-imx8qxp-lpcg.c:258 imx_lpcg_parse_clks_from_dt() error: buffer overflow 'clk_hws' 8 <= 8
-Date: Mon, 28 Feb 2022 03:30:15 +0800
-Message-ID: <202202280348.GvA8u6Xg-lkp@intel.com>
+Subject: drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 28 Feb 2022 02:39:25 +0800
+Message-ID: <202202280247.T92IUv1h-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6047985353929768298==
+--===============6749831159715782220==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kees Cook <keescook@chromium.org>
-CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Hannes Reinecke <hare@suse.com>
+CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   06aeb1495c39c86ccfaf1adadc1d2200179f16eb
-commit: 1c1d836b96ba1bd773881c7f4784c77b94d58e25 [4218/9128] overflow: Prov=
-ide constant expression struct_size
-:::::: branch date: 2 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-m031-20220227 (https://download.01.org/0day-ci/arc=
-hive/20220228/202202280348.GvA8u6Xg-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2293be58d6a18cab800e25e42081bacb75c05752
+commit: b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347 ata: pata_pdc2027x: Replac=
+e PDPRINTK() with standard ata logging
+date:   8 weeks ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 8 weeks ago
+config: riscv-randconfig-c006-20220222 (https://download.01.org/0day-ci/arc=
+hive/20220228/202202280247.T92IUv1h-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b5a5fc8b0f8175e4b3aaf182c1b23de4ccdd3347
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/clk/imx/clk-imx8qxp-lpcg.c:258 imx_lpcg_parse_clks_from_dt() error:=
- buffer overflow 'clk_hws' 8 <=3D 8
-
-Old smatch warnings:
-drivers/clk/imx/clk-imx8qxp-lpcg.c:261 imx_lpcg_parse_clks_from_dt() error:=
- buffer overflow 'clk_hws' 8 <=3D 8
-drivers/clk/imx/clk-imx8qxp-lpcg.c:264 imx_lpcg_parse_clks_from_dt() error:=
- buffer overflow 'clk_hws' 8 <=3D 8
-
-vim +/clk_hws +258 drivers/clk/imx/clk-imx8qxp-lpcg.c
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  177  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  178  static int imx_lpcg_parse_clks=
-_from_dt(struct platform_device *pdev,
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  179  				       struct device_node =
-*np)
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  180  {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  181  	const char *output_names[IMX_=
-LPCG_MAX_CLKS];
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  182  	const char *parent_names[IMX_=
-LPCG_MAX_CLKS];
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  183  	unsigned int bit_offset[IMX_L=
-PCG_MAX_CLKS];
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  184  	struct clk_hw_onecell_data *c=
-lk_data;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  185  	struct clk_hw **clk_hws;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  186  	struct resource *res;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  187  	void __iomem *base;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  188  	int count;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  189  	int idx;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  190  	int ret;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  191  	int i;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  192  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  193  	if (!of_device_is_compatible(=
-np, "fsl,imx8qxp-lpcg"))
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  194  		return -EINVAL;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  195  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  196  	res =3D platform_get_resource=
-(pdev, IORESOURCE_MEM, 0);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  197  	base =3D devm_ioremap_resourc=
-e(&pdev->dev, res);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  198  	if (IS_ERR(base))
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  199  		return PTR_ERR(base);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  200  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  201  	count =3D of_property_count_u=
-32_elems(np, "clock-indices");
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  202  	if (count < 0) {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  203  		dev_err(&pdev->dev, "failed =
-to count clocks\n");
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  204  		return -EINVAL;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  205  	}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  206  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  207  	/*
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  208  	 * A trick here is that we se=
-t the num of clks to the MAX instead
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  209  	 * of the count from clock-in=
-dices because one LPCG supports up to
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  210  	 * 8 clock outputs which each=
- of them is fixed to 4 bits. Then we can
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  211  	 * easily get the clock by cl=
-k-indices (bit-offset) / 4.
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  212  	 * And the cost is very limit=
-ed few pointers.
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  213  	 */
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  214  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  215  	clk_data =3D devm_kzalloc(&pd=
-ev->dev, struct_size(clk_data, hws,
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  216  				IMX_LPCG_MAX_CLKS), GFP_KE=
-RNEL);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  217  	if (!clk_data)
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  218  		return -ENOMEM;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  219  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  220  	clk_data->num =3D IMX_LPCG_MA=
-X_CLKS;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  221  	clk_hws =3D clk_data->hws;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  222  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  223  	ret =3D of_property_read_u32_=
-array(np, "clock-indices", bit_offset,
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  224  					 count);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  225  	if (ret < 0) {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  226  		dev_err(&pdev->dev, "failed =
-to read clock-indices\n");
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  227  		return -EINVAL;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  228  	}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  229  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  230  	ret =3D of_clk_parent_fill(np=
-, parent_names, count);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  231  	if (ret !=3D count) {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  232  		dev_err(&pdev->dev, "failed =
-to get clock parent names\n");
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  233  		return count;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  234  	}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  235  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  236  	ret =3D of_property_read_stri=
-ng_array(np, "clock-output-names",
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  237  					    output_names, count);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  238  	if (ret !=3D count) {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  239  		dev_err(&pdev->dev, "failed =
-to read clock-output-names\n");
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  240  		return -EINVAL;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  241  	}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  242  =
-
-18cdbad40c6c13 Dong Aisheng 2020-07-29  243  	pm_runtime_get_noresume(&pdev=
-->dev);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  244  	pm_runtime_set_active(&pdev->=
-dev);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  245  	pm_runtime_set_autosuspend_de=
-lay(&pdev->dev, 500);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  246  	pm_runtime_use_autosuspend(&p=
-dev->dev);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  247  	pm_runtime_enable(&pdev->dev);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  248  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  249  	for (i =3D 0; i < count; i++)=
- {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  250  		idx =3D bit_offset[i] / 4;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  251  		if (idx > IMX_LPCG_MAX_CLKS)=
- {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  252  			dev_warn(&pdev->dev, "inval=
-id bit offset of clock %d\n",
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  253  				 i);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  254  			ret =3D -EINVAL;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  255  			goto unreg;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  256  		}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  257  =
-
-18cdbad40c6c13 Dong Aisheng 2020-07-29 @258  		clk_hws[idx] =3D imx_clk_lpc=
-g_scu_dev(&pdev->dev, output_names[i],
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  259  						    parent_names[i], 0, =
-base,
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  260  						    bit_offset[i], false=
-);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  261  		if (IS_ERR(clk_hws[idx])) {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  262  			dev_warn(&pdev->dev, "faile=
-d to register clock %d\n",
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  263  				 idx);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  264  			ret =3D PTR_ERR(clk_hws[idx=
-]);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  265  			goto unreg;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  266  		}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  267  	}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  268  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  269  	ret =3D devm_of_clk_add_hw_pr=
-ovider(&pdev->dev, imx_lpcg_of_clk_src_get,
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  270  					  clk_data);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  271  	if (ret)
-18cdbad40c6c13 Dong Aisheng 2020-07-29  272  		goto unreg;
-18cdbad40c6c13 Dong Aisheng 2020-07-29  273  =
-
-18cdbad40c6c13 Dong Aisheng 2020-07-29  274  	pm_runtime_mark_last_busy(&pd=
-ev->dev);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  275  	pm_runtime_put_autosuspend(&p=
-dev->dev);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  276  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  277  	return 0;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  278  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  279  unreg:
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  280  	while (--i >=3D 0) {
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  281  		idx =3D bit_offset[i] / 4;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  282  		if (clk_hws[idx])
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  283  			imx_clk_lpcg_scu_unregister=
-(clk_hws[idx]);
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  284  	}
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  285  =
-
-18cdbad40c6c13 Dong Aisheng 2020-07-29  286  	pm_runtime_disable(&pdev->dev=
-);
-18cdbad40c6c13 Dong Aisheng 2020-07-29  287  =
-
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  288  	return ret;
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  289  }
-d5f1e6a2bb61db Dong Aisheng 2020-07-29  290  =
 
 
-:::::: The code at line 258 was first introduced by commit
-:::::: 18cdbad40c6c138edf62273417180227e12b198a clk: imx: clk-imx8qxp-lpcg:=
- add runtime pm support
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:303:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   kernel/events/core.c:10241:29: note: Taking false branch
+           struct task_struct *task =3D READ_ONCE(event->ctx->task);
+                                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   kernel/events/core.c:10241:29: note: Loop condition is false.  Exiting l=
+oop
+           struct task_struct *task =3D READ_ONCE(event->ctx->task);
+                                      ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   kernel/events/core.c:10243:2: note: 'mm' initialized to a null pointer v=
+alue
+           struct mm_struct *mm =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10251:6: note: Assuming the condition is false
+           if (task =3D=3D TASK_TOMBSTONE)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10251:2: note: Taking false branch
+           if (task =3D=3D TASK_TOMBSTONE)
+           ^
+   kernel/events/core.c:10254:6: note: Assuming field 'nr_file_filters' is 0
+           if (ifh->nr_file_filters) {
+               ^~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10254:2: note: Taking false branch
+           if (ifh->nr_file_filters) {
+           ^
+   kernel/events/core.c:10262:2: note: Loop condition is false.  Exiting lo=
+op
+           raw_spin_lock_irqsave(&ifh->lock, flags);
+           ^
+   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+           do {                                            \
+           ^
+   kernel/events/core.c:10263:2: note: Loop condition is true.  Entering lo=
+op body
+           list_for_each_entry(filter, &ifh->list, entry) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   kernel/events/core.c:10264:7: note: Assuming field 'dentry' is non-null
+                   if (filter->path.dentry) {
+                       ^~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10264:3: note: Taking true branch
+                   if (filter->path.dentry) {
+                   ^
+   kernel/events/core.c:10272:35: note: Passing null pointer value via 2nd =
+parameter 'mm'
+                           perf_addr_filter_apply(filter, mm, &event->addr_=
+filter_ranges[count]);
+                                                          ^~
+   kernel/events/core.c:10272:4: note: Calling 'perf_addr_filter_apply'
+                           perf_addr_filter_apply(filter, mm, &event->addr_=
+filter_ranges[count]);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:10225:13: note: Dereference of null pointer
+           for (vma =3D mm->mmap; vma; vma =3D vma->vm_next) {
+                      ^~~~~~~~
+   Suppressed 13 warnings (12 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> drivers/ata/pata_pdc2027x.c:521:2: warning: Value stored to 'pll_ctl' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
+           ^
+   drivers/ata/pata_pdc2027x.c:521:2: note: Value stored to 'pll_ctl' is ne=
+ver read
+   drivers/ata/pata_pdc2027x.c:570:2: warning: Value stored to 'pll_ctl' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           pll_ctl =3D ioread16(mmio_base + PDC_PLL_CTL);
+           ^
+   drivers/ata/pata_pdc2027x.c:570:2: note: Value stored to 'pll_ctl' is ne=
+ver read
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/media/dvb-core/dvb_frontend.c:355:23: warning: Value stored to '=
+fe' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct dvb_frontend *fe =3D fepriv->dvbdev->priv;
+                                ^~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-core/dvb_frontend.c:355:23: note: Value stored to 'fe'=
+ during its initialization is never read
+           struct dvb_frontend *fe =3D fepriv->dvbdev->priv;
+                                ^~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-core/dvb_frontend.c:1582:3: warning: Value stored to '=
+len' is never read [clang-analyzer-deadcode.DeadStores]
+                   len =3D 1;
+                   ^     ~
+   drivers/media/dvb-core/dvb_frontend.c:1582:3: note: Value stored to 'len=
+' is never read
+                   len =3D 1;
+                   ^     ~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/media/cec/core/cec-adap.c:420:3: warning: Use of memory after it=
+ is freed [clang-analyzer-unix.Malloc]
+                   cec_data_cancel(data, CEC_TX_STATUS_ABORTED);
+                   ^
+   drivers/media/cec/core/cec-adap.c:1665:6: note: Assuming field 'unregist=
+ered' is false
+           if (adap->devnode.unregistered)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:1665:2: note: Taking false branch
+           if (adap->devnode.unregistered)
+           ^
+   drivers/media/cec/core/cec-adap.c:1668:6: note: Assuming 'log_addrs' is =
+null
+           if (!log_addrs || log_addrs->num_log_addrs =3D=3D 0) {
+               ^~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:1668:17: note: Left side of '||' is tr=
+ue
+           if (!log_addrs || log_addrs->num_log_addrs =3D=3D 0) {
+                          ^
+   drivers/media/cec/core/cec-adap.c:1669:3: note: Calling 'cec_adap_unconf=
+igure'
+                   cec_adap_unconfigure(adap);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:1327:6: note: Assuming field 'needs_hp=
+d' is true
+           if (!adap->needs_hpd ||
+               ^~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:1327:6: note: Left side of '||' is fal=
+se
+   drivers/media/cec/core/cec-adap.c:1328:6: note: Assuming field 'phys_add=
+r' is equal to CEC_PHYS_ADDR_INVALID
+               adap->phys_addr !=3D CEC_PHYS_ADDR_INVALID)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:1327:2: note: Taking false branch
+           if (!adap->needs_hpd ||
+           ^
+   drivers/media/cec/core/cec-adap.c:1333:2: note: Calling 'cec_flush'
+           cec_flush(adap);
+           ^~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:417:2: note: Loop condition is true.  =
+Entering loop body
+           while (!list_empty(&adap->transmit_queue)) {
+           ^
+   drivers/media/cec/core/cec-adap.c:420:3: note: Calling 'cec_data_cancel'
+                   cec_data_cancel(data, CEC_TX_STATUS_ABORTED);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:378:6: note: Assuming 'data' is equal =
+to field 'transmitting'
+           if (data->adap->transmitting =3D=3D data) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:378:2: note: Taking true branch
+           if (data->adap->transmitting =3D=3D data) {
+           ^
+   drivers/media/cec/core/cec-adap.c:387:6: note: Assuming the condition is=
+ true
+           if (data->msg.tx_status & CEC_TX_STATUS_OK) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:387:2: note: Taking true branch
+           if (data->msg.tx_status & CEC_TX_STATUS_OK) {
+           ^
+   drivers/media/cec/core/cec-adap.c:401:2: note: Calling 'cec_data_complet=
+ed'
+           cec_data_completed(data);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:344:6: note: Assuming field 'fh' is nu=
+ll
+           if (data->fh)
+               ^~~~~~~~
+   drivers/media/cec/core/cec-adap.c:344:2: note: Taking false branch
+           if (data->fh)
+           ^
+   drivers/media/cec/core/cec-adap.c:347:6: note: Assuming field 'blocking'=
+ is false
+           if (data->blocking) {
+               ^~~~~~~~~~~~~~
+   drivers/media/cec/core/cec-adap.c:347:2: note: Taking false branch
+           if (data->blocking) {
+           ^
+   drivers/media/cec/core/cec-adap.c:359:13: note: Field 'fh' is null
+                   if (data->fh)
 
-:::::: TO: Dong Aisheng <aisheng.dong@nxp.com>
-:::::: CC: Shawn Guo <shawnguo@kernel.org>
+vim +/pll_ctl +521 drivers/ata/pata_pdc2027x.c
+
+669a5db411d85a Jeff Garzik     2006-08-29  492  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  493  /**
+1906cf27fcc070 Lee Jones       2021-02-01  494   * pdc_adjust_pll - Adjust =
+the PLL input clock in Hz.
+669a5db411d85a Jeff Garzik     2006-08-29  495   *
+5d728824efeda6 Tejun Heo       2007-04-17  496   * @host: target ATA host
+669a5db411d85a Jeff Garzik     2006-08-29  497   * @pll_clock: The input of=
+ PLL in HZ
+1906cf27fcc070 Lee Jones       2021-02-01  498   * @board_idx: board identi=
+fier
+669a5db411d85a Jeff Garzik     2006-08-29  499   */
+5d728824efeda6 Tejun Heo       2007-04-17  500  static void pdc_adjust_pll(=
+struct ata_host *host, long pll_clock, unsigned int board_idx)
+669a5db411d85a Jeff Garzik     2006-08-29  501  {
+5d728824efeda6 Tejun Heo       2007-04-17  502  	void __iomem *mmio_base =
+=3D host->iomap[PDC_MMIO_BAR];
+669a5db411d85a Jeff Garzik     2006-08-29  503  	u16 pll_ctl;
+669a5db411d85a Jeff Garzik     2006-08-29  504  	long pll_clock_khz =3D pll=
+_clock / 1000;
+669a5db411d85a Jeff Garzik     2006-08-29  505  	long pout_required =3D boa=
+rd_idx? PDC_133_MHZ:PDC_100_MHZ;
+669a5db411d85a Jeff Garzik     2006-08-29  506  	long ratio =3D pout_requir=
+ed / pll_clock_khz;
+669a5db411d85a Jeff Garzik     2006-08-29  507  	int F, R;
+669a5db411d85a Jeff Garzik     2006-08-29  508  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  509  	/* Sanity check */
+669a5db411d85a Jeff Garzik     2006-08-29  510  	if (unlikely(pll_clock_khz=
+ < 5000L || pll_clock_khz > 70000L)) {
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  511  		dev_err(host->dev, "Inval=
+id PLL input clock %ldkHz, give up!\n",
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  512  			pll_clock_khz);
+669a5db411d85a Jeff Garzik     2006-08-29  513  		return;
+669a5db411d85a Jeff Garzik     2006-08-29  514  	}
+669a5db411d85a Jeff Garzik     2006-08-29  515  =
+
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  516  	dev_dbg(host->dev, "pout_r=
+equired is %ld\n", pout_required);
+669a5db411d85a Jeff Garzik     2006-08-29  517  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  518  	/* Show the current clock =
+value of PLL control register
+669a5db411d85a Jeff Garzik     2006-08-29  519  	 * (maybe already configur=
+ed by the firmware)
+669a5db411d85a Jeff Garzik     2006-08-29  520  	 */
+d2a84f47899d1e Alan Cox        2007-09-20 @521  	pll_ctl =3D ioread16(mmio_=
+base + PDC_PLL_CTL);
+669a5db411d85a Jeff Garzik     2006-08-29  522  =
+
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  523  	dev_dbg(host->dev, "pll_ct=
+l[%X]\n", pll_ctl);
+669a5db411d85a Jeff Garzik     2006-08-29  524  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  525  	/*
+669a5db411d85a Jeff Garzik     2006-08-29  526  	 * Calculate the ratio of =
+F, R and OD
+669a5db411d85a Jeff Garzik     2006-08-29  527  	 * POUT =3D (F + 2) / (( R=
+ + 2) * NO)
+669a5db411d85a Jeff Garzik     2006-08-29  528  	 */
+669a5db411d85a Jeff Garzik     2006-08-29  529  	if (ratio < 8600L) { /* 8.=
+6x */
+669a5db411d85a Jeff Garzik     2006-08-29  530  		/* Using NO =3D 0x01, R =
+=3D 0x0D */
+669a5db411d85a Jeff Garzik     2006-08-29  531  		R =3D 0x0d;
+669a5db411d85a Jeff Garzik     2006-08-29  532  	} else if (ratio < 12900L)=
+ { /* 12.9x */
+669a5db411d85a Jeff Garzik     2006-08-29  533  		/* Using NO =3D 0x01, R =
+=3D 0x08 */
+669a5db411d85a Jeff Garzik     2006-08-29  534  		R =3D 0x08;
+669a5db411d85a Jeff Garzik     2006-08-29  535  	} else if (ratio < 16100L)=
+ { /* 16.1x */
+669a5db411d85a Jeff Garzik     2006-08-29  536  		/* Using NO =3D 0x01, R =
+=3D 0x06 */
+669a5db411d85a Jeff Garzik     2006-08-29  537  		R =3D 0x06;
+669a5db411d85a Jeff Garzik     2006-08-29  538  	} else if (ratio < 64000L)=
+ { /* 64x */
+669a5db411d85a Jeff Garzik     2006-08-29  539  		R =3D 0x00;
+669a5db411d85a Jeff Garzik     2006-08-29  540  	} else {
+669a5db411d85a Jeff Garzik     2006-08-29  541  		/* Invalid ratio */
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  542  		dev_err(host->dev, "Inval=
+id ratio %ld, give up!\n", ratio);
+669a5db411d85a Jeff Garzik     2006-08-29  543  		return;
+669a5db411d85a Jeff Garzik     2006-08-29  544  	}
+669a5db411d85a Jeff Garzik     2006-08-29  545  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  546  	F =3D (ratio * (R+2)) / 10=
+00 - 2;
+669a5db411d85a Jeff Garzik     2006-08-29  547  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  548  	if (unlikely(F < 0 || F > =
+127)) {
+669a5db411d85a Jeff Garzik     2006-08-29  549  		/* Invalid F */
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  550  		dev_err(host->dev, "F[%d]=
+ invalid!\n", F);
+669a5db411d85a Jeff Garzik     2006-08-29  551  		return;
+669a5db411d85a Jeff Garzik     2006-08-29  552  	}
+669a5db411d85a Jeff Garzik     2006-08-29  553  =
+
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  554  	dev_dbg(host->dev, "F[%d] =
+R[%d] ratio*1000[%ld]\n", F, R, ratio);
+669a5db411d85a Jeff Garzik     2006-08-29  555  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  556  	pll_ctl =3D (R << 8) | F;
+669a5db411d85a Jeff Garzik     2006-08-29  557  =
+
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  558  	dev_dbg(host->dev, "Writin=
+g pll_ctl[%X]\n", pll_ctl);
+669a5db411d85a Jeff Garzik     2006-08-29  559  =
+
+d2a84f47899d1e Alan Cox        2007-09-20  560  	iowrite16(pll_ctl, mmio_ba=
+se + PDC_PLL_CTL);
+d2a84f47899d1e Alan Cox        2007-09-20  561  	ioread16(mmio_base + PDC_P=
+LL_CTL); /* flush */
+669a5db411d85a Jeff Garzik     2006-08-29  562  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  563  	/* Wait the PLL circuit to=
+ be stable */
+b3506c7ed216dd Jia-Ju Bai      2018-01-25  564  	msleep(30);
+669a5db411d85a Jeff Garzik     2006-08-29  565  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  566  	/*
+669a5db411d85a Jeff Garzik     2006-08-29  567  	 *  Show the current clock=
+ value of PLL control register
+669a5db411d85a Jeff Garzik     2006-08-29  568  	 * (maybe configured by th=
+e firmware)
+669a5db411d85a Jeff Garzik     2006-08-29  569  	 */
+d2a84f47899d1e Alan Cox        2007-09-20  570  	pll_ctl =3D ioread16(mmio_=
+base + PDC_PLL_CTL);
+669a5db411d85a Jeff Garzik     2006-08-29  571  =
+
+b5a5fc8b0f8175 Hannes Reinecke 2021-12-21  572  	dev_dbg(host->dev, "pll_ct=
+l[%X]\n", pll_ctl);
+669a5db411d85a Jeff Garzik     2006-08-29  573  =
+
+669a5db411d85a Jeff Garzik     2006-08-29  574  	return;
+669a5db411d85a Jeff Garzik     2006-08-29  575  }
+669a5db411d85a Jeff Garzik     2006-08-29  576  =
+
+
+:::::: The code at line 521 was first introduced by commit
+:::::: d2a84f47899d1efc24fa610696f7b793692279c7 pdc2027x: Switch properly t=
+o ioread/iowrite
+
+:::::: TO: Alan Cox <alan@lxorguk.ukuu.org.uk>
+:::::: CC: Jeff Garzik <jeff@garzik.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6047985353929768298==--
+--===============6749831159715782220==--
 
