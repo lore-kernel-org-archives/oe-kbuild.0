@@ -1,270 +1,237 @@
-Content-Type: multipart/mixed; boundary="===============6497336583315132765=="
+Content-Type: multipart/mixed; boundary="===============4968035608796107014=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 5/5] spi: tegra210-quad: combined sequence mode
-Date: Thu, 24 Feb 2022 11:42:58 +0800
-Message-ID: <202202241115.MFFaDVz5-lkp@intel.com>
+Subject: [rmk-arm:zii 147/189] drivers/net/phy/sfp.c:1966 sfp_print_module_info() warn: format string contains non-ascii character 'xc2'
+Date: Sun, 27 Feb 2022 11:44:10 +0800
+Message-ID: <202202271147.Dk3lWwhu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6497336583315132765==
+--===============4968035608796107014==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220222175611.58051-6-kyarlagadda@nvidia.com>
-References: <20220222175611.58051-6-kyarlagadda@nvidia.com>
-TO: Krishna Yarlagadda <kyarlagadda@nvidia.com>
-TO: broonie(a)kernel.org
-TO: thierry.reding(a)gmail.com
-TO: jonathanh(a)nvidia.com
-TO: linux-spi(a)vger.kernel.org
-TO: linux-tegra(a)vger.kernel.org
-CC: skomatineni(a)nvidia.com
-CC: ldewangan(a)nvidia.com
-CC: robh+dt(a)kernel.org
-CC: devicetree(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: p.zabel(a)pengutronix.de
-CC: Krishna Yarlagadda <kyarlagadda@nvidia.com>
+TO: Russell King <rmk+kernel@arm.linux.org.uk>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Hi Krishna,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on v5.17-rc5 next-20220222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Krishna-Yarlagadda/Tegra-Q=
-UAD-SPI-combined-sequence-mode/20220223-015906
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for=
--next
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: riscv-randconfig-m031-20220222 (https://download.01.org/0day-ci/arc=
-hive/20220224/202202241115.MFFaDVz5-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm zii
+head:   fe14611f0e21a549a07d841920ea806c6de6f680
+commit: 1f5875fcd55c025579ce857ebcb13e561e58fe42 [147/189] net: sfp: displa=
+y SFP module information       [*not for mainline*]
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm64-randconfig-m031-20220227 (https://download.01.org/0day-ci/arc=
+hive/20220227/202202271147.Dk3lWwhu-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/spi/spi-tegra210-quad.c:1148 tegra_qspi_combined_seq_xfer() error: =
-uninitialized symbol 'ret'.
+smatch warnings:
+show-warning-context "warning-lines" files
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:204 arch_atomic_fetch_add_unless() warn: in=
-consistent indenting
+vim +/xc2 +1966 drivers/net/phy/sfp.c
 
-vim +/ret +1148 drivers/spi/spi-tegra210-quad.c
+b18432c5a49c94 Chris Healy  2020-07-14  1892  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1032  =
+1f5875fcd55c02 Russell King 2015-09-13  1893  static void sfp_print_module_=
+info(struct sfp *sfp, const struct sfp_eeprom_id *id, bool cotsworks)
+1f5875fcd55c02 Russell King 2015-09-13  1894  {
+1f5875fcd55c02 Russell King 2015-09-13  1895  	unsigned int br_nom, br_min,=
+ br_max;
+1f5875fcd55c02 Russell King 2015-09-13  1896  	char date[9];
+1f5875fcd55c02 Russell King 2015-09-13  1897  	char options[80];
+1f5875fcd55c02 Russell King 2015-09-13  1898  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1033  static int tegra_qspi_c=
-ombined_seq_xfer(struct tegra_qspi *tqspi,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1034  					struct spi_message=
- *msg)
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1035  {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1036  	bool is_first_msg =3D =
-true;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1037  	struct spi_transfer *x=
-fer;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1038  	struct spi_device *spi=
- =3D msg->spi;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1039  	u8 transfer_phase =3D =
-0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1040  	u32 cmd1 =3D 0, dma_ct=
-l =3D 0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1041  	int ret;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1042  	u32 address_value =3D =
-0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1043  	u32 cmd_config =3D 0, =
-addr_config =3D 0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1044  	u8 cmd_value =3D 0, le=
-n =3D 0, val =3D 0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1045  =
+1f5875fcd55c02 Russell King 2015-09-13  1899  	/* Cotsworks also gets the d=
+ate code wrong. */
+1f5875fcd55c02 Russell King 2015-09-13  1900  	date[0] =3D id->ext.datecode=
+[4 - 2 * cotsworks];
+1f5875fcd55c02 Russell King 2015-09-13  1901  	date[1] =3D id->ext.datecode=
+[5 - 2 * cotsworks];
+1f5875fcd55c02 Russell King 2015-09-13  1902  	date[2] =3D '-';
+1f5875fcd55c02 Russell King 2015-09-13  1903  	date[3] =3D id->ext.datecode=
+[2 + 2 * cotsworks];
+1f5875fcd55c02 Russell King 2015-09-13  1904  	date[4] =3D id->ext.datecode=
+[3 + 2 * cotsworks];
+1f5875fcd55c02 Russell King 2015-09-13  1905  	date[5] =3D '-';
+1f5875fcd55c02 Russell King 2015-09-13  1906  	date[6] =3D id->ext.datecode=
+[0];
+1f5875fcd55c02 Russell King 2015-09-13  1907  	date[7] =3D id->ext.datecode=
+[1];
+1f5875fcd55c02 Russell King 2015-09-13  1908  	date[8] =3D '\0';
+1f5875fcd55c02 Russell King 2015-09-13  1909  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1046  	/* Enable Combined seq=
-uence mode */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1047  	val =3D tegra_qspi_rea=
-dl(tqspi, QSPI_GLOBAL_CONFIG);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1048  	val |=3D QSPI_CMB_SEQ_=
-EN;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1049  	tegra_qspi_writel(tqsp=
-i, val, QSPI_GLOBAL_CONFIG);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1050  	/* Process individual =
-transfer list */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1051  	list_for_each_entry(xf=
-er, &msg->transfers, transfer_list) {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1052  		switch (transfer_phas=
-e) {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1053  		case CMD_TRANSFER:
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1054  			/* X1 SDR mode */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1055  			cmd_config =3D tegra=
-_qspi_cmd_config(false, 0,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1056  							   xfer->len);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1057  			cmd_value =3D *((con=
-st u8 *)(xfer->tx_buf));
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1058  			break;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1059  		case ADDR_TRANSFER:
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1060  			len =3D xfer->len;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1061  			/* X1 SDR mode */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1062  			addr_config =3D tegr=
-a_qspi_addr_config(false, 0,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1063  							     xfer->len);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1064  			address_value =3D *(=
-(const u32 *)(xfer->tx_buf));
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1065  			break;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1066  		case DATA_TRANSFER:
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1067  			/* Program Command, =
-Address value in register */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1068  			tegra_qspi_writel(tq=
-spi, cmd_value, QSPI_CMB_SEQ_CMD);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1069  			tegra_qspi_writel(tq=
-spi, address_value,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1070  					  QSPI_CMB_SEQ_ADD=
-R);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1071  			/* Program Command a=
-nd Address config in register */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1072  			tegra_qspi_writel(tq=
-spi, cmd_config,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1073  					  QSPI_CMB_SEQ_CMD=
-_CFG);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1074  			tegra_qspi_writel(tq=
-spi, addr_config,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1075  					  QSPI_CMB_SEQ_ADD=
-R_CFG);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1076  =
+1f5875fcd55c02 Russell King 2015-09-13  1910  	if (id->base.br_nominal =3D=
+=3D 0) {
+1f5875fcd55c02 Russell King 2015-09-13  1911  		br_min =3D br_nom =3D br_ma=
+x =3D 0;
+1f5875fcd55c02 Russell King 2015-09-13  1912  	} else if (id->base.br_nomin=
+al =3D=3D 255) {
+1f5875fcd55c02 Russell King 2015-09-13  1913  		br_nom =3D 250 * id->ext.br=
+_max;
+1f5875fcd55c02 Russell King 2015-09-13  1914  		br_max =3D br_nom + br_nom =
+* id->ext.br_min / 100;
+1f5875fcd55c02 Russell King 2015-09-13  1915  		br_min =3D br_nom - br_nom =
+* id->ext.br_min / 100;
+1f5875fcd55c02 Russell King 2015-09-13  1916  	} else {
+1f5875fcd55c02 Russell King 2015-09-13  1917  		br_nom =3D id->base.br_nomi=
+nal * 100;
+1f5875fcd55c02 Russell King 2015-09-13  1918  		br_min =3D br_nom - id->bas=
+e.br_nominal * id->ext.br_min;
+1f5875fcd55c02 Russell King 2015-09-13  1919  		br_max =3D br_nom + id->bas=
+e.br_nominal * id->ext.br_max;
+1f5875fcd55c02 Russell King 2015-09-13  1920  	}
+1f5875fcd55c02 Russell King 2015-09-13  1921  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1077  			reinit_completion(&t=
-qspi->xfer_completion);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1078  			cmd1 =3D tegra_qspi_=
-setup_transfer_one(spi, xfer,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1079  							     is_first_ms=
-g);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1080  			ret =3D tegra_qspi_s=
-tart_transfer_one(spi, xfer,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1081  							    cmd1);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1082  =
+1f5875fcd55c02 Russell King 2015-09-13  1922  	dev_info(sfp->dev, "module %=
+.*s %.*s rev %.*s sn %.*s dc %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1923  		 (int)sizeof(id->base.vendo=
+r_name), id->base.vendor_name,
+1f5875fcd55c02 Russell King 2015-09-13  1924  		 (int)sizeof(id->base.vendo=
+r_pn), id->base.vendor_pn,
+1f5875fcd55c02 Russell King 2015-09-13  1925  		 (int)sizeof(id->base.vendo=
+r_rev), id->base.vendor_rev,
+1f5875fcd55c02 Russell King 2015-09-13  1926  		 (int)sizeof(id->ext.vendor=
+_sn), id->ext.vendor_sn, date);
+1f5875fcd55c02 Russell King 2015-09-13  1927  	dev_info(sfp->dev, "  %s con=
+nector, encoding %s, bitrate %u.%03u (%u.%03u-%u.%03u) Gbps\n",
+1f5875fcd55c02 Russell King 2015-09-13  1928  		 sff_connector(id->base.con=
+nector),
+1f5875fcd55c02 Russell King 2015-09-13  1929  		 sff_encoding(id->base.enco=
+ding),
+1f5875fcd55c02 Russell King 2015-09-13  1930  		 br_nom / 1000, br_nom % 10=
+00,
+1f5875fcd55c02 Russell King 2015-09-13  1931  		 br_min / 1000, br_min % 10=
+00, br_max / 1000, br_max % 1000);
+1f5875fcd55c02 Russell King 2015-09-13  1932  	dev_info(sfp->dev, "  1000Ba=
+seSX%c 1000BaseLX%c 1000BaseCX%c 1000BaseT%c 100BaseLX%c 100BaseFX%c BaseBX=
+10%c BasePX%c\n",
+1f5875fcd55c02 Russell King 2015-09-13  1933  		 id->base.e1000_base_sx ? '=
++' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1934  		 id->base.e1000_base_lx ? '=
++' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1935  		 id->base.e1000_base_cx ? '=
++' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1936  		 id->base.e1000_base_t ? '+=
+' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1937  		 id->base.e100_base_lx ? '+=
+' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1938  		 id->base.e100_base_fx ? '+=
+' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1939  		 id->base.e_base_bx10 ? '+'=
+ : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1940  		 id->base.e_base_px ? '+' :=
+ '-');
+1f5875fcd55c02 Russell King 2015-09-13  1941  	dev_info(sfp->dev, "  10GBas=
+eSR%c 10GBaseLR%c 10GBaseLRM%c 10GBaseER%c\n",
+1f5875fcd55c02 Russell King 2015-09-13  1942  		 id->base.e10g_base_sr ? '+=
+' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1943  		 id->base.e10g_base_lr ? '+=
+' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1944  		 id->base.e10g_base_lrm ? '=
++' : '-',
+1f5875fcd55c02 Russell King 2015-09-13  1945  		 id->base.e10g_base_er ? '+=
+' : '-');
+1f5875fcd55c02 Russell King 2015-09-13  1946  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1083  			if (ret < 0) {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1084  				dev_err(tqspi->dev,=
- "Failed to start transfer-one: %d\n",
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1085  					ret);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1086  				return ret;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1087  			}
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1088  =
+1f5875fcd55c02 Russell King 2015-09-13  1947  	if (!id->base.sfp_ct_passive=
+ && !id->base.sfp_ct_active &&
+1f5875fcd55c02 Russell King 2015-09-13  1948  	    !id->base.e1000_base_t) {
+1f5875fcd55c02 Russell King 2015-09-13  1949  		char len_9um[16], len_om[16=
+];
+1f5875fcd55c02 Russell King 2015-09-13  1950  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1089  			is_first_msg =3D fal=
-se;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1090  			ret =3D wait_for_com=
-pletion_timeout
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1091  					(&tqspi->xfer_comp=
-letion,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1092  					QSPI_DMA_TIMEOUT);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1093  =
+1f5875fcd55c02 Russell King 2015-09-13  1951  		dev_info(sfp->dev, "  Wavel=
+ength %unm, fiber lengths:\n",
+1f5875fcd55c02 Russell King 2015-09-13  1952  			 be16_to_cpup(&id->base.op=
+tical_wavelength));
+1f5875fcd55c02 Russell King 2015-09-13  1953  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1094  			if (WARN_ON(ret =3D=
-=3D 0)) {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1095  				dev_err(tqspi->dev,=
- "QSPI Transfer failed with timeout: %d\n",
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1096  					ret);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1097  				if (tqspi->is_curr_=
-dma_xfer &&
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1098  				    (tqspi->cur_dir=
-ection & DATA_DIR_TX))
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1099  					dmaengine_terminat=
-e_all
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1100  						(tqspi->tx_dma_ch=
-an);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1101  =
+1f5875fcd55c02 Russell King 2015-09-13  1954  		if (id->base.link_len[0] =
+=3D=3D 255)
+1f5875fcd55c02 Russell King 2015-09-13  1955  			strcpy(len_9um, ">254km");
+1f5875fcd55c02 Russell King 2015-09-13  1956  		else if (id->base.link_len[=
+1] && id->base.link_len[1] !=3D 255)
+1f5875fcd55c02 Russell King 2015-09-13  1957  			sprintf(len_9um, "%um",
+1f5875fcd55c02 Russell King 2015-09-13  1958  				id->base.link_len[1] * 10=
+0);
+1f5875fcd55c02 Russell King 2015-09-13  1959  		else if (id->base.link_len[=
+0])
+1f5875fcd55c02 Russell King 2015-09-13  1960  			sprintf(len_9um, "%ukm", i=
+d->base.link_len[0]);
+1f5875fcd55c02 Russell King 2015-09-13  1961  		else if (id->base.link_len[=
+1] =3D=3D 255)
+1f5875fcd55c02 Russell King 2015-09-13  1962  			strcpy(len_9um, ">25.4km");
+1f5875fcd55c02 Russell King 2015-09-13  1963  		else
+1f5875fcd55c02 Russell King 2015-09-13  1964  			strcpy(len_9um, "unsupport=
+ed");
+1f5875fcd55c02 Russell King 2015-09-13  1965  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1102  				if (tqspi->is_curr_=
-dma_xfer &&
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1103  				    (tqspi->cur_dir=
-ection & DATA_DIR_RX))
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1104  					dmaengine_terminat=
-e_all
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1105  						(tqspi->rx_dma_ch=
-an);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1106  =
+1f5875fcd55c02 Russell King 2015-09-13 @1966  		dev_info(sfp->dev, "    9=
+=C2=B5m SM    : %s\n", len_9um);
+1f5875fcd55c02 Russell King 2015-09-13  1967  		dev_info(sfp->dev, " 62.5=
+=C2=B5m MM OM1: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1968  			 sff_link_len(len_om, size=
+of(len_om),
+1f5875fcd55c02 Russell King 2015-09-13  1969  				      id->base.link_len[3=
+], 10));
+1f5875fcd55c02 Russell King 2015-09-13  1970  		dev_info(sfp->dev, "   50=
+=C2=B5m MM OM2: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1971  			 sff_link_len(len_om, size=
+of(len_om),
+1f5875fcd55c02 Russell King 2015-09-13  1972  				      id->base.link_len[2=
+], 10));
+1f5875fcd55c02 Russell King 2015-09-13  1973  		dev_info(sfp->dev, "   50=
+=C2=B5m MM OM3: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1974  			 sff_link_len(len_om, size=
+of(len_om),
+1f5875fcd55c02 Russell King 2015-09-13  1975  				      id->base.link_len[5=
+], 10));
+1f5875fcd55c02 Russell King 2015-09-13  1976  		dev_info(sfp->dev, "   50=
+=C2=B5m MM OM4: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1977  			 sff_link_len(len_om, size=
+of(len_om),
+1f5875fcd55c02 Russell King 2015-09-13  1978  				      id->base.link_len[4=
+], 10));
+1f5875fcd55c02 Russell King 2015-09-13  1979  	} else {
+1f5875fcd55c02 Russell King 2015-09-13  1980  		char len[16];
+1f5875fcd55c02 Russell King 2015-09-13  1981  		dev_info(sfp->dev, "  Coppe=
+r length: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1982  			 sff_link_len(len, sizeof(=
+len),
+1f5875fcd55c02 Russell King 2015-09-13  1983  				      id->base.link_len[4=
+], 1));
+1f5875fcd55c02 Russell King 2015-09-13  1984  	}
+1f5875fcd55c02 Russell King 2015-09-13  1985  =
 
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1107  				/* Abort transfer b=
-y resetting pio/dma bit */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1108  				if (!tqspi->is_curr=
-_dma_xfer) {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1109  					cmd1 =3D tegra_qsp=
-i_readl
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1110  							(tqspi,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1111  							 QSPI_COMMAND1);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1112  					cmd1 &=3D ~QSPI_PI=
-O;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1113  					tegra_qspi_writel
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1114  							(tqspi, cmd1,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1115  							 QSPI_COMMAND1);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1116  				} else {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1117  					dma_ctl =3D tegra_=
-qspi_readl
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1118  							(tqspi,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1119  							 QSPI_DMA_CTL);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1120  					dma_ctl &=3D ~QSPI=
-_DMA_EN;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1121  					tegra_qspi_writel(=
-tqspi, dma_ctl,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1122  							  QSPI_DMA_CTL);
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1123  				}
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1124  =
-
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1125  				/* Reset controller=
- if timeout happens */
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1126  				if (device_reset(tq=
-spi->dev) < 0)
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1127  					dev_warn_once(tqsp=
-i->dev,
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1128  						      "device res=
-et failed\n");
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1129  				ret =3D -EIO;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1130  				goto exit;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1131  			}
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1132  =
-
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1133  			if (tqspi->tx_status=
- ||  tqspi->rx_status) {
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1134  				dev_err(tqspi->dev,=
- "QSPI Transfer failed\n");
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1135  				tqspi->tx_status =
-=3D 0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1136  				tqspi->rx_status =
-=3D 0;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1137  				ret =3D -EIO;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1138  				goto exit;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1139  			}
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1140  		default:
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1141  			goto exit;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1142  		}
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1143  		msg->actual_length +=
-=3D xfer->len;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1144  		transfer_phase++;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1145  	}
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1146  =
-
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1147  exit:
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22 @1148  	msg->status =3D ret;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1149  =
-
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1150  	return ret;
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1151  }
-3b852b330b0b83 Krishna Yarlagadda 2022-02-22  1152  =
+1f5875fcd55c02 Russell King 2015-09-13  1986  	dev_info(sfp->dev, "  Option=
+s: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1987  		 sff_bitfield(options, size=
+of(options), sfp_options,
+1f5875fcd55c02 Russell King 2015-09-13  1988  			      be16_to_cpu(id->ext.=
+options)));
+1f5875fcd55c02 Russell King 2015-09-13  1989  	dev_info(sfp->dev, "  Diagno=
+stics: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1990  		 sff_bitfield(options, size=
+of(options), diagmon,
+1f5875fcd55c02 Russell King 2015-09-13  1991  			      id->ext.diagmon));
+1f5875fcd55c02 Russell King 2015-09-13  1992  	dev_info(sfp->dev, "  EnhOpt=
+s: %s\n",
+1f5875fcd55c02 Russell King 2015-09-13  1993  		 sff_bitfield(options, size=
+of(options), sfp_enhopts,
+1f5875fcd55c02 Russell King 2015-09-13  1994  			      id->ext.enhopts));
+1f5875fcd55c02 Russell King 2015-09-13  1995  }
+1f5875fcd55c02 Russell King 2015-09-13  1996  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6497336583315132765==--
+--===============4968035608796107014==--
 
