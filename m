@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3938132320947788148=="
+Content-Type: multipart/mixed; boundary="===============2119570562324622704=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ata/pata_bk3710.c:179:4: warning: Value stored to 'mode' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 28 Feb 2022 11:37:44 +0800
-Message-ID: <202202281101.3f4VBVa7-lkp@intel.com>
+Subject: net/can/j1939/socket.c:655:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Mon, 28 Feb 2022 09:56:26 +0800
+Message-ID: <202202280920.8NHC4RRo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3938132320947788148==
+--===============2119570562324622704==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,36 +16,35 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-CC: Hannes Reinecke <hare@suse.de>
+TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
-commit: a3d11c275b647b5b56b907011b432e00f7ddb683 ata: pata_bk3710: add comp=
-ile test support
-date:   6 weeks ago
+head:   52a02554673122486ecb36c36387d91cf9544986
+commit: 04324f44cb69a03fdc8f2ee52386a4fdf6a0043b MIPS: Remove get_fs/set_fs
+date:   11 months ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-c006-20220222 (https://download.01.org/0day-ci/arc=
-hive/20220228/202202281101.3f4VBVa7-lkp(a)intel.com/config)
+:::::: commit date: 11 months ago
+config: mips-randconfig-c004-20220227 (https://download.01.org/0day-ci/arch=
+ive/20220228/202202280920.8NHC4RRo-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da3d11c275b647b5b56b907011b432e00f7ddb683
+t/commit/?id=3D04324f44cb69a03fdc8f2ee52386a4fdf6a0043b
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout a3d11c275b647b5b56b907011b432e00f7ddb683
+        git checkout 04324f44cb69a03fdc8f2ee52386a4fdf6a0043b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,372 +52,270 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^     ~
-   drivers/w1/slaves/w1_ds2438.c:69:3: note: Value stored to 'crc' is never=
- read
-                   crc =3D 0;
-                   ^     ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   fs/gfs2/recovery.c:397:2: warning: Value stored to 'error' is never read=
- [clang-analyzer-deadcode.DeadStores]
-           error =3D update_statfs_inode(jd, NULL,
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/recovery.c:397:2: note: Value stored to 'error' is never read
-           error =3D update_statfs_inode(jd, NULL,
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
-ody
-           while (!list_empty(head)) {
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/failover.c:53:6: note: Assuming field 'type' is equal to ARPHRD=
+_ETHER
+           if (slave_dev->type !=3D ARPHRD_ETHER)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/failover.c:53:2: note: Taking false branch
+           if (slave_dev->type !=3D ARPHRD_ETHER)
            ^
-   fs/gfs2/recovery.c:116:3: note: Memory is released
-                   kfree(rr);
-                   ^~~~~~~~~
-   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
-ody
-           while (!list_empty(head)) {
+   net/core/failover.c:56:2: note: Assuming the condition is false
+           ASSERT_RTNL();
            ^
-   fs/gfs2/recovery.c:115:3: note: Calling 'list_del'
-                   list_del(&rr->rr_list);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:148:2: note: Calling '__list_del_entry'
-           __list_del_entry(entry);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:6: note: Assuming the condition is false
-           if (!__list_del_entry_valid(entry))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:134:2: note: Taking false branch
-           if (!__list_del_entry_valid(entry))
+   include/linux/rtnetlink.h:110:12: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+                     ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:157:27: note: expanded from macro 'WARN_ONCE'
+           int __ret_warn_once =3D !!(condition);                    \
+                                    ^~~~~~~~~
+   net/core/failover.c:56:2: note: '__ret_warn_once' is 0
+           ASSERT_RTNL();
            ^
-   include/linux/list.h:137:13: note: Use of memory after it is freed
-           __list_del(entry->prev, entry->next);
-                      ^~~~~~~~~~~
-   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           entry->next =3D LIST_POISON1;
-                       ^
-   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
-ody
-           while (!list_empty(head)) {
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:159:15: note: expanded from macro 'WARN_ONCE'
+           if (unlikely(__ret_warn_once && !__warned)) {           \
+                        ^~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/core/failover.c:56:2: note: Left side of '&&' is false
+           ASSERT_RTNL();
            ^
-   fs/gfs2/recovery.c:116:3: note: Memory is released
-                   kfree(rr);
-                   ^~~~~~~~~
-   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
-ody
-           while (!list_empty(head)) {
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
            ^
-   fs/gfs2/recovery.c:115:3: note: Calling 'list_del'
-                   list_del(&rr->rr_list);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 7 warnings (7 in non-user code).
+   include/asm-generic/bug.h:159:31: note: expanded from macro 'WARN_ONCE'
+           if (unlikely(__ret_warn_once && !__warned)) {           \
+                                        ^
+   net/core/failover.c:56:2: note: Taking false branch
+           ASSERT_RTNL();
+           ^
+   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
+           WARN_ONCE(!rtnl_is_locked(), \
+           ^
+   include/asm-generic/bug.h:159:2: note: expanded from macro 'WARN_ONCE'
+           if (unlikely(__ret_warn_once && !__warned)) {           \
+           ^
+   net/core/failover.c:58:17: note: Value assigned to 'fops'
+           failover_dev =3D failover_get_bymac(slave_dev->perm_addr, &fops);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/core/failover.c:59:6: note: Assuming 'failover_dev' is non-null
+           if (!failover_dev)
+               ^~~~~~~~~~~~~
+   net/core/failover.c:59:2: note: Taking false branch
+           if (!failover_dev)
+           ^
+   net/core/failover.c:62:6: note: Assuming 'fops' is null
+           if (fops && fops->slave_pre_register &&
+               ^~~~
+   net/core/failover.c:62:11: note: Left side of '&&' is false
+           if (fops && fops->slave_pre_register &&
+                    ^
+   net/core/failover.c:66:46: note: Access to field 'slave_handle_frame' re=
+sults in a dereference of a null pointer (loaded from variable 'fops')
+           err =3D netdev_rx_handler_register(slave_dev, fops->slave_handle=
+_frame,
+                                                       ^~~~
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/ata/pata_ali.c:126:10: warning: Although the value stored to 'ma=
-sk' is used in the enclosing expression, the value is never actually read f=
-rom 'mask' [clang-analyzer-deadcode.DeadStores]
-                   return mask &=3D ~ATA_MASK_UDMA;
-                          ^       ~~~~~~~~~~~~~~
-   drivers/ata/pata_ali.c:126:10: note: Although the value stored to 'mask'=
- is used in the enclosing expression, the value is never actually read from=
- 'mask'
-                   return mask &=3D ~ATA_MASK_UDMA;
-                          ^       ~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/ata/pata_amd.c:280:9: warning: Although the value stored to 'sav=
-ed_udma' is used in the enclosing expression, the value is never actually r=
-ead from 'saved_udma' [clang-analyzer-deadcode.DeadStores]
-           udma =3D saved_udma =3D (unsigned long)ap->host->private_data;
-                  ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_amd.c:280:9: note: Although the value stored to 'saved_=
-udma' is used in the enclosing expression, the value is never actually read=
- from 'saved_udma'
-           udma =3D saved_udma =3D (unsigned long)ap->host->private_data;
-                  ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/ata/pata_bk3710.c:179:4: warning: Value stored to 'mode' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                           mode =3D mode2;
-                           ^      ~~~~~
-   drivers/ata/pata_bk3710.c:179:4: note: Value stored to 'mode' is never r=
-ead
-                           mode =3D mode2;
-                           ^      ~~~~~
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/media/i2c/hi846.c:1494:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(&hi846->sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1494:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(&hi846->sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1764:2: warning: Value stored to 'tgt_fps' is =
-never read [clang-analyzer-deadcode.DeadStores]
-           tgt_fps =3D hi846->cur_mode->fps;
-           ^         ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1764:2: note: Value stored to 'tgt_fps' is nev=
-er read
-           tgt_fps =3D hi846->cur_mode->fps;
-           ^         ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1805:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1805:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/media/i2c/ad9389b.c:399:7: warning: Value stored to 'N' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   u32 N =3D (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ad9389b.c:399:7: note: Value stored to 'N' during its =
-initialization is never read
-                   u32 N =3D (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
-                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> net/can/j1939/socket.c:655:6: warning: Branch condition evaluates to a g=
+arbage value [clang-analyzer-core.uninitialized.Branch]
+           if (tmp)
+               ^
+   net/can/j1939/socket.c:671:6: note: Assuming the condition is false
+           if (level !=3D SOL_CAN_J1939)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   net/can/j1939/socket.c:671:2: note: Taking false branch
+           if (level !=3D SOL_CAN_J1939)
+           ^
+   net/can/j1939/socket.c:674:2: note: Control jumps to 'case SO_J1939_ERRQ=
+UEUE:'  at line 709
+           switch (optname) {
+           ^
+   net/can/j1939/socket.c:710:9: note: Calling 'j1939_sk_setsockopt_flag'
+                   ret =3D j1939_sk_setsockopt_flag(jsk, optval, optlen,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/can/j1939/socket.c:648:2: note: 'tmp' declared without an initial va=
+lue
+           int tmp;
+           ^~~~~~~
+   net/can/j1939/socket.c:650:6: note: Assuming the condition is false
+           if (optlen !=3D sizeof(tmp))
+               ^~~~~~~~~~~~~~~~~~~~~
+   net/can/j1939/socket.c:650:2: note: Taking false branch
+           if (optlen !=3D sizeof(tmp))
+           ^
+   net/can/j1939/socket.c:652:6: note: Calling 'copy_from_sockptr'
+           if (copy_from_sockptr(&tmp, optval, optlen))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
+           return copy_from_sockptr_offset(dst, src, 0, size);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:6: note: Assuming the condition is true
+           if (!sockptr_is_kernel(src))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sockptr.h:47:2: note: Taking true branch
+           if (!sockptr_is_kernel(src))
+           ^
+   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
+                   return copy_from_user(dst, src.user + offset, size);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:40: note: Assuming the condition is false
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                                                 ^
+   arch/mips/include/asm/uaccess.h:86:2: note: expanded from macro 'access_=
+ok'
+           likely(__access_ok((addr), (size)))
+           ^
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:472:2: note: Returning without writing t=
+o '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
 
-vim +/mode +179 drivers/ata/pata_bk3710.c
+vim +655 net/can/j1939/socket.c
 
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  148  =
+9d71dd0c7009991 The j1939 authors 2018-10-08  644  =
 
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  149  static void pata_=
-bk3710_setpiomode(void __iomem *base, struct ata_device *pair,
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  150  				   unsigned i=
-nt dev, unsigned int cycletime,
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  151  				   unsigned i=
-nt mode)
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  152  {
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  153  	const struct ata=
-_timing *t;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  154  	u32 val32;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  155  	u8 t2, t2i, t0;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  156  =
+a7b75c5a8c41445 Christoph Hellwig 2020-07-23  645  static int j1939_sk_sets=
+ockopt_flag(struct j1939_sock *jsk, sockptr_t optval,
+9d71dd0c7009991 The j1939 authors 2018-10-08  646  				    unsigned int opt=
+len, int flag)
+9d71dd0c7009991 The j1939 authors 2018-10-08  647  {
+9d71dd0c7009991 The j1939 authors 2018-10-08  648  	int tmp;
+9d71dd0c7009991 The j1939 authors 2018-10-08  649  =
 
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  157  	t =3D ata_timing=
-_find_mode(XFER_PIO_0 + mode);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  158  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  159  	/* PIO Data Setu=
-p */
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  160  	t0 =3D DIV_ROUND=
-_UP(cycletime, ideclk_period);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  161  	t2 =3D DIV_ROUND=
-_UP(t->active, ideclk_period);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  162  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  163  	t2i =3D t0 - t2 =
-- 1;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  164  	t2--;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  165  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  166  	val32 =3D ioread=
-32(base + BK3710_DATSTB) & (0xFF << (dev ? 0 : 8));
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  167  	val32 |=3D t2 <<=
- (dev ? 8 : 0);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  168  	iowrite32(val32,=
- base + BK3710_DATSTB);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  169  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  170  	val32 =3D ioread=
-32(base + BK3710_DATRCVR) & (0xFF << (dev ? 0 : 8));
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  171  	val32 |=3D t2i <=
-< (dev ? 8 : 0);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  172  	iowrite32(val32,=
- base + BK3710_DATRCVR);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  173  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  174  	/* FIXME: this i=
-s broken also in the old driver */
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  175  	if (pair) {
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  176  		u8 mode2 =3D pa=
-ir->pio_mode - XFER_PIO_0;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  177  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  178  		if (mode2 < mod=
-e)
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22 @179  			mode =3D mode2;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  180  	}
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  181  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  182  	/* TASKFILE Setu=
-p */
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  183  	t0 =3D DIV_ROUND=
-_UP(t->cyc8b, ideclk_period);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  184  	t2 =3D DIV_ROUND=
-_UP(t->act8b, ideclk_period);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  185  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  186  	t2i =3D t0 - t2 =
-- 1;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  187  	t2--;
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  188  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  189  	val32 =3D ioread=
-32(base + BK3710_REGSTB) & (0xFF << (dev ? 0 : 8));
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  190  	val32 |=3D t2 <<=
- (dev ? 8 : 0);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  191  	iowrite32(val32,=
- base + BK3710_REGSTB);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  192  =
-
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  193  	val32 =3D ioread=
-32(base + BK3710_REGRCVR) & (0xFF << (dev ? 0 : 8));
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  194  	val32 |=3D t2i <=
-< (dev ? 8 : 0);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  195  	iowrite32(val32,=
- base + BK3710_REGRCVR);
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  196  }
-76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  197  =
+9d71dd0c7009991 The j1939 authors 2018-10-08  650  	if (optlen !=3D sizeof(=
+tmp))
+9d71dd0c7009991 The j1939 authors 2018-10-08  651  		return -EINVAL;
+a7b75c5a8c41445 Christoph Hellwig 2020-07-23  652  	if (copy_from_sockptr(&=
+tmp, optval, optlen))
+9d71dd0c7009991 The j1939 authors 2018-10-08  653  		return -EFAULT;
+9d71dd0c7009991 The j1939 authors 2018-10-08  654  	lock_sock(&jsk->sk);
+9d71dd0c7009991 The j1939 authors 2018-10-08 @655  	if (tmp)
+9d71dd0c7009991 The j1939 authors 2018-10-08  656  		jsk->state |=3D flag;
+9d71dd0c7009991 The j1939 authors 2018-10-08  657  	else
+9d71dd0c7009991 The j1939 authors 2018-10-08  658  		jsk->state &=3D ~flag;
+9d71dd0c7009991 The j1939 authors 2018-10-08  659  	release_sock(&jsk->sk);
+9d71dd0c7009991 The j1939 authors 2018-10-08  660  	return tmp;
+9d71dd0c7009991 The j1939 authors 2018-10-08  661  }
+9d71dd0c7009991 The j1939 authors 2018-10-08  662  =
 
 
-:::::: The code@line 179 was first introduced by commit
-:::::: 76a40ca82f3498da2683b3d5efa9b24d5ffaeecc ata: add Palmchip BK3710 PA=
-TA controller driver
+:::::: The code at line 655 was first introduced by commit
+:::::: 9d71dd0c70099914fcd063135da3c580865e924c can: add support of SAE J19=
+39 protocol
 
-:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-:::::: CC: Sekhar Nori <nsekhar@ti.com>
+:::::: TO: The j1939 authors <linux-can@vger.kernel.org>
+:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3938132320947788148==--
+--===============2119570562324622704==--
 
