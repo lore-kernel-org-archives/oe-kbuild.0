@@ -1,146 +1,72 @@
-Content-Type: multipart/mixed; boundary="===============2593119003306236204=="
+Content-Type: multipart/mixed; boundary="===============1165359176822452265=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/rtc/rtc-gamecube.c:247 gamecube_rtc_read_offset_from_sram() warn: 'hw_srnprot' not released on lines: 239.
-Date: Tue, 01 Mar 2022 01:35:52 +0800
-Message-ID: <202202282221.JUZzSSi9-lkp@intel.com>
+Subject: [linux-next:master 4624/9128] drivers/platform/x86/x86-android-tablets.c:275 asus_me176c_tf103c_init() error: uninitialized symbol 'gpiod'.
+Date: Tue, 01 Mar 2022 01:34:50 +0800
+Message-ID: <202202281730.CbE9khYB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2593119003306236204==
+--===============1165359176822452265==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hans de Goede <hdegoede@redhat.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
-commit: 86559400b3ef9de93ba50523cffe767c35cd531a rtc: gamecube: Add a RTC d=
-river for the GameCube, Wii and Wii U
-date:   2 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 2 months ago
-config: openrisc-randconfig-m031-20220227 (https://download.01.org/0day-ci/=
-archive/20220228/202202282221.JUZzSSi9-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   06aeb1495c39c86ccfaf1adadc1d2200179f16eb
+commit: 66d1d6665a6166078112d4fbbf76153080b2e4d9 [4624/9128] platform/x86: =
+x86-android-tablets: Add lid-switch gpio-keys pdev to Asus ME176C + TF103C
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-m001-20220228 (https://download.01.org/0day-ci/ar=
+chive/20220228/202202281730.CbE9khYB-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/rtc/rtc-gamecube.c:247 gamecube_rtc_read_offset_from_sram() warn: '=
-hw_srnprot' not released on lines: 239.
+New smatch warnings:
+drivers/platform/x86/x86-android-tablets.c:275 asus_me176c_tf103c_init() er=
+ror: uninitialized symbol 'gpiod'.
 
-vim +/hw_srnprot +247 drivers/rtc/rtc-gamecube.c
+Old smatch warnings:
+drivers/platform/x86/x86-android-tablets.c:103 x86_acpi_irq_helper_get() er=
+ror: uninitialized symbol 'gpiod'.
 
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  189  =
+vim +/gpiod +275 drivers/platform/x86/x86-android-tablets.c
 
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  190  static int gamecube_rtc=
-_read_offset_from_sram(struct priv *d)
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  191  {
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  192  	struct device_node *np;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  193  	int ret;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  194  	struct resource res;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  195  	void __iomem *hw_srnpr=
-ot;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  196  	u32 old;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  197  =
+66d1d6665a6166 Hans de Goede 2022-02-05  266  =
 
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  198  	np =3D of_find_compati=
-ble_node(NULL, NULL, "nintendo,latte-srnprot");
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  199  	if (!np)
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  200  		np =3D of_find_compat=
-ible_node(NULL, NULL,
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  201  					     "nintendo,hol=
-lywood-srnprot");
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  202  	if (!np) {
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  203  		pr_info("HW_SRNPROT n=
-ot found, assuming a GameCube\n");
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  204  		return regmap_read(d-=
->regmap, RTC_SRAM_BIAS, &d->rtc_bias);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  205  	}
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  206  =
+66d1d6665a6166 Hans de Goede 2022-02-05  267  static int __init asus_me176c=
+_tf103c_init(void)
+66d1d6665a6166 Hans de Goede 2022-02-05  268  {
+66d1d6665a6166 Hans de Goede 2022-02-05  269  	struct gpio_desc *gpiod;
+66d1d6665a6166 Hans de Goede 2022-02-05  270  	int ret;
+66d1d6665a6166 Hans de Goede 2022-02-05  271  =
 
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  207  	ret =3D of_address_to_=
-resource(np, 0, &res);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  208  	if (ret) {
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  209  		pr_err("no io memory =
-range found\n");
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  210  		return -1;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  211  	}
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  212  =
+66d1d6665a6166 Hans de Goede 2022-02-05  272  	ret =3D x86_android_tablet_g=
+et_gpiod("INT33FC:02", 12, &gpiod);
+66d1d6665a6166 Hans de Goede 2022-02-05  273  	if (ret < 0)
+66d1d6665a6166 Hans de Goede 2022-02-05  274  		return ret;
+66d1d6665a6166 Hans de Goede 2022-02-05 @275  	asus_me176c_tf103c_lid.gpio =
+=3D desc_to_gpio(gpiod);
+66d1d6665a6166 Hans de Goede 2022-02-05  276  =
 
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  213  	hw_srnprot =3D ioremap=
-(res.start, resource_size(&res));
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  214  	old =3D ioread32be(hw_=
-srnprot);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  215  =
-
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  216  	/* TODO: figure out wh=
-y we use this magic constant.  I obtained it by
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  217  	 * reading the leftove=
-r value after boot, after IOSU already ran.
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  218  	 *
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  219  	 * On my Wii U, settin=
-g this register to 1 prevents the console from
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  220  	 * rebooting properly,=
- so wiiubrew.org must be missing something.
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  221  	 *
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  222  	 * See https://wiiubre=
-w.org/wiki/Hardware/Latte_registers
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  223  	 */
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  224  	if (old !=3D 0x7bf)
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  225  		iowrite32be(0x7bf, hw=
-_srnprot);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  226  =
-
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  227  	/* Get the offset from=
- RTC SRAM.
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  228  	 *
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  229  	 * Its default locatio=
-n on the GameCube and on the Wii is in the SRAM,
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  230  	 * while on the Wii U =
-the bootloader needs to fill it with the contents
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  231  	 * of /config/rtc.xml =
-on the SLC (the eMMC).  We don=E2=80=99t do that from
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  232  	 * Linux since it requ=
-ires implementing a proprietary filesystem and do
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  233  	 * file decryption, in=
-stead we require the bootloader to fill the same
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  234  	 * SRAM address as on =
-previous consoles.
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  235  	 */
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  236  	ret =3D regmap_read(d-=
->regmap, RTC_SRAM_BIAS, &d->rtc_bias);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  237  	if (ret) {
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  238  		pr_err("failed to get=
- the RTC bias\n");
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  239  		return -1;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  240  	}
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  241  =
-
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  242  	/* Reset SRAM access t=
-o how it was before, our job here is done. */
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  243  	if (old !=3D 0x7bf)
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  244  		iowrite32be(old, hw_s=
-rnprot);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  245  	iounmap(hw_srnprot);
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  246  =
-
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15 @247  	return 0;
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  248  }
-86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  249  =
+66d1d6665a6166 Hans de Goede 2022-02-05  277  	return 0;
+66d1d6665a6166 Hans de Goede 2022-02-05  278  }
+66d1d6665a6166 Hans de Goede 2022-02-05  279  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2593119003306236204==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============1165359176822452265==--
 
