@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9010471184501519370=="
+Content-Type: multipart/mixed; boundary="===============3549360568665266163=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/codecs/nau8821.c:393:20: warning: Shifting a negative value is technically undefined behaviour [shiftNegativeLHS]
-Date: Tue, 01 Mar 2022 01:34:24 +0800
-Message-ID: <202202281641.VclsUHdT-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
+Date: Mon, 28 Feb 2022 16:31:48 +0800
+Message-ID: <202202281657.oED3FGfB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9010471184501519370==
+--===============3549360568665266163==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,119 +15,166 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Matthew Auld <matthew.auld@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
-commit: 46ae0b3f554a323322a770c0edee50aa8019a655 ASoC: nau8821: clarify out=
--of-bounds check
-date:   4 months ago
+commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
+y_man
+date:   9 months ago
 :::::: branch date: 10 hours ago
-:::::: commit date: 4 months ago
-compiler: nios2-linux-gcc (GCC) 11.2.0
+:::::: commit date: 9 months ago
+config: i386-randconfig-m021-20220228 (https://download.01.org/0day-ci/arch=
+ive/20220228/202202281657.oED3FGfB-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
+ warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
+ warn: should 'bo->page_alignment << 12' be a 64 bit type?
 
->> sound/soc/codecs/nau8821.c:393:20: warning: Shifting a negative value is=
- technically undefined behaviour [shiftNegativeLHS]
-     (speed_selection << NAU8821_DMIC_SRC_SFT));
-                      ^
+vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
 
-vim +393 sound/soc/codecs/nau8821.c
+88be9a0a06b73ec Matthew Auld 2021-06-16   28  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  354  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man=
+_alloc(struct ttm_resource_manager *man,
+88be9a0a06b73ec Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obj=
+ect *bo,
+88be9a0a06b73ec Matthew Auld 2021-06-16   31  				    const struct ttm_plac=
+e *place,
+88be9a0a06b73ec Matthew Auld 2021-06-16   32  				    struct ttm_resource *=
+*res)
+88be9a0a06b73ec Matthew Auld 2021-06-16   33  {
+88be9a0a06b73ec Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manage=
+r *bman =3D to_buddy_manager(man);
+88be9a0a06b73ec Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resour=
+ce *bman_res;
+88be9a0a06b73ec Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D=
+ &bman->mm;
+88be9a0a06b73ec Matthew Auld 2021-06-16   37  	unsigned long n_pages;
+88be9a0a06b73ec Matthew Auld 2021-06-16   38  	unsigned int min_order;
+88be9a0a06b73ec Matthew Auld 2021-06-16   39  	u64 min_page_size;
+88be9a0a06b73ec Matthew Auld 2021-06-16   40  	u64 size;
+88be9a0a06b73ec Matthew Auld 2021-06-16   41  	int err;
+88be9a0a06b73ec Matthew Auld 2021-06-16   42  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  355  static const struct sn=
-d_kcontrol_new nau8821_dmic_mode_switch =3D
-aab1ad11d69fa7 Seven Lee            2021-10-01  356  	SOC_DAPM_SINGLE("Swit=
-ch", NAU8821_R13_DMIC_CTRL,
-aab1ad11d69fa7 Seven Lee            2021-10-01  357  		NAU8821_DMIC_EN_SFT,=
- 1, 0);
-aab1ad11d69fa7 Seven Lee            2021-10-01  358  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pl=
+ace->lpfn);
+88be9a0a06b73ec Matthew Auld 2021-06-16   44  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  359  static int dmic_clock_=
-control(struct snd_soc_dapm_widget *w,
-aab1ad11d69fa7 Seven Lee            2021-10-01  360  		struct snd_kcontrol =
-*k, int  event)
-aab1ad11d69fa7 Seven Lee            2021-10-01  361  {
-aab1ad11d69fa7 Seven Lee            2021-10-01  362  	struct snd_soc_compon=
-ent *component =3D
-aab1ad11d69fa7 Seven Lee            2021-10-01  363  		snd_soc_dapm_to_comp=
-onent(w->dapm);
-aab1ad11d69fa7 Seven Lee            2021-10-01  364  	struct nau8821 *nau88=
-21 =3D snd_soc_component_get_drvdata(component);
-aab1ad11d69fa7 Seven Lee            2021-10-01  365  	int i, speed_selectio=
-n =3D -1, clk_adc_src, clk_adc;
-aab1ad11d69fa7 Seven Lee            2021-10-01  366  	unsigned int clk_divi=
-der_r03;
-aab1ad11d69fa7 Seven Lee            2021-10-01  367  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(=
+*bman_res), GFP_KERNEL);
+88be9a0a06b73ec Matthew Auld 2021-06-16   46  	if (!bman_res)
+88be9a0a06b73ec Matthew Auld 2021-06-16   47  		return -ENOMEM;
+88be9a0a06b73ec Matthew Auld 2021-06-16   48  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  368  	/* The DMIC clock is =
-gotten from adc clock divided by
-aab1ad11d69fa7 Seven Lee            2021-10-01  369  	 * CLK_DMIC_SRC (1, 2=
-, 4, 8). The clock has to be equal or
-aab1ad11d69fa7 Seven Lee            2021-10-01  370  	 * less than nau8821-=
->dmic_clk_threshold.
-aab1ad11d69fa7 Seven Lee            2021-10-01  371  	 */
-aab1ad11d69fa7 Seven Lee            2021-10-01  372  	regmap_read(nau8821->=
-regmap, NAU8821_R03_CLK_DIVIDER,
-aab1ad11d69fa7 Seven Lee            2021-10-01  373  		&clk_divider_r03);
-aab1ad11d69fa7 Seven Lee            2021-10-01  374  	clk_adc_src =3D (clk_=
-divider_r03 & NAU8821_CLK_ADC_SRC_MASK)
-aab1ad11d69fa7 Seven Lee            2021-10-01  375  		>> NAU8821_CLK_ADC_S=
-RC_SFT;
-aab1ad11d69fa7 Seven Lee            2021-10-01  376  	clk_adc =3D (nau8821-=
->fs * 256) >> clk_adc_src;
-aab1ad11d69fa7 Seven Lee            2021-10-01  377  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place,=
+ &bman_res->base);
+88be9a0a06b73ec Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->bl=
+ocks);
+88be9a0a06b73ec Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
+88be9a0a06b73ec Matthew Auld 2021-06-16   52  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  378  	for (i =3D 0 ; i < 4 =
-; i++)
-aab1ad11d69fa7 Seven Lee            2021-10-01  379  		if ((clk_adc >> dmic=
-_speed_sel[i].param) <=3D
-aab1ad11d69fa7 Seven Lee            2021-10-01  380  			nau8821->dmic_clk_t=
-hreshold) {
-aab1ad11d69fa7 Seven Lee            2021-10-01  381  			speed_selection =3D=
- dmic_speed_sel[i].val;
-aab1ad11d69fa7 Seven Lee            2021-10-01  382  			break;
-aab1ad11d69fa7 Seven Lee            2021-10-01  383  		}
-46ae0b3f554a32 Pierre-Louis Bossart 2021-10-25  384  	if (i =3D=3D 4)
-aab1ad11d69fa7 Seven Lee            2021-10-01  385  		return -EINVAL;
-aab1ad11d69fa7 Seven Lee            2021-10-01  386  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.n=
+um_pages);
+88be9a0a06b73ec Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_=
+pages << PAGE_SHIFT;
+88be9a0a06b73ec Matthew Auld 2021-06-16   55  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  387  	dev_dbg(nau8821->dev,
-aab1ad11d69fa7 Seven Lee            2021-10-01  388  		"clk_adc=3D%d, dmic_=
-clk_threshold =3D %d, param=3D%d, val =3D %d\n",
-aab1ad11d69fa7 Seven Lee            2021-10-01  389  		clk_adc, nau8821->dm=
-ic_clk_threshold,
-aab1ad11d69fa7 Seven Lee            2021-10-01  390  		dmic_speed_sel[i].pa=
-ram, dmic_speed_sel[i].val);
-aab1ad11d69fa7 Seven Lee            2021-10-01  391  	regmap_update_bits(na=
-u8821->regmap, NAU8821_R13_DMIC_CTRL,
-aab1ad11d69fa7 Seven Lee            2021-10-01  392  		NAU8821_DMIC_SRC_MAS=
-K,
-aab1ad11d69fa7 Seven Lee            2021-10-01 @393  		(speed_selection << =
-NAU8821_DMIC_SRC_SFT));
-aab1ad11d69fa7 Seven Lee            2021-10-01  394  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_a=
+lignment << PAGE_SHIFT;
+88be9a0a06b73ec Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < m=
+m->chunk_size);
+88be9a0a06b73ec Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page=
+_size) - ilog2(mm->chunk_size);
+88be9a0a06b73ec Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FL=
+AG_CONTIGUOUS) {
+88be9a0a06b73ec Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two=
+(size);
+88be9a0a06b73ec Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) -=
+ ilog2(mm->chunk_size);
+88be9a0a06b73ec Matthew Auld 2021-06-16   62  	}
+88be9a0a06b73ec Matthew Auld 2021-06-16   63  =
 
-aab1ad11d69fa7 Seven Lee            2021-10-01  395  	return 0;
-aab1ad11d69fa7 Seven Lee            2021-10-01  396  }
-aab1ad11d69fa7 Seven Lee            2021-10-01  397  =
+88be9a0a06b73ec Matthew Auld 2021-06-16   64  	if (size > mm->size) {
+88be9a0a06b73ec Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
+88be9a0a06b73ec Matthew Auld 2021-06-16   66  		goto err_free_res;
+88be9a0a06b73ec Matthew Auld 2021-06-16   67  	}
+88be9a0a06b73ec Matthew Auld 2021-06-16   68  =
 
+88be9a0a06b73ec Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm=
+->chunk_size);
+88be9a0a06b73ec Matthew Auld 2021-06-16   70  =
 
-:::::: The code@line 393 was first introduced by commit
-:::::: aab1ad11d69fa7f35cb88105614ea7911598e1d6 ASoC: nau8821: new driver
+88be9a0a06b73ec Matthew Auld 2021-06-16   71  	do {
+88be9a0a06b73ec Matthew Auld 2021-06-16   72  		struct i915_buddy_block *bl=
+ock;
+88be9a0a06b73ec Matthew Auld 2021-06-16   73  		unsigned int order;
+88be9a0a06b73ec Matthew Auld 2021-06-16   74  =
 
-:::::: TO: Seven Lee <wtli@nuvoton.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+88be9a0a06b73ec Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
+88be9a0a06b73ec Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_=
+order);
+88be9a0a06b73ec Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_orde=
+r);
+88be9a0a06b73ec Matthew Auld 2021-06-16   78  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16   79  		do {
+88be9a0a06b73ec Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
+88be9a0a06b73ec Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc=
+(mm, order);
+88be9a0a06b73ec Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
+88be9a0a06b73ec Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
+88be9a0a06b73ec Matthew Auld 2021-06-16   84  				break;
+88be9a0a06b73ec Matthew Auld 2021-06-16   85  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_ord=
+er) {
+88be9a0a06b73ec Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
+88be9a0a06b73ec Matthew Auld 2021-06-16   88  				goto err_free_blocks;
+88be9a0a06b73ec Matthew Auld 2021-06-16   89  			}
+88be9a0a06b73ec Matthew Auld 2021-06-16   90  		} while (1);
+88be9a0a06b73ec Matthew Auld 2021-06-16   91  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
+88be9a0a06b73ec Matthew Auld 2021-06-16   93  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16   94  		list_add_tail(&block->link,=
+ &bman_res->blocks);
+88be9a0a06b73ec Matthew Auld 2021-06-16   95  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16   96  		if (!n_pages)
+88be9a0a06b73ec Matthew Auld 2021-06-16   97  			break;
+88be9a0a06b73ec Matthew Auld 2021-06-16   98  	} while (1);
+88be9a0a06b73ec Matthew Auld 2021-06-16   99  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
+88be9a0a06b73ec Matthew Auld 2021-06-16  101  	return 0;
+88be9a0a06b73ec Matthew Auld 2021-06-16  102  =
+
+88be9a0a06b73ec Matthew Auld 2021-06-16  103  err_free_blocks:
+88be9a0a06b73ec Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
+88be9a0a06b73ec Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bm=
+an_res->blocks);
+88be9a0a06b73ec Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
+88be9a0a06b73ec Matthew Auld 2021-06-16  107  err_free_res:
+88be9a0a06b73ec Matthew Auld 2021-06-16  108  	kfree(bman_res);
+88be9a0a06b73ec Matthew Auld 2021-06-16  109  	return err;
+88be9a0a06b73ec Matthew Auld 2021-06-16  110  }
+88be9a0a06b73ec Matthew Auld 2021-06-16  111  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9010471184501519370==--
+--===============3549360568665266163==--
 
