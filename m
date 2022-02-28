@@ -1,321 +1,113 @@
-Content-Type: multipart/mixed; boundary="===============2119570562324622704=="
+Content-Type: multipart/mixed; boundary="===============1268058107397338935=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/can/j1939/socket.c:655:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Mon, 28 Feb 2022 09:56:26 +0800
-Message-ID: <202202280920.8NHC4RRo-lkp@intel.com>
+Subject: [trondmy-nfs:testing 48/49] fs/nfs/dir.c:319 nfs_readdir_page_array_append() warn: potential spectre issue 'array->array' [r]
+Date: Mon, 28 Feb 2022 08:34:50 +0800
+Message-ID: <202202280850.EvOmX9ep-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2119570562324622704==
+--===============1268058107397338935==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-CC: Christoph Hellwig <hch@lst.de>
+CC: linux-nfs(a)vger.kernel.org
+TO: Trond Myklebust <trond.myklebust@hammerspace.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   52a02554673122486ecb36c36387d91cf9544986
-commit: 04324f44cb69a03fdc8f2ee52386a4fdf6a0043b MIPS: Remove get_fs/set_fs
-date:   11 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 11 months ago
-config: mips-randconfig-c004-20220227 (https://download.01.org/0day-ci/arch=
-ive/20220228/202202280920.8NHC4RRo-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D04324f44cb69a03fdc8f2ee52386a4fdf6a0043b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 04324f44cb69a03fdc8f2ee52386a4fdf6a0043b
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
-
+tree:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git testing
+head:   fcfa8460f356ba4174b43afdfa8ef83fcc2a2839
+commit: 69e9fca6b8e59745438856462e8f1b9255d5198f [48/49] NFS: Optimise away=
+ the previous cookie field
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20228/202202280850.EvOmX9ep-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+fs/nfs/dir.c:319 nfs_readdir_page_array_append() warn: potential spectre is=
+sue 'array->array' [r]
+
+vim +319 fs/nfs/dir.c
+
+d1bacf9eb2fd0e Bryan Schumaker 2010-09-24  298  =
+
+69e9fca6b8e597 Trond Myklebust 2022-02-27  299  static int nfs_readdir_page=
+_array_append(struct page *page,
+69e9fca6b8e597 Trond Myklebust 2022-02-27  300  					 const struct nfs_entr=
+y *entry,
+69e9fca6b8e597 Trond Myklebust 2022-02-27  301  					 u64 *cookie)
+d1bacf9eb2fd0e Bryan Schumaker 2010-09-24  302  {
+a52a8a6adad99e Trond Myklebust 2020-11-01  303  	struct nfs_cache_array *ar=
+ray;
+4a201d6e3f4253 Trond Myklebust 2010-10-23  304  	struct nfs_cache_array_ent=
+ry *cache_entry;
+a52a8a6adad99e Trond Myklebust 2020-11-01  305  	const char *name;
+69e9fca6b8e597 Trond Myklebust 2022-02-27  306  	int ret =3D -ENOMEM;
+4a201d6e3f4253 Trond Myklebust 2010-10-23  307  =
+
+a52a8a6adad99e Trond Myklebust 2020-11-01  308  	name =3D nfs_readdir_copy_=
+name(entry->name, entry->len);
+3020093f578fb6 Trond Myklebust 2010-11-20  309  =
+
+a52a8a6adad99e Trond Myklebust 2020-11-01  310  	array =3D kmap_atomic(page=
+);
+69e9fca6b8e597 Trond Myklebust 2022-02-27  311  	if (!name)
+69e9fca6b8e597 Trond Myklebust 2022-02-27  312  		goto out;
+b1e21c97437f64 Trond Myklebust 2020-11-01  313  	ret =3D nfs_readdir_array_=
+can_expand(array);
+a52a8a6adad99e Trond Myklebust 2020-11-01  314  	if (ret) {
+a52a8a6adad99e Trond Myklebust 2020-11-01  315  		kfree(name);
+4a201d6e3f4253 Trond Myklebust 2010-10-23  316  		goto out;
+a52a8a6adad99e Trond Myklebust 2020-11-01  317  	}
+d1bacf9eb2fd0e Bryan Schumaker 2010-09-24  318  =
+
+b1e21c97437f64 Trond Myklebust 2020-11-01 @319  	cache_entry =3D &array->ar=
+ray[array->size];
+69e9fca6b8e597 Trond Myklebust 2022-02-27  320  	cache_entry->cookie =3D ar=
+ray->last_cookie;
+4a201d6e3f4253 Trond Myklebust 2010-10-23  321  	cache_entry->ino =3D entry=
+->ino;
+0b26a0bf6ff398 Trond Myklebust 2010-11-20  322  	cache_entry->d_type =3D en=
+try->d_type;
+a52a8a6adad99e Trond Myklebust 2020-11-01  323  	cache_entry->name_len =3D =
+entry->len;
+a52a8a6adad99e Trond Myklebust 2020-11-01  324  	cache_entry->name =3D name;
+d1bacf9eb2fd0e Bryan Schumaker 2010-09-24  325  	array->last_cookie =3D ent=
+ry->cookie;
+762567b7c798af Trond Myklebust 2020-11-04  326  	if (array->last_cookie <=
+=3D cache_entry->cookie)
+762567b7c798af Trond Myklebust 2020-11-04  327  		array->cookies_are_ordere=
+d =3D 0;
+8cd51a0ccd1bed Trond Myklebust 2010-11-15  328  	array->size++;
+47c716cbf638a1 Trond Myklebust 2010-12-07  329  	if (entry->eof !=3D 0)
+b1e21c97437f64 Trond Myklebust 2020-11-01  330  		nfs_readdir_array_set_eof=
+(array);
+4a201d6e3f4253 Trond Myklebust 2010-10-23  331  out:
+69e9fca6b8e597 Trond Myklebust 2022-02-27  332  	*cookie =3D array->last_co=
+okie;
+a52a8a6adad99e Trond Myklebust 2020-11-01  333  	kunmap_atomic(array);
+4a201d6e3f4253 Trond Myklebust 2010-10-23  334  	return ret;
+d1bacf9eb2fd0e Bryan Schumaker 2010-09-24  335  }
+d1bacf9eb2fd0e Bryan Schumaker 2010-09-24  336  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/failover.c:53:6: note: Assuming field 'type' is equal to ARPHRD=
-_ETHER
-           if (slave_dev->type !=3D ARPHRD_ETHER)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/failover.c:53:2: note: Taking false branch
-           if (slave_dev->type !=3D ARPHRD_ETHER)
-           ^
-   net/core/failover.c:56:2: note: Assuming the condition is false
-           ASSERT_RTNL();
-           ^
-   include/linux/rtnetlink.h:110:12: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
-                     ^~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:157:27: note: expanded from macro 'WARN_ONCE'
-           int __ret_warn_once =3D !!(condition);                    \
-                                    ^~~~~~~~~
-   net/core/failover.c:56:2: note: '__ret_warn_once' is 0
-           ASSERT_RTNL();
-           ^
-   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:159:15: note: expanded from macro 'WARN_ONCE'
-           if (unlikely(__ret_warn_once && !__warned)) {           \
-                        ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/core/failover.c:56:2: note: Left side of '&&' is false
-           ASSERT_RTNL();
-           ^
-   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
-           ^
-   include/asm-generic/bug.h:159:31: note: expanded from macro 'WARN_ONCE'
-           if (unlikely(__ret_warn_once && !__warned)) {           \
-                                        ^
-   net/core/failover.c:56:2: note: Taking false branch
-           ASSERT_RTNL();
-           ^
-   include/linux/rtnetlink.h:110:2: note: expanded from macro 'ASSERT_RTNL'
-           WARN_ONCE(!rtnl_is_locked(), \
-           ^
-   include/asm-generic/bug.h:159:2: note: expanded from macro 'WARN_ONCE'
-           if (unlikely(__ret_warn_once && !__warned)) {           \
-           ^
-   net/core/failover.c:58:17: note: Value assigned to 'fops'
-           failover_dev =3D failover_get_bymac(slave_dev->perm_addr, &fops);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/core/failover.c:59:6: note: Assuming 'failover_dev' is non-null
-           if (!failover_dev)
-               ^~~~~~~~~~~~~
-   net/core/failover.c:59:2: note: Taking false branch
-           if (!failover_dev)
-           ^
-   net/core/failover.c:62:6: note: Assuming 'fops' is null
-           if (fops && fops->slave_pre_register &&
-               ^~~~
-   net/core/failover.c:62:11: note: Left side of '&&' is false
-           if (fops && fops->slave_pre_register &&
-                    ^
-   net/core/failover.c:66:46: note: Access to field 'slave_handle_frame' re=
-sults in a dereference of a null pointer (loaded from variable 'fops')
-           err =3D netdev_rx_handler_register(slave_dev, fops->slave_handle=
-_frame,
-                                                       ^~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
->> net/can/j1939/socket.c:655:6: warning: Branch condition evaluates to a g=
-arbage value [clang-analyzer-core.uninitialized.Branch]
-           if (tmp)
-               ^
-   net/can/j1939/socket.c:671:6: note: Assuming the condition is false
-           if (level !=3D SOL_CAN_J1939)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/can/j1939/socket.c:671:2: note: Taking false branch
-           if (level !=3D SOL_CAN_J1939)
-           ^
-   net/can/j1939/socket.c:674:2: note: Control jumps to 'case SO_J1939_ERRQ=
-UEUE:'  at line 709
-           switch (optname) {
-           ^
-   net/can/j1939/socket.c:710:9: note: Calling 'j1939_sk_setsockopt_flag'
-                   ret =3D j1939_sk_setsockopt_flag(jsk, optval, optlen,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/can/j1939/socket.c:648:2: note: 'tmp' declared without an initial va=
-lue
-           int tmp;
-           ^~~~~~~
-   net/can/j1939/socket.c:650:6: note: Assuming the condition is false
-           if (optlen !=3D sizeof(tmp))
-               ^~~~~~~~~~~~~~~~~~~~~
-   net/can/j1939/socket.c:650:2: note: Taking false branch
-           if (optlen !=3D sizeof(tmp))
-           ^
-   net/can/j1939/socket.c:652:6: note: Calling 'copy_from_sockptr'
-           if (copy_from_sockptr(&tmp, optval, optlen))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:55:9: note: Calling 'copy_from_sockptr_offset'
-           return copy_from_sockptr_offset(dst, src, 0, size);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:47:6: note: Assuming the condition is true
-           if (!sockptr_is_kernel(src))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sockptr.h:47:2: note: Taking true branch
-           if (!sockptr_is_kernel(src))
-           ^
-   include/linux/sockptr.h:48:10: note: Calling 'copy_from_user'
-                   return copy_from_user(dst, src.user + offset, size);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:40: note: Assuming the condition is false
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                                 ^
-   arch/mips/include/asm/uaccess.h:86:2: note: expanded from macro 'access_=
-ok'
-           likely(__access_ok((addr), (size)))
-           ^
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:472:2: note: Returning without writing t=
-o '*to'
-           return __cu_len_r;
-           ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
-           return res;
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
-           return n;
+:::::: The code at line 319 was first introduced by commit
+:::::: b1e21c97437f64d0a00f8fea1f9e64e77e0e4242 NFS: Clean up readdir struc=
+t nfs_cache_array
 
-vim +655 net/can/j1939/socket.c
-
-9d71dd0c7009991 The j1939 authors 2018-10-08  644  =
-
-a7b75c5a8c41445 Christoph Hellwig 2020-07-23  645  static int j1939_sk_sets=
-ockopt_flag(struct j1939_sock *jsk, sockptr_t optval,
-9d71dd0c7009991 The j1939 authors 2018-10-08  646  				    unsigned int opt=
-len, int flag)
-9d71dd0c7009991 The j1939 authors 2018-10-08  647  {
-9d71dd0c7009991 The j1939 authors 2018-10-08  648  	int tmp;
-9d71dd0c7009991 The j1939 authors 2018-10-08  649  =
-
-9d71dd0c7009991 The j1939 authors 2018-10-08  650  	if (optlen !=3D sizeof(=
-tmp))
-9d71dd0c7009991 The j1939 authors 2018-10-08  651  		return -EINVAL;
-a7b75c5a8c41445 Christoph Hellwig 2020-07-23  652  	if (copy_from_sockptr(&=
-tmp, optval, optlen))
-9d71dd0c7009991 The j1939 authors 2018-10-08  653  		return -EFAULT;
-9d71dd0c7009991 The j1939 authors 2018-10-08  654  	lock_sock(&jsk->sk);
-9d71dd0c7009991 The j1939 authors 2018-10-08 @655  	if (tmp)
-9d71dd0c7009991 The j1939 authors 2018-10-08  656  		jsk->state |=3D flag;
-9d71dd0c7009991 The j1939 authors 2018-10-08  657  	else
-9d71dd0c7009991 The j1939 authors 2018-10-08  658  		jsk->state &=3D ~flag;
-9d71dd0c7009991 The j1939 authors 2018-10-08  659  	release_sock(&jsk->sk);
-9d71dd0c7009991 The j1939 authors 2018-10-08  660  	return tmp;
-9d71dd0c7009991 The j1939 authors 2018-10-08  661  }
-9d71dd0c7009991 The j1939 authors 2018-10-08  662  =
-
-
-:::::: The code at line 655 was first introduced by commit
-:::::: 9d71dd0c70099914fcd063135da3c580865e924c can: add support of SAE J19=
-39 protocol
-
-:::::: TO: The j1939 authors <linux-can@vger.kernel.org>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+:::::: TO: Trond Myklebust <trond.myklebust@hammerspace.com>
+:::::: CC: Trond Myklebust <trond.myklebust@hammerspace.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2119570562324622704==--
+--===============1268058107397338935==--
 
