@@ -1,180 +1,150 @@
-Content-Type: multipart/mixed; boundary="===============3549360568665266163=="
+Content-Type: multipart/mixed; boundary="===============0766866400091343519=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
-Date: Mon, 28 Feb 2022 16:31:48 +0800
-Message-ID: <202202281657.oED3FGfB-lkp@intel.com>
+Subject: [linux-next:master 4623/9128] drivers/platform/x86/x86-android-tablets.c:101 x86_acpi_irq_helper_get() error: uninitialized symbol 'gpiod'.
+Date: Mon, 28 Feb 2022 16:21:31 +0800
+Message-ID: <202202281654.TVt7G4sn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3549360568665266163==
+--===============0766866400091343519==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hans de Goede <hdegoede@redhat.com>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
-commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
-y_man
-date:   9 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-m021-20220228 (https://download.01.org/0day-ci/arch=
-ive/20220228/202202281657.oED3FGfB-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   06aeb1495c39c86ccfaf1adadc1d2200179f16eb
+commit: 381d785d9eefd2516985f662c71fde1f028b014d [4623/9128] platform/x86: =
+x86-android-tablets: Add x86_android_tablet_get_gpiod() helper
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-m001-20220228 (https://download.01.org/0day-ci/ar=
+chive/20220228/202202281654.TVt7G4sn-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
- warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
+smatch warnings:
+drivers/platform/x86/x86-android-tablets.c:101 x86_acpi_irq_helper_get() er=
+ror: uninitialized symbol 'gpiod'.
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
- warn: should 'bo->page_alignment << 12' be a 64 bit type?
+vim +/gpiod +101 drivers/platform/x86/x86-android-tablets.c
 
-vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+381d785d9eefd2 Hans de Goede     2022-02-05   76  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   28  =
+55fa3c9665bfcf Hans de Goede     2021-12-23   77  static int x86_acpi_irq_h=
+elper_get(const struct x86_acpi_irq_data *data)
+55fa3c9665bfcf Hans de Goede     2021-12-23   78  {
+cd26465fbc03be Hans de Goede     2021-12-30   79  	struct irq_fwspec fwspec=
+ =3D { };
+cd26465fbc03be Hans de Goede     2021-12-30   80  	struct irq_domain *domai=
+n;
+cd26465fbc03be Hans de Goede     2021-12-30   81  	struct acpi_device *adev;
+55fa3c9665bfcf Hans de Goede     2021-12-23   82  	struct gpio_desc *gpiod;
+55fa3c9665bfcf Hans de Goede     2021-12-23   83  	unsigned int irq_type;
+cd26465fbc03be Hans de Goede     2021-12-30   84  	acpi_handle handle;
+cd26465fbc03be Hans de Goede     2021-12-30   85  	acpi_status status;
+55fa3c9665bfcf Hans de Goede     2021-12-23   86  	int irq, ret;
+55fa3c9665bfcf Hans de Goede     2021-12-23   87  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man=
-_alloc(struct ttm_resource_manager *man,
-88be9a0a06b73ec Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obj=
-ect *bo,
-88be9a0a06b73ec Matthew Auld 2021-06-16   31  				    const struct ttm_plac=
-e *place,
-88be9a0a06b73ec Matthew Auld 2021-06-16   32  				    struct ttm_resource *=
-*res)
-88be9a0a06b73ec Matthew Auld 2021-06-16   33  {
-88be9a0a06b73ec Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manage=
-r *bman =3D to_buddy_manager(man);
-88be9a0a06b73ec Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resour=
-ce *bman_res;
-88be9a0a06b73ec Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D=
- &bman->mm;
-88be9a0a06b73ec Matthew Auld 2021-06-16   37  	unsigned long n_pages;
-88be9a0a06b73ec Matthew Auld 2021-06-16   38  	unsigned int min_order;
-88be9a0a06b73ec Matthew Auld 2021-06-16   39  	u64 min_page_size;
-88be9a0a06b73ec Matthew Auld 2021-06-16   40  	u64 size;
-88be9a0a06b73ec Matthew Auld 2021-06-16   41  	int err;
-88be9a0a06b73ec Matthew Auld 2021-06-16   42  =
+55fa3c9665bfcf Hans de Goede     2021-12-23   88  	switch (data->type) {
+55fa3c9665bfcf Hans de Goede     2021-12-23   89  	case X86_ACPI_IRQ_TYPE_A=
+PIC:
+55fa3c9665bfcf Hans de Goede     2021-12-23   90  		irq =3D acpi_register_g=
+si(NULL, data->index, data->trigger, data->polarity);
+55fa3c9665bfcf Hans de Goede     2021-12-23   91  		if (irq < 0)
+55fa3c9665bfcf Hans de Goede     2021-12-23   92  			pr_err("error %d getti=
+ng APIC IRQ %d\n", irq, data->index);
+55fa3c9665bfcf Hans de Goede     2021-12-23   93  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pl=
-ace->lpfn);
-88be9a0a06b73ec Matthew Auld 2021-06-16   44  =
+55fa3c9665bfcf Hans de Goede     2021-12-23   94  		return irq;
+55fa3c9665bfcf Hans de Goede     2021-12-23   95  	case X86_ACPI_IRQ_TYPE_G=
+PIOINT:
+55fa3c9665bfcf Hans de Goede     2021-12-23   96  		/* Like acpi_dev_gpio_i=
+rq_get(), but without parsing ACPI resources */
+381d785d9eefd2 Hans de Goede     2022-02-05   97  		ret =3D x86_android_tab=
+let_get_gpiod(data->chip, data->index, &gpiod);
+381d785d9eefd2 Hans de Goede     2022-02-05   98  		if (ret)
+55fa3c9665bfcf Hans de Goede     2021-12-23   99  			return ret;
+55fa3c9665bfcf Hans de Goede     2021-12-23  100  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(=
-*bman_res), GFP_KERNEL);
-88be9a0a06b73ec Matthew Auld 2021-06-16   46  	if (!bman_res)
-88be9a0a06b73ec Matthew Auld 2021-06-16   47  		return -ENOMEM;
-88be9a0a06b73ec Matthew Auld 2021-06-16   48  =
+55fa3c9665bfcf Hans de Goede     2021-12-23 @101  		irq =3D gpiod_to_irq(gp=
+iod);
+55fa3c9665bfcf Hans de Goede     2021-12-23  102  		if (irq < 0) {
+55fa3c9665bfcf Hans de Goede     2021-12-23  103  			pr_err("error %d getti=
+ng IRQ %s %d\n", irq, data->chip, data->index);
+55fa3c9665bfcf Hans de Goede     2021-12-23  104  			return irq;
+55fa3c9665bfcf Hans de Goede     2021-12-23  105  		}
+55fa3c9665bfcf Hans de Goede     2021-12-23  106  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place,=
- &bman_res->base);
-88be9a0a06b73ec Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->bl=
-ocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
-88be9a0a06b73ec Matthew Auld 2021-06-16   52  =
+55fa3c9665bfcf Hans de Goede     2021-12-23  107  		irq_type =3D acpi_dev_g=
+et_irq_type(data->trigger, data->polarity);
+55fa3c9665bfcf Hans de Goede     2021-12-23  108  		if (irq_type !=3D IRQ_T=
+YPE_NONE && irq_type !=3D irq_get_trigger_type(irq))
+55fa3c9665bfcf Hans de Goede     2021-12-23  109  			irq_set_irq_type(irq, =
+irq_type);
+55fa3c9665bfcf Hans de Goede     2021-12-23  110  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.n=
-um_pages);
-88be9a0a06b73ec Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_=
-pages << PAGE_SHIFT;
-88be9a0a06b73ec Matthew Auld 2021-06-16   55  =
+55fa3c9665bfcf Hans de Goede     2021-12-23  111  		return irq;
+cd26465fbc03be Hans de Goede     2021-12-30  112  	case X86_ACPI_IRQ_TYPE_P=
+MIC:
+cd26465fbc03be Hans de Goede     2021-12-30  113  		status =3D acpi_get_han=
+dle(NULL, data->chip, &handle);
+cd26465fbc03be Hans de Goede     2021-12-30  114  		if (ACPI_FAILURE(status=
+)) {
+cd26465fbc03be Hans de Goede     2021-12-30  115  			pr_err("error could no=
+t get %s handle\n", data->chip);
+cd26465fbc03be Hans de Goede     2021-12-30  116  			return -ENODEV;
+cd26465fbc03be Hans de Goede     2021-12-30  117  		}
+cd26465fbc03be Hans de Goede     2021-12-30  118  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_a=
-lignment << PAGE_SHIFT;
-88be9a0a06b73ec Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < m=
-m->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page=
-_size) - ilog2(mm->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FL=
-AG_CONTIGUOUS) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two=
-(size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) -=
- ilog2(mm->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   62  	}
-88be9a0a06b73ec Matthew Auld 2021-06-16   63  =
+f7e62c5890f085 Rafael J. Wysocki 2022-01-26  119  		adev =3D acpi_fetch_acp=
+i_dev(handle);
+cd26465fbc03be Hans de Goede     2021-12-30  120  		if (!adev) {
+cd26465fbc03be Hans de Goede     2021-12-30  121  			pr_err("error could no=
+t get %s adev\n", data->chip);
+cd26465fbc03be Hans de Goede     2021-12-30  122  			return -ENODEV;
+cd26465fbc03be Hans de Goede     2021-12-30  123  		}
+cd26465fbc03be Hans de Goede     2021-12-30  124  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   64  	if (size > mm->size) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
-88be9a0a06b73ec Matthew Auld 2021-06-16   66  		goto err_free_res;
-88be9a0a06b73ec Matthew Auld 2021-06-16   67  	}
-88be9a0a06b73ec Matthew Auld 2021-06-16   68  =
+cd26465fbc03be Hans de Goede     2021-12-30  125  		fwspec.fwnode =3D acpi_=
+fwnode_handle(adev);
+cd26465fbc03be Hans de Goede     2021-12-30  126  		domain =3D irq_find_mat=
+ching_fwspec(&fwspec, data->domain);
+cd26465fbc03be Hans de Goede     2021-12-30  127  		if (!domain) {
+cd26465fbc03be Hans de Goede     2021-12-30  128  			pr_err("error could no=
+t find IRQ domain for %s\n", data->chip);
+cd26465fbc03be Hans de Goede     2021-12-30  129  			return -ENODEV;
+cd26465fbc03be Hans de Goede     2021-12-30  130  		}
+cd26465fbc03be Hans de Goede     2021-12-30  131  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm=
-->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   70  =
+cd26465fbc03be Hans de Goede     2021-12-30  132  		return irq_create_mappi=
+ng(domain, data->index);
+55fa3c9665bfcf Hans de Goede     2021-12-23  133  	default:
+55fa3c9665bfcf Hans de Goede     2021-12-23  134  		return 0;
+55fa3c9665bfcf Hans de Goede     2021-12-23  135  	}
+55fa3c9665bfcf Hans de Goede     2021-12-23  136  }
+55fa3c9665bfcf Hans de Goede     2021-12-23  137  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   71  	do {
-88be9a0a06b73ec Matthew Auld 2021-06-16   72  		struct i915_buddy_block *bl=
-ock;
-88be9a0a06b73ec Matthew Auld 2021-06-16   73  		unsigned int order;
-88be9a0a06b73ec Matthew Auld 2021-06-16   74  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
-88be9a0a06b73ec Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_=
-order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_orde=
-r);
-88be9a0a06b73ec Matthew Auld 2021-06-16   78  =
+:::::: The code at line 101 was first introduced by commit
+:::::: 55fa3c9665bfcf32b21af8ecdeb48d5c5177d8d7 platform/x86: x86-android-t=
+ablets: New driver for x86 Android tablets
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   79  		do {
-88be9a0a06b73ec Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc=
-(mm, order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
-88be9a0a06b73ec Matthew Auld 2021-06-16   84  				break;
-88be9a0a06b73ec Matthew Auld 2021-06-16   85  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_ord=
-er) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
-88be9a0a06b73ec Matthew Auld 2021-06-16   88  				goto err_free_blocks;
-88be9a0a06b73ec Matthew Auld 2021-06-16   89  			}
-88be9a0a06b73ec Matthew Auld 2021-06-16   90  		} while (1);
-88be9a0a06b73ec Matthew Auld 2021-06-16   91  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   93  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   94  		list_add_tail(&block->link,=
- &bman_res->blocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16   95  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   96  		if (!n_pages)
-88be9a0a06b73ec Matthew Auld 2021-06-16   97  			break;
-88be9a0a06b73ec Matthew Auld 2021-06-16   98  	} while (1);
-88be9a0a06b73ec Matthew Auld 2021-06-16   99  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
-88be9a0a06b73ec Matthew Auld 2021-06-16  101  	return 0;
-88be9a0a06b73ec Matthew Auld 2021-06-16  102  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16  103  err_free_blocks:
-88be9a0a06b73ec Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bm=
-an_res->blocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16  107  err_free_res:
-88be9a0a06b73ec Matthew Auld 2021-06-16  108  	kfree(bman_res);
-88be9a0a06b73ec Matthew Auld 2021-06-16  109  	return err;
-88be9a0a06b73ec Matthew Auld 2021-06-16  110  }
-88be9a0a06b73ec Matthew Auld 2021-06-16  111  =
-
+:::::: TO: Hans de Goede <hdegoede@redhat.com>
+:::::: CC: Hans de Goede <hdegoede@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3549360568665266163==--
+--===============0766866400091343519==--
 
