@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4838827416931725055=="
+Content-Type: multipart/mixed; boundary="===============3938132320947788148=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rt-devel:linux-5.17.y-rt-rebase 16/117] kernel/printk/printk.c:3059:4: warning: Value stored to 'any_usable' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 28 Feb 2022 11:37:47 +0800
-Message-ID: <202202281113.l5cXAnKc-lkp@intel.com>
+Subject: drivers/ata/pata_bk3710.c:179:4: warning: Value stored to 'mode' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 28 Feb 2022 11:37:44 +0800
+Message-ID: <202202281101.3f4VBVa7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4838827416931725055==
+--===============3938132320947788148==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,33 +16,36 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: John Ogness <john.ogness@linutronix.de>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: Hannes Reinecke <hare@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel.g=
-it linux-5.17.y-rt-rebase
-head:   2da1afeb004bf496c1cb9b5dbc9b92900a689b2b
-commit: 13ead04370ba6ef9a9067b71a805b24a1cfcd264 [16/117] serial: 8250: imp=
-lement write_atomic
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-228/202202281113.l5cXAnKc-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
+commit: a3d11c275b647b5b56b907011b432e00f7ddb683 ata: pata_bk3710: add comp=
+ile test support
+date:   6 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 weeks ago
+config: riscv-randconfig-c006-20220222 (https://download.01.org/0day-ci/arc=
+hive/20220228/202202281101.3f4VBVa7-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel=
-.git/commit/?id=3D13ead04370ba6ef9a9067b71a805b24a1cfcd264
-        git remote add rt-devel https://git.kernel.org/pub/scm/linux/kernel=
-/git/rt/linux-rt-devel.git
-        git fetch --no-tags rt-devel linux-5.17.y-rt-rebase
-        git checkout 13ead04370ba6ef9a9067b71a805b24a1cfcd264
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da3d11c275b647b5b56b907011b432e00f7ddb683
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a3d11c275b647b5b56b907011b432e00f7ddb683
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,356 +53,372 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                            ^
-   include/linux/printk.h:435:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:388:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/gfs2/bmap.c:2279:2: note: '?' condition is true
-           fs_warn(sdp, "bmap=3D%d lblock=3D%llu block=3D%llu, state=3D0x%0=
-8lx, size=3D%llu\n",
+                   ^     ~
+   drivers/w1/slaves/w1_ds2438.c:69:3: note: Value stored to 'crc' is never=
+ read
+                   crc =3D 0;
+                   ^     ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   fs/gfs2/recovery.c:397:2: warning: Value stored to 'error' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+           error =3D update_statfs_inode(jd, NULL,
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/gfs2/recovery.c:397:2: note: Value stored to 'error' is never read
+           error =3D update_statfs_inode(jd, NULL,
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (!list_empty(head)) {
            ^
-   fs/gfs2/util.h:22:2: note: expanded from macro 'fs_warn'
-           pr_warn("fsid=3D%s: " fmt, (fs)->sd_fsname, ##__VA_ARGS__)
+   fs/gfs2/recovery.c:116:3: note: Memory is released
+                   kfree(rr);
+                   ^~~~~~~~~
+   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (!list_empty(head)) {
            ^
-   include/linux/printk.h:517:2: note: expanded from macro 'pr_warn'
-           printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+   fs/gfs2/recovery.c:115:3: note: Calling 'list_del'
+                   list_del(&rr->rr_list);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:6: note: Assuming the condition is false
+           if (!__list_del_entry_valid(entry))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
            ^
-   include/linux/printk.h:464:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:435:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:397:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   fs/gfs2/bmap.c:2279:2: note: '?' condition is true
-           fs_warn(sdp, "bmap=3D%d lblock=3D%llu block=3D%llu, state=3D0x%0=
-8lx, size=3D%llu\n",
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           entry->next =3D LIST_POISON1;
+                       ^
+   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (!list_empty(head)) {
            ^
-   fs/gfs2/util.h:22:2: note: expanded from macro 'fs_warn'
-           pr_warn("fsid=3D%s: " fmt, (fs)->sd_fsname, ##__VA_ARGS__)
+   fs/gfs2/recovery.c:116:3: note: Memory is released
+                   kfree(rr);
+                   ^~~~~~~~~
+   fs/gfs2/recovery.c:113:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (!list_empty(head)) {
            ^
-   include/linux/printk.h:517:2: note: expanded from macro 'pr_warn'
-           printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:464:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:435:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:401:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   fs/gfs2/bmap.c:2279:2: note: Loop condition is false.  Exiting loop
-           fs_warn(sdp, "bmap=3D%d lblock=3D%llu block=3D%llu, state=3D0x%0=
-8lx, size=3D%llu\n",
-           ^
-   fs/gfs2/util.h:22:2: note: expanded from macro 'fs_warn'
-           pr_warn("fsid=3D%s: " fmt, (fs)->sd_fsname, ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:517:2: note: expanded from macro 'pr_warn'
-           printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:464:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:435:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:387:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   fs/gfs2/bmap.c:2282:2: note: Calling 'gfs2_free_journal_extents'
-           gfs2_free_journal_extents(jd);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:2178:2: note: Loop condition is true.  Entering loop body
-           while(!list_empty(&jd->extent_list)) {
-           ^
-   fs/gfs2/bmap.c:2181:3: note: Memory is released
-                   kfree(jext);
-                   ^~~~~~~~~~~
-   fs/gfs2/bmap.c:2178:8: note: Assuming the condition is true
-           while(!list_empty(&jd->extent_list)) {
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/bmap.c:2178:2: note: Loop condition is true.  Entering loop body
-           while(!list_empty(&jd->extent_list)) {
-           ^
-   fs/gfs2/bmap.c:2180:3: note: Calling 'list_del'
-                   list_del(&jext->list);
-                   ^~~~~~~~~~~~~~~~~~~~~
+   fs/gfs2/recovery.c:115:3: note: Calling 'list_del'
+                   list_del(&rr->rr_list);
+                   ^~~~~~~~~~~~~~~~~~~~~~
    include/linux/list.h:149:14: note: Use of memory after it is freed
            entry->next =3D LIST_POISON1;
            ~~~~~~~~~~~ ^
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   4 warnings generated.
-   kernel/printk/printk.c:157:3: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(devkmsg_log_str, "on");
-                   ^~~~~~
-   kernel/printk/printk.c:157:3: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                   strcpy(devkmsg_log_str, "on");
-                   ^~~~~~
-   kernel/printk/printk.c:159:3: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(devkmsg_log_str, "off");
-                   ^~~~~~
-   kernel/printk/printk.c:159:3: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                   strcpy(devkmsg_log_str, "off");
-                   ^~~~~~
->> kernel/printk/printk.c:3059:4: warning: Value stored to 'any_usable' is =
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/ata/pata_ali.c:126:10: warning: Although the value stored to 'ma=
+sk' is used in the enclosing expression, the value is never actually read f=
+rom 'mask' [clang-analyzer-deadcode.DeadStores]
+                   return mask &=3D ~ATA_MASK_UDMA;
+                          ^       ~~~~~~~~~~~~~~
+   drivers/ata/pata_ali.c:126:10: note: Although the value stored to 'mask'=
+ is used in the enclosing expression, the value is never actually read from=
+ 'mask'
+                   return mask &=3D ~ATA_MASK_UDMA;
+                          ^       ~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/ata/pata_amd.c:280:9: warning: Although the value stored to 'sav=
+ed_udma' is used in the enclosing expression, the value is never actually r=
+ead from 'saved_udma' [clang-analyzer-deadcode.DeadStores]
+           udma =3D saved_udma =3D (unsigned long)ap->host->private_data;
+                  ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_amd.c:280:9: note: Although the value stored to 'saved_=
+udma' is used in the enclosing expression, the value is never actually read=
+ from 'saved_udma'
+           udma =3D saved_udma =3D (unsigned long)ap->host->private_data;
+                  ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/ata/pata_bk3710.c:179:4: warning: Value stored to 'mode' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                           mode =3D mode2;
+                           ^      ~~~~~
+   drivers/ata/pata_bk3710.c:179:4: note: Value stored to 'mode' is never r=
+ead
+                           mode =3D mode2;
+                           ^      ~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/media/i2c/hi846.c:1494:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(&hi846->sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/hi846.c:1494:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(&hi846->sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/hi846.c:1764:2: warning: Value stored to 'tgt_fps' is =
 never read [clang-analyzer-deadcode.DeadStores]
-                           any_usable =3D true;
-                           ^            ~~~~
-   kernel/printk/printk.c:3059:4: note: Value stored to 'any_usable' is nev=
+           tgt_fps =3D hi846->cur_mode->fps;
+           ^         ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/hi846.c:1764:2: note: Value stored to 'tgt_fps' is nev=
 er read
-                           any_usable =3D true;
-                           ^            ~~~~
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   drivers/input/touchscreen/ads7846.c:329:8: warning: Excessive padding in=
- 'struct ser_req' (81 padding bytes, where 17 is optimal). =
+           tgt_fps =3D hi846->cur_mode->fps;
+           ^         ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/hi846.c:1805:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/hi846.c:1805:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/media/i2c/ad9389b.c:399:7: warning: Value stored to 'N' during i=
+ts initialization is never read [clang-analyzer-deadcode.DeadStores]
+                   u32 N =3D (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
+                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ad9389b.c:399:7: note: Value stored to 'N' during its =
+initialization is never read
+                   u32 N =3D (ad9389b_rd(sd, 0x01) & 0xf) << 16 |
+                       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-   Optimal fields order: =
+vim +/mode +179 drivers/ata/pata_bk3710.c
 
-   sample, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  148  =
 
-   scratch, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  149  static void pata_=
+bk3710_setpiomode(void __iomem *base, struct ata_device *pair,
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  150  				   unsigned i=
+nt dev, unsigned int cycletime,
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  151  				   unsigned i=
+nt mode)
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  152  {
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  153  	const struct ata=
+_timing *t;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  154  	u32 val32;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  155  	u8 t2, t2i, t0;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  156  =
 
-   msg, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  157  	t =3D ata_timing=
+_find_mode(XFER_PIO_0 + mode);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  158  =
 
-   xfer, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  159  	/* PIO Data Setu=
+p */
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  160  	t0 =3D DIV_ROUND=
+_UP(cycletime, ideclk_period);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  161  	t2 =3D DIV_ROUND=
+_UP(t->active, ideclk_period);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  162  =
 
-   ref_on, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  163  	t2i =3D t0 - t2 =
+- 1;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  164  	t2--;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  165  =
 
-   command, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  166  	val32 =3D ioread=
+32(base + BK3710_DATSTB) & (0xFF << (dev ? 0 : 8));
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  167  	val32 |=3D t2 <<=
+ (dev ? 8 : 0);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  168  	iowrite32(val32,=
+ base + BK3710_DATSTB);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  169  =
 
-   ref_off, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  170  	val32 =3D ioread=
+32(base + BK3710_DATRCVR) & (0xFF << (dev ? 0 : 8));
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  171  	val32 |=3D t2i <=
+< (dev ? 8 : 0);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  172  	iowrite32(val32,=
+ base + BK3710_DATRCVR);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  173  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ser_req {
-   ~~~~~~~^~~~~~~~~
-   drivers/input/touchscreen/ads7846.c:329:8: note: Excessive padding in 's=
-truct ser_req' (81 padding bytes, where 17 is optimal). Optimal fields orde=
-r: sample, scratch, msg, xfer, ref_on, command, ref_off, consider reorderin=
-g the fields or adding explicit padding members
-   struct ser_req {
-   ~~~~~~~^~~~~~~~~
-   drivers/input/touchscreen/ads7846.c:343:8: warning: Excessive padding in=
- 'struct ads7845_ser_req' (114 padding bytes, where 50 is optimal). =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  174  	/* FIXME: this i=
+s broken also in the old driver */
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  175  	if (pair) {
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  176  		u8 mode2 =3D pa=
+ir->pio_mode - XFER_PIO_0;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  177  =
 
-   Optimal fields order: =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  178  		if (mode2 < mod=
+e)
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22 @179  			mode =3D mode2;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  180  	}
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  181  =
 
-   sample, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  182  	/* TASKFILE Setu=
+p */
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  183  	t0 =3D DIV_ROUND=
+_UP(t->cyc8b, ideclk_period);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  184  	t2 =3D DIV_ROUND=
+_UP(t->act8b, ideclk_period);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  185  =
 
-   command, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  186  	t2i =3D t0 - t2 =
+- 1;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  187  	t2--;
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  188  =
 
-   msg, =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  189  	val32 =3D ioread=
+32(base + BK3710_REGSTB) & (0xFF << (dev ? 0 : 8));
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  190  	val32 |=3D t2 <<=
+ (dev ? 8 : 0);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  191  	iowrite32(val32,=
+ base + BK3710_REGSTB);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  192  =
 
-   xfer, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ads7845_ser_req {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ads7846.c:343:8: note: Excessive padding in 's=
-truct ads7845_ser_req' (114 padding bytes, where 50 is optimal). Optimal fi=
-elds order: sample, command, msg, xfer, consider reordering the fields or a=
-dding explicit padding members
-   struct ads7845_ser_req {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   1 warning generated.
-   include/linux/list.h:88:2: warning: Use of memory after it is freed [cla=
-ng-analyzer-unix.Malloc]
-           __list_add(new, head, head->next);
-           ^
-   kernel/audit_watch.c:476:19: note: Assuming 'audit_watch_group' is equal=
- to field 'group'
-           if (WARN_ON_ONCE(inode_mark->group !=3D audit_watch_group))
-                            ^
-   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_on =3D !!(condition);                      \
-                                  ^~~~~~~~~
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/audit_watch.c:476:6: note: '?' condition is false
-           if (WARN_ON_ONCE(inode_mark->group !=3D audit_watch_group))
-               ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/audit_watch.c:476:6: note: '?' condition is false
-           if (WARN_ON_ONCE(inode_mark->group !=3D audit_watch_group))
-               ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   kernel/audit_watch.c:476:6: note: Taking false branch
-           if (WARN_ON_ONCE(inode_mark->group !=3D audit_watch_group))
-               ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/audit_watch.c:476:2: note: '?' condition is false
-           if (WARN_ON_ONCE(inode_mark->group !=3D audit_watch_group))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/audit_watch.c:476:19: note: Assuming 'audit_watch_group' is equal=
- to field 'group'
-           if (WARN_ON_ONCE(inode_mark->group !=3D audit_watch_group))
-                            ^
-   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_on =3D !!(condition);                      \
-
-vim +/any_usable +3059 kernel/printk/printk.c
-
-a1b245828d4e47 John Ogness 2022-02-04  3048  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3049  	printk_cpu_sync_get_irqsave(f=
-lags);
-a1b245828d4e47 John Ogness 2022-02-04  3050  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3051  	do {
-a1b245828d4e47 John Ogness 2022-02-04  3052  		any_progress =3D false;
-a1b245828d4e47 John Ogness 2022-02-04  3053  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3054  		for_each_console(con) {
-a1b245828d4e47 John Ogness 2022-02-04  3055  			bool progress;
-a1b245828d4e47 John Ogness 2022-02-04  3056  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3057  			if (!console_is_usable(con,=
- true))
-a1b245828d4e47 John Ogness 2022-02-04  3058  				continue;
-a1b245828d4e47 John Ogness 2022-02-04 @3059  			any_usable =3D true;
-a1b245828d4e47 John Ogness 2022-02-04  3060  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3061  			if (con->flags & CON_EXTEND=
-ED) {
-a1b245828d4e47 John Ogness 2022-02-04  3062  				/* Extended consoles do no=
-t print "dropped messages". */
-a1b245828d4e47 John Ogness 2022-02-04  3063  				progress =3D console_emit_=
-next_record(con,
-a1b245828d4e47 John Ogness 2022-02-04  3064  							&con->atomic_data->text=
-[index],
-a1b245828d4e47 John Ogness 2022-02-04  3065  							&con->atomic_data->ext_=
-text[index],
-a1b245828d4e47 John Ogness 2022-02-04  3066  							NULL,
-a1b245828d4e47 John Ogness 2022-02-04  3067  							true, NULL);
-a1b245828d4e47 John Ogness 2022-02-04  3068  			} else {
-a1b245828d4e47 John Ogness 2022-02-04  3069  				progress =3D console_emit_=
-next_record(con,
-a1b245828d4e47 John Ogness 2022-02-04  3070  							&con->atomic_data->text=
-[index],
-a1b245828d4e47 John Ogness 2022-02-04  3071  							NULL,
-a1b245828d4e47 John Ogness 2022-02-04  3072  							&con->atomic_data->drop=
-ped_text[index],
-a1b245828d4e47 John Ogness 2022-02-04  3073  							true, NULL);
-a1b245828d4e47 John Ogness 2022-02-04  3074  			}
-a1b245828d4e47 John Ogness 2022-02-04  3075  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3076  			if (!progress)
-a1b245828d4e47 John Ogness 2022-02-04  3077  				continue;
-a1b245828d4e47 John Ogness 2022-02-04  3078  			any_progress =3D true;
-a1b245828d4e47 John Ogness 2022-02-04  3079  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3080  			touch_softlockup_watchdog_s=
-ync();
-a1b245828d4e47 John Ogness 2022-02-04  3081  			clocksource_touch_watchdog(=
-);
-a1b245828d4e47 John Ogness 2022-02-04  3082  			rcu_cpu_stall_reset();
-a1b245828d4e47 John Ogness 2022-02-04  3083  			touch_nmi_watchdog();
-a1b245828d4e47 John Ogness 2022-02-04  3084  		}
-a1b245828d4e47 John Ogness 2022-02-04  3085  	} while (any_progress);
-a1b245828d4e47 John Ogness 2022-02-04  3086  =
-
-a1b245828d4e47 John Ogness 2022-02-04  3087  	printk_cpu_sync_put_irqrestor=
-e(flags);
-a1b245828d4e47 John Ogness 2022-02-04  3088  }
-a1b245828d4e47 John Ogness 2022-02-04  3089  #else /* CONFIG_HAVE_ATOMIC_CO=
-NSOLE */
-a1b245828d4e47 John Ogness 2022-02-04  3090  #define atomic_console_flush_a=
-ll()
-a1b245828d4e47 John Ogness 2022-02-04  3091  #endif
-a1b245828d4e47 John Ogness 2022-02-04  3092  =
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  193  	val32 =3D ioread=
+32(base + BK3710_REGRCVR) & (0xFF << (dev ? 0 : 8));
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  194  	val32 |=3D t2i <=
+< (dev ? 8 : 0);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  195  	iowrite32(val32,=
+ base + BK3710_REGRCVR);
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  196  }
+76a40ca82f3498 Bartlomiej Zolnierkiewicz 2017-03-22  197  =
 
 
-:::::: The code at line 3059 was first introduced by commit
-:::::: a1b245828d4e478367d866406e847baf596e9673 printk: add infrastucture f=
-or atomic consoles
+:::::: The code@line 179 was first introduced by commit
+:::::: 76a40ca82f3498da2683b3d5efa9b24d5ffaeecc ata: add Palmchip BK3710 PA=
+TA controller driver
 
-:::::: TO: John Ogness <john.ogness@linutronix.de>
-:::::: CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+:::::: CC: Sekhar Nori <nsekhar@ti.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4838827416931725055==--
+--===============3938132320947788148==--
 
