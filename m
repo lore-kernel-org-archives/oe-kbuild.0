@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4354895730167865911=="
+Content-Type: multipart/mixed; boundary="===============2593119003306236204=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/codecs/nau8821.c:393:20: warning: Shifting a negative value is technically undefined behaviour [shiftNegativeLHS]
-Date: Tue, 01 Mar 2022 01:36:00 +0800
-Message-ID: <202202282252.7gt9xAuR-lkp@intel.com>
+Subject: drivers/rtc/rtc-gamecube.c:247 gamecube_rtc_read_offset_from_sram() warn: 'hw_srnprot' not released on lines: 239.
+Date: Tue, 01 Mar 2022 01:35:52 +0800
+Message-ID: <202202282221.JUZzSSi9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4354895730167865911==
+--===============2593119003306236204==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,119 +15,132 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   7e57714cd0ad2d5bb90e50b5096a0e671dec1ef3
-commit: 46ae0b3f554a323322a770c0edee50aa8019a655 ASoC: nau8821: clarify out=
--of-bounds check
-date:   4 months ago
+commit: 86559400b3ef9de93ba50523cffe767c35cd531a rtc: gamecube: Add a RTC d=
+river for the GameCube, Wii and Wii U
+date:   2 months ago
 :::::: branch date: 16 hours ago
-:::::: commit date: 4 months ago
-compiler: nios2-linux-gcc (GCC) 11.2.0
+:::::: commit date: 2 months ago
+config: openrisc-randconfig-m031-20220227 (https://download.01.org/0day-ci/=
+archive/20220228/202202282221.JUZzSSi9-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/rtc/rtc-gamecube.c:247 gamecube_rtc_read_offset_from_sram() warn: '=
+hw_srnprot' not released on lines: 239.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/hw_srnprot +247 drivers/rtc/rtc-gamecube.c
 
->> sound/soc/codecs/nau8821.c:393:20: warning: Shifting a negative value is=
- technically undefined behaviour [shiftNegativeLHS]
-     (speed_selection << NAU8821_DMIC_SRC_SFT));
-                      ^
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  189  =
 
-vim +393 sound/soc/codecs/nau8821.c
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  190  static int gamecube_rtc=
+_read_offset_from_sram(struct priv *d)
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  191  {
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  192  	struct device_node *np;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  193  	int ret;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  194  	struct resource res;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  195  	void __iomem *hw_srnpr=
+ot;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  196  	u32 old;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  197  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  354  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  198  	np =3D of_find_compati=
+ble_node(NULL, NULL, "nintendo,latte-srnprot");
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  199  	if (!np)
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  200  		np =3D of_find_compat=
+ible_node(NULL, NULL,
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  201  					     "nintendo,hol=
+lywood-srnprot");
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  202  	if (!np) {
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  203  		pr_info("HW_SRNPROT n=
+ot found, assuming a GameCube\n");
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  204  		return regmap_read(d-=
+>regmap, RTC_SRAM_BIAS, &d->rtc_bias);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  205  	}
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  206  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  355  static const struct s=
-nd_kcontrol_new nau8821_dmic_mode_switch =3D
-aab1ad11d69fa7f Seven Lee            2021-10-01  356  	SOC_DAPM_SINGLE("Swi=
-tch", NAU8821_R13_DMIC_CTRL,
-aab1ad11d69fa7f Seven Lee            2021-10-01  357  		NAU8821_DMIC_EN_SFT=
-, 1, 0);
-aab1ad11d69fa7f Seven Lee            2021-10-01  358  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  207  	ret =3D of_address_to_=
+resource(np, 0, &res);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  208  	if (ret) {
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  209  		pr_err("no io memory =
+range found\n");
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  210  		return -1;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  211  	}
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  212  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  359  static int dmic_clock=
-_control(struct snd_soc_dapm_widget *w,
-aab1ad11d69fa7f Seven Lee            2021-10-01  360  		struct snd_kcontrol=
- *k, int  event)
-aab1ad11d69fa7f Seven Lee            2021-10-01  361  {
-aab1ad11d69fa7f Seven Lee            2021-10-01  362  	struct snd_soc_compo=
-nent *component =3D
-aab1ad11d69fa7f Seven Lee            2021-10-01  363  		snd_soc_dapm_to_com=
-ponent(w->dapm);
-aab1ad11d69fa7f Seven Lee            2021-10-01  364  	struct nau8821 *nau8=
-821 =3D snd_soc_component_get_drvdata(component);
-aab1ad11d69fa7f Seven Lee            2021-10-01  365  	int i, speed_selecti=
-on =3D -1, clk_adc_src, clk_adc;
-aab1ad11d69fa7f Seven Lee            2021-10-01  366  	unsigned int clk_div=
-ider_r03;
-aab1ad11d69fa7f Seven Lee            2021-10-01  367  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  213  	hw_srnprot =3D ioremap=
+(res.start, resource_size(&res));
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  214  	old =3D ioread32be(hw_=
+srnprot);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  215  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  368  	/* The DMIC clock is=
- gotten from adc clock divided by
-aab1ad11d69fa7f Seven Lee            2021-10-01  369  	 * CLK_DMIC_SRC (1, =
-2, 4, 8). The clock has to be equal or
-aab1ad11d69fa7f Seven Lee            2021-10-01  370  	 * less than nau8821=
-->dmic_clk_threshold.
-aab1ad11d69fa7f Seven Lee            2021-10-01  371  	 */
-aab1ad11d69fa7f Seven Lee            2021-10-01  372  	regmap_read(nau8821-=
->regmap, NAU8821_R03_CLK_DIVIDER,
-aab1ad11d69fa7f Seven Lee            2021-10-01  373  		&clk_divider_r03);
-aab1ad11d69fa7f Seven Lee            2021-10-01  374  	clk_adc_src =3D (clk=
-_divider_r03 & NAU8821_CLK_ADC_SRC_MASK)
-aab1ad11d69fa7f Seven Lee            2021-10-01  375  		>> NAU8821_CLK_ADC_=
-SRC_SFT;
-aab1ad11d69fa7f Seven Lee            2021-10-01  376  	clk_adc =3D (nau8821=
-->fs * 256) >> clk_adc_src;
-aab1ad11d69fa7f Seven Lee            2021-10-01  377  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  216  	/* TODO: figure out wh=
+y we use this magic constant.  I obtained it by
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  217  	 * reading the leftove=
+r value after boot, after IOSU already ran.
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  218  	 *
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  219  	 * On my Wii U, settin=
+g this register to 1 prevents the console from
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  220  	 * rebooting properly,=
+ so wiiubrew.org must be missing something.
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  221  	 *
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  222  	 * See https://wiiubre=
+w.org/wiki/Hardware/Latte_registers
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  223  	 */
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  224  	if (old !=3D 0x7bf)
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  225  		iowrite32be(0x7bf, hw=
+_srnprot);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  226  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  378  	for (i =3D 0 ; i < 4=
- ; i++)
-aab1ad11d69fa7f Seven Lee            2021-10-01  379  		if ((clk_adc >> dmi=
-c_speed_sel[i].param) <=3D
-aab1ad11d69fa7f Seven Lee            2021-10-01  380  			nau8821->dmic_clk_=
-threshold) {
-aab1ad11d69fa7f Seven Lee            2021-10-01  381  			speed_selection =
-=3D dmic_speed_sel[i].val;
-aab1ad11d69fa7f Seven Lee            2021-10-01  382  			break;
-aab1ad11d69fa7f Seven Lee            2021-10-01  383  		}
-46ae0b3f554a323 Pierre-Louis Bossart 2021-10-25  384  	if (i =3D=3D 4)
-aab1ad11d69fa7f Seven Lee            2021-10-01  385  		return -EINVAL;
-aab1ad11d69fa7f Seven Lee            2021-10-01  386  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  227  	/* Get the offset from=
+ RTC SRAM.
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  228  	 *
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  229  	 * Its default locatio=
+n on the GameCube and on the Wii is in the SRAM,
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  230  	 * while on the Wii U =
+the bootloader needs to fill it with the contents
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  231  	 * of /config/rtc.xml =
+on the SLC (the eMMC).  We don=E2=80=99t do that from
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  232  	 * Linux since it requ=
+ires implementing a proprietary filesystem and do
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  233  	 * file decryption, in=
+stead we require the bootloader to fill the same
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  234  	 * SRAM address as on =
+previous consoles.
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  235  	 */
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  236  	ret =3D regmap_read(d-=
+>regmap, RTC_SRAM_BIAS, &d->rtc_bias);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  237  	if (ret) {
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  238  		pr_err("failed to get=
+ the RTC bias\n");
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  239  		return -1;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  240  	}
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  241  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  387  	dev_dbg(nau8821->dev,
-aab1ad11d69fa7f Seven Lee            2021-10-01  388  		"clk_adc=3D%d, dmic=
-_clk_threshold =3D %d, param=3D%d, val =3D %d\n",
-aab1ad11d69fa7f Seven Lee            2021-10-01  389  		clk_adc, nau8821->d=
-mic_clk_threshold,
-aab1ad11d69fa7f Seven Lee            2021-10-01  390  		dmic_speed_sel[i].p=
-aram, dmic_speed_sel[i].val);
-aab1ad11d69fa7f Seven Lee            2021-10-01  391  	regmap_update_bits(n=
-au8821->regmap, NAU8821_R13_DMIC_CTRL,
-aab1ad11d69fa7f Seven Lee            2021-10-01  392  		NAU8821_DMIC_SRC_MA=
-SK,
-aab1ad11d69fa7f Seven Lee            2021-10-01 @393  		(speed_selection <<=
- NAU8821_DMIC_SRC_SFT));
-aab1ad11d69fa7f Seven Lee            2021-10-01  394  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  242  	/* Reset SRAM access t=
+o how it was before, our job here is done. */
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  243  	if (old !=3D 0x7bf)
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  244  		iowrite32be(old, hw_s=
+rnprot);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  245  	iounmap(hw_srnprot);
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  246  =
 
-aab1ad11d69fa7f Seven Lee            2021-10-01  395  	return 0;
-aab1ad11d69fa7f Seven Lee            2021-10-01  396  }
-aab1ad11d69fa7f Seven Lee            2021-10-01  397  =
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15 @247  	return 0;
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  248  }
+86559400b3ef9d Emmanuel Gil Peyrot 2021-12-15  249  =
 
-
-:::::: The code@line 393 was first introduced by commit
-:::::: aab1ad11d69fa7f35cb88105614ea7911598e1d6 ASoC: nau8821: new driver
-
-:::::: TO: Seven Lee <wtli@nuvoton.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4354895730167865911==--
+--===============2593119003306236204==--
 
