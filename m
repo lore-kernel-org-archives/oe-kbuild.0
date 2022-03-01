@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2630215671383349305=="
+Content-Type: multipart/mixed; boundary="===============4219124779346432206=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3357/9592] drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initializer, use C99 syntax
-Date: Tue, 01 Mar 2022 20:11:08 +0800
-Message-ID: <202203012019.rJHP6aue-lkp@intel.com>
+Subject: [linux-next:master 4037/9295] drivers/mtd/nand/raw/nand_base.c:348:3-9: preceding lock on line 345
+Date: Tue, 01 Mar 2022 18:49:52 +0800
+Message-ID: <202203011846.QlcQbD94-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2630215671383349305==
+--===============4219124779346432206==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,118 +15,70 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+TO: Sean Nyekjaer <sean@geanix.com>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: Boris Brezillon <bbrezillon@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
-head:   e6ada6df471f847da3b09b357e246c62335bc0bb
-commit: b9d6c47a2be8d273ecc063afda6e9fd66a35116d [3357/9592] rockchip/soc/d=
-rivers: Add DTPM description for rk3399
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 weeks ago
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/2022030=
-1/202203012019.rJHP6aue-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Db9d6c47a2be8d273ecc063afda6e9fd66a35116d
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout b9d6c47a2be8d273ecc063afda6e9fd66a35116d
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rm64 SHELL=3D/bin/bash drivers/soc/rockchip/
+head:   6705cd745adbbeac6b13002c7a30060f7b2568a5
+commit: 8cba323437a49a45756d661f500b324fc2d486fe [4037/9295] mtd: rawnand: =
+protect access to rawnand devices while in suspend
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 weeks ago
+config: parisc-randconfig-c024-20220301 (https://download.01.org/0day-ci/ar=
+chive/20220301/202203011846.QlcQbD94-lkp(a)intel.com/config)
+compiler: hppa64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:17:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:20:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:23:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:26:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:29:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:32:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:35:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:38:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
-   drivers/soc/rockchip/dtpm.c:41:12: sparse: sparse: obsolete array initia=
-lizer, use C99 syntax
+cocci warnings: (new ones prefixed by >>)
+>> drivers/mtd/nand/raw/nand_base.c:348:3-9: preceding lock on line 345
 
-vim +15 drivers/soc/rockchip/dtpm.c
+vim +348 drivers/mtd/nand/raw/nand_base.c
 
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  13  =
+99f3351a6d6e03a Boris Brezillon 2018-11-11  332  =
 
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  14  static struct dtpm_node __ini=
-tdata rk3399_hierarchy[] =3D {
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28 @15  	[0]{ .name =3D "rk3399",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  16  	     .type =3D DTPM_NODE_VIR=
-TUAL },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  17  	[1]{ .name =3D "package",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  18  	     .type =3D DTPM_NODE_VIR=
-TUAL,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  19  	     .parent =3D &rk3399_hie=
-rarchy[0] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  20  	[2]{ .name =3D "/cpus/cpu(a)=
-0",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  21  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  22  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  23  	[3]{ .name =3D "/cpus/cpu(a)=
-1",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  24  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  25  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  26  	[4]{ .name =3D "/cpus/cpu(a)=
-2",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  27  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  28  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  29  	[5]{ .name =3D "/cpus/cpu(a)=
-3",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  30  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  31  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  32  	[6]{ .name =3D "/cpus/cpu(a)=
-100",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  33  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  34  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  35  	[7]{ .name =3D "/cpus/cpu(a)=
-101",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  36  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  37  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  38  	[8]{ .name =3D "/gpu(a)ff9a0=
-000",
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  39  	     .type =3D DTPM_NODE_DT,
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  40  	     .parent =3D &rk3399_hie=
-rarchy[1] },
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  41  	[9]{ /* sentinel */ }
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  42  };
-b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  43  =
+99f3351a6d6e03a Boris Brezillon 2018-11-11  333  /**
+99f3351a6d6e03a Boris Brezillon 2018-11-11  334   * nand_get_device - [GENE=
+RIC] Get chip for selected access
+99f3351a6d6e03a Boris Brezillon 2018-11-11  335   * @chip: NAND chip struct=
+ure
+99f3351a6d6e03a Boris Brezillon 2018-11-11  336   *
+013e6292aaf5e4b Boris Brezillon 2018-11-20  337   * Lock the device and its=
+ controller for exclusive access
+013e6292aaf5e4b Boris Brezillon 2018-11-20  338   *
+013e6292aaf5e4b Boris Brezillon 2018-11-20  339   * Return: -EBUSY if the c=
+hip has been suspended, 0 otherwise
+99f3351a6d6e03a Boris Brezillon 2018-11-11  340   */
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  341  static void nand_get_devic=
+e(struct nand_chip *chip)
+99f3351a6d6e03a Boris Brezillon 2018-11-11  342  {
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  343  	/* Wait until the device =
+is resumed. */
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  344  	while (1) {
+013e6292aaf5e4b Boris Brezillon 2018-11-20 @345  		mutex_lock(&chip->lock);
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  346  		if (!chip->suspended) {
+013e6292aaf5e4b Boris Brezillon 2018-11-20  347  			mutex_lock(&chip->contr=
+oller->lock);
+8cba323437a49a4 Sean Nyekjaer   2022-02-08 @348  			return;
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  349  		}
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  350  		mutex_unlock(&chip->lock=
+);
+013e6292aaf5e4b Boris Brezillon 2018-11-20  351  =
+
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  352  		wait_event(chip->resume_=
+wq, !chip->suspended);
+8cba323437a49a4 Sean Nyekjaer   2022-02-08  353  	}
+99f3351a6d6e03a Boris Brezillon 2018-11-11  354  }
+99f3351a6d6e03a Boris Brezillon 2018-11-11  355  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2630215671383349305==--
+--===============4219124779346432206==--
 
