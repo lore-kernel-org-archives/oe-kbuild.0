@@ -1,95 +1,132 @@
-Content-Type: multipart/mixed; boundary="===============0165081854190874518=="
+Content-Type: multipart/mixed; boundary="===============2630215671383349305=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 4/8] mm: thp: only regular file could be THP eligible
-Date: Wed, 02 Mar 2022 00:57:58 +0800
-Message-ID: <202203020034.2Ii9kTrs-lkp@intel.com>
+Subject: [linux-next:master 3357/9592] drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initializer, use C99 syntax
+Date: Tue, 01 Mar 2022 20:11:08 +0800
+Message-ID: <202203012019.rJHP6aue-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0165081854190874518==
+--===============2630215671383349305==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220228235741.102941-5-shy828301@gmail.com>
-References: <20220228235741.102941-5-shy828301@gmail.com>
-TO: Yang Shi <shy828301@gmail.com>
-TO: vbabka(a)suse.cz
-TO: kirill.shutemov(a)linux.intel.com
-TO: songliubraving(a)fb.com
-TO: linmiaohe(a)huawei.com
-TO: riel(a)surriel.com
-TO: willy(a)infradead.org
-TO: ziy(a)nvidia.com
-TO: akpm(a)linux-foundation.org
-TO: tytso(a)mit.edu
-TO: adilger.kernel(a)dilger.ca
-TO: darrick.wong(a)oracle.com
-CC: linux-mm(a)kvack.org
-CC: linux-fsdevel(a)vger.kernel.org
-CC: linux-ext4(a)vger.kernel.org
-CC: linux-xfs(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
 
-Hi Yang,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on xfs-linux/for-next linus/master v5.17-rc6 next-=
-20220301]
-[cannot apply to hnaz-mm/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Yang-Shi/Make-khugepaged-c=
-ollapse-readonly-FS-THP-more-consistent/20220301-075903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: arm64-randconfig-m031-20220227 (https://download.01.org/0day-ci/arc=
-hive/20220302/202203020034.2Ii9kTrs-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   e6ada6df471f847da3b09b357e246c62335bc0bb
+commit: b9d6c47a2be8d273ecc063afda6e9fd66a35116d [3357/9592] rockchip/soc/d=
+rivers: Add DTPM description for rk3399
+:::::: branch date: 2 hours ago
+:::::: commit date: 4 weeks ago
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/2022030=
+1/202203012019.rJHP6aue-lkp(a)intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Db9d6c47a2be8d273ecc063afda6e9fd66a35116d
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout b9d6c47a2be8d273ecc063afda6e9fd66a35116d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm64 SHELL=3D/bin/bash drivers/soc/rockchip/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-include/linux/huge_mm.h:179 file_thp_enabled() warn: variable dereferenced =
-before check 'vma->vm_file' (see line 177)
-mm/khugepaged.c:468 hugepage_vma_check() error: we previously assumed 'vma-=
->vm_file' could be null (see line 455)
-include/linux/huge_mm.h:179 file_thp_enabled() warn: variable dereferenced =
-before check 'vma->vm_file' (see line 177)
 
-vim +179 include/linux/huge_mm.h
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:17:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:20:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:23:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:26:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:29:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:32:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:35:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:38:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:41:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
 
-16981d763501c0 Dan Williams 2017-07-10  174  =
+vim +15 drivers/soc/rockchip/dtpm.c
 
-2224ed1155c07b Yang Shi     2022-02-28  175  static inline bool file_thp_en=
-abled(struct vm_area_struct *vma)
-2224ed1155c07b Yang Shi     2022-02-28  176  {
-2224ed1155c07b Yang Shi     2022-02-28 @177  	struct inode *inode =3D vma->=
-vm_file->f_inode;
-2224ed1155c07b Yang Shi     2022-02-28  178  =
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  13  =
 
-2224ed1155c07b Yang Shi     2022-02-28 @179  	return (IS_ENABLED(CONFIG_REA=
-D_ONLY_THP_FOR_FS)) && vma->vm_file &&
-2224ed1155c07b Yang Shi     2022-02-28  180  	       (vma->vm_flags & VM_EX=
-EC) &&
-2224ed1155c07b Yang Shi     2022-02-28  181  	       !inode_is_open_for_wri=
-te(inode) && S_ISREG(inode->i_mode);
-2224ed1155c07b Yang Shi     2022-02-28  182  }
-2224ed1155c07b Yang Shi     2022-02-28  183  =
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  14  static struct dtpm_node __ini=
+tdata rk3399_hierarchy[] =3D {
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28 @15  	[0]{ .name =3D "rk3399",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  16  	     .type =3D DTPM_NODE_VIR=
+TUAL },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  17  	[1]{ .name =3D "package",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  18  	     .type =3D DTPM_NODE_VIR=
+TUAL,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  19  	     .parent =3D &rk3399_hie=
+rarchy[0] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  20  	[2]{ .name =3D "/cpus/cpu(a)=
+0",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  21  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  22  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  23  	[3]{ .name =3D "/cpus/cpu(a)=
+1",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  24  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  25  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  26  	[4]{ .name =3D "/cpus/cpu(a)=
+2",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  27  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  28  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  29  	[5]{ .name =3D "/cpus/cpu(a)=
+3",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  30  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  31  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  32  	[6]{ .name =3D "/cpus/cpu(a)=
+100",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  33  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  34  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  35  	[7]{ .name =3D "/cpus/cpu(a)=
+101",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  36  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  37  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  38  	[8]{ .name =3D "/gpu(a)ff9a0=
+000",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  39  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  40  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  41  	[9]{ /* sentinel */ }
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  42  };
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  43  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0165081854190874518==--
+--===============2630215671383349305==--
 
