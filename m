@@ -1,264 +1,308 @@
-Content-Type: multipart/mixed; boundary="===============3307102975862920408=="
+Content-Type: multipart/mixed; boundary="===============7613771395087252746=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [rafael-pm:bleeding-edge 113/118] arch/x86/kernel/acpi/boot.c:1476:22: sparse: sparse: excessive elements in array initializer
-Date: Wed, 02 Mar 2022 13:14:06 +0800
-Message-ID: <202203021316.r0hMgV0f-lkp@intel.com>
+Subject: drivers/misc/altera-stapl/altera-lpt.c:20 byteblaster_write() warn: ignoring unreachable code.
+Date: Wed, 02 Mar 2022 13:03:48 +0800
+Message-ID: <202203021237.eHwC5mJi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3307102975862920408==
+--===============7613771395087252746==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-acpi(a)vger.kernel.org
-CC: devel(a)acpica.org
-CC: linux-pm(a)vger.kernel.org
-TO: Mark Cilissen <mark@yotsuba.nl>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: Hans de Goede <hdegoede@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Bart Van Assche <bvanassche@acm.org>
+CC: Helge Deller <deller@gmx.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- bleeding-edge
-head:   f7307721a01f4f14d21c699b270a870370cf34b9
-commit: ed00b2b8d737f87a2437d7bd7c7f90124b50da05 [113/118] x86 / ACPI: Work=
- around broken XSDT on SEGA AALE board
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   fb184c4af9b9f4563e7a126219389986a71d5b5b
+commit: 6968e707d371ef80511448c6771daf445b4a5cf5 parisc: io: Improve the ou=
+tb(), outw() and outl() macros
+date:   8 weeks ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 10 hours ago
-config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20220=
-302/202203021316.r0hMgV0f-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.g=
-it/commit/?id=3Ded00b2b8d737f87a2437d7bd7c7f90124b50da05
-        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kerne=
-l/git/rafael/linux-pm.git
-        git fetch --no-tags rafael-pm bleeding-edge
-        git checkout ed00b2b8d737f87a2437d7bd7c7f90124b50da05
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Di386 SHELL=3D/bin/bash arch/x86/kernel/acpi/
+:::::: commit date: 8 weeks ago
+config: parisc-randconfig-m031-20220301 (https://download.01.org/0day-ci/ar=
+chive/20220302/202203021237.eHwC5mJi-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/misc/altera-stapl/altera-lpt.c:20 byteblaster_write() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/comedi_8254.c:164 __i8254_write() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/pcm3724.c:156 enable_chan() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/pcl812.c:592 pcl812_ai_clear_eoc() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl812.c:598 pcl812_ai_soft_trig() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl812.c:754 pcl812_ai_cmd() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/das16.c:894 das16_do_insn_bits() warn: ignoring unre=
+achable code.
+drivers/comedi/drivers/pcl818.c:337 pcl818_ai_set_chan_scan() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/pcl818.c:372 pcl818_ai_clear_eoc() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl818.c:378 pcl818_ai_soft_trig() warn: ignoring un=
+reachable code.
+arch/parisc/lib/iomap.c:89 ioport_write8() warn: ignoring unreachable code.
+arch/parisc/lib/iomap.c:94 ioport_write16() warn: ignoring unreachable code.
+arch/parisc/lib/iomap.c:99 ioport_write32() warn: ignoring unreachable code.
+drivers/i2c/busses/i2c-ocores.c:141 oc_setreg_io_8() warn: ignoring unreach=
+able code.
+drivers/comedi/drivers/das800.c:228 das800_ind_read() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/das800.c:241 das800_enable() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/das6402.c:140 das6402_set_mode() warn: ignoring unre=
+achable code.
+drivers/comedi/drivers/das6402.c:153 das6402_clear_all_interrupts() warn: i=
+gnoring unreachable code.
+drivers/comedi/drivers/das6402.c:160 das6402_ai_clear_eoc() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/das6402.c:355 das6402_ai_cancel() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/das6402.c:362 das6402_ai_soft_trig() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/das6402.c:508 das6402_do_insn_bits() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/dt2801.c:328 dt2801_writecmd() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/das1800.c:1038 das1800_do_insn_bits() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/dt2811.c:209 dt2811_interrupt() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/dt2811.c:237 dt2811_ai_cancel() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/dt2811.c:248 dt2811_ai_set_chanspec() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/dt2811.c:531 dt2811_do_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/dt2817.c:65 dt2817_dio_insn_config() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/dt2817.c:82 dt2817_dio_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/dt2817.c:125 dt2817_attach() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/dmm32at.c:399 dmm32at_ai_cancel() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/dmm32at.c:434 dmm32at_isr() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/aio_iiro_16.c:81 aio_iiro_enable_irq() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/c6xdigio.c:66 c6xdigio_write_data() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/ni_at_ao.c:123 atao_select_reg_group() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/ni_at_ao.c:159 atao_dio_insn_bits() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/ni_at_ao.c:194 atao_dio_insn_config() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/multiq3.c:77 multiq3_set_ctrl() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/multiq3.c:167 multiq3_do_insn_bits() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/s526.c:507 s526_dio_insn_bits() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/s526.c:545 s526_dio_insn_config() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/ni_labpc_common.c:90 labpc_outb() warn: ignoring unr=
+eachable code.
+
+Old smatch warnings:
+drivers/comedi/drivers/comedi_8254.c:170 __i8254_write() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/comedi_8254.c:176 __i8254_write() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/pcm3724.c:117 do_3724_config() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/pcl812.c:578 pcl812_ai_set_chan_range() warn: ignori=
+ng unreachable code.
+drivers/comedi/drivers/pcl812.c:902 pcl812_ai_cancel() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/pcl812.c:918 pcl812_ai_insn_read() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl812.c:951 pcl812_ao_insn_write() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/pcl812.c:976 pcl812_do_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl812.c:992 pcl812_reset() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/das16.c:542 das16_ai_set_mux_range() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/das16.c:714 das16_cmd_exec() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/das16.c:726 das16_cmd_exec() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/das16.c:731 das16_cmd_exec() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/das16.c:734 das16_cmd_exec() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/das16.c:773 das16_cancel() warn: ignoring unreachabl=
+e code.
+drivers/comedi/drivers/das16.c:838 das16_ai_insn_read() warn: ignoring unre=
+achable code.
+drivers/comedi/drivers/das16.c:871 das16_ao_insn_write() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/das16.c:920 das16_reset() warn: ignoring unreachable=
+ code.
+drivers/comedi/drivers/das16.c:1145 das16_attach() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/pcl818.c:329 pcl818_ai_set_chan_range() warn: ignori=
+ng unreachable code.
+drivers/comedi/drivers/pcl818.c:366 pcl818_ai_setup_chanlist() error: unini=
+tialized symbol 'last_chan'.
+drivers/comedi/drivers/pcl818.c:734 pcl818_ai_cmd() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/pcl818.c:785 pcl818_ai_cancel() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/pcl818.c:810 pcl818_ai_insn_read() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl818.c:841 pcl818_ao_insn_write() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/pcl818.c:868 pcl818_do_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/pcl818.c:884 pcl818_reset() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/pcl818.c:890 pcl818_reset() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/das800.c:218 das800_ind_write() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/das800.c:390 das800_ai_do_cmd() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/das800.c:545 das800_ai_insn_read() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/das6402.c:146 das6402_set_extended() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/das6402.c:234 das6402_ai_cmd() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/das6402.c:392 das6402_ai_insn_read() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/das6402.c:433 das6402_ao_insn_write() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/das6402.c:460 das6402_ao_insn_write() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/das6402.c:466 das6402_ao_insn_write() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/das6402.c:520 das6402_reset() warn: ignoring unreach=
+able code.
+drivers/comedi/drivers/dt2801.c:273 dt2801_writedata() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/dt2801.c:344 dt2801_reset() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/das1800.c:416 das1800_handle_dma() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/das1800.c:432 das1800_ai_cancel() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/das1800.c:456 das1800_ai_handler() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/das1800.c:536 das1800_interrupt() warn: ignoring unr=
+eachable code.
+drivers/comedi/drivers/das1800.c:816 das1800_ai_set_chanlist() warn: ignori=
+ng unreachable code.
+drivers/comedi/drivers/das1800.c:911 das1800_ai_cmd() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/das1800.c:952 das1800_ai_insn_read() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/das1800.c:1005 das1800_ao_insn_write() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/das1800.c:1299 das1800_attach() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/das1800.c:1333 das1800_attach() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/dt2811.c:296 dt2811_ai_cmd() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/dt2811.c:506 dt2811_ao_insn_write() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/dt2811.c:541 dt2811_reset() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/dt2817.c:84 dt2817_dio_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/dt2817.c:86 dt2817_dio_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/dt2817.c:88 dt2817_dio_insn_bits() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/dmm32at.c:167 dmm32at_ai_set_chanspec() warn: ignori=
+ng unreachable code.
+drivers/comedi/drivers/dmm32at.c:220 dmm32at_ai_insn_read() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/dmm32at.c:344 dmm32at_setaitimer() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/dmm32at.c:372 dmm32at_ai_cmd() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/dmm32at.c:464 dmm32at_ao_insn_write() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/dmm32at.c:486 dmm32at_8255_io() warn: ignoring unrea=
+chable code.
+drivers/comedi/drivers/dmm32at.c:501 dmm32at_reset() warn: ignoring unreach=
+able code.
+drivers/comedi/drivers/aio_iiro_16.c:145 aio_iiro_16_do_insn_bits() warn: i=
+gnoring unreachable code.
+drivers/comedi/drivers/ni_at_ao.c:142 atao_ao_insn_write() warn: ignoring u=
+nreachable code.
+drivers/comedi/drivers/ni_at_ao.c:250 atao_calib_insn_write() warn: ignorin=
+g unreachable code.
+drivers/comedi/drivers/ni_at_ao.c:272 atao_reset() warn: ignoring unreachab=
+le code.
+drivers/comedi/drivers/multiq3.c:112 multiq3_ai_insn_read() warn: ignoring =
+unreachable code.
+drivers/comedi/drivers/multiq3.c:144 multiq3_ao_insn_write() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/multiq3.c:189 multiq3_encoder_insn_read() warn: igno=
+ring unreachable code.
+drivers/comedi/drivers/multiq3.c:224 multiq3_encoder_reset() warn: ignoring=
+ unreachable code.
+drivers/comedi/drivers/s526.c:179 s526_gpct_write() warn: ignoring unreacha=
+ble code.
+drivers/comedi/drivers/s526.c:235 s526_gpct_insn_config() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/s526.c:314 s526_gpct_insn_config() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/s526.c:351 s526_gpct_insn_config() warn: ignoring un=
+reachable code.
+drivers/comedi/drivers/s526.c:426 s526_eoc() warn: ignoring unreachable cod=
+e.
+drivers/comedi/drivers/s526.c:457 s526_ai_insn_read() warn: ignoring unreac=
+hable code.
+drivers/comedi/drivers/s526.c:483 s526_ao_insn_write() warn: ignoring unrea=
+chable code.
+
+vim +20 drivers/misc/altera-stapl/altera-lpt.c
+
+fa766c9be58bd87 drivers/staging/altera-stapl/altera-lpt.c Igor M. Liplianin=
+ 2011-01-25  17  =
+
+fa766c9be58bd87 drivers/staging/altera-stapl/altera-lpt.c Igor M. Liplianin=
+ 2011-01-25  18  static void byteblaster_write(int port, int data)
+fa766c9be58bd87 drivers/staging/altera-stapl/altera-lpt.c Igor M. Liplianin=
+ 2011-01-25  19  {
+fa766c9be58bd87 drivers/staging/altera-stapl/altera-lpt.c Igor M. Liplianin=
+ 2011-01-25 @20  	outb((u8)data, (u16)(port + 0x378));
+fa766c9be58bd87 drivers/staging/altera-stapl/altera-lpt.c Igor M. Liplianin=
+ 2011-01-25  21  };
+fa766c9be58bd87 drivers/staging/altera-stapl/altera-lpt.c Igor M. Liplianin=
+ 2011-01-25  22  =
 
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kernel/acpi/boot.c:112:30: sparse: sparse: incorrect type in re=
-turn expression (different address spaces) @@     expected void [noderef] _=
-_iomem * @@     got void * @@
-   arch/x86/kernel/acpi/boot.c:112:30: sparse:     expected void [noderef] =
-__iomem *
-   arch/x86/kernel/acpi/boot.c:112:30: sparse:     got void *
-   arch/x86/kernel/acpi/boot.c:120:24: sparse: sparse: incorrect type in ar=
-gument 1 (different address spaces) @@     expected void *addr @@     got v=
-oid [noderef] __iomem *map @@
-   arch/x86/kernel/acpi/boot.c:120:24: sparse:     expected void *addr
-   arch/x86/kernel/acpi/boot.c:120:24: sparse:     got void [noderef] __iom=
-em *map
->> arch/x86/kernel/acpi/boot.c:1476:22: sparse: sparse: excessive elements =
-in array initializer
+:::::: The code at line 20 was first introduced by commit
+:::::: fa766c9be58bd872784b081074a7d15a3ce61c5f [media] Altera FPGA firmwar=
+e download module
 
-vim +1476 arch/x86/kernel/acpi/boot.c
-
-7486341a98f2685 arch/x86/kernel/acpi/boot.c  Li, Aubrey        2015-03-11  =
-1389  =
-
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1390  /*
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1391   * If your system is blacklisted here, but you find that acpi=3Dforce
-5b4c0b6fffb91b0 arch/x86/kernel/acpi/boot.c  Zhang Rui         2009-04-01  =
-1392   * works for you, please contact linux-acpi(a)vger.kernel.org
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1393   */
-6faadbbb7f9da70 arch/x86/kernel/acpi/boot.c  Christoph Hellwig 2017-09-14  =
-1394  static const struct dmi_system_id acpi_dmi_table[] __initconst =3D {
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1395  	/*
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1396  	 * Boxes that need ACPI disabled
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1397  	 */
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1398  	{
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1399  	 .callback =3D dmi_disable_acpi,
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1400  	 .ident =3D "IBM Thinkpad",
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1401  	 .matches =3D {
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1402  		     DMI_MATCH(DMI_BOARD_VENDOR, "IBM"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1403  		     DMI_MATCH(DMI_BOARD_NAME, "2629H1G"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1404  		     },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1405  	 },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1406  =
-
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1407  	/*
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1408  	 * Boxes that need ACPI PCI IRQ routing disabled
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1409  	 */
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1410  	{
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1411  	 .callback =3D disable_acpi_irq,
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1412  	 .ident =3D "ASUS A7V",
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1413  	 .matches =3D {
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1414  		     DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK Computer INC"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1415  		     DMI_MATCH(DMI_BOARD_NAME, "<A7V>"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1416  		     /* newer BIOS, Revision 1011, does work */
-4be44fcd3bf648b arch/i386/kernel/acpi/boot.c Len Brown         2005-08-05  =
-1417  		     DMI_MATCH(DMI_BIOS_VERSION,
-4be44fcd3bf648b arch/i386/kernel/acpi/boot.c Len Brown         2005-08-05  =
-1418  			       "ASUS A7V ACPI BIOS Revision 1007"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1419  		     },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1420  	 },
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1421  	{
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1422  		/*
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1423  		 * Latest BIOS for IBM 600E (1.16) has bad pcinum
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1424  		 * for LPC bridge, which is needed for the PCI
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1425  		 * interrupt links to work. DSDT fix is in bug 5966.
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1426  		 * 2645, 2646 model numbers are shared with 600/600E/600X
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1427  		 */
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1428  	 .callback =3D disable_acpi_irq,
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1429  	 .ident =3D "IBM Thinkpad 600 Series 2645",
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1430  	 .matches =3D {
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1431  		     DMI_MATCH(DMI_BOARD_VENDOR, "IBM"),
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1432  		     DMI_MATCH(DMI_BOARD_NAME, "2645"),
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1433  		     },
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1434  	 },
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1435  	{
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1436  	 .callback =3D disable_acpi_irq,
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1437  	 .ident =3D "IBM Thinkpad 600 Series 2646",
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1438  	 .matches =3D {
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1439  		     DMI_MATCH(DMI_BOARD_VENDOR, "IBM"),
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1440  		     DMI_MATCH(DMI_BOARD_NAME, "2646"),
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1441  		     },
-74586fca38109d2 arch/i386/kernel/acpi/boot.c Len Brown         2007-03-08  =
-1442  	 },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1443  	/*
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1444  	 * Boxes that need ACPI PCI IRQ routing and PCI scan disabled
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1445  	 */
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1446  	{			/* _BBN 0 bug */
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1447  	 .callback =3D disable_acpi_pci,
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1448  	 .ident =3D "ASUS PR-DLS",
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1449  	 .matches =3D {
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1450  		     DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK Computer INC."),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1451  		     DMI_MATCH(DMI_BOARD_NAME, "PR-DLS"),
-4be44fcd3bf648b arch/i386/kernel/acpi/boot.c Len Brown         2005-08-05  =
-1452  		     DMI_MATCH(DMI_BIOS_VERSION,
-4be44fcd3bf648b arch/i386/kernel/acpi/boot.c Len Brown         2005-08-05  =
-1453  			       "ASUS PR-DLS ACPI BIOS Revision 1010"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1454  		     DMI_MATCH(DMI_BIOS_DATE, "03/21/2003")
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1455  		     },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1456  	 },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1457  	{
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1458  	 .callback =3D disable_acpi_pci,
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1459  	 .ident =3D "Acer TravelMate 36x Laptop",
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1460  	 .matches =3D {
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1461  		     DMI_MATCH(DMI_SYS_VENDOR, "Acer"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1462  		     DMI_MATCH(DMI_PRODUCT_NAME, "TravelMate 360"),
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1463  		     },
-aea00143a8db8c0 arch/i386/kernel/acpi/boot.c Andrey Panin      2005-06-25  =
-1464  	 },
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1465  	/*
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1466  	 * Boxes that need ACPI XSDT use disabled due to corrupted tables
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1467  	 */
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1468  	{
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1469  	 .callback =3D disable_acpi_xsdt,
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1470  	 .ident =3D "SEGA AALE",
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1471  	 .matches =3D {
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1472  		     DMI_MATCH(DMI_SYS_VENDOR, "NEC"),
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1473  		     DMI_MATCH(DMI_PRODUCT_NAME, "Bearlake CRB Board"),
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1474  		     DMI_MATCH(DMI_BIOS_VENDOR, "Phoenix Technologies LTD"),
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1475  		     DMI_MATCH(DMI_BIOS_VERSION, "V1.12"),
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23 @=
-1476  		     DMI_MATCH(DMI_BIOS_DATE, "02/01/2011"),
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1477  		     },
-ed00b2b8d737f87 arch/x86/kernel/acpi/boot.c  Mark Cilissen     2022-02-23  =
-1478  	},
-35af28219e684a3 arch/x86/kernel/acpi/boot.c  Andreas Herrmann  2008-10-22  =
-1479  	{}
-35af28219e684a3 arch/x86/kernel/acpi/boot.c  Andreas Herrmann  2008-10-22  =
-1480  };
-35af28219e684a3 arch/x86/kernel/acpi/boot.c  Andreas Herrmann  2008-10-22  =
-1481  =
-
+:::::: TO: Igor M. Liplianin <liplianin@me.by>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3307102975862920408==--
+--===============7613771395087252746==--
 
