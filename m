@@ -1,32 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============6649057798534778645=="
+Content-Type: multipart/mixed; boundary="===============9214997289237676535=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/fscache-next 36/39] fs/netfs/io.c:655 netfs_begin_read() error: uninitialized symbol 'ret'.
-Date: Thu, 03 Mar 2022 05:08:16 +0800
-Message-ID: <202203030504.jcsYdjgY-lkp@intel.com>
+Subject: arch/arm/kernel/module-plts.c:65 get_module_plt() warn: we never enter this loop
+Date: Wed, 02 Mar 2022 22:52:06 +0800
+Message-ID: <202203022209.ReyC0wot-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6649057798534778645==
+--===============9214997289237676535==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Alex Sverdlin <alexander.sverdlin@nokia.com>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/fscach=
-e-next
-head:   78e12b114b9c804d4b1eef16b6df1112cde6a960
-commit: ad9e5adb388f358027a51032b3944913d98f7866 [36/39] netfs: Rename rena=
-me read_helper.c to io.c
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   fb184c4af9b9f4563e7a126219389986a71d5b5b
+commit: 79f32b221b18c15a98507b101ef4beb52444cc6f ARM: 9079/1: ftrace: Add M=
+ODULE_PLTS support
+date:   9 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 9 months ago
 config: arm-randconfig-m031-20220302 (https://download.01.org/0day-ci/archi=
-ve/20220303/202203030504.jcsYdjgY-lkp(a)intel.com/config)
+ve/20220302/202203022209.ReyC0wot-lkp(a)intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -34,132 +35,95 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/netfs/io.c:655 netfs_begin_read() error: uninitialized symbol 'ret'.
+arch/arm/kernel/module-plts.c:65 get_module_plt() warn: we never enter this=
+ loop
 
-vim +/ret +655 fs/netfs/io.c
+vim +65 arch/arm/kernel/module-plts.c
 
-3d3c95046742e4 fs/netfs/read_helper.c David Howells 2020-05-13  595  =
+79f32b221b18c1 Alex Sverdlin  2021-05-05   50  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  596  /*
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  597   * Beg=
-in the process of reading in a chunk of data, where that data may be
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  598   * sti=
-tched together from multiple sources, including multiple servers and the
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  599   * loc=
-al cache.
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  600   */
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  601  int ne=
-tfs_begin_read(struct netfs_io_request *rreq, bool sync)
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  602  {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  603  	unsig=
-ned int debug_index =3D 0;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  604  	int r=
-et;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  605  =
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   51  u32 get_module_plt(struct mo=
+dule *mod, unsigned long loc, Elf32_Addr val)
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   52  {
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   53  	struct mod_plt_sec *pltsec =
+=3D !in_init(mod, loc) ? &mod->arch.core :
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   54  							  &mod->arch.init;
+79f32b221b18c1 Alex Sverdlin  2021-05-05   55  	struct plt_entries *plt;
+79f32b221b18c1 Alex Sverdlin  2021-05-05   56  	int idx;
+79f32b221b18c1 Alex Sverdlin  2021-05-05   57  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  606  	_ente=
-r("R=3D%x %llx-%llx",
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  607  	     =
-  rreq->debug_id, rreq->start, rreq->start + rreq->len - 1);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  608  =
+79f32b221b18c1 Alex Sverdlin  2021-05-05   58  	/* cache the address, ELF h=
+eader is available only during module load */
+79f32b221b18c1 Alex Sverdlin  2021-05-05   59  	if (!pltsec->plt_ent)
+79f32b221b18c1 Alex Sverdlin  2021-05-05   60  		pltsec->plt_ent =3D (struc=
+t plt_entries *)pltsec->plt->sh_addr;
+79f32b221b18c1 Alex Sverdlin  2021-05-05   61  	plt =3D pltsec->plt_ent;
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   62  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  609  	if (r=
-req->len =3D=3D 0) {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  610  		pr_e=
-rr("Zero-sized read [R=3D%x]\n", rreq->debug_id);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  611  		netf=
-s_put_request(rreq, false, netfs_rreq_trace_put_zero_len);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  612  		retu=
-rn -EIO;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  613  	}
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  614  =
+79f32b221b18c1 Alex Sverdlin  2021-05-05   63  	prealloc_fixed(pltsec, plt);
+79f32b221b18c1 Alex Sverdlin  2021-05-05   64  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  615  	rreq-=
->work.func =3D netfs_rreq_work;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  616  =
+79f32b221b18c1 Alex Sverdlin  2021-05-05  @65  	for (idx =3D 0; idx < ARRAY=
+_SIZE(fixed_plts); ++idx)
+79f32b221b18c1 Alex Sverdlin  2021-05-05   66  		if (plt->lit[idx] =3D=3D v=
+al)
+79f32b221b18c1 Alex Sverdlin  2021-05-05   67  			return (u32)&plt->ldr[idx=
+];
+35fa91eed817d2 Ard Biesheuvel 2016-08-16   68  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  617  	if (s=
-ync)
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  618  		netf=
-s_get_request(rreq, netfs_rreq_trace_get_hold);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  619  =
+79f32b221b18c1 Alex Sverdlin  2021-05-05   69  	idx =3D 0;
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   70  	/*
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   71  	 * Look for an existing ent=
+ry pointing to 'val'. Given that the
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   72  	 * relocations are sorted, =
+this will be the last entry we allocated.
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   73  	 * (if one exists).
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   74  	 */
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   75  	if (pltsec->plt_count > 0) {
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   76  		plt +=3D (pltsec->plt_coun=
+t - 1) / PLT_ENT_COUNT;
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   77  		idx =3D (pltsec->plt_count=
+ - 1) % PLT_ENT_COUNT;
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   78  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  620  	/* Ch=
-op the read into slices according to what the cache and the netfs
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  621  	 * wa=
-nt and submit each one.
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  622  	 */
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  623  	atomi=
-c_set(&rreq->nr_outstanding, 1);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  624  	do {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  625  		if (=
-!netfs_rreq_submit_slice(rreq, &debug_index))
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  626  			bre=
-ak;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  627  =
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   79  		if (plt->lit[idx] =3D=3D v=
+al)
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   80  			return (u32)&plt->ldr[idx=
+];
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   81  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  628  	} whi=
-le (rreq->submitted < rreq->len);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  629  =
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   82  		idx =3D (idx + 1) % PLT_EN=
+T_COUNT;
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   83  		if (!idx)
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   84  			plt++;
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   85  	}
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   86  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  630  	if (s=
-ync) {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  631  		/* K=
-eep nr_outstanding incremented so that the ref always belongs to
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  632  		 * u=
-s, and the service code isn't punted off to a random thread pool to
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  633  		 * p=
-rocess.
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  634  		 */
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  635  		for =
-(;;) {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  636  			wai=
-t_var_event(&rreq->nr_outstanding,
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  637  				  =
-     atomic_read(&rreq->nr_outstanding) =3D=3D 1);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  638  			net=
-fs_rreq_assess(rreq, false);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  639  			if =
-(!test_bit(NETFS_RREQ_IN_PROGRESS, &rreq->flags))
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  640  				br=
-eak;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  641  			con=
-d_resched();
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  642  		}
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  643  =
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   87  	pltsec->plt_count++;
+b7ede5a1f5905a Ard Biesheuvel 2017-02-22   88  	BUG_ON(pltsec->plt_count * =
+PLT_ENT_SIZE > pltsec->plt->sh_size);
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   89  =
 
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  644  		ret =
-=3D rreq->error;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  645  		if (=
-ret =3D=3D 0 && rreq->submitted < rreq->len) {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  646  			tra=
-ce_netfs_failure(rreq, NULL, ret, netfs_fail_short_read);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  647  			ret=
- =3D -EIO;
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  648  		}
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  649  		netf=
-s_put_request(rreq, false, netfs_rreq_trace_put_hold);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  650  	} els=
-e {
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  651  		/* I=
-f we decrement nr_outstanding to 0, the ref belongs to us. */
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  652  		if (=
-atomic_dec_and_test(&rreq->nr_outstanding))
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  653  			net=
-fs_rreq_assess(rreq, false);
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  654  	}
-c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02 @655  	retur=
-n ret;
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   90  	if (!idx)
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   91  		/* Populate a new set of e=
+ntries */
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   92  		*plt =3D (struct plt_entri=
+es){
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   93  			{ [0 ... PLT_ENT_COUNT - =
+1] =3D PLT_ENT_LDR, },
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   94  			{ val, }
+7d485f647c1f4a Ard Biesheuvel 2014-11-24   95  		};
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   96  	else
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   97  		plt->lit[idx] =3D val;
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   98  =
 
-:::::: The code at line 655 was first introduced by commit
-:::::: c19a5d31b470e0a7dea07a71bb7b98a916b449e9 netfs: Add a function to co=
-nsolidate beginning a read
+66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   99  	return (u32)&plt->ldr[idx];
+7d485f647c1f4a Ard Biesheuvel 2014-11-24  100  }
+7d485f647c1f4a Ard Biesheuvel 2014-11-24  101  =
 
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6649057798534778645==--
+--===============9214997289237676535==--
 
