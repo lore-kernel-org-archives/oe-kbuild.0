@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4492500550286383636=="
+Content-Type: multipart/mixed; boundary="===============7510905469576325278=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:netdev/net-next/master 72/198] net/bluetooth/smp.c:1313:3: warning: Null pointer passed as 2nd argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Thu, 10 Mar 2022 21:31:09 +0800
-Message-ID: <202203102111.H2PhtKfC-lkp@intel.com>
+Subject: [sailus-media-tree:master 23/44] drivers/media/i2c/ov5640.c:304:8: warning: Excessive padding in 'struct ov5640_mode_info' (8 padding bytes, where 0 is optimal).
+Date: Wed, 02 Mar 2022 13:34:34 +0800
+Message-ID: <202203021317.STTAUBDn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4492500550286383636==
+--===============7510905469576325278==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-CC: Marcel Holtmann <marcel@holtmann.org>
+TO: Jacopo Mondi <jacopo@jmondi.org>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block netdev/net-next/master
-head:   24055bb87977e0c687b54ebf7bac8715f3636bc3
-commit: 9b392e0e0b6d026da5a62bb79a08f32e27af858e [72/198] Bluetooth: Fix no=
-t checking for valid hdev on bt_dev_{info,warn,err,dbg}
-:::::: branch date: 21 hours ago
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   5dcf73288209c0e275e19d323815bb934af58fcf
+commit: 26e97310a3da15db6d75e985857b2c3bd92a2bc5 [23/44] media: ov5640: Spl=
+it DVP and CSI-2 timings
+:::::: branch date: 6 days ago
 :::::: commit date: 6 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-310/202203102111.H2PhtKfC-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
-7382b8f16a65bddac700202924228982f6)
+config: riscv-randconfig-c006-20220301 (https://download.01.org/0day-ci/arc=
+hive/20220302/202203021317.STTAUBDn-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/9b392e0e0b6d026=
-da5a62bb79a08f32e27af858e
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block netdev/net-next/master
-        git checkout 9b392e0e0b6d026da5a62bb79a08f32e27af858e
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tre=
+e.git
+        git fetch --no-tags sailus-media-tree master
+        git checkout 26e97310a3da15db6d75e985857b2c3bd92a2bc5
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,513 +49,292 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/slab.h:714:9: note: Uninitialized value stored to field 'f=
-lags'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-log-writes.c:611:10: note: Returning from 'kzalloc'
-           block =3D kzalloc(sizeof(struct pending_block), GFP_KERNEL);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-log-writes.c:612:6: note: Assuming 'block' is non-null
-           if (!block) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-log-writes.c:612:2: note: '?' condition is false
-           if (!block) {
+   drivers/net/ethernet/sun/niu.c:9094:3: note: Calling 'niu_try_msix'
+                   niu_try_msix(np, ldg_num_map);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9030:14: note: Assuming the condition is =
+false
+           for (i =3D 0; i < (NIU_NUM_LDG / parent->num_ports); i++)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9030:2: note: Loop condition is false. Ex=
+ecution continues on line 9033
+           for (i =3D 0; i < (NIU_NUM_LDG / parent->num_ports); i++)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/md/dm-log-writes.c:612:7: note: 'block' is non-null
-           if (!block) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/md/dm-log-writes.c:612:2: note: '?' condition is false
-           if (!block) {
+   drivers/net/ethernet/sun/niu.c:9035:8: note: Assuming field 'port' is no=
+t equal to 0
+                       (np->port =3D=3D 0 ? 3 : 1));
+                        ^~~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9035:8: note: '?' condition is false
+   drivers/net/ethernet/sun/niu.c:9036:9: note: Assuming the condition is f=
+alse
+           BUG_ON(num_irqs > (NIU_NUM_LDG / parent->num_ports));
+                  ^
+   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                      ~~~~~~~~~^~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/net/ethernet/sun/niu.c:9036:2: note: Taking false branch
+           BUG_ON(num_irqs > (NIU_NUM_LDG / parent->num_ports));
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   drivers/net/ethernet/sun/niu.c:9036:2: note: Loop condition is false.  E=
+xiting loop
+           BUG_ON(num_irqs > (NIU_NUM_LDG / parent->num_ports));
            ^
-   drivers/md/dm-log-writes.c:612:2: note: Taking false branch
-           if (!block) {
+   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   drivers/net/ethernet/sun/niu.c:9038:14: note: Assuming 'i' is >=3D 'num_=
+irqs'
+           for (i =3D 0; i < num_irqs; i++) {
+                       ^~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9038:2: note: Loop condition is false. Ex=
+ecution continues on line 9043
+           for (i =3D 0; i < num_irqs; i++) {
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/md/dm-log-writes.c:618:6: note: Assuming field 'data' is non-null
-           if (!block->data) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/md/dm-log-writes.c:618:2: note: '?' condition is false
-           if (!block->data) {
+   drivers/net/ethernet/sun/niu.c:9044:6: note: Assuming 'num_irqs' is >=3D=
+ 0
+           if (num_irqs < 0) {
+               ^~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9044:2: note: Taking false branch
+           if (num_irqs < 0) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/md/dm-log-writes.c:618:14: note: Field 'data' is non-null
-           if (!block->data) {
-                       ^
-   drivers/md/dm-log-writes.c:618:2: note: '?' condition is false
-           if (!block->data) {
+   drivers/net/ethernet/sun/niu.c:9050:14: note: Assuming 'i' is >=3D 'num_=
+irqs'
+           for (i =3D 0; i < num_irqs; i++)
+                       ^~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9050:2: note: Loop condition is false. Ex=
+ecution continues on line 9052
+           for (i =3D 0; i < num_irqs; i++)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/net/ethernet/sun/niu.c:9053:1: note: Returning without writing t=
+o '*ldg_num_map'
+   }
+   ^
+   drivers/net/ethernet/sun/niu.c:9094:3: note: Returning from 'niu_try_msi=
+x'
+                   niu_try_msix(np, ldg_num_map);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9097:2: note: Loop condition is false. Ex=
+ecution continues on line 9128
+           for (i =3D 0; i < np->num_ldg; i++) {
            ^
-   drivers/md/dm-log-writes.c:618:2: note: Taking false branch
-           if (!block->data) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/md/dm-log-writes.c:625:15: note: The left expression of the comp=
-ound assignment is an uninitialized value. The computed value will also be =
-garbage
-           block->flags |=3D LOG_MARK_FLAG;
-           ~~~~~~~~~~~~ ^
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   drivers/net/ethernet/sun/niu.c:9128:2: note: The value 0 is assigned to =
+'ldg_rotor'
+           ldg_rotor =3D 0;
+           ^~~~~~~~~~~~~
+   drivers/net/ethernet/sun/niu.c:9130:8: note: 3rd function call argument =
+is an uninitialized value
+           err =3D niu_ldg_assign_ldn(np, parent, ldg_num_map[ldg_rotor],
+                 ^                              ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 20 warnings (12 in non-user code, 8 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> net/bluetooth/smp.c:1313:3: warning: Null pointer passed as 2nd argument=
- to memory copy function [clang-analyzer-unix.cstring.NullArg]
-                   memcpy(idinfo.irk, hdev->irk, sizeof(idinfo.irk));
-                   ^
-   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
-py'
-   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
-                           ^                   ~
-   net/bluetooth/smp.c:1241:2: note: '?' condition is false
-           bt_dev_dbg(hdev, "conn %p", conn);
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> drivers/media/i2c/ov5640.c:304:8: warning: Excessive padding in 'struct =
+ov5640_mode_info' (8 padding bytes, where 0 is optimal). =
+
+   Optimal fields order: =
+
+   reg_data, =
+
+   id, =
+
+   dn_mode, =
+
+   pixel_rate, =
+
+   width, =
+
+   height, =
+
+   reg_data_size, =
+
+   dvp_timings, =
+
+   csi2_timings, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ov5640_mode_info {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov5640.c:304:8: note: Excessive padding in 'struct ov5=
+640_mode_info' (8 padding bytes, where 0 is optimal). Optimal fields order:=
+ reg_data, id, dn_mode, pixel_rate, width, height, reg_data_size, dvp_timin=
+gs, csi2_timings, consider reordering the fields or adding explicit padding=
+ members
+   struct ov5640_mode_info {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/media/i2c/ov5647.c:813:8: warning: The left expression of the co=
+mpound assignment is an uninitialized value. The computed value will also b=
+e garbage [clang-analyzer-core.uninitialized.Assign]
+           rdval &=3D ~0x01;
+                 ^
+   drivers/media/i2c/ov5647.c:1369:6: note: Assuming 'sensor' is non-null
+           if (!sensor)
+               ^~~~~~~
+   drivers/media/i2c/ov5647.c:1369:2: note: Taking false branch
+           if (!sensor)
            ^
-   include/net/bluetooth/bluetooth.h:216:2: note: expanded from macro 'bt_d=
-ev_dbg'
-           BT_DBG("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-           ^
-   include/net/bluetooth/bluetooth.h:204:26: note: expanded from macro 'BT_=
-DBG'
-   #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
-                                   ^
-   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/bluetooth/smp.c:1241:2: note: '?' condition is false
-           bt_dev_dbg(hdev, "conn %p", conn);
-           ^
-   include/net/bluetooth/bluetooth.h:216:2: note: expanded from macro 'bt_d=
-ev_dbg'
-           BT_DBG("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-           ^
-   include/net/bluetooth/bluetooth.h:204:26: note: expanded from macro 'BT_=
-DBG'
-   #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
-                                   ^
-   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/bluetooth/smp.c:1241:2: note: Taking false branch
-           bt_dev_dbg(hdev, "conn %p", conn);
-           ^
-   include/net/bluetooth/bluetooth.h:216:2: note: expanded from macro 'bt_d=
-ev_dbg'
-           BT_DBG("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-           ^
-   include/net/bluetooth/bluetooth.h:204:26: note: expanded from macro 'BT_=
-DBG'
-   #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
-                                   ^
-   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/bluetooth/smp.c:1241:2: note: Loop condition is false.  Exiting loop
-           bt_dev_dbg(hdev, "conn %p", conn);
-           ^
-   include/net/bluetooth/bluetooth.h:216:2: note: expanded from macro 'bt_d=
-ev_dbg'
-           BT_DBG("%s: " fmt, bt_dev_name(hdev), ##__VA_ARGS__)
-           ^
-   include/net/bluetooth/bluetooth.h:204:26: note: expanded from macro 'BT_=
-DBG'
-   #define BT_DBG(fmt, ...)        pr_debug(fmt "\n", ##__VA_ARGS__)
-                                   ^
-   include/linux/printk.h:570:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
-pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   net/bluetooth/smp.c:1246:6: note: Assuming field 'out' is false
-           if (hcon->out && (smp->remote_key_dist & KEY_DIST_MASK)) {
+   drivers/media/i2c/ov5647.c:1372:6: note: Left side of '&&' is true
+           if (IS_ENABLED(CONFIG_OF) && np) {
                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+   include/linux/kconfig.h:73:28: note: expanded from macro 'IS_ENABLED'
+   #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
+                              ^
+   include/linux/kconfig.h:24:22: note: expanded from macro '__or'
+   #define __or(x, y)                      ___or(x, y)
+                                           ^
+   include/linux/kconfig.h:25:23: note: expanded from macro '___or'
+   #define ___or(x, y)                     ____or(__ARG_PLACEHOLDER_##x, y)
+                                           ^
+   include/linux/kconfig.h:26:65: note: expanded from macro '____or'
+   #define ____or(arg1_or_junk, y)         __take_second_arg(arg1_or_junk 1=
+, y)
+                                                                          ^
+   drivers/media/i2c/ov5647.c:1372:31: note: Assuming 'np' is null
+           if (IS_ENABLED(CONFIG_OF) && np) {
+                                        ^~
+   drivers/media/i2c/ov5647.c:1372:2: note: Taking false branch
+           if (IS_ENABLED(CONFIG_OF) && np) {
+           ^
+   drivers/media/i2c/ov5647.c:1381:2: note: Taking false branch
+           if (IS_ERR(sensor->xclk)) {
+           ^
+   drivers/media/i2c/ov5647.c:1387:6: note: Assuming 'xclk_freq' is equal t=
+o 25000000
+           if (xclk_freq !=3D 25000000) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov5647.c:1387:2: note: Taking false branch
+           if (xclk_freq !=3D 25000000) {
+           ^
+   drivers/media/i2c/ov5647.c:1394:2: note: Taking false branch
+           if (IS_ERR(sensor->pwdn)) {
+           ^
+   drivers/media/i2c/ov5647.c:1399:2: note: Loop condition is false.  Exiti=
+ng loop
+           mutex_init(&sensor->lock);
+           ^
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
+   #define mutex_init(mutex)                                               \
+                                                                           ^
+   drivers/media/i2c/ov5647.c:1404:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/ov5647.c:1404:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/ov5647.c:1415:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/media/i2c/ov5647.c:1415:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/media/i2c/ov5647.c:1419:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/ov5647.c:1419:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/ov5647.c:1423:6: note: 'ret' is < 0
+           if (ret < 0)
+               ^~~
+   drivers/media/i2c/ov5647.c:1423:2: note: Taking true branch
+           if (ret < 0)
+           ^
+   drivers/media/i2c/ov5647.c:1424:3: note: Control jumps to line 1440
+                   goto power_off;
+                   ^
+   drivers/media/i2c/ov5647.c:1440:2: note: Calling 'ov5647_power_off'
+           ov5647_power_off(dev);
+           ^~~~~~~~~~~~~~~~~~~~~
 
-vim +1313 net/bluetooth/smp.c
+vim +304 drivers/media/i2c/ov5640.c
 
-b5ae344d4c0f69 Johan Hedberg          2014-08-14  1232  =
+19a81c1426c185c Steve Longerbeam 2017-06-07  303  =
 
-d6268e86a12a94 Johan Hedberg          2014-09-05  1233  static void smp_dis=
-tribute_keys(struct smp_chan *smp)
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1234  {
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1235  	struct smp_cmd_pai=
-ring *req, *rsp;
-86d1407cb9cd3c Johan Hedberg          2014-08-11  1236  	struct l2cap_conn =
-*conn =3D smp->conn;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1237  	struct hci_conn *h=
-con =3D conn->hcon;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1238  	struct hci_dev *hd=
-ev =3D hcon->hdev;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1239  	__u8 *keydist;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1240  =
+26e97310a3da15d Jacopo Mondi     2022-02-24 @304  struct ov5640_mode_info {
+26e97310a3da15d Jacopo Mondi     2022-02-24  305  	enum ov5640_mode_id id;
+26e97310a3da15d Jacopo Mondi     2022-02-24  306  	enum ov5640_downsize_mod=
+e dn_mode;
+26e97310a3da15d Jacopo Mondi     2022-02-24  307  	enum ov5640_pixel_rate_i=
+d pixel_rate;
+26e97310a3da15d Jacopo Mondi     2022-02-24  308  =
 
-2e1614f7d61e40 Luiz Augusto von Dentz 2021-03-15  1241  	bt_dev_dbg(hdev, "=
-conn %p", conn);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1242  =
+26e97310a3da15d Jacopo Mondi     2022-02-24  309  	unsigned int width;
+26e97310a3da15d Jacopo Mondi     2022-02-24  310  	unsigned int height;
+26e97310a3da15d Jacopo Mondi     2022-02-24  311  =
 
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1243  	rsp =3D (void *) &=
-smp->prsp[1];
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1244  =
+26e97310a3da15d Jacopo Mondi     2022-02-24  312  	struct ov5640_timings dv=
+p_timings;
+26e97310a3da15d Jacopo Mondi     2022-02-24  313  	struct ov5640_timings cs=
+i2_timings;
+26e97310a3da15d Jacopo Mondi     2022-02-24  314  =
 
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1245  	/* The responder s=
-ends its keys first */
-b28b4943660f4e Johan Hedberg          2014-09-05  1246  	if (hcon->out && (=
-smp->remote_key_dist & KEY_DIST_MASK)) {
-b28b4943660f4e Johan Hedberg          2014-09-05  1247  		smp_allow_key_dis=
-t(smp);
-86d1407cb9cd3c Johan Hedberg          2014-08-11  1248  		return;
-b28b4943660f4e Johan Hedberg          2014-09-05  1249  	}
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1250  =
+26e97310a3da15d Jacopo Mondi     2022-02-24  315  	const struct reg_value *=
+reg_data;
+26e97310a3da15d Jacopo Mondi     2022-02-24  316  	u32 reg_data_size;
+26e97310a3da15d Jacopo Mondi     2022-02-24  317  };
+26e97310a3da15d Jacopo Mondi     2022-02-24  318  =
 
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1251  	req =3D (void *) &=
-smp->preq[1];
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1252  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1253  	if (hcon->out) {
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1254  		keydist =3D &rsp-=
->init_key_dist;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1255  		*keydist &=3D req=
-->init_key_dist;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1256  	} else {
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1257  		keydist =3D &rsp-=
->resp_key_dist;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1258  		*keydist &=3D req=
-->resp_key_dist;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1259  	}
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1260  =
-
-6a77083af57f2d Johan Hedberg          2014-06-06  1261  	if (test_bit(SMP_F=
-LAG_SC, &smp->flags)) {
-b5ae344d4c0f69 Johan Hedberg          2014-08-14  1262  		if (hcon->type =
-=3D=3D LE_LINK && (*keydist & SMP_DIST_LINK_KEY))
-6a77083af57f2d Johan Hedberg          2014-06-06  1263  			sc_generate_link=
-_key(smp);
-b5ae344d4c0f69 Johan Hedberg          2014-08-14  1264  		if (hcon->type =
-=3D=3D ACL_LINK && (*keydist & SMP_DIST_ENC_KEY))
-b5ae344d4c0f69 Johan Hedberg          2014-08-14  1265  			sc_generate_ltk(=
-smp);
-6a77083af57f2d Johan Hedberg          2014-06-06  1266  =
-
-6a77083af57f2d Johan Hedberg          2014-06-06  1267  		/* Clear the keys=
- which are generated but not distributed */
-6a77083af57f2d Johan Hedberg          2014-06-06  1268  		*keydist &=3D ~SM=
-P_SC_NO_DIST;
-6a77083af57f2d Johan Hedberg          2014-06-06  1269  	}
-6a77083af57f2d Johan Hedberg          2014-06-06  1270  =
-
-2e1614f7d61e40 Luiz Augusto von Dentz 2021-03-15  1271  	bt_dev_dbg(hdev, "=
-keydist 0x%x", *keydist);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1272  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1273  	if (*keydist & SMP=
-_DIST_ENC_KEY) {
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1274  		struct smp_cmd_en=
-crypt_info enc;
-fad646e16d3caf Archie Pusaka          2021-05-31  1275  		struct smp_cmd_in=
-itiator_ident ident;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1276  		struct smp_ltk *l=
-tk;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1277  		u8 authenticated;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1278  		__le16 ediv;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1279  		__le64 rand;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1280  =
-
-1fc62c526a5717 Johan Hedberg          2015-06-10  1281  		/* Make sure we g=
-enerate only the significant amount of
-1fc62c526a5717 Johan Hedberg          2015-06-10  1282  		 * bytes based on=
- the encryption key size, and set the rest
-1fc62c526a5717 Johan Hedberg          2015-06-10  1283  		 * of the value t=
-o zeroes.
-1fc62c526a5717 Johan Hedberg          2015-06-10  1284  		 */
-1fc62c526a5717 Johan Hedberg          2015-06-10  1285  		get_random_bytes(=
-enc.ltk, smp->enc_key_size);
-1fc62c526a5717 Johan Hedberg          2015-06-10  1286  		memset(enc.ltk + =
-smp->enc_key_size, 0,
-1fc62c526a5717 Johan Hedberg          2015-06-10  1287  		       sizeof(enc=
-.ltk) - smp->enc_key_size);
-1fc62c526a5717 Johan Hedberg          2015-06-10  1288  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1289  		get_random_bytes(=
-&ediv, sizeof(ediv));
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1290  		get_random_bytes(=
-&rand, sizeof(rand));
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1291  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1292  		smp_send_cmd(conn=
-, SMP_CMD_ENCRYPT_INFO, sizeof(enc), &enc);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1293  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1294  		authenticated =3D=
- hcon->sec_level =3D=3D BT_SECURITY_HIGH;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1295  		ltk =3D hci_add_l=
-tk(hdev, &hcon->dst, hcon->dst_type,
-fad646e16d3caf Archie Pusaka          2021-05-31  1296  				  SMP_LTK_RESPO=
-NDER, authenticated, enc.ltk,
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1297  				  smp->enc_key_=
-size, ediv, rand);
-fad646e16d3caf Archie Pusaka          2021-05-31  1298  		smp->responder_lt=
-k =3D ltk;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1299  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1300  		ident.ediv =3D ed=
-iv;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1301  		ident.rand =3D ra=
-nd;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1302  =
-
-fad646e16d3caf Archie Pusaka          2021-05-31  1303  		smp_send_cmd(conn=
-, SMP_CMD_INITIATOR_IDENT, sizeof(ident),
-fad646e16d3caf Archie Pusaka          2021-05-31  1304  			     &ident);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1305  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1306  		*keydist &=3D ~SM=
-P_DIST_ENC_KEY;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1307  	}
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1308  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1309  	if (*keydist & SMP=
-_DIST_ID_KEY) {
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1310  		struct smp_cmd_id=
-ent_addr_info addrinfo;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1311  		struct smp_cmd_id=
-ent_info idinfo;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1312  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11 @1313  		memcpy(idinfo.irk=
-, hdev->irk, sizeof(idinfo.irk));
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1314  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1315  		smp_send_cmd(conn=
-, SMP_CMD_IDENT_INFO, sizeof(idinfo), &idinfo);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1316  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1317  		/* The hci_conn c=
-ontains the local identity address
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1318  		 * after the conn=
-ection has been established.
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1319  		 *
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1320  		 * This is true e=
-ven when the connection has been
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1321  		 * established us=
-ing a resolvable random address.
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1322  		 */
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1323  		bacpy(&addrinfo.b=
-daddr, &hcon->src);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1324  		addrinfo.addr_typ=
-e =3D hcon->src_type;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1325  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1326  		smp_send_cmd(conn=
-, SMP_CMD_IDENT_ADDR_INFO, sizeof(addrinfo),
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1327  			     &addrinfo);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1328  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1329  		*keydist &=3D ~SM=
-P_DIST_ID_KEY;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1330  	}
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1331  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1332  	if (*keydist & SMP=
-_DIST_SIGN) {
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1333  		struct smp_cmd_si=
-gn_info sign;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1334  		struct smp_csrk *=
-csrk;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1335  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1336  		/* Generate a new=
- random key */
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1337  		get_random_bytes(=
-sign.csrk, sizeof(sign.csrk));
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1338  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1339  		csrk =3D kzalloc(=
-sizeof(*csrk), GFP_KERNEL);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1340  		if (csrk) {
-4cd3928a8bee83 Johan Hedberg          2015-02-27  1341  			if (hcon->sec_le=
-vel > BT_SECURITY_MEDIUM)
-4cd3928a8bee83 Johan Hedberg          2015-02-27  1342  				csrk->type =3D =
-MGMT_CSRK_LOCAL_AUTHENTICATED;
-4cd3928a8bee83 Johan Hedberg          2015-02-27  1343  			else
-4cd3928a8bee83 Johan Hedberg          2015-02-27  1344  				csrk->type =3D =
-MGMT_CSRK_LOCAL_UNAUTHENTICATED;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1345  			memcpy(csrk->val=
-, sign.csrk, sizeof(csrk->val));
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1346  		}
-fad646e16d3caf Archie Pusaka          2021-05-31  1347  		smp->responder_cs=
-rk =3D csrk;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1348  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1349  		smp_send_cmd(conn=
-, SMP_CMD_SIGN_INFO, sizeof(sign), &sign);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1350  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1351  		*keydist &=3D ~SM=
-P_DIST_SIGN;
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1352  	}
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1353  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1354  	/* If there are st=
-ill keys to be received wait for them */
-b28b4943660f4e Johan Hedberg          2014-09-05  1355  	if (smp->remote_ke=
-y_dist & KEY_DIST_MASK) {
-b28b4943660f4e Johan Hedberg          2014-09-05  1356  		smp_allow_key_dis=
-t(smp);
-86d1407cb9cd3c Johan Hedberg          2014-08-11  1357  		return;
-b28b4943660f4e Johan Hedberg          2014-09-05  1358  	}
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1359  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1360  	set_bit(SMP_FLAG_C=
-OMPLETE, &smp->flags);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1361  	smp_notify_keys(co=
-nn);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1362  =
-
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1363  	smp_chan_destroy(c=
-onn);
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1364  }
-44f1a7ab51ebe1 Johan Hedberg          2014-08-11  1365  =
-
-
-:::::: The code at line 1313 was first introduced by commit
-:::::: 44f1a7ab51ebe1ca189445837e0599a5edc6efb1 Bluetooth: Use L2CAP resume=
- callback to call smp_distribute_keys
-
-:::::: TO: Johan Hedberg <johan.hedberg@intel.com>
-:::::: CC: Marcel Holtmann <marcel@holtmann.org>
 
 ---
-0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4492500550286383636==--
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============7510905469576325278==--
 
