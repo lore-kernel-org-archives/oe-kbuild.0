@@ -1,184 +1,165 @@
-Content-Type: multipart/mixed; boundary="===============1231949070484240303=="
+Content-Type: multipart/mixed; boundary="===============6649057798534778645=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:766 amdgpu_gem_op_ioctl() warn: should 'robj->tbo.page_alignment << (12)' be a 64 bit type?
-Date: Thu, 03 Mar 2022 07:21:36 +0800
-Message-ID: <202203030710.ZQwlt482-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/fscache-next 36/39] fs/netfs/io.c:655 netfs_begin_read() error: uninitialized symbol 'ret'.
+Date: Thu, 03 Mar 2022 05:08:16 +0800
+Message-ID: <202203030504.jcsYdjgY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1231949070484240303==
+--===============6649057798534778645==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Matthew Auld <matthew.auld@intel.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   fb184c4af9b9f4563e7a126219389986a71d5b5b
-commit: c777dc9e793342ecdfc95045d2127a3ea32791a0 drm/ttm: move the page_ali=
-gnment into the BO v2
-date:   10 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 10 months ago
-config: riscv-randconfig-m031-20220302 (https://download.01.org/0day-ci/arc=
-hive/20220303/202203030710.ZQwlt482-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/fscach=
+e-next
+head:   78e12b114b9c804d4b1eef16b6df1112cde6a960
+commit: ad9e5adb388f358027a51032b3944913d98f7866 [36/39] netfs: Rename rena=
+me read_helper.c to io.c
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
+config: arm-randconfig-m031-20220302 (https://download.01.org/0day-ci/archi=
+ve/20220303/202203030504.jcsYdjgY-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c:766 amdgpu_gem_op_ioctl() warn: sho=
-uld 'robj->tbo.page_alignment << (12)' be a 64 bit type?
+fs/netfs/io.c:655 netfs_begin_read() error: uninitialized symbol 'ret'.
 
-vim +766 drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+vim +/ret +655 fs/netfs/io.c
 
-d38ceaf99ed015 Alex Deucher                   2015-04-20  739  =
+3d3c95046742e4 fs/netfs/read_helper.c David Howells 2020-05-13  595  =
 
-d38ceaf99ed015 Alex Deucher                   2015-04-20  740  int amdgpu_g=
-em_op_ioctl(struct drm_device *dev, void *data,
-d38ceaf99ed015 Alex Deucher                   2015-04-20  741  			struct dr=
-m_file *filp)
-d38ceaf99ed015 Alex Deucher                   2015-04-20  742  {
-1348969ab68cb8 Luben Tuikov                   2020-08-24  743  	struct amdg=
-pu_device *adev =3D drm_to_adev(dev);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  744  	struct drm_=
-amdgpu_gem_op *args =3D data;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  745  	struct drm_=
-gem_object *gobj;
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  746  	struct amdg=
-pu_vm_bo_base *base;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  747  	struct amdg=
-pu_bo *robj;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  748  	int r;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  749  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  596  /*
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  597   * Beg=
+in the process of reading in a chunk of data, where that data may be
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  598   * sti=
+tched together from multiple sources, including multiple servers and the
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  599   * loc=
+al cache.
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  600   */
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  601  int ne=
+tfs_begin_read(struct netfs_io_request *rreq, bool sync)
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  602  {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  603  	unsig=
+ned int debug_index =3D 0;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  604  	int r=
+et;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  605  =
 
-a8ad0bd84f9860 Chris Wilson                   2016-05-09  750  	gobj =3D dr=
-m_gem_object_lookup(filp, args->handle);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  751  	if (gobj =
-=3D=3D NULL) {
-d38ceaf99ed015 Alex Deucher                   2015-04-20  752  		return -EN=
-OENT;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  753  	}
-d38ceaf99ed015 Alex Deucher                   2015-04-20  754  	robj =3D ge=
-m_to_amdgpu_bo(gobj);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  755  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  606  	_ente=
+r("R=3D%x %llx-%llx",
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  607  	     =
+  rreq->debug_id, rreq->start, rreq->start + rreq->len - 1);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  608  =
 
-d38ceaf99ed015 Alex Deucher                   2015-04-20  756  	r =3D amdgp=
-u_bo_reserve(robj, false);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  757  	if (unlikel=
-y(r))
-d38ceaf99ed015 Alex Deucher                   2015-04-20  758  		goto out;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  759  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  609  	if (r=
+req->len =3D=3D 0) {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  610  		pr_e=
+rr("Zero-sized read [R=3D%x]\n", rreq->debug_id);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  611  		netf=
+s_put_request(rreq, false, netfs_rreq_trace_put_zero_len);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  612  		retu=
+rn -EIO;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  613  	}
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  614  =
 
-d38ceaf99ed015 Alex Deucher                   2015-04-20  760  	switch (arg=
-s->op) {
-d38ceaf99ed015 Alex Deucher                   2015-04-20  761  	case AMDGPU=
-_GEM_OP_GET_GEM_CREATE_INFO: {
-d38ceaf99ed015 Alex Deucher                   2015-04-20  762  		struct drm=
-_amdgpu_gem_create_in info;
-7ecc245a8ce32f Christian K=C3=B6nig                2017-07-26  763  		void =
-__user *out =3D u64_to_user_ptr(args->value);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  764  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  615  	rreq-=
+>work.func =3D netfs_rreq_work;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  616  =
 
-c105de2828e139 Gerd Hoffmann                  2019-08-05  765  		info.bo_si=
-ze =3D robj->tbo.base.size;
-c777dc9e793342 Christian K=C3=B6nig                2021-02-05 @766  		info.=
-alignment =3D robj->tbo.page_alignment << PAGE_SHIFT;
-6d7d9c5aa212d0 Kent Russell                   2017-08-08  767  		info.domai=
-ns =3D robj->preferred_domains;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  768  		info.domai=
-n_flags =3D robj->flags;
-4c28fb0b27ad58 Christian K=C3=B6nig                2015-08-28  769  		amdgp=
-u_bo_unreserve(robj);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  770  		if (copy_t=
-o_user(out, &info, sizeof(info)))
-d38ceaf99ed015 Alex Deucher                   2015-04-20  771  			r =3D -EF=
-AULT;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  772  		break;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  773  	}
-d8f65a2376268d Marek Ol=C5=A1=C3=A1k                    2015-05-27  774  	c=
-ase AMDGPU_GEM_OP_SET_PLACEMENT:
-803d89ade4ede1 Christopher James Halse Rogers 2017-04-03  775  		if (robj->=
-prime_shared_count && (args->value & AMDGPU_GEM_DOMAIN_VRAM)) {
-803d89ade4ede1 Christopher James Halse Rogers 2017-04-03  776  			r =3D -EI=
-NVAL;
-803d89ade4ede1 Christopher James Halse Rogers 2017-04-03  777  			amdgpu_bo=
-_unreserve(robj);
-803d89ade4ede1 Christopher James Halse Rogers 2017-04-03  778  			break;
-803d89ade4ede1 Christopher James Halse Rogers 2017-04-03  779  		}
-cc325d19134756 Christian K=C3=B6nig                2016-02-08  780  		if (a=
-mdgpu_ttm_tt_get_usermm(robj->tbo.ttm)) {
-d38ceaf99ed015 Alex Deucher                   2015-04-20  781  			r =3D -EP=
-ERM;
-4c28fb0b27ad58 Christian K=C3=B6nig                2015-08-28  782  			amdg=
-pu_bo_unreserve(robj);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  783  			break;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  784  		}
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  785  		for (base =
-=3D robj->vm_bo; base; base =3D base->next)
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  786  			if (amdgp=
-u_xgmi_same_hive(amdgpu_ttm_adev(robj->tbo.bdev),
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  787  				amdgpu_t=
-tm_adev(base->vm->root.base.bo->tbo.bdev))) {
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  788  				r =3D -E=
-INVAL;
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  789  				amdgpu_b=
-o_unreserve(robj);
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  790  				goto out;
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  791  			}
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  792  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  617  	if (s=
+ync)
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  618  		netf=
+s_get_request(rreq, netfs_rreq_trace_get_hold);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  619  =
 
-b4ae4fe6cdbbfe shaoyunl                       2019-03-26  793  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  620  	/* Ch=
+op the read into slices according to what the cache and the netfs
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  621  	 * wa=
+nt and submit each one.
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  622  	 */
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  623  	atomi=
+c_set(&rreq->nr_outstanding, 1);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  624  	do {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  625  		if (=
+!netfs_rreq_submit_slice(rreq, &debug_index))
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  626  			bre=
+ak;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  627  =
 
-6d7d9c5aa212d0 Kent Russell                   2017-08-08  794  		robj->pref=
-erred_domains =3D args->value & (AMDGPU_GEM_DOMAIN_VRAM |
-d38ceaf99ed015 Alex Deucher                   2015-04-20  795  							AMDGP=
-U_GEM_DOMAIN_GTT |
-d38ceaf99ed015 Alex Deucher                   2015-04-20  796  							AMDGP=
-U_GEM_DOMAIN_CPU);
-6d7d9c5aa212d0 Kent Russell                   2017-08-08  797  		robj->allo=
-wed_domains =3D robj->preferred_domains;
-1ea863fd736eed Christian K=C3=B6nig                2015-12-18  798  		if (r=
-obj->allowed_domains =3D=3D AMDGPU_GEM_DOMAIN_VRAM)
-1ea863fd736eed Christian K=C3=B6nig                2015-12-18  799  			robj=
-->allowed_domains |=3D AMDGPU_GEM_DOMAIN_GTT;
-1ea863fd736eed Christian K=C3=B6nig                2015-12-18  800  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  628  	} whi=
+le (rreq->submitted < rreq->len);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  629  =
 
-e1eb899b45781b Christian K=C3=B6nig                2017-08-25  801  		if (r=
-obj->flags & AMDGPU_GEM_CREATE_VM_ALWAYS_VALID)
-e1eb899b45781b Christian K=C3=B6nig                2017-08-25  802  			amdg=
-pu_vm_bo_invalidate(adev, robj, true);
-e1eb899b45781b Christian K=C3=B6nig                2017-08-25  803  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  630  	if (s=
+ync) {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  631  		/* K=
+eep nr_outstanding incremented so that the ref always belongs to
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  632  		 * u=
+s, and the service code isn't punted off to a random thread pool to
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  633  		 * p=
+rocess.
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  634  		 */
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  635  		for =
+(;;) {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  636  			wai=
+t_var_event(&rreq->nr_outstanding,
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  637  				  =
+     atomic_read(&rreq->nr_outstanding) =3D=3D 1);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  638  			net=
+fs_rreq_assess(rreq, false);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  639  			if =
+(!test_bit(NETFS_RREQ_IN_PROGRESS, &rreq->flags))
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  640  				br=
+eak;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  641  			con=
+d_resched();
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  642  		}
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  643  =
 
-4c28fb0b27ad58 Christian K=C3=B6nig                2015-08-28  804  		amdgp=
-u_bo_unreserve(robj);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  805  		break;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  806  	default:
-4c28fb0b27ad58 Christian K=C3=B6nig                2015-08-28  807  		amdgp=
-u_bo_unreserve(robj);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  808  		r =3D -EIN=
-VAL;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  809  	}
-d38ceaf99ed015 Alex Deucher                   2015-04-20  810  =
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  644  		ret =
+=3D rreq->error;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  645  		if (=
+ret =3D=3D 0 && rreq->submitted < rreq->len) {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  646  			tra=
+ce_netfs_failure(rreq, NULL, ret, netfs_fail_short_read);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  647  			ret=
+ =3D -EIO;
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  648  		}
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  649  		netf=
+s_put_request(rreq, false, netfs_rreq_trace_put_hold);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  650  	} els=
+e {
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  651  		/* I=
+f we decrement nr_outstanding to 0, the ref belongs to us. */
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  652  		if (=
+atomic_dec_and_test(&rreq->nr_outstanding))
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  653  			net=
+fs_rreq_assess(rreq, false);
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02  654  	}
+c19a5d31b470e0 fs/netfs/read_helper.c David Howells 2022-03-02 @655  	retur=
+n ret;
 
-d38ceaf99ed015 Alex Deucher                   2015-04-20  811  out:
-e07ddb0ce7cde6 Emil Velikov                   2020-05-15  812  	drm_gem_obj=
-ect_put(gobj);
-d38ceaf99ed015 Alex Deucher                   2015-04-20  813  	return r;
-d38ceaf99ed015 Alex Deucher                   2015-04-20  814  }
-d38ceaf99ed015 Alex Deucher                   2015-04-20  815  =
+:::::: The code at line 655 was first introduced by commit
+:::::: c19a5d31b470e0a7dea07a71bb7b98a916b449e9 netfs: Add a function to co=
+nsolidate beginning a read
 
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1231949070484240303==--
+--===============6649057798534778645==--
 
