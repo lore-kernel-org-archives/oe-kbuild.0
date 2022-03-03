@@ -1,119 +1,103 @@
-Content-Type: multipart/mixed; boundary="===============3866409944324659556=="
+Content-Type: multipart/mixed; boundary="===============3139228854770039628=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH V2 5/6] blk-mq: prepare for implementing hctx table via xarray
-Date: Thu, 03 Mar 2022 20:33:22 +0800
-Message-ID: <202203032010.V1VcXGQT-lkp@intel.com>
+Subject: drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c:199:6: sparse: void extern [addressable] [toplevel] hclge_comm_get_rss_indir_tbl( ... )
+Date: Thu, 03 Mar 2022 17:59:47 +0800
+Message-ID: <202203031716.K3CfFyZP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3866409944324659556==
+--===============3139228854770039628==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220302121407.1361401-6-ming.lei@redhat.com>
-References: <20220302121407.1361401-6-ming.lei@redhat.com>
-TO: Ming Lei <ming.lei@redhat.com>
-TO: Jens Axboe <axboe@kernel.dk>
-CC: linux-block(a)vger.kernel.org
-CC: Yu Kuai <yukuai3@huawei.com>
-CC: Ming Lei <ming.lei@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jie Wang <wangjie125@huawei.com>
 
-Hi Ming,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on v5.17-rc6 next-20220302]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Ming-Lei/blk-mq-update_nr_=
-hw_queues-related-improvement-bugfix/20220302-201636
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-next
-:::::: branch date: 24 hours ago
-:::::: commit date: 24 hours ago
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5859a2b1991101d6b978f3feb5325dad39421f29
+commit: 6de06004286798ac4b4b10c8c74a6eb03c5035f2 net: hns3: create new set =
+of common rss set APIs for PF and VF module
+date:   8 weeks ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 8 weeks ago
+config: ia64-randconfig-s031-20220303 (https://download.01.org/0day-ci/arch=
+ive/20220303/202203031716.K3CfFyZP-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D6de06004286798ac4b4b10c8c74a6eb03c5035f2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 6de06004286798ac4b4b10c8c74a6eb03c5035f2
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Di=
+a64 SHELL=3D/bin/bash drivers/net/ethernet/hisilicon/hns3/ drivers/net/wwan/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c:199:6: =
+sparse: sparse: symbol 'hclge_comm_get_rss_indir_tbl' redeclared with diffe=
+rent type (incompatible argument 3 (different base types)):
+>> drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c:199:6: =
+sparse:    void extern [addressable] [toplevel] hclge_comm_get_rss_indir_tb=
+l( ... )
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c: note: =
+in included file:
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.h:94:6: s=
+parse: note: previously declared as:
+>> drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.h:94:6: s=
+parse:    void extern [addressable] [toplevel] hclge_comm_get_rss_indir_tbl=
+( ... )
 
->> block/blk-mq-sysfs.c:282:13: warning: Unsigned variable '--' can't be ne=
-gative so it is unnecessary to test it. [unsignedPositive]
-    while (--i >=3D 0)
-               ^
+vim +199 drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c
 
-vim +282 block/blk-mq-sysfs.c
+1bfd6682e9b5d4 Jie Wang 2022-01-05  198  =
 
-67aec14ce87fe25 Jens Axboe      2014-05-30  254  =
+1bfd6682e9b5d4 Jie Wang 2022-01-05 @199  void hclge_comm_get_rss_indir_tbl(=
+struct hclge_comm_rss_cfg *rss_cfg,
+1bfd6682e9b5d4 Jie Wang 2022-01-05  200  				  u32 *indir, u16 rss_ind_tbl_=
+size)
+1bfd6682e9b5d4 Jie Wang 2022-01-05  201  {
+1bfd6682e9b5d4 Jie Wang 2022-01-05  202  	u16 i;
+1bfd6682e9b5d4 Jie Wang 2022-01-05  203  =
 
-2d0364c8c1a97a1 Bart Van Assche 2017-04-26  255  int __blk_mq_register_dev(=
-struct device *dev, struct request_queue *q)
-320ae51feed5c2f Jens Axboe      2013-10-24  256  {
-320ae51feed5c2f Jens Axboe      2013-10-24  257  	struct blk_mq_hw_ctx *hct=
-x;
-44849be579332ce Ming Lei        2022-03-02  258  	unsigned long i;
-44849be579332ce Ming Lei        2022-03-02  259  	int ret;
-320ae51feed5c2f Jens Axboe      2013-10-24  260  =
+1bfd6682e9b5d4 Jie Wang 2022-01-05  204  	if (!indir)
+1bfd6682e9b5d4 Jie Wang 2022-01-05  205  		return;
+1bfd6682e9b5d4 Jie Wang 2022-01-05  206  =
 
-2d0364c8c1a97a1 Bart Van Assche 2017-04-26  261  	WARN_ON_ONCE(!q->kobj.par=
-ent);
-cecf5d87ff20351 Ming Lei        2019-08-27  262  	lockdep_assert_held(&q->s=
-ysfs_dir_lock);
-4593fdbe7a2f44d Akinobu Mita    2015-09-27  263  =
+1bfd6682e9b5d4 Jie Wang 2022-01-05  207  	for (i =3D 0; i < rss_ind_tbl_siz=
+e; i++)
+1bfd6682e9b5d4 Jie Wang 2022-01-05  208  		indir[i] =3D rss_cfg->rss_indire=
+ction_tbl[i];
+1bfd6682e9b5d4 Jie Wang 2022-01-05  209  }
+1bfd6682e9b5d4 Jie Wang 2022-01-05  210  =
 
-1db4909e76f64a8 Ming Lei        2018-11-20  264  	ret =3D kobject_add(q->mq=
-_kobj, kobject_get(&dev->kobj), "%s", "mq");
-320ae51feed5c2f Jens Axboe      2013-10-24  265  	if (ret < 0)
-4593fdbe7a2f44d Akinobu Mita    2015-09-27  266  		goto out;
-320ae51feed5c2f Jens Axboe      2013-10-24  267  =
 
-1db4909e76f64a8 Ming Lei        2018-11-20  268  	kobject_uevent(q->mq_kobj=
-, KOBJ_ADD);
-320ae51feed5c2f Jens Axboe      2013-10-24  269  =
+:::::: The code at line 199 was first introduced by commit
+:::::: 1bfd6682e9b5d42d07fa986709c9df88b18f9bc3 net: hns3: create new set o=
+f common rss get APIs for PF and VF rss module
 
-320ae51feed5c2f Jens Axboe      2013-10-24  270  	queue_for_each_hw_ctx(q, =
-hctx, i) {
-67aec14ce87fe25 Jens Axboe      2014-05-30  271  		ret =3D blk_mq_register_=
-hctx(hctx);
-320ae51feed5c2f Jens Axboe      2013-10-24  272  		if (ret)
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  273  			goto unreg;
-320ae51feed5c2f Jens Axboe      2013-10-24  274  	}
-320ae51feed5c2f Jens Axboe      2013-10-24  275  =
-
-4593fdbe7a2f44d Akinobu Mita    2015-09-27  276  	q->mq_sysfs_init_done =3D=
- true;
-2d0364c8c1a97a1 Bart Van Assche 2017-04-26  277  =
-
-4593fdbe7a2f44d Akinobu Mita    2015-09-27  278  out:
-2d0364c8c1a97a1 Bart Van Assche 2017-04-26  279  	return ret;
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  280  =
-
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  281  unreg:
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26 @282  	while (--i >=3D 0)
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  283  		blk_mq_unregister_hctx(q=
-->queue_hw_ctx[i]);
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  284  =
-
-1db4909e76f64a8 Ming Lei        2018-11-20  285  	kobject_uevent(q->mq_kobj=
-, KOBJ_REMOVE);
-1db4909e76f64a8 Ming Lei        2018-11-20  286  	kobject_del(q->mq_kobj);
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  287  	kobject_put(&dev->kobj);
-f05d1ba7871a2c2 Bart Van Assche 2017-04-26  288  	return ret;
-2d0364c8c1a97a1 Bart Van Assche 2017-04-26  289  }
-2d0364c8c1a97a1 Bart Van Assche 2017-04-26  290  =
-
+:::::: TO: Jie Wang <wangjie125@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3866409944324659556==--
+--===============3139228854770039628==--
 
