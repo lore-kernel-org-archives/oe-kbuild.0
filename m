@@ -1,36 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============4983251297191396277=="
+Content-Type: multipart/mixed; boundary="===============8893834266620507467=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/drm_dp_mst_topology.c:1571 __topology_ref_save() warn: statement has no effect 3
-Date: Thu, 03 Mar 2022 21:04:13 +0800
-Message-ID: <202203032036.XPhglia0-lkp@intel.com>
+Subject: [linux-next:master 484/10468] drivers/gpu/drm/dp/drm_dp_mst_topology.c:1583 __topology_ref_save() warn: statement has no effect 3
+Date: Thu, 03 Mar 2022 20:53:51 +0800
+Message-ID: <202203032023.oAalNRbw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4983251297191396277==
+--===============8893834266620507467==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Bibby Hsieh <bibby.hsieh@mediatek.com>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Marek Szyprowski <m.szyprowski@samsung.com>
-CC: "Hsin-Yi Wang" <hsinyi@chromium.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5859a2b1991101d6b978f3feb5325dad39421f29
-commit: 5a7b95fb993ec399c8a685552aa6a8fc995c40bd i2c: core: support bus reg=
-ulator controlling in adapter
-date:   9 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 9 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   91265a6da44d13296bdb5b3fbafa19d06be462f2
+commit: adb9d5a2cc77e8aefe98fe4c11656c5b7025c248 [484/10468] drm/dp: Move D=
+isplayPort helpers into separate helper module
+:::::: branch date: 4 hours ago
+:::::: commit date: 6 weeks ago
 config: nds32-randconfig-m031-20220303 (https://download.01.org/0day-ci/arc=
-hive/20220303/202203032036.XPhglia0-lkp(a)intel.com/config)
+hive/20220303/202203032023.oAalNRbw-lkp(a)intel.com/config)
 compiler: nds32le-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -38,85 +33,116 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/drm_dp_mst_topology.c:1571 __topology_ref_save() warn: stat=
-ement has no effect 3
+drivers/gpu/drm/dp/drm_dp_mst_topology.c:1583 __topology_ref_save() warn: s=
+tatement has no effect 3
 
-vim +1571 drivers/gpu/drm/drm_dp_mst_topology.c
+vim +1583 drivers/gpu/drm/dp/drm_dp_mst_topology.c
 
-12a280c7286857 Lyude Paul  2019-06-20  1564  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1576  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1565  static noinline void
-12a280c7286857 Lyude Paul  2019-06-20  1566  __topology_ref_save(struct drm=
-_dp_mst_topology_mgr *mgr,
-12a280c7286857 Lyude Paul  2019-06-20  1567  		    struct drm_dp_mst_topolo=
-gy_ref_history *history,
-12a280c7286857 Lyude Paul  2019-06-20  1568  		    enum drm_dp_mst_topology=
-_ref_type type)
-ebcc0e6b509108 Lyude Paul  2019-01-10  1569  {
-12a280c7286857 Lyude Paul  2019-06-20  1570  	struct drm_dp_mst_topology_re=
-f_entry *entry =3D NULL;
-12a280c7286857 Lyude Paul  2019-06-20 @1571  	depot_stack_handle_t backtrac=
-e;
-12a280c7286857 Lyude Paul  2019-06-20  1572  	ulong stack_entries[STACK_DEP=
-TH];
-12a280c7286857 Lyude Paul  2019-06-20  1573  	uint n;
-12a280c7286857 Lyude Paul  2019-06-20  1574  	int i;
-ebcc0e6b509108 Lyude Paul  2019-01-10  1575  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1577  static noinline void
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1578  __topology_ref_save(struct drm_dp_mst_topology_mgr *mgr,
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1579  		    struct drm_dp_mst_topology_ref_history *history,
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1580  		    enum drm_dp_mst_topology_ref_type type)
+ebcc0e6b509108b drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-01-1=
+0  1581  {
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1582  	struct drm_dp_mst_topology_ref_entry *entry =3D NULL;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0 @1583  	depot_stack_handle_t backtrace;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1584  	ulong stack_entries[STACK_DEPTH];
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1585  	uint n;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1586  	int i;
+ebcc0e6b509108b drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-01-1=
+0  1587  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1576  	n =3D stack_trace_save(stack_=
-entries, ARRAY_SIZE(stack_entries), 1);
-12a280c7286857 Lyude Paul  2019-06-20  1577  	backtrace =3D stack_depot_sav=
-e(stack_entries, n, GFP_KERNEL);
-12a280c7286857 Lyude Paul  2019-06-20  1578  	if (!backtrace)
-12a280c7286857 Lyude Paul  2019-06-20  1579  		return;
-12a280c7286857 Lyude Paul  2019-06-20  1580  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1588  	n =3D stack_trace_save(stack_entries, ARRAY_SIZE(stack_entries), =
+1);
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1589  	backtrace =3D stack_depot_save(stack_entries, n, GFP_KERNEL);
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1590  	if (!backtrace)
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1591  		return;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1592  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1581  	/* Try to find an existing en=
-try for this backtrace */
-12a280c7286857 Lyude Paul  2019-06-20  1582  	for (i =3D 0; i < history->le=
-n; i++) {
-12a280c7286857 Lyude Paul  2019-06-20  1583  		if (history->entries[i].back=
-trace =3D=3D backtrace) {
-12a280c7286857 Lyude Paul  2019-06-20  1584  			entry =3D &history->entries=
-[i];
-12a280c7286857 Lyude Paul  2019-06-20  1585  			break;
-12a280c7286857 Lyude Paul  2019-06-20  1586  		}
-ad7f8a1f9ced7f Dave Airlie 2014-06-05  1587  	}
-ad7f8a1f9ced7f Dave Airlie 2014-06-05  1588  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1593  	/* Try to find an existing entry for this backtrace */
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1594  	for (i =3D 0; i < history->len; i++) {
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1595  		if (history->entries[i].backtrace =3D=3D backtrace) {
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1596  			entry =3D &history->entries[i];
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1597  			break;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1598  		}
+ad7f8a1f9ced7f0 drivers/gpu/drm/drm_dp_mst_topology.c Dave Airlie 2014-06-0=
+5  1599  	}
+ad7f8a1f9ced7f0 drivers/gpu/drm/drm_dp_mst_topology.c Dave Airlie 2014-06-0=
+5  1600  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1589  	/* Otherwise add one */
-12a280c7286857 Lyude Paul  2019-06-20  1590  	if (!entry) {
-12a280c7286857 Lyude Paul  2019-06-20  1591  		struct drm_dp_mst_topology_r=
-ef_entry *new;
-12a280c7286857 Lyude Paul  2019-06-20  1592  		int new_len =3D history->len=
- + 1;
-12a280c7286857 Lyude Paul  2019-06-20  1593  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1601  	/* Otherwise add one */
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1602  	if (!entry) {
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1603  		struct drm_dp_mst_topology_ref_entry *new;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1604  		int new_len =3D history->len + 1;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1605  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1594  		new =3D krealloc(history->en=
-tries, sizeof(*new) * new_len,
-12a280c7286857 Lyude Paul  2019-06-20  1595  			       GFP_KERNEL);
-12a280c7286857 Lyude Paul  2019-06-20  1596  		if (!new)
-12a280c7286857 Lyude Paul  2019-06-20  1597  			return;
-12a280c7286857 Lyude Paul  2019-06-20  1598  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1606  		new =3D krealloc(history->entries, sizeof(*new) * new_len,
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1607  			       GFP_KERNEL);
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1608  		if (!new)
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1609  			return;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1610  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1599  		entry =3D &new[history->len];
-12a280c7286857 Lyude Paul  2019-06-20  1600  		history->len =3D new_len;
-12a280c7286857 Lyude Paul  2019-06-20  1601  		history->entries =3D new;
-12a280c7286857 Lyude Paul  2019-06-20  1602  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1611  		entry =3D &new[history->len];
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1612  		history->len =3D new_len;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1613  		history->entries =3D new;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1614  =
 
-12a280c7286857 Lyude Paul  2019-06-20  1603  		entry->backtrace =3D backtra=
-ce;
-12a280c7286857 Lyude Paul  2019-06-20  1604  		entry->type =3D type;
-12a280c7286857 Lyude Paul  2019-06-20  1605  		entry->count =3D 0;
-ad7f8a1f9ced7f Dave Airlie 2014-06-05  1606  	}
-12a280c7286857 Lyude Paul  2019-06-20  1607  	entry->count++;
-12a280c7286857 Lyude Paul  2019-06-20  1608  	entry->ts_nsec =3D ktime_get_=
-ns();
-ad7f8a1f9ced7f Dave Airlie 2014-06-05  1609  }
-ad7f8a1f9ced7f Dave Airlie 2014-06-05  1610  =
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1615  		entry->backtrace =3D backtrace;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1616  		entry->type =3D type;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1617  		entry->count =3D 0;
+ad7f8a1f9ced7f0 drivers/gpu/drm/drm_dp_mst_topology.c Dave Airlie 2014-06-0=
+5  1618  	}
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1619  	entry->count++;
+12a280c72868571 drivers/gpu/drm/drm_dp_mst_topology.c Lyude Paul  2019-06-2=
+0  1620  	entry->ts_nsec =3D ktime_get_ns();
+ad7f8a1f9ced7f0 drivers/gpu/drm/drm_dp_mst_topology.c Dave Airlie 2014-06-0=
+5  1621  }
+ad7f8a1f9ced7f0 drivers/gpu/drm/drm_dp_mst_topology.c Dave Airlie 2014-06-0=
+5  1622  =
 
 
-:::::: The code at line 1571 was first introduced by commit
+:::::: The code at line 1583 was first introduced by commit
 :::::: 12a280c7286857119cf0d88c487f695e3a1c0912 drm/dp_mst: Add topology re=
 f history tracking for debugging
 
@@ -126,5 +152,5 @@ f history tracking for debugging
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4983251297191396277==--
+--===============8893834266620507467==--
 
