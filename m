@@ -1,113 +1,156 @@
-Content-Type: multipart/mixed; boundary="===============9109828707106852177=="
+Content-Type: multipart/mixed; boundary="===============3409046944425869713=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tnguy-next-queue:100GbE 179/215] net/dsa/dsa.c:486 dsa_port_walk_fdbs() error: uninitialized symbol 'err'.
-Date: Fri, 04 Mar 2022 15:13:18 +0800
-Message-ID: <202203041527.OdG5EuV4-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3552 amdgpu_dm_backlight_update_status() error: testing array offset 'i' after use.
+Date: Fri, 04 Mar 2022 14:12:20 +0800
+Message-ID: <202203041443.rt8ggYUB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9109828707106852177==
+--===============3409046944425869713==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+CC: Roman Li <Roman.Li@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.gi=
-t 100GbE
-head:   3d5985a185e6abfc0b38ed187819016a79eca864
-commit: f9cef64fa23f6c1ff177be5082113c5a94e34e5d [179/215] net: dsa: felix:=
- migrate host FDB and MDB entries when changing tag proto
-:::::: branch date: 11 hours ago
-:::::: commit date: 17 hours ago
-config: m68k-randconfig-m031-20220304 (https://download.01.org/0day-ci/arch=
-ive/20220304/202203041527.OdG5EuV4-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   38f80f42147ff658aff218edb0a88c37e58bf44f
+commit: 7fd13baeb7a3a48cae12c36c52f06bf4e9e7d728 drm/amdgpu/display: add su=
+pport for multiple backlights
+date:   7 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 months ago
+config: powerpc-randconfig-m031-20220301 (https://download.01.org/0day-ci/a=
+rchive/20220304/202203041443.rt8ggYUB-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/dsa/dsa.c:486 dsa_port_walk_fdbs() error: uninitialized symbol 'err'.
-net/dsa/dsa.c:506 dsa_port_walk_mdbs() error: uninitialized symbol 'err'.
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3552 amdgpu_dm_=
+backlight_update_status() error: testing array offset 'i' after use.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3594 amdgpu_dm_=
+backlight_get_brightness() error: testing array offset 'i' after use.
 
-vim +/err +486 net/dsa/dsa.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1336 amdgpu_dm_=
+fini() error: we previously assumed 'adev->dm.dc' could be null (see line 1=
+324)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1349 amdgpu_dm_=
+fini() warn: variable dereferenced before check 'adev->dm.dc' (see line 133=
+6)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5888 create_str=
+eam_for_sink() error: we previously assumed 'aconnector->dc_sink' could be =
+null (see line 5786)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8194 handle_cur=
+sor_update() error: we previously assumed 'afb' could be null (see line 815=
+3)
 
-e1eea8112017cbd Vladimir Oltean 2020-05-05  469  =
+vim +/i +3552 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  470  int dsa_port_walk_fdbs(str=
-uct dsa_switch *ds, int port, dsa_fdb_walk_cb_t cb)
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  471  {
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  472  	struct dsa_port *dp =3D d=
-sa_to_port(ds, port);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  473  	struct dsa_mac_addr *a;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  474  	int err;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  475  =
+4562236b3bc0a2 Harry Wentland 2017-09-12  3542  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  476  	mutex_lock(&dp->addr_list=
-s_lock);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  477  =
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3543  static int amdgpu_dm_backli=
+ght_update_status(struct backlight_device *bd)
+4562236b3bc0a2 Harry Wentland 2017-09-12  3544  {
+620a0d27b211aa David Francis  2018-07-19  3545  	struct amdgpu_display_mana=
+ger *dm =3D bl_get_data(bd);
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3546  	int i;
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3547  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  478  	list_for_each_entry(a, &d=
-p->fdbs, list) {
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  479  		err =3D cb(ds, port, a->=
-addr, a->vid, a->db);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  480  		if (err)
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  481  			break;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  482  	}
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  483  =
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3548  	for (i =3D 0; i < dm->num_=
+of_edps; i++) {
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3549  		if (bd =3D=3D dm->backlig=
+ht_dev[i])
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3550  			break;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3551  	}
+7fd13baeb7a3a4 Alex Deucher   2021-07-08 @3552  	if (i >=3D AMDGPU_DM_MAX_N=
+UM_EDP)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3553  		i =3D 0;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3554  	amdgpu_dm_backlight_set_le=
+vel(dm, i, bd->props.brightness);
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3555  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  484  	mutex_unlock(&dp->addr_li=
-sts_lock);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  485  =
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3556  	return 0;
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3557  }
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3558  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02 @486  	return err;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  487  }
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  488  EXPORT_SYMBOL_GPL(dsa_port=
-_walk_fdbs);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  489  =
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3559  static u32 amdgpu_dm_backli=
+ght_get_level(struct amdgpu_display_manager *dm,
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3560  					 int bl_idx)
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3561  {
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3562  	struct amdgpu_dm_backlight=
+_caps caps;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3563  	struct dc_link *link =3D (=
+struct dc_link *)dm->backlight_link[bl_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3564  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  490  int dsa_port_walk_mdbs(str=
-uct dsa_switch *ds, int port, dsa_fdb_walk_cb_t cb)
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  491  {
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  492  	struct dsa_port *dp =3D d=
-sa_to_port(ds, port);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  493  	struct dsa_mac_addr *a;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  494  	int err;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  495  =
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3565  	amdgpu_dm_update_backlight=
+_caps(dm, bl_idx);
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3566  	caps =3D dm->backlight_cap=
+s[bl_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3567  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  496  	mutex_lock(&dp->addr_list=
-s_lock);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  497  =
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3568  	if (caps.aux_support) {
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3569  		u32 avg, peak;
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3570  		bool rc;
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3571  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  498  	list_for_each_entry(a, &d=
-p->mdbs, list) {
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  499  		err =3D cb(ds, port, a->=
-addr, a->vid, a->db);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  500  		if (err)
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  501  			break;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  502  	}
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  503  =
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3572  		rc =3D dc_link_get_backli=
+ght_level_nits(link, &avg, &peak);
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3573  		if (!rc)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3574  			return dm->brightness[bl=
+_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3575  		return convert_brightness=
+_to_user(&caps, avg);
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3576  	} else {
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3577  		int ret =3D dc_link_get_b=
+acklight_level(link);
+620a0d27b211aa David Francis  2018-07-19  3578  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  504  	mutex_unlock(&dp->addr_li=
-sts_lock);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  505  =
+620a0d27b211aa David Francis  2018-07-19  3579  		if (ret =3D=3D DC_ERROR_U=
+NEXPECTED)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3580  			return dm->brightness[bl=
+_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3581  		return convert_brightness=
+_to_user(&caps, ret);
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3582  	}
+4562236b3bc0a2 Harry Wentland 2017-09-12  3583  }
+4562236b3bc0a2 Harry Wentland 2017-09-12  3584  =
 
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02 @506  	return err;
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  507  }
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  508  EXPORT_SYMBOL_GPL(dsa_port=
-_walk_mdbs);
-f9cef64fa23f6c1 Vladimir Oltean 2022-03-02  509  =
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3585  static int amdgpu_dm_backli=
+ght_get_brightness(struct backlight_device *bd)
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3586  {
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3587  	struct amdgpu_display_mana=
+ger *dm =3D bl_get_data(bd);
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3588  	int i;
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3589  =
+
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3590  	for (i =3D 0; i < dm->num_=
+of_edps; i++) {
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3591  		if (bd =3D=3D dm->backlig=
+ht_dev[i])
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3592  			break;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3593  	}
+7fd13baeb7a3a4 Alex Deucher   2021-07-08 @3594  	if (i >=3D AMDGPU_DM_MAX_N=
+UM_EDP)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3595  		i =3D 0;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3596  	return amdgpu_dm_backlight=
+_get_level(dm, i);
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3597  }
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3598  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9109828707106852177==--
+--===============3409046944425869713==--
 
