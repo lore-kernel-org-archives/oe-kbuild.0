@@ -1,114 +1,181 @@
-Content-Type: multipart/mixed; boundary="===============0143685848519665982=="
+Content-Type: multipart/mixed; boundary="===============7210699789460484856=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tnguy-next-queue:100GbE 131/215] drivers/net/phy/sfp.c:473 sfp_soft_get_state() warn: passing zero to 'ERR_PTR'
-Date: Fri, 04 Mar 2022 14:02:00 +0800
-Message-ID: <202203041347.nDcWivR4-lkp@intel.com>
+Subject: [linux-next:master 4621/10468] kernel/trace/trace_events_user.c:324 user_event_parse_field() error: uninitialized symbol 'name'.
+Date: Fri, 04 Mar 2022 13:41:35 +0800
+Message-ID: <202203041339.VYBOQiwV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0143685848519665982==
+--===============7210699789460484856==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Intel Wired LAN <intel-wired-lan@lists.osuosl.org>
-CC: linux-kernel(a)vger.kernel.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Andrew Lunn <andrew@lunn.ch>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Beau Belgrave <beaub@linux.microsoft.com>
+CC: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.gi=
-t 100GbE
-head:   3d5985a185e6abfc0b38ed187819016a79eca864
-commit: 9ae1ef4b1634547d7ab7d15a9ffd48df8ce6883c [131/215] net: sfp: use %p=
-e for printing errors
-:::::: branch date: 10 hours ago
-:::::: commit date: 24 hours ago
-config: m68k-randconfig-m031-20220304 (https://download.01.org/0day-ci/arch=
-ive/20220304/202203041347.nDcWivR4-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   91265a6da44d13296bdb5b3fbafa19d06be462f2
+commit: 7f5a08c79df35e68f1a43033450c5050f12bc155 [4621/10468] user_events: =
+Add minimal support for trace_event into ftrace
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 weeks ago
+config: s390-randconfig-m031-20220304 (https://download.01.org/0day-ci/arch=
+ive/20220304/202203041339.VYBOQiwV-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/phy/sfp.c:473 sfp_soft_get_state() warn: passing zero to 'ERR_P=
-TR'
-drivers/net/phy/sfp.c:1713 sfp_sm_mod_hpower() warn: passing zero to 'ERR_P=
-TR'
-drivers/net/phy/sfp.c:1797 sfp_cotsworks_fixup_check() warn: passing zero t=
-o 'ERR_PTR'
-drivers/net/phy/sfp.c:1830 sfp_sm_mod_probe() warn: passing zero to 'ERR_PT=
-R'
+smatch warnings:
+kernel/trace/trace_events_user.c:324 user_event_parse_field() error: uninit=
+ialized symbol 'name'.
+kernel/trace/trace_events_user.c:915 user_events_ioctl_reg() warn: ignoring=
+ unreachable code.
 
-Old smatch warnings:
-drivers/net/phy/sfp.c:1731 sfp_sm_mod_hpower() warn: passing zero to 'ERR_P=
-TR'
-drivers/net/phy/sfp.c:1857 sfp_sm_mod_probe() warn: passing zero to 'ERR_PT=
-R'
-drivers/net/phy/sfp.c:1906 sfp_sm_mod_probe() warn: passing zero to 'ERR_PT=
-R'
-drivers/net/phy/sfp.c:2505 sfp_probe() warn: passing a valid pointer to 'PT=
-R_ERR'
+vim +/name +324 kernel/trace/trace_events_user.c
 
-vim +/ERR_PTR +473 drivers/net/phy/sfp.c
+7f5a08c79df35e Beau Belgrave 2022-01-18  234  =
 
-73970055450eebc Russell King          2017-07-25  459  =
+7f5a08c79df35e Beau Belgrave 2022-01-18  235  /*
+7f5a08c79df35e Beau Belgrave 2022-01-18  236   * Parses the values of a fie=
+ld within the description
+7f5a08c79df35e Beau Belgrave 2022-01-18  237   * Format: type name [size]
+7f5a08c79df35e Beau Belgrave 2022-01-18  238   */
+7f5a08c79df35e Beau Belgrave 2022-01-18  239  static int user_event_parse_f=
+ield(char *field, struct user_event *user,
+7f5a08c79df35e Beau Belgrave 2022-01-18  240  				  u32 *offset)
+7f5a08c79df35e Beau Belgrave 2022-01-18  241  {
+7f5a08c79df35e Beau Belgrave 2022-01-18  242  	char *part, *type, *name;
+7f5a08c79df35e Beau Belgrave 2022-01-18  243  	u32 depth =3D 0, saved_offse=
+t =3D *offset;
+7f5a08c79df35e Beau Belgrave 2022-01-18  244  	int len, size =3D -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  245  	bool is_struct =3D false;
+7f5a08c79df35e Beau Belgrave 2022-01-18  246  =
 
-f3c9a666b28572b Russell King          2019-11-20  460  static unsigned int =
-sfp_soft_get_state(struct sfp *sfp)
-73970055450eebc Russell King          2017-07-25  461  {
-f3c9a666b28572b Russell King          2019-11-20  462  	unsigned int state =
-=3D 0;
-f3c9a666b28572b Russell King          2019-11-20  463  	u8 status;
-0dea4d039a7fdd9 Russell King          2019-12-17  464  	int ret;
-f3c9a666b28572b Russell King          2019-11-20  465  =
+7f5a08c79df35e Beau Belgrave 2022-01-18  247  	field =3D skip_spaces(field);
+7f5a08c79df35e Beau Belgrave 2022-01-18  248  =
 
-0dea4d039a7fdd9 Russell King          2019-12-17  466  	ret =3D sfp_read(sf=
-p, true, SFP_STATUS, &status, sizeof(status));
-0dea4d039a7fdd9 Russell King          2019-12-17  467  	if (ret =3D=3D size=
-of(status)) {
-f3c9a666b28572b Russell King          2019-11-20  468  		if (status & SFP_S=
-TATUS_RX_LOS)
-f3c9a666b28572b Russell King          2019-11-20  469  			state |=3D SFP_F_=
-LOS;
-f3c9a666b28572b Russell King          2019-11-20  470  		if (status & SFP_S=
-TATUS_TX_FAULT)
-f3c9a666b28572b Russell King          2019-11-20  471  			state |=3D SFP_F_=
-TX_FAULT;
-0dea4d039a7fdd9 Russell King          2019-12-17  472  	} else {
-0dea4d039a7fdd9 Russell King          2019-12-17 @473  		dev_err_ratelimite=
-d(sfp->dev,
-9ae1ef4b1634547 Russell King (Oracle  2022-03-01  474) 				    "failed to r=
-ead SFP soft status: %pe\n",
-9ae1ef4b1634547 Russell King (Oracle  2022-03-01  475) 				    ERR_PTR(ret)=
-);
-0dea4d039a7fdd9 Russell King          2019-12-17  476  		/* Preserve the cu=
-rrent state */
-0dea4d039a7fdd9 Russell King          2019-12-17  477  		state =3D sfp->sta=
-te;
-73970055450eebc Russell King          2017-07-25  478  	}
-73970055450eebc Russell King          2017-07-25  479  =
+7f5a08c79df35e Beau Belgrave 2022-01-18  249  	if (*field =3D=3D '\0')
+7f5a08c79df35e Beau Belgrave 2022-01-18  250  		return 0;
+7f5a08c79df35e Beau Belgrave 2022-01-18  251  =
 
-f3c9a666b28572b Russell King          2019-11-20  480  	return state & sfp-=
->state_soft_mask;
-f3c9a666b28572b Russell King          2019-11-20  481  }
-f3c9a666b28572b Russell King          2019-11-20  482  =
+7f5a08c79df35e Beau Belgrave 2022-01-18  252  	/* Handle types that have a =
+space within */
+7f5a08c79df35e Beau Belgrave 2022-01-18  253  	len =3D str_has_prefix(field=
+, "unsigned ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  254  	if (len)
+7f5a08c79df35e Beau Belgrave 2022-01-18  255  		goto skip_next;
+7f5a08c79df35e Beau Belgrave 2022-01-18  256  =
 
+7f5a08c79df35e Beau Belgrave 2022-01-18  257  	len =3D str_has_prefix(field=
+, "struct ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  258  	if (len) {
+7f5a08c79df35e Beau Belgrave 2022-01-18  259  		is_struct =3D true;
+7f5a08c79df35e Beau Belgrave 2022-01-18  260  		goto skip_next;
+7f5a08c79df35e Beau Belgrave 2022-01-18  261  	}
+7f5a08c79df35e Beau Belgrave 2022-01-18  262  =
 
-:::::: The code at line 473 was first introduced by commit
-:::::: 0dea4d039a7fdd97790a71da37c1ce67a5b52769 net: sfp: report error on f=
-ailure to read sfp soft status
+7f5a08c79df35e Beau Belgrave 2022-01-18  263  	len =3D str_has_prefix(field=
+, "__data_loc unsigned ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  264  	if (len)
+7f5a08c79df35e Beau Belgrave 2022-01-18  265  		goto skip_next;
+7f5a08c79df35e Beau Belgrave 2022-01-18  266  =
 
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: David S. Miller <davem@davemloft.net>
+7f5a08c79df35e Beau Belgrave 2022-01-18  267  	len =3D str_has_prefix(field=
+, "__data_loc ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  268  	if (len)
+7f5a08c79df35e Beau Belgrave 2022-01-18  269  		goto skip_next;
+7f5a08c79df35e Beau Belgrave 2022-01-18  270  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  271  	len =3D str_has_prefix(field=
+, "__rel_loc unsigned ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  272  	if (len)
+7f5a08c79df35e Beau Belgrave 2022-01-18  273  		goto skip_next;
+7f5a08c79df35e Beau Belgrave 2022-01-18  274  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  275  	len =3D str_has_prefix(field=
+, "__rel_loc ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  276  	if (len)
+7f5a08c79df35e Beau Belgrave 2022-01-18  277  		goto skip_next;
+7f5a08c79df35e Beau Belgrave 2022-01-18  278  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  279  	goto parse;
+7f5a08c79df35e Beau Belgrave 2022-01-18  280  skip_next:
+7f5a08c79df35e Beau Belgrave 2022-01-18  281  	type =3D field;
+7f5a08c79df35e Beau Belgrave 2022-01-18  282  	field =3D strpbrk(field + le=
+n, " ");
+7f5a08c79df35e Beau Belgrave 2022-01-18  283  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  284  	if (field =3D=3D NULL)
+7f5a08c79df35e Beau Belgrave 2022-01-18  285  		return -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  286  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  287  	*field++ =3D '\0';
+7f5a08c79df35e Beau Belgrave 2022-01-18  288  	depth++;
+7f5a08c79df35e Beau Belgrave 2022-01-18  289  parse:
+7f5a08c79df35e Beau Belgrave 2022-01-18  290  	while ((part =3D strsep(&fie=
+ld, " ")) !=3D NULL) {
+7f5a08c79df35e Beau Belgrave 2022-01-18  291  		switch (depth++) {
+7f5a08c79df35e Beau Belgrave 2022-01-18  292  		case FIELD_DEPTH_TYPE:
+7f5a08c79df35e Beau Belgrave 2022-01-18  293  			type =3D part;
+7f5a08c79df35e Beau Belgrave 2022-01-18  294  			break;
+7f5a08c79df35e Beau Belgrave 2022-01-18  295  		case FIELD_DEPTH_NAME:
+7f5a08c79df35e Beau Belgrave 2022-01-18  296  			name =3D part;
+7f5a08c79df35e Beau Belgrave 2022-01-18  297  			break;
+7f5a08c79df35e Beau Belgrave 2022-01-18  298  		case FIELD_DEPTH_SIZE:
+7f5a08c79df35e Beau Belgrave 2022-01-18  299  			if (!is_struct)
+7f5a08c79df35e Beau Belgrave 2022-01-18  300  				return -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  301  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  302  			if (kstrtou32(part, 10, &s=
+ize))
+7f5a08c79df35e Beau Belgrave 2022-01-18  303  				return -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  304  			break;
+7f5a08c79df35e Beau Belgrave 2022-01-18  305  		default:
+7f5a08c79df35e Beau Belgrave 2022-01-18  306  			return -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  307  		}
+7f5a08c79df35e Beau Belgrave 2022-01-18  308  	}
+7f5a08c79df35e Beau Belgrave 2022-01-18  309  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  310  	if (depth < FIELD_DEPTH_SIZE)
+7f5a08c79df35e Beau Belgrave 2022-01-18  311  		return -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  312  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  313  	if (depth =3D=3D FIELD_DEPTH=
+_SIZE)
+7f5a08c79df35e Beau Belgrave 2022-01-18  314  		size =3D user_field_size(ty=
+pe);
+7f5a08c79df35e Beau Belgrave 2022-01-18  315  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  316  	if (size =3D=3D 0)
+7f5a08c79df35e Beau Belgrave 2022-01-18  317  		return -EINVAL;
+7f5a08c79df35e Beau Belgrave 2022-01-18  318  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  319  	if (size < 0)
+7f5a08c79df35e Beau Belgrave 2022-01-18  320  		return size;
+7f5a08c79df35e Beau Belgrave 2022-01-18  321  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18  322  	*offset =3D saved_offset + s=
+ize;
+7f5a08c79df35e Beau Belgrave 2022-01-18  323  =
+
+7f5a08c79df35e Beau Belgrave 2022-01-18 @324  	return user_event_add_field(=
+user, type, name, saved_offset, size,
+7f5a08c79df35e Beau Belgrave 2022-01-18  325  				    type[0] !=3D 'u', FIL=
+TER_OTHER);
+7f5a08c79df35e Beau Belgrave 2022-01-18  326  }
+7f5a08c79df35e Beau Belgrave 2022-01-18  327  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0143685848519665982==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============7210699789460484856==--
 
