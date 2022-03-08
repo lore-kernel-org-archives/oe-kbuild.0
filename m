@@ -1,184 +1,399 @@
-Content-Type: multipart/mixed; boundary="===============9171434338622608935=="
+Content-Type: multipart/mixed; boundary="===============6354498691905179542=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/erofs/zdata.c:486 z_erofs_register_collection() warn: passing a valid pointer to 'PTR_ERR'
-Date: Wed, 09 Mar 2022 07:41:00 +0800
-Message-ID: <202203090746.JvewnJw5-lkp@intel.com>
+Subject: [mcgrof:modules-testing 1/14] kernel/module/decompress.c:215:2: warning: Value stored to 'error' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 09 Mar 2022 05:07:04 +0800
+Message-ID: <202203090558.7BykQHZQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9171434338622608935==
+--===============6354498691905179542==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Gao Xiang <hsiangkao@redhat.com>
+TO: Aaron Tomlin <atomlin@redhat.com>
+CC: Luis Chamberlain <mcgrof@kernel.org>
+CC: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   92f90cc9fe0e7a984ea3d4bf3d120e30ba8a2118
-commit: 9f6cc76e6ff0631a99cd94eab8af137057633a52 erofs: introduce physical =
-cluster slab pools
-date:   11 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-m021-20220307 (https://download.01.org/0day-ci/arch=
-ive/20220309/202203090746.JvewnJw5-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git mo=
+dules-testing
+head:   2139ea23db5919966c90392bb0b994b80cefd4b6
+commit: 4f244f3c74d1aee08609ab3cbb40e589d033677b [1/14] module: Move all in=
+to module/
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: arm-randconfig-c002-20220308 (https://download.01.org/0day-ci/archi=
+ve/20220309/202203090558.7BykQHZQ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/=
+commit/?id=3D4f244f3c74d1aee08609ab3cbb40e589d033677b
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/g=
+it/mcgrof/linux.git
+        git fetch --no-tags mcgrof modules-testing
+        git checkout 4f244f3c74d1aee08609ab3cbb40e589d033677b
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/erofs/zdata.c:486 z_erofs_register_collection() warn: passing a valid po=
-inter to 'PTR_ERR'
 
-Old smatch warnings:
-fs/erofs/zdata.c:760 z_erofs_do_read_page() error: we previously assumed 'c=
-lt->cl' could be null (see line 677)
-fs/erofs/zdata.c:1241 jobqueueset_init() warn: maybe use && instead of &
+clang-analyzer warnings: (new ones prefixed by >>)
+            ^~~~
+   drivers/firmware/qemu_fw_cfg.c:500:6: note: Left side of '||' is false
+           if (!dir || !target || !name || !*name)
+               ^
+   drivers/firmware/qemu_fw_cfg.c:500:26: note: 'name' is non-null
+           if (!dir || !target || !name || !*name)
+                                   ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/firmware/qemu_fw_cfg.c:500:6: note: Left side of '||' is false
+           if (!dir || !target || !name || !*name)
+               ^
+   drivers/firmware/qemu_fw_cfg.c:500:2: note: '?' condition is false
+           if (!dir || !target || !name || !*name)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/firmware/qemu_fw_cfg.c:500:2: note: Taking false branch
+           if (!dir || !target || !name || !*name)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/firmware/qemu_fw_cfg.c:505:6: note: Assuming 'name_copy' is non-=
+null
+           if (!name_copy)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/firmware/qemu_fw_cfg.c:505:2: note: '?' condition is false
+           if (!name_copy)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/firmware/qemu_fw_cfg.c:505:7: note: 'name_copy' is non-null
+           if (!name_copy)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/firmware/qemu_fw_cfg.c:505:2: note: '?' condition is false
+           if (!name_copy)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/firmware/qemu_fw_cfg.c:505:2: note: Taking false branch
+           if (!name_copy)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/firmware/qemu_fw_cfg.c:509:10: note: Assuming 'tok' is non-null
+           while ((tok =3D strsep(&p, "/")) && *tok) {
+                   ^~~
+   drivers/firmware/qemu_fw_cfg.c:509:9: note: Left side of '&&' is true
+           while ((tok =3D strsep(&p, "/")) && *tok) {
+                  ^
+   drivers/firmware/qemu_fw_cfg.c:509:2: note: Loop condition is false. Exe=
+cution continues on line 557
+           while ((tok =3D strsep(&p, "/")) && *tok) {
+           ^
+   drivers/firmware/qemu_fw_cfg.c:558:2: note: Undefined or garbage value r=
+eturned to caller
+           return ret;
+           ^      ~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> kernel/module/decompress.c:215:2: warning: Value stored to 'error' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           error =3D module_extend_max_pages(info, n_pages);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/decompress.c:215:2: note: Value stored to 'error' is never=
+ read
+           error =3D module_extend_max_pages(info, n_pages);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   arch/arm/include/asm/atomic.h:224:1: warning: Use of memory after it is =
+freed [clang-analyzer-unix.Malloc]
+   ATOMIC_OPS(sub, -=3D, sub)
+   ^
+   arch/arm/include/asm/atomic.h:221:2: note: expanded from macro 'ATOMIC_O=
+PS'
+           ATOMIC_FETCH_OP(op, c_op, asm_op)
+           ^
+   arch/arm/include/asm/atomic.h:193:8: note: expanded from macro 'ATOMIC_F=
+ETCH_OP'
+           val =3D v->counter;                                             =
+  \
+                 ^
+   drivers/usb/gadget/legacy/raw_gadget.c:389:2: note: Loop condition is fa=
+lse.  Exiting loop
+           spin_lock_irqsave(&dev->lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:221:3: note: expanded from macro 'local_irq_sav=
+e'
+                   raw_local_irq_save(flags);              \
+                   ^
+   include/linux/irqflags.h:176:2: note: expanded from macro 'raw_local_irq=
+_save'
+           do {                                            \
+           ^
+   drivers/usb/gadget/legacy/raw_gadget.c:389:2: note: Assuming the conditi=
+on is false
+           spin_lock_irqsave(&dev->lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/irqflags.h:222:7: note: expanded from macro 'local_irq_sav=
+e'
+                   if (!raw_irqs_disabled_flags(flags))    \
+                   ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/usb/gadget/legacy/raw_gadget.c:389:2: note: '?' condition is fal=
+se
+           spin_lock_irqsave(&dev->lock, flags);
+           ^
+   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/irqflags.h:222:3: note: expanded from macro 'local_irq_sav=
+e'
+                   if (!raw_irqs_disabled_flags(flags))    \
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
 
-vim +/PTR_ERR +486 fs/erofs/zdata.c
+vim +/error +215 kernel/module/decompress.c
 
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  473  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  203  =
 
-9e579fc123a0c9 fs/erofs/zdata.c                  Gao Xiang 2019-10-08  474 =
- static int z_erofs_register_collection(struct z_erofs_collector *clt,
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  475 =
- 				       struct inode *inode,
-ab47dd2b081937 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-08-21  476 =
- 				       struct erofs_map_blocks *map)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  477 =
- {
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  478 =
- 	struct z_erofs_pcluster *pcl;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  479 =
- 	struct z_erofs_collection *cl;
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  480 =
- 	struct erofs_workgroup *grp;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  481 =
- 	int err;
-e5e3abbadf0dbd drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-09-19  482  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  204  =
+int module_decompress(struct load_info *info, const void *buf, size_t size)
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  205  {
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  206  =
+	unsigned int n_pages;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  207  =
+	ssize_t data_size;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  208  =
+	int error;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  209  =
 
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  483 =
- 	/* no available pcluster, let's allocate one */
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  484 =
- 	pcl =3D z_erofs_alloc_pcluster(map->m_plen >> PAGE_SHIFT);
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  485 =
- 	if (IS_ERR(pcl))
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07 @486 =
- 		return PTR_ERR(pcl);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  487  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  210  =
+	/*
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  211  =
+	 * Start with number of pages twice as big as needed for
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  212  =
+	 * compressed data.
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  213  =
+	 */
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  214  =
+	n_pages =3D DIV_ROUND_UP(size, PAGE_SIZE) * 2;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05 @215  =
+	error =3D module_extend_max_pages(info, n_pages);
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  216  =
 
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  488 =
- 	atomic_set(&pcl->obj.refcount, 1);
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  489 =
- 	pcl->obj.index =3D map->m_pa >> PAGE_SHIFT;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  490  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  217  =
+	data_size =3D MODULE_DECOMPRESS_FN(info, buf, size);
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  218  =
+	if (data_size < 0) {
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  219  =
+		error =3D data_size;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  220  =
+		goto err;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  221  =
+	}
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  222  =
 
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  491 =
- 	pcl->length =3D (map->m_llen << Z_EROFS_PCLUSTER_LENGTH_BIT) |
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  492 =
- 		(map->m_flags & EROFS_MAP_FULL_MAPPED ?
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  493 =
- 			Z_EROFS_PCLUSTER_FULL_LENGTH : 0);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  494  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  223  =
+	info->hdr =3D vmap(info->pages, info->used_pages, VM_MAP, PAGE_KERNEL);
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  224  =
+	if (!info->hdr) {
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  225  =
+		error =3D -ENOMEM;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  226  =
+		goto err;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  227  =
+	}
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  228  =
 
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  495 =
- 	if (map->m_flags & EROFS_MAP_ZIPPED)
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  496 =
- 		pcl->algorithmformat =3D Z_EROFS_COMPRESSION_LZ4;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  497 =
- 	else
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  498 =
- 		pcl->algorithmformat =3D Z_EROFS_COMPRESSION_SHIFTED;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  499  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  229  =
+	info->len =3D data_size;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  230  =
+	return 0;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  231  =
 
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  500 =
- 	/* new pclusters should be claimed as type 1, primary and followed */
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  501 =
- 	pcl->next =3D clt->owned_head;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  502 =
- 	clt->mode =3D COLLECT_PRIMARY_FOLLOWED;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  503  =
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  232  =
+err:
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  233  =
+	module_decompress_cleanup(info);
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  234  =
+	return error;
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  235  }
+b1ae6dc41eaaa9 kernel/module_decompress.c Dmitry Torokhov 2022-01-05  236  =
 
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  504 =
- 	cl =3D z_erofs_primarycollection(pcl);
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  505 =
- 	cl->pageofs =3D map->m_la & ~PAGE_MASK;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  506  =
 
-23edf3abe7abb1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  507 =
- 	/*
-23edf3abe7abb1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  508 =
- 	 * lock all primary followed works before visible to others
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  509 =
- 	 * and mutex_trylock *never* fails for a new pcluster.
-23edf3abe7abb1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  510 =
- 	 */
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  511 =
- 	mutex_init(&cl->lock);
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  512 =
- 	DBG_BUGON(!mutex_trylock(&cl->lock));
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  513  =
+:::::: The code at line 215 was first introduced by commit
+:::::: b1ae6dc41eaaa98bb75671e0f3665bfda248c3e7 module: add in-kernel suppo=
+rt for decompressing
 
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  514 =
- 	grp =3D erofs_insert_workgroup(inode->i_sb, &pcl->obj);
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  515 =
- 	if (IS_ERR(grp)) {
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  516 =
- 		err =3D PTR_ERR(grp);
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  517 =
- 		goto err_out;
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  518 =
- 	}
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  519  =
-
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  520 =
- 	if (grp !=3D &pcl->obj) {
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  521 =
- 		clt->pcl =3D container_of(grp, struct z_erofs_pcluster, obj);
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  522 =
- 		err =3D -EEXIST;
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  523 =
- 		goto err_out;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  524 =
- 	}
-bfc4ccb1584129 drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  525 =
- 	/* used to check tail merging loop due to corrupted images */
-bfc4ccb1584129 drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  526 =
- 	if (clt->owned_head =3D=3D Z_EROFS_PCLUSTER_TAIL)
-bfc4ccb1584129 drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  527 =
- 		clt->tailpcl =3D pcl;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  528 =
- 	clt->owned_head =3D &pcl->next;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  529 =
- 	clt->pcl =3D pcl;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  530 =
- 	clt->cl =3D cl;
-9e579fc123a0c9 fs/erofs/zdata.c                  Gao Xiang 2019-10-08  531 =
- 	return 0;
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  532  =
-
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  533 =
- err_out:
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  534 =
- 	mutex_unlock(&cl->lock);
-9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  535 =
- 	z_erofs_free_pcluster(pcl);
-64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  536 =
- 	return err;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  537 =
- }
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  538  =
-
+:::::: TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9171434338622608935==--
+--===============6354498691905179542==--
 
