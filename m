@@ -1,210 +1,307 @@
-Content-Type: multipart/mixed; boundary="===============6677483226334902456=="
+Content-Type: multipart/mixed; boundary="===============2978810009516773672=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 9388/11353] sound/soc/soc-compress.c:628 snd_soc_new_compress() error: we previously assumed 'codec_dai' could be null (see line 571)
-Date: Wed, 09 Mar 2022 01:21:57 +0800
-Message-ID: <202203090151.tminQHFc-lkp@intel.com>
+Subject: [kdave-btrfs-devel:for-next-20220307 108/147] fs/btrfs/scrub.c:3146 scrub_raid56_data_stripe_for_parity() error: we previously assumed 'bioc' could be null (see line 3138)
+Date: Tue, 08 Mar 2022 18:20:53 +0800
+Message-ID: <202203081837.zOttrQRN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6677483226334902456==
+--===============2978810009516773672==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-CC: Mark Brown <broonie@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Qu Wenruo <wqu@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   cb153b68ff91cbc434f3de70ac549e110543e1bb
-commit: de2c6f98817fa5decb9b7d3b3a8a3ab864c10588 [9388/11353] ASoC: soc-com=
-press: prevent the potentially use of null pointer
-:::::: branch date: 9 hours ago
-:::::: commit date: 6 days ago
-config: m68k-randconfig-m031-20220302 (https://download.01.org/0day-ci/arch=
-ive/20220309/202203090151.tminQHFc-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/kdave/btrfs-devel.git for-next-20220307
+head:   912dedd70aeb485247c507115704ea7d137d758b
+commit: 80cd926eefca522182ee3cf04d8e9984073d34d1 [108/147] btrfs: refactor =
+scrub_raid56_parity()
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-m021-20220307 (https://download.01.org/0day-ci/arch=
+ive/20220308/202203081837.zOttrQRN-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-sound/soc/soc-compress.c:628 snd_soc_new_compress() error: we previously as=
-sumed 'codec_dai' could be null (see line 571)
+New smatch warnings:
+fs/btrfs/scrub.c:3146 scrub_raid56_data_stripe_for_parity() error: we previ=
+ously assumed 'bioc' could be null (see line 3138)
+fs/btrfs/scrub.c:3171 scrub_raid56_data_stripe_for_parity() error: uninitia=
+lized symbol 'extent_start'.
+fs/btrfs/scrub.c:3172 scrub_raid56_data_stripe_for_parity() error: uninitia=
+lized symbol 'extent_size'.
 
-vim +/codec_dai +628 sound/soc/soc-compress.c
+Old smatch warnings:
+fs/btrfs/scrub.c:3419 scrub_simple_mirror() error: uninitialized symbol 're=
+t'.
 
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  535  =
+vim +/bioc +3146 fs/btrfs/scrub.c
 
-6f0c42269f000b1 Jie Yang           2015-10-13  536  /**
-6f0c42269f000b1 Jie Yang           2015-10-13  537   * snd_soc_new_compress=
- - create a new compress.
-6f0c42269f000b1 Jie Yang           2015-10-13  538   *
-6f0c42269f000b1 Jie Yang           2015-10-13  539   * @rtd: The runtime fo=
-r which we will create compress
-6f0c42269f000b1 Jie Yang           2015-10-13  540   * @num: the device ind=
-ex number (zero based - shared with normal PCMs)
-6f0c42269f000b1 Jie Yang           2015-10-13  541   *
-6f0c42269f000b1 Jie Yang           2015-10-13  542   * Return: 0 for succes=
-s, else error.
-6f0c42269f000b1 Jie Yang           2015-10-13  543   */
-6f0c42269f000b1 Jie Yang           2015-10-13  544  int snd_soc_new_compres=
-s(struct snd_soc_pcm_runtime *rtd, int num)
-1245b7005de02d5 Namarta Kohli      2012-08-16  545  {
-9e7e3738ab0e908 Kuninori Morimoto  2017-10-11  546  	struct snd_soc_compone=
-nt *component;
-c2233a266178f89 Kuninori Morimoto  2020-03-30  547  	struct snd_soc_dai *co=
-dec_dai =3D asoc_rtd_to_codec(rtd, 0);
-c2233a266178f89 Kuninori Morimoto  2020-03-30  548  	struct snd_soc_dai *cp=
-u_dai =3D asoc_rtd_to_cpu(rtd, 0);
-1245b7005de02d5 Namarta Kohli      2012-08-16  549  	struct snd_compr *comp=
-r;
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  550  	struct snd_pcm *be_pcm;
-1245b7005de02d5 Namarta Kohli      2012-08-16  551  	char new_name[64];
-1245b7005de02d5 Namarta Kohli      2012-08-16  552  	int ret =3D 0, directi=
-on =3D 0;
-a1068045883ed4a Vinod Koul         2016-01-07  553  	int playback =3D 0, ca=
-pture =3D 0;
-613fb50059cf19a Kuninori Morimoto  2020-01-10  554  	int i;
-1245b7005de02d5 Namarta Kohli      2012-08-16  555  =
+093741d4cda2cb4 Qu Wenruo     2022-02-18  3021  =
 
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  556  	/*
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  557  	 * make sure these are=
- same value,
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  558  	 * and then use these =
-as equally
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  559  	 */
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  560  	BUILD_BUG_ON((int)SNDR=
-V_PCM_STREAM_PLAYBACK !=3D (int)SND_COMPRESS_PLAYBACK);
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  561  	BUILD_BUG_ON((int)SNDR=
-V_PCM_STREAM_CAPTURE  !=3D (int)SND_COMPRESS_CAPTURE);
-7428d8c8bd79368 Kuninori Morimoto  2020-10-30  562  =
+80cd926eefca522 Qu Wenruo     2022-02-18  3022  static int scrub_raid56_dat=
+a_stripe_for_parity(struct scrub_ctx *sctx,
+80cd926eefca522 Qu Wenruo     2022-02-18  3023  					       struct scrub_pa=
+rity *sparity,
+5a6ac9eacb49143 Miao Xie      2014-11-06  3024  					       struct map_look=
+up *map,
+5a6ac9eacb49143 Miao Xie      2014-11-06  3025  					       struct btrfs_de=
+vice *sdev,
+80cd926eefca522 Qu Wenruo     2022-02-18  3026  					       struct btrfs_pa=
+th *path,
+80cd926eefca522 Qu Wenruo     2022-02-18  3027  					       u64 logical)
+5a6ac9eacb49143 Miao Xie      2014-11-06  3028  {
+fb456252d3d9c05 Jeff Mahoney  2016-06-22  3029  	struct btrfs_fs_info *fs_i=
+nfo =3D sctx->fs_info;
+80cd926eefca522 Qu Wenruo     2022-02-18  3030  	struct btrfs_root *extent_=
+root =3D btrfs_extent_root(fs_info, logical);
+80cd926eefca522 Qu Wenruo     2022-02-18  3031  	struct btrfs_root *csum_ro=
+ot =3D btrfs_csum_root(fs_info, logical);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3032  	struct btrfs_key key;
+80cd926eefca522 Qu Wenruo     2022-02-18  3033  	u64 extent_start;
+80cd926eefca522 Qu Wenruo     2022-02-18  3034  	u64 extent_size;
+80cd926eefca522 Qu Wenruo     2022-02-18  3035  	int ret;
+2522dbe86b54ff0 Qu Wenruo     2021-12-14  3036  =
 
-6e1276a5e613d25 Bard Liao          2020-02-25  563  	if (rtd->num_cpus > 1 =
-||
-6e1276a5e613d25 Bard Liao          2020-02-25  564  	    rtd->num_codecs > =
-1) {
-141dfc9e3751f5f Charles Keepax     2018-01-26  565  		dev_err(rtd->card->de=
-v,
-6e1276a5e613d25 Bard Liao          2020-02-25  566  			"Compress ASoC: Mult=
-i CPU/Codec not supported\n");
-8151d5e60232d31 Benoit Cousson     2014-07-08  567  		return -EINVAL;
-8151d5e60232d31 Benoit Cousson     2014-07-08  568  	}
-8151d5e60232d31 Benoit Cousson     2014-07-08  569  =
+80cd926eefca522 Qu Wenruo     2022-02-18  3037  	ASSERT(map->type & BTRFS_B=
+LOCK_GROUP_RAID56_MASK);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3038  =
 
-1245b7005de02d5 Namarta Kohli      2012-08-16  570  	/* check client and in=
-terface hw capabilities */
-de2c6f98817fa5d Jiasheng Jiang     2021-10-15 @571  	if (codec_dai) {
-467fece8fbc6774 Kuninori Morimoto  2019-07-22  572  		if (snd_soc_dai_strea=
-m_valid(codec_dai, SNDRV_PCM_STREAM_PLAYBACK) &&
-467fece8fbc6774 Kuninori Morimoto  2019-07-22  573  		    snd_soc_dai_strea=
-m_valid(cpu_dai,   SNDRV_PCM_STREAM_PLAYBACK))
-a1068045883ed4a Vinod Koul         2016-01-07  574  			playback =3D 1;
-467fece8fbc6774 Kuninori Morimoto  2019-07-22  575  		if (snd_soc_dai_strea=
-m_valid(codec_dai, SNDRV_PCM_STREAM_CAPTURE) &&
-467fece8fbc6774 Kuninori Morimoto  2019-07-22  576  		    snd_soc_dai_strea=
-m_valid(cpu_dai,   SNDRV_PCM_STREAM_CAPTURE))
-a1068045883ed4a Vinod Koul         2016-01-07  577  			capture =3D 1;
-de2c6f98817fa5d Jiasheng Jiang     2021-10-15  578  	}
-a1068045883ed4a Vinod Koul         2016-01-07  579  =
+80cd926eefca522 Qu Wenruo     2022-02-18  3039  	/* Path should not be popu=
+lated */
+80cd926eefca522 Qu Wenruo     2022-02-18  3040  	ASSERT(!path->nodes[0]);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3041  =
 
-a1068045883ed4a Vinod Koul         2016-01-07  580  	/*
-a1068045883ed4a Vinod Koul         2016-01-07  581  	 * Compress devices ar=
-e unidirectional so only one of the directions
-a1068045883ed4a Vinod Koul         2016-01-07  582  	 * should be set, chec=
-k for that (xor)
-a1068045883ed4a Vinod Koul         2016-01-07  583  	 */
-a1068045883ed4a Vinod Koul         2016-01-07  584  	if (playback + capture=
- !=3D 1) {
-141dfc9e3751f5f Charles Keepax     2018-01-26  585  		dev_err(rtd->card->de=
-v,
-141dfc9e3751f5f Charles Keepax     2018-01-26  586  			"Compress ASoC: Inva=
-lid direction for P %d, C %d\n",
-a1068045883ed4a Vinod Koul         2016-01-07  587  			playback, capture);
-a1068045883ed4a Vinod Koul         2016-01-07  588  		return -EINVAL;
-a1068045883ed4a Vinod Koul         2016-01-07  589  	}
-a1068045883ed4a Vinod Koul         2016-01-07  590  =
+5a6ac9eacb49143 Miao Xie      2014-11-06  3042  	if (btrfs_fs_incompat(fs_i=
+nfo, SKINNY_METADATA))
+5a6ac9eacb49143 Miao Xie      2014-11-06  3043  		key.type =3D BTRFS_METADA=
+TA_ITEM_KEY;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3044  	else
+5a6ac9eacb49143 Miao Xie      2014-11-06  3045  		key.type =3D BTRFS_EXTENT=
+_ITEM_KEY;
+80cd926eefca522 Qu Wenruo     2022-02-18  3046  	key.objectid =3D logical;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3047  	key.offset =3D (u64)-1;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3048  =
 
-a1068045883ed4a Vinod Koul         2016-01-07  591  	if (playback)
-1245b7005de02d5 Namarta Kohli      2012-08-16  592  		direction =3D SND_COM=
-PRESS_PLAYBACK;
-daa2db59ce7e360 Charles Keepax     2013-04-18  593  	else
-a1068045883ed4a Vinod Koul         2016-01-07  594  		direction =3D SND_COM=
-PRESS_CAPTURE;
-daa2db59ce7e360 Charles Keepax     2013-04-18  595  =
+80cd926eefca522 Qu Wenruo     2022-02-18  3049  	ret =3D btrfs_search_slot(=
+NULL, extent_root, &key, path, 0, 0);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3050  	if (ret < 0)
+80cd926eefca522 Qu Wenruo     2022-02-18  3051  		return ret;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3052  =
 
-09f448a415ece49 Amadeusz S=C5=82awi=C5=84ski 2019-06-17  596  	compr =3D de=
-vm_kzalloc(rtd->card->dev, sizeof(*compr), GFP_KERNEL);
-7a0cf42edd9cc33 Markus Elfring     2017-08-10  597  	if (!compr)
-1245b7005de02d5 Namarta Kohli      2012-08-16  598  		return -ENOMEM;
-1245b7005de02d5 Namarta Kohli      2012-08-16  599  =
+5a6ac9eacb49143 Miao Xie      2014-11-06  3053  	if (ret > 0) {
+80cd926eefca522 Qu Wenruo     2022-02-18  3054  		ret =3D btrfs_previous_ex=
+tent_item(extent_root, path, 0);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3055  		if (ret < 0)
+80cd926eefca522 Qu Wenruo     2022-02-18  3056  			return ret;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3057  		if (ret > 0) {
+5a6ac9eacb49143 Miao Xie      2014-11-06  3058  			btrfs_release_path(path);
+80cd926eefca522 Qu Wenruo     2022-02-18  3059  			ret =3D btrfs_search_slo=
+t(NULL, extent_root, &key, path,
+80cd926eefca522 Qu Wenruo     2022-02-18  3060  						0, 0);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3061  			if (ret < 0)
+80cd926eefca522 Qu Wenruo     2022-02-18  3062  				return ret;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3063  		}
+5a6ac9eacb49143 Miao Xie      2014-11-06  3064  	}
+5a6ac9eacb49143 Miao Xie      2014-11-06  3065  =
 
-1f88eb0f0660f8b Charles Keepax     2013-02-05  600  	compr->ops =3D devm_kz=
-alloc(rtd->card->dev, sizeof(soc_compr_ops),
-1f88eb0f0660f8b Charles Keepax     2013-02-05  601  				  GFP_KERNEL);
-09f448a415ece49 Amadeusz S=C5=82awi=C5=84ski 2019-06-17  602  	if (!compr->=
-ops)
-09f448a415ece49 Amadeusz S=C5=82awi=C5=84ski 2019-06-17  603  		return -ENO=
-MEM;
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  604  =
+5a6ac9eacb49143 Miao Xie      2014-11-06  3066  	while (1) {
+80cd926eefca522 Qu Wenruo     2022-02-18  3067  		struct btrfs_io_context *=
+bioc =3D NULL;
+80cd926eefca522 Qu Wenruo     2022-02-18  3068  		struct btrfs_device *exte=
+nt_dev;
+80cd926eefca522 Qu Wenruo     2022-02-18  3069  		struct btrfs_extent_item =
+*ei;
+80cd926eefca522 Qu Wenruo     2022-02-18  3070  		struct extent_buffer *l;
+80cd926eefca522 Qu Wenruo     2022-02-18  3071  		int slot;
+80cd926eefca522 Qu Wenruo     2022-02-18  3072  		u64 mapped_length;
+80cd926eefca522 Qu Wenruo     2022-02-18  3073  		u64 extent_flags;
+80cd926eefca522 Qu Wenruo     2022-02-18  3074  		u64 extent_gen;
+80cd926eefca522 Qu Wenruo     2022-02-18  3075  		u64 extent_physical;
+80cd926eefca522 Qu Wenruo     2022-02-18  3076  		u64 extent_mirror_num;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3077  =
 
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  605  	if (rtd->dai_link->dyn=
-amic) {
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  606  		snprintf(new_name, si=
-zeof(new_name), "(%s)",
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  607  			rtd->dai_link->strea=
-m_name);
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  608  =
+5a6ac9eacb49143 Miao Xie      2014-11-06  3078  		l =3D path->nodes[0];
+5a6ac9eacb49143 Miao Xie      2014-11-06  3079  		slot =3D path->slots[0];
+5a6ac9eacb49143 Miao Xie      2014-11-06  3080  		if (slot >=3D btrfs_heade=
+r_nritems(l)) {
+80cd926eefca522 Qu Wenruo     2022-02-18  3081  			ret =3D btrfs_next_leaf(=
+extent_root, path);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3082  			if (ret =3D=3D 0)
+5a6ac9eacb49143 Miao Xie      2014-11-06  3083  				continue;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3084  =
 
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  609  		ret =3D snd_pcm_new_i=
-nternal(rtd->card->snd_card, new_name, num,
-d3268a40d4b19ff Qais Yousef        2015-01-14  610  				rtd->dai_link->dpcm=
-_playback,
-d3268a40d4b19ff Qais Yousef        2015-01-14  611  				rtd->dai_link->dpcm=
-_capture, &be_pcm);
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  612  		if (ret < 0) {
-141dfc9e3751f5f Charles Keepax     2018-01-26  613  			dev_err(rtd->card->d=
-ev,
-141dfc9e3751f5f Charles Keepax     2018-01-26  614  				"Compress ASoC: can=
-'t create compressed for %s: %d\n",
-141dfc9e3751f5f Charles Keepax     2018-01-26  615  				rtd->dai_link->name=
-, ret);
-09f448a415ece49 Amadeusz S=C5=82awi=C5=84ski 2019-06-17  616  			return ret;
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  617  		}
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  618  =
+80cd926eefca522 Qu Wenruo     2022-02-18  3085  			/* No more extent items =
+or error, exit */
+5a6ac9eacb49143 Miao Xie      2014-11-06  3086  			break;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3087  		}
+5a6ac9eacb49143 Miao Xie      2014-11-06  3088  		btrfs_item_key_to_cpu(l, =
+&key, slot);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3089  =
 
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  619  		rtd->pcm =3D be_pcm;
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  620  		rtd->fe_compr =3D 1;
-d3268a40d4b19ff Qais Yousef        2015-01-14  621  		if (rtd->dai_link->dp=
-cm_playback)
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  622  			be_pcm->streams[SNDR=
-V_PCM_STREAM_PLAYBACK].substream->private_data =3D rtd;
-d3268a40d4b19ff Qais Yousef        2015-01-14  623  		else if (rtd->dai_lin=
-k->dpcm_capture)
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  624  			be_pcm->streams[SNDR=
-V_PCM_STREAM_CAPTURE].substream->private_data =3D rtd;
-2a99ef0fdb35a0f Liam Girdwood      2014-01-17  625  		memcpy(compr->ops, &s=
-oc_compr_dyn_ops, sizeof(soc_compr_dyn_ops));
-aeb6fa0f15c71a1 Peng Donglin       2017-08-16  626  	} else {
-aeb6fa0f15c71a1 Peng Donglin       2017-08-16  627  		snprintf(new_name, si=
-zeof(new_name), "%s %s-%d",
-aeb6fa0f15c71a1 Peng Donglin       2017-08-16 @628  			rtd->dai_link->strea=
-m_name, codec_dai->name, num);
+d7cad2389560f32 Zhao Lei      2015-07-22  3090  		if (key.type !=3D BTRFS_E=
+XTENT_ITEM_KEY &&
+d7cad2389560f32 Zhao Lei      2015-07-22  3091  		    key.type !=3D BTRFS_M=
+ETADATA_ITEM_KEY)
+d7cad2389560f32 Zhao Lei      2015-07-22  3092  			goto next;
+d7cad2389560f32 Zhao Lei      2015-07-22  3093  =
 
-:::::: The code at line 628 was first introduced by commit
-:::::: aeb6fa0f15c71a18f757d1686822b6c34cf81399 ASoC: compress: Set reasona=
-ble compress id string
+5a6ac9eacb49143 Miao Xie      2014-11-06  3094  		if (key.type =3D=3D BTRFS=
+_METADATA_ITEM_KEY)
+80cd926eefca522 Qu Wenruo     2022-02-18  3095  			extent_size =3D fs_info-=
+>nodesize;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3096  		else
+80cd926eefca522 Qu Wenruo     2022-02-18  3097  			extent_size =3D key.offs=
+et;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3098  =
 
-:::::: TO: Peng Donglin <dolinux.peng@gmail.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+80cd926eefca522 Qu Wenruo     2022-02-18  3099  		if (key.objectid + extent=
+_size <=3D logical)
+5a6ac9eacb49143 Miao Xie      2014-11-06  3100  			goto next;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3101  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3102  		/* Beyond this data strip=
+e */
+80cd926eefca522 Qu Wenruo     2022-02-18  3103  		if (key.objectid >=3D log=
+ical + map->stripe_len)
+5a6ac9eacb49143 Miao Xie      2014-11-06  3104  			break;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3105  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3106  		ei =3D btrfs_item_ptr(l, =
+slot, struct btrfs_extent_item);
+80cd926eefca522 Qu Wenruo     2022-02-18  3107  		extent_flags =3D btrfs_ex=
+tent_flags(l, ei);
+80cd926eefca522 Qu Wenruo     2022-02-18  3108  		extent_gen =3D btrfs_exte=
+nt_generation(l, ei);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3109  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3110  		if ((extent_flags & BTRFS=
+_EXTENT_FLAG_TREE_BLOCK) &&
+80cd926eefca522 Qu Wenruo     2022-02-18  3111  		    (key.objectid < logic=
+al || key.objectid + extent_size >
+80cd926eefca522 Qu Wenruo     2022-02-18  3112  		     logical + map->strip=
+e_len)) {
+5d163e0e68ce743 Jeff Mahoney  2016-09-20  3113  			btrfs_err(fs_info,
+5d163e0e68ce743 Jeff Mahoney  2016-09-20  3114  				  "scrub: tree block %l=
+lu spanning stripes, ignored. logical=3D%llu",
+80cd926eefca522 Qu Wenruo     2022-02-18  3115  				  key.objectid, logical=
+);
+9799d2c32bef6fb Zhao Lei      2015-08-25  3116  			spin_lock(&sctx->stat_lo=
+ck);
+9799d2c32bef6fb Zhao Lei      2015-08-25  3117  			sctx->stat.uncorrectable=
+_errors++;
+9799d2c32bef6fb Zhao Lei      2015-08-25  3118  			spin_unlock(&sctx->stat_=
+lock);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3119  			goto next;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3120  		}
+5a6ac9eacb49143 Miao Xie      2014-11-06  3121  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3122  		extent_start =3D key.obje=
+ctid;
+80cd926eefca522 Qu Wenruo     2022-02-18  3123  		ASSERT(extent_size <=3D U=
+32_MAX);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3124  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3125  		/* Truncate the range ins=
+ide the data stripe */
+80cd926eefca522 Qu Wenruo     2022-02-18  3126  		if (extent_start < logica=
+l) {
+80cd926eefca522 Qu Wenruo     2022-02-18  3127  			extent_size -=3D logical=
+ - extent_start;
+80cd926eefca522 Qu Wenruo     2022-02-18  3128  			extent_start =3D logical;
+80cd926eefca522 Qu Wenruo     2022-02-18  3129  		}
+80cd926eefca522 Qu Wenruo     2022-02-18  3130  		if (extent_start + extent=
+_size > logical + map->stripe_len)
+80cd926eefca522 Qu Wenruo     2022-02-18  3131  			extent_size =3D logical =
++ map->stripe_len - extent_start;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3132  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3133  		scrub_parity_mark_sectors=
+_data(sparity, extent_start, extent_size);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3134  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3135  		mapped_length =3D extent_=
+size;
+80cd926eefca522 Qu Wenruo     2022-02-18  3136  		ret =3D btrfs_map_block(f=
+s_info, BTRFS_MAP_READ, extent_start,
+80cd926eefca522 Qu Wenruo     2022-02-18  3137  				      &mapped_length, &=
+bioc, 0);
+80cd926eefca522 Qu Wenruo     2022-02-18 @3138  		if (!ret && (!bioc || map=
+ped_length < extent_size))
+4a770891d9ddf94 Omar Sandoval 2015-06-19  3139  			ret =3D -EIO;
+4a770891d9ddf94 Omar Sandoval 2015-06-19  3140  		if (ret) {
+4c6646117912397 Qu Wenruo     2021-09-15  3141  			btrfs_put_bioc(bioc);
+80cd926eefca522 Qu Wenruo     2022-02-18  3142  			scrub_parity_mark_sector=
+s_error(sparity, extent_start,
+80cd926eefca522 Qu Wenruo     2022-02-18  3143  							extent_size);
+80cd926eefca522 Qu Wenruo     2022-02-18  3144  			break;
+4a770891d9ddf94 Omar Sandoval 2015-06-19  3145  		}
+4c6646117912397 Qu Wenruo     2021-09-15 @3146  		extent_physical =3D bioc-=
+>stripes[0].physical;
+4c6646117912397 Qu Wenruo     2021-09-15  3147  		extent_mirror_num =3D bio=
+c->mirror_num;
+4c6646117912397 Qu Wenruo     2021-09-15  3148  		extent_dev =3D bioc->stri=
+pes[0].dev;
+4c6646117912397 Qu Wenruo     2021-09-15  3149  		btrfs_put_bioc(bioc);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3150  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3151  		ret =3D btrfs_lookup_csum=
+s_range(csum_root, extent_start,
+80cd926eefca522 Qu Wenruo     2022-02-18  3152  					       extent_start + =
+extent_size - 1,
+5a6ac9eacb49143 Miao Xie      2014-11-06  3153  					       &sctx->csum_lis=
+t, 1);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3154  		if (ret)
+80cd926eefca522 Qu Wenruo     2022-02-18  3155  			break;
+6fa96d72f79a155 Zhao Lei      2015-07-21  3156  =
+
+80cd926eefca522 Qu Wenruo     2022-02-18  3157  		ret =3D scrub_extent_for_=
+parity(sparity, extent_start,
+80cd926eefca522 Qu Wenruo     2022-02-18  3158  					      extent_size, ext=
+ent_physical,
+80cd926eefca522 Qu Wenruo     2022-02-18  3159  					      extent_dev, exte=
+nt_flags,
+80cd926eefca522 Qu Wenruo     2022-02-18  3160  					      extent_gen, exte=
+nt_mirror_num);
+6fa96d72f79a155 Zhao Lei      2015-07-21  3161  		scrub_free_csums(sctx);
+6fa96d72f79a155 Zhao Lei      2015-07-21  3162  =
+
+5a6ac9eacb49143 Miao Xie      2014-11-06  3163  		if (ret)
+5a6ac9eacb49143 Miao Xie      2014-11-06  3164  			break;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3165  =
+
+5a6ac9eacb49143 Miao Xie      2014-11-06  3166  		cond_resched();
+5a6ac9eacb49143 Miao Xie      2014-11-06  3167  next:
+5a6ac9eacb49143 Miao Xie      2014-11-06  3168  		path->slots[0]++;
+5a6ac9eacb49143 Miao Xie      2014-11-06  3169  	}
+80cd926eefca522 Qu Wenruo     2022-02-18  3170  	if (ret < 0)
+80cd926eefca522 Qu Wenruo     2022-02-18 @3171  		scrub_parity_mark_sectors=
+_error(sparity, extent_start,
+80cd926eefca522 Qu Wenruo     2022-02-18 @3172  						extent_size);
+5a6ac9eacb49143 Miao Xie      2014-11-06  3173  	btrfs_release_path(path);
+80cd926eefca522 Qu Wenruo     2022-02-18  3174  	return ret;
+80cd926eefca522 Qu Wenruo     2022-02-18  3175  }
+5a6ac9eacb49143 Miao Xie      2014-11-06  3176  =
+
+
+:::::: The code@line 3146 was first introduced by commit
+:::::: 4c6646117912397d026d70c04d92ec1599522e9f btrfs: rename btrfs_bio to =
+btrfs_io_context
+
+:::::: TO: Qu Wenruo <wqu@suse.com>
+:::::: CC: David Sterba <dsterba@suse.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6677483226334902456==--
+--===============2978810009516773672==--
 
