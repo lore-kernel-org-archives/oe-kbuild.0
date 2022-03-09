@@ -1,295 +1,398 @@
-Content-Type: multipart/mixed; boundary="===============7589455736684764897=="
+Content-Type: multipart/mixed; boundary="===============2218895405216537930=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH bpf-next v11 1/5] bpf: Add "live packet" mode for XDP in BPF_PROG_RUN
-Date: Thu, 10 Mar 2022 02:54:06 +0800
-Message-ID: <202203100251.SOmWR7MI-lkp@intel.com>
+Subject: fs/xfs/scrub/bmap.c:621:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Thu, 10 Mar 2022 02:02:25 +0800
+Message-ID: <202203100110.j21o44w0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7589455736684764897==
+--===============2218895405216537930==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220309105346.100053-2-toke@redhat.com>
-References: <20220309105346.100053-2-toke@redhat.com>
-TO: "Toke H=C3=B8iland-J=C3=B8rgensen" <toke@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Dave Chinner <dchinner@redhat.com>
+CC: Brian Foster <bfoster@redhat.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi "Toke,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
+commit: 934933c3eec9e4a5826d3d7a47aca0742337fded xfs: convert raw ag walks =
+to use for_each_perag
+date:   9 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20220308 (https://download.01.org/0day-ci/archi=
+ve/20220310/202203100110.j21o44w0-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D934933c3eec9e4a5826d3d7a47aca0742337fded
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 934933c3eec9e4a5826d3d7a47aca0742337fded
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Toke-H-iland-J-rgensen/Add=
--support-for-transmitting-packets-using-XDP-in-bpf_prog_run/20220309-185524
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-310/202203100251.SOmWR7MI-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/bpf/test_run.c:1330 bpf_prog_test_run_xdp() error: uninitialized symbol=
- 'retval'.
 
-vim +/retval +1330 net/bpf/test_run.c
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   include/linux/hid.h:1002:2: note: Taking true branch
+           if (unlikely(c > limit || !bmap)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/linux/hid.h:1003:3: note: Assuming the condition is false
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/linux/hid.h:1003:3: note: '?' condition is false
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/linux/hid.h:1003:3: note: Assuming the condition is false
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/hid.h:1003:3: note: '?' condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   include/linux/hid.h:1003:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/linux/hid.h:1004:9: note: Access to field 'name' results in a de=
+reference of a null pointer (loaded from variable 'input')
+                                       input->name, c, type);
+                                       ^
+   include/linux/printk.h:528:49: note: expanded from macro 'pr_warn_rateli=
+mited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+                                                          ^~~~~~~~~~~
+   include/linux/printk.h:512:17: note: expanded from macro 'printk_ratelim=
+ited'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                                 ^~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> fs/xfs/scrub/bmap.c:621:2: warning: Undefined or garbage value returned =
+to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return error;
+           ^      ~~~~~
+   fs/xfs/scrub/bmap.c:578:26: note: Assuming 'whichfork' is not equal to 0
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
+K_PTR'
+           ((w) =3D=3D XFS_DATA_FORK ? \
+            ^~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/bmap.c:578:26: note: '?' condition is false
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
+K_PTR'
+           ((w) =3D=3D XFS_DATA_FORK ? \
+            ^
+   fs/xfs/scrub/bmap.c:578:26: note: Assuming 'whichfork' is equal to 1
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
+RK_PTR'
+                   ((w) =3D=3D XFS_ATTR_FORK ? \
+                    ^~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/bmap.c:578:26: note: '?' condition is true
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
+RK_PTR'
+                   ((w) =3D=3D XFS_ATTR_FORK ? \
+                    ^
+   fs/xfs/scrub/bmap.c:582:2: note: 'error' declared without an initial val=
+ue
+           int                     error;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Assuming the condition is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:585:6: note: 'whichfork' is not equal to 2
+               whichfork =3D=3D XFS_COW_FORK ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:584:2: note: Assuming the condition is true
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/scrub/bmap.c:584:2: note: '?' condition is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:585:6: note: 'whichfork' is not equal to 2
+               whichfork =3D=3D XFS_COW_FORK ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:584:2: note: '?' condition is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
 
-47316f4a305367 Zvi Effron             2021-07-07  1203  =
+vim +621 fs/xfs/scrub/bmap.c
 
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1204  int bpf_prog_test_r=
-un_xdp(struct bpf_prog *prog, const union bpf_attr *kattr,
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1205  			  union bpf_attr=
- __user *uattr)
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1206  {
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1207  	bool do_=
-live =3D (kattr->test.flags & BPF_F_TEST_XDP_LIVE_FRAMES);
-bc56c919fce782 Jesper Dangaard Brouer 2020-05-14  1208  	u32 tailroom =3D S=
-KB_DATA_ALIGN(sizeof(struct skb_shared_info));
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1209  	u32 batc=
-h_size =3D kattr->test.batch_size;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1210  	u32 size =3D kattr=
-->test.data_size_in;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1211  	u32 headroom =3D X=
-DP_PACKET_HEADROOM;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1212  	u32 retval, durati=
-on, max_data_sz;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1213  	u32 repeat =3D kat=
-tr->test.repeat;
-65073a67331de3 Daniel Borkmann        2018-01-31  1214  	struct netdev_rx_q=
-ueue *rxqueue;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1215  	struct skb_shared_=
-info *sinfo;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1216  	struct xdp_buff xd=
-p =3D {};
-1c194998252469 Lorenzo Bianconi       2022-01-21  1217  	int i, ret =3D -EI=
-NVAL;
-47316f4a305367 Zvi Effron             2021-07-07  1218  	struct xdp_md *ctx;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1219  	void *data;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1220  =
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  571  =
 
-5e21bb4e812566 Xuan Zhuo              2021-07-08  1221  	if (prog->expected=
-_attach_type =3D=3D BPF_XDP_DEVMAP ||
-5e21bb4e812566 Xuan Zhuo              2021-07-08  1222  	    prog->expected=
-_attach_type =3D=3D BPF_XDP_CPUMAP)
-5e21bb4e812566 Xuan Zhuo              2021-07-08  1223  		return -EINVAL;
-6d4eb36d65979a Andrii Nakryiko        2021-08-04  1224  =
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  572  /* Make sure each rmap ha=
+s a corresponding bmbt entry. */
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  573  STATIC int
+c517b3aa02cff1 Darrick J. Wong   2018-07-19  574  xchk_bmap_check_rmaps(
+1d8a748a8aa94a Darrick J. Wong   2018-07-19  575  	struct xfs_scrub	*sc,
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  576  	int			whichfork)
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  577  {
+daf83964a3681c Christoph Hellwig 2020-05-18  578  	struct xfs_ifork	*ifp =
+=3D XFS_IFORK_PTR(sc->ip, whichfork);
+934933c3eec9e4 Dave Chinner      2021-06-02  579  	struct xfs_perag	*pag;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  580  	xfs_agnumber_t		agno;
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  581  	bool			zero_size;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  582  	int			error;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  583  =
 
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1225  	if (katt=
-r->test.flags & ~BPF_F_TEST_XDP_LIVE_FRAMES)
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1226  		return =
--EINVAL;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1227  =
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  584  	if (!xfs_sb_version_hasr=
+mapbt(&sc->mp->m_sb) ||
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  585  	    whichfork =3D=3D XFS=
+_COW_FORK ||
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  586  	    (sc->sm->sm_flags & =
+XFS_SCRUB_OFLAG_CORRUPT))
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  587  		return 0;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  588  =
 
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1228  	if (do_l=
-ive) {
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1229  		if (!ba=
-tch_size)
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1230  			batch_=
-size =3D NAPI_POLL_WEIGHT;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1231  		else if=
- (batch_size > TEST_XDP_MAX_BATCH)
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1232  			return=
- -E2BIG;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1233  	} else i=
-f (batch_size) {
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1234  		return =
--EINVAL;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1235  	}
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1236  =
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  589  	/* Don't support realtim=
+e rmap checks yet. */
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  590  	if (XFS_IS_REALTIME_INOD=
+E(sc->ip) && whichfork =3D=3D XFS_DATA_FORK)
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  591  		return 0;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  592  =
 
-47316f4a305367 Zvi Effron             2021-07-07  1237  	ctx =3D bpf_ctx_in=
-it(kattr, sizeof(struct xdp_md));
-47316f4a305367 Zvi Effron             2021-07-07  1238  	if (IS_ERR(ctx))
-47316f4a305367 Zvi Effron             2021-07-07  1239  		return PTR_ERR(ct=
-x);
-47316f4a305367 Zvi Effron             2021-07-07  1240  =
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  593  	ASSERT(XFS_IFORK_PTR(sc-=
+>ip, whichfork) !=3D NULL);
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  594  =
 
-47316f4a305367 Zvi Effron             2021-07-07  1241  	if (ctx) {
-47316f4a305367 Zvi Effron             2021-07-07  1242  		/* There can't be=
- user provided data before the meta data */
-47316f4a305367 Zvi Effron             2021-07-07  1243  		if (ctx->data_met=
-a || ctx->data_end !=3D size ||
-47316f4a305367 Zvi Effron             2021-07-07  1244  		    ctx->data > c=
-tx->data_end ||
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1245  		    unl=
-ikely(xdp_metalen_invalid(ctx->data)) ||
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1246  		    (do=
-_live && (kattr->test.data_out || kattr->test.ctx_out)))
-47316f4a305367 Zvi Effron             2021-07-07  1247  			goto free_ctx;
-47316f4a305367 Zvi Effron             2021-07-07  1248  		/* Meta data is a=
-llocated from the headroom */
-47316f4a305367 Zvi Effron             2021-07-07  1249  		headroom -=3D ctx=
-->data;
-47316f4a305367 Zvi Effron             2021-07-07  1250  	}
-947e8b595b82d3 Stanislav Fomichev     2019-04-11  1251  =
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  595  	/*
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  596  	 * Only do this for comp=
+lex maps that are in btree format, or for
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  597  	 * situations where we w=
+ould seem to have a size but zero extents.
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  598  	 * The inode repair code=
+ can zap broken iforks, which means we have
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  599  	 * to flag this bmap as =
+corrupt if there are rmaps that need to be
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  600  	 * reattached.
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  601  	 */
+f7e67b20ecbbcb Christoph Hellwig 2020-05-18  602  =
 
-bc56c919fce782 Jesper Dangaard Brouer 2020-05-14  1252  	max_data_sz =3D 40=
-96 - headroom - tailroom;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1253  	if (size=
- > max_data_sz) {
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1254  		/* disa=
-llow live data mode for jumbo frames */
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1255  		if (do_=
-live)
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1256  			goto f=
-ree_ctx;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1257  		size =
-=3D max_data_sz;
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1258  	}
-bc56c919fce782 Jesper Dangaard Brouer 2020-05-14  1259  =
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  603  	if (whichfork =3D=3D XFS=
+_DATA_FORK)
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  604  		zero_size =3D i_size_re=
+ad(VFS_I(sc->ip)) =3D=3D 0;
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  605  	else
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  606  		zero_size =3D false;
+5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  607  =
 
-1c194998252469 Lorenzo Bianconi       2022-01-21  1260  	data =3D bpf_test_=
-init(kattr, size, max_data_sz, headroom, tailroom);
-47316f4a305367 Zvi Effron             2021-07-07  1261  	if (IS_ERR(data)) {
-47316f4a305367 Zvi Effron             2021-07-07  1262  		ret =3D PTR_ERR(d=
-ata);
-47316f4a305367 Zvi Effron             2021-07-07  1263  		goto free_ctx;
-47316f4a305367 Zvi Effron             2021-07-07  1264  	}
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1265  =
+f7e67b20ecbbcb Christoph Hellwig 2020-05-18  608  	if (ifp->if_format !=3D =
+XFS_DINODE_FMT_BTREE &&
+daf83964a3681c Christoph Hellwig 2020-05-18  609  	    (zero_size || ifp->i=
+f_nextents > 0))
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  610  		return 0;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  611  =
 
-65073a67331de3 Daniel Borkmann        2018-01-31  1266  	rxqueue =3D __neti=
-f_get_rx_queue(current->nsproxy->net_ns->loopback_dev, 0);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1267  	rxqueue->xdp_rxq.f=
-rag_size =3D headroom + max_data_sz + tailroom;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1268  	xdp_init_buff(&xdp=
-, rxqueue->xdp_rxq.frag_size, &rxqueue->xdp_rxq);
-be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1269  	xdp_prepare_buff(&=
-xdp, data, headroom, size, true);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1270  	sinfo =3D xdp_get_=
-shared_info_from_buff(&xdp);
-be9df4aff65f18 Lorenzo Bianconi       2020-12-22  1271  =
-
-47316f4a305367 Zvi Effron             2021-07-07  1272  	ret =3D xdp_conver=
-t_md_to_buff(ctx, &xdp);
-47316f4a305367 Zvi Effron             2021-07-07  1273  	if (ret)
-47316f4a305367 Zvi Effron             2021-07-07  1274  		goto free_data;
-47316f4a305367 Zvi Effron             2021-07-07  1275  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1276  	if (unlikely(kattr=
-->test.data_size_in > size)) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1277  		void __user *data=
-_in =3D u64_to_user_ptr(kattr->test.data_in);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1278  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1279  		while (size < kat=
-tr->test.data_size_in) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1280  			struct page *pag=
-e;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1281  			skb_frag_t *frag;
-9d63b59d1e9d2d Stanislav Fomichev     2022-02-04  1282  			u32 data_len;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1283  =
-
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1284  			if (sinfo->nr_fr=
-ags =3D=3D MAX_SKB_FRAGS) {
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1285  				ret =3D -ENOMEM;
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1286  				goto out;
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1287  			}
-a6763080856f44 Lorenzo Bianconi       2022-02-02  1288  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1289  			page =3D alloc_p=
-age(GFP_KERNEL);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1290  			if (!page) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1291  				ret =3D -ENOMEM;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1292  				goto out;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1293  			}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1294  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1295  			frag =3D &sinfo-=
->frags[sinfo->nr_frags++];
-1c194998252469 Lorenzo Bianconi       2022-01-21  1296  			__skb_frag_set_p=
-age(frag, page);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1297  =
-
-9d63b59d1e9d2d Stanislav Fomichev     2022-02-04  1298  			data_len =3D min=
-_t(u32, kattr->test.data_size_in - size,
-1c194998252469 Lorenzo Bianconi       2022-01-21  1299  					 PAGE_SIZE);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1300  			skb_frag_size_se=
-t(frag, data_len);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1301  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1302  			if (copy_from_us=
-er(page_address(page), data_in + size,
-1c194998252469 Lorenzo Bianconi       2022-01-21  1303  					   data_len)) {
-1c194998252469 Lorenzo Bianconi       2022-01-21  1304  				ret =3D -EFAULT;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1305  				goto out;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1306  			}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1307  			sinfo->xdp_frags=
-_size +=3D data_len;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1308  			size +=3D data_l=
-en;
-1c194998252469 Lorenzo Bianconi       2022-01-21  1309  		}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1310  		xdp_buff_set_frag=
-s_flag(&xdp);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1311  	}
-1c194998252469 Lorenzo Bianconi       2022-01-21  1312  =
-
-de21d8bf777240 Lorenz Bauer           2021-09-28  1313  	if (repeat > 1)
-f23c4b3924d2e9 Bj=C3=B6rn T=C3=B6pel            2019-12-13  1314  		bpf_pro=
-g_change_xdp(NULL, prog);
-1c194998252469 Lorenzo Bianconi       2022-01-21  1315  =
-
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1316  	if (do_l=
-ive)
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1317  		ret =3D=
- bpf_test_run_xdp_live(prog, &xdp, repeat, batch_size, &duration);
-429da9d7b2fa52 Toke H=C3=B8iland-J=C3=B8rgensen 2022-03-09  1318  	else
-f23c4b3924d2e9 Bj=C3=B6rn T=C3=B6pel            2019-12-13  1319  		ret =3D=
- bpf_test_run(prog, &xdp, repeat, &retval, &duration, true);
-ec94670fcb3bde Zvi Effron             2021-07-07  1320  	/* We convert the =
-xdp_buff back to an xdp_md before checking the return
-ec94670fcb3bde Zvi Effron             2021-07-07  1321  	 * code so the ref=
-erence count of any held netdevice will be decremented
-ec94670fcb3bde Zvi Effron             2021-07-07  1322  	 * even if the tes=
-t run failed.
-ec94670fcb3bde Zvi Effron             2021-07-07  1323  	 */
-ec94670fcb3bde Zvi Effron             2021-07-07  1324  	xdp_convert_buff_t=
-o_md(&xdp, ctx);
-dcb40590e69e30 Roman Gushchin         2018-12-01  1325  	if (ret)
-dcb40590e69e30 Roman Gushchin         2018-12-01  1326  		goto out;
-47316f4a305367 Zvi Effron             2021-07-07  1327  =
-
-1c194998252469 Lorenzo Bianconi       2022-01-21  1328  	size =3D xdp.data_=
-end - xdp.data_meta + sinfo->xdp_frags_size;
-7855e0db150ad8 Lorenzo Bianconi       2022-01-21  1329  	ret =3D bpf_test_f=
-inish(kattr, uattr, xdp.data_meta, sinfo, size,
-7855e0db150ad8 Lorenzo Bianconi       2022-01-21 @1330  			      retval, du=
-ration);
-47316f4a305367 Zvi Effron             2021-07-07  1331  	if (!ret)
-47316f4a305367 Zvi Effron             2021-07-07  1332  		ret =3D bpf_ctx_f=
-inish(kattr, uattr, ctx,
-47316f4a305367 Zvi Effron             2021-07-07  1333  				     sizeof(str=
-uct xdp_md));
-47316f4a305367 Zvi Effron             2021-07-07  1334  =
-
-dcb40590e69e30 Roman Gushchin         2018-12-01  1335  out:
-de21d8bf777240 Lorenz Bauer           2021-09-28  1336  	if (repeat > 1)
-f23c4b3924d2e9 Bj=C3=B6rn T=C3=B6pel            2019-12-13  1337  		bpf_pro=
-g_change_xdp(prog, NULL);
-47316f4a305367 Zvi Effron             2021-07-07  1338  free_data:
-1c194998252469 Lorenzo Bianconi       2022-01-21  1339  	for (i =3D 0; i < =
-sinfo->nr_frags; i++)
-1c194998252469 Lorenzo Bianconi       2022-01-21  1340  		__free_page(skb_f=
-rag_page(&sinfo->frags[i]));
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1341  	kfree(data);
-47316f4a305367 Zvi Effron             2021-07-07  1342  free_ctx:
-47316f4a305367 Zvi Effron             2021-07-07  1343  	kfree(ctx);
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1344  	return ret;
-1cf1cae963c2e6 Alexei Starovoitov     2017-03-30  1345  }
-b7a1848e8398b8 Stanislav Fomichev     2019-01-28  1346  =
+934933c3eec9e4 Dave Chinner      2021-06-02  612  	for_each_perag(sc->mp, a=
+gno, pag) {
+934933c3eec9e4 Dave Chinner      2021-06-02  613  		error =3D xchk_bmap_che=
+ck_ag_rmaps(sc, whichfork, pag->pag_agno);
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  614  		if (error)
+934933c3eec9e4 Dave Chinner      2021-06-02  615  			break;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  616  		if (sc->sm->sm_flags & =
+XFS_SCRUB_OFLAG_CORRUPT)
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  617  			break;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  618  	}
+934933c3eec9e4 Dave Chinner      2021-06-02  619  	if (pag)
+934933c3eec9e4 Dave Chinner      2021-06-02  620  		xfs_perag_put(pag);
+934933c3eec9e4 Dave Chinner      2021-06-02 @621  	return error;
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  622  }
+5e777b62b0bcb6 Darrick J. Wong   2018-03-23  623  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7589455736684764897==--
+--===============2218895405216537930==--
 
