@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1404276855772077517=="
+Content-Type: multipart/mixed; boundary="===============2363411480770162167=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Fri, 11 Mar 2022 02:57:34 +0800
-Message-ID: <202203110217.jYqUl4Ol-lkp@intel.com>
+Subject: net/bluetooth/mgmt.c:1585 mgmt_set_connectable_complete() warn: variable dereferenced before check 'cmd' (see line 1577)
+Date: Wed, 09 Mar 2022 20:38:19 +0800
+Message-ID: <202203092013.ygxsndbp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1404276855772077517==
+--===============2363411480770162167==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,216 +15,96 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Fernand Sieber <sieberf@amazon.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Brian Gix <brian.gix@intel.com>
+CC: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   1db333d9a51f3459fba1bcaa564d95befe79f0b3
-commit: 75c1c2b53c78bf3b3188ebb7b3508dadbf98bba1 mm/damon/dbgfs: support mu=
-ltiple contexts
-date:   6 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 months ago
-config: arc-randconfig-m031-20220310 (https://download.01.org/0day-ci/archi=
-ve/20220311/202203110217.jYqUl4Ol-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
+head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
+commit: 275f3f64870245b06188f24bdf917e55a813d294 Bluetooth: Fix not checkin=
+g MGMT cmd pending queue
+date:   8 days ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 8 days ago
+config: openrisc-randconfig-m031-20220309 (https://download.01.org/0day-ci/=
+archive/20220309/202203092013.ygxsndbp-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer=
- to 'PTR_ERR'
-mm/damon/dbgfs.c:487 dbgfs_rm_context_write() warn: passing a valid pointer=
- to 'PTR_ERR'
+New smatch warnings:
+net/bluetooth/mgmt.c:1585 mgmt_set_connectable_complete() warn: variable de=
+referenced before check 'cmd' (see line 1577)
 
-vim +/PTR_ERR +396 mm/damon/dbgfs.c
+Old smatch warnings:
+net/bluetooth/mgmt.c:4990 read_local_oob_data_complete() error: 'skb' deref=
+erencing possible ERR_PTR()
+net/bluetooth/mgmt.c:5004 read_local_oob_data_complete() error: 'skb' deref=
+erencing possible ERR_PTR()
+net/bluetooth/mgmt.c:7534 read_local_oob_ext_data_complete() error: 'skb' d=
+ereferencing possible ERR_PTR()
+net/bluetooth/mgmt.c:7550 read_local_oob_ext_data_complete() error: 'skb' d=
+ereferencing possible ERR_PTR()
+net/bluetooth/mgmt.c:8248 add_ext_adv_params_complete() warn: variable dere=
+ferenced before check 'cmd' (see line 8207)
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  385  =
+vim +/cmd +1585 net/bluetooth/mgmt.c
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  386  static ssize_t dbgfs_mk_conte=
-xt_write(struct file *file,
-75c1c2b53c78bf SeongJae Park 2021-09-07  387  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-75c1c2b53c78bf SeongJae Park 2021-09-07  388  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  389  	char *kbuf;
-75c1c2b53c78bf SeongJae Park 2021-09-07  390  	char *ctx_name;
-75c1c2b53c78bf SeongJae Park 2021-09-07  391  	ssize_t ret =3D count;
-75c1c2b53c78bf SeongJae Park 2021-09-07  392  	int err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  393  =
+73f22f62388795 Johan Hedberg          2010-12-29  1561  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  394  	kbuf =3D user_input_str(buf,=
- count, ppos);
-75c1c2b53c78bf SeongJae Park 2021-09-07  395  	if (IS_ERR(kbuf))
-75c1c2b53c78bf SeongJae Park 2021-09-07 @396  		return PTR_ERR(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  397  	ctx_name =3D kmalloc(count +=
- 1, GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  398  	if (!ctx_name) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  399  		kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  400  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  401  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  402  =
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1562  static void mgmt_se=
+t_connectable_complete(struct hci_dev *hdev, void *data,
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1563  					  int err)
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1564  {
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1565  	struct mgmt_pendin=
+g_cmd *cmd =3D data;
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1566  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  403  	/* Trim white space */
-75c1c2b53c78bf SeongJae Park 2021-09-07  404  	if (sscanf(kbuf, "%s", ctx_n=
-ame) !=3D 1) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  405  		ret =3D -EINVAL;
-75c1c2b53c78bf SeongJae Park 2021-09-07  406  		goto out;
-75c1c2b53c78bf SeongJae Park 2021-09-07  407  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  408  =
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1567  	bt_dev_dbg(hdev, "=
+err %d", err);
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1568  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  409  	mutex_lock(&damon_dbgfs_lock=
-);
-75c1c2b53c78bf SeongJae Park 2021-09-07  410  	err =3D dbgfs_mk_context(ctx=
-_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  411  	if (err)
-75c1c2b53c78bf SeongJae Park 2021-09-07  412  		ret =3D err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  413  	mutex_unlock(&damon_dbgfs_lo=
-ck);
-75c1c2b53c78bf SeongJae Park 2021-09-07  414  =
+275f3f64870245 Brian Gix              2022-03-01  1569  	/* Make sure cmd s=
+till outstanding. */
+275f3f64870245 Brian Gix              2022-03-01  1570  	if (cmd !=3D pendi=
+ng_find(MGMT_OP_SET_CONNECTABLE, hdev))
+275f3f64870245 Brian Gix              2022-03-01  1571  		return;
+275f3f64870245 Brian Gix              2022-03-01  1572  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  415  out:
-75c1c2b53c78bf SeongJae Park 2021-09-07  416  	kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  417  	kfree(ctx_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  418  	return ret;
-75c1c2b53c78bf SeongJae Park 2021-09-07  419  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  420  =
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1573  	hci_dev_lock(hdev);
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1574  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  421  /*
-75c1c2b53c78bf SeongJae Park 2021-09-07  422   * Remove a context of @name =
-and its debugfs directory.
-75c1c2b53c78bf SeongJae Park 2021-09-07  423   *
-75c1c2b53c78bf SeongJae Park 2021-09-07  424   * This function should be ca=
-lled while holding damon_dbgfs_lock.
-75c1c2b53c78bf SeongJae Park 2021-09-07  425   *
-75c1c2b53c78bf SeongJae Park 2021-09-07  426   * Return 0 on success, negat=
-ive error code otherwise.
-75c1c2b53c78bf SeongJae Park 2021-09-07  427   */
-75c1c2b53c78bf SeongJae Park 2021-09-07  428  static int dbgfs_rm_context(c=
-har *name)
-75c1c2b53c78bf SeongJae Park 2021-09-07  429  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  430  	struct dentry *root, *dir, *=
-*new_dirs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  431  	struct damon_ctx **new_ctxs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  432  	int i, j;
-75c1c2b53c78bf SeongJae Park 2021-09-07  433  =
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1575  	if (err) {
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1576  		u8 mgmt_err =3D m=
+gmt_status(err);
+a69e8375a134eb Johan Hedberg          2015-03-06 @1577  		mgmt_cmd_status(c=
+md->sk, cmd->index, cmd->opcode, mgmt_err);
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1578  		goto done;
+37438c1f7f6d26 Johan Hedberg          2013-10-14  1579  	}
+37438c1f7f6d26 Johan Hedberg          2013-10-14  1580  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  434  	if (damon_nr_running_ctxs())
-75c1c2b53c78bf SeongJae Park 2021-09-07  435  		return -EBUSY;
-75c1c2b53c78bf SeongJae Park 2021-09-07  436  =
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1581  	send_settings_rsp(=
+cmd->sk, MGMT_OP_SET_CONNECTABLE, hdev);
+d7b856f9380d95 Johan Hedberg          2013-10-14  1582  	new_settings(hdev,=
+ cmd->sk);
+d7b856f9380d95 Johan Hedberg          2013-10-14  1583  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  437  	root =3D dbgfs_dirs[0];
-75c1c2b53c78bf SeongJae Park 2021-09-07  438  	if (!root)
-75c1c2b53c78bf SeongJae Park 2021-09-07  439  		return -ENOENT;
-75c1c2b53c78bf SeongJae Park 2021-09-07  440  =
+f056a65783cce9 Luiz Augusto von Dentz 2021-11-11  1584  done:
+275f3f64870245 Brian Gix              2022-03-01 @1585  	if (cmd)
+275f3f64870245 Brian Gix              2022-03-01  1586  		mgmt_pending_remo=
+ve(cmd);
+275f3f64870245 Brian Gix              2022-03-01  1587  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  441  	dir =3D debugfs_lookup(name,=
- root);
-75c1c2b53c78bf SeongJae Park 2021-09-07  442  	if (!dir)
-75c1c2b53c78bf SeongJae Park 2021-09-07  443  		return -ENOENT;
-75c1c2b53c78bf SeongJae Park 2021-09-07  444  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  445  	new_dirs =3D kmalloc_array(d=
-bgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
-75c1c2b53c78bf SeongJae Park 2021-09-07  446  			GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  447  	if (!new_dirs)
-75c1c2b53c78bf SeongJae Park 2021-09-07  448  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  449  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  450  	new_ctxs =3D kmalloc_array(d=
-bgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
-75c1c2b53c78bf SeongJae Park 2021-09-07  451  			GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  452  	if (!new_ctxs) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  453  		kfree(new_dirs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  454  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  455  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  456  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  457  	for (i =3D 0, j =3D 0; i < d=
-bgfs_nr_ctxs; i++) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  458  		if (dbgfs_dirs[i] =3D=3D di=
-r) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  459  			debugfs_remove(dbgfs_dirs[=
-i]);
-75c1c2b53c78bf SeongJae Park 2021-09-07  460  			dbgfs_destroy_ctx(dbgfs_ct=
-xs[i]);
-75c1c2b53c78bf SeongJae Park 2021-09-07  461  			continue;
-75c1c2b53c78bf SeongJae Park 2021-09-07  462  		}
-75c1c2b53c78bf SeongJae Park 2021-09-07  463  		new_dirs[j] =3D dbgfs_dirs[=
-i];
-75c1c2b53c78bf SeongJae Park 2021-09-07  464  		new_ctxs[j++] =3D dbgfs_ctx=
-s[i];
-75c1c2b53c78bf SeongJae Park 2021-09-07  465  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  466  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  467  	kfree(dbgfs_dirs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  468  	kfree(dbgfs_ctxs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  469  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  470  	dbgfs_dirs =3D new_dirs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  471  	dbgfs_ctxs =3D new_ctxs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  472  	dbgfs_nr_ctxs--;
-75c1c2b53c78bf SeongJae Park 2021-09-07  473  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  474  	return 0;
-75c1c2b53c78bf SeongJae Park 2021-09-07  475  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  476  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  477  static ssize_t dbgfs_rm_conte=
-xt_write(struct file *file,
-75c1c2b53c78bf SeongJae Park 2021-09-07  478  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-75c1c2b53c78bf SeongJae Park 2021-09-07  479  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  480  	char *kbuf;
-75c1c2b53c78bf SeongJae Park 2021-09-07  481  	ssize_t ret =3D count;
-75c1c2b53c78bf SeongJae Park 2021-09-07  482  	int err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  483  	char *ctx_name;
-75c1c2b53c78bf SeongJae Park 2021-09-07  484  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  485  	kbuf =3D user_input_str(buf,=
- count, ppos);
-75c1c2b53c78bf SeongJae Park 2021-09-07  486  	if (IS_ERR(kbuf))
-75c1c2b53c78bf SeongJae Park 2021-09-07 @487  		return PTR_ERR(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  488  	ctx_name =3D kmalloc(count +=
- 1, GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  489  	if (!ctx_name) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  490  		kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  491  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  492  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  493  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  494  	/* Trim white space */
-75c1c2b53c78bf SeongJae Park 2021-09-07  495  	if (sscanf(kbuf, "%s", ctx_n=
-ame) !=3D 1) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  496  		ret =3D -EINVAL;
-75c1c2b53c78bf SeongJae Park 2021-09-07  497  		goto out;
-75c1c2b53c78bf SeongJae Park 2021-09-07  498  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  499  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  500  	mutex_lock(&damon_dbgfs_lock=
-);
-75c1c2b53c78bf SeongJae Park 2021-09-07  501  	err =3D dbgfs_rm_context(ctx=
-_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  502  	if (err)
-75c1c2b53c78bf SeongJae Park 2021-09-07  503  		ret =3D err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  504  	mutex_unlock(&damon_dbgfs_lo=
-ck);
-75c1c2b53c78bf SeongJae Park 2021-09-07  505  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  506  out:
-75c1c2b53c78bf SeongJae Park 2021-09-07  507  	kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  508  	kfree(ctx_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  509  	return ret;
-75c1c2b53c78bf SeongJae Park 2021-09-07  510  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  511  =
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1588  	hci_dev_unlock(hde=
+v);
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1589  }
+2b76f4539c6a41 Johan Hedberg          2013-03-15  1590  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============1404276855772077517==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2363411480770162167==--
 
