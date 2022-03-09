@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4045993341285425722=="
+Content-Type: multipart/mixed; boundary="===============6145066610141043698=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 9076/11353] drivers/hid/hid-core.c:1665:30: warning: Although the value stored to 'field' is used in the enclosing expression, the value is never actually read from 'field' [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 09 Mar 2022 16:13:08 +0800
-Message-ID: <202203091613.J6S7TE1f-lkp@intel.com>
+Subject: [davidhildenbrand:s390x_mkyoung 3/3] fs/gfs2/file.c:989:3: warning: Value stored to 'retried' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 09 Mar 2022 15:32:16 +0800
+Message-ID: <202203091517.tNIeIM41-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4045993341285425722==
+--===============6145066610141043698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-CC: Jiri Kosina <jkosina@suse.cz>
-CC: Ping Cheng <ping.cheng@wacom.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Andreas Gruenbacher <agruenba@redhat.com>
+CC: David Hildenbrand <david@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   cb153b68ff91cbc434f3de70ac549e110543e1bb
-commit: bebcc522fbee4bf51a2571378154ef2a4bf14724 [9076/11353] HID: core: fo=
-r input reports, process the usages by priority list
-:::::: branch date: 24 hours ago
-:::::: commit date: 8 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-309/202203091613.J6S7TE1f-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
+tree:   git://github.com/davidhildenbrand/linux s390x_mkyoung
+head:   72aef458f9af74990f40e716468a9bc6f5879650
+commit: 72aef458f9af74990f40e716468a9bc6f5879650 [3/3] instrumentation
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: arm-randconfig-c002-20220308 (https://download.01.org/0day-ci/archi=
+ve/20220309/202203091517.tNIeIM41-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a2e9c6=
+8fcd4425fbce7380746e916966f00a39a0)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Dbebcc522fbee4bf51a2571378154ef2a4bf14724
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout bebcc522fbee4bf51a2571378154ef2a4bf14724
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/davidhildenbrand/linux/commit/72aef458f9af7499=
+0f40e716468a9bc6f5879650
+        git remote add davidhildenbrand git://github.com/davidhildenbrand/l=
+inux
+        git fetch --no-tags davidhildenbrand s390x_mkyoung
+        git checkout 72aef458f9af74990f40e716468a9bc6f5879650
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,7 +50,43 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                      ^
+                                                      ^~~~
+   include/asm-generic/bitops/fls.h:31:2: note: '?' condition is false
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/asm-generic/bitops/fls.h:31:2: note: '?' condition is false
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0x80000000u)) {
+               ^
    include/linux/compiler.h:56:47: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                                                  ^~~~
@@ -60,70 +95,8 @@ r'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
 ace_if_value(cond))
                                                       ^~~~
-   drivers/hid/hid-core.c:1430:9: note: '?' condition is false
-           } else if (n < 32) {
-                  ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/hid/hid-core.c:1430:13: note: 'n' is >=3D 32
-           } else if (n < 32) {
-                      ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/hid/hid-core.c:1430:9: note: '?' condition is false
-           } else if (n < 32) {
-                  ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/hid/hid-core.c:1430:9: note: Taking false branch
-           } else if (n < 32) {
-                  ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/hid/hid-core.c:1442:30: note: Passing the value 32 via 3rd param=
-eter 'n'
-           __implement(report, offset, n, value);
-                                       ^
-   drivers/hid/hid-core.c:1442:2: note: Calling '__implement'
-           __implement(report, offset, n, value);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1405:9: note: Assuming the condition is false
-           while (n - bits_to_set >=3D 0) {
-                  ^~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1405:2: note: Loop condition is false. Execution =
-continues on line 1416
-           while (n - bits_to_set >=3D 0) {
-           ^
-   drivers/hid/hid-core.c:1416:2: note: '?' condition is false
-           if (n) {
+   include/asm-generic/bitops/fls.h:35:2: note: '?' condition is false
+           if (!(x & 0x80000000u)) {
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -133,24 +106,8 @@ r'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
 ace_if_value(cond))
                                  ^
-   drivers/hid/hid-core.c:1416:6: note: 'n' is 32
-           if (n) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/hid/hid-core.c:1416:2: note: '?' condition is true
-           if (n) {
+   include/asm-generic/bitops/fls.h:35:2: note: '?' condition is false
+           if (!(x & 0x80000000u)) {
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -164,55 +121,164 @@ ace_if_value(cond))
 ue'
            (cond) ?                                        \
            ^
-   drivers/hid/hid-core.c:1416:2: note: Taking true branch
-           if (n) {
+   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
            ^
    include/linux/compiler.h:56:23: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   drivers/hid/hid-core.c:1417:22: note: The result of the left shift is un=
-defined due to shifting by '32', which is greater or equal to the width of =
-type 'unsigned int'
-                   u8 bit_mask =3D ((1U << n) - 1);
-                                      ^  ~
->> drivers/hid/hid-core.c:1665:30: warning: Although the value stored to 'f=
-ield' is used in the enclosing expression, the value is never actually read=
- from 'field' [clang-analyzer-deadcode.DeadStores]
-                   hid_input_fetch_field(hid, field =3D report->field[a], d=
-ata);
-                                              ^       ~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:1665:30: note: Although the value stored to 'fiel=
-d' is used in the enclosing expression, the value is never actually read fr=
-om 'field'
-                   hid_input_fetch_field(hid, field =3D report->field[a], d=
-ata);
-                                              ^       ~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:2198:3: warning: Value stored to 'len' is never r=
+   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
+ded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:155:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:155:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
+ned due to shifting by '32', which is greater or equal to the width of type=
+ 'unsigned long'
+           return 1UL << fls_long(n - 1);
+                      ^  ~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> fs/gfs2/file.c:989:3: warning: Value stored to 'retried' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   retried =3D false;
+                   ^         ~~~~~
+   fs/gfs2/file.c:989:3: note: Value stored to 'retried' is never read
+                   retried =3D false;
+                   ^         ~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   fs/gfs2/ops_fstype.c:856:2: warning: Value stored to 'jindex' is never r=
 ead [clang-analyzer-deadcode.DeadStores]
-                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-core.c:2198:3: note: Value stored to 'len' is never read
-                   len +=3D sprintf(buf + len, "%shidraw%d", len ? "," : "",
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   drivers/net/phy/micrel.c:1109:2: warning: Value stored to 'regval' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:1109:2: note: Value stored to 'regval' is never=
- read
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   include/linux/jhash.h:95:25: warning: The left operand of '<<' is a garb=
-age value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           case 6:  b +=3D (u32)k[5]<<8;     fallthrough;
-                                  ^
-   net/batman-adv/bridge_loop_avoidance.c:2475:6: note: Assuming the condit=
-ion is false
-           if (!atomic_read(&bat_priv->bridge_loop_avoidance))
+           jindex =3D 0;
+           ^        ~
+   fs/gfs2/ops_fstype.c:856:2: note: Value stored to 'jindex' is never read
+           jindex =3D 0;
+           ^        ~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/gfs2/inode.c:1493:4: warning: Value stored to 'error' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                           error =3D 0;
+                           ^       ~
+   fs/gfs2/inode.c:1493:4: note: Value stored to 'error' is never read
+                           error =3D 0;
+                           ^       ~
+   fs/gfs2/inode.c:1558:3: warning: Value stored to 'error' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   error =3D gfs2_unlink_inode(ndip, ndentry);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/gfs2/inode.c:1558:3: note: Value stored to 'error' is never read
+                   error =3D gfs2_unlink_inode(ndip, ndentry);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   fs/gfs2/quota.c:839:2: warning: Value stored to 'err' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+           err =3D -EIO;
+           ^     ~~~~
+   fs/gfs2/quota.c:839:2: note: Value stored to 'err' is never read
+           err =3D -EIO;
+           ^     ~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/hwmon/pc87360.c:1450:12: warning: The right operand of '>=3D' is=
+ a garbage value due to array index out of bounds [clang-analyzer-core.Unde=
+finedBinaryOperatorResult]
+                   if (init >=3D init_temp[i]) {
+                            ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/hwmon/pc87360.c:1404:6: note: Assuming 'init' is < 2
+           if (init >=3D 2 && data->innr) {
                ^
    include/linux/compiler.h:56:47: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -222,55 +288,11 @@ r'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
 ace_if_value(cond))
                                                       ^~~~
-   net/batman-adv/bridge_loop_avoidance.c:2475:2: note: '?' condition is fa=
-lse
-           if (!atomic_read(&bat_priv->bridge_loop_avoidance))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/batman-adv/bridge_loop_avoidance.c:2475:2: note: '?' condition is fa=
-lse
-           if (!atomic_read(&bat_priv->bridge_loop_avoidance))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/batman-adv/bridge_loop_avoidance.c:2475:2: note: Taking false branch
-           if (!atomic_read(&bat_priv->bridge_loop_avoidance))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+   drivers/hwmon/pc87360.c:1404:16: note: Left side of '&&' is false
+           if (init >=3D 2 && data->innr) {
                          ^
-   net/batman-adv/bridge_loop_avoidance.c:2479:7: note: 'primary_if' is non=
--null
-           if (!primary_if)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/batman-adv/bridge_loop_avoidance.c:2479:2: note: '?' condition is fa=
-lse
-           if (!primary_if)
+   drivers/hwmon/pc87360.c:1404:2: note: '?' condition is false
+           if (init >=3D 2 && data->innr) {
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -279,142 +301,136 @@ lse
 r'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
 ace_if_value(cond))
-                                 ^
-   net/batman-adv/bridge_loop_avoidance.c:2479:7: note: 'primary_if' is non=
--null
-           if (!primary_if)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/batman-adv/bridge_loop_avoidance.c:2479:2: note: '?' condition is fa=
-lse
-           if (!primary_if)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
 
-vim +1665 drivers/hid/hid-core.c
+vim +/retried +989 fs/gfs2/file.c
 
-dde5845a529ff75 Jiri Kosina        2006-12-08  1648  =
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   937  =
 
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1649  /*
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1650   * Analyse a received =
-report, and fetch the data from it. The field
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1651   * content is stored f=
-or next report processing (we do differential
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1652   * reporting to the la=
-yer).
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1653   */
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1654  static void hid_proces=
-s_report(struct hid_device *hid,
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1655  			       struct hid_r=
-eport *report,
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1656  			       __u8 *data,
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1657  			       int interrup=
-t)
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1658  {
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1659  	unsigned int a;
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1660  	struct hid_field_entr=
-y *entry;
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1661  	struct hid_field *fie=
-ld;
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1662  =
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   938  static ssize_t gfs2_f=
+ile_read_iter(struct kiocb *iocb, struct iov_iter *to)
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   939  {
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   940  	struct gfs2_inode *i=
+p;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   941  	struct gfs2_holder g=
+h;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   942  	size_t prev_count =
+=3D 0, window_size =3D 0;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   943  	size_t written =3D 0;
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   944  	ssize_t ret;
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   945  	bool retried =3D fal=
+se;
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   946  =
 
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1663  	/* first retrieve all=
- incoming values in data */
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1664  	for (a =3D 0; a < rep=
-ort->maxfield; a++)
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03 @1665  		hid_input_fetch_fiel=
-d(hid, field =3D report->field[a], data);
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1666  =
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   947  	/*
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   948  	 * In this function,=
+ we disable page faults when we're holding the
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   949  	 * inode glock while=
+ doing I/O.  If a page fault occurs, we indicate
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   950  	 * that the inode gl=
+ock may be dropped, fault in the pages manually,
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   951  	 * and retry.
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   952  	 */
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   953  =
 
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1667  	if (!list_empty(&repo=
-rt->field_entry_list)) {
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1668  		/* INPUT_REPORT, we =
-have a priority list of fields */
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1669  		list_for_each_entry(=
-entry,
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1670  				    &report->field=
-_entry_list,
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1671  				    list) {
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1672  			field =3D entry->fi=
-eld;
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1673  =
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   954  	if (iocb->ki_flags &=
+ IOCB_DIRECT) {
+4c5c3010408d872 Andreas Gruenbacher 2020-06-29   955  		ret =3D gfs2_file_d=
+irect_read(iocb, to, &gh);
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   956  		if (likely(ret !=3D=
+ -ENOTBLK))
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   957  			return ret;
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   958  		iocb->ki_flags &=3D=
+ ~IOCB_DIRECT;
+967bcc91b044936 Andreas Gruenbacher 2018-06-19   959  	}
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   960  	iocb->ki_flags |=3D =
+IOCB_NOIO;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   961  	ret =3D generic_file=
+_read_iter(iocb, to);
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   962  	iocb->ki_flags &=3D =
+~IOCB_NOIO;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   963  	if (ret >=3D 0) {
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   964  		if (!iov_iter_count=
+(to))
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   965  			return ret;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   966  		written =3D ret;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   967  	} else {
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   968  		if (ret !=3D -EAGAI=
+N)
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   969  			return ret;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   970  		if (iocb->ki_flags =
+& IOCB_NOWAIT)
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   971  			return ret;
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   972  	}
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   973  	ip =3D GFS2_I(iocb->=
+ki_filp->f_mapping->host);
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   974  	gfs2_holder_init(ip-=
+>i_gl, LM_ST_SHARED, 0, &gh);
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   975  retry:
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   976  	ret =3D gfs2_glock_n=
+q(&gh);
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   977  	if (ret)
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   978  		goto out_uninit;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   979  retry_under_glock:
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   980  	pagefault_disable();
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   981  	ret =3D generic_file=
+_read_iter(iocb, to);
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   982  	pagefault_enable();
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   983  	if (ret > 0)
+20f829999c38b18 Andreas Gruenbacher 2020-07-01   984  		written +=3D ret;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   985  =
 
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1674  			if (field->flags & =
-HID_MAIN_ITEM_VARIABLE)
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1675  				hid_process_event(=
-hid,
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1676  						  field,
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1677  						  &field->usage[=
-entry->index],
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1678  						  field->new_val=
-ue[entry->index],
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1679  						  interrupt);
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1680  			else
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1681  				hid_input_array_fi=
-eld(hid, field, interrupt);
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1682  		}
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1683  =
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   986  	if (retried) {
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   987  		if (ret =3D=3D -EFA=
+ULT)
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   988  			atomic_inc(&GFS2_S=
+B(&ip->i_inode)->sb_read_fault_race);
+72aef458f9af749 Andreas Gruenbacher 2022-02-22  @989  		retried =3D false;
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   990  	}
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   991  =
 
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1684  		/* we need to do the=
- memcpy at the end for var items */
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1685  		for (a =3D 0; a < re=
-port->maxfield; a++) {
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1686  			field =3D report->f=
-ield[a];
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1687  =
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   992  	if (should_fault_in_=
+pages(ret, to, &prev_count, &window_size)) {
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   993  		size_t leftover;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   994  =
 
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1688  			if (field->flags & =
-HID_MAIN_ITEM_VARIABLE)
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1689  				memcpy(field->valu=
-e, field->new_value,
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1690  				       field->repo=
-rt_count * sizeof(__s32));
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1691  		}
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1692  	} else {
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1693  		/* FEATURE_REPORT, r=
-egular processing */
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1694  		for (a =3D 0; a < re=
-port->maxfield; a++) {
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1695  			field =3D report->f=
-ield[a];
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1696  =
-
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1697  			if (field->flags & =
-HID_MAIN_ITEM_VARIABLE)
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1698  				hid_input_var_fiel=
-d(hid, field, interrupt);
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1699  			else
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1700  				hid_input_array_fi=
-eld(hid, field, interrupt);
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1701  		}
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1702  	}
-bebcc522fbee4bf Benjamin Tissoires 2022-02-03  1703  }
-b79c1abae5e1972 Benjamin Tissoires 2022-02-03  1704  =
+72aef458f9af749 Andreas Gruenbacher 2022-02-22   995  		atomic_inc(&GFS2_SB=
+(&ip->i_inode)->sb_read_fault);
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   996  		gfs2_holder_allow_d=
+emote(&gh);
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   997  		leftover =3D fault_=
+in_iov_iter_writeable(to, window_size);
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   998  		gfs2_holder_disallo=
+w_demote(&gh);
+00bfe02f479688a Andreas Gruenbacher 2021-10-18   999  		if (leftover !=3D w=
+indow_size) {
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1000  			if (!gfs2_holder_q=
+ueued(&gh)) {
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1001  				if (written)
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1002  					goto out_uninit;
+72aef458f9af749 Andreas Gruenbacher 2022-02-22  1003  				atomic_inc(&GFS2_=
+SB(&ip->i_inode)->sb_read_lock_stolen);
+72aef458f9af749 Andreas Gruenbacher 2022-02-22  1004  				retried =3D true;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1005  				goto retry;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1006  			}
+72aef458f9af749 Andreas Gruenbacher 2022-02-22  1007  			retried =3D true;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1008  			goto retry_under_g=
+lock;
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1009  		}
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1010  	}
+00bfe02f479688a Andreas Gruenbacher 2021-10-18  1011  	if (gfs2_holder_queu=
+ed(&gh))
+20f829999c38b18 Andreas Gruenbacher 2020-07-01  1012  		gfs2_glock_dq(&gh);
+20f829999c38b18 Andreas Gruenbacher 2020-07-01  1013  out_uninit:
+20f829999c38b18 Andreas Gruenbacher 2020-07-01  1014  	gfs2_holder_uninit(&=
+gh);
+20f829999c38b18 Andreas Gruenbacher 2020-07-01  1015  	return written ? wri=
+tten : ret;
+967bcc91b044936 Andreas Gruenbacher 2018-06-19  1016  }
+967bcc91b044936 Andreas Gruenbacher 2018-06-19  1017  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4045993341285425722==--
+--===============6145066610141043698==--
 
