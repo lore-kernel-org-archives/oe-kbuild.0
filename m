@@ -1,475 +1,386 @@
-Content-Type: multipart/mixed; boundary="===============7428168736842487086=="
+Content-Type: multipart/mixed; boundary="===============0534452478566162669=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/xen/swiotlb-xen.c:206:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Wed, 09 Mar 2022 22:31:26 +0800
-Message-ID: <202203092203.wHzVanBZ-lkp@intel.com>
+Subject: [xiang:erofs/misc 2/3] fs/erofs/zdata.c:767 z_erofs_do_read_page() error: we previously assumed 'fe->cl' could be null (see line 666)
+Date: Wed, 09 Mar 2022 22:20:48 +0800
+Message-ID: <202203092202.QayocaVB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7428168736842487086==
+--===============0534452478566162669==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: Xiang Gao <xiang@kernel.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+TO: Gao Xiang <hsiangkao@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
-commit: cbce99527ca7c4e98db9890651d5e9dfc2fb89ac xen-swiotlb: remove xen_io=
-_tlb_start and xen_io_tlb_nslabs
-date:   12 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-c007-20220307 (https://download.01.org/0day-ci/ar=
-chive/20220309/202203092203.wHzVanBZ-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dcbce99527ca7c4e98db9890651d5e9dfc2fb89ac
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout cbce99527ca7c4e98db9890651d5e9dfc2fb89ac
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/linux.git ero=
+fs/misc
+head:   dd38670e1d1e1bbf14545d8f149267c0506c5119
+commit: 00bdb207d41a8f783140eaa747ba86dfb3ca83f8 [2/3] erofs: get rid of `s=
+truct z_erofs_collector'
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: i386-randconfig-m021-20220307 (https://download.01.org/0day-ci/arch=
+ive/20220309/202203092202.QayocaVB-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/erofs/zdata.c:767 z_erofs_do_read_page() error: we previously assumed 'f=
+e->cl' could be null (see line 666)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:777:2: note: Taking true branch
-           if (!acpi_ec_submit_flushable_request(ec)) {
-           ^
-   drivers/acpi/ec.c:779:3: note: Control jumps to line 799
-                   goto unlock;
-                   ^
-   drivers/acpi/ec.c:799:2: note: Calling 'spin_unlock_irqrestore'
-           spin_unlock_irqrestore(&ec->lock, tmp);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:409:2: note: Value assigned to field 'global_lo=
-ck', which participates in a condition later
-           raw_spin_unlock_irqrestore(&lock->rlock, flags);
-           ^
-   include/linux/spinlock.h:290:3: note: expanded from macro 'raw_spin_unlo=
-ck_irqrestore'
-                   _raw_spin_unlock_irqrestore(lock, flags);       \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:409:2: note: Loop condition is false.  Exiting =
-loop
-           raw_spin_unlock_irqrestore(&lock->rlock, flags);
-           ^
-   include/linux/spinlock.h:288:2: note: expanded from macro 'raw_spin_unlo=
-ck_irqrestore'
-           do {                                                    \
-           ^
-   drivers/acpi/ec.c:799:2: note: Returning from 'spin_unlock_irqrestore'
-           spin_unlock_irqrestore(&ec->lock, tmp);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:822:11: note: Returning from 'acpi_ec_transaction_unlo=
-cked'
-           status =3D acpi_ec_transaction_unlocked(ec, t);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:824:6: note: Assuming field 'global_lock' is true
-           if (ec->global_lock)
-               ^~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:824:2: note: Taking true branch
-           if (ec->global_lock)
-           ^
-   drivers/acpi/ec.c:825:3: note: 1st function call argument is an uninitia=
-lized value
-                   acpi_release_global_lock(glk);
-                   ^                        ~~~
-   drivers/acpi/ec.c:1575:2: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_name(device), ACPI_EC_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/ec.c:1575:2: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-           strcpy(acpi_device_name(device), ACPI_EC_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/ec.c:1576:2: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_class(device), ACPI_EC_CLASS);
-           ^~~~~~
-   drivers/acpi/ec.c:1576:2: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-           strcpy(acpi_device_class(device), ACPI_EC_CLASS);
-           ^~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   arch/x86/include/asm/xen/hypercall.h:364:9: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           return _hypercall2(int, xen_version, cmd, arg);
-                  ^
-   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
-hypercall2'
-           __HYPERCALL_DECLS;                                              \
-           ^
-   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
-_HYPERCALL_DECLS'
-           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
-1; \
-           ^
-   drivers/xen/sys-hypervisor.c:361:8: note: Calling 'HYPERVISOR_xen_versio=
-n'
-           ret =3D HYPERVISOR_xen_version(XENVER_build_id, NULL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/xen/hypercall.h:364:9: note: Assigned value is garb=
-age or undefined
-           return _hypercall2(int, xen_version, cmd, arg);
-                  ^
-   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
-hypercall2'
-           __HYPERCALL_DECLS;                                              \
-           ^~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
-_HYPERCALL_DECLS'
-           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
-1; \
-           ^                                                        ~~~~~~
-   arch/x86/include/asm/xen/hypercall.h:435:9: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           return _hypercall2(int, xenpmu_op, op, arg);
-                  ^
-   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
-hypercall2'
-           __HYPERCALL_DECLS;                                              \
-           ^
-   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
-_HYPERCALL_DECLS'
-           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
-1; \
-           ^
-   drivers/xen/sys-hypervisor.c:493:8: note: Calling 'HYPERVISOR_xenpmu_op'
-           ret =3D HYPERVISOR_xenpmu_op(XENPMU_feature_get, &xp);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/xen/hypercall.h:435:9: note: Assigned value is garb=
-age or undefined
-           return _hypercall2(int, xenpmu_op, op, arg);
-                  ^
-   arch/x86/include/asm/xen/hypercall.h:169:2: note: expanded from macro '_=
-hypercall2'
-           __HYPERCALL_DECLS;                                              \
-           ^~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/xen/hypercall.h:113:2: note: expanded from macro '_=
-_HYPERCALL_DECLS'
-           register unsigned long __arg1 asm(__HYPERCALL_ARG1REG) =3D __arg=
-1; \
-           ^                                                        ~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (3 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/xen/swiotlb-xen.c:206:6: warning: Branch condition evaluates to =
-a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (!start) {
-               ^~~~~~
-   drivers/xen/swiotlb-xen.c:165:2: note: 'start' declared without an initi=
-al value
-           char *start;
-           ^~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:170:6: note: Assuming 'nslabs' is not equal to=
- 0
-           if (!nslabs)
-               ^~~~~~~
-   drivers/xen/swiotlb-xen.c:170:2: note: Taking false branch
-           if (!nslabs)
-           ^
-   drivers/xen/swiotlb-xen.c:178:6: note: Assuming 'io_tlb_start' is equal =
-to 0
-           if (io_tlb_start !=3D 0)
-               ^~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:178:2: note: Taking false branch
-           if (io_tlb_start !=3D 0)
-           ^
-   drivers/xen/swiotlb-xen.c:184:6: note: Assuming 'early' is false
-           if (early) {
-               ^~~~~
-   drivers/xen/swiotlb-xen.c:184:2: note: Taking false branch
-           if (early) {
-           ^
-   drivers/xen/swiotlb-xen.c:193:10: note: Assuming the condition is false
-                   while ((SLABS_PER_PAGE << order) > IO_TLB_MIN_SLABS) {
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:193:3: note: Loop condition is false. Executio=
-n continues on line 199
-                   while ((SLABS_PER_PAGE << order) > IO_TLB_MIN_SLABS) {
-                   ^
-   drivers/xen/swiotlb-xen.c:199:7: note: Assuming the condition is false
-                   if (order !=3D get_order(bytes)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:199:3: note: Taking false branch
-                   if (order !=3D get_order(bytes)) {
-                   ^
-   drivers/xen/swiotlb-xen.c:206:6: note: Branch condition evaluates to a g=
-arbage value
-           if (!start) {
-               ^~~~~~
-   include/linux/dma-direct.h:81:6: warning: Access to field 'dma_range_map=
-' results in a dereference of a null pointer (loaded from variable 'dev') [=
-clang-analyzer-core.NullDereference]
-           if (dev->dma_range_map)
-               ^
-   drivers/xen/swiotlb-xen.c:319:17: note: 32 is not equal to 64
-           u64 dma_mask =3D DMA_BIT_MASK(32);
-                          ^
-   include/linux/dma-mapping.h:76:27: note: expanded from macro 'DMA_BIT_MA=
-SK'
-   #define DMA_BIT_MASK(n) (((n) =3D=3D 64) ? ~0ULL : ((1ULL<<(n))-1))
-                             ^~~
-   drivers/xen/swiotlb-xen.c:319:17: note: '?' condition is false
-           u64 dma_mask =3D DMA_BIT_MASK(32);
-                          ^
-   include/linux/dma-mapping.h:76:26: note: expanded from macro 'DMA_BIT_MA=
-SK'
-   #define DMA_BIT_MASK(n) (((n) =3D=3D 64) ? ~0ULL : ((1ULL<<(n))-1))
-                            ^
-   drivers/xen/swiotlb-xen.c:322:6: note: Assuming 'hwdev' is null
-           if (hwdev && hwdev->coherent_dma_mask)
-               ^~~~~
-   drivers/xen/swiotlb-xen.c:322:12: note: Left side of '&&' is false
-           if (hwdev && hwdev->coherent_dma_mask)
-                     ^
-   drivers/xen/swiotlb-xen.c:327:25: note: Passing null pointer value via 1=
-st parameter 'dev'
-           phys =3D xen_dma_to_phys(hwdev, dev_addr);
-                                  ^~~~~
-   drivers/xen/swiotlb-xen.c:327:9: note: Calling 'xen_dma_to_phys'
-           phys =3D xen_dma_to_phys(hwdev, dev_addr);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:75:42: note: Passing null pointer value via 1s=
-t parameter 'dev'
-           return xen_bus_to_phys(dev, dma_to_phys(dev, dma_addr));
-                                                   ^~~
-   drivers/xen/swiotlb-xen.c:75:30: note: Calling 'dma_to_phys'
-           return xen_bus_to_phys(dev, dma_to_phys(dev, dma_addr));
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-direct.h:81:6: note: Access to field 'dma_range_map' r=
-esults in a dereference of a null pointer (loaded from variable 'dev')
-           if (dev->dma_range_map)
-               ^~~
-   Suppressed 5 warnings (3 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/acpi/bus.c:1265:2: warning: Value stored to 'status' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-           status =3D acpi_install_table_handler(acpi_bus_table_handler, NU=
-LL);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/bus.c:1265:2: note: Value stored to 'status' is never read
-           status =3D acpi_install_table_handler(acpi_bus_table_handler, NU=
-LL);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/acpi/glue.c:171:3: warning: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(buf, PHYSICAL_NODE_STRING);
-                   ^~~~~~
-   drivers/acpi/glue.c:171:3: note: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119
-                   strcpy(buf, PHYSICAL_NODE_STRING);
-                   ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/acpi/scan.c:1072:3: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(device->pnp.bus_id, "ACPI");
+Old smatch warnings:
+fs/erofs/zdata.c:471 z_erofs_register_collection() warn: passing a valid po=
+inter to 'PTR_ERR'
+fs/erofs/zdata.c:1244 jobqueueset_init() warn: maybe use && instead of &
 
-vim +206 drivers/xen/swiotlb-xen.c
+vim +767 fs/erofs/zdata.c
 
-4035b43da6daa5 Christoph Hellwig     2021-03-01  158  =
+92e6efd566c4a15 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12=
+-08  639  =
 
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  159  int __ref xen_swiotlb=
-_init(int verbose, bool early)
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  160  {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  161  	unsigned long bytes,=
- order;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  162  	int rc =3D -ENOMEM;
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  163  	enum xen_swiotlb_err=
- m_ret =3D XEN_SWIOTLB_UNKNOWN;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  164  	unsigned int repeat =
-=3D 3;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  165  	char *start;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  166  	unsigned long nslabs;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  167  =
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang         2019-07=
+-31  640  static int z_erofs_do_read_page(struct z_erofs_decompress_fronten=
+d *fe,
+eaa9172ad988b3e fs/erofs/zdata.c                  Gao Xiang         2021-10=
+-22  641  				struct page *page, struct page **pagepool)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  642  {
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang         2019-07=
+-31  643  	struct inode *const inode =3D fe->inode;
+bda17a4577da729 fs/erofs/zdata.c                  Gao Xiang         2019-10=
+-08  644  	struct erofs_sb_info *const sbi =3D EROFS_I_SB(inode);
+3b423417d0d1d5a drivers/staging/erofs/unzip_vle.c Chao Yu           2019-01=
+-15  645  	struct erofs_map_blocks *const map =3D &fe->map;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  646  	const loff_t offset =3D page_offset(page);
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  647  	bool tight =3D true;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  648  =
 
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  168  	nslabs =3D swiotlb_n=
-r_tbl();
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  169  retry:
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  170  	if (!nslabs)
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  171  		nslabs =3D DEFAULT_=
-NSLABS;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  172  	bytes =3D nslabs << =
-IO_TLB_SHIFT;
-4035b43da6daa5 Christoph Hellwig     2021-03-01  173  	order =3D get_order(=
-bytes);
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  174  =
+92e6efd566c4a15 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12=
+-08  649  	enum z_erofs_cache_alloctype cache_strategy;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  650  	enum z_erofs_page_type page_type;
+7dd68b147d60e5e drivers/staging/erofs/unzip_vle.c Thomas Wei=C3=9Fschuh  20=
+18-09-10  651  	unsigned int cur, end, spiltted, index;
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  652  	int err =3D 0;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  653  =
 
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  175  	/*
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  176  	 * IO TLB memory alr=
-eady allocated. Just use it.
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  177  	 */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  178  	if (io_tlb_start !=
-=3D 0)
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  179  		goto end;
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  180  =
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  654  	/* register locked file pages as online pages in pack */
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  655  	z_erofs_onlinepage_init(page);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  656  =
 
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  181  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  182  	 * Get IO TLB memory=
- from any location.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  183  	 */
-8a7f97b902f4fb Mike Rapoport         2019-03-11  184  	if (early) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  185  		start =3D memblock_=
-alloc(PAGE_ALIGN(bytes),
-15c3c114ed144e Mike Rapoport         2018-10-30  186  						  PAGE_SIZE);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  187  		if (!start)
-8a7f97b902f4fb Mike Rapoport         2019-03-11  188  			panic("%s: Failed =
-to allocate %lu bytes align=3D0x%lx\n",
-8a7f97b902f4fb Mike Rapoport         2019-03-11  189  			      __func__, PA=
-GE_ALIGN(bytes), PAGE_SIZE);
-8a7f97b902f4fb Mike Rapoport         2019-03-11  190  	} else {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  191  #define SLABS_PER_PAG=
-E (1 << (PAGE_SHIFT - IO_TLB_SHIFT))
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  192  #define IO_TLB_MIN_SL=
-ABS ((1<<20) >> IO_TLB_SHIFT)
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  193  		while ((SLABS_PER_P=
-AGE << order) > IO_TLB_MIN_SLABS) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  194  			start =3D (void *)=
-xen_get_swiotlb_free_pages(order);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  195  			if (start)
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  196  				break;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  197  			order--;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  198  		}
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  199  		if (order !=3D get_=
-order(bytes)) {
-283c0972d53769 Joe Perches           2013-06-28  200  			pr_warn("Warning: =
-only able to allocate %ld MB for software IO TLB\n",
-283c0972d53769 Joe Perches           2013-06-28  201  				(PAGE_SIZE << ord=
-er) >> 20);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  202  			nslabs =3D SLABS_P=
-ER_PAGE << order;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  203  			bytes =3D nslabs <=
-< IO_TLB_SHIFT;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  204  		}
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  205  	}
-cbce99527ca7c4 Christoph Hellwig     2021-03-01 @206  	if (!start) {
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  207  		m_ret =3D XEN_SWIOT=
-LB_ENOMEM;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  208  		goto error;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  209  	}
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  210  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  211  	 * And replace that =
-memory with pages under 4GB.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  212  	 */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  213  	rc =3D xen_swiotlb_f=
-ixup(start,
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  214  			       bytes,
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  215  			       nslabs);
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  216  	if (rc) {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  217  		if (early)
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  218  			memblock_free(__pa=
-(start),
-2013288f723887 Mike Rapoport         2018-10-30  219  				      PAGE_ALIGN(=
-bytes));
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  220  		else {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  221  			free_pages((unsign=
-ed long)start, order);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  222  			start =3D NULL;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  223  		}
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  224  		m_ret =3D XEN_SWIOT=
-LB_EFIXUP;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  225  		goto error;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  226  	}
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  227  	if (early) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  228  		if (swiotlb_init_wi=
-th_tbl(start, nslabs,
-ac2cbab21f318e Yinghai Lu            2013-01-24  229  			 verbose))
-ac2cbab21f318e Yinghai Lu            2013-01-24  230  			panic("Cannot allo=
-cate SWIOTLB buffer");
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  231  		rc =3D 0;
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  232  	} else
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  233  		rc =3D swiotlb_late=
-_init_with_tbl(start, nslabs);
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  234  =
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  657  	spiltted =3D 0;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  658  	end =3D PAGE_SIZE;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  659  repeat:
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  660  	cur =3D end - 1;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  661  =
 
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  235  end:
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  236  	if (!rc)
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  237  		swiotlb_set_max_seg=
-ment(PAGE_SIZE);
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  238  =
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  662  	/* lucky, within the range of the current map_blocks */
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  663  	if (offset + cur >=3D map->m_la &&
+1e5ceeab6929585 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02=
+-27  664  	    offset + cur < map->m_la + map->m_llen) {
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang         2019-07=
+-31  665  		/* didn't get a valid collection previously (very rare) */
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02 @666  		if (!fe->cl)
+1e5ceeab6929585 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02=
+-27  667  			goto restart_now;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  668  		goto hitted;
+1e5ceeab6929585 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02=
+-27  669  	}
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  670  =
 
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  239  	return rc;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  240  error:
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  241  	if (repeat--) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  242  		nslabs =3D max(1024=
-UL, /* Min is 2MB */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  243  					(nslabs >> 1));
-283c0972d53769 Joe Perches           2013-06-28  244  		pr_info("Lowering t=
-o %luMB\n",
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  245  			(nslabs << IO_TLB_=
-SHIFT) >> 20);
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  246  		goto retry;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  247  	}
-283c0972d53769 Joe Perches           2013-06-28  248  	pr_err("%s (rc:%d)\n=
-", xen_swiotlb_error(m_ret), rc);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  249  	if (early)
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  250  		panic("%s (rc:%d)",=
- xen_swiotlb_error(m_ret), rc);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  251  	else
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  252  		free_pages((unsigne=
-d long)start, order);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  253  	return rc;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  254  }
-dceb1a6819ab2c Christoph Hellwig     2017-05-21  255  =
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  671  	/* go ahead the next map_blocks */
+4f761fa253b49f6 fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-04  672  	erofs_dbg("%s: [out-of-range] pos %llu", __func__, offset + cur);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  673  =
+
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  674  	if (z_erofs_collector_end(fe))
+f0c519fc2679ca0 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-11=
+-23  675  		fe->backmost =3D false;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  676  =
+
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  677  	map->m_la =3D offset + cur;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  678  	map->m_llen =3D 0;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang         2019-07=
+-31  679  	err =3D z_erofs_map_blocks_iter(inode, map, 0);
+8d8a09b093d7073 fs/erofs/zdata.c                  Gao Xiang         2019-08=
+-30  680  	if (err)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  681  		goto err_out;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  682  =
+
+1e5ceeab6929585 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02=
+-27  683  restart_now:
+8d8a09b093d7073 fs/erofs/zdata.c                  Gao Xiang         2019-08=
+-30  684  	if (!(map->m_flags & EROFS_MAP_MAPPED))
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  685  		goto hitted;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  686  =
+
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  687  	err =3D z_erofs_collector_begin(fe, inode, map);
+8d8a09b093d7073 fs/erofs/zdata.c                  Gao Xiang         2019-08=
+-30  688  	if (err)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  689  		goto err_out;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  690  =
+
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  691  	if (z_erofs_is_inline_pcluster(fe->pcl)) {
+09c543798c3cde1 fs/erofs/zdata.c                  Gao Xiang         2022-01=
+-02  692  		void *mp;
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  693  =
+
+09c543798c3cde1 fs/erofs/zdata.c                  Gao Xiang         2022-01=
+-02  694  		mp =3D erofs_read_metabuf(&fe->map.buf, inode->i_sb,
+09c543798c3cde1 fs/erofs/zdata.c                  Gao Xiang         2022-01=
+-02  695  					erofs_blknr(map->m_pa), EROFS_NO_KMAP);
+09c543798c3cde1 fs/erofs/zdata.c                  Gao Xiang         2022-01=
+-02  696  		if (IS_ERR(mp)) {
+09c543798c3cde1 fs/erofs/zdata.c                  Gao Xiang         2022-01=
+-02  697  			err =3D PTR_ERR(mp);
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  698  			erofs_err(inode->i_sb,
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  699  				  "failed to get inline page, err %d", err);
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  700  			goto err_out;
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  701  		}
+09c543798c3cde1 fs/erofs/zdata.c                  Gao Xiang         2022-01=
+-02  702  		get_page(fe->map.buf.page);
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  703  		WRITE_ONCE(fe->pcl->compressed_pages[0], fe->map.buf.page);
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  704  		fe->mode =3D COLLECT_PRIMARY_FOLLOWED_NOINPLACE;
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  705  	} else {
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  706  		/* preload all compressed pages (can change mode if needed) */
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  707  		if (should_alloc_managed_pages(fe, sbi->opt.cache_strategy,
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  708  					       map->m_la))
+1825c8d7ce93c47 fs/erofs/zdata.c                  Gao Xiang         2020-12=
+-09  709  			cache_strategy =3D TRYALLOC;
+92e6efd566c4a15 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12=
+-08  710  		else
+92e6efd566c4a15 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12=
+-08  711  			cache_strategy =3D DONTALLOC;
+92e6efd566c4a15 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12=
+-08  712  =
+
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  713  		preload_compressed_pages(fe, MNGD_MAPPING(sbi),
+1825c8d7ce93c47 fs/erofs/zdata.c                  Gao Xiang         2020-12=
+-09  714  					 cache_strategy, pagepool);
+cecf864d3d76d50 fs/erofs/zdata.c                  Yue Hu            2021-12=
+-29  715  	}
+105d4ad857dcbf3 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  716  =
+
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  717  hitted:
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  718  	/*
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  719  	 * Ensure the current partial page belongs to this submit chain =
+rather
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  720  	 * than other concurrent submit chains or the noio(bypass) chain=
+ since
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  721  	 * those chains are handled asynchronously thus the page cannot =
+be used
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  722  	 * for inplace I/O or pagevec (should be processed in strict ord=
+er.)
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  723  	 */
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  724  	tight &=3D (fe->mode >=3D COLLECT_PRIMARY_HOOKED &&
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  725  		  fe->mode !=3D COLLECT_PRIMARY_FOLLOWED_NOINPLACE);
+dc76ea8c1087b5c fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-22  726  =
+
+7dd68b147d60e5e drivers/staging/erofs/unzip_vle.c Thomas Wei=C3=9Fschuh  20=
+18-09-10  727  	cur =3D end - min_t(unsigned int, offset + end - map->m_la,=
+ end);
+8d8a09b093d7073 fs/erofs/zdata.c                  Gao Xiang         2019-08=
+-30  728  	if (!(map->m_flags & EROFS_MAP_MAPPED)) {
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  729  		zero_user_segment(page, cur, end);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  730  		goto next_part;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  731  	}
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  732  =
+
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  733  	/* let's derive page type */
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  734  	page_type =3D cur ? Z_EROFS_VLE_PAGE_TYPE_HEAD :
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  735  		(!spiltted ? Z_EROFS_PAGE_TYPE_EXCLUSIVE :
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  736  			(tight ? Z_EROFS_PAGE_TYPE_EXCLUSIVE :
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  737  				Z_EROFS_VLE_PAGE_TYPE_TAIL_SHARED));
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  738  =
+
+a112152f6f3a2a8 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02=
+-27  739  	if (cur)
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  740  		tight &=3D (fe->mode >=3D COLLECT_PRIMARY_FOLLOWED);
+a112152f6f3a2a8 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02=
+-27  741  =
+
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  742  retry:
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  743  	err =3D z_erofs_attach_page(fe, page, page_type,
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  744  				  fe->mode >=3D COLLECT_PRIMARY_FOLLOWED);
+6aaa7b0664e6886 fs/erofs/zdata.c                  Gao Xiang         2020-12=
+-08  745  	/* should allocate an additional short-lived page for pagevec */
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  746  	if (err =3D=3D -EAGAIN) {
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  747  		struct page *const newpage =3D
+e3f78d5e7e6b082 fs/erofs/zdata.c                  Chao Yu           2020-09=
+-17  748  				alloc_page(GFP_NOFS | __GFP_NOFAIL);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  749  =
+
+6aaa7b0664e6886 fs/erofs/zdata.c                  Gao Xiang         2020-12=
+-08  750  		set_page_private(newpage, Z_EROFS_SHORTLIVED_PAGE);
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02  751  		err =3D z_erofs_attach_page(fe, newpage,
+86432a6dca9bed7 fs/erofs/zdata.c                  Gao Xiang         2021-11=
+-04  752  					  Z_EROFS_PAGE_TYPE_EXCLUSIVE, true);
+8d8a09b093d7073 fs/erofs/zdata.c                  Gao Xiang         2019-08=
+-30  753  		if (!err)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  754  			goto retry;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  755  	}
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  756  =
+
+8d8a09b093d7073 fs/erofs/zdata.c                  Gao Xiang         2019-08=
+-30  757  	if (err)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  758  		goto err_out;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  759  =
+
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang         2019-07=
+-31  760  	index =3D page->index - (map->m_la >> PAGE_SHIFT);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  761  =
+
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  762  	z_erofs_onlinepage_fixup(page, index, true);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  763  =
+
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  764  	/* bump up the number of spiltted parts of a page */
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  765  	++spiltted;
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  766  	/* also update nr_pages */
+00bdb207d41a8f7 fs/erofs/zdata.c                  Gao Xiang         2022-03=
+-02 @767  	fe->cl->nr_pages =3D max_t(pgoff_t, fe->cl->nr_pages, index + 1);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  768  next_part:
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  769  	/* can be used for verification */
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  770  	map->m_llen =3D offset + cur - map->m_la;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  771  =
+
+2bc7596438aba6d drivers/staging/erofs/unzip_vle.c Kristaps =C4=8Civkulis 20=
+18-08-05  772  	end =3D cur;
+2bc7596438aba6d drivers/staging/erofs/unzip_vle.c Kristaps =C4=8Civkulis 20=
+18-08-05  773  	if (end > 0)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  774  		goto repeat;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  775  =
+
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  776  out:
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  777  	z_erofs_onlinepage_endio(page);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  778  =
+
+4f761fa253b49f6 fs/erofs/zdata.c                  Gao Xiang         2019-09=
+-04  779  	erofs_dbg("%s, finish page: %pK spiltted: %u map->m_llen %llu",
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  780  		  __func__, page, spiltted, map->m_llen);
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  781  	return err;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  782  =
+
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  783  	/* if some error occurred while processing this page */
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  784  err_out:
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  785  	SetPageError(page);
+1e05ff36e6921ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09=
+-18  786  	goto out;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  787  }
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07=
+-26  788  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7428168736842487086==--
+--===============0534452478566162669==--
 
