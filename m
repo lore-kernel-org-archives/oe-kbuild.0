@@ -1,135 +1,230 @@
-Content-Type: multipart/mixed; boundary="===============7370230102170093940=="
+Content-Type: multipart/mixed; boundary="===============1610837813747664428=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/kvm/x86.c:1014 __kvm_set_xcr() warn: bitwise AND condition is false here
-Date: Thu, 10 Mar 2022 03:55:06 +0800
-Message-ID: <202203100319.XACjiYJC-lkp@intel.com>
+Subject: Re: [PATCH V1 RESEND 1/4] pci: add interface to create pci-ep device tree node
+Date: Thu, 10 Mar 2022 03:14:30 +0800
+Message-ID: <202203100338.8jox1rCr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7370230102170093940==
+--===============1610837813747664428==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <20220305052304.726050-2-lizhi.hou@xilinx.com>
+References: <20220305052304.726050-2-lizhi.hou@xilinx.com>
+TO: Lizhi Hou <lizhi.hou@xilinx.com>
+TO: linux-pci(a)vger.kernel.org
+TO: devicetree(a)vger.kernel.org
+TO: robh(a)kernel.org
+CC: Lizhi Hou <lizhi.hou@xilinx.com>
+CC: yilun.xu(a)intel.com
+CC: maxz(a)xilinx.com
+CC: sonal.santan(a)xilinx.com
+CC: yliu(a)xilinx.com
+CC: michal.simek(a)xilinx.com
+CC: stefanos(a)xilinx.com
+CC: trix(a)redhat.com
+CC: mdf(a)kernel.org
+CC: dwmw2(a)infradead.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jing Liu <jing2.liu@intel.com>
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Kevin Tian <kevin.tian@intel.com>
-CC: Yang Zhong <yang.zhong@intel.com>
+CC: Max Zhen <max.zhen@xilinx.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
-commit: 86aff7a4799286635efd94dab17b513544703cad kvm: x86: Add XCR0 support=
- for Intel AMX
-date:   8 weeks ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 8 weeks ago
-config: i386-randconfig-m031-20220307 (https://download.01.org/0day-ci/arch=
-ive/20220310/202203100319.XACjiYJC-lkp(a)intel.com/config)
+Hi Lizhi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on helgaas-pci/next linus/master pinchartl-media/d=
+rm/du/next v5.17-rc7 next-20220309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Lizhi-Hou/Infrastructure-t=
+o-define-apertures-in-a-PCIe-device-with-a-flattened-device-tree/20220307-1=
+41939
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
+next
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-m021-20220307 (https://download.01.org/0day-ci/arch=
+ive/20220310/202203100338.8jox1rCr-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-arch/x86/kvm/x86.c:1014 __kvm_set_xcr() warn: bitwise AND condition is fals=
-e here
+smatch warnings:
+drivers/pci/of.c:762 devm_of_pci_create_bus_endpoint() error: double free o=
+f 'prop'
 
-Old smatch warnings:
-arch/x86/kvm/x86.c:1015 __kvm_set_xcr() warn: bitwise AND condition is fals=
-e here
-arch/x86/kvm/x86.c:5048 kvm_arch_tsc_set_attr() warn: check for integer ove=
-rflow 'offset'
-arch/x86/kvm/x86.c:5089 kvm_vcpu_ioctl_device_attr() error: uninitialized s=
-ymbol 'r'.
-arch/x86/kvm/x86.c:9516 enter_smm() warn: inconsistent indenting
+vim +/prop +762 drivers/pci/of.c
 
-vim +1014 arch/x86/kvm/x86.c
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  663  =
 
-42bdf991f4cad9 Marcelo Tosatti     2013-04-15   979  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  664  /**
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  665   * devm_of_pci_create_bus_endpoin=
+t - Create a device node for the given pci device.
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  666   * @pdev: PCI device pointer.
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  667   *
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  668   * For PCI device which uses flat=
+tened device tree to describe apertures in its BARs,
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  669   * a device node for the given pc=
+i device is required. Then the flattened device tree
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  670   * overlay from the device can be=
+ applied to the base tree.
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  671   * The device node is under root =
+node and act like bus node. It contains a "ranges"
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  672   * property which is used for add=
+ress translation of its children. Each child node
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  673   * corresponds an aperture and us=
+e BAR index and offset as its address.
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  674  =
 
-69b0049a89ad41 Fengguang Wu        2015-01-19   980  static int __kvm_set_x=
-cr(struct kvm_vcpu *vcpu, u32 index, u64 xcr)
-2acf923e38fb6a Dexuan Cui          2010-06-10   981  {
-56c103ec040b19 Liu, Jinsong        2014-02-21   982  	u64 xcr0 =3D xcr;
-56c103ec040b19 Liu, Jinsong        2014-02-21   983  	u64 old_xcr0 =3D vcpu=
-->arch.xcr0;
-46c34cb059d519 Paolo Bonzini       2013-10-17   984  	u64 valid_bits;
-2acf923e38fb6a Dexuan Cui          2010-06-10   985  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  675   * Returns 0 on success or a nega=
+tive error-code on failure.
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  676   */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  677  int devm_of_pci_create_bus_endpoi=
+nt(struct pci_dev *pdev)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  678  {
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  679  	struct property *proplist =3D NU=
+LL;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  680  	struct device *dev =3D &pdev->de=
+v;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  681  	int range_ncells, addr_ncells;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  682  	struct device_node *node;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  683  	void *prop =3D NULL;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  684  	u32 *range_cell;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  685  	__be32 val;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  686  	int i, ret;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  687  =
 
-2acf923e38fb6a Dexuan Cui          2010-06-10   986  	/* Only support XCR_X=
-FEATURE_ENABLED_MASK(xcr0) now  */
-2acf923e38fb6a Dexuan Cui          2010-06-10   987  	if (index !=3D XCR_XF=
-EATURE_ENABLED_MASK)
-2acf923e38fb6a Dexuan Cui          2010-06-10   988  		return 1;
-d91cab78133d33 Dave Hansen         2015-09-02   989  	if (!(xcr0 & XFEATURE=
-_MASK_FP))
-2acf923e38fb6a Dexuan Cui          2010-06-10   990  		return 1;
-d91cab78133d33 Dave Hansen         2015-09-02   991  	if ((xcr0 & XFEATURE_=
-MASK_YMM) && !(xcr0 & XFEATURE_MASK_SSE))
-2acf923e38fb6a Dexuan Cui          2010-06-10   992  		return 1;
-46c34cb059d519 Paolo Bonzini       2013-10-17   993  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  688  	node =3D of_ep_alloc_node(pdev, =
+"pci-ep-bus");
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  689  	if (!node)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  690  		return -ENOMEM;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  691  =
 
-46c34cb059d519 Paolo Bonzini       2013-10-17   994  	/*
-46c34cb059d519 Paolo Bonzini       2013-10-17   995  	 * Do not allow the g=
-uest to set bits that we do not support
-46c34cb059d519 Paolo Bonzini       2013-10-17   996  	 * saving.  However, =
-xcr0 bit 0 is always set, even if the
-e8f65b9bb48320 Sean Christopherson 2021-09-20   997  	 * emulated CPU does =
-not support XSAVE (see kvm_vcpu_reset()).
-46c34cb059d519 Paolo Bonzini       2013-10-17   998  	 */
-d91cab78133d33 Dave Hansen         2015-09-02   999  	valid_bits =3D vcpu->=
-arch.guest_supported_xcr0 | XFEATURE_MASK_FP;
-46c34cb059d519 Paolo Bonzini       2013-10-17  1000  	if (xcr0 & ~valid_bit=
-s)
-2acf923e38fb6a Dexuan Cui          2010-06-10  1001  		return 1;
-46c34cb059d519 Paolo Bonzini       2013-10-17  1002  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  692  	/* the endpoint node works as 's=
+imple-bus' to translate aperture addresses. */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  693  	prop =3D "simple-bus";
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  694  	ret =3D of_ep_add_property(dev, =
+&proplist, "compatible", strlen(prop) + 1, prop);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  695  	if (ret)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  696  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  697  =
 
-d91cab78133d33 Dave Hansen         2015-09-02  1003  	if ((!(xcr0 & XFEATUR=
-E_MASK_BNDREGS)) !=3D
-d91cab78133d33 Dave Hansen         2015-09-02  1004  	    (!(xcr0 & XFEATUR=
-E_MASK_BNDCSR)))
-390bd528ae1c14 Liu, Jinsong        2014-02-24  1005  		return 1;
-390bd528ae1c14 Liu, Jinsong        2014-02-24  1006  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  698  	/* The address and size cells of=
+ nodes underneath are 2 */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  699  	val =3D cpu_to_be32(2);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  700  	ret =3D of_ep_add_property(dev, =
+&proplist, "#address-cells", sizeof(u32), &val);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  701  	if (ret)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  702  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  703  =
 
-d91cab78133d33 Dave Hansen         2015-09-02  1007  	if (xcr0 & XFEATURE_M=
-ASK_AVX512) {
-d91cab78133d33 Dave Hansen         2015-09-02  1008  		if (!(xcr0 & XFEATUR=
-E_MASK_YMM))
-612263b30c900b Chao Peng           2014-10-22  1009  			return 1;
-d91cab78133d33 Dave Hansen         2015-09-02  1010  		if ((xcr0 & XFEATURE=
-_MASK_AVX512) !=3D XFEATURE_MASK_AVX512)
-612263b30c900b Chao Peng           2014-10-22  1011  			return 1;
-612263b30c900b Chao Peng           2014-10-22  1012  	}
-86aff7a4799286 Jing Liu            2022-01-05  1013  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  704  	ret =3D of_ep_add_property(dev, =
+&proplist, "#size-cells", sizeof(u32), &val);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  705  	if (ret)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  706  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  707  =
 
-86aff7a4799286 Jing Liu            2022-01-05 @1014  	if ((xcr0 & XFEATURE_=
-MASK_XTILE) &&
-86aff7a4799286 Jing Liu            2022-01-05  1015  	    ((xcr0 & XFEATURE=
-_MASK_XTILE) !=3D XFEATURE_MASK_XTILE))
-86aff7a4799286 Jing Liu            2022-01-05  1016  		return 1;
-86aff7a4799286 Jing Liu            2022-01-05  1017  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  708  	/* child address format: 0xIoooo=
+ooo oooooooo, I =3D bar index, o =3D offset on bar */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  709  	addr_ncells =3D of_n_addr_cells(=
+node);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  710  	if (addr_ncells > 2) {
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  711  		/* does not support number of a=
+ddress cells greater than 2 */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  712  		ret =3D -EINVAL;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  713  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  714  	}
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  715  =
 
-2acf923e38fb6a Dexuan Cui          2010-06-10  1018  	vcpu->arch.xcr0 =3D x=
-cr0;
-56c103ec040b19 Liu, Jinsong        2014-02-21  1019  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  716  	/* range cells include <node add=
+r cells> <child addr cells> <child size cells> */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  717  	range_ncells =3D addr_ncells + 4;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  718  	prop =3D kzalloc(range_ncells * =
+sizeof(u32) * PCI_STD_NUM_BARS, GFP_KERNEL);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  719  	if (!prop) {
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  720  		ret =3D -ENOMEM;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  721  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  722  	}
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  723  =
 
-d91cab78133d33 Dave Hansen         2015-09-02  1020  	if ((xcr0 ^ old_xcr0)=
- & XFEATURE_MASK_EXTEND)
-aedbaf4f6afdcf Xiaoyao Li          2020-07-09  1021  		kvm_update_cpuid_run=
-time(vcpu);
-2acf923e38fb6a Dexuan Cui          2010-06-10  1022  	return 0;
-2acf923e38fb6a Dexuan Cui          2010-06-10  1023  }
-2acf923e38fb6a Dexuan Cui          2010-06-10  1024  =
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  724  	range_cell =3D prop;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  725  	for (i =3D 0; i < PCI_STD_NUM_BA=
+RS; i++) {
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  726  		if (!pci_resource_len(pdev, i))
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  727  			continue;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  728  		/* highest 4 bits of address ar=
+e bar index */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  729  		*(__be64 *)range_cell =3D cpu_t=
+o_be64((u64)i << 60);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  730  		range_cell +=3D 2;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  731  		if (addr_ncells =3D=3D 2)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  732  			*(__be64 *)range_cell =3D cpu_=
+to_be64((u64)pci_resource_start(pdev, i));
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  733  		else
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  734  			*(__be32 *)range_cell =3D cpu_=
+to_be32((u32)pci_resource_start(pdev, i));
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  735  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  736  		range_cell +=3D addr_ncells;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  737  		*(__be64 *)range_cell =3D cpu_t=
+o_be64((u64)pci_resource_len(pdev, i));
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  738  		range_cell +=3D 2;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  739  	}
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  740  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  741  	/* error out if there is not PCI=
+ BAR been found */
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  742  	if ((void *)range_cell =3D=3D pr=
+op) {
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  743  		ret =3D -EINVAL;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  744  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  745  	}
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  746  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  747  	ret =3D of_ep_add_property(dev, =
+&proplist, "ranges", (void *)range_cell - prop, prop);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  748  	kfree(prop);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  749  	if (ret)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  750  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  751  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  752  	node->properties =3D proplist;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  753  	ret =3D of_attach_node(node);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  754  	if (ret)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  755  		goto cleanup;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  756  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  757  	devres_add(dev, node);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  758  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  759  	return 0;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  760  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  761  cleanup:
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04 @762  	kfree(prop);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  763  	if (node)
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  764  		devres_free(node);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  765  =
+
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  766  	return ret;
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  767  }
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  768  EXPORT_SYMBOL_GPL(devm_of_pci_cre=
+ate_bus_endpoint);
+3a2c08c0f0ef77 Lizhi Hou 2022-03-04  769  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7370230102170093940==--
+--===============1610837813747664428==--
 
