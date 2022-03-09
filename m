@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5845165724350324042=="
+Content-Type: multipart/mixed; boundary="===============2054597283349467668=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Fri, 11 Mar 2022 01:46:22 +0800
-Message-ID: <202203110114.13aHC38i-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequencer.c:1018 dce110_edp_backlight_control() error: we previously assumed 'link->panel_cntl' could be null (see line 977)
+Date: Wed, 09 Mar 2022 15:32:13 +0800
+Message-ID: <202203091542.wWXRk9o1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5845165724350324042==
+--===============2054597283349467668==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,292 +15,200 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Leonard Foerster <foersleo@amazon.de>
-CC: Fernand Sieber <sieberf@amazon.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jake Wang <haonan.wang2@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Aric Cyr <Aric.Cyr@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   1db333d9a51f3459fba1bcaa564d95befe79f0b3
-commit: 4bc05954d0076655cfaf6f0135585bdc20cd6b11 mm/damon: implement a debu=
-gfs-based user space interface
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: arc-randconfig-m031-20220310 (https://download.01.org/0day-ci/archi=
-ve/20220311/202203110114.13aHC38i-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
+head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
+commit: 06ddcee49a35981835e04910bef462a09f108984 drm/amd/display: Added mul=
+ti instance support for panel control
+date:   12 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 12 months ago
+config: powerpc-randconfig-m031-20220301 (https://download.01.org/0day-ci/a=
+rchive/20220309/202203091542.wWXRk9o1-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'P=
-TR_ERR'
-mm/damon/dbgfs.c:196 dbgfs_target_ids_write() warn: passing a valid pointer=
- to 'PTR_ERR'
-mm/damon/dbgfs.c:319 dbgfs_monitor_on_write() warn: passing a valid pointer=
- to 'PTR_ERR'
+drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequencer.c:1018 =
+dce110_edp_backlight_control() error: we previously assumed 'link->panel_cn=
+tl' could be null (see line 977)
 
-vim +/PTR_ERR +76 mm/damon/dbgfs.c
+vim +1018 drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequenc=
+er.c
 
-4bc05954d007665 SeongJae Park 2021-09-07   64  =
+cf3a26275977947 Jun Lei           2020-11-24   957  =
 
-4bc05954d007665 SeongJae Park 2021-09-07   65  static ssize_t dbgfs_attrs_w=
-rite(struct file *file,
-4bc05954d007665 SeongJae Park 2021-09-07   66  		const char __user *buf, si=
-ze_t count, loff_t *ppos)
-4bc05954d007665 SeongJae Park 2021-09-07   67  {
-4bc05954d007665 SeongJae Park 2021-09-07   68  	struct damon_ctx *ctx =3D f=
-ile->private_data;
-4bc05954d007665 SeongJae Park 2021-09-07   69  	unsigned long s, a, r, minr=
-, maxr;
-4bc05954d007665 SeongJae Park 2021-09-07   70  	char *kbuf;
-4bc05954d007665 SeongJae Park 2021-09-07   71  	ssize_t ret =3D count;
-4bc05954d007665 SeongJae Park 2021-09-07   72  	int err;
-4bc05954d007665 SeongJae Park 2021-09-07   73  =
+5eefbc40173644b Yue Hin Lau       2017-09-15   958  /*todo: cloned in strea=
+m enc, fix*/
+5eefbc40173644b Yue Hin Lau       2017-09-15   959  /*
+5eefbc40173644b Yue Hin Lau       2017-09-15   960   * @brief
+5eefbc40173644b Yue Hin Lau       2017-09-15   961   * eDP only. Control th=
+e backlight of the eDP panel
+5eefbc40173644b Yue Hin Lau       2017-09-15   962   */
+8a31820b12187c7 Martin Leung      2019-07-09   963  void dce110_edp_backlig=
+ht_control(
+5eefbc40173644b Yue Hin Lau       2017-09-15   964  		struct dc_link *link,
+5eefbc40173644b Yue Hin Lau       2017-09-15   965  		bool enable)
+5eefbc40173644b Yue Hin Lau       2017-09-15   966  {
+069d418f412ec4b Andrew Jiang      2017-09-26   967  	struct dc_context *ctx=
+ =3D link->ctx;
+5eefbc40173644b Yue Hin Lau       2017-09-15   968  	struct bp_transmitter_=
+control cntl =3D { 0 };
+06ddcee49a35981 Jake Wang         2021-02-23   969  	uint8_t panel_instance;
+5eefbc40173644b Yue Hin Lau       2017-09-15   970  =
 
-4bc05954d007665 SeongJae Park 2021-09-07   74  	kbuf =3D user_input_str(buf=
-, count, ppos);
-4bc05954d007665 SeongJae Park 2021-09-07   75  	if (IS_ERR(kbuf))
-4bc05954d007665 SeongJae Park 2021-09-07  @76  		return PTR_ERR(kbuf);
-4bc05954d007665 SeongJae Park 2021-09-07   77  =
+069d418f412ec4b Andrew Jiang      2017-09-26   971  	if (dal_graphics_objec=
+t_id_get_connector_id(link->link_enc->connector)
+5eefbc40173644b Yue Hin Lau       2017-09-15   972  		!=3D CONNECTOR_ID_EDP=
+) {
+5eefbc40173644b Yue Hin Lau       2017-09-15   973  		BREAK_TO_DEBUGGER();
+5eefbc40173644b Yue Hin Lau       2017-09-15   974  		return;
+5eefbc40173644b Yue Hin Lau       2017-09-15   975  	}
+5eefbc40173644b Yue Hin Lau       2017-09-15   976  =
 
-4bc05954d007665 SeongJae Park 2021-09-07   78  	if (sscanf(kbuf, "%lu %lu %=
-lu %lu %lu",
-4bc05954d007665 SeongJae Park 2021-09-07   79  				&s, &a, &r, &minr, &maxr=
-) !=3D 5) {
-4bc05954d007665 SeongJae Park 2021-09-07   80  		ret =3D -EINVAL;
-4bc05954d007665 SeongJae Park 2021-09-07   81  		goto out;
-4bc05954d007665 SeongJae Park 2021-09-07   82  	}
-4bc05954d007665 SeongJae Park 2021-09-07   83  =
+014427adc5565a0 Sherry            2020-11-11  @977  	if (link->panel_cntl) {
+014427adc5565a0 Sherry            2020-11-11   978  		bool is_backlight_on =
+=3D link->panel_cntl->funcs->is_panel_backlight_on(link->panel_cntl);
+014427adc5565a0 Sherry            2020-11-11   979  =
 
-4bc05954d007665 SeongJae Park 2021-09-07   84  	mutex_lock(&ctx->kdamond_lo=
-ck);
-4bc05954d007665 SeongJae Park 2021-09-07   85  	if (ctx->kdamond) {
-4bc05954d007665 SeongJae Park 2021-09-07   86  		ret =3D -EBUSY;
-4bc05954d007665 SeongJae Park 2021-09-07   87  		goto unlock_out;
-4bc05954d007665 SeongJae Park 2021-09-07   88  	}
-4bc05954d007665 SeongJae Park 2021-09-07   89  =
+014427adc5565a0 Sherry            2020-11-11   980  		if ((enable && is_bac=
+klight_on) || (!enable && !is_backlight_on)) {
+1296423bf23c7a5 Bhawanpreet Lakha 2018-02-20   981  			DC_LOG_HW_RESUME_S3(
+014427adc5565a0 Sherry            2020-11-11   982  				"%s: panel already =
+powered up/off. Do nothing.\n",
+5eefbc40173644b Yue Hin Lau       2017-09-15   983  				__func__);
+5eefbc40173644b Yue Hin Lau       2017-09-15   984  			return;
+5eefbc40173644b Yue Hin Lau       2017-09-15   985  		}
+014427adc5565a0 Sherry            2020-11-11   986  	}
+5eefbc40173644b Yue Hin Lau       2017-09-15   987  =
 
-4bc05954d007665 SeongJae Park 2021-09-07   90  	err =3D damon_set_attrs(ctx=
-, s, a, r, minr, maxr);
-4bc05954d007665 SeongJae Park 2021-09-07   91  	if (err)
-4bc05954d007665 SeongJae Park 2021-09-07   92  		ret =3D err;
-4bc05954d007665 SeongJae Park 2021-09-07   93  unlock_out:
-4bc05954d007665 SeongJae Park 2021-09-07   94  	mutex_unlock(&ctx->kdamond_=
-lock);
-4bc05954d007665 SeongJae Park 2021-09-07   95  out:
-4bc05954d007665 SeongJae Park 2021-09-07   96  	kfree(kbuf);
-4bc05954d007665 SeongJae Park 2021-09-07   97  	return ret;
-4bc05954d007665 SeongJae Park 2021-09-07   98  }
-4bc05954d007665 SeongJae Park 2021-09-07   99  =
+5eefbc40173644b Yue Hin Lau       2017-09-15   988  	/* Send VBIOS command =
+to control eDP panel backlight */
+5eefbc40173644b Yue Hin Lau       2017-09-15   989  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  100  static inline bool targetid_=
-is_pid(const struct damon_ctx *ctx)
-4bc05954d007665 SeongJae Park 2021-09-07  101  {
-4bc05954d007665 SeongJae Park 2021-09-07  102  	return ctx->primitive.targe=
-t_valid =3D=3D damon_va_target_valid;
-4bc05954d007665 SeongJae Park 2021-09-07  103  }
-4bc05954d007665 SeongJae Park 2021-09-07  104  =
+1296423bf23c7a5 Bhawanpreet Lakha 2018-02-20   990  	DC_LOG_HW_RESUME_S3(
+5eefbc40173644b Yue Hin Lau       2017-09-15   991  			"%s: backlight actio=
+n: %s\n",
+5eefbc40173644b Yue Hin Lau       2017-09-15   992  			__func__, (enable ? =
+"On":"Off"));
+5eefbc40173644b Yue Hin Lau       2017-09-15   993  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  105  static ssize_t sprint_target=
-_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
-4bc05954d007665 SeongJae Park 2021-09-07  106  {
-4bc05954d007665 SeongJae Park 2021-09-07  107  	struct damon_target *t;
-4bc05954d007665 SeongJae Park 2021-09-07  108  	unsigned long id;
-4bc05954d007665 SeongJae Park 2021-09-07  109  	int written =3D 0;
-4bc05954d007665 SeongJae Park 2021-09-07  110  	int rc;
-4bc05954d007665 SeongJae Park 2021-09-07  111  =
+5eefbc40173644b Yue Hin Lau       2017-09-15   994  	cntl.action =3D enable=
+ ?
+5eefbc40173644b Yue Hin Lau       2017-09-15   995  		TRANSMITTER_CONTROL_B=
+ACKLIGHT_ON :
+5eefbc40173644b Yue Hin Lau       2017-09-15   996  		TRANSMITTER_CONTROL_B=
+ACKLIGHT_OFF;
+8740196935625df Andrew Jiang      2017-09-25   997  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  112  	damon_for_each_target(t, ct=
-x) {
-4bc05954d007665 SeongJae Park 2021-09-07  113  		id =3D t->id;
-4bc05954d007665 SeongJae Park 2021-09-07  114  		if (targetid_is_pid(ctx))
-4bc05954d007665 SeongJae Park 2021-09-07  115  			/* Show pid numbers to de=
-bugfs users */
-4bc05954d007665 SeongJae Park 2021-09-07  116  			id =3D (unsigned long)pid=
-_vnr((struct pid *)id);
-4bc05954d007665 SeongJae Park 2021-09-07  117  =
+5eefbc40173644b Yue Hin Lau       2017-09-15   998  	/*cntl.engine_id =3D c=
+tx->engine;*/
+5eefbc40173644b Yue Hin Lau       2017-09-15   999  	cntl.transmitter =3D l=
+ink->link_enc->transmitter;
+5eefbc40173644b Yue Hin Lau       2017-09-15  1000  	cntl.connector_obj_id =
+=3D link->link_enc->connector;
+5eefbc40173644b Yue Hin Lau       2017-09-15  1001  	/*todo: unhardcode*/
+5eefbc40173644b Yue Hin Lau       2017-09-15  1002  	cntl.lanes_number =3D =
+LANE_COUNT_FOUR;
+5eefbc40173644b Yue Hin Lau       2017-09-15  1003  	cntl.hpd_sel =3D link-=
+>link_enc->hpd_source;
+cf1835f03ffb3b5 Charlene Liu      2018-01-08  1004  	cntl.signal =3D SIGNAL=
+_TYPE_EDP;
+5eefbc40173644b Yue Hin Lau       2017-09-15  1005  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  118  		rc =3D scnprintf(&buf[writ=
-ten], len - written, "%lu ", id);
-4bc05954d007665 SeongJae Park 2021-09-07  119  		if (!rc)
-4bc05954d007665 SeongJae Park 2021-09-07  120  			return -ENOMEM;
-4bc05954d007665 SeongJae Park 2021-09-07  121  		written +=3D rc;
-4bc05954d007665 SeongJae Park 2021-09-07  122  	}
-4bc05954d007665 SeongJae Park 2021-09-07  123  	if (written)
-4bc05954d007665 SeongJae Park 2021-09-07  124  		written -=3D 1;
-4bc05954d007665 SeongJae Park 2021-09-07  125  	written +=3D scnprintf(&buf=
-[written], len - written, "\n");
-4bc05954d007665 SeongJae Park 2021-09-07  126  	return written;
-4bc05954d007665 SeongJae Park 2021-09-07  127  }
-4bc05954d007665 SeongJae Park 2021-09-07  128  =
+5eefbc40173644b Yue Hin Lau       2017-09-15  1006  	/* For eDP, the follow=
+ing delays might need to be considered
+5eefbc40173644b Yue Hin Lau       2017-09-15  1007  	 * after link training=
+ completed:
+5eefbc40173644b Yue Hin Lau       2017-09-15  1008  	 * idle period - min. =
+accounts for required BS-Idle pattern,
+5eefbc40173644b Yue Hin Lau       2017-09-15  1009  	 * max. allows for sou=
+rce frame synchronization);
+5eefbc40173644b Yue Hin Lau       2017-09-15  1010  	 * 50 msec max. delay =
+from valid video data from source
+5eefbc40173644b Yue Hin Lau       2017-09-15  1011  	 * to video on dislpay=
+ or backlight enable.
+5eefbc40173644b Yue Hin Lau       2017-09-15  1012  	 *
+5eefbc40173644b Yue Hin Lau       2017-09-15  1013  	 * Disable the delay f=
+or now.
+5eefbc40173644b Yue Hin Lau       2017-09-15  1014  	 * Enable it in the fu=
+ture if necessary.
+5eefbc40173644b Yue Hin Lau       2017-09-15  1015  	 */
+5eefbc40173644b Yue Hin Lau       2017-09-15  1016  	/* dc_service_sleep_in=
+_milliseconds(50); */
+5180d4a4766d7df Charlene Liu      2018-01-18  1017  		/*edp 1.2*/
+06ddcee49a35981 Jake Wang         2021-02-23 @1018  	panel_instance =3D lin=
+k->panel_cntl->inst;
+5180d4a4766d7df Charlene Liu      2018-01-18  1019  	if (cntl.action =3D=3D=
+ TRANSMITTER_CONTROL_BACKLIGHT_ON)
+5180d4a4766d7df Charlene Liu      2018-01-18  1020  		edp_receiver_ready_T7=
+(link);
+8a0e210c048e97f Chris Park        2020-08-05  1021  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  129  static ssize_t dbgfs_target_=
-ids_read(struct file *file,
-4bc05954d007665 SeongJae Park 2021-09-07  130  		char __user *buf, size_t c=
-ount, loff_t *ppos)
-4bc05954d007665 SeongJae Park 2021-09-07  131  {
-4bc05954d007665 SeongJae Park 2021-09-07  132  	struct damon_ctx *ctx =3D f=
-ile->private_data;
-4bc05954d007665 SeongJae Park 2021-09-07  133  	ssize_t len;
-4bc05954d007665 SeongJae Park 2021-09-07  134  	char ids_buf[320];
-4bc05954d007665 SeongJae Park 2021-09-07  135  =
+8a0e210c048e97f Chris Park        2020-08-05  1022  	if (ctx->dc->ctx->dmub=
+_srv &&
+8a0e210c048e97f Chris Park        2020-08-05  1023  			ctx->dc->debug.dmub_=
+command_table) {
+8a0e210c048e97f Chris Park        2020-08-05  1024  		if (cntl.action =3D=
+=3D TRANSMITTER_CONTROL_BACKLIGHT_ON)
+8a0e210c048e97f Chris Park        2020-08-05  1025  			ctx->dc_bios->funcs-=
+>enable_lvtma_control(ctx->dc_bios,
+06ddcee49a35981 Jake Wang         2021-02-23  1026  					LVTMA_CONTROL_LCD_=
+BLON,
+06ddcee49a35981 Jake Wang         2021-02-23  1027  					panel_instance);
+8a0e210c048e97f Chris Park        2020-08-05  1028  		else
+8a0e210c048e97f Chris Park        2020-08-05  1029  			ctx->dc_bios->funcs-=
+>enable_lvtma_control(ctx->dc_bios,
+06ddcee49a35981 Jake Wang         2021-02-23  1030  					LVTMA_CONTROL_LCD_=
+BLOFF,
+06ddcee49a35981 Jake Wang         2021-02-23  1031  					panel_instance);
+8a0e210c048e97f Chris Park        2020-08-05  1032  	}
+8a0e210c048e97f Chris Park        2020-08-05  1033  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  136  	mutex_lock(&ctx->kdamond_lo=
-ck);
-4bc05954d007665 SeongJae Park 2021-09-07  137  	len =3D sprint_target_ids(c=
-tx, ids_buf, 320);
-4bc05954d007665 SeongJae Park 2021-09-07  138  	mutex_unlock(&ctx->kdamond_=
-lock);
-4bc05954d007665 SeongJae Park 2021-09-07  139  	if (len < 0)
-4bc05954d007665 SeongJae Park 2021-09-07  140  		return len;
-4bc05954d007665 SeongJae Park 2021-09-07  141  =
+069d418f412ec4b Andrew Jiang      2017-09-26  1034  	link_transmitter_contr=
+ol(ctx->dc_bios, &cntl);
+96577cf82a13317 Hersen Wu         2020-01-14  1035  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  142  	return simple_read_from_buf=
-fer(buf, count, ppos, ids_buf, len);
-4bc05954d007665 SeongJae Park 2021-09-07  143  }
-4bc05954d007665 SeongJae Park 2021-09-07  144  =
+96577cf82a13317 Hersen Wu         2020-01-14  1036  	if (enable && link->dp=
+cd_sink_ext_caps.bits.oled)
+96577cf82a13317 Hersen Wu         2020-01-14  1037  		msleep(OLED_POST_T7_D=
+ELAY);
+96577cf82a13317 Hersen Wu         2020-01-14  1038  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  145  /*
-4bc05954d007665 SeongJae Park 2021-09-07  146   * Converts a string into an=
- array of unsigned long integers
-4bc05954d007665 SeongJae Park 2021-09-07  147   *
-4bc05954d007665 SeongJae Park 2021-09-07  148   * Returns an array of unsig=
-ned long integers if the conversion success, or
-4bc05954d007665 SeongJae Park 2021-09-07  149   * NULL otherwise.
-4bc05954d007665 SeongJae Park 2021-09-07  150   */
-4bc05954d007665 SeongJae Park 2021-09-07  151  static unsigned long *str_to=
-_target_ids(const char *str, ssize_t len,
-4bc05954d007665 SeongJae Park 2021-09-07  152  					ssize_t *nr_ids)
-4bc05954d007665 SeongJae Park 2021-09-07  153  {
-4bc05954d007665 SeongJae Park 2021-09-07  154  	unsigned long *ids;
-4bc05954d007665 SeongJae Park 2021-09-07  155  	const int max_nr_ids =3D 32;
-4bc05954d007665 SeongJae Park 2021-09-07  156  	unsigned long id;
-4bc05954d007665 SeongJae Park 2021-09-07  157  	int pos =3D 0, parsed, ret;
-4bc05954d007665 SeongJae Park 2021-09-07  158  =
+96577cf82a13317 Hersen Wu         2020-01-14  1039  	if (link->dpcd_sink_ex=
+t_caps.bits.oled ||
+96577cf82a13317 Hersen Wu         2020-01-14  1040  		link->dpcd_sink_ext_c=
+aps.bits.hdr_aux_backlight_control =3D=3D 1 ||
+96577cf82a13317 Hersen Wu         2020-01-14  1041  		link->dpcd_sink_ext_c=
+aps.bits.sdr_aux_backlight_control =3D=3D 1)
+96577cf82a13317 Hersen Wu         2020-01-14  1042  		dc_link_backlight_ena=
+ble_aux(link, enable);
+96577cf82a13317 Hersen Wu         2020-01-14  1043  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  159  	*nr_ids =3D 0;
-4bc05954d007665 SeongJae Park 2021-09-07  160  	ids =3D kmalloc_array(max_n=
-r_ids, sizeof(id), GFP_KERNEL);
-4bc05954d007665 SeongJae Park 2021-09-07  161  	if (!ids)
-4bc05954d007665 SeongJae Park 2021-09-07  162  		return NULL;
-4bc05954d007665 SeongJae Park 2021-09-07  163  	while (*nr_ids < max_nr_ids=
- && pos < len) {
-4bc05954d007665 SeongJae Park 2021-09-07  164  		ret =3D sscanf(&str[pos], =
-"%lu%n", &id, &parsed);
-4bc05954d007665 SeongJae Park 2021-09-07  165  		pos +=3D parsed;
-4bc05954d007665 SeongJae Park 2021-09-07  166  		if (ret !=3D 1)
-4bc05954d007665 SeongJae Park 2021-09-07  167  			break;
-4bc05954d007665 SeongJae Park 2021-09-07  168  		ids[*nr_ids] =3D id;
-4bc05954d007665 SeongJae Park 2021-09-07  169  		*nr_ids +=3D 1;
-4bc05954d007665 SeongJae Park 2021-09-07  170  	}
-4bc05954d007665 SeongJae Park 2021-09-07  171  =
+69b9723a81e74e5 Charlene Liu      2018-01-18  1044  	/*edp 1.2*/
+5180d4a4766d7df Charlene Liu      2018-01-18  1045  	if (cntl.action =3D=3D=
+ TRANSMITTER_CONTROL_BACKLIGHT_OFF)
+3a372bed1e337ef Hugo Hu           2020-10-06  1046  		edp_add_delay_for_T9(=
+link);
+96577cf82a13317 Hersen Wu         2020-01-14  1047  =
 
-4bc05954d007665 SeongJae Park 2021-09-07  172  	return ids;
-4bc05954d007665 SeongJae Park 2021-09-07  173  }
-4bc05954d007665 SeongJae Park 2021-09-07  174  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  175  static void dbgfs_put_pids(u=
-nsigned long *ids, int nr_ids)
-4bc05954d007665 SeongJae Park 2021-09-07  176  {
-4bc05954d007665 SeongJae Park 2021-09-07  177  	int i;
-4bc05954d007665 SeongJae Park 2021-09-07  178  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  179  	for (i =3D 0; i < nr_ids; i=
-++)
-4bc05954d007665 SeongJae Park 2021-09-07  180  		put_pid((struct pid *)ids[=
-i]);
-4bc05954d007665 SeongJae Park 2021-09-07  181  }
-4bc05954d007665 SeongJae Park 2021-09-07  182  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  183  static ssize_t dbgfs_target_=
-ids_write(struct file *file,
-4bc05954d007665 SeongJae Park 2021-09-07  184  		const char __user *buf, si=
-ze_t count, loff_t *ppos)
-4bc05954d007665 SeongJae Park 2021-09-07  185  {
-4bc05954d007665 SeongJae Park 2021-09-07  186  	struct damon_ctx *ctx =3D f=
-ile->private_data;
-4bc05954d007665 SeongJae Park 2021-09-07  187  	char *kbuf, *nrs;
-4bc05954d007665 SeongJae Park 2021-09-07  188  	unsigned long *targets;
-4bc05954d007665 SeongJae Park 2021-09-07  189  	ssize_t nr_targets;
-4bc05954d007665 SeongJae Park 2021-09-07  190  	ssize_t ret =3D count;
-4bc05954d007665 SeongJae Park 2021-09-07  191  	int i;
-4bc05954d007665 SeongJae Park 2021-09-07  192  	int err;
-4bc05954d007665 SeongJae Park 2021-09-07  193  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  194  	kbuf =3D user_input_str(buf=
-, count, ppos);
-4bc05954d007665 SeongJae Park 2021-09-07  195  	if (IS_ERR(kbuf))
-4bc05954d007665 SeongJae Park 2021-09-07 @196  		return PTR_ERR(kbuf);
-4bc05954d007665 SeongJae Park 2021-09-07  197  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  198  	nrs =3D kbuf;
-4bc05954d007665 SeongJae Park 2021-09-07  199  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  200  	targets =3D str_to_target_i=
-ds(nrs, ret, &nr_targets);
-4bc05954d007665 SeongJae Park 2021-09-07  201  	if (!targets) {
-4bc05954d007665 SeongJae Park 2021-09-07  202  		ret =3D -ENOMEM;
-4bc05954d007665 SeongJae Park 2021-09-07  203  		goto out;
-4bc05954d007665 SeongJae Park 2021-09-07  204  	}
-4bc05954d007665 SeongJae Park 2021-09-07  205  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  206  	if (targetid_is_pid(ctx)) {
-4bc05954d007665 SeongJae Park 2021-09-07  207  		for (i =3D 0; i < nr_targe=
-ts; i++) {
-4bc05954d007665 SeongJae Park 2021-09-07  208  			targets[i] =3D (unsigned =
-long)find_get_pid(
-4bc05954d007665 SeongJae Park 2021-09-07  209  					(int)targets[i]);
-4bc05954d007665 SeongJae Park 2021-09-07  210  			if (!targets[i]) {
-4bc05954d007665 SeongJae Park 2021-09-07  211  				dbgfs_put_pids(targets, =
-i);
-4bc05954d007665 SeongJae Park 2021-09-07  212  				ret =3D -EINVAL;
-4bc05954d007665 SeongJae Park 2021-09-07  213  				goto free_targets_out;
-4bc05954d007665 SeongJae Park 2021-09-07  214  			}
-4bc05954d007665 SeongJae Park 2021-09-07  215  		}
-4bc05954d007665 SeongJae Park 2021-09-07  216  	}
-4bc05954d007665 SeongJae Park 2021-09-07  217  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  218  	mutex_lock(&ctx->kdamond_lo=
-ck);
-4bc05954d007665 SeongJae Park 2021-09-07  219  	if (ctx->kdamond) {
-4bc05954d007665 SeongJae Park 2021-09-07  220  		if (targetid_is_pid(ctx))
-4bc05954d007665 SeongJae Park 2021-09-07  221  			dbgfs_put_pids(targets, n=
-r_targets);
-4bc05954d007665 SeongJae Park 2021-09-07  222  		ret =3D -EBUSY;
-4bc05954d007665 SeongJae Park 2021-09-07  223  		goto unlock_out;
-4bc05954d007665 SeongJae Park 2021-09-07  224  	}
-4bc05954d007665 SeongJae Park 2021-09-07  225  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  226  	err =3D damon_set_targets(c=
-tx, targets, nr_targets);
-4bc05954d007665 SeongJae Park 2021-09-07  227  	if (err) {
-4bc05954d007665 SeongJae Park 2021-09-07  228  		if (targetid_is_pid(ctx))
-4bc05954d007665 SeongJae Park 2021-09-07  229  			dbgfs_put_pids(targets, n=
-r_targets);
-4bc05954d007665 SeongJae Park 2021-09-07  230  		ret =3D err;
-4bc05954d007665 SeongJae Park 2021-09-07  231  	}
-4bc05954d007665 SeongJae Park 2021-09-07  232  =
-
-4bc05954d007665 SeongJae Park 2021-09-07  233  unlock_out:
-4bc05954d007665 SeongJae Park 2021-09-07  234  	mutex_unlock(&ctx->kdamond_=
-lock);
-4bc05954d007665 SeongJae Park 2021-09-07  235  free_targets_out:
-4bc05954d007665 SeongJae Park 2021-09-07  236  	kfree(targets);
-4bc05954d007665 SeongJae Park 2021-09-07  237  out:
-4bc05954d007665 SeongJae Park 2021-09-07  238  	kfree(kbuf);
-4bc05954d007665 SeongJae Park 2021-09-07  239  	return ret;
-4bc05954d007665 SeongJae Park 2021-09-07  240  }
-4bc05954d007665 SeongJae Park 2021-09-07  241  =
+96577cf82a13317 Hersen Wu         2020-01-14  1048  	if (!enable && link->d=
+pcd_sink_ext_caps.bits.oled)
+96577cf82a13317 Hersen Wu         2020-01-14  1049  		msleep(OLED_PRE_T11_D=
+ELAY);
+5eefbc40173644b Yue Hin Lau       2017-09-15  1050  }
+5eefbc40173644b Yue Hin Lau       2017-09-15  1051  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5845165724350324042==--
+--===============2054597283349467668==--
 
