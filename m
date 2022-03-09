@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0139375694705449066=="
+Content-Type: multipart/mixed; boundary="===============2953466189288925570=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [uninitvar]
-Date: Thu, 10 Mar 2022 08:04:40 +0800
-Message-ID: <202203100710.UXSNjCsC-lkp@intel.com>
+Subject: drivers/vhost/vdpa.c:677 vhost_vdpa_pa_map() warn: should '(last_pfn - map_pfn + 1) << 12' be a 64 bit type?
+Date: Thu, 10 Mar 2022 06:52:23 +0800
+Message-ID: <202203100646.DnFW7Xeq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0139375694705449066==
+--===============2953466189288925570==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,99 +15,244 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+TO: Xie Yongji <xieyongji@bytedance.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
-commit: a2305e3de819394a7adf68078964a92d06f9db33 powerpc: mark local variab=
-les around longjmp as volatile
-date:   9 months ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 9 months ago
-compiler: powerpc-linux-gcc (GCC) 11.2.0
+commit: 22af48cf91aae5f2fd32fe811d9be1c52d7a801b vdpa: factor out vhost_vdp=
+a_pa_map() and vhost_vdpa_pa_unmap()
+date:   6 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 6 months ago
+config: microblaze-randconfig-m031-20220308 (https://download.01.org/0day-c=
+i/archive/20220310/202203100646.DnFW7Xeq-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/vhost/vdpa.c:677 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
+pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:679 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
+e a 64 bit type?
+
+Old smatch warnings:
+arch/microblaze/include/asm/thread_info.h:91 current_thread_info() error: u=
+ninitialized symbol 'sp'.
+drivers/vhost/vdpa.c:708 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
+pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:709 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
+e a 64 bit type?
+
+vim +677 drivers/vhost/vdpa.c
+
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  613  =
+
+22af48cf91aae5f Xie Yongji         2021-08-31  614  static int vhost_vdpa_p=
+a_map(struct vhost_vdpa *v,
+22af48cf91aae5f Xie Yongji         2021-08-31  615  			     u64 iova, u64 s=
+ize, u64 uaddr, u32 perm)
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  616  {
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  617  	struct vhost_dev *dev =
+=3D &v->vdev;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  618  	struct page **page_lis=
+t;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  619  	unsigned long list_siz=
+e =3D PAGE_SIZE / sizeof(struct page *);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  620  	unsigned int gup_flags=
+ =3D FOLL_LONGTERM;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  621  	unsigned long npages, =
+cur_base, map_pfn, last_pfn =3D 0;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  622  	unsigned long lock_lim=
+it, sz2pin, nchunks, i;
+22af48cf91aae5f Xie Yongji         2021-08-31  623  	u64 start =3D iova;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  624  	long pinned;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  625  	int ret =3D 0;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  626  =
+
+ad89653f79f1882 Si-Wei Liu         2020-11-05  627  	/* Limit the use of me=
+mory for bookkeeping */
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  628  	page_list =3D (struct =
+page **) __get_free_page(GFP_KERNEL);
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  629  	if (!page_list)
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  630  		return -ENOMEM;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  631  =
+
+22af48cf91aae5f Xie Yongji         2021-08-31  632  	if (perm & VHOST_ACCES=
+S_WO)
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  633  		gup_flags |=3D FOLL_W=
+RITE;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  634  =
+
+22af48cf91aae5f Xie Yongji         2021-08-31  635  	npages =3D PFN_UP(size=
+ + (iova & ~PAGE_MASK));
+ad89653f79f1882 Si-Wei Liu         2020-11-05  636  	if (!npages) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  637  		ret =3D -EINVAL;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  638  		goto free;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  639  	}
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  640  =
+
+d8ed45c5dcd455f Michel Lespinasse  2020-06-08  641  	mmap_read_lock(dev->mm=
+);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  642  =
+
+729ce5a5bd6fda5 Cai Huoqing        2021-08-02  643  	lock_limit =3D PFN_DOW=
+N(rlimit(RLIMIT_MEMLOCK));
+ad89653f79f1882 Si-Wei Liu         2020-11-05  644  	if (npages + atomic64_=
+read(&dev->mm->pinned_vm) > lock_limit) {
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  645  		ret =3D -ENOMEM;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  646  		goto unlock;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  647  	}
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  648  =
+
+22af48cf91aae5f Xie Yongji         2021-08-31  649  	cur_base =3D uaddr & P=
+AGE_MASK;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  650  	iova &=3D PAGE_MASK;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  651  	nchunks =3D 0;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  652  =
+
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  653  	while (npages) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  654  		sz2pin =3D min_t(unsi=
+gned long, npages, list_size);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  655  		pinned =3D pin_user_p=
+ages(cur_base, sz2pin,
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  656  					gup_flags, page_li=
+st, NULL);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  657  		if (sz2pin !=3D pinne=
+d) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  658  			if (pinned < 0) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  659  				ret =3D pinned;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  660  			} else {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  661  				unpin_user_pages(pa=
+ge_list, pinned);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  662  				ret =3D -ENOMEM;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  663  			}
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  664  			goto out;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  665  		}
+ad89653f79f1882 Si-Wei Liu         2020-11-05  666  		nchunks++;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  667  =
+
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  668  		if (!last_pfn)
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  669  			map_pfn =3D page_to_=
+pfn(page_list[0]);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  670  =
+
+ad89653f79f1882 Si-Wei Liu         2020-11-05  671  		for (i =3D 0; i < pin=
+ned; i++) {
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  672  			unsigned long this_p=
+fn =3D page_to_pfn(page_list[i]);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  673  			u64 csize;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  674  =
+
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  675  			if (last_pfn && (thi=
+s_pfn !=3D last_pfn + 1)) {
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  676  				/* Pin a contiguous=
+ chunk of memory */
+729ce5a5bd6fda5 Cai Huoqing        2021-08-02 @677  				csize =3D PFN_PHYS(=
+last_pfn - map_pfn + 1);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  678  				ret =3D vhost_vdpa_=
+map(v, iova, csize,
+729ce5a5bd6fda5 Cai Huoqing        2021-08-02 @679  						     PFN_PHYS(map=
+_pfn),
+22af48cf91aae5f Xie Yongji         2021-08-31  680  						     perm);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  681  				if (ret) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  682  					/*
+ad89653f79f1882 Si-Wei Liu         2020-11-05  683  					 * Unpin the pages=
+ that are left unmapped
+ad89653f79f1882 Si-Wei Liu         2020-11-05  684  					 * from this point=
+ on in the current
+ad89653f79f1882 Si-Wei Liu         2020-11-05  685  					 * page_list. The =
+remaining outstanding
+ad89653f79f1882 Si-Wei Liu         2020-11-05  686  					 * ones which may =
+stride across several
+ad89653f79f1882 Si-Wei Liu         2020-11-05  687  					 * chunks will be =
+covered in the common
+ad89653f79f1882 Si-Wei Liu         2020-11-05  688  					 * error path subs=
+equently.
+ad89653f79f1882 Si-Wei Liu         2020-11-05  689  					 */
+ad89653f79f1882 Si-Wei Liu         2020-11-05  690  					unpin_user_pages(&=
+page_list[i],
+ad89653f79f1882 Si-Wei Liu         2020-11-05  691  							 pinned - i);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  692  					goto out;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  693  				}
+ad89653f79f1882 Si-Wei Liu         2020-11-05  694  =
+
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  695  				map_pfn =3D this_pf=
+n;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  696  				iova +=3D csize;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  697  				nchunks =3D 0;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  698  			}
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  699  =
+
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  700  			last_pfn =3D this_pf=
+n;
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  701  		}
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  702  =
+
+729ce5a5bd6fda5 Cai Huoqing        2021-08-02  703  		cur_base +=3D PFN_PHY=
+S(pinned);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  704  		npages -=3D pinned;
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  705  	}
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  706  =
+
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  707  	/* Pin the rest chunk =
+*/
+729ce5a5bd6fda5 Cai Huoqing        2021-08-02  708  	ret =3D vhost_vdpa_map=
+(v, iova, PFN_PHYS(last_pfn - map_pfn + 1),
+22af48cf91aae5f Xie Yongji         2021-08-31  709  			     PFN_PHYS(map_pf=
+n), perm);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  710  out:
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  711  	if (ret) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  712  		if (nchunks) {
+ad89653f79f1882 Si-Wei Liu         2020-11-05  713  			unsigned long pfn;
+ad89653f79f1882 Si-Wei Liu         2020-11-05  714  =
+
+ad89653f79f1882 Si-Wei Liu         2020-11-05  715  			/*
+ad89653f79f1882 Si-Wei Liu         2020-11-05  716  			 * Unpin the outstan=
+ding pages which are yet to be
+ad89653f79f1882 Si-Wei Liu         2020-11-05  717  			 * mapped but haven'=
+t due to vdpa_map() or
+ad89653f79f1882 Si-Wei Liu         2020-11-05  718  			 * pin_user_pages() =
+failure.
+ad89653f79f1882 Si-Wei Liu         2020-11-05  719  			 *
+ad89653f79f1882 Si-Wei Liu         2020-11-05  720  			 * Mapped pages are =
+accounted in vdpa_map(), hence
+ad89653f79f1882 Si-Wei Liu         2020-11-05  721  			 * the corresponding=
+ unpinning will be handled by
+ad89653f79f1882 Si-Wei Liu         2020-11-05  722  			 * vdpa_unmap().
+ad89653f79f1882 Si-Wei Liu         2020-11-05  723  			 */
+ad89653f79f1882 Si-Wei Liu         2020-11-05  724  			WARN_ON(!last_pfn);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  725  			for (pfn =3D map_pfn=
+; pfn <=3D last_pfn; pfn++)
+ad89653f79f1882 Si-Wei Liu         2020-11-05  726  				unpin_user_page(pfn=
+_to_page(pfn));
+ad89653f79f1882 Si-Wei Liu         2020-11-05  727  		}
+22af48cf91aae5f Xie Yongji         2021-08-31  728  		vhost_vdpa_unmap(v, s=
+tart, size);
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  729  	}
+ad89653f79f1882 Si-Wei Liu         2020-11-05  730  unlock:
+d8ed45c5dcd455f Michel Lespinasse  2020-06-08  731  	mmap_read_unlock(dev->=
+mm);
+ad89653f79f1882 Si-Wei Liu         2020-11-05  732  free:
+5e1a3149eec8675 Michael S. Tsirkin 2020-10-29  733  	free_page((unsigned lo=
+ng)page_list);
+4c8cf31885f69e8 Tiwei Bie          2020-03-26  734  	return ret;
+22af48cf91aae5f Xie Yongji         2021-08-31  735  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 677 was first introduced by commit
+:::::: 729ce5a5bd6fda5eb2322a39db2287f1f26f92f3 vdpa: Make use of PFN_PHYS/=
+PFN_UP/PFN_DOWN helper macro
 
->> arch/powerpc/xmon/xmon.c:3745:6: warning: Uninitialized variable: name [=
-uninitvar]
-    if (name) {
-        ^
-
-vim +3745 arch/powerpc/xmon/xmon.c
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3722  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3723  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3724  /*=
- Print an address in numeric and symbolic form (if possible) */
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3725  st=
-atic void xmon_print_symbol(unsigned long address, const char *mid,
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3726  		=
-	      const char *after)
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3727  {
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3728  	c=
-har *modname;
-a2305e3de81939 arch/powerpc/xmon/xmon.c Arnd Bergmann  2021-04-29  3729  	c=
-onst char *volatile name =3D NULL;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3730  	u=
-nsigned long offset, size;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3731  =
-
-f78541dcec327b arch/powerpc/xmon/xmon.c Paul Mackerras 2005-10-28  3732  	p=
-rintf(REG, address);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3733  	i=
-f (setjmp(bus_error_jmp) =3D=3D 0) {
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3734  		=
-catch_memory_errors =3D 1;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3735  		=
-sync();
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3736  		=
-name =3D kallsyms_lookup(address, &size, &offset, &modname,
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3737  		=
-		       tmpstr);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3738  		=
-sync();
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3739  		=
-/* wait a little while to see if we get a machine check */
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3740  		=
-__delay(200);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3741  	}
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3742  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3743  	c=
-atch_memory_errors =3D 0;
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3744  =
-
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16 @3745  	i=
-f (name) {
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3746  		=
-printf("%s%s+%#lx/%#lx", mid, name, offset, size);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3747  		=
-if (modname)
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3748  		=
-	printf(" [%s]", modname);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3749  	}
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3750  	p=
-rintf("%s", after);
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3751  }
-^1da177e4c3f41 arch/ppc64/xmon/xmon.c   Linus Torvalds 2005-04-16  3752  =
-
-
-:::::: The code at line 3745 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Cai Huoqing <caihuoqing@baidu.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0139375694705449066==--
+--===============2953466189288925570==--
 
