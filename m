@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2218895405216537930=="
+Content-Type: multipart/mixed; boundary="===============2968378490683898651=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/xfs/scrub/bmap.c:621:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Thu, 10 Mar 2022 02:02:25 +0800
-Message-ID: <202203100110.j21o44w0-lkp@intel.com>
+Subject: [linux-next:master 4111/11713] drivers/mtd/nand/ecc-mxic.c:466:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 10 Mar 2022 01:21:28 +0800
+Message-ID: <202203100148.lgIFmUUz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2218895405216537930==
+--===============2968378490683898651==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Dave Chinner <dchinner@redhat.com>
-CC: Brian Foster <bfoster@redhat.com>
-CC: "Darrick J. Wong" <djwong@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Miquel Raynal <miquel.raynal@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
-commit: 934933c3eec9e4a5826d3d7a47aca0742337fded xfs: convert raw ag walks =
-to use for_each_perag
-date:   9 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 9 months ago
-config: arm-randconfig-c002-20220308 (https://download.01.org/0day-ci/archi=
-ve/20220310/202203100110.j21o44w0-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   4e7a74a6856f8613dab9794da4b5cfb8fd54fb8c
+commit: 48e6633a9fa2400b53a964358753769f291a7eb0 [4111/11713] mtd: nand: mx=
+ic-ecc: Add Macronix external ECC engine support
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-randconfig-c007-20220307 (https://download.01.org/0day-ci/ar=
+chive/20220310/202203100148.lgIFmUUz-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D934933c3eec9e4a5826d3d7a47aca0742337fded
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 934933c3eec9e4a5826d3d7a47aca0742337fded
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D48e6633a9fa2400b53a964358753769f291a7eb0
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 48e6633a9fa2400b53a964358753769f291a7eb0
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,345 +49,410 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/hid.h:1002:2: note: Taking true branch
-           if (unlikely(c > limit || !bmap)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   include/linux/hid.h:1003:3: note: Assuming the condition is false
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+   fs/exec.c:1245:6: note: Assuming 'retval' is 0
+           if (retval)
+               ^~~~~~
+   fs/exec.c:1245:2: note: Taking false branch
+           if (retval)
+           ^
+   fs/exec.c:1257:6: note: Assuming 'retval' is 0
+           if (retval)
+               ^~~~~~
+   fs/exec.c:1257:2: note: Taking false branch
+           if (retval)
+           ^
+   fs/exec.c:1267:6: note: Assuming 'retval' is 0
+           if (retval)
+               ^~~~~~
+   fs/exec.c:1267:2: note: Taking false branch
+           if (retval)
+           ^
+   fs/exec.c:1276:6: note: Assuming 'retval' is 0
+           if (retval)
+               ^~~~~~
+   fs/exec.c:1276:2: note: Taking false branch
+           if (retval)
+           ^
+   fs/exec.c:1281:6: note: Assuming field 'have_execfd' is 0
+           if (bprm->have_execfd)
+               ^~~~~~~~~~~~~~~~~
+   fs/exec.c:1281:2: note: Taking false branch
+           if (bprm->have_execfd)
+           ^
+   fs/exec.c:1288:11: note: Calling 'exec_mmap'
+           retval =3D exec_mmap(bprm->mm);
+                    ^~~~~~~~~~~~~~~~~~~
+   fs/exec.c:982:6: note: Assuming 'old_mm' is null
+           if (old_mm)
+               ^~~~~~
+   fs/exec.c:982:2: note: Taking false branch
+           if (old_mm)
+           ^
+   fs/exec.c:986:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   fs/exec.c:986:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/exec.c:989:6: note: 'old_mm' is null
+           if (old_mm) {
+               ^~~~~~
+   fs/exec.c:989:2: note: Taking false branch
+           if (old_mm) {
+           ^
+   fs/exec.c:1005:2: note: 'was_disabled' is true
+           local_irq_disable();
+           ^
+   include/linux/irqflags.h:215:8: note: expanded from macro 'local_irq_dis=
+able'
+                   if (!was_disabled)                      \
+                        ^~~~~~~~~~~~
+   fs/exec.c:1005:2: note: Taking false branch
+           local_irq_disable();
+           ^
+   include/linux/irqflags.h:215:3: note: expanded from macro 'local_irq_dis=
+able'
+                   if (!was_disabled)                      \
                    ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   include/linux/hid.h:1003:3: note: '?' condition is false
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+   fs/exec.c:1005:2: note: Loop condition is false.  Exiting loop
+           local_irq_disable();
+           ^
+   include/linux/irqflags.h:212:2: note: expanded from macro 'local_irq_dis=
+able'
+           do {                                            \
+           ^
+   fs/exec.c:1016:2: note: Taking true branch
+           if (!IS_ENABLED(CONFIG_ARCH_WANT_IRQS_OFF_ACTIVATE_MM))
+           ^
+   fs/exec.c:1017:3: note: Calling 'arch_local_irq_enable'
+                   local_irq_enable();
                    ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+   include/linux/irqflags.h:208:3: note: expanded from macro 'local_irq_ena=
+ble'
+                   raw_local_irq_enable();                 \
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/irqflags.h:174:33: note: expanded from macro 'raw_local_ir=
+q_enable'
+   #define raw_local_irq_enable()          arch_local_irq_enable()
+                                           ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h:703:2: note: Assigned value is garbage o=
+r undefined
+           PVOP_ALT_VCALLEE0(irq.irq_enable, "sti;", ALT_NOT(X86_FEATURE_XE=
+NPV));
            ^
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
+   arch/x86/include/asm/paravirt_types.h:525:2: note: expanded from macro '=
+PVOP_ALT_VCALLEE0'
+           __PVOP_ALT_VCALLEESAVE(op, alt, cond)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:505:8: note: expanded from macro '=
+__PVOP_ALT_VCALLEESAVE'
+           (void)____PVOP_ALT_CALL(, op.func, alt, cond, CLBR_RET_REG,     \
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:461:3: note: expanded from macro '=
+____PVOP_ALT_CALL'
+                   PVOP_CALL_ARGS;                                         \
+                   ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:405:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __edi =3D __edi, __esi =3D __esi,             \
+                         ^       ~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> drivers/mtd/nand/ecc-mxic.c:466:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D mxic->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:466:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D mxic->dev;
+                          ^~~   ~~~~~~~~~
+>> drivers/mtd/nand/ecc-mxic.c:538:6: warning: Branch condition evaluates t=
+o a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (ret)
+               ^~~
+   drivers/mtd/nand/ecc-mxic.c:500:27: note: 'ret' declared without an init=
+ial value
+           int offset, nents, step, ret;
+                                    ^~~
+   drivers/mtd/nand/ecc-mxic.c:502:6: note: Assuming field 'mode' is not eq=
+ual to MTD_OPS_RAW
+           if (req->mode =3D=3D MTD_OPS_RAW)
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:502:2: note: Taking false branch
+           if (req->mode =3D=3D MTD_OPS_RAW)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   include/linux/hid.h:1003:3: note: Assuming the condition is false
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   include/linux/hid.h:1003:3: note: '?' condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+   drivers/mtd/nand/ecc-mxic.c:508:6: note: Assuming field 'type' is not eq=
+ual to NAND_PAGE_READ
+           if (req->type =3D=3D NAND_PAGE_READ)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:508:2: note: Taking false branch
+           if (req->type =3D=3D NAND_PAGE_READ)
            ^
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
+   drivers/mtd/nand/ecc-mxic.c:519:6: note: Assuming 'nents' is not equal t=
+o 0
+           if (!nents)
+               ^~~~~~
+   drivers/mtd/nand/ecc-mxic.c:519:2: note: Taking false branch
+           if (!nents)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/mtd/nand/ecc-mxic.c:524:17: note: Assuming 'step' is >=3D field =
+'steps'
+           for (step =3D 0; step < ctx->steps; step++) {
+                          ^~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/ecc-mxic.c:524:2: note: Loop condition is false. Execut=
+ion continues on line 534
+           for (step =3D 0; step < ctx->steps; step++) {
            ^
-   include/linux/hid.h:1003:3: note: Taking true branch
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   include/linux/hid.h:1004:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
+   drivers/mtd/nand/ecc-mxic.c:538:6: note: Branch condition evaluates to a=
+ garbage value
+           if (ret)
+               ^~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/mtd/ubi/build.c:651:30: warning: Division by zero [clang-analyze=
+r-core.DivideZero]
+           ubi_assert(ubi->min_io_size % ubi->hdrs_min_io_size =3D=3D 0);
                                        ^
-   include/linux/printk.h:528:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:512:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> fs/xfs/scrub/bmap.c:621:2: warning: Undefined or garbage value returned =
-to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return error;
-           ^      ~~~~~
-   fs/xfs/scrub/bmap.c:578:26: note: Assuming 'whichfork' is not equal to 0
-           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
-);
-                                          ^
-   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
-K_PTR'
-           ((w) =3D=3D XFS_DATA_FORK ? \
-            ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/bmap.c:578:26: note: '?' condition is false
-           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
-);
-                                          ^
-   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
-K_PTR'
-           ((w) =3D=3D XFS_DATA_FORK ? \
-            ^
-   fs/xfs/scrub/bmap.c:578:26: note: Assuming 'whichfork' is equal to 1
-           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
-);
-                                          ^
-   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
-RK_PTR'
-                   ((w) =3D=3D XFS_ATTR_FORK ? \
-                    ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/bmap.c:578:26: note: '?' condition is true
-           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
-);
-                                          ^
-   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
-RK_PTR'
-                   ((w) =3D=3D XFS_ATTR_FORK ? \
-                    ^
-   fs/xfs/scrub/bmap.c:582:2: note: 'error' declared without an initial val=
-ue
-           int                     error;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/bmap.c:584:6: note: Assuming the condition is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
-               ^
-   fs/xfs/scrub/bmap.c:585:6: note: 'whichfork' is not equal to 2
-               whichfork =3D=3D XFS_COW_FORK ||
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
-               ^
-   fs/xfs/scrub/bmap.c:584:2: note: Assuming the condition is true
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+   drivers/mtd/ubi/debug.h:18:17: note: expanded from macro 'ubi_assert'
+           if (unlikely(!(expr))) {                                        =
+     \
+                          ^~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/mtd/ubi/build.c:598:2: note: Taking false branch
+           dbg_gen("sizeof(struct ubi_ainf_peb) %zu", sizeof(struct ubi_ain=
+f_peb));
            ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/xfs/scrub/bmap.c:584:2: note: '?' condition is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+   drivers/mtd/ubi/debug.h:33:27: note: expanded from macro 'dbg_gen'
+   #define dbg_gen(fmt, ...) ubi_dbg_msg("gen", fmt, ##__VA_ARGS__)
+                             ^
+   drivers/mtd/ubi/debug.h:29:2: note: expanded from macro 'ubi_dbg_msg'
+           pr_debug("UBI DBG " type " (pid %d): " fmt "\n", current->pid,  =
+     \
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
-               ^
-   fs/xfs/scrub/bmap.c:585:6: note: 'whichfork' is not equal to 2
-               whichfork =3D=3D XFS_COW_FORK ||
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
-               ^
-   fs/xfs/scrub/bmap.c:584:2: note: '?' condition is false
-           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   drivers/mtd/ubi/build.c:599:2: note: Taking false branch
+           dbg_gen("sizeof(struct ubi_wl_entry) %zu", sizeof(struct ubi_wl_=
+entry));
+           ^
+   drivers/mtd/ubi/debug.h:33:27: note: expanded from macro 'dbg_gen'
+   #define dbg_gen(fmt, ...) ubi_dbg_msg("gen", fmt, ##__VA_ARGS__)
+                             ^
+   drivers/mtd/ubi/debug.h:29:2: note: expanded from macro 'ubi_dbg_msg'
+           pr_debug("UBI DBG " type " (pid %d): " fmt "\n", current->pid,  =
+     \
+           ^
+   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   drivers/mtd/ubi/build.c:601:6: note: Assuming field 'numeraseregions' is=
+ equal to 0
+           if (ubi->mtd->numeraseregions !=3D 0) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/build.c:601:2: note: Taking false branch
+           if (ubi->mtd->numeraseregions !=3D 0) {
+           ^
+   drivers/mtd/ubi/build.c:615:6: note: Assuming field 'vid_hdr_offset' is =
+>=3D 0
+           if (ubi->vid_hdr_offset < 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/ubi/build.c:615:2: note: Taking false branch
+           if (ubi->vid_hdr_offset < 0)
+           ^
+   drivers/mtd/ubi/build.c:627:2: note: Taking false branch
+           if (mtd_can_have_bb(ubi->mtd)) {
+           ^
+   drivers/mtd/ubi/build.c:632:6: note: Assuming field 'type' is not equal =
+to MTD_NORFLASH
+           if (ubi->mtd->type =3D=3D MTD_NORFLASH)
 
-vim +621 fs/xfs/scrub/bmap.c
+vim +/dev +466 drivers/mtd/nand/ecc-mxic.c
 
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  571  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  460  =
 
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  572  /* Make sure each rmap ha=
-s a corresponding bmbt entry. */
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  573  STATIC int
-c517b3aa02cff1 Darrick J. Wong   2018-07-19  574  xchk_bmap_check_rmaps(
-1d8a748a8aa94a Darrick J. Wong   2018-07-19  575  	struct xfs_scrub	*sc,
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  576  	int			whichfork)
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  577  {
-daf83964a3681c Christoph Hellwig 2020-05-18  578  	struct xfs_ifork	*ifp =
-=3D XFS_IFORK_PTR(sc->ip, whichfork);
-934933c3eec9e4 Dave Chinner      2021-06-02  579  	struct xfs_perag	*pag;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  580  	xfs_agnumber_t		agno;
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  581  	bool			zero_size;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  582  	int			error;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  583  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  461  static int mxic_ecc_count_bit=
+errs(struct mxic_ecc_engine *mxic,
+48e6633a9fa240 Miquel Raynal 2021-12-16  462  				  struct nand_device *nan=
+d)
+48e6633a9fa240 Miquel Raynal 2021-12-16  463  {
+48e6633a9fa240 Miquel Raynal 2021-12-16  464  	struct mxic_ecc_ctx *ctx =3D=
+ nand_to_ecc_ctx(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  465  	struct mtd_info *mtd =3D nan=
+ddev_to_mtd(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16 @466  	struct device *dev =3D mxic-=
+>dev;
+48e6633a9fa240 Miquel Raynal 2021-12-16  467  	unsigned int max_bf =3D 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  468  	bool failure =3D false;
+48e6633a9fa240 Miquel Raynal 2021-12-16  469  	int step;
+48e6633a9fa240 Miquel Raynal 2021-12-16  470  =
 
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  584  	if (!xfs_sb_version_hasr=
-mapbt(&sc->mp->m_sb) ||
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  585  	    whichfork =3D=3D XFS=
-_COW_FORK ||
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  586  	    (sc->sm->sm_flags & =
-XFS_SCRUB_OFLAG_CORRUPT))
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  587  		return 0;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  588  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  471  	for (step =3D 0; step < ctx-=
+>steps; step++) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  472  		u8 stat =3D ctx->status[ste=
+p];
+48e6633a9fa240 Miquel Raynal 2021-12-16  473  =
 
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  589  	/* Don't support realtim=
-e rmap checks yet. */
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  590  	if (XFS_IS_REALTIME_INOD=
-E(sc->ip) && whichfork =3D=3D XFS_DATA_FORK)
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  591  		return 0;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  592  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  474  		if (stat =3D=3D NO_ERR) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  475  			dev_dbg(dev, "ECC step %d:=
+ no error\n", step);
+48e6633a9fa240 Miquel Raynal 2021-12-16  476  		} else if (stat =3D=3D ERAS=
+ED_CHUNK) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  477  			dev_dbg(dev, "ECC step %d:=
+ erased\n", step);
+48e6633a9fa240 Miquel Raynal 2021-12-16  478  		} else if (stat =3D=3D UNCO=
+RR_ERR || stat > MAX_CORR_ERR) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  479  			dev_dbg(dev, "ECC step %d:=
+ uncorrectable\n", step);
+48e6633a9fa240 Miquel Raynal 2021-12-16  480  			mtd->ecc_stats.failed++;
+48e6633a9fa240 Miquel Raynal 2021-12-16  481  			failure =3D true;
+48e6633a9fa240 Miquel Raynal 2021-12-16  482  		} else {
+48e6633a9fa240 Miquel Raynal 2021-12-16  483  			dev_dbg(dev, "ECC step %d:=
+ %d bits corrected\n",
+48e6633a9fa240 Miquel Raynal 2021-12-16  484  				step, stat);
+48e6633a9fa240 Miquel Raynal 2021-12-16  485  			max_bf =3D max_t(unsigned =
+int, max_bf, stat);
+48e6633a9fa240 Miquel Raynal 2021-12-16  486  			mtd->ecc_stats.corrected +=
+=3D stat;
+48e6633a9fa240 Miquel Raynal 2021-12-16  487  		}
+48e6633a9fa240 Miquel Raynal 2021-12-16  488  	}
+48e6633a9fa240 Miquel Raynal 2021-12-16  489  =
 
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  593  	ASSERT(XFS_IFORK_PTR(sc-=
->ip, whichfork) !=3D NULL);
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  594  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  490  	return failure ? -EBADMSG : =
+max_bf;
+48e6633a9fa240 Miquel Raynal 2021-12-16  491  }
+48e6633a9fa240 Miquel Raynal 2021-12-16  492  =
 
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  595  	/*
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  596  	 * Only do this for comp=
-lex maps that are in btree format, or for
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  597  	 * situations where we w=
-ould seem to have a size but zero extents.
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  598  	 * The inode repair code=
- can zap broken iforks, which means we have
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  599  	 * to flag this bmap as =
-corrupt if there are rmaps that need to be
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  600  	 * reattached.
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  601  	 */
-f7e67b20ecbbcb Christoph Hellwig 2020-05-18  602  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  493  /* External ECC engine helper=
+s */
+48e6633a9fa240 Miquel Raynal 2021-12-16  494  static int mxic_ecc_prepare_i=
+o_req_external(struct nand_device *nand,
+48e6633a9fa240 Miquel Raynal 2021-12-16  495  					    struct nand_page_io_=
+req *req)
+48e6633a9fa240 Miquel Raynal 2021-12-16  496  {
+48e6633a9fa240 Miquel Raynal 2021-12-16  497  	struct mxic_ecc_engine *mxic=
+ =3D nand_to_mxic(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  498  	struct mxic_ecc_ctx *ctx =3D=
+ nand_to_ecc_ctx(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  499  	struct mtd_info *mtd =3D nan=
+ddev_to_mtd(nand);
+48e6633a9fa240 Miquel Raynal 2021-12-16  500  	int offset, nents, step, ret;
+48e6633a9fa240 Miquel Raynal 2021-12-16  501  =
 
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  603  	if (whichfork =3D=3D XFS=
-_DATA_FORK)
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  604  		zero_size =3D i_size_re=
-ad(VFS_I(sc->ip)) =3D=3D 0;
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  605  	else
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  606  		zero_size =3D false;
-5fd68bdb5a87c9 Darrick J. Wong   2020-05-16  607  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  502  	if (req->mode =3D=3D MTD_OPS=
+_RAW)
+48e6633a9fa240 Miquel Raynal 2021-12-16  503  		return 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  504  =
 
-f7e67b20ecbbcb Christoph Hellwig 2020-05-18  608  	if (ifp->if_format !=3D =
-XFS_DINODE_FMT_BTREE &&
-daf83964a3681c Christoph Hellwig 2020-05-18  609  	    (zero_size || ifp->i=
-f_nextents > 0))
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  610  		return 0;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  611  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  505  	nand_ecc_tweak_req(&ctx->req=
+_ctx, req);
+48e6633a9fa240 Miquel Raynal 2021-12-16  506  	ctx->req =3D req;
+48e6633a9fa240 Miquel Raynal 2021-12-16  507  =
 
-934933c3eec9e4 Dave Chinner      2021-06-02  612  	for_each_perag(sc->mp, a=
-gno, pag) {
-934933c3eec9e4 Dave Chinner      2021-06-02  613  		error =3D xchk_bmap_che=
-ck_ag_rmaps(sc, whichfork, pag->pag_agno);
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  614  		if (error)
-934933c3eec9e4 Dave Chinner      2021-06-02  615  			break;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  616  		if (sc->sm->sm_flags & =
-XFS_SCRUB_OFLAG_CORRUPT)
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  617  			break;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  618  	}
-934933c3eec9e4 Dave Chinner      2021-06-02  619  	if (pag)
-934933c3eec9e4 Dave Chinner      2021-06-02  620  		xfs_perag_put(pag);
-934933c3eec9e4 Dave Chinner      2021-06-02 @621  	return error;
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  622  }
-5e777b62b0bcb6 Darrick J. Wong   2018-03-23  623  =
+48e6633a9fa240 Miquel Raynal 2021-12-16  508  	if (req->type =3D=3D NAND_PA=
+GE_READ)
+48e6633a9fa240 Miquel Raynal 2021-12-16  509  		return 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  510  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  511  	mxic_ecc_add_room_in_oobbuf(=
+ctx, ctx->oobwithstat,
+48e6633a9fa240 Miquel Raynal 2021-12-16  512  				    ctx->req->oobbuf.out);
+48e6633a9fa240 Miquel Raynal 2021-12-16  513  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  514  	sg_set_buf(&ctx->sg[0], req-=
+>databuf.out, req->datalen);
+48e6633a9fa240 Miquel Raynal 2021-12-16  515  	sg_set_buf(&ctx->sg[1], ctx-=
+>oobwithstat,
+48e6633a9fa240 Miquel Raynal 2021-12-16  516  		   req->ooblen + (ctx->step=
+s * STAT_BYTES));
+48e6633a9fa240 Miquel Raynal 2021-12-16  517  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  518  	nents =3D dma_map_sg(mxic->d=
+ev, ctx->sg, 2, DMA_BIDIRECTIONAL);
+48e6633a9fa240 Miquel Raynal 2021-12-16  519  	if (!nents)
+48e6633a9fa240 Miquel Raynal 2021-12-16  520  		return -EINVAL;
+48e6633a9fa240 Miquel Raynal 2021-12-16  521  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  522  	mutex_lock(&mxic->lock);
+48e6633a9fa240 Miquel Raynal 2021-12-16  523  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  524  	for (step =3D 0; step < ctx-=
+>steps; step++) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  525  		writel(sg_dma_address(&ctx-=
+>sg[0]) + (step * ctx->data_step_sz),
+48e6633a9fa240 Miquel Raynal 2021-12-16  526  		       mxic->regs + SDMA_MA=
+IN_ADDR);
+48e6633a9fa240 Miquel Raynal 2021-12-16  527  		writel(sg_dma_address(&ctx-=
+>sg[1]) + (step * (ctx->oob_step_sz + STAT_BYTES)),
+48e6633a9fa240 Miquel Raynal 2021-12-16  528  		       mxic->regs + SDMA_SP=
+ARE_ADDR);
+48e6633a9fa240 Miquel Raynal 2021-12-16  529  		ret =3D mxic_ecc_process_da=
+ta(mxic, ctx->req->type);
+48e6633a9fa240 Miquel Raynal 2021-12-16  530  		if (ret)
+48e6633a9fa240 Miquel Raynal 2021-12-16  531  			break;
+48e6633a9fa240 Miquel Raynal 2021-12-16  532  	}
+48e6633a9fa240 Miquel Raynal 2021-12-16  533  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  534  	mutex_unlock(&mxic->lock);
+48e6633a9fa240 Miquel Raynal 2021-12-16  535  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  536  	dma_unmap_sg(mxic->dev, ctx-=
+>sg, 2, DMA_BIDIRECTIONAL);
+48e6633a9fa240 Miquel Raynal 2021-12-16  537  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16 @538  	if (ret)
+48e6633a9fa240 Miquel Raynal 2021-12-16  539  		return ret;
+48e6633a9fa240 Miquel Raynal 2021-12-16  540  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  541  	/* Retrieve the calculated E=
+CC bytes */
+48e6633a9fa240 Miquel Raynal 2021-12-16  542  	for (step =3D 0; step < ctx-=
+>steps; step++) {
+48e6633a9fa240 Miquel Raynal 2021-12-16  543  		offset =3D ctx->meta_sz + (=
+step * ctx->oob_step_sz);
+48e6633a9fa240 Miquel Raynal 2021-12-16  544  		mtd_ooblayout_get_eccbytes(=
+mtd,
+48e6633a9fa240 Miquel Raynal 2021-12-16  545  					   (u8 *)ctx->req->oobbu=
+f.out + offset,
+48e6633a9fa240 Miquel Raynal 2021-12-16  546  					   ctx->oobwithstat + (s=
+tep * STAT_BYTES),
+48e6633a9fa240 Miquel Raynal 2021-12-16  547  					   step * ctx->parity_sz,
+48e6633a9fa240 Miquel Raynal 2021-12-16  548  					   ctx->parity_sz);
+48e6633a9fa240 Miquel Raynal 2021-12-16  549  	}
+48e6633a9fa240 Miquel Raynal 2021-12-16  550  =
+
+48e6633a9fa240 Miquel Raynal 2021-12-16  551  	return 0;
+48e6633a9fa240 Miquel Raynal 2021-12-16  552  }
+48e6633a9fa240 Miquel Raynal 2021-12-16  553  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2218895405216537930==--
+--===============2968378490683898651==--
 
