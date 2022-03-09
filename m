@@ -1,458 +1,235 @@
-Content-Type: multipart/mixed; boundary="===============2968378490683898651=="
+Content-Type: multipart/mixed; boundary="===============2307488497151233660=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4111/11713] drivers/mtd/nand/ecc-mxic.c:466:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 10 Mar 2022 01:21:28 +0800
-Message-ID: <202203100148.lgIFmUUz-lkp@intel.com>
+Subject: drivers/net/ethernet/chelsio/cxgb4/sge.c:2566 cxgb4_ethofld_send_flowc() warn: missing error code 'ret'
+Date: Wed, 09 Mar 2022 23:27:16 +0800
+Message-ID: <202203092354.8QMmp2o7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2968378490683898651==
+--===============2307488497151233660==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "=C3=8D=C3=B1igo Huguet" <ihuguet@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   4e7a74a6856f8613dab9794da4b5cfb8fd54fb8c
-commit: 48e6633a9fa2400b53a964358753769f291a7eb0 [4111/11713] mtd: nand: mx=
-ic-ecc: Add Macronix external ECC engine support
-:::::: branch date: 5 hours ago
-:::::: commit date: 4 weeks ago
-config: x86_64-randconfig-c007-20220307 (https://download.01.org/0day-ci/ar=
-chive/20220310/202203100148.lgIFmUUz-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D48e6633a9fa2400b53a964358753769f291a7eb0
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 48e6633a9fa2400b53a964358753769f291a7eb0
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   330f4c53d3c2d8b11d86ec03a964b86dc81452f5
+commit: 52bfcdd87e83d9e69d22da5f26b1512ffc81deed net:CXGB4: fix leak if sk_=
+buff is not used
+date:   10 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 10 months ago
+config: microblaze-randconfig-m031-20220308 (https://download.01.org/0day-c=
+i/archive/20220309/202203092354.8QMmp2o7-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/ethernet/chelsio/cxgb4/sge.c:2566 cxgb4_ethofld_send_flowc() wa=
+rn: missing error code 'ret'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                         ^
-   fs/exec.c:1245:6: note: Assuming 'retval' is 0
-           if (retval)
-               ^~~~~~
-   fs/exec.c:1245:2: note: Taking false branch
-           if (retval)
-           ^
-   fs/exec.c:1257:6: note: Assuming 'retval' is 0
-           if (retval)
-               ^~~~~~
-   fs/exec.c:1257:2: note: Taking false branch
-           if (retval)
-           ^
-   fs/exec.c:1267:6: note: Assuming 'retval' is 0
-           if (retval)
-               ^~~~~~
-   fs/exec.c:1267:2: note: Taking false branch
-           if (retval)
-           ^
-   fs/exec.c:1276:6: note: Assuming 'retval' is 0
-           if (retval)
-               ^~~~~~
-   fs/exec.c:1276:2: note: Taking false branch
-           if (retval)
-           ^
-   fs/exec.c:1281:6: note: Assuming field 'have_execfd' is 0
-           if (bprm->have_execfd)
-               ^~~~~~~~~~~~~~~~~
-   fs/exec.c:1281:2: note: Taking false branch
-           if (bprm->have_execfd)
-           ^
-   fs/exec.c:1288:11: note: Calling 'exec_mmap'
-           retval =3D exec_mmap(bprm->mm);
-                    ^~~~~~~~~~~~~~~~~~~
-   fs/exec.c:982:6: note: Assuming 'old_mm' is null
-           if (old_mm)
-               ^~~~~~
-   fs/exec.c:982:2: note: Taking false branch
-           if (old_mm)
-           ^
-   fs/exec.c:986:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   fs/exec.c:986:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/exec.c:989:6: note: 'old_mm' is null
-           if (old_mm) {
-               ^~~~~~
-   fs/exec.c:989:2: note: Taking false branch
-           if (old_mm) {
-           ^
-   fs/exec.c:1005:2: note: 'was_disabled' is true
-           local_irq_disable();
-           ^
-   include/linux/irqflags.h:215:8: note: expanded from macro 'local_irq_dis=
-able'
-                   if (!was_disabled)                      \
-                        ^~~~~~~~~~~~
-   fs/exec.c:1005:2: note: Taking false branch
-           local_irq_disable();
-           ^
-   include/linux/irqflags.h:215:3: note: expanded from macro 'local_irq_dis=
-able'
-                   if (!was_disabled)                      \
-                   ^
-   fs/exec.c:1005:2: note: Loop condition is false.  Exiting loop
-           local_irq_disable();
-           ^
-   include/linux/irqflags.h:212:2: note: expanded from macro 'local_irq_dis=
-able'
-           do {                                            \
-           ^
-   fs/exec.c:1016:2: note: Taking true branch
-           if (!IS_ENABLED(CONFIG_ARCH_WANT_IRQS_OFF_ACTIVATE_MM))
-           ^
-   fs/exec.c:1017:3: note: Calling 'arch_local_irq_enable'
-                   local_irq_enable();
-                   ^
-   include/linux/irqflags.h:208:3: note: expanded from macro 'local_irq_ena=
-ble'
-                   raw_local_irq_enable();                 \
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:174:33: note: expanded from macro 'raw_local_ir=
-q_enable'
-   #define raw_local_irq_enable()          arch_local_irq_enable()
-                                           ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:703:2: note: Assigned value is garbage o=
-r undefined
-           PVOP_ALT_VCALLEE0(irq.irq_enable, "sti;", ALT_NOT(X86_FEATURE_XE=
-NPV));
-           ^
-   arch/x86/include/asm/paravirt_types.h:525:2: note: expanded from macro '=
-PVOP_ALT_VCALLEE0'
-           __PVOP_ALT_VCALLEESAVE(op, alt, cond)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:505:8: note: expanded from macro '=
-__PVOP_ALT_VCALLEESAVE'
-           (void)____PVOP_ALT_CALL(, op.func, alt, cond, CLBR_RET_REG,     \
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:461:3: note: expanded from macro '=
-____PVOP_ALT_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:405:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __edi =3D __edi, __esi =3D __esi,             \
-                         ^       ~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/mtd/nand/ecc-mxic.c:466:17: warning: Value stored to 'dev' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D mxic->dev;
-                          ^~~   ~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:466:17: note: Value stored to 'dev' during i=
-ts initialization is never read
-           struct device *dev =3D mxic->dev;
-                          ^~~   ~~~~~~~~~
->> drivers/mtd/nand/ecc-mxic.c:538:6: warning: Branch condition evaluates t=
-o a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (ret)
-               ^~~
-   drivers/mtd/nand/ecc-mxic.c:500:27: note: 'ret' declared without an init=
-ial value
-           int offset, nents, step, ret;
-                                    ^~~
-   drivers/mtd/nand/ecc-mxic.c:502:6: note: Assuming field 'mode' is not eq=
-ual to MTD_OPS_RAW
-           if (req->mode =3D=3D MTD_OPS_RAW)
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:502:2: note: Taking false branch
-           if (req->mode =3D=3D MTD_OPS_RAW)
-           ^
-   drivers/mtd/nand/ecc-mxic.c:508:6: note: Assuming field 'type' is not eq=
-ual to NAND_PAGE_READ
-           if (req->type =3D=3D NAND_PAGE_READ)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:508:2: note: Taking false branch
-           if (req->type =3D=3D NAND_PAGE_READ)
-           ^
-   drivers/mtd/nand/ecc-mxic.c:519:6: note: Assuming 'nents' is not equal t=
-o 0
-           if (!nents)
-               ^~~~~~
-   drivers/mtd/nand/ecc-mxic.c:519:2: note: Taking false branch
-           if (!nents)
-           ^
-   drivers/mtd/nand/ecc-mxic.c:524:17: note: Assuming 'step' is >=3D field =
-'steps'
-           for (step =3D 0; step < ctx->steps; step++) {
-                          ^~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/ecc-mxic.c:524:2: note: Loop condition is false. Execut=
-ion continues on line 534
-           for (step =3D 0; step < ctx->steps; step++) {
-           ^
-   drivers/mtd/nand/ecc-mxic.c:538:6: note: Branch condition evaluates to a=
- garbage value
-           if (ret)
-               ^~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/mtd/ubi/build.c:651:30: warning: Division by zero [clang-analyze=
-r-core.DivideZero]
-           ubi_assert(ubi->min_io_size % ubi->hdrs_min_io_size =3D=3D 0);
-                                       ^
-   drivers/mtd/ubi/debug.h:18:17: note: expanded from macro 'ubi_assert'
-           if (unlikely(!(expr))) {                                        =
-     \
-                          ^~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/mtd/ubi/build.c:598:2: note: Taking false branch
-           dbg_gen("sizeof(struct ubi_ainf_peb) %zu", sizeof(struct ubi_ain=
-f_peb));
-           ^
-   drivers/mtd/ubi/debug.h:33:27: note: expanded from macro 'dbg_gen'
-   #define dbg_gen(fmt, ...) ubi_dbg_msg("gen", fmt, ##__VA_ARGS__)
-                             ^
-   drivers/mtd/ubi/debug.h:29:2: note: expanded from macro 'ubi_dbg_msg'
-           pr_debug("UBI DBG " type " (pid %d): " fmt "\n", current->pid,  =
-     \
-           ^
-   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/mtd/ubi/build.c:599:2: note: Taking false branch
-           dbg_gen("sizeof(struct ubi_wl_entry) %zu", sizeof(struct ubi_wl_=
-entry));
-           ^
-   drivers/mtd/ubi/debug.h:33:27: note: expanded from macro 'dbg_gen'
-   #define dbg_gen(fmt, ...) ubi_dbg_msg("gen", fmt, ##__VA_ARGS__)
-                             ^
-   drivers/mtd/ubi/debug.h:29:2: note: expanded from macro 'ubi_dbg_msg'
-           pr_debug("UBI DBG " type " (pid %d): " fmt "\n", current->pid,  =
-     \
-           ^
-   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   drivers/mtd/ubi/build.c:601:6: note: Assuming field 'numeraseregions' is=
- equal to 0
-           if (ubi->mtd->numeraseregions !=3D 0) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/ubi/build.c:601:2: note: Taking false branch
-           if (ubi->mtd->numeraseregions !=3D 0) {
-           ^
-   drivers/mtd/ubi/build.c:615:6: note: Assuming field 'vid_hdr_offset' is =
->=3D 0
-           if (ubi->vid_hdr_offset < 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/ubi/build.c:615:2: note: Taking false branch
-           if (ubi->vid_hdr_offset < 0)
-           ^
-   drivers/mtd/ubi/build.c:627:2: note: Taking false branch
-           if (mtd_can_have_bb(ubi->mtd)) {
-           ^
-   drivers/mtd/ubi/build.c:632:6: note: Assuming field 'type' is not equal =
-to MTD_NORFLASH
-           if (ubi->mtd->type =3D=3D MTD_NORFLASH)
+Old smatch warnings:
+arch/microblaze/include/asm/thread_info.h:91 current_thread_info() error: u=
+ninitialized symbol 'sp'.
+drivers/net/ethernet/chelsio/cxgb4/sge.c:4169 process_intrq() warn: potenti=
+al spectre issue 'adap->sge.ingr_map' [w]
+drivers/net/ethernet/chelsio/cxgb4/sge.c:4484 t4_sge_alloc_rxq() warn: pote=
+ntial spectre issue 'adap->sge.ingr_map' [w]
+drivers/net/ethernet/chelsio/cxgb4/sge.c:4491 t4_sge_alloc_rxq() warn: pote=
+ntial spectre issue 'adap->sge.egr_map' [w]
 
-vim +/dev +466 drivers/mtd/nand/ecc-mxic.c
+vim +/ret +2566 drivers/net/ethernet/chelsio/cxgb4/sge.c
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  460  =
+69422a7e5d578aa Rahul Lakkireddy    2020-04-30  2524  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  461  static int mxic_ecc_count_bit=
-errs(struct mxic_ecc_engine *mxic,
-48e6633a9fa240 Miquel Raynal 2021-12-16  462  				  struct nand_device *nan=
-d)
-48e6633a9fa240 Miquel Raynal 2021-12-16  463  {
-48e6633a9fa240 Miquel Raynal 2021-12-16  464  	struct mxic_ecc_ctx *ctx =3D=
- nand_to_ecc_ctx(nand);
-48e6633a9fa240 Miquel Raynal 2021-12-16  465  	struct mtd_info *mtd =3D nan=
-ddev_to_mtd(nand);
-48e6633a9fa240 Miquel Raynal 2021-12-16 @466  	struct device *dev =3D mxic-=
->dev;
-48e6633a9fa240 Miquel Raynal 2021-12-16  467  	unsigned int max_bf =3D 0;
-48e6633a9fa240 Miquel Raynal 2021-12-16  468  	bool failure =3D false;
-48e6633a9fa240 Miquel Raynal 2021-12-16  469  	int step;
-48e6633a9fa240 Miquel Raynal 2021-12-16  470  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2525  /**
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2526   * cxgb4_ethofld_send=
+_flowc - Send ETHOFLD flowc request to bind eotid to tc.
+29bbf5d7f5efe84 Rahul Lakkireddy    2020-06-24  2527   * @dev: netdevice
+29bbf5d7f5efe84 Rahul Lakkireddy    2020-06-24  2528   * @eotid: ETHOFLD ti=
+d to bind/unbind
+29bbf5d7f5efe84 Rahul Lakkireddy    2020-06-24  2529   * @tc: traffic class=
+. If set to FW_SCHED_CLS_NONE, then unbinds the @eotid
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2530   *
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2531   * Send a FLOWC work =
+request to bind an ETHOFLD TID to a traffic class.
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2532   * If @tc is set to F=
+W_SCHED_CLS_NONE, then the @eotid is unbound from
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2533   * a traffic class.
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2534   */
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2535  int cxgb4_ethofld_sen=
+d_flowc(struct net_device *dev, u32 eotid, u32 tc)
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2536  {
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2537  	struct port_info *pi=
+ =3D netdev2pinfo(dev);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2538  	struct adapter *adap=
+ =3D netdev2adap(dev);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2539  	enum sge_eosw_state =
+next_state;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2540  	struct sge_eosw_txq =
+*eosw_txq;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2541  	u32 len, len16, npar=
+ams =3D 6;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2542  	struct fw_flowc_wr *=
+flowc;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2543  	struct eotid_entry *=
+entry;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2544  	struct sge_ofld_rxq =
+*rxq;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2545  	struct sk_buff *skb;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2546  	int ret =3D 0;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2547  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  471  	for (step =3D 0; step < ctx-=
->steps; step++) {
-48e6633a9fa240 Miquel Raynal 2021-12-16  472  		u8 stat =3D ctx->status[ste=
-p];
-48e6633a9fa240 Miquel Raynal 2021-12-16  473  =
+a422d5ff6defb1c Gustavo A. R. Silva 2020-06-19  2548  	len =3D struct_size(=
+flowc, mnemval, nparams);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2549  	len16 =3D DIV_ROUND_=
+UP(len, 16);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2550  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  474  		if (stat =3D=3D NO_ERR) {
-48e6633a9fa240 Miquel Raynal 2021-12-16  475  			dev_dbg(dev, "ECC step %d:=
- no error\n", step);
-48e6633a9fa240 Miquel Raynal 2021-12-16  476  		} else if (stat =3D=3D ERAS=
-ED_CHUNK) {
-48e6633a9fa240 Miquel Raynal 2021-12-16  477  			dev_dbg(dev, "ECC step %d:=
- erased\n", step);
-48e6633a9fa240 Miquel Raynal 2021-12-16  478  		} else if (stat =3D=3D UNCO=
-RR_ERR || stat > MAX_CORR_ERR) {
-48e6633a9fa240 Miquel Raynal 2021-12-16  479  			dev_dbg(dev, "ECC step %d:=
- uncorrectable\n", step);
-48e6633a9fa240 Miquel Raynal 2021-12-16  480  			mtd->ecc_stats.failed++;
-48e6633a9fa240 Miquel Raynal 2021-12-16  481  			failure =3D true;
-48e6633a9fa240 Miquel Raynal 2021-12-16  482  		} else {
-48e6633a9fa240 Miquel Raynal 2021-12-16  483  			dev_dbg(dev, "ECC step %d:=
- %d bits corrected\n",
-48e6633a9fa240 Miquel Raynal 2021-12-16  484  				step, stat);
-48e6633a9fa240 Miquel Raynal 2021-12-16  485  			max_bf =3D max_t(unsigned =
-int, max_bf, stat);
-48e6633a9fa240 Miquel Raynal 2021-12-16  486  			mtd->ecc_stats.corrected +=
-=3D stat;
-48e6633a9fa240 Miquel Raynal 2021-12-16  487  		}
-48e6633a9fa240 Miquel Raynal 2021-12-16  488  	}
-48e6633a9fa240 Miquel Raynal 2021-12-16  489  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2551  	entry =3D cxgb4_look=
+up_eotid(&adap->tids, eotid);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2552  	if (!entry)
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2553  		return -ENOMEM;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2554  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  490  	return failure ? -EBADMSG : =
-max_bf;
-48e6633a9fa240 Miquel Raynal 2021-12-16  491  }
-48e6633a9fa240 Miquel Raynal 2021-12-16  492  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2555  	eosw_txq =3D (struct=
+ sge_eosw_txq *)entry->data;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2556  	if (!eosw_txq)
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2557  		return -ENOMEM;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2558  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  493  /* External ECC engine helper=
-s */
-48e6633a9fa240 Miquel Raynal 2021-12-16  494  static int mxic_ecc_prepare_i=
-o_req_external(struct nand_device *nand,
-48e6633a9fa240 Miquel Raynal 2021-12-16  495  					    struct nand_page_io_=
-req *req)
-48e6633a9fa240 Miquel Raynal 2021-12-16  496  {
-48e6633a9fa240 Miquel Raynal 2021-12-16  497  	struct mxic_ecc_engine *mxic=
- =3D nand_to_mxic(nand);
-48e6633a9fa240 Miquel Raynal 2021-12-16  498  	struct mxic_ecc_ctx *ctx =3D=
- nand_to_ecc_ctx(nand);
-48e6633a9fa240 Miquel Raynal 2021-12-16  499  	struct mtd_info *mtd =3D nan=
-ddev_to_mtd(nand);
-48e6633a9fa240 Miquel Raynal 2021-12-16  500  	int offset, nents, step, ret;
-48e6633a9fa240 Miquel Raynal 2021-12-16  501  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2559  	skb =3D alloc_skb(le=
+n, GFP_KERNEL);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2560  	if (!skb)
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2561  		return -ENOMEM;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2562  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  502  	if (req->mode =3D=3D MTD_OPS=
-_RAW)
-48e6633a9fa240 Miquel Raynal 2021-12-16  503  		return 0;
-48e6633a9fa240 Miquel Raynal 2021-12-16  504  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2563  	spin_lock_bh(&eosw_t=
+xq->lock);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2564  	if (tc !=3D FW_SCHED=
+_CLS_NONE) {
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2565  		if (eosw_txq->state=
+ !=3D CXGB4_EO_STATE_CLOSED)
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05 @2566  			goto out=
+_free_skb;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2567  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  505  	nand_ecc_tweak_req(&ctx->req=
-_ctx, req);
-48e6633a9fa240 Miquel Raynal 2021-12-16  506  	ctx->req =3D req;
-48e6633a9fa240 Miquel Raynal 2021-12-16  507  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2568  		next_state =3D CXGB=
+4_EO_STATE_FLOWC_OPEN_SEND;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2569  	} else {
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2570  		if (eosw_txq->state=
+ !=3D CXGB4_EO_STATE_ACTIVE)
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2571  			goto out=
+_free_skb;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2572  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  508  	if (req->type =3D=3D NAND_PA=
-GE_READ)
-48e6633a9fa240 Miquel Raynal 2021-12-16  509  		return 0;
-48e6633a9fa240 Miquel Raynal 2021-12-16  510  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2573  		next_state =3D CXGB=
+4_EO_STATE_FLOWC_CLOSE_SEND;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2574  	}
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2575  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  511  	mxic_ecc_add_room_in_oobbuf(=
-ctx, ctx->oobwithstat,
-48e6633a9fa240 Miquel Raynal 2021-12-16  512  				    ctx->req->oobbuf.out);
-48e6633a9fa240 Miquel Raynal 2021-12-16  513  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2576  	flowc =3D __skb_put(=
+skb, len);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2577  	memset(flowc, 0, len=
+);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2578  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  514  	sg_set_buf(&ctx->sg[0], req-=
->databuf.out, req->datalen);
-48e6633a9fa240 Miquel Raynal 2021-12-16  515  	sg_set_buf(&ctx->sg[1], ctx-=
->oobwithstat,
-48e6633a9fa240 Miquel Raynal 2021-12-16  516  		   req->ooblen + (ctx->step=
-s * STAT_BYTES));
-48e6633a9fa240 Miquel Raynal 2021-12-16  517  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2579  	rxq =3D &adap->sge.e=
+ohw_rxq[eosw_txq->hwqid];
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2580  	flowc->flowid_len16 =
+=3D cpu_to_be32(FW_WR_LEN16_V(len16) |
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2581  					  FW_WR_FLOWID_V=
+(eosw_txq->hwtid));
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2582  	flowc->op_to_nparams=
+ =3D cpu_to_be32(FW_WR_OP_V(FW_FLOWC_WR) |
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2583  					   FW_FLOWC_WR_N=
+PARAMS_V(nparams) |
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2584  					   FW_WR_COMPL_V=
+(1));
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2585  	flowc->mnemval[0].mn=
+emonic =3D FW_FLOWC_MNEM_PFNVFN;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2586  	flowc->mnemval[0].va=
+l =3D cpu_to_be32(FW_PFVF_CMD_PFN_V(adap->pf));
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2587  	flowc->mnemval[1].mn=
+emonic =3D FW_FLOWC_MNEM_CH;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2588  	flowc->mnemval[1].va=
+l =3D cpu_to_be32(pi->tx_chan);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2589  	flowc->mnemval[2].mn=
+emonic =3D FW_FLOWC_MNEM_PORT;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2590  	flowc->mnemval[2].va=
+l =3D cpu_to_be32(pi->tx_chan);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2591  	flowc->mnemval[3].mn=
+emonic =3D FW_FLOWC_MNEM_IQID;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2592  	flowc->mnemval[3].va=
+l =3D cpu_to_be32(rxq->rspq.abs_id);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2593  	flowc->mnemval[4].mn=
+emonic =3D FW_FLOWC_MNEM_SCHEDCLASS;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2594  	flowc->mnemval[4].va=
+l =3D cpu_to_be32(tc);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2595  	flowc->mnemval[5].mn=
+emonic =3D FW_FLOWC_MNEM_EOSTATE;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2596  	flowc->mnemval[5].va=
+l =3D cpu_to_be32(tc =3D=3D FW_SCHED_CLS_NONE ?
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2597  					    FW_FLOWC_MNE=
+M_EOSTATE_CLOSING :
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2598  					    FW_FLOWC_MNE=
+M_EOSTATE_ESTABLISHED);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2599  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  518  	nents =3D dma_map_sg(mxic->d=
-ev, ctx->sg, 2, DMA_BIDIRECTIONAL);
-48e6633a9fa240 Miquel Raynal 2021-12-16  519  	if (!nents)
-48e6633a9fa240 Miquel Raynal 2021-12-16  520  		return -EINVAL;
-48e6633a9fa240 Miquel Raynal 2021-12-16  521  =
+69422a7e5d578aa Rahul Lakkireddy    2020-04-30  2600  	/* Free up any pendi=
+ng skbs to ensure there's room for
+69422a7e5d578aa Rahul Lakkireddy    2020-04-30  2601  	 * termination FLOWC.
+69422a7e5d578aa Rahul Lakkireddy    2020-04-30  2602  	 */
+69422a7e5d578aa Rahul Lakkireddy    2020-04-30  2603  	if (tc =3D=3D FW_SCH=
+ED_CLS_NONE)
+69422a7e5d578aa Rahul Lakkireddy    2020-04-30  2604  		eosw_txq_flush_pend=
+ing_skbs(eosw_txq);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2605  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  522  	mutex_lock(&mxic->lock);
-48e6633a9fa240 Miquel Raynal 2021-12-16  523  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2606  	ret =3D eosw_txq_enq=
+ueue(eosw_txq, skb);
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2607  	if (ret)
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2608  		goto out_=
+free_skb;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2609  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  524  	for (step =3D 0; step < ctx-=
->steps; step++) {
-48e6633a9fa240 Miquel Raynal 2021-12-16  525  		writel(sg_dma_address(&ctx-=
->sg[0]) + (step * ctx->data_step_sz),
-48e6633a9fa240 Miquel Raynal 2021-12-16  526  		       mxic->regs + SDMA_MA=
-IN_ADDR);
-48e6633a9fa240 Miquel Raynal 2021-12-16  527  		writel(sg_dma_address(&ctx-=
->sg[1]) + (step * (ctx->oob_step_sz + STAT_BYTES)),
-48e6633a9fa240 Miquel Raynal 2021-12-16  528  		       mxic->regs + SDMA_SP=
-ARE_ADDR);
-48e6633a9fa240 Miquel Raynal 2021-12-16  529  		ret =3D mxic_ecc_process_da=
-ta(mxic, ctx->req->type);
-48e6633a9fa240 Miquel Raynal 2021-12-16  530  		if (ret)
-48e6633a9fa240 Miquel Raynal 2021-12-16  531  			break;
-48e6633a9fa240 Miquel Raynal 2021-12-16  532  	}
-48e6633a9fa240 Miquel Raynal 2021-12-16  533  =
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2610  	eosw_txq->state =3D =
+next_state;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2611  	eosw_txq->flowc_idx =
+=3D eosw_txq->pidx;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2612  	eosw_txq_advance(eos=
+w_txq, 1);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2613  	ethofld_xmit(dev, eo=
+sw_txq);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2614  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  534  	mutex_unlock(&mxic->lock);
-48e6633a9fa240 Miquel Raynal 2021-12-16  535  =
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2615  	spin_unloc=
+k_bh(&eosw_txq->lock);
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2616  	return 0;
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2617  =
 
-48e6633a9fa240 Miquel Raynal 2021-12-16  536  	dma_unmap_sg(mxic->dev, ctx-=
->sg, 2, DMA_BIDIRECTIONAL);
-48e6633a9fa240 Miquel Raynal 2021-12-16  537  =
-
-48e6633a9fa240 Miquel Raynal 2021-12-16 @538  	if (ret)
-48e6633a9fa240 Miquel Raynal 2021-12-16  539  		return ret;
-48e6633a9fa240 Miquel Raynal 2021-12-16  540  =
-
-48e6633a9fa240 Miquel Raynal 2021-12-16  541  	/* Retrieve the calculated E=
-CC bytes */
-48e6633a9fa240 Miquel Raynal 2021-12-16  542  	for (step =3D 0; step < ctx-=
->steps; step++) {
-48e6633a9fa240 Miquel Raynal 2021-12-16  543  		offset =3D ctx->meta_sz + (=
-step * ctx->oob_step_sz);
-48e6633a9fa240 Miquel Raynal 2021-12-16  544  		mtd_ooblayout_get_eccbytes(=
-mtd,
-48e6633a9fa240 Miquel Raynal 2021-12-16  545  					   (u8 *)ctx->req->oobbu=
-f.out + offset,
-48e6633a9fa240 Miquel Raynal 2021-12-16  546  					   ctx->oobwithstat + (s=
-tep * STAT_BYTES),
-48e6633a9fa240 Miquel Raynal 2021-12-16  547  					   step * ctx->parity_sz,
-48e6633a9fa240 Miquel Raynal 2021-12-16  548  					   ctx->parity_sz);
-48e6633a9fa240 Miquel Raynal 2021-12-16  549  	}
-48e6633a9fa240 Miquel Raynal 2021-12-16  550  =
-
-48e6633a9fa240 Miquel Raynal 2021-12-16  551  	return 0;
-48e6633a9fa240 Miquel Raynal 2021-12-16  552  }
-48e6633a9fa240 Miquel Raynal 2021-12-16  553  =
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2618  out_free_sk=
+b:
+52bfcdd87e83d9e =C3=8D=C3=B1igo Huguet        2021-05-05  2619  	dev_consum=
+e_skb_any(skb);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2620  	spin_unlock_bh(&eosw=
+_txq->lock);
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2621  	return ret;
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2622  }
+0e395b3cb1fb82f Rahul Lakkireddy    2019-11-07  2623  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2968378490683898651==--
+--===============2307488497151233660==--
 
