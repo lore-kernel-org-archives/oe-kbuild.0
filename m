@@ -1,270 +1,92 @@
-Content-Type: multipart/mixed; boundary="===============3344651528930823762=="
+Content-Type: multipart/mixed; boundary="===============1772565574095449689=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.10/android-civ 23385/27029] arch/x86/events/core.c:334 check_hw_exists() error: uninitialized symbol 'reg'.
-Date: Fri, 11 Mar 2022 06:32:20 +0800
-Message-ID: <202203110645.vMyk2r5F-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:525 dbgfs_init_regions_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Fri, 11 Mar 2022 05:30:48 +0800
+Message-ID: <202203110552.cDoKPG8H-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3344651528930823762==
+--===============1772565574095449689==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Sun Jian <jian.sun@intel.com>
-CC: "Kris, Pan" <kris.pan@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/android-civ
-head:   0cb62827e14a1aa8bf2888a01bf0eaa41045dfea
-commit: 16a4cbddddb16af355bbbadcbe5b9c7504d20277 [23385/27029] Skip hw pmu =
-for VM on ADL
-:::::: branch date: 9 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1db333d9a51f3459fba1bcaa564d95befe79f0b3
+commit: 90bebce9fcd6488ba6b010af3a16a0a0d7e44cb6 mm/damon/dbgfs: allow user=
+s to set initial monitoring target regions
+date:   4 months ago
+:::::: branch date: 9 hours ago
 :::::: commit date: 4 months ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20311/202203110645.vMyk2r5F-lkp(a)intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+config: arc-randconfig-m031-20220310 (https://download.01.org/0day-ci/archi=
+ve/20220311/202203110552.cDoKPG8H-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-arch/x86/events/core.c:334 check_hw_exists() error: uninitialized symbol 'r=
-eg'.
+smatch warnings:
+mm/damon/dbgfs.c:525 dbgfs_init_regions_write() warn: passing a valid point=
+er to 'PTR_ERR'
 
-Old smatch warnings:
-arch/x86/events/core.c:285 check_hw_exists() warn: should '(3 << i * 4)' be=
- a 64 bit type?
+vim +/PTR_ERR +525 mm/damon/dbgfs.c
 
-vim +/reg +334 arch/x86/events/core.c
+90bebce9fcd648 SeongJae Park 2021-11-05  513  =
 
-b27ea29c626788 arch/x86/kernel/cpu/perf_event.c Robert Richter         2010=
--03-17  244  =
+90bebce9fcd648 SeongJae Park 2021-11-05  514  static ssize_t dbgfs_init_reg=
+ions_write(struct file *file,
+90bebce9fcd648 SeongJae Park 2021-11-05  515  					  const char __user *buf=
+, size_t count,
+90bebce9fcd648 SeongJae Park 2021-11-05  516  					  loff_t *ppos)
+90bebce9fcd648 SeongJae Park 2021-11-05  517  {
+90bebce9fcd648 SeongJae Park 2021-11-05  518  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+90bebce9fcd648 SeongJae Park 2021-11-05  519  	char *kbuf;
+90bebce9fcd648 SeongJae Park 2021-11-05  520  	ssize_t ret =3D count;
+90bebce9fcd648 SeongJae Park 2021-11-05  521  	int err;
+90bebce9fcd648 SeongJae Park 2021-11-05  522  =
 
-eac065f8ebdc04 arch/x86/events/core.c           Kan Liang              2021=
--04-12  245  bool check_hw_exists(struct pmu *pmu, int num_counters, int nu=
-m_counters_fixed)
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c Don Zickus             2010=
--11-22  246  {
-11d8b05855f374 arch/x86/events/core.c           Arnd Bergmann          2017=
--07-19  247  	u64 val, val_fail =3D -1, val_new=3D ~0;
-11d8b05855f374 arch/x86/events/core.c           Arnd Bergmann          2017=
--07-19  248  	int i, reg, reg_fail =3D -1, ret =3D 0;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  249  	int bios_fail =3D 0;
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  250  	int reg_safe =3D -1;
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c Don Zickus             2010=
--11-22  251  =
+90bebce9fcd648 SeongJae Park 2021-11-05  523  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+90bebce9fcd648 SeongJae Park 2021-11-05  524  	if (IS_ERR(kbuf))
+90bebce9fcd648 SeongJae Park 2021-11-05 @525  		return PTR_ERR(kbuf);
+90bebce9fcd648 SeongJae Park 2021-11-05  526  =
 
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  252  	if(boot_cpu_has(X86_FEATURE_HYPERVISOR) &&
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  253  			(boot_cpu_data.x86_model =3D=3D INTEL_FAM6_ALDERLAKE ||
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  254  			boot_cpu_data.x86_model =3D=3D INTEL_FAM6_ALDERLAKE_L)) {
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  255  		pr_cont("Disabling PMU for VM on ADL.\n");
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  256  		goto msr_fail;
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  257  	}
-16a4cbddddb16a arch/x86/events/core.c           Sun Jian               2021=
--10-04  258  =
+90bebce9fcd648 SeongJae Park 2021-11-05  527  	mutex_lock(&ctx->kdamond_loc=
+k);
+90bebce9fcd648 SeongJae Park 2021-11-05  528  	if (ctx->kdamond) {
+90bebce9fcd648 SeongJae Park 2021-11-05  529  		ret =3D -EBUSY;
+90bebce9fcd648 SeongJae Park 2021-11-05  530  		goto unlock_out;
+90bebce9fcd648 SeongJae Park 2021-11-05  531  	}
+90bebce9fcd648 SeongJae Park 2021-11-05  532  =
 
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  259  	/*
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  260  	 * Check to see if the BIOS enabled any of the counters, if so
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  261  	 * complain and bail.
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  262  	 */
-eac065f8ebdc04 arch/x86/events/core.c           Kan Liang              2021=
--04-12  263  	for (i =3D 0; i < num_counters; i++) {
-41bf498949a263 arch/x86/kernel/cpu/perf_event.c Robert Richter         2011=
--02-02  264  		reg =3D x86_pmu_config_addr(i);
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  265  		ret =3D rdmsrl_safe(reg, &val);
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  266  		if (ret)
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  267  			goto msr_fail;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  268  		if (val & ARCH_PERFMON_EVENTSEL_ENABLE) {
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  269  			bios_fail =3D 1;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  270  			val_fail =3D val;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  271  			reg_fail =3D reg;
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  272  		} else {
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  273  			reg_safe =3D i;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  274  		}
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  275  	}
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  276  =
+90bebce9fcd648 SeongJae Park 2021-11-05  533  	err =3D set_init_regions(ctx=
+, kbuf, ret);
+90bebce9fcd648 SeongJae Park 2021-11-05  534  	if (err)
+90bebce9fcd648 SeongJae Park 2021-11-05  535  		ret =3D err;
+90bebce9fcd648 SeongJae Park 2021-11-05  536  =
 
-eac065f8ebdc04 arch/x86/events/core.c           Kan Liang              2021=
--04-12  277  	if (num_counters_fixed) {
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  278  		reg =3D MSR_ARCH_PERFMON_FIXED_CTR_CTRL;
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  279  		ret =3D rdmsrl_safe(reg, &val);
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  280  		if (ret)
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  281  			goto msr_fail;
-eac065f8ebdc04 arch/x86/events/core.c           Kan Liang              2021=
--04-12  282  		for (i =3D 0; i < num_counters_fixed; i++) {
-eac065f8ebdc04 arch/x86/events/core.c           Kan Liang              2021=
--04-12  283  			if (fixed_counter_disabled(i, pmu))
-a6bffd585202c9 arch/x86/events/core.c           Kan Liang              2021=
--01-28  284  				continue;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  285  			if (val & (0x03 << i*4)) {
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  286  				bios_fail =3D 1;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  287  				val_fail =3D val;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  288  				reg_fail =3D reg;
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  289  			}
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  290  		}
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  291  	}
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  292  =
+90bebce9fcd648 SeongJae Park 2021-11-05  537  unlock_out:
+90bebce9fcd648 SeongJae Park 2021-11-05  538  	mutex_unlock(&ctx->kdamond_l=
+ock);
+90bebce9fcd648 SeongJae Park 2021-11-05  539  	kfree(kbuf);
+90bebce9fcd648 SeongJae Park 2021-11-05  540  	return ret;
+90bebce9fcd648 SeongJae Park 2021-11-05  541  }
+90bebce9fcd648 SeongJae Park 2021-11-05  542  =
 
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  293  	/*
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  294  	 * If all the counters are enabled, the below test will always
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  295  	 * fail.  The tools will also become useless in this scenario.
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  296  	 * Just fail and disable the hardware counters.
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  297  	 */
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  298  =
-
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  299  	if (reg_safe =3D=3D -1) {
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  300  		reg =3D reg_safe;
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  301  		goto msr_fail;
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  302  	}
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  303  =
-
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  304  	/*
-bffd5fc26043cc arch/x86/kernel/cpu/perf_event.c Andre Przywara         2012=
--10-09  305  	 * Read the current value, change it and read it back to see =
-if it
-bffd5fc26043cc arch/x86/kernel/cpu/perf_event.c Andre Przywara         2012=
--10-09  306  	 * matches, this is needed to detect certain hardware emulato=
-rs
-bffd5fc26043cc arch/x86/kernel/cpu/perf_event.c Andre Przywara         2012=
--10-09  307  	 * (qemu/kvm) that don't trap on the MSR access and always re=
-turn 0s.
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  308  	 */
-68ab747604da98 arch/x86/kernel/cpu/perf_event.c Don Zickus             2015=
--05-18  309  	reg =3D x86_pmu_event_addr(reg_safe);
-bffd5fc26043cc arch/x86/kernel/cpu/perf_event.c Andre Przywara         2012=
--10-09  310  	if (rdmsrl_safe(reg, &val))
-bffd5fc26043cc arch/x86/kernel/cpu/perf_event.c Andre Przywara         2012=
--10-09  311  		goto msr_fail;
-bffd5fc26043cc arch/x86/kernel/cpu/perf_event.c Andre Przywara         2012=
--10-09  312  	val ^=3D 0xffffUL;
-f285f92f7e4c9a arch/x86/kernel/cpu/perf_event.c Robert Richter         2012=
--06-20  313  	ret =3D wrmsrl_safe(reg, val);
-f285f92f7e4c9a arch/x86/kernel/cpu/perf_event.c Robert Richter         2012=
--06-20  314  	ret |=3D rdmsrl_safe(reg, &val_new);
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c Don Zickus             2010=
--11-22  315  	if (ret || val !=3D val_new)
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  316  		goto msr_fail;
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c Don Zickus             2010=
--11-22  317  =
-
-45daae575e08bb arch/x86/kernel/cpu/perf_event.c Ingo Molnar            2011=
--03-25  318  	/*
-45daae575e08bb arch/x86/kernel/cpu/perf_event.c Ingo Molnar            2011=
--03-25  319  	 * We still allow the PMU driver to operate:
-45daae575e08bb arch/x86/kernel/cpu/perf_event.c Ingo Molnar            2011=
--03-25  320  	 */
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  321  	if (bios_fail) {
-1b74dde7c47c19 arch/x86/kernel/cpu/perf_event.c Chen Yucong            2016=
--02-02  322  		pr_cont("Broken BIOS detected, complain to your hardware ven=
-dor.\n");
-1b74dde7c47c19 arch/x86/kernel/cpu/perf_event.c Chen Yucong            2016=
--02-02  323  		pr_err(FW_BUG "the BIOS has corrupted hw-PMU resources (MSR =
-%x is %Lx)\n",
-1b74dde7c47c19 arch/x86/kernel/cpu/perf_event.c Chen Yucong            2016=
--02-02  324  			      reg_fail, val_fail);
-a5ebe0ba3dff65 arch/x86/kernel/cpu/perf_event.c George Dunlap          2013=
--04-03  325  	}
-45daae575e08bb arch/x86/kernel/cpu/perf_event.c Ingo Molnar            2011=
--03-25  326  =
-
-45daae575e08bb arch/x86/kernel/cpu/perf_event.c Ingo Molnar            2011=
--03-25  327  	return true;
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  328  =
-
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  329  msr_fail:
-005bd0077a79c4 arch/x86/events/core.c           Juergen Gross          2016=
--08-01  330  	if (boot_cpu_has(X86_FEATURE_HYPERVISOR)) {
-005bd0077a79c4 arch/x86/events/core.c           Juergen Gross          2016=
--08-01  331  		pr_cont("PMU not available due to virtualization, using soft=
-ware events only.\n");
-005bd0077a79c4 arch/x86/events/core.c           Juergen Gross          2016=
--08-01  332  	} else {
-1b74dde7c47c19 arch/x86/kernel/cpu/perf_event.c Chen Yucong            2016=
--02-02  333  		pr_cont("Broken PMU hardware detected, using software events=
- only.\n");
-005bd0077a79c4 arch/x86/events/core.c           Juergen Gross          2016=
--08-01 @334  		pr_err("Failed to access perfctr msr (MSR %x is %Lx)\n",
-65d71fe1375b97 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra (Intel  2014=
--10-07  335) 		       reg, val_new);
-005bd0077a79c4 arch/x86/events/core.c           Juergen Gross          2016=
--08-01  336  	}
-45daae575e08bb arch/x86/kernel/cpu/perf_event.c Ingo Molnar            2011=
--03-25  337  =
-
-4407204c5c9037 arch/x86/kernel/cpu/perf_event.c Peter Zijlstra         2010=
--12-08  338  	return false;
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c Don Zickus             2010=
--11-22  339  }
-33c6d6a7ad0ffa arch/x86/kernel/cpu/perf_event.c Don Zickus             2010=
--11-22  340  =
-
-
-:::::: The code@line 334 was first introduced by commit
-:::::: 005bd0077a79c4bcfe64e7331b275e12f742093f perf/x86: Modify error mess=
-age in virtualized environment
-
-:::::: TO: Juergen Gross <jgross@suse.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3344651528930823762==--
+--===============1772565574095449689==--
 
