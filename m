@@ -1,75 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============3848954374784082377=="
+Content-Type: multipart/mixed; boundary="===============4776844800617785996=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-lts:5.4/yocto 16103/20884] drivers/gpu/drm/drm_edid.c:5597 drm_update_tile_info() error: uninitialized symbol 'length'.
-Date: Fri, 04 Mar 2022 01:40:29 +0800
-Message-ID: <202203040132.Io7NUZVa-lkp@intel.com>
+Subject: [esmil:visionfive 28/64] drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant because platform_get_irq() already prints an error
+Date: Thu, 10 Mar 2022 23:22:47 +0800
+Message-ID: <202203102320.uRLz7hUG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3848954374784082377==
+--===============4776844800617785996==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
-CC: "Mazlan, Hazwan Arif" <hazwan.arif.mazlan@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Huan Feng <huan.feng@starfivetech.com>
+CC: Emil Renner Berthing <kernel@esmil.dk>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.4/yocto
-head:   b711391ad7048370874e7f32e00b452cd7da6f72
-commit: 8e2b1510d279aecb1f89907553283c79c1b2b226 [16103/20884] drm/edid: Fi=
-x DispID tile parsing for override EDID
-:::::: branch date: 3 weeks ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20304/202203040132.Io7NUZVa-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://github.com/esmil/linux visionfive
+head:   996f88ea65b2f557926d7fe73d69fdc2da92430a
+commit: 43592cbfb311e82075d50641a6359ed6c0a28ea1 [28/64] drivers/hw_random:=
+ Add StarFive JH7100 Random Number Generator driver
+:::::: branch date: 19 hours ago
+:::::: commit date: 4 days ago
+config: sparc64-randconfig-c024-20220310 (https://download.01.org/0day-ci/a=
+rchive/20220310/202203102320.uRLz7hUG-lkp(a)intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/gpu/drm/drm_edid.c:5597 drm_update_tile_info() error: uninitialized=
- symbol 'length'.
-drivers/gpu/drm/drm_edid.c:5597 drm_update_tile_info() error: uninitialized=
- symbol 'idx'.
 
-Old smatch warnings:
-drivers/gpu/drm/drm_edid.c:1485 drm_edid_are_equal() error: we previously a=
-ssumed 'edid2' could be null (see line 1478)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant=
+ because platform_get_irq() already prints an error
 
-vim +/length +5597 drivers/gpu/drm/drm_edid.c
-
-40d9b043a89e230 Dave Airlie   2014-10-20  5583  =
-
-8e2b1510d279aec Ville Syrj=C3=A4l=C3=A4 2020-03-13  5584  void drm_update_t=
-ile_info(struct drm_connector *connector,
-8e2b1510d279aec Ville Syrj=C3=A4l=C3=A4 2020-03-13  5585  			  const struct=
- edid *edid)
-40d9b043a89e230 Dave Airlie   2014-10-20  5586  {
-8e2b1510d279aec Ville Syrj=C3=A4l=C3=A4 2020-03-13  5587  	const void *disp=
-layid =3D NULL;
-8e2b1510d279aec Ville Syrj=C3=A4l=C3=A4 2020-03-13  5588  	int length, idx;
-40d9b043a89e230 Dave Airlie   2014-10-20  5589  	int ret;
-40d9b043a89e230 Dave Airlie   2014-10-20  5590  	connector->has_tile =3D fa=
-lse;
-40d9b043a89e230 Dave Airlie   2014-10-20  5591  	displayid =3D drm_find_dis=
-playid_extension(edid);
-40d9b043a89e230 Dave Airlie   2014-10-20  5592  	if (!displayid) {
-40d9b043a89e230 Dave Airlie   2014-10-20  5593  		/* drop reference to any =
-tile group we had */
-40d9b043a89e230 Dave Airlie   2014-10-20  5594  		goto out_drop_ref;
-40d9b043a89e230 Dave Airlie   2014-10-20  5595  	}
-40d9b043a89e230 Dave Airlie   2014-10-20  5596  =
-
-8e2b1510d279aec Ville Syrj=C3=A4l=C3=A4 2020-03-13 @5597  	ret =3D drm_disp=
-layid_parse_tiled(connector, displayid, length, idx);
+Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3848954374784082377==--
+--===============4776844800617785996==--
 
