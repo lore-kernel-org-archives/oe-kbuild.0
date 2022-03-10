@@ -1,436 +1,306 @@
-Content-Type: multipart/mixed; boundary="===============6145066610141043698=="
+Content-Type: multipart/mixed; boundary="===============5845165724350324042=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [davidhildenbrand:s390x_mkyoung 3/3] fs/gfs2/file.c:989:3: warning: Value stored to 'retried' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 09 Mar 2022 15:32:16 +0800
-Message-ID: <202203091517.tNIeIM41-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Fri, 11 Mar 2022 01:46:22 +0800
+Message-ID: <202203110114.13aHC38i-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6145066610141043698==
+--===============5845165724350324042==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Andreas Gruenbacher <agruenba@redhat.com>
-CC: David Hildenbrand <david@redhat.com>
+TO: SeongJae Park <sjpark@amazon.de>
+CC: Leonard Foerster <foersleo@amazon.de>
+CC: Fernand Sieber <sieberf@amazon.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   git://github.com/davidhildenbrand/linux s390x_mkyoung
-head:   72aef458f9af74990f40e716468a9bc6f5879650
-commit: 72aef458f9af74990f40e716468a9bc6f5879650 [3/3] instrumentation
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: arm-randconfig-c002-20220308 (https://download.01.org/0day-ci/archi=
-ve/20220309/202203091517.tNIeIM41-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a2e9c6=
-8fcd4425fbce7380746e916966f00a39a0)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/davidhildenbrand/linux/commit/72aef458f9af7499=
-0f40e716468a9bc6f5879650
-        git remote add davidhildenbrand git://github.com/davidhildenbrand/l=
-inux
-        git fetch --no-tags davidhildenbrand s390x_mkyoung
-        git checkout 72aef458f9af74990f40e716468a9bc6f5879650
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1db333d9a51f3459fba1bcaa564d95befe79f0b3
+commit: 4bc05954d0076655cfaf6f0135585bdc20cd6b11 mm/damon: implement a debu=
+gfs-based user space interface
+date:   6 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 months ago
+config: arc-randconfig-m031-20220310 (https://download.01.org/0day-ci/archi=
+ve/20220311/202203110114.13aHC38i-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'P=
+TR_ERR'
+mm/damon/dbgfs.c:196 dbgfs_target_ids_write() warn: passing a valid pointer=
+ to 'PTR_ERR'
+mm/damon/dbgfs.c:319 dbgfs_monitor_on_write() warn: passing a valid pointer=
+ to 'PTR_ERR'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                                      ^~~~
-   include/asm-generic/bitops/fls.h:31:2: note: '?' condition is false
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   include/asm-generic/bitops/fls.h:31:2: note: '?' condition is false
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   include/asm-generic/bitops/fls.h:35:2: note: '?' condition is false
-           if (!(x & 0x80000000u)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   include/asm-generic/bitops/fls.h:35:2: note: '?' condition is false
-           if (!(x & 0x80000000u)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/linux/bitops.h:155:10: note: Returning from 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/linux/bitops.h:155:3: note: Returning the value 32
-                   return fls(l);
-                   ^~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Returning from 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
-ned due to shifting by '32', which is greater or equal to the width of type=
- 'unsigned long'
-           return 1UL << fls_long(n - 1);
-                      ^  ~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> fs/gfs2/file.c:989:3: warning: Value stored to 'retried' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                   retried =3D false;
-                   ^         ~~~~~
-   fs/gfs2/file.c:989:3: note: Value stored to 'retried' is never read
-                   retried =3D false;
-                   ^         ~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   fs/gfs2/ops_fstype.c:856:2: warning: Value stored to 'jindex' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           jindex =3D 0;
-           ^        ~
-   fs/gfs2/ops_fstype.c:856:2: note: Value stored to 'jindex' is never read
-           jindex =3D 0;
-           ^        ~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   fs/gfs2/inode.c:1493:4: warning: Value stored to 'error' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                           error =3D 0;
-                           ^       ~
-   fs/gfs2/inode.c:1493:4: note: Value stored to 'error' is never read
-                           error =3D 0;
-                           ^       ~
-   fs/gfs2/inode.c:1558:3: warning: Value stored to 'error' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                   error =3D gfs2_unlink_inode(ndip, ndentry);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/inode.c:1558:3: note: Value stored to 'error' is never read
-                   error =3D gfs2_unlink_inode(ndip, ndentry);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   fs/gfs2/quota.c:839:2: warning: Value stored to 'err' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-           err =3D -EIO;
-           ^     ~~~~
-   fs/gfs2/quota.c:839:2: note: Value stored to 'err' is never read
-           err =3D -EIO;
-           ^     ~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/hwmon/pc87360.c:1450:12: warning: The right operand of '>=3D' is=
- a garbage value due to array index out of bounds [clang-analyzer-core.Unde=
-finedBinaryOperatorResult]
-                   if (init >=3D init_temp[i]) {
-                            ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/hwmon/pc87360.c:1404:6: note: Assuming 'init' is < 2
-           if (init >=3D 2 && data->innr) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/hwmon/pc87360.c:1404:16: note: Left side of '&&' is false
-           if (init >=3D 2 && data->innr) {
-                         ^
-   drivers/hwmon/pc87360.c:1404:2: note: '?' condition is false
-           if (init >=3D 2 && data->innr) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+vim +/PTR_ERR +76 mm/damon/dbgfs.c
 
-vim +/retried +989 fs/gfs2/file.c
+4bc05954d007665 SeongJae Park 2021-09-07   64  =
 
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   937  =
+4bc05954d007665 SeongJae Park 2021-09-07   65  static ssize_t dbgfs_attrs_w=
+rite(struct file *file,
+4bc05954d007665 SeongJae Park 2021-09-07   66  		const char __user *buf, si=
+ze_t count, loff_t *ppos)
+4bc05954d007665 SeongJae Park 2021-09-07   67  {
+4bc05954d007665 SeongJae Park 2021-09-07   68  	struct damon_ctx *ctx =3D f=
+ile->private_data;
+4bc05954d007665 SeongJae Park 2021-09-07   69  	unsigned long s, a, r, minr=
+, maxr;
+4bc05954d007665 SeongJae Park 2021-09-07   70  	char *kbuf;
+4bc05954d007665 SeongJae Park 2021-09-07   71  	ssize_t ret =3D count;
+4bc05954d007665 SeongJae Park 2021-09-07   72  	int err;
+4bc05954d007665 SeongJae Park 2021-09-07   73  =
 
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   938  static ssize_t gfs2_f=
-ile_read_iter(struct kiocb *iocb, struct iov_iter *to)
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   939  {
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   940  	struct gfs2_inode *i=
-p;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   941  	struct gfs2_holder g=
-h;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   942  	size_t prev_count =
-=3D 0, window_size =3D 0;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   943  	size_t written =3D 0;
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   944  	ssize_t ret;
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   945  	bool retried =3D fal=
-se;
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   946  =
+4bc05954d007665 SeongJae Park 2021-09-07   74  	kbuf =3D user_input_str(buf=
+, count, ppos);
+4bc05954d007665 SeongJae Park 2021-09-07   75  	if (IS_ERR(kbuf))
+4bc05954d007665 SeongJae Park 2021-09-07  @76  		return PTR_ERR(kbuf);
+4bc05954d007665 SeongJae Park 2021-09-07   77  =
 
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   947  	/*
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   948  	 * In this function,=
- we disable page faults when we're holding the
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   949  	 * inode glock while=
- doing I/O.  If a page fault occurs, we indicate
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   950  	 * that the inode gl=
-ock may be dropped, fault in the pages manually,
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   951  	 * and retry.
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   952  	 */
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   953  =
+4bc05954d007665 SeongJae Park 2021-09-07   78  	if (sscanf(kbuf, "%lu %lu %=
+lu %lu %lu",
+4bc05954d007665 SeongJae Park 2021-09-07   79  				&s, &a, &r, &minr, &maxr=
+) !=3D 5) {
+4bc05954d007665 SeongJae Park 2021-09-07   80  		ret =3D -EINVAL;
+4bc05954d007665 SeongJae Park 2021-09-07   81  		goto out;
+4bc05954d007665 SeongJae Park 2021-09-07   82  	}
+4bc05954d007665 SeongJae Park 2021-09-07   83  =
 
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   954  	if (iocb->ki_flags &=
- IOCB_DIRECT) {
-4c5c3010408d872 Andreas Gruenbacher 2020-06-29   955  		ret =3D gfs2_file_d=
-irect_read(iocb, to, &gh);
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   956  		if (likely(ret !=3D=
- -ENOTBLK))
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   957  			return ret;
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   958  		iocb->ki_flags &=3D=
- ~IOCB_DIRECT;
-967bcc91b044936 Andreas Gruenbacher 2018-06-19   959  	}
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   960  	iocb->ki_flags |=3D =
-IOCB_NOIO;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   961  	ret =3D generic_file=
-_read_iter(iocb, to);
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   962  	iocb->ki_flags &=3D =
-~IOCB_NOIO;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   963  	if (ret >=3D 0) {
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   964  		if (!iov_iter_count=
-(to))
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   965  			return ret;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   966  		written =3D ret;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   967  	} else {
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   968  		if (ret !=3D -EAGAI=
-N)
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   969  			return ret;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   970  		if (iocb->ki_flags =
-& IOCB_NOWAIT)
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   971  			return ret;
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   972  	}
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   973  	ip =3D GFS2_I(iocb->=
-ki_filp->f_mapping->host);
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   974  	gfs2_holder_init(ip-=
->i_gl, LM_ST_SHARED, 0, &gh);
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   975  retry:
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   976  	ret =3D gfs2_glock_n=
-q(&gh);
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   977  	if (ret)
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   978  		goto out_uninit;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   979  retry_under_glock:
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   980  	pagefault_disable();
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   981  	ret =3D generic_file=
-_read_iter(iocb, to);
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   982  	pagefault_enable();
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   983  	if (ret > 0)
-20f829999c38b18 Andreas Gruenbacher 2020-07-01   984  		written +=3D ret;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   985  =
+4bc05954d007665 SeongJae Park 2021-09-07   84  	mutex_lock(&ctx->kdamond_lo=
+ck);
+4bc05954d007665 SeongJae Park 2021-09-07   85  	if (ctx->kdamond) {
+4bc05954d007665 SeongJae Park 2021-09-07   86  		ret =3D -EBUSY;
+4bc05954d007665 SeongJae Park 2021-09-07   87  		goto unlock_out;
+4bc05954d007665 SeongJae Park 2021-09-07   88  	}
+4bc05954d007665 SeongJae Park 2021-09-07   89  =
 
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   986  	if (retried) {
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   987  		if (ret =3D=3D -EFA=
-ULT)
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   988  			atomic_inc(&GFS2_S=
-B(&ip->i_inode)->sb_read_fault_race);
-72aef458f9af749 Andreas Gruenbacher 2022-02-22  @989  		retried =3D false;
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   990  	}
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   991  =
+4bc05954d007665 SeongJae Park 2021-09-07   90  	err =3D damon_set_attrs(ctx=
+, s, a, r, minr, maxr);
+4bc05954d007665 SeongJae Park 2021-09-07   91  	if (err)
+4bc05954d007665 SeongJae Park 2021-09-07   92  		ret =3D err;
+4bc05954d007665 SeongJae Park 2021-09-07   93  unlock_out:
+4bc05954d007665 SeongJae Park 2021-09-07   94  	mutex_unlock(&ctx->kdamond_=
+lock);
+4bc05954d007665 SeongJae Park 2021-09-07   95  out:
+4bc05954d007665 SeongJae Park 2021-09-07   96  	kfree(kbuf);
+4bc05954d007665 SeongJae Park 2021-09-07   97  	return ret;
+4bc05954d007665 SeongJae Park 2021-09-07   98  }
+4bc05954d007665 SeongJae Park 2021-09-07   99  =
 
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   992  	if (should_fault_in_=
-pages(ret, to, &prev_count, &window_size)) {
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   993  		size_t leftover;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   994  =
+4bc05954d007665 SeongJae Park 2021-09-07  100  static inline bool targetid_=
+is_pid(const struct damon_ctx *ctx)
+4bc05954d007665 SeongJae Park 2021-09-07  101  {
+4bc05954d007665 SeongJae Park 2021-09-07  102  	return ctx->primitive.targe=
+t_valid =3D=3D damon_va_target_valid;
+4bc05954d007665 SeongJae Park 2021-09-07  103  }
+4bc05954d007665 SeongJae Park 2021-09-07  104  =
 
-72aef458f9af749 Andreas Gruenbacher 2022-02-22   995  		atomic_inc(&GFS2_SB=
-(&ip->i_inode)->sb_read_fault);
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   996  		gfs2_holder_allow_d=
-emote(&gh);
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   997  		leftover =3D fault_=
-in_iov_iter_writeable(to, window_size);
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   998  		gfs2_holder_disallo=
-w_demote(&gh);
-00bfe02f479688a Andreas Gruenbacher 2021-10-18   999  		if (leftover !=3D w=
-indow_size) {
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1000  			if (!gfs2_holder_q=
-ueued(&gh)) {
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1001  				if (written)
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1002  					goto out_uninit;
-72aef458f9af749 Andreas Gruenbacher 2022-02-22  1003  				atomic_inc(&GFS2_=
-SB(&ip->i_inode)->sb_read_lock_stolen);
-72aef458f9af749 Andreas Gruenbacher 2022-02-22  1004  				retried =3D true;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1005  				goto retry;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1006  			}
-72aef458f9af749 Andreas Gruenbacher 2022-02-22  1007  			retried =3D true;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1008  			goto retry_under_g=
-lock;
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1009  		}
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1010  	}
-00bfe02f479688a Andreas Gruenbacher 2021-10-18  1011  	if (gfs2_holder_queu=
-ed(&gh))
-20f829999c38b18 Andreas Gruenbacher 2020-07-01  1012  		gfs2_glock_dq(&gh);
-20f829999c38b18 Andreas Gruenbacher 2020-07-01  1013  out_uninit:
-20f829999c38b18 Andreas Gruenbacher 2020-07-01  1014  	gfs2_holder_uninit(&=
-gh);
-20f829999c38b18 Andreas Gruenbacher 2020-07-01  1015  	return written ? wri=
-tten : ret;
-967bcc91b044936 Andreas Gruenbacher 2018-06-19  1016  }
-967bcc91b044936 Andreas Gruenbacher 2018-06-19  1017  =
+4bc05954d007665 SeongJae Park 2021-09-07  105  static ssize_t sprint_target=
+_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
+4bc05954d007665 SeongJae Park 2021-09-07  106  {
+4bc05954d007665 SeongJae Park 2021-09-07  107  	struct damon_target *t;
+4bc05954d007665 SeongJae Park 2021-09-07  108  	unsigned long id;
+4bc05954d007665 SeongJae Park 2021-09-07  109  	int written =3D 0;
+4bc05954d007665 SeongJae Park 2021-09-07  110  	int rc;
+4bc05954d007665 SeongJae Park 2021-09-07  111  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  112  	damon_for_each_target(t, ct=
+x) {
+4bc05954d007665 SeongJae Park 2021-09-07  113  		id =3D t->id;
+4bc05954d007665 SeongJae Park 2021-09-07  114  		if (targetid_is_pid(ctx))
+4bc05954d007665 SeongJae Park 2021-09-07  115  			/* Show pid numbers to de=
+bugfs users */
+4bc05954d007665 SeongJae Park 2021-09-07  116  			id =3D (unsigned long)pid=
+_vnr((struct pid *)id);
+4bc05954d007665 SeongJae Park 2021-09-07  117  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  118  		rc =3D scnprintf(&buf[writ=
+ten], len - written, "%lu ", id);
+4bc05954d007665 SeongJae Park 2021-09-07  119  		if (!rc)
+4bc05954d007665 SeongJae Park 2021-09-07  120  			return -ENOMEM;
+4bc05954d007665 SeongJae Park 2021-09-07  121  		written +=3D rc;
+4bc05954d007665 SeongJae Park 2021-09-07  122  	}
+4bc05954d007665 SeongJae Park 2021-09-07  123  	if (written)
+4bc05954d007665 SeongJae Park 2021-09-07  124  		written -=3D 1;
+4bc05954d007665 SeongJae Park 2021-09-07  125  	written +=3D scnprintf(&buf=
+[written], len - written, "\n");
+4bc05954d007665 SeongJae Park 2021-09-07  126  	return written;
+4bc05954d007665 SeongJae Park 2021-09-07  127  }
+4bc05954d007665 SeongJae Park 2021-09-07  128  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  129  static ssize_t dbgfs_target_=
+ids_read(struct file *file,
+4bc05954d007665 SeongJae Park 2021-09-07  130  		char __user *buf, size_t c=
+ount, loff_t *ppos)
+4bc05954d007665 SeongJae Park 2021-09-07  131  {
+4bc05954d007665 SeongJae Park 2021-09-07  132  	struct damon_ctx *ctx =3D f=
+ile->private_data;
+4bc05954d007665 SeongJae Park 2021-09-07  133  	ssize_t len;
+4bc05954d007665 SeongJae Park 2021-09-07  134  	char ids_buf[320];
+4bc05954d007665 SeongJae Park 2021-09-07  135  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  136  	mutex_lock(&ctx->kdamond_lo=
+ck);
+4bc05954d007665 SeongJae Park 2021-09-07  137  	len =3D sprint_target_ids(c=
+tx, ids_buf, 320);
+4bc05954d007665 SeongJae Park 2021-09-07  138  	mutex_unlock(&ctx->kdamond_=
+lock);
+4bc05954d007665 SeongJae Park 2021-09-07  139  	if (len < 0)
+4bc05954d007665 SeongJae Park 2021-09-07  140  		return len;
+4bc05954d007665 SeongJae Park 2021-09-07  141  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  142  	return simple_read_from_buf=
+fer(buf, count, ppos, ids_buf, len);
+4bc05954d007665 SeongJae Park 2021-09-07  143  }
+4bc05954d007665 SeongJae Park 2021-09-07  144  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  145  /*
+4bc05954d007665 SeongJae Park 2021-09-07  146   * Converts a string into an=
+ array of unsigned long integers
+4bc05954d007665 SeongJae Park 2021-09-07  147   *
+4bc05954d007665 SeongJae Park 2021-09-07  148   * Returns an array of unsig=
+ned long integers if the conversion success, or
+4bc05954d007665 SeongJae Park 2021-09-07  149   * NULL otherwise.
+4bc05954d007665 SeongJae Park 2021-09-07  150   */
+4bc05954d007665 SeongJae Park 2021-09-07  151  static unsigned long *str_to=
+_target_ids(const char *str, ssize_t len,
+4bc05954d007665 SeongJae Park 2021-09-07  152  					ssize_t *nr_ids)
+4bc05954d007665 SeongJae Park 2021-09-07  153  {
+4bc05954d007665 SeongJae Park 2021-09-07  154  	unsigned long *ids;
+4bc05954d007665 SeongJae Park 2021-09-07  155  	const int max_nr_ids =3D 32;
+4bc05954d007665 SeongJae Park 2021-09-07  156  	unsigned long id;
+4bc05954d007665 SeongJae Park 2021-09-07  157  	int pos =3D 0, parsed, ret;
+4bc05954d007665 SeongJae Park 2021-09-07  158  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  159  	*nr_ids =3D 0;
+4bc05954d007665 SeongJae Park 2021-09-07  160  	ids =3D kmalloc_array(max_n=
+r_ids, sizeof(id), GFP_KERNEL);
+4bc05954d007665 SeongJae Park 2021-09-07  161  	if (!ids)
+4bc05954d007665 SeongJae Park 2021-09-07  162  		return NULL;
+4bc05954d007665 SeongJae Park 2021-09-07  163  	while (*nr_ids < max_nr_ids=
+ && pos < len) {
+4bc05954d007665 SeongJae Park 2021-09-07  164  		ret =3D sscanf(&str[pos], =
+"%lu%n", &id, &parsed);
+4bc05954d007665 SeongJae Park 2021-09-07  165  		pos +=3D parsed;
+4bc05954d007665 SeongJae Park 2021-09-07  166  		if (ret !=3D 1)
+4bc05954d007665 SeongJae Park 2021-09-07  167  			break;
+4bc05954d007665 SeongJae Park 2021-09-07  168  		ids[*nr_ids] =3D id;
+4bc05954d007665 SeongJae Park 2021-09-07  169  		*nr_ids +=3D 1;
+4bc05954d007665 SeongJae Park 2021-09-07  170  	}
+4bc05954d007665 SeongJae Park 2021-09-07  171  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  172  	return ids;
+4bc05954d007665 SeongJae Park 2021-09-07  173  }
+4bc05954d007665 SeongJae Park 2021-09-07  174  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  175  static void dbgfs_put_pids(u=
+nsigned long *ids, int nr_ids)
+4bc05954d007665 SeongJae Park 2021-09-07  176  {
+4bc05954d007665 SeongJae Park 2021-09-07  177  	int i;
+4bc05954d007665 SeongJae Park 2021-09-07  178  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  179  	for (i =3D 0; i < nr_ids; i=
+++)
+4bc05954d007665 SeongJae Park 2021-09-07  180  		put_pid((struct pid *)ids[=
+i]);
+4bc05954d007665 SeongJae Park 2021-09-07  181  }
+4bc05954d007665 SeongJae Park 2021-09-07  182  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  183  static ssize_t dbgfs_target_=
+ids_write(struct file *file,
+4bc05954d007665 SeongJae Park 2021-09-07  184  		const char __user *buf, si=
+ze_t count, loff_t *ppos)
+4bc05954d007665 SeongJae Park 2021-09-07  185  {
+4bc05954d007665 SeongJae Park 2021-09-07  186  	struct damon_ctx *ctx =3D f=
+ile->private_data;
+4bc05954d007665 SeongJae Park 2021-09-07  187  	char *kbuf, *nrs;
+4bc05954d007665 SeongJae Park 2021-09-07  188  	unsigned long *targets;
+4bc05954d007665 SeongJae Park 2021-09-07  189  	ssize_t nr_targets;
+4bc05954d007665 SeongJae Park 2021-09-07  190  	ssize_t ret =3D count;
+4bc05954d007665 SeongJae Park 2021-09-07  191  	int i;
+4bc05954d007665 SeongJae Park 2021-09-07  192  	int err;
+4bc05954d007665 SeongJae Park 2021-09-07  193  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  194  	kbuf =3D user_input_str(buf=
+, count, ppos);
+4bc05954d007665 SeongJae Park 2021-09-07  195  	if (IS_ERR(kbuf))
+4bc05954d007665 SeongJae Park 2021-09-07 @196  		return PTR_ERR(kbuf);
+4bc05954d007665 SeongJae Park 2021-09-07  197  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  198  	nrs =3D kbuf;
+4bc05954d007665 SeongJae Park 2021-09-07  199  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  200  	targets =3D str_to_target_i=
+ds(nrs, ret, &nr_targets);
+4bc05954d007665 SeongJae Park 2021-09-07  201  	if (!targets) {
+4bc05954d007665 SeongJae Park 2021-09-07  202  		ret =3D -ENOMEM;
+4bc05954d007665 SeongJae Park 2021-09-07  203  		goto out;
+4bc05954d007665 SeongJae Park 2021-09-07  204  	}
+4bc05954d007665 SeongJae Park 2021-09-07  205  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  206  	if (targetid_is_pid(ctx)) {
+4bc05954d007665 SeongJae Park 2021-09-07  207  		for (i =3D 0; i < nr_targe=
+ts; i++) {
+4bc05954d007665 SeongJae Park 2021-09-07  208  			targets[i] =3D (unsigned =
+long)find_get_pid(
+4bc05954d007665 SeongJae Park 2021-09-07  209  					(int)targets[i]);
+4bc05954d007665 SeongJae Park 2021-09-07  210  			if (!targets[i]) {
+4bc05954d007665 SeongJae Park 2021-09-07  211  				dbgfs_put_pids(targets, =
+i);
+4bc05954d007665 SeongJae Park 2021-09-07  212  				ret =3D -EINVAL;
+4bc05954d007665 SeongJae Park 2021-09-07  213  				goto free_targets_out;
+4bc05954d007665 SeongJae Park 2021-09-07  214  			}
+4bc05954d007665 SeongJae Park 2021-09-07  215  		}
+4bc05954d007665 SeongJae Park 2021-09-07  216  	}
+4bc05954d007665 SeongJae Park 2021-09-07  217  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  218  	mutex_lock(&ctx->kdamond_lo=
+ck);
+4bc05954d007665 SeongJae Park 2021-09-07  219  	if (ctx->kdamond) {
+4bc05954d007665 SeongJae Park 2021-09-07  220  		if (targetid_is_pid(ctx))
+4bc05954d007665 SeongJae Park 2021-09-07  221  			dbgfs_put_pids(targets, n=
+r_targets);
+4bc05954d007665 SeongJae Park 2021-09-07  222  		ret =3D -EBUSY;
+4bc05954d007665 SeongJae Park 2021-09-07  223  		goto unlock_out;
+4bc05954d007665 SeongJae Park 2021-09-07  224  	}
+4bc05954d007665 SeongJae Park 2021-09-07  225  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  226  	err =3D damon_set_targets(c=
+tx, targets, nr_targets);
+4bc05954d007665 SeongJae Park 2021-09-07  227  	if (err) {
+4bc05954d007665 SeongJae Park 2021-09-07  228  		if (targetid_is_pid(ctx))
+4bc05954d007665 SeongJae Park 2021-09-07  229  			dbgfs_put_pids(targets, n=
+r_targets);
+4bc05954d007665 SeongJae Park 2021-09-07  230  		ret =3D err;
+4bc05954d007665 SeongJae Park 2021-09-07  231  	}
+4bc05954d007665 SeongJae Park 2021-09-07  232  =
+
+4bc05954d007665 SeongJae Park 2021-09-07  233  unlock_out:
+4bc05954d007665 SeongJae Park 2021-09-07  234  	mutex_unlock(&ctx->kdamond_=
+lock);
+4bc05954d007665 SeongJae Park 2021-09-07  235  free_targets_out:
+4bc05954d007665 SeongJae Park 2021-09-07  236  	kfree(targets);
+4bc05954d007665 SeongJae Park 2021-09-07  237  out:
+4bc05954d007665 SeongJae Park 2021-09-07  238  	kfree(kbuf);
+4bc05954d007665 SeongJae Park 2021-09-07  239  	return ret;
+4bc05954d007665 SeongJae Park 2021-09-07  240  }
+4bc05954d007665 SeongJae Park 2021-09-07  241  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6145066610141043698==--
+--===============5845165724350324042==--
 
