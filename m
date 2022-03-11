@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4532567404087943419=="
+Content-Type: multipart/mixed; boundary="===============5269222099891785966=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 10029/11953] drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c:210 amdgpu_ctx_init_entity() warn: missing error code 'r'
-Date: Fri, 11 Mar 2022 13:49:25 +0800
-Message-ID: <202203111333.Mnna3DNH-lkp@intel.com>
+Subject: [linux-next:master 3378/11953] drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initializer, use C99 syntax
+Date: Fri, 11 Mar 2022 11:46:44 +0800
+Message-ID: <202203111140.ziQAzGDK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4532567404087943419==
+--===============5269222099891785966==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,132 +15,118 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+TO: Daniel Lezcano <daniel.lezcano@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   71941773e143369a73c9c4a3b62fbb60736a1182
-commit: d18b8eadd83e3d8d63a45f9479478640dbcfca02 [10029/11953] drm/amdgpu: =
-install ctx entities with cmpxchg
-:::::: branch date: 21 hours ago
-:::::: commit date: 7 days ago
-config: parisc-randconfig-m031-20220310 (https://download.01.org/0day-ci/ar=
-chive/20220311/202203111333.Mnna3DNH-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
+commit: b9d6c47a2be8d273ecc063afda6e9fd66a35116d [3378/11953] rockchip/soc/=
+drivers: Add DTPM description for rk3399
+:::::: branch date: 19 hours ago
+:::::: commit date: 5 weeks ago
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/2022031=
+1/202203111140.ziQAzGDK-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Db9d6c47a2be8d273ecc063afda6e9fd66a35116d
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout b9d6c47a2be8d273ecc063afda6e9fd66a35116d
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm64 SHELL=3D/bin/bash drivers/soc/rockchip/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c:210 amdgpu_ctx_init_entity() warn: =
-missing error code 'r'
 
-vim +/r +210 drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
+sparse warnings: (new ones prefixed by >>)
+>> drivers/soc/rockchip/dtpm.c:15:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:17:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:20:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:23:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:26:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:29:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:32:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:35:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:38:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
+   drivers/soc/rockchip/dtpm.c:41:12: sparse: sparse: obsolete array initia=
+lizer, use C99 syntax
 
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  164  =
+vim +15 drivers/soc/rockchip/dtpm.c
 
-84d588c3de84d0 Nirmoy Das          2021-08-24  165  =
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  13  =
 
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  166  static int amdgpu_ctx_i=
-nit_entity(struct amdgpu_ctx *ctx, u32 hw_ip,
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  167  				  const u32 ring)
-d38ceaf99ed015 Alex Deucher        2015-04-20  168  {
-977f7e1068be60 Nirmoy Das          2020-01-21  169  	struct amdgpu_device *=
-adev =3D ctx->adev;
-977f7e1068be60 Nirmoy Das          2020-01-21  170  	struct amdgpu_ctx_enti=
-ty *entity;
-977f7e1068be60 Nirmoy Das          2020-01-21  171  	struct drm_gpu_schedul=
-er **scheds =3D NULL, *sched =3D NULL;
-977f7e1068be60 Nirmoy Das          2020-01-21  172  	unsigned num_scheds =
-=3D 0;
-84d588c3de84d0 Nirmoy Das          2021-08-24  173  	int32_t ctx_prio;
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  174  	unsigned int hw_prio;
-84d588c3de84d0 Nirmoy Das          2021-08-24  175  	enum drm_sched_priorit=
-y drm_prio;
-47f38501f11fa4 Christian K=C3=B6nig     2015-08-04  176  	int r;
-d38ceaf99ed015 Alex Deucher        2015-04-20  177  =
-
-201a4eb9dc960b Gustavo A. R. Silva 2020-10-08  178  	entity =3D kzalloc(str=
-uct_size(entity, fences, amdgpu_sched_jobs),
-1b1f2fecb699bb Christian K=C3=B6nig     2018-08-01  179  			 GFP_KERNEL);
-977f7e1068be60 Nirmoy Das          2020-01-21  180  	if (!entity)
-63e3ab9a8226c0 Nirmoy Das          2020-01-21  181  		return  -ENOMEM;
-63e3ab9a8226c0 Nirmoy Das          2020-01-21  182  =
-
-84d588c3de84d0 Nirmoy Das          2021-08-24  183  	ctx_prio =3D (ctx->ove=
-rride_priority =3D=3D AMDGPU_CTX_PRIORITY_UNSET) ?
-977f7e1068be60 Nirmoy Das          2020-01-21  184  			ctx->init_priority :=
- ctx->override_priority;
-84d588c3de84d0 Nirmoy Das          2021-08-24  185  	entity->sequence =3D 1;
-84d588c3de84d0 Nirmoy Das          2021-08-24  186  	hw_prio =3D amdgpu_ctx=
-_get_hw_prio(ctx, hw_ip);
-84d588c3de84d0 Nirmoy Das          2021-08-24  187  	drm_prio =3D amdgpu_ct=
-x_to_drm_sched_prio(ctx_prio);
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  188  =
-
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  189  	hw_ip =3D array_index_=
-nospec(hw_ip, AMDGPU_HW_IP_NUM);
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  190  	scheds =3D adev->gpu_s=
-ched[hw_ip][hw_prio].sched;
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  191  	num_scheds =3D adev->g=
-pu_sched[hw_ip][hw_prio].num_scheds;
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  192  =
-
-bc21585f3ff050 Nirmoy Das          2020-08-29  193  	/* disable load balanc=
-e if the hw engine retains context among dependent jobs */
-bc21585f3ff050 Nirmoy Das          2020-08-29  194  	if (hw_ip =3D=3D AMDGP=
-U_HW_IP_VCN_ENC ||
-bc21585f3ff050 Nirmoy Das          2020-08-29  195  	    hw_ip =3D=3D AMDGP=
-U_HW_IP_VCN_DEC ||
-bc21585f3ff050 Nirmoy Das          2020-08-29  196  	    hw_ip =3D=3D AMDGP=
-U_HW_IP_UVD_ENC ||
-bc21585f3ff050 Nirmoy Das          2020-08-29  197  	    hw_ip =3D=3D AMDGP=
-U_HW_IP_UVD) {
-1c6d567bdf73a2 Nirmoy Das          2020-04-01  198  		sched =3D drm_sched_p=
-ick_best(scheds, num_scheds);
-4ff7d8ba4c80b8 Nirmoy Das          2020-03-13  199  		scheds =3D &sched;
-4ff7d8ba4c80b8 Nirmoy Das          2020-03-13  200  		num_scheds =3D 1;
-845e6fdf3b52ae Christian K=C3=B6nig     2018-07-13  201  	}
-845e6fdf3b52ae Christian K=C3=B6nig     2018-07-13  202  =
-
-84d588c3de84d0 Nirmoy Das          2021-08-24  203  	r =3D drm_sched_entity=
-_init(&entity->entity, drm_prio, scheds, num_scheds,
-977f7e1068be60 Nirmoy Das          2020-01-21  204  				  &ctx->guilty);
-47f38501f11fa4 Christian K=C3=B6nig     2015-08-04  205  	if (r)
-977f7e1068be60 Nirmoy Das          2020-01-21  206  		goto error_free_entit=
-y;
-9cb7e5a91f6cd4 Chunming Zhou       2015-07-21  207  =
-
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23  208  	/* It's not an er=
-ror if we fail to install the new entity */
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23  209  	if (cmpxchg(&ctx-=
->entities[hw_ip][ring], NULL, entity))
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23 @210  		goto cleanup_ent=
-ity;
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23  211  =
-
-8ed8147abc7cf1 Huang Rui           2016-10-26  212  	return 0;
-8ed8147abc7cf1 Huang Rui           2016-10-26  213  =
-
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23  214  cleanup_entity:
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23  215  	drm_sched_entity_=
-fini(&entity->entity);
-d18b8eadd83e3d Christian K=C3=B6nig     2022-02-23  216  =
-
-977f7e1068be60 Nirmoy Das          2020-01-21  217  error_free_entity:
-977f7e1068be60 Nirmoy Das          2020-01-21  218  	kfree(entity);
-1b1f2fecb699bb Christian K=C3=B6nig     2018-08-01  219  =
-
-977f7e1068be60 Nirmoy Das          2020-01-21  220  	return r;
-63e3ab9a8226c0 Nirmoy Das          2020-01-21  221  }
-63e3ab9a8226c0 Nirmoy Das          2020-01-21  222  =
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  14  static struct dtpm_node __ini=
+tdata rk3399_hierarchy[] =3D {
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28 @15  	[0]{ .name =3D "rk3399",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  16  	     .type =3D DTPM_NODE_VIR=
+TUAL },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  17  	[1]{ .name =3D "package",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  18  	     .type =3D DTPM_NODE_VIR=
+TUAL,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  19  	     .parent =3D &rk3399_hie=
+rarchy[0] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  20  	[2]{ .name =3D "/cpus/cpu(a)=
+0",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  21  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  22  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  23  	[3]{ .name =3D "/cpus/cpu(a)=
+1",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  24  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  25  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  26  	[4]{ .name =3D "/cpus/cpu(a)=
+2",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  27  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  28  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  29  	[5]{ .name =3D "/cpus/cpu(a)=
+3",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  30  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  31  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  32  	[6]{ .name =3D "/cpus/cpu(a)=
+100",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  33  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  34  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  35  	[7]{ .name =3D "/cpus/cpu(a)=
+101",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  36  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  37  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  38  	[8]{ .name =3D "/gpu(a)ff9a0=
+000",
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  39  	     .type =3D DTPM_NODE_DT,
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  40  	     .parent =3D &rk3399_hie=
+rarchy[1] },
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  41  	[9]{ /* sentinel */ }
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  42  };
+b9d6c47a2be8d2 Daniel Lezcano 2022-01-28  43  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4532567404087943419==--
+--===============5269222099891785966==--
 
