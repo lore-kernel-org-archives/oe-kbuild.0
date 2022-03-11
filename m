@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7650670047964960646=="
+Content-Type: multipart/mixed; boundary="===============1456690912168448345=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hverkuil-media-tree:for-v5.18a 271/348] drivers/media/i2c/isl7998x.c:677:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 12 Mar 2022 02:09:45 +0800
-Message-ID: <202203120218.uQRMcHtS-lkp@intel.com>
+Subject: Re: [PATCH 1/5] media: xc2028: rename the driver from tuner-xc2028
+Date: Sat, 12 Mar 2022 01:28:34 +0800
+Message-ID: <202203120100.XSFDxLze-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7650670047964960646==
+--===============1456690912168448345==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,19 +15,32 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Marek Vasut <marex@denx.de>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Michael Tretter <m.tretter@pengutronix.de>
+In-Reply-To: <b0fed7364a4aa503bcf6bd6693bb047f5da4335f.1646842741.git.mcheh=
+ab@kernel.org>
+References: <b0fed7364a4aa503bcf6bd6693bb047f5da4335f.1646842741.git.mcheha=
+b@kernel.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git for-v5.18a
-head:   d207c611f421052a57dd249fa3f941c8c9b7503e
-commit: 51ef2be546e2e480e56fdb59fdeb9a4406e8d52e [271/348] media: i2c: isl7=
-998x: Add driver for Intersil ISL7998x
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 days ago
+Hi Mauro,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20220308]
+[also build test WARNING on v5.17-rc7]
+[cannot apply to media-tree/master linux/master linus/master v5.17-rc7 v5.1=
+7-rc6 v5.17-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Mauro-Carvalho-Chehab/medi=
+a-sort-Makefile-entries/20220310-011503
+base:    cb153b68ff91cbc434f3de70ac549e110543e1bb
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: arm-randconfig-c002-20220310 (https://download.01.org/0day-ci/archi=
-ve/20220312/202203120218.uQRMcHtS-lkp(a)intel.com/config)
+ve/20220312/202203120100.XSFDxLze-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
 7382b8f16a65bddac700202924228982f6)
 reproduce (this is a W=3D1 build):
@@ -36,10 +49,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media=
-_tree.git
-        git fetch --no-tags hverkuil-media-tree for-v5.18a
-        git checkout 51ef2be546e2e480e56fdb59fdeb9a4406e8d52e
+        # https://github.com/0day-ci/linux/commit/1c9c0f68ece3b18557287bbde=
+4f469aa97c8ee75
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Mauro-Carvalho-Chehab/media-sort-M=
+akefile-entries/20220310-011503
+        git checkout 1c9c0f68ece3b18557287bbde4f469aa97c8ee75
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -50,314 +65,479 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:829:3: note: Control jumps to 'case CCS=
-_DATA_BLOCK_ID_MODULE_RULE_BASED_BLOCK:'  at line 890
-                   switch (block_id) {
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:891:11: note: Calling 'ccs_data_parse_r=
-ules'
-                           rval =3D ccs_data_parse_rules(
-                                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:435:39: note: 'rules' initialized to a =
-null pointer value
-           struct ccs_rule *rules_base =3D NULL, *rules =3D NULL, *next_rul=
-e =3D NULL;
-                                                ^~~~~
-   drivers/media/i2c/ccs/ccs-data.c:440:11: note: Field 'base' is non-null
-           if (bin->base) {
-                    ^
-   drivers/media/i2c/ccs/ccs-data.c:440:2: note: Taking true branch
-           if (bin->base) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:224:9: note: Returning from 'devm_kmalloc_array'
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:224:2: note: Returning pointer, which participate=
+s in a condition later
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:838:19: note: Returning from 'devm_k=
+calloc'
+           adc->iio_chans =3D devm_kcalloc(adc->dev, adc->nchans,
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:840:6: note: Assuming field 'iio_cha=
+ns' is non-null
+           if (!adc->iio_chans)
+               ^~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:840:2: note: Taking false branch
+           if (!adc->iio_chans)
            ^
-   drivers/media/i2c/ccs/ccs-data.c:442:4: note: Calling 'bin_alloc'
-                           bin_alloc(bin, sizeof(*rules) * *__num_rules);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:29:6: note: Assuming the condition is f=
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:843:15: note: Calling 'devm_kcalloc'
+           adc->chans =3D devm_kcalloc(adc->dev, adc->nchans,
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:224:9: note: Calling 'devm_kmalloc_array'
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:216:2: note: Taking false branch
+           if (unlikely(check_mul_overflow(n, size, &bytes)))
+           ^
+   include/linux/device.h:219:2: note: Returning pointer, which participate=
+s in a condition later
+           return devm_kmalloc(dev, bytes, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:224:9: note: Returning from 'devm_kmalloc_array'
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:224:2: note: Returning pointer, which participate=
+s in a condition later
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:843:15: note: Returning from 'devm_k=
+calloc'
+           adc->chans =3D devm_kcalloc(adc->dev, adc->nchans,
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:845:6: note: Assuming field 'chans' =
+is non-null
+           if (!adc->chans)
+               ^~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:845:2: note: Taking false branch
+           if (!adc->chans)
+           ^
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:849:39: note: Assuming 'child' is no=
+t equal to null
+           for_each_available_child_of_node(np, child) {
+                                                ^
+   include/linux/of.h:1371:58: note: expanded from macro 'for_each_availabl=
+e_child_of_node'
+           for (child =3D of_get_next_available_child(parent, NULL); child =
+!=3D NULL; \
+                                                                   ^~~~~~~~=
+~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:849:2: note: Loop condition is true.=
+  Entering loop body
+           for_each_available_child_of_node(np, child) {
+           ^
+   include/linux/of.h:1371:2: note: expanded from macro 'for_each_available=
+_child_of_node'
+           for (child =3D of_get_next_available_child(parent, NULL); child =
+!=3D NULL; \
+           ^
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:852:8: note: Passing value via 3rd p=
+arameter 'hw_channels'
+                                                    adc->variant->channels,
+                                                    ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:851:9: note: Calling 'pm8xxx_xoadc_p=
+arse_channel'
+                   ret =3D pm8xxx_xoadc_parse_channel(adc->dev, child,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:748:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:748:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:753:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:753:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:760:2: note: Value assigned to 'hwch=
+an'
+           hwchan =3D &hw_channels[0];
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:761:9: note: Assuming 'hwchan' is nu=
+ll
+           while (hwchan && hwchan->datasheet_name) {
+                  ^~~~~~
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:761:16: note: Left side of '&&' is f=
 alse
-           if (bin->end - bin->now < len)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:29:2: note: Taking false branch
-           if (bin->end - bin->now < len)
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:35:2: note: Returning without writing t=
-o 'bin->base', which participates in a condition later
-           return ptr;
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:442:4: note: Returning from 'bin_alloc'
-                           bin_alloc(bin, sizeof(*rules) * *__num_rules);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:443:8: note: 'rules_base' is non-null
-                   if (!rules_base)
-                        ^~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:443:3: note: Taking false branch
-                   if (!rules_base)
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:447:2: note: Loop condition is true.  E=
-ntering loop body
-           while (__next_rule < endp) {
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:456:7: note: Assuming 'rval' is >=3D 0
-                   if (rval < 0)
-                       ^~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:456:3: note: Taking false branch
-                   if (rval < 0)
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:461:8: note: Assuming the condition is =
-true
-                   if (!is_contained(__rule_type, endp))
-                        ^
-   drivers/media/i2c/ccs/ccs-data.c:55:3: note: expanded from macro 'is_con=
-tained'
-           (sizeof(*var) <=3D (endp) - (void *)(var))
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:461:3: note: Taking false branch
-                   if (!is_contained(__rule_type, endp))
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:467:3: note: Control jumps to 'case CCS=
-_DATA_BLOCK_RULE_ID_PDAF_READOUT:' @line 546
-                   switch (*__rule_type) {
-                   ^
-   drivers/media/i2c/ccs/ccs-data.c:548:11: note: Passing null pointer valu=
-e via 2nd parameter 'pdaf_readout'
-                                                              &rules->pdaf_=
-readout,
-                                                              ^~~~~~~~~~~~~=
-~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:547:11: note: Calling 'ccs_data_parse_p=
-daf_readout'
-                           rval =3D ccs_data_parse_pdaf_readout(bin,
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:412:6: note: Assuming the condition is =
-false
-           if (!is_contained(__pdaf, endp))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs/ccs-data.c:412:2: note: Taking false branch
-           if (!is_contained(__pdaf, endp))
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:415:12: note: Field 'base' is non-null
-           if (!bin->base) {
-                     ^
-   drivers/media/i2c/ccs/ccs-data.c:415:2: note: Taking false branch
-           if (!bin->base) {
-           ^
-   drivers/media/i2c/ccs/ccs-data.c:418:17: note: Dereference of null point=
-er (loaded from variable 'pdaf_readout')
-                   *pdaf_readout =3D bin_alloc(bin, sizeof(**pdaf_readout));
-                    ~~~~~~~~~~~~ ^
-   Suppressed 9 warnings (9 in non-user code).
+           while (hwchan && hwchan->datasheet_name) {
+                         ^
+   drivers/iio/adc/qcom-pm8xxx-xoadc.c:769:7: note: Access to field 'datash=
+eet_name' results in a dereference of a null pointer (loaded from variable =
+'hwchan')
+           if (!hwchan->datasheet_name) {
+                ^~~~~~
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> drivers/media/i2c/isl7998x.c:677:17: warning: Value stored to 'dev' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D isl7998x->subdev.dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/isl7998x.c:677:17: note: Value stored to 'dev' during =
-its initialization is never read
-           struct device *dev =3D isl7998x->subdev.dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/isl7998x.c:919:17: warning: Value stored to 'dev' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/media/i2c/isl7998x.c:919:17: note: Value stored to 'dev' during =
-its initialization is never read
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    14 warnings generated.
-   drivers/media/i2c/rdacm21.c:373:11: warning: The left operand of '=3D=3D=
-' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   if (val =3D=3D OV10640_ID_HIGH)
-                           ^
-   drivers/media/i2c/rdacm21.c:550:6: note: Assuming 'dev' is non-null
-           if (!dev)
-               ^~~~
-   drivers/media/i2c/rdacm21.c:550:2: note: Taking false branch
-           if (!dev)
-           ^
-   drivers/media/i2c/rdacm21.c:557:6: note: 'ret' is >=3D 0
-           if (ret < 0) {
-               ^~~
-   drivers/media/i2c/rdacm21.c:557:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/media/i2c/rdacm21.c:564:2: note: Taking false branch
-           if (IS_ERR(dev->isp))
-           ^
-   drivers/media/i2c/rdacm21.c:567:8: note: Calling 'rdacm21_initialize'
-           ret =3D rdacm21_initialize(dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/rdacm21.c:481:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:481:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:489:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:489:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:493:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:493:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:501:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:501:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:505:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:505:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:510:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:510:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:514:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:514:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:520:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:520:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:526:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:526:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:530:8: note: Calling 'ov490_initialize'
-           ret =3D ov490_initialize(dev);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/rdacm21.c:399:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for (i =3D 0; i < OV490_PID_TIMEOUT; ++i) {
+>> drivers/media/tuners/xc2028.c:1037:3: warning: Value stored to 'rc' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   rc =3D send_seq(priv, {0x00, 0x00});
+                   ^
+   drivers/media/tuners/xc2028.c:1037:3: note: Value stored to 'rc' is neve=
+r read
+   Suppressed 13 warnings (11 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (11 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (11 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (11 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (11 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/iio/proximity/vcnl3020.c:76:8: warning: Excessive padding in 'st=
+ruct vcnl3020_data' (45 padding bytes, where 13 is optimal). =
 
-vim +/dev +677 drivers/media/i2c/isl7998x.c
+   Optimal fields order: =
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  664  =
+   buf, =
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  665  static int isl7998x_init(struct=
- isl7998x *isl7998x)
-51ef2be546e2e4 Marek Vasut 2022-02-17  666  {
-51ef2be546e2e4 Marek Vasut 2022-02-17  667  	const unsigned int lanes =3D i=
-sl7998x->nr_mipi_lanes;
-51ef2be546e2e4 Marek Vasut 2022-02-17  668  	const u32 isl7998x_video_in_ch=
-an_map[] =3D { 0x00, 0x11, 0x02, 0x02 };
-51ef2be546e2e4 Marek Vasut 2022-02-17  669  	const struct reg_sequence isl7=
-998x_init_seq_custom[] =3D {
-51ef2be546e2e4 Marek Vasut 2022-02-17  670  		{ ISL7998X_REG_P0_VIDEO_IN_CH=
-AN_CTL,
-51ef2be546e2e4 Marek Vasut 2022-02-17  671  		  isl7998x_video_in_chan_map[=
-isl7998x->nr_inputs - 1] },
-51ef2be546e2e4 Marek Vasut 2022-02-17  672  		{ ISL7998X_REG_P0_CLK_CTL_4,
-51ef2be546e2e4 Marek Vasut 2022-02-17  673  		  (lanes =3D=3D 1) ? 0x40 : 0=
-x41 },
-51ef2be546e2e4 Marek Vasut 2022-02-17  674  		{ ISL7998X_REG_P5_LI_ENGINE_C=
-TL,
-51ef2be546e2e4 Marek Vasut 2022-02-17  675  		  (lanes =3D=3D 1) ? 0x01 : 0=
-x02 },
-51ef2be546e2e4 Marek Vasut 2022-02-17  676  	};
-51ef2be546e2e4 Marek Vasut 2022-02-17 @677  	struct device *dev =3D isl7998=
-x->subdev.dev;
-51ef2be546e2e4 Marek Vasut 2022-02-17  678  	struct regmap *regmap =3D isl7=
-998x->regmap;
-51ef2be546e2e4 Marek Vasut 2022-02-17  679  	int ret;
-51ef2be546e2e4 Marek Vasut 2022-02-17  680  =
+   rev, =
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  681  	dev_dbg(dev, "configuring %d l=
-anes for %d inputs (norm %s)\n",
-51ef2be546e2e4 Marek Vasut 2022-02-17  682  		isl7998x->nr_mipi_lanes, isl7=
-998x->nr_inputs,
-51ef2be546e2e4 Marek Vasut 2022-02-17  683  		v4l2_norm_to_name(isl7998x->n=
-orm));
-51ef2be546e2e4 Marek Vasut 2022-02-17  684  =
+   regmap, =
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  685  	ret =3D regmap_register_patch(=
-regmap, isl7998x_init_seq_1,
-51ef2be546e2e4 Marek Vasut 2022-02-17  686  				    ARRAY_SIZE(isl7998x_ini=
-t_seq_1));
-51ef2be546e2e4 Marek Vasut 2022-02-17  687  	if (ret)
-51ef2be546e2e4 Marek Vasut 2022-02-17  688  		return ret;
-51ef2be546e2e4 Marek Vasut 2022-02-17  689  =
+   dev, =
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  690  	mutex_lock(&isl7998x->lock);
-51ef2be546e2e4 Marek Vasut 2022-02-17  691  	ret =3D isl7998x_set_standard(=
-isl7998x, isl7998x->norm);
-51ef2be546e2e4 Marek Vasut 2022-02-17  692  	mutex_unlock(&isl7998x->lock);
-51ef2be546e2e4 Marek Vasut 2022-02-17  693  	if (ret)
-51ef2be546e2e4 Marek Vasut 2022-02-17  694  		return ret;
-51ef2be546e2e4 Marek Vasut 2022-02-17  695  =
+   lock, =
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  696  	ret =3D regmap_register_patch(=
-regmap, isl7998x_init_seq_custom,
-51ef2be546e2e4 Marek Vasut 2022-02-17  697  				    ARRAY_SIZE(isl7998x_ini=
-t_seq_custom));
-51ef2be546e2e4 Marek Vasut 2022-02-17  698  	if (ret)
-51ef2be546e2e4 Marek Vasut 2022-02-17  699  		return ret;
-51ef2be546e2e4 Marek Vasut 2022-02-17  700  =
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct vcnl3020_data {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/proximity/vcnl3020.c:76:8: note: Excessive padding in 'struc=
+t vcnl3020_data' (45 padding bytes, where 13 is optimal). Optimal fields or=
+der: buf, rev, regmap, dev, lock, consider reordering the fields or adding =
+explicit padding members
+   struct vcnl3020_data {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/media/i2c/ov2659.c:895:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:895:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:986:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:986:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1002:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1002:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1028:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1028:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1151:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1151:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1160:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1160:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1312:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1312:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 12 warnings (11 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/fpga/dfl-afu-dma-region.c:38:17: warning: Value stored to 'dev' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &pdata->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/fpga/dfl-afu-dma-region.c:38:17: note: Value stored to 'dev' dur=
+ing its initialization is never read
+           struct device *dev =3D &pdata->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/fpga/dfl-afu-dma-region.c:86:17: warning: Value stored to 'dev' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &pdata->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
 
-51ef2be546e2e4 Marek Vasut 2022-02-17  701  	return regmap_register_patch(r=
-egmap, isl7998x_init_seq_2,
-51ef2be546e2e4 Marek Vasut 2022-02-17  702  				     ARRAY_SIZE(isl7998x_in=
-it_seq_2));
-51ef2be546e2e4 Marek Vasut 2022-02-17  703  }
-51ef2be546e2e4 Marek Vasut 2022-02-17  704  =
+vim +/rc +1037 drivers/media/tuners/xc2028.c
+
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-02  1007  =
+
+00deff1a076dc1 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-24  1008  static int generic_set_freq(struct dvb_frontend *fe,=
+ u32 freq /* in HZ */,
+aa40d194975e23 drivers/media/common/tuners/tuner-xc2028.c Hans Verkuil     =
+     2011-03-06  1009  			    enum v4l2_tuner_type new_type,
+00deff1a076dc1 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-24  1010  			    unsigned int type,
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-25  1011  			    v4l2_std_id std,
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-25  1012  			    u16 int_freq)
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-02  1013  {
+215b95baf969c6 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-23  1014  	struct xc2028_data *priv =3D fe->tuner_priv;
+215b95baf969c6 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-23  1015  	int		   rc =3D -EINVAL;
+2ce4b3aa7c3c19 drivers/media/video/tuner-xc2028.c         Chris Pascoe     =
+     2007-11-19  1016  	unsigned char	   buf[4];
+701672eb738739 drivers/media/video/tuner-xc2028.c         Michel Ludwig    =
+     2007-07-18  1017  	u32		   div, offset =3D 0;
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-02  1018  =
+
+7e28adb2497f6b drivers/media/video/tuner-xc2028.c         Harvey Harrison  =
+     2008-04-08  1019  	tuner_dbg("%s called\n", __func__);
+215b95baf969c6 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-23  1020  =
+
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-24  1021  	mutex_lock(&priv->lock);
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-24  1022  =
+
+2ce4b3aa7c3c19 drivers/media/video/tuner-xc2028.c         Chris Pascoe     =
+     2007-11-19  1023  	tuner_dbg("should set frequency %d kHz\n", freq / 1=
+000);
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-10-02  1024  =
+
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-25  1025  	if (check_firmware(fe, type, std, int_freq) < 0)
+3b20532c791399 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-09-27  1026  		goto ret;
+2e4160ca8046e3 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-07-18  1027  =
+
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1028  	/* On some cases xc2028 can disable video output, if
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1029  	 * very weak signals are received. By sending a soft
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1030  	 * reset, this is re-enabled. So, it is better to a=
+lways
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1031  	 * send a soft reset before changing channels, to b=
+e sure
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1032  	 * that xc2028 will be in a safe state.
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1033  	 * Maybe this might also be needed for DTV.
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22  1034  	 */
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1035  	switch (new_type) {
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1036  	case V4L2_TUNER_ANALOG_TV:
+2800ae9cd669db drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-11-22 @1037  		rc =3D send_seq(priv, {0x00, 0x00});
+0a863975e28866 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2009-06-01  1038  =
+
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1039  		/* Analog mode requires offset =3D 0 */
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1040  		break;
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1041  	case V4L2_TUNER_RADIO:
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1042  		/* Radio mode requires offset =3D 0 */
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1043  		break;
+fd34cb08babcd8 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2011-08-31  1044  	case V4L2_TUNER_DIGITAL_TV:
+0a863975e28866 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2009-06-01  1045  		/*
+0a863975e28866 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2009-06-01  1046  		 * Digital modes require an offset to adjust to the
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1047  		 * proper frequency. The offset depends on what
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1048  		 * firmware version is used.
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1049  		 */
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1050  =
+
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1051  		/*
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1052  		 * Adjust to the center frequency. This is calcula=
+ted by the
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1053  		 * formula: offset =3D 1.25MHz - BW/2
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1054  		 * For DTV 7/8, the firmware uses BW =3D 8000, so =
+it needs a
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1055  		 * further adjustment to get the frequency center =
+on VHF
+0a863975e28866 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2009-06-01  1056  		 */
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1057  =
+
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1058  		/*
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1059  		 * The firmware DTV78 used to work fine in UHF ban=
+d (8 MHz
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1060  		 * bandwidth) but not@all in VHF band (7 MHz ba=
+ndwidth).
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1061  		 * The real problem was connected to the formula u=
+sed to
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1062  		 * calculate the center frequency offset in VHF ba=
+nd.
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1063  		 * In fact, removing the 500KHz adjustment fixed t=
+he problem.
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1064  		 * This is coherent to what was implemented for th=
+e DTV7
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1065  		 * firmware.
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1066  		 * In the end, now the center frequency is the sam=
+e for all 3
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1067  		 * firmwares (DTV7, DTV8, DTV78) and doesn't depen=
+d on channel
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1068  		 * bandwidth.
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1069  		 */
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1070  =
+
+0a863975e28866 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2009-06-01  1071  		if (priv->cur_fw.type & DTV6)
+d536c9df41f5e4 drivers/media/video/tuner-xc2028.c         Michael Krufky   =
+     2007-12-18  1072  			offset =3D 1750000;
+98ab8550aea472 drivers/media/common/tuners/tuner-xc2028.c Gianluca Gennari =
+     2012-01-04  1073  		else	/* DTV7 or DTV8 or DTV78 */
+d4e7668104f7f1 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Ch=
+ehab 2007-07-18  1074  			offset =3D 2750000;
+0a863975e28866 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2009-06-01  1075  =
+
+897b842296f128 drivers/media/video/tuner-xc2028.c         Chris Pascoe     =
+     2007-12-02  1076  		/*
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1077  		 * xc3028 additional "magic"
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1078  		 * Depending on the firmware version, it needs som=
+e adjustments
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1079  		 * to properly centralize the frequency. This seem=
+s to be
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1080  		 * needed to compensate the SCODE table adjustment=
+s made by
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1081  		 * newer firmwares
+897b842296f128 drivers/media/video/tuner-xc2028.c         Chris Pascoe     =
+     2007-12-02  1082  		 */
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1083  =
+
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1084  		/*
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1085  		 * The proper adjustment would be to do it at s-co=
+de table.
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1086  		 * However, this didn't work, as reported by
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1087  		 * Robert Lowery <rglowery@exemail.com.au>
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1088  		 */
+7f2199c03b4946 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Ch=
+ehab 2010-02-19  1089  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7650670047964960646==--
+--===============1456690912168448345==--
 
