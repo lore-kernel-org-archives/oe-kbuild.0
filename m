@@ -1,144 +1,662 @@
-Content-Type: multipart/mixed; boundary="===============4749315062802208057=="
+Content-Type: multipart/mixed; boundary="===============0688504481589013317=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [kbingham-rcar:kbingham/drm-misc/next/sn65dsi86/hpd 9/15] drivers/gpu/drm/bridge/ti-sn65dsi86.c:736:1: sparse: sparse: unused label 'err_conn_init'
-Date: Fri, 11 Mar 2022 15:52:40 +0800
-Message-ID: <202203111542.OMmVBGXd-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 224/973] drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2826:2: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Fri, 11 Mar 2022 13:59:45 +0800
+Message-ID: <202203111304.KlbdgJrS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4749315062802208057==
+--===============0688504481589013317==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+CC: Sarath Babu Naidu Gaddam <sarath.babu.naidu.gaddam@xilinx.com>
+CC: Swati Agarwal <swati.agarwal@xilinx.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git k=
-bingham/drm-misc/next/sn65dsi86/hpd
-head:   94aa000441bc3f2b262da3580845e490e1c31017
-commit: d0c79c4748a2554386ec1ac3ea3dbaa317e0c273 [9/15] squash: drm/bridge:=
- ti-sn65dsi86: Add NO_CONNECTOR support
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
-config: m68k-randconfig-s031-20220310 (https://download.01.org/0day-ci/arch=
-ive/20220311/202203111542.OMmVBGXd-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
-reproduce:
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
+head:   802aff9b79e15ede7cbb84ac784f943f5a66287a
+commit: 353f790929055728585095cb890b378ee0471607 [224/973] net: axienet: Ad=
+d clock support
+:::::: branch date: 7 days ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20311/202203111304.KlbdgJrS-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
+7382b8f16a65bddac700202924228982f6)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git=
-/commit/?id=3Dd0c79c4748a2554386ec1ac3ea3dbaa317e0c273
-        git remote add kbingham-rcar https://git.kernel.org/pub/scm/linux/k=
-ernel/git/kbingham/rcar.git
-        git fetch --no-tags kbingham-rcar kbingham/drm-misc/next/sn65dsi86/=
-hpd
-        git checkout d0c79c4748a2554386ec1ac3ea3dbaa317e0c273
+        # https://github.com/Xilinx/linux-xlnx/commit/353f79092905572858509=
+5cb890b378ee0471607
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS
+        git checkout 353f790929055728585095cb890b378ee0471607
         # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-68k SHELL=3D/bin/bash drivers/gpu/drm/bridge/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/bridge/ti-sn65dsi86.c:736:1: sparse: sparse: unused labe=
-l 'err_conn_init'
+clang-analyzer warnings: (new ones prefixed by >>)
+                           ~~~~~~~~ ^
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/net/wireless/ti/wl1251/main.c:658:3: warning: Value stored to 'r=
+et' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D wl1251_acx_wr_tbtt_and_dtim(wl, wl->beacon_int,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wireless/ti/wl1251/main.c:658:3: note: Value stored to 'ret'=
+ is never read
+                   ret =3D wl1251_acx_wr_tbtt_and_dtim(wl, wl->beacon_int,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/net/wireless/ti/wl1251/tx.c:227:4: warning: Value stored to 'tx_=
+hdr' is never read [clang-analyzer-deadcode.DeadStores]
+                           tx_hdr =3D (struct tx_double_buffer_desc *) skb-=
+>data;
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/net/wireless/ti/wl1251/tx.c:227:4: note: Value stored to 'tx_hdr=
+' is never read
+                           tx_hdr =3D (struct tx_double_buffer_desc *) skb-=
+>data;
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/net/wireless/ti/wl1251/ps.c:64:2: warning: Value stored to 'star=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+           start =3D jiffies;
+           ^       ~~~~~~~
+   drivers/net/wireless/ti/wl1251/ps.c:64:2: note: Value stored to 'start' =
+is never read
+           start =3D jiffies;
+           ^       ~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/net/ethernet/broadcom/bcmsysport.c:903:21: warning: Value stored=
+ to 'ndev' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct net_device *ndev =3D priv->netdev;
+                              ^~~~   ~~~~~~~~~~~~
+   drivers/net/ethernet/broadcom/bcmsysport.c:903:21: note: Value stored to=
+ 'ndev' during its initialization is never read
+           struct net_device *ndev =3D priv->netdev;
+                              ^~~~   ~~~~~~~~~~~~
+   Suppressed 17 warnings (13 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c:580:5: warning: Value stored t=
+o 'j' is never read [clang-analyzer-deadcode.DeadStores]
+       j =3D pcmcia_release_window(link, link->resource[2]);
+       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c:580:5: note: Value stored to '=
+j' is never read
+       j =3D pcmcia_release_window(link, link->resource[2]);
+       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1521:2: warning: Value=
+ stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D axienet_mdio_enable(lp);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1521:2: note: Value st=
+ored to 'ret' is never read
+           ret =3D axienet_mdio_enable(lp);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1556:3: warning: Value=
+ stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D axienet_device_reset(ndev);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1556:3: note: Value st=
+ored to 'ret' is never read
+                   ret =3D axienet_device_reset(ndev);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1558:3: warning: Value=
+ stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D axienet_mii_init(ndev);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1558:3: note: Value st=
+ored to 'ret' is never read
+                   ret =3D axienet_mii_init(ndev);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2826:2: warning: Assig=
+ned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           int (*axienet_clk_init)(struct platform_device *pdev,
+           ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2826:2: note: Assigned=
+ value is garbage or undefined
+           int (*axienet_clk_init)(struct platform_device *pdev,
+           ^
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/nvme/host/fc.c:2067:28: warning: Value stored to 'op_w_sgl' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct nvme_fcp_op_w_sgl *op_w_sgl =3D
+                                     ^~~~~~~~
+   drivers/nvme/host/fc.c:2067:28: note: Value stored to 'op_w_sgl' during =
+its initialization is never read
+           struct nvme_fcp_op_w_sgl *op_w_sgl =3D
+                                     ^~~~~~~~
+   drivers/nvme/host/fc.c:2758:7: warning: Use of memory after it is freed =
+[clang-analyzer-unix.Malloc]
+                   if (ctrl->rport->remoteport.port_state =3D=3D FC_OBJSTAT=
+E_ONLINE &&
+                       ^
+   drivers/nvme/host/fc.c:2818:6: note: Assuming the condition is false
+           if (test_bit(FCCTRL_TERMIO, &ctrl->flags))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2818:2: note: Taking false branch
+           if (test_bit(FCCTRL_TERMIO, &ctrl->flags))
+           ^
+   drivers/nvme/host/fc.c:2823:8: note: Calling 'nvme_fc_start_fcp_op'
+           ret =3D nvme_fc_start_fcp_op(ctrl, aen_op->queue, aen_op, 0,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2665:6: note: Assuming field 'port_state' is equa=
+l to FC_OBJSTATE_ONLINE
+           if (ctrl->rport->remoteport.port_state !=3D FC_OBJSTATE_ONLINE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2665:2: note: Taking false branch
+           if (ctrl->rport->remoteport.port_state !=3D FC_OBJSTATE_ONLINE)
+           ^
+   drivers/nvme/host/fc.c:2668:6: note: Assuming the condition is false
+           if (!nvme_fc_ctrl_get(ctrl))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2668:2: note: Taking false branch
+           if (!nvme_fc_ctrl_get(ctrl))
+           ^
+   drivers/nvme/host/fc.c:2674:2: note: Control jumps to 'case NVMEFC_FCP_N=
+ODATA:'  at line 2681
+           switch (io_dir) {
+           ^
+   drivers/nvme/host/fc.c:2683:3: note:  Execution continues on line 2685
+                   break;
+                   ^
+   drivers/nvme/host/fc.c:2696:2: note: Assuming field 'metadata' is 0
+           WARN_ON_ONCE(sqe->common.metadata);
+           ^
+   include/asm-generic/bug.h:104:23: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                ^~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2696:2: note: Taking false branch
+           WARN_ON_ONCE(sqe->common.metadata);
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   drivers/nvme/host/fc.c:2711:6: note: Assuming the condition is false
+           if (!(op->flags & FCOP_FLAGS_AEN)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2711:2: note: Taking false branch
+           if (!(op->flags & FCOP_FLAGS_AEN)) {
+           ^
+   drivers/nvme/host/fc.c:2727:2: note: Taking false branch
+           if (!(op->flags & FCOP_FLAGS_AEN))
+           ^
+   drivers/nvme/host/fc.c:2735:6: note: Assuming 'ret' is not equal to 0
+           if (ret) {
+               ^~~
+   drivers/nvme/host/fc.c:2735:2: note: Taking true branch
+           if (ret) {
+           ^
+   drivers/nvme/host/fc.c:2751:7: note: Assuming the condition is false
+                   if (!(op->flags & FCOP_FLAGS_AEN)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2751:3: note: Taking false branch
+                   if (!(op->flags & FCOP_FLAGS_AEN)) {
+                   ^
+   drivers/nvme/host/fc.c:2756:3: note: Calling 'nvme_fc_ctrl_put'
+                   nvme_fc_ctrl_put(ctrl);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/fc.c:2404:2: note: Calling 'kref_put'
+           kref_put(&ctrl->ref, nvme_fc_ctrl_free);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/kref.h:65:3: note: Calling 'nvme_fc_ctrl_free'
+                   release(kref);
 
-vim +/err_conn_init +736 drivers/gpu/drm/bridge/ti-sn65dsi86.c
+vim +2826 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
 
-c3b75d4734cb82 Maxime Ripard    2021-10-25  695  =
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2811  =
 
-c3b75d4734cb82 Maxime Ripard    2021-10-25  696  static int ti_sn_bridge_at=
-tach(struct drm_bridge *bridge,
-c3b75d4734cb82 Maxime Ripard    2021-10-25  697  			       enum drm_bridge_=
-attach_flags flags)
-c3b75d4734cb82 Maxime Ripard    2021-10-25  698  {
-c3b75d4734cb82 Maxime Ripard    2021-10-25  699  	struct ti_sn65dsi86 *pdat=
-a =3D bridge_to_ti_sn65dsi86(bridge);
-c3b75d4734cb82 Maxime Ripard    2021-10-25  700  	int ret;
-c3b75d4734cb82 Maxime Ripard    2021-10-25  701  =
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2812  /**
+2be586205ca2b8 Srikanth Thokala             2015-05-05  2813   * axienet_pr=
+obe - Axi Ethernet probe function.
+95219aa538e11d Srikanth Thokala             2015-05-05  2814   * @pdev:	Poi=
+nter to platform device structure.
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2815   *
+b0d081c524b46c Michal Simek                 2015-05-05  2816   * Return: 0,=
+ on success
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2817   *	    Non-ze=
+ro error value on failure.
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2818   *
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2819   * This is th=
+e probe routine for Axi Ethernet driver. This is called before
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2820   * any other =
+driver routines are invoked. It allocates and sets up the Ethernet
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2821   * device. Pa=
+rses through device tree and populates fields of
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2822   * axienet_lo=
+cal. It registers the Ethernet device.
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2823   */
+2be586205ca2b8 Srikanth Thokala             2015-05-05  2824  static int ax=
+ienet_probe(struct platform_device *pdev)
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2825  {
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22 @2826  	int (*axiene=
+t_clk_init)(struct platform_device *pdev,
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22  2827  				struct cl=
+k **axi_aclk, struct clk **axis_clk,
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22  2828  				struct cl=
+k **ref_clk, struct clk **tmpclk) =3D
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22  2829  					axienet_=
+clk_init;
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2830  	int ret =3D =
+0;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2831  	struct devic=
+e_node *np;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2832  	struct axien=
+et_local *lp;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2833  	struct net_d=
+evice *ndev;
+83216e3988cd19 Michael Walle                2021-04-12  2834  	u8 mac_addr[=
+ETH_ALEN];
+daef06520f0d07 Radhey Shyam Pandey          2020-01-24  2835  	struct resou=
+rce *ethres, dmares;
+5fff0151b3244d Andre Przywara               2020-03-24  2836  	int addr_wid=
+th =3D 32;
+8495659bf93c8e Srikanth Thokala             2015-05-05  2837  	u32 value;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2838  =
 
-c3b75d4734cb82 Maxime Ripard    2021-10-25  702  	pdata->aux.drm_dev =3D br=
-idge->dev;
-c3b75d4734cb82 Maxime Ripard    2021-10-25  703  	ret =3D drm_dp_aux_regist=
-er(&pdata->aux);
-c3b75d4734cb82 Maxime Ripard    2021-10-25  704  	if (ret < 0) {
-c3b75d4734cb82 Maxime Ripard    2021-10-25  705  		drm_err(bridge->dev, "Fa=
-iled to register DP AUX channel: %d\n", ret);
-c3b75d4734cb82 Maxime Ripard    2021-10-25  706  		return ret;
-c3b75d4734cb82 Maxime Ripard    2021-10-25  707  	}
-c3b75d4734cb82 Maxime Ripard    2021-10-25  708  =
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2839  	ndev =3D all=
+oc_etherdev(sizeof(*lp));
+41de8d4cff21a2 Joe Perches                  2012-01-29  2840  	if (!ndev)
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2841  		return -ENO=
+MEM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2842  =
 
-d0c79c4748a255 Kieran Bingham   2022-03-09  709  	/*
-d0c79c4748a255 Kieran Bingham   2022-03-09  710  	 * Attach the next bridge=
- We never want the next bridge to *also* create
-d0c79c4748a255 Kieran Bingham   2022-03-09  711  	 * a connector:
-d0c79c4748a255 Kieran Bingham   2022-03-09  712  	 */
-4e5763f03e105f Laurent Pinchart 2021-06-24  713  	ret =3D drm_bridge_attach=
-(bridge->encoder, pdata->next_bridge,
-d0c79c4748a255 Kieran Bingham   2022-03-09  714  				&pdata->bridge,
-d0c79c4748a255 Kieran Bingham   2022-03-09  715  				flags | DRM_BRIDGE_ATT=
-ACH_NO_CONNECTOR);
-4e5763f03e105f Laurent Pinchart 2021-06-24  716  	if (ret < 0)
-e283820cbf8092 Douglas Anderson 2022-02-04  717  		goto err_initted_aux;
-e283820cbf8092 Douglas Anderson 2022-02-04  718  =
+95219aa538e11d Srikanth Thokala             2015-05-05  2843  	platform_set=
+_drvdata(pdev, ndev);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2844  =
 
-d0c79c4748a255 Kieran Bingham   2022-03-09  719  	if (flags & DRM_BRIDGE_AT=
-TACH_NO_CONNECTOR)
-d0c79c4748a255 Kieran Bingham   2022-03-09  720  		return 0;
-d0c79c4748a255 Kieran Bingham   2022-03-09  721  =
+95219aa538e11d Srikanth Thokala             2015-05-05  2845  	SET_NETDEV_D=
+EV(ndev, &pdev->dev);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2846  	ndev->flags =
+&=3D ~IFF_MULTICAST;  /* clear multicast */
+28e24c62ab3062 Eric Dumazet                 2013-12-02  2847  	ndev->featur=
+es =3D NETIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2848  	ndev->netdev=
+_ops =3D &axienet_netdev_ops;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2849  	ndev->ethtoo=
+l_ops =3D &axienet_ethtool_ops;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2850  =
 
-e283820cbf8092 Douglas Anderson 2022-02-04  722  	pdata->connector =3D drm_=
-bridge_connector_init(pdata->bridge.dev,
-e283820cbf8092 Douglas Anderson 2022-02-04  723  						     pdata->bridge.e=
-ncoder);
-e283820cbf8092 Douglas Anderson 2022-02-04  724  	if (IS_ERR(pdata->connect=
-or)) {
-e283820cbf8092 Douglas Anderson 2022-02-04  725  		ret =3D PTR_ERR(pdata->c=
-onnector);
-e283820cbf8092 Douglas Anderson 2022-02-04  726  		goto err_initted_aux;
-e283820cbf8092 Douglas Anderson 2022-02-04  727  	}
-e283820cbf8092 Douglas Anderson 2022-02-04  728  =
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2851  	/* MTU range=
+: 64 - 9000 */
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2852  	ndev->min_mt=
+u =3D 64;
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2853  	ndev->max_mt=
+u =3D XAE_JUMBO_MTU;
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2854  =
 
-e283820cbf8092 Douglas Anderson 2022-02-04  729  	drm_connector_attach_enco=
-der(pdata->connector, pdata->bridge.encoder);
-4e5763f03e105f Laurent Pinchart 2021-06-24  730  =
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2855  	lp =3D netde=
+v_priv(ndev);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2856  	lp->ndev =3D=
+ ndev;
+95219aa538e11d Srikanth Thokala             2015-05-05  2857  	lp->dev =3D =
+&pdev->dev;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2858  	lp->options =
+=3D XAE_OPTION_DEFAULTS;
+8b09ca823ffb4e Robert Hancock               2019-06-06  2859  	lp->rx_bd_nu=
+m =3D RX_BD_NUM_DEFAULT;
+8b09ca823ffb4e Robert Hancock               2019-06-06  2860  	lp->tx_bd_nu=
+m =3D TX_BD_NUM_DEFAULT;
+57baf8cc70ea4c Robert Hancock               2021-02-12  2861  =
 
-a095f15c00e278 Sandeep Panda    2018-07-20  731  	return 0;
-a095f15c00e278 Sandeep Panda    2018-07-20  732  =
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2862  	lp->axi_clk =
+=3D devm_clk_get_optional(&pdev->dev, "s_axi_lite_clk");
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2863  	if (!lp->axi=
+_clk) {
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2864  		/* For back=
+ward compatibility, if named AXI clock is not present,
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2865  		 * treat th=
+e first clock specified as the AXI clock.
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2866  		 */
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2867  		lp->axi_clk=
+ =3D devm_clk_get_optional(&pdev->dev, NULL);
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2868  	}
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2869  	if (IS_ERR(l=
+p->axi_clk)) {
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2870  		ret =3D PTR=
+_ERR(lp->axi_clk);
+57baf8cc70ea4c Robert Hancock               2021-02-12  2871  		goto free_n=
+etdev;
+57baf8cc70ea4c Robert Hancock               2021-02-12  2872  	}
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2873  	ret =3D clk_=
+prepare_enable(lp->axi_clk);
+57baf8cc70ea4c Robert Hancock               2021-02-12  2874  	if (ret) {
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2875  		dev_err(&pd=
+ev->dev, "Unable to enable AXI clock: %d\n", ret);
+57baf8cc70ea4c Robert Hancock               2021-02-12  2876  		goto free_n=
+etdev;
+57baf8cc70ea4c Robert Hancock               2021-02-12  2877  	}
+57baf8cc70ea4c Robert Hancock               2021-02-12  2878  =
 
-e283820cbf8092 Douglas Anderson 2022-02-04  733  err_initted_aux:
-c2e21d20a45501 Rob Clark        2022-02-06  734  	if (!(flags & DRM_BRIDGE_=
-ATTACH_NO_CONNECTOR))
-d0c79c4748a255 Kieran Bingham   2022-03-09  735  		drm_connector_cleanup(pd=
-ata->connector);
-c2e21d20a45501 Rob Clark        2022-02-06 @736  err_conn_init:
-61712618753032 Lyude Paul       2021-02-19  737  	drm_dp_aux_unregister(&pd=
-ata->aux);
-a095f15c00e278 Sandeep Panda    2018-07-20  738  	return ret;
-a095f15c00e278 Sandeep Panda    2018-07-20  739  }
-a095f15c00e278 Sandeep Panda    2018-07-20  740  =
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2879  	lp->misc_clk=
+s[0].id =3D "axis_clk";
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2880  	lp->misc_clk=
+s[1].id =3D "ref_clk";
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2881  	lp->misc_clk=
+s[2].id =3D "mgt_clk";
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2882  =
 
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2883  	ret =3D devm=
+_clk_bulk_get_optional(&pdev->dev, XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2884  	if (ret)
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2885  		goto cleanu=
+p_clk;
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2886  =
 
-:::::: The code at line 736 was first introduced by commit
-:::::: c2e21d20a45501f593674d6b5fee0e874cf0dab8 drm/bridge: ti-sn65dsi86: A=
-dd NO_CONNECTOR support
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2887  	ret =3D clk_=
+bulk_prepare_enable(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2888  	if (ret)
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2889  		goto cleanu=
+p_clk;
+b11bfb9a19f9d7 Robert Hancock               2021-03-25  2890  =
 
-:::::: TO: Rob Clark <robdclark@chromium.org>
-:::::: CC: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2891  	/* Map devic=
+e registers */
+47651c51c02fc4 Yang Yingliang               2021-06-10  2892  	lp->regs =3D=
+ devm_platform_get_and_ioremap_resource(pdev, 0, &ethres);
+fcc028c106e575 Krzysztof Kozlowski          2015-07-09  2893  	if (IS_ERR(l=
+p->regs)) {
+fcc028c106e575 Krzysztof Kozlowski          2015-07-09  2894  		ret =3D PTR=
+_ERR(lp->regs);
+59cd4f19267a0a Robert Hancock               2021-03-11  2895  		goto cleanu=
+p_clk;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2896  	}
+7fa0043d5c74c6 Robert Hancock               2019-06-11  2897  	lp->regs_sta=
+rt =3D ethres->start;
+46aa27df885321 Srikanth Thokala             2015-05-05  2898  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2899  	/* Setup che=
+cksum offload, but default to off if not specified */
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2900  	lp->features=
+ =3D 0;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2901  =
+
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2902  	if (pdev->de=
+v.of_node) {
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2903  		const struc=
+t of_device_id *match;
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2904  =
+
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2905  		match =3D o=
+f_match_node(axienet_of_match, pdev->dev.of_node);
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22  2906  		if (match &=
+& match->data) {
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2907  			lp->axiene=
+t_config =3D match->data;
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22  2908  			axienet_cl=
+k_init =3D lp->axienet_config->clk_init;
+353f7909290557 Appana Durga Kedareswara Rao 2021-01-22  2909  		}
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2910  	}
+a2fc9e93fefa1f Appana Durga Kedareswara Rao 2020-01-24  2911  =
+
+8495659bf93c8e Srikanth Thokala             2015-05-05  2912  	ret =3D of_p=
+roperty_read_u32(pdev->dev.of_node, "xlnx,txcsum", &value);
+8495659bf93c8e Srikanth Thokala             2015-05-05  2913  	if (!ret) {
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2914  		dev_info(&p=
+dev->dev, "TX_CSUM %d\n", value);
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2915  =
+
+8495659bf93c8e Srikanth Thokala             2015-05-05  2916  		switch (val=
+ue) {
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2917  		case 1:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2918  			lp->csum_o=
+ffload_on_tx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2919  				XAE_FEATU=
+RE_PARTIAL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2920  			lp->featur=
+es |=3D XAE_FEATURE_PARTIAL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2921  			/* Can che=
+cksum TCP/UDP over IPv4. */
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2922  			ndev->feat=
+ures |=3D NETIF_F_IP_CSUM | NETIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2923  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2924  		case 2:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2925  			lp->csum_o=
+ffload_on_tx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2926  				XAE_FEATU=
+RE_FULL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2927  			lp->featur=
+es |=3D XAE_FEATURE_FULL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2928  			/* Can che=
+cksum TCP/UDP over IPv4. */
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2929  			ndev->feat=
+ures |=3D NETIF_F_IP_CSUM | NETIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2930  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2931  		default:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2932  			lp->csum_o=
+ffload_on_tx_path =3D XAE_NO_CSUM_OFFLOAD;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2933  		}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2934  	}
+8495659bf93c8e Srikanth Thokala             2015-05-05  2935  	ret =3D of_p=
+roperty_read_u32(pdev->dev.of_node, "xlnx,rxcsum", &value);
+8495659bf93c8e Srikanth Thokala             2015-05-05  2936  	if (!ret) {
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2937  		dev_info(&p=
+dev->dev, "RX_CSUM %d\n", value);
+c9e6ca8b3f1707 Appana Durga Kedareswara Rao 2021-01-22  2938  =
+
+8495659bf93c8e Srikanth Thokala             2015-05-05  2939  		switch (val=
+ue) {
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2940  		case 1:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2941  			lp->csum_o=
+ffload_on_rx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2942  				XAE_FEATU=
+RE_PARTIAL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2943  			lp->featur=
+es |=3D XAE_FEATURE_PARTIAL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2944  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2945  		case 2:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2946  			lp->csum_o=
+ffload_on_rx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2947  				XAE_FEATU=
+RE_FULL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2948  			lp->featur=
+es |=3D XAE_FEATURE_FULL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2949  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2950  		default:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2951  			lp->csum_o=
+ffload_on_rx_path =3D XAE_NO_CSUM_OFFLOAD;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2952  		}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2953  	}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2954  	/* For suppo=
+rting jumbo frames, the Axi Ethernet hardware must have
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2955  	 * a larger =
+Rx/Tx Memory. Typically, the size must be large so that
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2956  	 * we can en=
+able jumbo option and start supporting jumbo frames.
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2957  	 * Here we c=
+heck for memory allocated for Rx/Tx in the hardware from
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2958  	 * the devic=
+e-tree and accordingly set flags.
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2959  	 */
+8495659bf93c8e Srikanth Thokala             2015-05-05  2960  	of_property_=
+read_u32(pdev->dev.of_node, "xlnx,rxmem", &lp->rxmem);
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2961  =
+
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2962  	lp->switch_x=
+_sgmii =3D of_property_read_bool(pdev->dev.of_node,
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2963  						   "xln=
+x,switch-x-sgmii");
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2964  =
+
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2965  	/* Start wit=
+h the proprietary, and broken phy_type */
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2966  	ret =3D of_p=
+roperty_read_u32(pdev->dev.of_node, "xlnx,phy-type", &value);
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2967  	if (!ret) {
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2968  		switch (val=
+ue) {
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2969  		case XAE_PH=
+Y_TYPE_MII:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2970  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_MII;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2971  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2972  		case XAE_PH=
+Y_TYPE_GMII:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2973  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_GMII;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2974  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2975  		case XAE_PH=
+Y_TYPE_RGMII_2_0:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2976  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_RGMII_ID;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2977  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2978  		case XAE_PH=
+Y_TYPE_SGMII:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2979  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_SGMII;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2980  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2981  		case XAE_PH=
+Y_TYPE_1000BASE_X:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2982  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_1000BASEX;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2983  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2984  		default:
+9dce88e232cf19 Appana Durga Kedareswara Rao 2020-01-24  2985  			/* Don't e=
+rror out as phy-type is an optional property */
+9dce88e232cf19 Appana Durga Kedareswara Rao 2020-01-24  2986  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2987  		}
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2988  	} else {
+0c65b2b90d13c1 Andrew Lunn                  2019-11-04  2989  		ret =3D of_=
+get_phy_mode(pdev->dev.of_node, &lp->phy_mode);
+0c65b2b90d13c1 Andrew Lunn                  2019-11-04  2990  		if (ret)
+59cd4f19267a0a Robert Hancock               2021-03-11  2991  			goto clean=
+up_clk;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2992  	}
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2993  	if (lp->swit=
+ch_x_sgmii && lp->phy_mode !=3D PHY_INTERFACE_MODE_SGMII &&
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2994  	    lp->phy_=
+mode !=3D PHY_INTERFACE_MODE_1000BASEX) {
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2995  		dev_err(&pd=
+ev->dev, "xlnx,switch-x-sgmii only supported with SGMII or 1000BaseX\n");
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2996  		ret =3D -EI=
+NVAL;
+59cd4f19267a0a Robert Hancock               2021-03-11  2997  		goto cleanu=
+p_clk;
+6c8f06bb2e5147 Robert Hancock               2021-02-12  2998  	}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2999  =
+
+f6420dd2cc68a9 Appana Durga Kedareswara Rao 2020-01-24  3000  	lp->eth_hasn=
+obuf =3D of_property_read_bool(pdev->dev.of_node,
+f6420dd2cc68a9 Appana Durga Kedareswara Rao 2020-01-24  3001  						 "xlnx,=
+eth-hasnobuf");
+bf05571deda79b Appana Durga Kedareswara Rao 2020-01-24  3002  	lp->eth_hasp=
+tp =3D of_property_read_bool(pdev->dev.of_node,
+bf05571deda79b Appana Durga Kedareswara Rao 2020-01-24  3003  					       "=
+xlnx,eth-hasptp");
+f6420dd2cc68a9 Appana Durga Kedareswara Rao 2020-01-24  3004  =
+
+9dce88e232cf19 Appana Durga Kedareswara Rao 2020-01-24  3005  	if (lp->axie=
+net_config->mactype =3D=3D XAXIENET_1G && !lp->eth_hasnobuf)
+9dce88e232cf19 Appana Durga Kedareswara Rao 2020-01-24  3006  		lp->eth_irq=
+ =3D platform_get_irq(pdev, 0);
+bf05571deda79b Appana Durga Kedareswara Rao 2020-01-24  3007  =
+
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4749315062802208057==--
+--===============0688504481589013317==--
 
