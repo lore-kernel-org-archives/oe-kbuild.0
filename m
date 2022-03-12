@@ -1,410 +1,200 @@
-Content-Type: multipart/mixed; boundary="===============6620557391591059587=="
+Content-Type: multipart/mixed; boundary="===============7741046326475350982=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/i2c/hi846.c:1494:21: warning: Value stored to 'client' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 13 Mar 2022 07:58:24 +0800
-Message-ID: <202203130710.uJ9Eu1Md-lkp@intel.com>
+Subject: [linux-next:master 10066/11953] drivers/power/supply/ip5xxx_power.c:341 ip5xxx_battery_get_property() error: uninitialized symbol 'raw'.
+Date: Sun, 13 Mar 2022 04:15:00 +0800
+Message-ID: <202203130446.7pSbN786-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6620557391591059587==
+--===============7741046326475350982==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Martin Kepplinger <martin.kepplinger@puri.sm>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Pavel Machek <pavel@ucw.cz>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Samuel Holland <samuel@sholland.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   aad611a868d16cdc16a7d4a764cef955293e47e3
-commit: e8c0882685f9152f0d729664a12bcbe749cb7736 media: i2c: add driver for=
- the SK Hynix Hi-846 8M pixel camera
-date:   5 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 months ago
-config: riscv-randconfig-c006-20220307 (https://download.01.org/0day-ci/arc=
-hive/20220313/202203130710.uJ9Eu1Md-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De8c0882685f9152f0d729664a12bcbe749cb7736
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e8c0882685f9152f0d729664a12bcbe749cb7736
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   71941773e143369a73c9c4a3b62fbb60736a1182
+commit: 75853406fa27961044e7dc03c7dc8544477e81f5 [10066/11953] power: suppl=
+y: Add a driver for Injoinic power bank ICs
+:::::: branch date: 2 days ago
+:::::: commit date: 8 days ago
+config: riscv-randconfig-m031-20220312 (https://download.01.org/0day-ci/arc=
+hive/20220313/202203130446.7pSbN786-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/power/supply/ip5xxx_power.c:341 ip5xxx_battery_get_property() error=
+: uninitialized symbol 'raw'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                        ^~~~~   ~~~~~~~~~~~~~
-   drivers/misc/habanalabs/gaudi/gaudi_coresight.c:770:31: note: Value stor=
-ed to 'input' during its initialization is never read
-           struct hl_debug_params_spmu *input =3D params->input;
-                                        ^~~~~   ~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/misc/habanalabs/common/debugfs.c:858:3: warning: Value stored to=
- 'rc' is never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D pci_enable_device(hdev->pdev);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/debugfs.c:858:3: note: Value stored to 'r=
-c' is never read
-                   rc =3D pci_enable_device(hdev->pdev);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/accessibility/speakup/varhandlers.c:263:4: warning: Call to func=
-tion 'strcpy' is insecure as it does not provide bounding of the memory buf=
-fer. Replace unbounded copy functions with analogous functions that support=
- length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insec=
-ureAPI.strcpy]
-                           strcpy((char *)var->p_val, var_data->u.s.default=
-_val);
-                           ^~~~~~
-   drivers/accessibility/speakup/varhandlers.c:263:4: note: Call to functio=
-n 'strcpy' is insecure as it does not provide bounding of the memory buffer=
-. Replace unbounded copy functions with analogous functions that support le=
-ngth arguments such as 'strlcpy'. CWE-119
-                           strcpy((char *)var->p_val, var_data->u.s.default=
-_val);
-                           ^~~~~~
-   drivers/accessibility/speakup/varhandlers.c:266:3: warning: Call to func=
-tion 'strcpy' is insecure as it does not provide bounding of the memory buf=
-fer. Replace unbounded copy functions with analogous functions that support=
- length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insec=
-ureAPI.strcpy]
-                   strcpy((char *)var->p_val, page);
-                   ^~~~~~
-   drivers/accessibility/speakup/varhandlers.c:266:3: note: Call to functio=
-n 'strcpy' is insecure as it does not provide bounding of the memory buffer=
-. Replace unbounded copy functions with analogous functions that support le=
-ngth arguments such as 'strlcpy'. CWE-119
-                   strcpy((char *)var->p_val, page);
-                   ^~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (14 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/media/i2c/ccs-pll.c:93:15: warning: Value stored to 's' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   const char *s =3D pll_string(br->which);
-                               ^   ~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ccs-pll.c:93:15: note: Value stored to 's' during its =
-initialization is never read
-                   const char *s =3D pll_string(br->which);
-                               ^   ~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> drivers/media/i2c/hi846.c:1494:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(&hi846->sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1494:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(&hi846->sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/hi846.c:1764:2: warning: Value stored to 'tgt_fps' is =
-never read [clang-analyzer-deadcode.DeadStores]
-           tgt_fps =3D hi846->cur_mode->fps;
-           ^         ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1764:2: note: Value stored to 'tgt_fps' is nev=
-er read
-           tgt_fps =3D hi846->cur_mode->fps;
-           ^         ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1805:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/hi846.c:1805:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/media/i2c/imx258.c:781:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx258.c:781:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/hwmon/lm63.c:1017:17: warning: Value stored to 'dev' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/hwmon/lm63.c:1017:17: note: Value stored to 'dev' during its ini=
-tialization is never read
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/leds/uleds.c:150:4: warning: Value stored to 'retval' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/uleds.c:150:4: note: Value stored to 'retval' is never read
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/firmware/broadcom/tee_bnxt_fw.c:146:3: warning: Value stored to =
-'nbytes' is never read [clang-analyzer-deadcode.DeadStores]
-                   nbytes =3D rbytes;
-                   ^        ~~~~~~
-   drivers/firmware/broadcom/tee_bnxt_fw.c:146:3: note: Value stored to 'nb=
-ytes' is never read
-                   nbytes =3D rbytes;
-                   ^        ~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+Old smatch warnings:
+drivers/power/supply/ip5xxx_power.c:348 ip5xxx_battery_get_property() error=
+: uninitialized symbol 'raw'.
+drivers/power/supply/ip5xxx_power.c:355 ip5xxx_battery_get_property() error=
+: uninitialized symbol 'raw'.
 
-vim +/client +1494 drivers/media/i2c/hi846.c
+vim +/raw +341 drivers/power/supply/ip5xxx_power.c
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1491  =
+75853406fa2796 Samuel Holland 2022-02-13  311  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1492  static int hi846_set_vid=
-eo_mode(struct hi846 *hi846, int fps)
-e8c0882685f915 Martin Kepplinger 2021-09-06  1493  {
-e8c0882685f915 Martin Kepplinger 2021-09-06 @1494  	struct i2c_client *clie=
-nt =3D v4l2_get_subdevdata(&hi846->sd);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1495  	u64 frame_length;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1496  	int ret =3D 0;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1497  	int dummy_lines;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1498  	u64 link_freq =3D hi846=
-_get_link_freq(hi846);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1499  =
+75853406fa2796 Samuel Holland 2022-02-13  312  static int ip5xxx_battery_ge=
+t_property(struct power_supply *psy,
+75853406fa2796 Samuel Holland 2022-02-13  313  				       enum power_supply=
+_property psp,
+75853406fa2796 Samuel Holland 2022-02-13  314  				       union power_suppl=
+y_propval *val)
+75853406fa2796 Samuel Holland 2022-02-13  315  {
+75853406fa2796 Samuel Holland 2022-02-13  316  	struct ip5xxx *ip5xxx =3D p=
+ower_supply_get_drvdata(psy);
+75853406fa2796 Samuel Holland 2022-02-13  317  	int raw, ret, vmax;
+75853406fa2796 Samuel Holland 2022-02-13  318  	unsigned int rval;
+75853406fa2796 Samuel Holland 2022-02-13  319  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1500  	dev_dbg(&client->dev, "=
-%s: link freq: %llu\n", __func__,
-e8c0882685f915 Martin Kepplinger 2021-09-06  1501  		hi846_get_link_freq(hi=
-846));
-e8c0882685f915 Martin Kepplinger 2021-09-06  1502  =
+75853406fa2796 Samuel Holland 2022-02-13  320  	ret =3D ip5xxx_initialize(p=
+sy);
+75853406fa2796 Samuel Holland 2022-02-13  321  	if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  322  		return ret;
+75853406fa2796 Samuel Holland 2022-02-13  323  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1503  	do_div(link_freq, fps);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1504  	frame_length =3D link_f=
-req;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1505  	do_div(frame_length, HI=
-846_LINE_LENGTH);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1506  =
+75853406fa2796 Samuel Holland 2022-02-13  324  	switch (psp) {
+75853406fa2796 Samuel Holland 2022-02-13  325  	case POWER_SUPPLY_PROP_STAT=
+US:
+75853406fa2796 Samuel Holland 2022-02-13  326  		return ip5xxx_battery_get_=
+status(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  327  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1507  	dummy_lines =3D (frame_=
-length > hi846->cur_mode->frame_len) ?
-e8c0882685f915 Martin Kepplinger 2021-09-06  1508  			(frame_length - hi846=
-->cur_mode->frame_len) : 0;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1509  =
+75853406fa2796 Samuel Holland 2022-02-13  328  	case POWER_SUPPLY_PROP_CHAR=
+GE_TYPE:
+75853406fa2796 Samuel Holland 2022-02-13  329  		return ip5xxx_battery_get_=
+charge_type(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  330  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1510  	frame_length =3D hi846-=
->cur_mode->frame_len + dummy_lines;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1511  =
+75853406fa2796 Samuel Holland 2022-02-13  331  	case POWER_SUPPLY_PROP_HEAL=
+TH:
+75853406fa2796 Samuel Holland 2022-02-13  332  		return ip5xxx_battery_get_=
+health(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  333  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1512  	dev_dbg(&client->dev, "=
-%s: frame length calculated: %llu\n", __func__,
-e8c0882685f915 Martin Kepplinger 2021-09-06  1513  		frame_length);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1514  =
+75853406fa2796 Samuel Holland 2022-02-13  334  	case POWER_SUPPLY_PROP_VOLT=
+AGE_MAX_DESIGN:
+75853406fa2796 Samuel Holland 2022-02-13  335  		return ip5xxx_battery_get_=
+voltage_max(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  336  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1515  	hi846_write_reg_16(hi84=
-6, HI846_REG_FLL, frame_length & 0xFFFF, &ret);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1516  	hi846_write_reg_16(hi84=
-6, HI846_REG_LLP,
-e8c0882685f915 Martin Kepplinger 2021-09-06  1517  			   HI846_LINE_LENGTH =
-& 0xFFFF, &ret);
-e8c0882685f915 Martin Kepplinger 2021-09-06  1518  =
+75853406fa2796 Samuel Holland 2022-02-13  337  	case POWER_SUPPLY_PROP_VOLT=
+AGE_NOW:
+75853406fa2796 Samuel Holland 2022-02-13  338  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATVADC_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  339  					      IP5XXX_BATVADC_DA=
+T1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  340  =
 
-e8c0882685f915 Martin Kepplinger 2021-09-06  1519  	return ret;
-e8c0882685f915 Martin Kepplinger 2021-09-06  1520  }
-e8c0882685f915 Martin Kepplinger 2021-09-06  1521  =
+75853406fa2796 Samuel Holland 2022-02-13 @341  		val->intval =3D 2600000 + =
+DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa2796 Samuel Holland 2022-02-13  342  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  343  =
+
+75853406fa2796 Samuel Holland 2022-02-13  344  	case POWER_SUPPLY_PROP_VOLT=
+AGE_OCV:
+75853406fa2796 Samuel Holland 2022-02-13  345  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATOCV_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  346  					      IP5XXX_BATOCV_DAT=
+1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  347  =
+
+75853406fa2796 Samuel Holland 2022-02-13  348  		val->intval =3D 2600000 + =
+DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa2796 Samuel Holland 2022-02-13  349  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  350  =
+
+75853406fa2796 Samuel Holland 2022-02-13  351  	case POWER_SUPPLY_PROP_CURR=
+ENT_NOW:
+75853406fa2796 Samuel Holland 2022-02-13  352  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATIADC_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  353  					      IP5XXX_BATIADC_DA=
+T1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  354  =
+
+75853406fa2796 Samuel Holland 2022-02-13  355  		val->intval =3D DIV_ROUND_=
+CLOSEST(raw * 745985, 1000);
+75853406fa2796 Samuel Holland 2022-02-13  356  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  357  =
+
+75853406fa2796 Samuel Holland 2022-02-13  358  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_CURRENT:
+75853406fa2796 Samuel Holland 2022-02-13  359  		ret =3D ip5xxx_read(ip5xxx=
+, IP5XXX_CHG_CTL4A, &rval);
+75853406fa2796 Samuel Holland 2022-02-13  360  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  361  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  362  =
+
+75853406fa2796 Samuel Holland 2022-02-13  363  		rval &=3D IP5XXX_CHG_CTL4A=
+_CONST_CUR_SEL;
+75853406fa2796 Samuel Holland 2022-02-13  364  		val->intval =3D 100000 * r=
+val;
+75853406fa2796 Samuel Holland 2022-02-13  365  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  366  =
+
+75853406fa2796 Samuel Holland 2022-02-13  367  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_CURRENT_MAX:
+75853406fa2796 Samuel Holland 2022-02-13  368  		val->intval =3D 100000 * 0=
+x1f;
+75853406fa2796 Samuel Holland 2022-02-13  369  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  370  =
+
+75853406fa2796 Samuel Holland 2022-02-13  371  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_VOLTAGE:
+75853406fa2796 Samuel Holland 2022-02-13  372  		ret =3D ip5xxx_battery_get=
+_voltage_max(ip5xxx, &vmax);
+75853406fa2796 Samuel Holland 2022-02-13  373  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  374  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  375  =
+
+75853406fa2796 Samuel Holland 2022-02-13  376  		ret =3D ip5xxx_read(ip5xxx=
+, IP5XXX_CHG_CTL2, &rval);
+75853406fa2796 Samuel Holland 2022-02-13  377  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  378  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  379  =
+
+75853406fa2796 Samuel Holland 2022-02-13  380  		rval &=3D IP5XXX_CHG_CTL2_=
+CONST_VOLT_SEL;
+75853406fa2796 Samuel Holland 2022-02-13  381  		val->intval =3D vmax + 140=
+00 * (rval >> 1);
+75853406fa2796 Samuel Holland 2022-02-13  382  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  383  =
+
+75853406fa2796 Samuel Holland 2022-02-13  384  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_VOLTAGE_MAX:
+75853406fa2796 Samuel Holland 2022-02-13  385  		ret =3D ip5xxx_battery_get=
+_voltage_max(ip5xxx, &vmax);
+75853406fa2796 Samuel Holland 2022-02-13  386  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  387  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  388  =
+
+75853406fa2796 Samuel Holland 2022-02-13  389  		val->intval =3D vmax + 140=
+00 * 3;
+75853406fa2796 Samuel Holland 2022-02-13  390  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  391  =
+
+75853406fa2796 Samuel Holland 2022-02-13  392  	default:
+75853406fa2796 Samuel Holland 2022-02-13  393  		return -EINVAL;
+75853406fa2796 Samuel Holland 2022-02-13  394  	}
+75853406fa2796 Samuel Holland 2022-02-13  395  }
+75853406fa2796 Samuel Holland 2022-02-13  396  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6620557391591059587==--
+--===============7741046326475350982==--
 
