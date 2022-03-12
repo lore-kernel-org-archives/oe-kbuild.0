@@ -1,351 +1,300 @@
-Content-Type: multipart/mixed; boundary="===============5535547264834796116=="
+Content-Type: multipart/mixed; boundary="===============8678692087834617864=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:clk/linux/clk-range 11/11] drivers/clk/bcm/clk-raspberrypi.c:76:8: warning: Excessive padding in 'struct raspberrypi_clk_variant' (6 padding bytes, where 2 is optimal).
-Date: Sat, 12 Mar 2022 23:40:02 +0800
-Message-ID: <202203122312.hsebeY5K-lkp@intel.com>
+Subject: fs/btrfs/ordered-data.c:341:7: warning: Local variable entry_end shadows outer function [shadowFunction]
+Date: Sat, 12 Mar 2022 22:59:15 +0800
+Message-ID: <202203122243.L9Drjlru-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5535547264834796116==
+--===============8678692087834617864==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Maxime Ripard <maxime@cerno.tech>
-CC: Stephen Boyd <sboyd@kernel.org>
+TO: Qu Wenruo <wqu@suse.com>
+CC: David Sterba <dsterba@suse.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block clk/linux/clk-range
-head:   e9d6cea2af1cf8d84287ff2287b6cd776f7475d2
-commit: e9d6cea2af1cf8d84287ff2287b6cd776f7475d2 [11/11] clk: bcm: rpi: Run=
- some clocks at the minimum rate allowed
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: riscv-randconfig-c006-20220312 (https://download.01.org/0day-ci/arc=
-hive/20220312/202203122312.hsebeY5K-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 43f668=
-b98e8d87290fc6bbf5ed13c3ab542e3497)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/e9d6cea2af1cf8d=
-84287ff2287b6cd776f7475d2
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block clk/linux/clk-range
-        git checkout e9d6cea2af1cf8d84287ff2287b6cd776f7475d2
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   68453767131a5deec1e8f9ac92a9042f929e585d
+commit: e65f152e43484807b4caf7300e70d882e4652566 btrfs: refactor how we fin=
+ish ordered extent io for endio functions
+date:   9 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 9 months ago
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/scsi/ufs/ufshpb.c:1446:2: note: Calling 'list_splice'
-           list_splice(&pending_list, &hpb->lh_inact_rgn);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:464:7: note: Calling 'list_empty'
-           if (!list_empty(list))
-                ^~~~~~~~~~~~~~~~
-   include/linux/list.h:292:9: note: Left side of '||' is false
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   include/linux/list.h:292:9: note: Left side of '||' is false
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   include/linux/list.h:292:9: note: Left side of '||' is true
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   include/linux/list.h:292:9: note: Taking false branch
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/list.h:292:9: note: Loop condition is false.  Exiting loop
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/linux/list.h:292:2: note: Returning zero, which participates in =
-a condition later
-           return READ_ONCE(head->next) =3D=3D head;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:464:7: note: Returning from 'list_empty'
-           if (!list_empty(list))
-                ^~~~~~~~~~~~~~~~
-   include/linux/list.h:464:2: note: Taking true branch
-           if (!list_empty(list))
-           ^
-   include/linux/list.h:465:29: note: Passing null pointer value via 3rd pa=
-rameter 'next'
-                   __list_splice(list, head, head->next);
-                                             ^~~~~~~~~~
-   include/linux/list.h:465:3: note: Calling '__list_splice'
-                   __list_splice(list, head, head->next);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:453:13: note: Access to field 'prev' results in a d=
-ereference of a null pointer (loaded from variable 'next')
-           next->prev =3D last;
-           ~~~~       ^
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/clk/bcm/clk-raspberrypi.c:76:8: warning: Excessive padding in 's=
-truct raspberrypi_clk_variant' (6 padding bytes, where 2 is optimal). =
+cppcheck warnings: (new ones prefixed by >>)
+>> fs/btrfs/sysfs.c:1260:4: warning: %u in format string (no. 2) requires '=
+unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_=
+uint]
+      snprintf(name, BTRFS_FEATURE_NAME_MAX, "%s:%u",
+      ^
+>> kernel/trace/trace_events_synth.c:531:22: warning: Pointer addition with=
+ NULL pointer. [nullPointerArithmetic]
+    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
+                        ^
+   kernel/trace/trace_events_synth.c:563:43: note: Calling function '__set_=
+synth_event_print_fmt', 2nd argument 'NULL' value is 0
+    len =3D __set_synth_event_print_fmt(event, NULL, 0);
+                                             ^
+   kernel/trace/trace_events_synth.c:531:22: note: Null pointer addition
+    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
+                        ^
+   kernel/trace/trace_events_synth.c:538:22: warning: Pointer addition with=
+ NULL pointer. [nullPointerArithmetic]
+    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
+                        ^
+   kernel/trace/trace_events_synth.c:563:43: note: Calling function '__set_=
+synth_event_print_fmt', 2nd argument 'NULL' value is 0
+    len =3D __set_synth_event_print_fmt(event, NULL, 0);
+                                             ^
+   kernel/trace/trace_events_synth.c:538:22: note: Null pointer addition
+    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
+                        ^
 
-   Optimal fields order: =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   clkdev, =
+>> fs/btrfs/sysfs.c:1260:4: warning: %u in format string (no. 2) requires '=
+unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_=
+uint]
+      snprintf(name, BTRFS_FEATURE_NAME_MAX, "%s:%u",
+      ^
+>> fs/btrfs/ordered-data.c:341:7: warning: Local variable entry_end shadows=
+ outer function [shadowFunction]
+     u64 entry_end;
+         ^
+   fs/btrfs/ordered-data.c:22:12: note: Shadowed declaration
+   static u64 entry_end(struct btrfs_ordered_extent *entry)
+              ^
+   fs/btrfs/ordered-data.c:341:7: note: Shadow variable
+     u64 entry_end;
+         ^
 
-   min_rate, =
+vim +341 fs/btrfs/ordered-data.c
 
-   export, =
+dc17ff8f11d129 Chris Mason     2008-01-08  301  =
 
-   minimize, =
+163cf09c2a0ee5 Chris Mason     2010-11-28  302  /*
+e65f152e434848 Qu Wenruo       2021-04-01  303   * Mark all ordered extents=
+ io inside the specified range finished.
+163cf09c2a0ee5 Chris Mason     2010-11-28  304   *
+e65f152e434848 Qu Wenruo       2021-04-01  305   * @page:	 The invovled pag=
+e for the opeartion.
+e65f152e434848 Qu Wenruo       2021-04-01  306   *		 For uncompressed buffe=
+red IO, the page status also needs to be
+e65f152e434848 Qu Wenruo       2021-04-01  307   *		 updated to indicate wh=
+ether the pending ordered io is finished.
+e65f152e434848 Qu Wenruo       2021-04-01  308   *		 Can be NULL for direct=
+ IO and compressed write.
+e65f152e434848 Qu Wenruo       2021-04-01  309   *		 For these cases, calle=
+rs are ensured they won't execute the
+e65f152e434848 Qu Wenruo       2021-04-01  310   *		 endio function twice.
+e65f152e434848 Qu Wenruo       2021-04-01  311   * @finish_func: The functi=
+on to be executed when all the IO of an ordered
+e65f152e434848 Qu Wenruo       2021-04-01  312   *		 extent are finished.
+163cf09c2a0ee5 Chris Mason     2010-11-28  313   *
+e65f152e434848 Qu Wenruo       2021-04-01  314   * This function is called =
+for endio, thus the range must have ordered
+e65f152e434848 Qu Wenruo       2021-04-01  315   * extent(s) coveri it.
+163cf09c2a0ee5 Chris Mason     2010-11-28  316   */
+e65f152e434848 Qu Wenruo       2021-04-01  317  void btrfs_mark_ordered_io_=
+finished(struct btrfs_inode *inode,
+e65f152e434848 Qu Wenruo       2021-04-01  318  				struct page *page, u64 =
+file_offset,
+e65f152e434848 Qu Wenruo       2021-04-01  319  				u64 num_bytes, btrfs_fu=
+nc_t finish_func,
+e65f152e434848 Qu Wenruo       2021-04-01  320  				bool uptodate)
+163cf09c2a0ee5 Chris Mason     2010-11-28  321  {
+7095821ee1f57d Nikolay Borisov 2020-06-03  322  	struct btrfs_ordered_inode=
+_tree *tree =3D &inode->ordered_tree;
+e65f152e434848 Qu Wenruo       2021-04-01  323  	struct btrfs_fs_info *fs_i=
+nfo =3D inode->root->fs_info;
+e65f152e434848 Qu Wenruo       2021-04-01  324  	struct btrfs_workqueue *wq;
+163cf09c2a0ee5 Chris Mason     2010-11-28  325  	struct rb_node *node;
+163cf09c2a0ee5 Chris Mason     2010-11-28  326  	struct btrfs_ordered_exten=
+t *entry =3D NULL;
+5fd02043553b02 Josef Bacik     2012-05-02  327  	unsigned long flags;
+e65f152e434848 Qu Wenruo       2021-04-01  328  	u64 cur =3D file_offset;
+e65f152e434848 Qu Wenruo       2021-04-01  329  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct raspberrypi_clk_variant {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/bcm/clk-raspberrypi.c:76:8: note: Excessive padding in 'stru=
-ct raspberrypi_clk_variant' (6 padding bytes, where 2 is optimal). Optimal =
-fields order: clkdev, min_rate, export, minimize, consider reordering the f=
-ields or adding explicit padding members
-   struct raspberrypi_clk_variant {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/regulator/ti-abb-regulator.c:754:3: warning: Value stored to 're=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/regulator/ti-abb-regulator.c:754:3: note: Value stored to 'ret' =
-is never read
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/regulator/ti-abb-regulator.c:773:3: warning: Value stored to 're=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/regulator/ti-abb-regulator.c:773:3: note: Value stored to 'ret' =
-is never read
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+e65f152e434848 Qu Wenruo       2021-04-01  330  	if (btrfs_is_free_space_in=
+ode(inode))
+e65f152e434848 Qu Wenruo       2021-04-01  331  		wq =3D fs_info->endio_fre=
+espace_worker;
+e65f152e434848 Qu Wenruo       2021-04-01  332  	else
+e65f152e434848 Qu Wenruo       2021-04-01  333  		wq =3D fs_info->endio_wri=
+te_workers;
+e65f152e434848 Qu Wenruo       2021-04-01  334  =
 
-vim +76 drivers/clk/bcm/clk-raspberrypi.c
+e65f152e434848 Qu Wenruo       2021-04-01  335  	if (page)
+e65f152e434848 Qu Wenruo       2021-04-01  336  		ASSERT(page->mapping && p=
+age_offset(page) <=3D file_offset &&
+e65f152e434848 Qu Wenruo       2021-04-01  337  		       file_offset + num_=
+bytes <=3D page_offset(page) + PAGE_SIZE);
+163cf09c2a0ee5 Chris Mason     2010-11-28  338  =
 
-4e85e535e6cc6e Nicolas Saenz Julienne 2019-06-12  75  =
+5fd02043553b02 Josef Bacik     2012-05-02  339  	spin_lock_irqsave(&tree->l=
+ock, flags);
+e65f152e434848 Qu Wenruo       2021-04-01  340  	while (cur < file_offset +=
+ num_bytes) {
+e65f152e434848 Qu Wenruo       2021-04-01 @341  		u64 entry_end;
+e65f152e434848 Qu Wenruo       2021-04-01  342  		u64 end;
+e65f152e434848 Qu Wenruo       2021-04-01  343  		u32 len;
+e65f152e434848 Qu Wenruo       2021-04-01  344  =
 
-12c90f3f27bb3a Maxime Ripard          2022-02-25 @76  struct raspberrypi_cl=
-k_variant {
-12c90f3f27bb3a Maxime Ripard          2022-02-25  77  	bool		export;
-12c90f3f27bb3a Maxime Ripard          2022-02-25  78  	char		*clkdev;
-542acfec4e313c Maxime Ripard          2022-02-25  79  	unsigned long	min_ra=
-te;
-e9d6cea2af1cf8 Maxime Ripard          2022-02-25  80  	bool		minimize;
-12c90f3f27bb3a Maxime Ripard          2022-02-25  81  };
-12c90f3f27bb3a Maxime Ripard          2022-02-25  82  =
+e65f152e434848 Qu Wenruo       2021-04-01  345  		node =3D tree_search(tree=
+, cur);
+e65f152e434848 Qu Wenruo       2021-04-01  346  		/* No ordered extents@=
+all */
+58f74b2203d786 Qu Wenruo       2020-12-22  347  		if (!node)
+e65f152e434848 Qu Wenruo       2021-04-01  348  			break;
+163cf09c2a0ee5 Chris Mason     2010-11-28  349  =
 
+163cf09c2a0ee5 Chris Mason     2010-11-28  350  		entry =3D rb_entry(node, =
+struct btrfs_ordered_extent, rb_node);
+e65f152e434848 Qu Wenruo       2021-04-01  351  		entry_end =3D entry->file=
+_offset + entry->num_bytes;
+e65f152e434848 Qu Wenruo       2021-04-01  352  		/*
+e65f152e434848 Qu Wenruo       2021-04-01  353  		 * |<-- OE --->|  |
+e65f152e434848 Qu Wenruo       2021-04-01  354  		 *		  cur
+e65f152e434848 Qu Wenruo       2021-04-01  355  		 * Go to next OE.
+e65f152e434848 Qu Wenruo       2021-04-01  356  		 */
+e65f152e434848 Qu Wenruo       2021-04-01  357  		if (cur >=3D entry_end) {
+e65f152e434848 Qu Wenruo       2021-04-01  358  			node =3D rb_next(node);
+e65f152e434848 Qu Wenruo       2021-04-01  359  			/* No more ordered exten=
+ts, exit */
+e65f152e434848 Qu Wenruo       2021-04-01  360  			if (!node)
+e65f152e434848 Qu Wenruo       2021-04-01  361  				break;
+e65f152e434848 Qu Wenruo       2021-04-01  362  			entry =3D rb_entry(node,=
+ struct btrfs_ordered_extent,
+e65f152e434848 Qu Wenruo       2021-04-01  363  					 rb_node);
+e65f152e434848 Qu Wenruo       2021-04-01  364  =
 
-:::::: The code at line 76 was first introduced by commit
-:::::: 12c90f3f27bb3ad0dd3fad1550fec87091aa3329 clk: bcm: rpi: Add variant =
-structure
+e65f152e434848 Qu Wenruo       2021-04-01  365  			/* Go to next ordered ex=
+tent and continue */
+e65f152e434848 Qu Wenruo       2021-04-01  366  			cur =3D entry->file_offs=
+et;
+e65f152e434848 Qu Wenruo       2021-04-01  367  			continue;
+e65f152e434848 Qu Wenruo       2021-04-01  368  		}
+e65f152e434848 Qu Wenruo       2021-04-01  369  		/*
+e65f152e434848 Qu Wenruo       2021-04-01  370  		 * |	|<--- OE --->|
+e65f152e434848 Qu Wenruo       2021-04-01  371  		 * cur
+e65f152e434848 Qu Wenruo       2021-04-01  372  		 * Go to the start of OE.
+e65f152e434848 Qu Wenruo       2021-04-01  373  		 */
+e65f152e434848 Qu Wenruo       2021-04-01  374  		if (cur < entry->file_off=
+set) {
+e65f152e434848 Qu Wenruo       2021-04-01  375  			cur =3D entry->file_offs=
+et;
+e65f152e434848 Qu Wenruo       2021-04-01  376  			continue;
+163cf09c2a0ee5 Chris Mason     2010-11-28  377  		}
+e65f152e434848 Qu Wenruo       2021-04-01  378  =
 
-:::::: TO: Maxime Ripard <maxime@cerno.tech>
-:::::: CC: Stephen Boyd <sboyd@kernel.org>
+e65f152e434848 Qu Wenruo       2021-04-01  379  		/*
+e65f152e434848 Qu Wenruo       2021-04-01  380  		 * Now we are definitely =
+inside one ordered extent.
+e65f152e434848 Qu Wenruo       2021-04-01  381  		 *
+e65f152e434848 Qu Wenruo       2021-04-01  382  		 * |<--- OE --->|
+e65f152e434848 Qu Wenruo       2021-04-01  383  		 *	|
+e65f152e434848 Qu Wenruo       2021-04-01  384  		 *	cur
+e65f152e434848 Qu Wenruo       2021-04-01  385  		 */
+e65f152e434848 Qu Wenruo       2021-04-01  386  		end =3D min(entry->file_o=
+ffset + entry->num_bytes,
+e65f152e434848 Qu Wenruo       2021-04-01  387  			  file_offset + num_byte=
+s) - 1;
+e65f152e434848 Qu Wenruo       2021-04-01  388  		ASSERT(end + 1 - cur < U3=
+2_MAX);
+e65f152e434848 Qu Wenruo       2021-04-01  389  		len =3D end + 1 - cur;
+e65f152e434848 Qu Wenruo       2021-04-01  390  =
+
+e65f152e434848 Qu Wenruo       2021-04-01  391  		if (page) {
+e65f152e434848 Qu Wenruo       2021-04-01  392  			/*
+e65f152e434848 Qu Wenruo       2021-04-01  393  			 * Private2 bit indicate=
+s whether we still have pending
+e65f152e434848 Qu Wenruo       2021-04-01  394  			 * io unfinished for the=
+ ordered extent.
+e65f152e434848 Qu Wenruo       2021-04-01  395  			 *
+e65f152e434848 Qu Wenruo       2021-04-01  396  			 * If there's no such bi=
+t, we need to skip to next range.
+e65f152e434848 Qu Wenruo       2021-04-01  397  			 */
+e65f152e434848 Qu Wenruo       2021-04-01  398  			if (!PagePrivate2(page))=
+ {
+e65f152e434848 Qu Wenruo       2021-04-01  399  				cur +=3D len;
+e65f152e434848 Qu Wenruo       2021-04-01  400  				continue;
+e65f152e434848 Qu Wenruo       2021-04-01  401  			}
+e65f152e434848 Qu Wenruo       2021-04-01  402  			ClearPagePrivate2(page);
+e65f152e434848 Qu Wenruo       2021-04-01  403  		}
+e65f152e434848 Qu Wenruo       2021-04-01  404  =
+
+e65f152e434848 Qu Wenruo       2021-04-01  405  		/* Now we're fine to upda=
+te the accounting */
+e65f152e434848 Qu Wenruo       2021-04-01  406  		if (unlikely(len > entry-=
+>bytes_left)) {
+e65f152e434848 Qu Wenruo       2021-04-01  407  			WARN_ON(1);
+0b246afa62b0cf Jeff Mahoney    2016-06-22  408  			btrfs_crit(fs_info,
+e65f152e434848 Qu Wenruo       2021-04-01  409  "bad ordered extent account=
+ing, root=3D%llu ino=3D%llu OE offset=3D%llu OE len=3D%llu to_dec=3D%u left=
+=3D%llu",
+e65f152e434848 Qu Wenruo       2021-04-01  410  				   inode->root->root_ke=
+y.objectid,
+e65f152e434848 Qu Wenruo       2021-04-01  411  				   btrfs_ino(inode),
+e65f152e434848 Qu Wenruo       2021-04-01  412  				   entry->file_offset,
+e65f152e434848 Qu Wenruo       2021-04-01  413  				   entry->num_bytes,
+e65f152e434848 Qu Wenruo       2021-04-01  414  				   len, entry->bytes_le=
+ft);
+e65f152e434848 Qu Wenruo       2021-04-01  415  			entry->bytes_left =3D 0;
+e65f152e434848 Qu Wenruo       2021-04-01  416  		} else {
+e65f152e434848 Qu Wenruo       2021-04-01  417  			entry->bytes_left -=3D l=
+en;
+163cf09c2a0ee5 Chris Mason     2010-11-28  418  		}
+e65f152e434848 Qu Wenruo       2021-04-01  419  =
+
+5fd02043553b02 Josef Bacik     2012-05-02  420  		if (!uptodate)
+5fd02043553b02 Josef Bacik     2012-05-02  421  			set_bit(BTRFS_ORDERED_IO=
+ERR, &entry->flags);
+5fd02043553b02 Josef Bacik     2012-05-02  422  =
+
+58f74b2203d786 Qu Wenruo       2020-12-22  423  		/*
+e65f152e434848 Qu Wenruo       2021-04-01  424  		 * All the IO of the orde=
+red extent is finished, we need to queue
+e65f152e434848 Qu Wenruo       2021-04-01  425  		 * the finish_func to be =
+executed.
+58f74b2203d786 Qu Wenruo       2020-12-22  426  		 */
+e65f152e434848 Qu Wenruo       2021-04-01  427  		if (entry->bytes_left =3D=
+=3D 0) {
+e65f152e434848 Qu Wenruo       2021-04-01  428  			set_bit(BTRFS_ORDERED_IO=
+_DONE, &entry->flags);
+e65f152e434848 Qu Wenruo       2021-04-01  429  			cond_wake_up(&entry->wai=
+t);
+e76edab7f059bc Elena Reshetova 2017-03-03  430  			refcount_inc(&entry->ref=
+s);
+e65f152e434848 Qu Wenruo       2021-04-01  431  			spin_unlock_irqrestore(&=
+tree->lock, flags);
+e65f152e434848 Qu Wenruo       2021-04-01  432  			btrfs_init_work(&entry->=
+work, finish_func, NULL, NULL);
+e65f152e434848 Qu Wenruo       2021-04-01  433  			btrfs_queue_work(wq, &en=
+try->work);
+e65f152e434848 Qu Wenruo       2021-04-01  434  			spin_lock_irqsave(&tree-=
+>lock, flags);
+e65f152e434848 Qu Wenruo       2021-04-01  435  		}
+e65f152e434848 Qu Wenruo       2021-04-01  436  		cur +=3D len;
+163cf09c2a0ee5 Chris Mason     2010-11-28  437  	}
+5fd02043553b02 Josef Bacik     2012-05-02  438  	spin_unlock_irqrestore(&tr=
+ee->lock, flags);
+163cf09c2a0ee5 Chris Mason     2010-11-28  439  }
+163cf09c2a0ee5 Chris Mason     2010-11-28  440  =
+
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5535547264834796116==--
+--===============8678692087834617864==--
 
