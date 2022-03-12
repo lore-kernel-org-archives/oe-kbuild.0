@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8678692087834617864=="
+Content-Type: multipart/mixed; boundary="===============3577810299882113056=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/btrfs/ordered-data.c:341:7: warning: Local variable entry_end shadows outer function [shadowFunction]
-Date: Sat, 12 Mar 2022 22:59:15 +0800
-Message-ID: <202203122243.L9Drjlru-lkp@intel.com>
+Subject: drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5409:30: warning: Possible null pointer dereference: new_rule [nullPointer]
+Date: Sat, 12 Mar 2022 21:48:24 +0800
+Message-ID: <202203122146.6oZd0xLd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8678692087834617864==
+--===============3577810299882113056==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,286 +15,127 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Qu Wenruo <wqu@suse.com>
-CC: David Sterba <dsterba@suse.com>
+TO: Liu Jian <liujian56@huawei.com>
+
+Hi Liu,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   68453767131a5deec1e8f9ac92a9042f929e585d
-commit: e65f152e43484807b4caf7300e70d882e4652566 btrfs: refactor how we fin=
-ish ordered extent io for endio functions
-date:   9 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 9 months ago
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+commit: 54422bd436e084e6c74aff6026c1767f1570ab26 net: hns3: no return state=
+ment in hclge_clear_arfs_rules
+date:   12 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 12 months ago
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> fs/btrfs/sysfs.c:1260:4: warning: %u in format string (no. 2) requires '=
-unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_=
-uint]
-      snprintf(name, BTRFS_FEATURE_NAME_MAX, "%s:%u",
-      ^
->> kernel/trace/trace_events_synth.c:531:22: warning: Pointer addition with=
- NULL pointer. [nullPointerArithmetic]
-    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
-                        ^
-   kernel/trace/trace_events_synth.c:563:43: note: Calling function '__set_=
-synth_event_print_fmt', 2nd argument 'NULL' value is 0
-    len =3D __set_synth_event_print_fmt(event, NULL, 0);
-                                             ^
-   kernel/trace/trace_events_synth.c:531:22: note: Null pointer addition
-    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
-                        ^
-   kernel/trace/trace_events_synth.c:538:22: warning: Pointer addition with=
- NULL pointer. [nullPointerArithmetic]
-    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
-                        ^
-   kernel/trace/trace_events_synth.c:563:43: note: Calling function '__set_=
-synth_event_print_fmt', 2nd argument 'NULL' value is 0
-    len =3D __set_synth_event_print_fmt(event, NULL, 0);
-                                             ^
-   kernel/trace/trace_events_synth.c:538:22: note: Null pointer addition
-    pos +=3D snprintf(buf + pos, LEN_OR_ZERO, """);
-                        ^
-
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> fs/btrfs/sysfs.c:1260:4: warning: %u in format string (no. 2) requires '=
-unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_=
-uint]
-      snprintf(name, BTRFS_FEATURE_NAME_MAX, "%s:%u",
-      ^
->> fs/btrfs/ordered-data.c:341:7: warning: Local variable entry_end shadows=
- outer function [shadowFunction]
-     u64 entry_end;
-         ^
-   fs/btrfs/ordered-data.c:22:12: note: Shadowed declaration
-   static u64 entry_end(struct btrfs_ordered_extent *entry)
-              ^
-   fs/btrfs/ordered-data.c:341:7: note: Shadow variable
-     u64 entry_end;
-         ^
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4132:3: warning:=
+ Assignment of function parameter has no effect outside the function. Did y=
+ou forget dereferencing it? [uselessAssignmentPtrArg]
+     handle =3D &hdev->vport[0].nic;
+     ^
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5409:30: warning=
+: Possible null pointer dereference: new_rule [nullPointer]
+    hclge_fd_inc_rule_cnt(hdev, new_rule->location);
+                                ^
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6585:61: note: C=
+alling function 'hclge_update_fd_list', 4th argument 'NULL' value is 0
+    hclge_update_fd_list(hdev, HCLGE_FD_DELETED, fs->location, NULL);
+                                                               ^
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5409:30: note: N=
+ull pointer dereference
+    hclge_fd_inc_rule_cnt(hdev, new_rule->location);
+                                ^
 
-vim +341 fs/btrfs/ordered-data.c
+vim +5409 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
 
-dc17ff8f11d129 Chris Mason     2008-01-08  301  =
+67b0e1428e2f59 Jian Shen 2021-03-22  5376  =
 
-163cf09c2a0ee5 Chris Mason     2010-11-28  302  /*
-e65f152e434848 Qu Wenruo       2021-04-01  303   * Mark all ordered extents=
- io inside the specified range finished.
-163cf09c2a0ee5 Chris Mason     2010-11-28  304   *
-e65f152e434848 Qu Wenruo       2021-04-01  305   * @page:	 The invovled pag=
-e for the opeartion.
-e65f152e434848 Qu Wenruo       2021-04-01  306   *		 For uncompressed buffe=
-red IO, the page status also needs to be
-e65f152e434848 Qu Wenruo       2021-04-01  307   *		 updated to indicate wh=
-ether the pending ordered io is finished.
-e65f152e434848 Qu Wenruo       2021-04-01  308   *		 Can be NULL for direct=
- IO and compressed write.
-e65f152e434848 Qu Wenruo       2021-04-01  309   *		 For these cases, calle=
-rs are ensured they won't execute the
-e65f152e434848 Qu Wenruo       2021-04-01  310   *		 endio function twice.
-e65f152e434848 Qu Wenruo       2021-04-01  311   * @finish_func: The functi=
-on to be executed when all the IO of an ordered
-e65f152e434848 Qu Wenruo       2021-04-01  312   *		 extent are finished.
-163cf09c2a0ee5 Chris Mason     2010-11-28  313   *
-e65f152e434848 Qu Wenruo       2021-04-01  314   * This function is called =
-for endio, thus the range must have ordered
-e65f152e434848 Qu Wenruo       2021-04-01  315   * extent(s) coveri it.
-163cf09c2a0ee5 Chris Mason     2010-11-28  316   */
-e65f152e434848 Qu Wenruo       2021-04-01  317  void btrfs_mark_ordered_io_=
-finished(struct btrfs_inode *inode,
-e65f152e434848 Qu Wenruo       2021-04-01  318  				struct page *page, u64 =
-file_offset,
-e65f152e434848 Qu Wenruo       2021-04-01  319  				u64 num_bytes, btrfs_fu=
-nc_t finish_func,
-e65f152e434848 Qu Wenruo       2021-04-01  320  				bool uptodate)
-163cf09c2a0ee5 Chris Mason     2010-11-28  321  {
-7095821ee1f57d Nikolay Borisov 2020-06-03  322  	struct btrfs_ordered_inode=
-_tree *tree =3D &inode->ordered_tree;
-e65f152e434848 Qu Wenruo       2021-04-01  323  	struct btrfs_fs_info *fs_i=
-nfo =3D inode->root->fs_info;
-e65f152e434848 Qu Wenruo       2021-04-01  324  	struct btrfs_workqueue *wq;
-163cf09c2a0ee5 Chris Mason     2010-11-28  325  	struct rb_node *node;
-163cf09c2a0ee5 Chris Mason     2010-11-28  326  	struct btrfs_ordered_exten=
-t *entry =3D NULL;
-5fd02043553b02 Josef Bacik     2012-05-02  327  	unsigned long flags;
-e65f152e434848 Qu Wenruo       2021-04-01  328  	u64 cur =3D file_offset;
-e65f152e434848 Qu Wenruo       2021-04-01  329  =
+fc4243b8de8b4e Jian Shen 2021-03-22  5377  static void hclge_update_fd_list=
+(struct hclge_dev *hdev,
+fc4243b8de8b4e Jian Shen 2021-03-22  5378  				 enum HCLGE_FD_NODE_STATE st=
+ate, u16 location,
+fc4243b8de8b4e Jian Shen 2021-03-22  5379  				 struct hclge_fd_rule *new_r=
+ule)
+fc4243b8de8b4e Jian Shen 2021-03-22  5380  {
+fc4243b8de8b4e Jian Shen 2021-03-22  5381  	struct hlist_head *hlist =3D &h=
+dev->fd_rule_list;
+fc4243b8de8b4e Jian Shen 2021-03-22  5382  	struct hclge_fd_rule *fd_rule, =
+*parent =3D NULL;
+fc4243b8de8b4e Jian Shen 2021-03-22  5383  =
 
-e65f152e434848 Qu Wenruo       2021-04-01  330  	if (btrfs_is_free_space_in=
-ode(inode))
-e65f152e434848 Qu Wenruo       2021-04-01  331  		wq =3D fs_info->endio_fre=
-espace_worker;
-e65f152e434848 Qu Wenruo       2021-04-01  332  	else
-e65f152e434848 Qu Wenruo       2021-04-01  333  		wq =3D fs_info->endio_wri=
-te_workers;
-e65f152e434848 Qu Wenruo       2021-04-01  334  =
+fc4243b8de8b4e Jian Shen 2021-03-22  5384  	fd_rule =3D hclge_find_fd_rule(=
+hlist, location, &parent);
+fc4243b8de8b4e Jian Shen 2021-03-22  5385  	if (fd_rule) {
+67b0e1428e2f59 Jian Shen 2021-03-22  5386  		hclge_fd_dec_user_def_refcnt(h=
+dev, fd_rule);
+67b0e1428e2f59 Jian Shen 2021-03-22  5387  		if (state =3D=3D HCLGE_FD_ACTI=
+VE)
+67b0e1428e2f59 Jian Shen 2021-03-22  5388  			hclge_fd_inc_user_def_refcnt(=
+hdev, new_rule);
+67b0e1428e2f59 Jian Shen 2021-03-22  5389  		hclge_sync_fd_user_def_cfg(hde=
+v, true);
+67b0e1428e2f59 Jian Shen 2021-03-22  5390  =
 
-e65f152e434848 Qu Wenruo       2021-04-01  335  	if (page)
-e65f152e434848 Qu Wenruo       2021-04-01  336  		ASSERT(page->mapping && p=
-age_offset(page) <=3D file_offset &&
-e65f152e434848 Qu Wenruo       2021-04-01  337  		       file_offset + num_=
-bytes <=3D page_offset(page) + PAGE_SIZE);
-163cf09c2a0ee5 Chris Mason     2010-11-28  338  =
+fc4243b8de8b4e Jian Shen 2021-03-22  5391  		hclge_update_fd_rule_node(hdev=
+, fd_rule, new_rule, state);
+fc4243b8de8b4e Jian Shen 2021-03-22  5392  		return;
+fc4243b8de8b4e Jian Shen 2021-03-22  5393  	}
+fc4243b8de8b4e Jian Shen 2021-03-22  5394  =
 
-5fd02043553b02 Josef Bacik     2012-05-02  339  	spin_lock_irqsave(&tree->l=
-ock, flags);
-e65f152e434848 Qu Wenruo       2021-04-01  340  	while (cur < file_offset +=
- num_bytes) {
-e65f152e434848 Qu Wenruo       2021-04-01 @341  		u64 entry_end;
-e65f152e434848 Qu Wenruo       2021-04-01  342  		u64 end;
-e65f152e434848 Qu Wenruo       2021-04-01  343  		u32 len;
-e65f152e434848 Qu Wenruo       2021-04-01  344  =
+fc4243b8de8b4e Jian Shen 2021-03-22  5395  	/* it's unlikely to fail here, =
+because we have checked the rule
+fc4243b8de8b4e Jian Shen 2021-03-22  5396  	 * exist before.
+fc4243b8de8b4e Jian Shen 2021-03-22  5397  	 */
+fc4243b8de8b4e Jian Shen 2021-03-22  5398  	if (unlikely(state =3D=3D HCLGE=
+_FD_TO_DEL || state =3D=3D HCLGE_FD_DELETED)) {
+fc4243b8de8b4e Jian Shen 2021-03-22  5399  		dev_warn(&hdev->pdev->dev,
+fc4243b8de8b4e Jian Shen 2021-03-22  5400  			 "failed to delete fd rule %u=
+, it's inexistent\n",
+fc4243b8de8b4e Jian Shen 2021-03-22  5401  			 location);
+fc4243b8de8b4e Jian Shen 2021-03-22  5402  		return;
+fc4243b8de8b4e Jian Shen 2021-03-22  5403  	}
+fc4243b8de8b4e Jian Shen 2021-03-22  5404  =
 
-e65f152e434848 Qu Wenruo       2021-04-01  345  		node =3D tree_search(tree=
-, cur);
-e65f152e434848 Qu Wenruo       2021-04-01  346  		/* No ordered extents@=
-all */
-58f74b2203d786 Qu Wenruo       2020-12-22  347  		if (!node)
-e65f152e434848 Qu Wenruo       2021-04-01  348  			break;
-163cf09c2a0ee5 Chris Mason     2010-11-28  349  =
+67b0e1428e2f59 Jian Shen 2021-03-22  5405  	hclge_fd_inc_user_def_refcnt(hd=
+ev, new_rule);
+67b0e1428e2f59 Jian Shen 2021-03-22  5406  	hclge_sync_fd_user_def_cfg(hdev=
+, true);
+67b0e1428e2f59 Jian Shen 2021-03-22  5407  =
 
-163cf09c2a0ee5 Chris Mason     2010-11-28  350  		entry =3D rb_entry(node, =
-struct btrfs_ordered_extent, rb_node);
-e65f152e434848 Qu Wenruo       2021-04-01  351  		entry_end =3D entry->file=
-_offset + entry->num_bytes;
-e65f152e434848 Qu Wenruo       2021-04-01  352  		/*
-e65f152e434848 Qu Wenruo       2021-04-01  353  		 * |<-- OE --->|  |
-e65f152e434848 Qu Wenruo       2021-04-01  354  		 *		  cur
-e65f152e434848 Qu Wenruo       2021-04-01  355  		 * Go to next OE.
-e65f152e434848 Qu Wenruo       2021-04-01  356  		 */
-e65f152e434848 Qu Wenruo       2021-04-01  357  		if (cur >=3D entry_end) {
-e65f152e434848 Qu Wenruo       2021-04-01  358  			node =3D rb_next(node);
-e65f152e434848 Qu Wenruo       2021-04-01  359  			/* No more ordered exten=
-ts, exit */
-e65f152e434848 Qu Wenruo       2021-04-01  360  			if (!node)
-e65f152e434848 Qu Wenruo       2021-04-01  361  				break;
-e65f152e434848 Qu Wenruo       2021-04-01  362  			entry =3D rb_entry(node,=
- struct btrfs_ordered_extent,
-e65f152e434848 Qu Wenruo       2021-04-01  363  					 rb_node);
-e65f152e434848 Qu Wenruo       2021-04-01  364  =
+fc4243b8de8b4e Jian Shen 2021-03-22  5408  	hclge_fd_insert_rule_node(hlist=
+, new_rule, parent);
+fc4243b8de8b4e Jian Shen 2021-03-22 @5409  	hclge_fd_inc_rule_cnt(hdev, new=
+_rule->location);
+fc4243b8de8b4e Jian Shen 2021-03-22  5410  =
 
-e65f152e434848 Qu Wenruo       2021-04-01  365  			/* Go to next ordered ex=
-tent and continue */
-e65f152e434848 Qu Wenruo       2021-04-01  366  			cur =3D entry->file_offs=
-et;
-e65f152e434848 Qu Wenruo       2021-04-01  367  			continue;
-e65f152e434848 Qu Wenruo       2021-04-01  368  		}
-e65f152e434848 Qu Wenruo       2021-04-01  369  		/*
-e65f152e434848 Qu Wenruo       2021-04-01  370  		 * |	|<--- OE --->|
-e65f152e434848 Qu Wenruo       2021-04-01  371  		 * cur
-e65f152e434848 Qu Wenruo       2021-04-01  372  		 * Go to the start of OE.
-e65f152e434848 Qu Wenruo       2021-04-01  373  		 */
-e65f152e434848 Qu Wenruo       2021-04-01  374  		if (cur < entry->file_off=
-set) {
-e65f152e434848 Qu Wenruo       2021-04-01  375  			cur =3D entry->file_offs=
-et;
-e65f152e434848 Qu Wenruo       2021-04-01  376  			continue;
-163cf09c2a0ee5 Chris Mason     2010-11-28  377  		}
-e65f152e434848 Qu Wenruo       2021-04-01  378  =
+fc4243b8de8b4e Jian Shen 2021-03-22  5411  	if (state =3D=3D HCLGE_FD_TO_AD=
+D) {
+fc4243b8de8b4e Jian Shen 2021-03-22  5412  		set_bit(HCLGE_STATE_FD_TBL_CHA=
+NGED, &hdev->state);
+fc4243b8de8b4e Jian Shen 2021-03-22  5413  		hclge_task_schedule(hdev, 0);
+fc4243b8de8b4e Jian Shen 2021-03-22  5414  	}
+fc4243b8de8b4e Jian Shen 2021-03-22  5415  }
+fc4243b8de8b4e Jian Shen 2021-03-22  5416  =
 
-e65f152e434848 Qu Wenruo       2021-04-01  379  		/*
-e65f152e434848 Qu Wenruo       2021-04-01  380  		 * Now we are definitely =
-inside one ordered extent.
-e65f152e434848 Qu Wenruo       2021-04-01  381  		 *
-e65f152e434848 Qu Wenruo       2021-04-01  382  		 * |<--- OE --->|
-e65f152e434848 Qu Wenruo       2021-04-01  383  		 *	|
-e65f152e434848 Qu Wenruo       2021-04-01  384  		 *	cur
-e65f152e434848 Qu Wenruo       2021-04-01  385  		 */
-e65f152e434848 Qu Wenruo       2021-04-01  386  		end =3D min(entry->file_o=
-ffset + entry->num_bytes,
-e65f152e434848 Qu Wenruo       2021-04-01  387  			  file_offset + num_byte=
-s) - 1;
-e65f152e434848 Qu Wenruo       2021-04-01  388  		ASSERT(end + 1 - cur < U3=
-2_MAX);
-e65f152e434848 Qu Wenruo       2021-04-01  389  		len =3D end + 1 - cur;
-e65f152e434848 Qu Wenruo       2021-04-01  390  =
 
-e65f152e434848 Qu Wenruo       2021-04-01  391  		if (page) {
-e65f152e434848 Qu Wenruo       2021-04-01  392  			/*
-e65f152e434848 Qu Wenruo       2021-04-01  393  			 * Private2 bit indicate=
-s whether we still have pending
-e65f152e434848 Qu Wenruo       2021-04-01  394  			 * io unfinished for the=
- ordered extent.
-e65f152e434848 Qu Wenruo       2021-04-01  395  			 *
-e65f152e434848 Qu Wenruo       2021-04-01  396  			 * If there's no such bi=
-t, we need to skip to next range.
-e65f152e434848 Qu Wenruo       2021-04-01  397  			 */
-e65f152e434848 Qu Wenruo       2021-04-01  398  			if (!PagePrivate2(page))=
- {
-e65f152e434848 Qu Wenruo       2021-04-01  399  				cur +=3D len;
-e65f152e434848 Qu Wenruo       2021-04-01  400  				continue;
-e65f152e434848 Qu Wenruo       2021-04-01  401  			}
-e65f152e434848 Qu Wenruo       2021-04-01  402  			ClearPagePrivate2(page);
-e65f152e434848 Qu Wenruo       2021-04-01  403  		}
-e65f152e434848 Qu Wenruo       2021-04-01  404  =
+:::::: The code at line 5409 was first introduced by commit
+:::::: fc4243b8de8b4e7170f07f2660dcab3f8ecda0e9 net: hns3: refactor flow di=
+rector configuration
 
-e65f152e434848 Qu Wenruo       2021-04-01  405  		/* Now we're fine to upda=
-te the accounting */
-e65f152e434848 Qu Wenruo       2021-04-01  406  		if (unlikely(len > entry-=
->bytes_left)) {
-e65f152e434848 Qu Wenruo       2021-04-01  407  			WARN_ON(1);
-0b246afa62b0cf Jeff Mahoney    2016-06-22  408  			btrfs_crit(fs_info,
-e65f152e434848 Qu Wenruo       2021-04-01  409  "bad ordered extent account=
-ing, root=3D%llu ino=3D%llu OE offset=3D%llu OE len=3D%llu to_dec=3D%u left=
-=3D%llu",
-e65f152e434848 Qu Wenruo       2021-04-01  410  				   inode->root->root_ke=
-y.objectid,
-e65f152e434848 Qu Wenruo       2021-04-01  411  				   btrfs_ino(inode),
-e65f152e434848 Qu Wenruo       2021-04-01  412  				   entry->file_offset,
-e65f152e434848 Qu Wenruo       2021-04-01  413  				   entry->num_bytes,
-e65f152e434848 Qu Wenruo       2021-04-01  414  				   len, entry->bytes_le=
-ft);
-e65f152e434848 Qu Wenruo       2021-04-01  415  			entry->bytes_left =3D 0;
-e65f152e434848 Qu Wenruo       2021-04-01  416  		} else {
-e65f152e434848 Qu Wenruo       2021-04-01  417  			entry->bytes_left -=3D l=
-en;
-163cf09c2a0ee5 Chris Mason     2010-11-28  418  		}
-e65f152e434848 Qu Wenruo       2021-04-01  419  =
-
-5fd02043553b02 Josef Bacik     2012-05-02  420  		if (!uptodate)
-5fd02043553b02 Josef Bacik     2012-05-02  421  			set_bit(BTRFS_ORDERED_IO=
-ERR, &entry->flags);
-5fd02043553b02 Josef Bacik     2012-05-02  422  =
-
-58f74b2203d786 Qu Wenruo       2020-12-22  423  		/*
-e65f152e434848 Qu Wenruo       2021-04-01  424  		 * All the IO of the orde=
-red extent is finished, we need to queue
-e65f152e434848 Qu Wenruo       2021-04-01  425  		 * the finish_func to be =
-executed.
-58f74b2203d786 Qu Wenruo       2020-12-22  426  		 */
-e65f152e434848 Qu Wenruo       2021-04-01  427  		if (entry->bytes_left =3D=
-=3D 0) {
-e65f152e434848 Qu Wenruo       2021-04-01  428  			set_bit(BTRFS_ORDERED_IO=
-_DONE, &entry->flags);
-e65f152e434848 Qu Wenruo       2021-04-01  429  			cond_wake_up(&entry->wai=
-t);
-e76edab7f059bc Elena Reshetova 2017-03-03  430  			refcount_inc(&entry->ref=
-s);
-e65f152e434848 Qu Wenruo       2021-04-01  431  			spin_unlock_irqrestore(&=
-tree->lock, flags);
-e65f152e434848 Qu Wenruo       2021-04-01  432  			btrfs_init_work(&entry->=
-work, finish_func, NULL, NULL);
-e65f152e434848 Qu Wenruo       2021-04-01  433  			btrfs_queue_work(wq, &en=
-try->work);
-e65f152e434848 Qu Wenruo       2021-04-01  434  			spin_lock_irqsave(&tree-=
->lock, flags);
-e65f152e434848 Qu Wenruo       2021-04-01  435  		}
-e65f152e434848 Qu Wenruo       2021-04-01  436  		cur +=3D len;
-163cf09c2a0ee5 Chris Mason     2010-11-28  437  	}
-5fd02043553b02 Josef Bacik     2012-05-02  438  	spin_unlock_irqrestore(&tr=
-ee->lock, flags);
-163cf09c2a0ee5 Chris Mason     2010-11-28  439  }
-163cf09c2a0ee5 Chris Mason     2010-11-28  440  =
-
+:::::: TO: Jian Shen <shenjian15@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8678692087834617864==--
+--===============3577810299882113056==--
 
