@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4116245665787310186=="
+Content-Type: multipart/mixed; boundary="===============8423059520159771447=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2970/11953] drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2109:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sun, 13 Mar 2022 19:50:37 +0800
-Message-ID: <202203131937.VCIbo0U5-lkp@intel.com>
+Subject: drivers/regulator/ti-abb-regulator.c:485:15: warning: Division by zero [clang-analyzer-core.DivideZero]
+Date: Sun, 13 Mar 2022 17:48:35 +0800
+Message-ID: <202203131744.ts0cBsdO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4116245665787310186==
+--===============8423059520159771447==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,37 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Felix Kuehling <Felix.Kuehling@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Cai Huoqing <caihuoqing@baidu.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   71941773e143369a73c9c4a3b62fbb60736a1182
-commit: 22f7cc7524081bb2bfb2720e43ab9889e2ed5b00 [2970/11953] drm/amdgpu: r=
-estructure amdgpu_fill_buffer v2
-:::::: branch date: 3 days ago
-:::::: commit date: 6 weeks ago
-config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
-hive/20220313/202203131937.VCIbo0U5-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   aad611a868d16cdc16a7d4a764cef955293e47e3
+commit: b36061c2ea5bdacf51305f8bc79f29595b343eb6 regulator: ti-abb: Kconfig=
+: Add helper dependency on COMPILE_TEST
+date:   6 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 6 months ago
+config: arm-randconfig-c002-20220312 (https://download.01.org/0day-ci/archi=
+ve/20220313/202203131744.ts0cBsdO-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
 7382b8f16a65bddac700202924228982f6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D22f7cc7524081bb2bfb2720e43ab9889e2ed5b00
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 22f7cc7524081bb2bfb2720e43ab9889e2ed5b00
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db36061c2ea5bdacf51305f8bc79f29595b343eb6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b36061c2ea5bdacf51305f8bc79f29595b343eb6
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,372 +53,413 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^        ~
-   drivers/gpu/drm/via/via_dma.c:695:2: warning: Value stored to 'tmp_size'=
- is never read [clang-analyzer-deadcode.DeadStores]
-           tmp_size =3D d_siz->size;
-           ^          ~~~~~~~~~~~
-   drivers/gpu/drm/via/via_dma.c:695:2: note: Value stored to 'tmp_size' is=
- never read
-           tmp_size =3D d_siz->size;
-           ^          ~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/nouveau/nvif/object.c:38:48: warning: The left operand o=
-f '=3D=3D' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorR=
-esult]
-           if (size >=3D sizeof(*args) && args->v0.version =3D=3D 0) {
-                                                         ^
-   drivers/gpu/drm/nouveau/nvif/object.c:132:12: note: Calling 'nvif_object=
-_ioctl'
-           int ret =3D nvif_object_ioctl(object, &args, sizeof(args), NULL);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvif/object.c:38:6: note: Left side of '&&' is t=
-rue
-           if (size >=3D sizeof(*args) && args->v0.version =3D=3D 0) {
-               ^
-   drivers/gpu/drm/nouveau/nvif/object.c:38:48: note: The left operand of '=
-=3D=3D' is a garbage value
-           if (size >=3D sizeof(*args) && args->v0.version =3D=3D 0) {
-                                        ~~~~~~~~~~~~~~~~ ^
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/net/can/softing/softing_fw.c:531:3: warning: Value stored to 'er=
-ror_reporting' is never read [clang-analyzer-deadcode.DeadStores]
-                   error_reporting +=3D softing_error_reporting(netdev);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/softing/softing_fw.c:531:3: note: Value stored to 'error=
-_reporting' is never read
-                   error_reporting +=3D softing_error_reporting(netdev);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/atom.c:960:2: warning: Value stored to 'dst' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:960:2: note: Value stored to 'dst' is =
-never read
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:979:2: warning: Value stored to 'dst' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:979:2: note: Value stored to 'dst' is =
-never read
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1386:2: warning: Value stored to 'str_=
-off' is never read [clang-analyzer-deadcode.DeadStores]
-           str_off =3D 0;
-           ^         ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1386:2: note: Value stored to 'str_off=
-' is never read
-           str_off =3D 0;
-           ^         ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1409:2: warning: Value stored to 'off_=
-to_vbios_str' is never read [clang-analyzer-deadcode.DeadStores]
-           off_to_vbios_str =3D 0;
-           ^                  ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1409:2: note: Value stored to 'off_to_=
-vbios_str' is never read
-           off_to_vbios_str =3D 0;
-           ^                  ~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2109:2: warning: Undefined or ga=
-rbage value returned to caller [clang-analyzer-core.uninitialized.UndefRetu=
-rn]
-           return r;
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:460:6: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_TT
-           if (new_mem->mem_type =3D=3D TTM_PL_TT ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:460:6: note: Left side of '||' i=
-s false
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:461:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:460:2: note: Taking false branch
-           if (new_mem->mem_type =3D=3D TTM_PL_TT ||
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:469:19: note: Assuming field 'pi=
-n_count' is <=3D 0
-           if (WARN_ON_ONCE(abo->tbo.pin_count > 0))
-                            ^
-   include/asm-generic/bug.h:179:41: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:469:2: note: Taking false branch
-           if (WARN_ON_ONCE(abo->tbo.pin_count > 0))
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:474:6: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_SYSTEM
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM && bo->ttm =3D=3D NUL=
-L) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:474:41: note: Left side of '&&' =
-is false
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM && bo->ttm =3D=3D NUL=
-L) {
-                                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:478:15: note: Field 'mem_type' i=
-s not equal to TTM_PL_SYSTEM
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                        ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:478:41: note: Left side of '&&' =
-is false
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:484:7: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_TT
-           if ((old_mem->mem_type =3D=3D TTM_PL_TT ||
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:484:7: note: Left side of '||' i=
-s false
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:485:7: note: Assuming the condit=
-ion is false
-                old_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:485:47: note: Left side of '&&' =
-is false
-                old_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) &&
-                                                        ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Assuming the condit=
-ion is false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:498:6: note: Assuming the condit=
-ion is false
-               old_mem->mem_type =3D=3D AMDGPU_PL_GWS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:499:6: note: Assuming the condit=
-ion is false
-               old_mem->mem_type =3D=3D AMDGPU_PL_OA ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:500:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:501:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_GWS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:502:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_OA) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:2: note: Taking false branch
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:508:6: note: Assuming field 'typ=
-e' is not equal to ttm_bo_type_device
-           if (bo->type =3D=3D ttm_bo_type_device &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:508:37: note: Left side of '&&' =
-is false
-           if (bo->type =3D=3D ttm_bo_type_device &&
-                                              ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:517:6: note: Assuming field 'buf=
-fer_funcs_enabled' is true
-           if (adev->mman.buffer_funcs_enabled) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:517:2: note: Taking true branch
-           if (adev->mman.buffer_funcs_enabled) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:518:18: note: Field 'mem_type' i=
-s not equal to TTM_PL_SYSTEM
-                   if (((old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:518:44: note: Left side of '&&' =
-is false
-                   if (((old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                                                            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:520:9: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_VRAM
-                        (old_mem->mem_type =3D=3D TTM_PL_VRAM &&
-
-vim +2109 drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2062  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2063  int amdgpu_fill_buffe=
-r(struct amdgpu_bo *bo,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2064  			uint32_t src_data,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2065  			struct dma_resv *r=
-esv,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2066  			struct dma_fence *=
-*f)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2067  {
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2068  	struct amdgpu_device=
- *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2069  	struct amdgpu_ring *=
-ring =3D adev->mman.buffer_funcs_ring;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2070  	struct dma_fence *fe=
-nce =3D NULL;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2071  	struct amdgpu_res_cu=
-rsor dst;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2072  	int r;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2073  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2074  	if (!adev->mman.buff=
-er_funcs_enabled) {
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2075  		DRM_ERROR("Trying t=
-o clear memory with ring turned off.\n");
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2076  		return -EINVAL;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2077  	}
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2078  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2079  	amdgpu_res_first(bo-=
->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2080  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2081  	mutex_lock(&adev->mm=
-an.gtt_window_lock);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2082  	while (dst.remaining=
-) {
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2083  		struct dma_fence *n=
-ext;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2084  		uint64_t cur_size, =
-to;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2085  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2086  		/* Never fill more =
-than 256MiB at once to avoid timeouts */
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2087  		cur_size =3D min(ds=
-t.size, 256ULL << 20);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2088  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2089  		r =3D amdgpu_ttm_ma=
-p_buffer(&bo->tbo, bo->tbo.resource, &dst,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2090  					  1, ring, false=
-, &cur_size, &to);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2091  		if (r)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2092  			goto error;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2093  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2094  		r =3D amdgpu_ttm_fi=
-ll_mem(ring, src_data, to, cur_size, resv,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2095  					&next, true);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2096  		if (r)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2097  			goto error;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2098  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2099  		dma_fence_put(fence=
+                   ^
+   net/sched/sch_qfq.c:1116:14: note: Assuming field 'qlen' is not equal to=
+ 0
+                   } else if (sch->q.qlen =3D=3D 0) { /* no aggregate to se=
+rve */
+                              ^~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:1116:10: note: Taking false branch
+                   } else if (sch->q.qlen =3D=3D 0) { /* no aggregate to se=
+rve */
+                          ^
+   net/sched/sch_qfq.c:1125:3: note: Null pointer value stored to 'in_serv_=
+agg'
+                   in_serv_agg =3D q->in_serv_agg =3D qfq_choose_next_agg(q=
 );
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2100  		fence =3D next;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2101  =
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:1126:22: note: Passing null pointer value via 1st pa=
+rameter 'agg'
+                   skb =3D qfq_peek_skb(in_serv_agg, &cl, &len);
+                                      ^~~~~~~~~~~
+   net/sched/sch_qfq.c:1126:9: note: Calling 'qfq_peek_skb'
+                   skb =3D qfq_peek_skb(in_serv_agg, &cl, &len);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:994:8: note: Access to field 'next' results in a der=
+eference of a null pointer
+           *cl =3D list_first_entry(&agg->active, struct qfq_class, alist);
+                 ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:494:25: note: expanded from macro 'container_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   net/sched/sch_qfq.c:1140:15: warning: Access to field 'budget' results i=
+n a dereference of a null pointer (loaded from variable 'in_serv_agg') [cla=
+ng-analyzer-core.NullDereference]
+           if (unlikely(in_serv_agg->budget < len))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/sch_qfq.c:1085:6: note: Assuming 'in_serv_agg' is not equal to=
+ NULL
+           if (in_serv_agg =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:1085:2: note: Taking false branch
+           if (in_serv_agg =3D=3D NULL)
+           ^
+   net/sched/sch_qfq.c:1088:6: note: Assuming the condition is false
+           if (!list_empty(&in_serv_agg->active))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:1088:2: note: Taking false branch
+           if (!list_empty(&in_serv_agg->active))
+           ^
+   net/sched/sch_qfq.c:1096:6: note: 'len' is equal to 0
+           if (len =3D=3D 0 || in_serv_agg->budget < len) {
+               ^~~
+   net/sched/sch_qfq.c:1096:15: note: Left side of '||' is true
+           if (len =3D=3D 0 || in_serv_agg->budget < len) {
+                        ^
+   net/sched/sch_qfq.c:1103:7: note: Assuming the condition is true
+                   if (!list_empty(&in_serv_agg->active)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:1103:3: note: Taking true branch
+                   if (!list_empty(&in_serv_agg->active)) {
+                   ^
+   net/sched/sch_qfq.c:1125:3: note: Null pointer value stored to 'in_serv_=
+agg'
+                   in_serv_agg =3D q->in_serv_agg =3D qfq_choose_next_agg(q=
+);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_qfq.c:1128:6: note: Assuming 'skb' is non-null
+           if (!skb)
+               ^~~~
+   net/sched/sch_qfq.c:1128:2: note: Taking false branch
+           if (!skb)
+           ^
+   net/sched/sch_qfq.c:1140:15: note: Access to field 'budget' results in a=
+ dereference of a null pointer (loaded from variable 'in_serv_agg')
+           if (unlikely(in_serv_agg->budget < len))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/regulator/ti-abb-regulator.c:485:15: warning: Division by zero [=
+clang-analyzer-core.DivideZero]
+           cycle_rate =3D DIV_ROUND_CLOSEST(clock_cycles * 10, clk_rate);
+                        ^
+   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
+                   (((__x) + ((__d) / 2)) / (__d)) :       \
+                    ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   drivers/regulator/ti-abb-regulator.c:427:8: note: Calling 'of_property_r=
+ead_u32'
+           ret =3D of_property_read_u32(dev->of_node, pname, &abb->settling=
+_time);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   include/linux/of.h:1256:9: note: Calling 'of_property_read_u32_array'
+           return of_property_read_u32_array(np, propname, out_value, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:504:12: note: Value assigned to field 'settling_time'=
+, which participates in a condition later
+           int ret =3D of_property_read_variable_u32_array(np, propname, ou=
+t_values,
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   include/linux/of.h:506:6: note: Assuming 'ret' is >=3D 0
+           if (ret >=3D 0)
+               ^~~~~~~~
+   include/linux/of.h:506:2: note: Taking true branch
+           if (ret >=3D 0)
+           ^
+   include/linux/of.h:507:3: note: Returning zero, which participates in a =
+condition later
+                   return 0;
+                   ^~~~~~~~
+   include/linux/of.h:1256:9: note: Returning from 'of_property_read_u32_ar=
+ray'
+           return of_property_read_u32_array(np, propname, out_value, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:1256:2: note: Returning zero, which participates in a=
+ condition later
+           return of_property_read_u32_array(np, propname, out_value, 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:427:8: note: Returning from 'of_pro=
+perty_read_u32'
+           ret =3D of_property_read_u32(dev->of_node, pname, &abb->settling=
+_time);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/regulator/ti-abb-regulator.c:428:6: note: 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/regulator/ti-abb-regulator.c:428:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/regulator/ti-abb-regulator.c:434:6: note: Assuming field 'settli=
+ng_time' is not equal to 0
+           if (!abb->settling_time) {
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:434:2: note: Taking false branch
+           if (!abb->settling_time) {
+           ^
+   drivers/regulator/ti-abb-regulator.c:440:8: note: Calling 'of_property_r=
+ead_u32'
+           ret =3D of_property_read_u32(dev->of_node, pname, &clock_cycles);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:1256:9: note: Calling 'of_property_read_u32_array'
+           return of_property_read_u32_array(np, propname, out_value, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:504:12: note: Value assigned to 'clock_cycles', which=
+ participates in a condition later
+           int ret =3D of_property_read_variable_u32_array(np, propname, ou=
+t_values,
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   include/linux/of.h:506:6: note: Assuming 'ret' is >=3D 0
+           if (ret >=3D 0)
+               ^~~~~~~~
+   include/linux/of.h:506:2: note: Taking true branch
+           if (ret >=3D 0)
+           ^
+   include/linux/of.h:507:3: note: Returning zero, which participates in a =
+condition later
+                   return 0;
+                   ^~~~~~~~
+   include/linux/of.h:1256:9: note: Returning from 'of_property_read_u32_ar=
+ray'
+           return of_property_read_u32_array(np, propname, out_value, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:1256:2: note: Returning zero, which participates in a=
+ condition later
+           return of_property_read_u32_array(np, propname, out_value, 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:440:8: note: Returning from 'of_pro=
+perty_read_u32'
+           ret =3D of_property_read_u32(dev->of_node, pname, &clock_cycles);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:441:6: note: 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/regulator/ti-abb-regulator.c:441:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/regulator/ti-abb-regulator.c:446:6: note: Assuming 'clock_cycles=
+' is not equal to 0
+           if (!clock_cycles) {
+               ^~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:446:2: note: Taking false branch
+           if (!clock_cycles) {
+           ^
+   drivers/regulator/ti-abb-regulator.c:452:6: note: Calling 'IS_ERR'
+           if (IS_ERR(abb->clk)) {
+               ^~~~~~~~~~~~~~~~
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:452:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(abb->clk)) {
+               ^~~~~~~~~~~~~~~~
+   drivers/regulator/ti-abb-regulator.c:452:2: note: Taking false branch
+           if (IS_ERR(abb->clk)) {
+           ^
+   drivers/regulator/ti-abb-regulator.c:482:13: note: Left side of '||' is =
+true
+           clk_rate =3D DIV_ROUND_CLOSEST(clk_get_rate(abb->clk), 1000000);
+                      ^
+   include/linux/math.h:89:23: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           (((typeof(x))-1) > 0 ||                         \
 
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2102  		amdgpu_res_next(&ds=
-t, cur_size);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2103  	}
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2104  error:
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2105  	mutex_unlock(&adev->=
-mman.gtt_window_lock);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2106  	if (f)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2107  		*f =3D dma_fence_ge=
-t(fence);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2108  	dma_fence_put(fence);
-59b4a97742888d Flora Cui       2016-07-19 @2109  	return r;
-59b4a97742888d Flora Cui       2016-07-19  2110  }
-59b4a97742888d Flora Cui       2016-07-19  2111  =
+vim +485 drivers/regulator/ti-abb-regulator.c
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  410  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  411  /**
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  412   * ti_abb_init_timings()=
+ - setup ABB clock timing for the current platform
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  413   * @dev:	device
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  414   * @abb:	pointer to the =
+abb instance
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  415   *
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  416   * Return: 0 if timing i=
+s updated, else returns error result.
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  417   */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  418  static int ti_abb_init_t=
+imings(struct device *dev, struct ti_abb *abb)
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  419  {
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  420  	u32 clock_cycles;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  421  	u32 clk_rate, sr2_wt_cn=
+t_val, cycle_rate;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  422  	const struct ti_abb_reg=
+ *regs =3D abb->regs;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  423  	int ret;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  424  	char *pname =3D "ti,set=
+tling-time";
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  425  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  426  	/* read device tree pro=
+perties */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  427  	ret =3D of_property_rea=
+d_u32(dev->of_node, pname, &abb->settling_time);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  428  	if (ret) {
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  429  		dev_err(dev, "Unable t=
+o get property '%s'(%d)\n", pname, ret);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  430  		return ret;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  431  	}
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  432  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  433  	/* ABB LDO cannot be se=
+ttle in 0 time */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  434  	if (!abb->settling_time=
+) {
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  435  		dev_err(dev, "Invalid =
+property:'%s' set as 0!\n", pname);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  436  		return -EINVAL;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  437  	}
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  438  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  439  	pname =3D "ti,clock-cyc=
+les";
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  440  	ret =3D of_property_rea=
+d_u32(dev->of_node, pname, &clock_cycles);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  441  	if (ret) {
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  442  		dev_err(dev, "Unable t=
+o get property '%s'(%d)\n", pname, ret);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  443  		return ret;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  444  	}
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  445  	/* ABB LDO cannot be se=
+ttle in 0 clock cycles */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  446  	if (!clock_cycles) {
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  447  		dev_err(dev, "Invalid =
+property:'%s' set as 0!\n", pname);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  448  		return -EINVAL;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  449  	}
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  450  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  451  	abb->clk =3D devm_clk_g=
+et(dev, NULL);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  452  	if (IS_ERR(abb->clk)) {
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  453  		ret =3D PTR_ERR(abb->c=
+lk);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  454  		dev_err(dev, "%s: Unab=
+le to get clk(%d)\n", __func__, ret);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  455  		return ret;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  456  	}
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  457  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  458  	/*
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  459  	 * SR2_WTCNT_VALUE is t=
+he settling time for the ABB ldo after a
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  460  	 * transition and must =
+be programmed with the correct time at boot.
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  461  	 * The value programmed=
+ into the register is the number of SYS_CLK
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  462  	 * clock cycles that ma=
+tch a given wall time profiled for the ldo.
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  463  	 * This value depends o=
+n:
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  464  	 * settling time of ldo=
+ in micro-seconds (varies per OMAP family)
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  465  	 * # of clock cycles pe=
+r SYS_CLK period (varies per OMAP family)
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  466  	 * the SYS_CLK frequenc=
+y in MHz (varies per board)
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  467  	 * The formula is:
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  468  	 *
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  469  	 *                     =
+ ldo settling time (in micro-seconds)
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  470  	 * SR2_WTCNT_VALUE =3D =
+------------------------------------------
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  471  	 *                   (#=
+ system clock cycles) * (sys_clk period)
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  472  	 *
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  473  	 * Put another way:
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  474  	 *
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  475  	 * SR2_WTCNT_VALUE =3D =
+settling time / (# SYS_CLK cycles / SYS_CLK rate))
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  476  	 *
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  477  	 * To avoid dividing by=
+ zero multiply both "# clock cycles" and
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  478  	 * "settling time" by 1=
+0 such that the final result is the one we want.
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  479  	 */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  480  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  481  	/* Convert SYS_CLK rate=
+ to MHz & prevent divide by zero */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  482  	clk_rate =3D DIV_ROUND_=
+CLOSEST(clk_get_rate(abb->clk), 1000000);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  483  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  484  	/* Calculate cycle rate=
+ */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02 @485  	cycle_rate =3D DIV_ROUN=
+D_CLOSEST(clock_cycles * 10, clk_rate);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  486  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  487  	/* Calulate SR2_WTCNT_V=
+ALUE */
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  488  	sr2_wt_cnt_val =3D DIV_=
+ROUND_CLOSEST(abb->settling_time * 10, cycle_rate);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  489  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  490  	dev_dbg(dev, "%s: Clk_r=
+ate=3D%ld, sr2_cnt=3D0x%08x\n", __func__,
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  491  		clk_get_rate(abb->clk)=
+, sr2_wt_cnt_val);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  492  =
+
+6127daa85094e2 Nishanth Menon     2014-01-23  493  	ti_abb_rmw(regs->sr2_wt=
+cnt_value_mask, sr2_wt_cnt_val, abb->setup_reg);
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  494  =
+
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  495  	return 0;
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  496  }
+40b1936efebdb9 Andrii.Tseglytskyi 2013-05-02  497  =
 
 
-:::::: The code at line 2109 was first introduced by commit
-:::::: 59b4a97742888d9d3c4daa96bd15157ebd496f81 drm/amdgpu: implement amdgp=
-u_fill_buffer()
+:::::: The code at line 485 was first introduced by commit
+:::::: 40b1936efebdb9c31d9ed6fe59055f71ea366509 regulator: Introduce TI Ada=
+ptive Body Bias(ABB) on-chip LDO driver
 
-:::::: TO: Flora Cui <Flora.Cui@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Andrii.Tseglytskyi <andrii.tseglytskyi@ti.com>
+:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4116245665787310186==--
+--===============8423059520159771447==--
 
