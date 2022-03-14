@@ -1,161 +1,78 @@
-Content-Type: multipart/mixed; boundary="===============3681736417639243061=="
+Content-Type: multipart/mixed; boundary="===============0041627191431546855=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 6856/11953] drivers/bus/imx-weim.c:355:18-21: ERROR: pdev is NULL but dereferenced.
-Date: Mon, 14 Mar 2022 09:48:38 +0800
-Message-ID: <202203140932.93WUreep-lkp@intel.com>
+Subject: [jpirko-mlxsw:combined_queue 1/79] net/netlink/af_netlink.c:164:19: warning: Shifting signed 32-bit value by 31 bits is undefined behaviour. See condition at line 162. [shiftTooManyBitsSigned]
+Date: Mon, 14 Mar 2022 08:57:19 +0800
+Message-ID: <202203140822.KLiAoEl9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3681736417639243061==
+--===============0041627191431546855==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ivan Bornyakov <i.bornyakov@metrotek.ru>
-CC: Shawn Guo <shawnguo@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Petr Machata <petrm@nvidia.com>
+CC: Ido Schimmel <idosch@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   71941773e143369a73c9c4a3b62fbb60736a1182
-commit: e6cb5408289f4202f4088731a4ac98c7ffaedb9d [6856/11953] bus: imx-weim=
-: add DT overlay support for WEIM bus
-:::::: branch date: 4 days ago
-:::::: commit date: 3 weeks ago
-config: arm64-randconfig-c003-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220314/202203140932.93WUreep-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   a0b1c3a5cea0369e9eeb4307b520ced5440f7b13
+commit: f28a2bcf94c86fa4686e72a37d467b6f5311a69d [1/79] af_netlink: Fix shi=
+ft out of bounds in group mask calculation
+:::::: branch date: 7 hours ago
+:::::: commit date: 13 hours ago
+compiler: xtensa-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/bus/imx-weim.c:355:18-21: ERROR: pdev is NULL but dereferenced.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +355 drivers/bus/imx-weim.c
+   net/netlink/af_netlink.c:1387:2: warning: Non-boolean value returned fro=
+m function returning bool [returnNonBoolInBooleanFunction]
+    return nlk->flags & NETLINK_F_STRICT_CHK;
+    ^
+>> net/netlink/af_netlink.c:164:19: warning: Shifting signed 32-bit value b=
+y 31 bits is undefined behaviour. See condition at line 162. [shiftTooManyB=
+itsSigned]
+    return group ? 1 << (group - 1) : 0;
+                     ^
+   net/netlink/af_netlink.c:162:12: note: Assuming that condition 'group>32=
+' is not redundant
+    if (group > 32)
+              ^
+   net/netlink/af_netlink.c:164:19: note: Shift
+    return group ? 1 << (group - 1) : 0;
+                     ^
 
-85bf6d4e4b100e Huang Shijie   2013-05-28  302  =
+vim +164 net/netlink/af_netlink.c
 
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  303  #if IS_ENABLED(CONFIG_OF_DYN=
-AMIC)
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  304  static int of_weim_notify(st=
-ruct notifier_block *nb, unsigned long action,
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  305  			  void *arg)
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  306  {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  307  	const struct imx_weim_devty=
-pe *devtype;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  308  	struct of_reconfig_data *rd=
- =3D arg;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  309  	const struct of_device_id *=
-of_id;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  310  	struct platform_device *pde=
-v;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  311  	int ret =3D NOTIFY_OK;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  312  =
+7e3ce05e7f6503 Marcelo Ricardo Leitner 2021-02-03  159  =
 
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  313  	switch (of_reconfig_get_sta=
-te_change(action, rd)) {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  314  	case OF_RECONFIG_CHANGE_ADD:
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  315  		of_id =3D of_match_node(we=
-im_id_table, rd->dn->parent);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  316  		if (!of_id)
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  317  			return NOTIFY_OK; /* not =
-for us */
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  318  =
+b57ef81ff8ffb8 stephen hemminger       2011-12-22  160  static inline u32 n=
+etlink_group_mask(u32 group)
+d629b836d151d4 Patrick McHardy         2005-08-14  161  {
+f28a2bcf94c86f Petr Machata            2022-03-11 @162  	if (group > 32)
+f28a2bcf94c86f Petr Machata            2022-03-11  163  		return 0;
+d629b836d151d4 Patrick McHardy         2005-08-14 @164  	return group ? 1 <=
+< (group - 1) : 0;
+d629b836d151d4 Patrick McHardy         2005-08-14  165  }
+d629b836d151d4 Patrick McHardy         2005-08-14  166  =
 
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  319  		devtype =3D of_id->data;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  320  =
 
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  321  		pdev =3D of_find_device_by=
-_node(rd->dn->parent);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  322  		if (!pdev) {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  323  			pr_err("%s: could not fin=
-d platform device for '%pOF'\n",
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  324  				__func__, rd->dn->parent=
-);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  325  =
+:::::: The code@line 164 was first introduced by commit
+:::::: d629b836d151d43332492651dd841d32e57ebe3b [NETLINK]: Use group number=
+s instead of bitmasks internally
 
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  326  			return notifier_from_errn=
-o(-EINVAL);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  327  		}
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  328  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  329  		if (weim_timing_setup(&pde=
-v->dev, rd->dn, devtype))
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  330  			dev_warn(&pdev->dev,
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  331  				 "Failed to setup timing=
- for '%pOF'\n", rd->dn);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  332  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  333  		if (!of_node_check_flag(rd=
-->dn, OF_POPULATED)) {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  334  			if (!of_platform_device_c=
-reate(rd->dn, NULL, &pdev->dev)) {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  335  				dev_err(&pdev->dev,
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  336  					"Failed to create child=
- device '%pOF'\n",
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  337  					rd->dn);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  338  				ret =3D notifier_from_er=
-rno(-EINVAL);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  339  			}
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  340  		}
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  341  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  342  		platform_device_put(pdev);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  343  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  344  		break;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  345  	case OF_RECONFIG_CHANGE_REM=
-OVE:
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  346  		if (!of_node_check_flag(rd=
-->dn, OF_POPULATED))
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  347  			return NOTIFY_OK; /* devi=
-ce already destroyed */
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  348  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  349  		of_id =3D of_match_node(we=
-im_id_table, rd->dn->parent);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  350  		if (!of_id)
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  351  			return NOTIFY_OK; /* not =
-for us */
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  352  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  353  		pdev =3D of_find_device_by=
-_node(rd->dn);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  354  		if (!pdev) {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22 @355  			dev_err(&pdev->dev,
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  356  				"Could not find platform=
- device for '%pOF'\n",
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  357  				rd->dn);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  358  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  359  			ret =3D notifier_from_err=
-no(-EINVAL);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  360  		} else {
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  361  			of_platform_device_destro=
-y(&pdev->dev, NULL);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  362  			platform_device_put(pdev);
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  363  		}
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  364  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  365  		break;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  366  	default:
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  367  		break;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  368  	}
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  369  =
-
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  370  	return ret;
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  371  }
-e6cb5408289f42 Ivan Bornyakov 2022-02-22  372  =
-
+:::::: TO: Patrick McHardy <kaber@trash.net>
+:::::: CC: David S. Miller <davem@sunset.davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3681736417639243061==--
+--===============0041627191431546855==--
 
