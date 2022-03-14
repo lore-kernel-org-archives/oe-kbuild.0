@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5194428303310418506=="
+Content-Type: multipart/mixed; boundary="===============7764886291789418880=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/vdpa/mlx5/net/mlx5_vnet.c:638 set_umem_size() error: uninitialized symbol 'p_a'.
-Date: Tue, 15 Mar 2022 09:24:12 +0800
-Message-ID: <202203150908.Wto3MD0o-lkp@intel.com>
+Subject: drivers/vdpa/mlx5/net/mlx5_vnet.c:2063 mlx5_vdpa_dev_add() error: uninitialized symbol 'pfmdev'.
+Date: Tue, 15 Mar 2022 06:31:26 +0800
+Message-ID: <202203150629.HhcGYLEN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5194428303310418506==
+--===============7764886291789418880==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,18 +16,18 @@ CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
 TO: Eli Cohen <elic@nvidia.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Saeed Mahameed <saeedm@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   09688c0166e76ce2fb85e86b9d99be8b0084cdf9
-commit: 71ab6a7cfbae27f86a3901daab10bfe13b3a1e3a vdpa/mlx5: Fix possible fa=
-ilure in umem size calculation
-date:   9 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 9 months ago
+commit: 7c9f131f366ab414691907fa0407124ea2b2f3bc {net,vdpa}/mlx5: Configure=
+ interface MAC into mpfs L2 table
+date:   10 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 10 months ago
 config: riscv-randconfig-m031-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220315/202203150908.Wto3MD0o-lkp(a)intel.com/config)
+hive/20220315/202203150629.HhcGYLEN-lkp(a)intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -35,63 +35,140 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/vdpa/mlx5/net/mlx5_vnet.c:638 set_umem_size() error: uninitialized =
-symbol 'p_a'.
-drivers/vdpa/mlx5/net/mlx5_vnet.c:638 set_umem_size() error: uninitialized =
-symbol 'p_b'.
-
-Old smatch warnings:
-drivers/vdpa/mlx5/net/mlx5_vnet.c:715 umem_destroy() error: potentially der=
-eferencing uninitialized 'umem'.
-drivers/vdpa/mlx5/net/mlx5_vnet.c:2058 mlx5_vdpa_dev_add() error: uninitial=
+drivers/vdpa/mlx5/net/mlx5_vnet.c:2063 mlx5_vdpa_dev_add() error: uninitial=
 ized symbol 'pfmdev'.
 
-vim +/p_a +638 drivers/vdpa/mlx5/net/mlx5_vnet.c
+Old smatch warnings:
+drivers/vdpa/mlx5/net/mlx5_vnet.c:638 umem_size() error: uninitialized symb=
+ol 'p_a'.
+drivers/vdpa/mlx5/net/mlx5_vnet.c:638 umem_size() error: uninitialized symb=
+ol 'p_b'.
+drivers/vdpa/mlx5/net/mlx5_vnet.c:720 umem_destroy() error: potentially der=
+eferencing uninitialized 'umem'.
 
-1a86b377aa2147a Eli Cohen 2020-08-04  613  =
+vim +/pfmdev +2063 drivers/vdpa/mlx5/net/mlx5_vnet.c
 
-71ab6a7cfbae27f Eli Cohen 2021-05-30  614  static void set_umem_size(struct=
- mlx5_vdpa_net *ndev, struct mlx5_vdpa_virtqueue *mvq, int num,
-1a86b377aa2147a Eli Cohen 2020-08-04  615  			  struct mlx5_vdpa_umem **ume=
-mp)
-1a86b377aa2147a Eli Cohen 2020-08-04  616  {
-1a86b377aa2147a Eli Cohen 2020-08-04  617  	struct mlx5_core_dev *mdev =3D =
-ndev->mvdev.mdev;
-1a86b377aa2147a Eli Cohen 2020-08-04  618  	int p_a;
-1a86b377aa2147a Eli Cohen 2020-08-04  619  	int p_b;
-1a86b377aa2147a Eli Cohen 2020-08-04  620  =
+58926c8aab104da Eli Cohen       2021-04-08  1994  =
 
-1a86b377aa2147a Eli Cohen 2020-08-04  621  	switch (num) {
-1a86b377aa2147a Eli Cohen 2020-08-04  622  	case 1:
-1a86b377aa2147a Eli Cohen 2020-08-04  623  		p_a =3D MLX5_CAP_DEV_VDPA_EMUL=
-ATION(mdev, umem_1_buffer_param_a);
-1a86b377aa2147a Eli Cohen 2020-08-04  624  		p_b =3D MLX5_CAP_DEV_VDPA_EMUL=
-ATION(mdev, umem_1_buffer_param_b);
-1a86b377aa2147a Eli Cohen 2020-08-04  625  		*umemp =3D &mvq->umem1;
-1a86b377aa2147a Eli Cohen 2020-08-04  626  		break;
-1a86b377aa2147a Eli Cohen 2020-08-04  627  	case 2:
-1a86b377aa2147a Eli Cohen 2020-08-04  628  		p_a =3D MLX5_CAP_DEV_VDPA_EMUL=
-ATION(mdev, umem_2_buffer_param_a);
-1a86b377aa2147a Eli Cohen 2020-08-04  629  		p_b =3D MLX5_CAP_DEV_VDPA_EMUL=
-ATION(mdev, umem_2_buffer_param_b);
-1a86b377aa2147a Eli Cohen 2020-08-04  630  		*umemp =3D &mvq->umem2;
-1a86b377aa2147a Eli Cohen 2020-08-04  631  		break;
-1a86b377aa2147a Eli Cohen 2020-08-04  632  	case 3:
-1a86b377aa2147a Eli Cohen 2020-08-04  633  		p_a =3D MLX5_CAP_DEV_VDPA_EMUL=
-ATION(mdev, umem_3_buffer_param_a);
-1a86b377aa2147a Eli Cohen 2020-08-04  634  		p_b =3D MLX5_CAP_DEV_VDPA_EMUL=
-ATION(mdev, umem_3_buffer_param_b);
-1a86b377aa2147a Eli Cohen 2020-08-04  635  		*umemp =3D &mvq->umem3;
-1a86b377aa2147a Eli Cohen 2020-08-04  636  		break;
-1a86b377aa2147a Eli Cohen 2020-08-04  637  	}
-71ab6a7cfbae27f Eli Cohen 2021-05-30 @638  	(*umemp)->size =3D p_a * mvq->n=
-um_ent + p_b;
-1a86b377aa2147a Eli Cohen 2020-08-04  639  }
-1a86b377aa2147a Eli Cohen 2020-08-04  640  =
+58926c8aab104da Eli Cohen       2021-04-08  1995  static int mlx5_vdpa_dev_=
+add(struct vdpa_mgmt_dev *v_mdev, const char *name)
+1a86b377aa2147a Eli Cohen       2020-08-04  1996  {
+58926c8aab104da Eli Cohen       2021-04-08  1997  	struct mlx5_vdpa_mgmtdev=
+ *mgtdev =3D container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
+1a86b377aa2147a Eli Cohen       2020-08-04  1998  	struct virtio_net_config=
+ *config;
+7c9f131f366ab41 Eli Cohen       2021-04-22  1999  	struct mlx5_core_dev *pf=
+mdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2000  	struct mlx5_vdpa_dev *mv=
+dev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2001  	struct mlx5_vdpa_net *nd=
+ev;
+58926c8aab104da Eli Cohen       2021-04-08  2002  	struct mlx5_core_dev *md=
+ev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2003  	u32 max_vqs;
+1a86b377aa2147a Eli Cohen       2020-08-04  2004  	int err;
+1a86b377aa2147a Eli Cohen       2020-08-04  2005  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2006  	if (mgtdev->ndev)
+58926c8aab104da Eli Cohen       2021-04-08  2007  		return -ENOSPC;
+58926c8aab104da Eli Cohen       2021-04-08  2008  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2009  	mdev =3D mgtdev->madev->=
+mdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2010  	/* we save one virtqueue=
+ for control virtqueue should we require it */
+1a86b377aa2147a Eli Cohen       2020-08-04  2011  	max_vqs =3D MLX5_CAP_DEV=
+_VDPA_EMULATION(mdev, max_num_virtio_queues);
+1a86b377aa2147a Eli Cohen       2020-08-04  2012  	max_vqs =3D min_t(u32, m=
+ax_vqs, MLX5_MAX_SUPPORTED_VQS);
+1a86b377aa2147a Eli Cohen       2020-08-04  2013  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2014  	ndev =3D vdpa_alloc_devi=
+ce(struct mlx5_vdpa_net, mvdev.vdev, mdev->device, &mlx5_vdpa_ops,
+58926c8aab104da Eli Cohen       2021-04-08  2015  				 name);
+1a86b377aa2147a Eli Cohen       2020-08-04  2016  	if (IS_ERR(ndev))
+74c9729dd892a1b Leon Romanovsky 2020-10-04  2017  		return PTR_ERR(ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2018  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2019  	ndev->mvdev.max_vqs =3D =
+max_vqs;
+1a86b377aa2147a Eli Cohen       2020-08-04  2020  	mvdev =3D &ndev->mvdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2021  	mvdev->mdev =3D mdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2022  	init_mvqs(ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2023  	mutex_init(&ndev->resloc=
+k);
+1a86b377aa2147a Eli Cohen       2020-08-04  2024  	config =3D &ndev->config;
+d084d996aaf53c0 Si-Wei Liu      2021-04-08  2025  	err =3D query_mtu(mdev, =
+&ndev->mtu);
+1a86b377aa2147a Eli Cohen       2020-08-04  2026  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2027  		goto err_mtu;
+1a86b377aa2147a Eli Cohen       2020-08-04  2028  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2029  	err =3D mlx5_query_nic_v=
+port_mac_address(mdev, 0, 0, config->mac);
+1a86b377aa2147a Eli Cohen       2020-08-04  2030  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2031  		goto err_mtu;
+1a86b377aa2147a Eli Cohen       2020-08-04  2032  =
+
+7c9f131f366ab41 Eli Cohen       2021-04-22  2033  	if (!is_zero_ether_addr(=
+config->mac)) {
+7c9f131f366ab41 Eli Cohen       2021-04-22  2034  		pfmdev =3D pci_get_drvd=
+ata(pci_physfn(mdev->pdev));
+7c9f131f366ab41 Eli Cohen       2021-04-22  2035  		err =3D mlx5_mpfs_add_m=
+ac(pfmdev, config->mac);
+7c9f131f366ab41 Eli Cohen       2021-04-22  2036  		if (err)
+7c9f131f366ab41 Eli Cohen       2021-04-22  2037  			goto err_mtu;
+7c9f131f366ab41 Eli Cohen       2021-04-22  2038  	}
+7c9f131f366ab41 Eli Cohen       2021-04-22  2039  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2040  	mvdev->vdev.dma_dev =3D =
+mdev->device;
+1a86b377aa2147a Eli Cohen       2020-08-04  2041  	err =3D mlx5_vdpa_alloc_=
+resources(&ndev->mvdev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2042  	if (err)
+7c9f131f366ab41 Eli Cohen       2021-04-22  2043  		goto err_mpfs;
+1a86b377aa2147a Eli Cohen       2020-08-04  2044  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2045  	err =3D alloc_resources(=
+ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2046  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2047  		goto err_res;
+1a86b377aa2147a Eli Cohen       2020-08-04  2048  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2049  	mvdev->vdev.mdev =3D &mg=
+tdev->mgtdev;
+58926c8aab104da Eli Cohen       2021-04-08  2050  	err =3D _vdpa_register_d=
+evice(&mvdev->vdev, 2 * mlx5_vdpa_max_qps(max_vqs));
+1a86b377aa2147a Eli Cohen       2020-08-04  2051  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2052  		goto err_reg;
+1a86b377aa2147a Eli Cohen       2020-08-04  2053  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2054  	mgtdev->ndev =3D ndev;
+74c9729dd892a1b Leon Romanovsky 2020-10-04  2055  	return 0;
+1a86b377aa2147a Eli Cohen       2020-08-04  2056  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2057  err_reg:
+1a86b377aa2147a Eli Cohen       2020-08-04  2058  	free_resources(ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2059  err_res:
+1a86b377aa2147a Eli Cohen       2020-08-04  2060  	mlx5_vdpa_free_resources=
+(&ndev->mvdev);
+7c9f131f366ab41 Eli Cohen       2021-04-22  2061  err_mpfs:
+7c9f131f366ab41 Eli Cohen       2021-04-22  2062  	if (!is_zero_ether_addr(=
+config->mac))
+7c9f131f366ab41 Eli Cohen       2021-04-22 @2063  		mlx5_mpfs_del_mac(pfmde=
+v, config->mac);
+1a86b377aa2147a Eli Cohen       2020-08-04  2064  err_mtu:
+1a86b377aa2147a Eli Cohen       2020-08-04  2065  	mutex_destroy(&ndev->res=
+lock);
+1a86b377aa2147a Eli Cohen       2020-08-04  2066  	put_device(&mvdev->vdev.=
+dev);
+74c9729dd892a1b Leon Romanovsky 2020-10-04  2067  	return err;
+1a86b377aa2147a Eli Cohen       2020-08-04  2068  }
+1a86b377aa2147a Eli Cohen       2020-08-04  2069  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5194428303310418506==--
+--===============7764886291789418880==--
 
