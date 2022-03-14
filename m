@@ -1,174 +1,406 @@
-Content-Type: multipart/mixed; boundary="===============7764886291789418880=="
+Content-Type: multipart/mixed; boundary="===============7680575112530998173=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/vdpa/mlx5/net/mlx5_vnet.c:2063 mlx5_vdpa_dev_add() error: uninitialized symbol 'pfmdev'.
-Date: Tue, 15 Mar 2022 06:31:26 +0800
-Message-ID: <202203150629.HhcGYLEN-lkp@intel.com>
+Subject: fs/xfs/scrub/bmap.c:621:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Tue, 15 Mar 2022 06:00:42 +0800
+Message-ID: <202203150526.Dy4qHmvL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7764886291789418880==
+--===============7680575112530998173==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eli Cohen <elic@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
+TO: Dave Chinner <dchinner@redhat.com>
+CC: Brian Foster <bfoster@redhat.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   09688c0166e76ce2fb85e86b9d99be8b0084cdf9
-commit: 7c9f131f366ab414691907fa0407124ea2b2f3bc {net,vdpa}/mlx5: Configure=
- interface MAC into mpfs L2 table
+commit: 934933c3eec9e4a5826d3d7a47aca0742337fded xfs: convert raw ag walks =
+to use for_each_perag
 date:   10 months ago
 :::::: branch date: 26 hours ago
 :::::: commit date: 10 months ago
-config: riscv-randconfig-m031-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220315/202203150629.HhcGYLEN-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
+config: arm-randconfig-c002-20220308 (https://download.01.org/0day-ci/archi=
+ve/20220315/202203150526.Dy4qHmvL-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D934933c3eec9e4a5826d3d7a47aca0742337fded
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 934933c3eec9e4a5826d3d7a47aca0742337fded
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/vdpa/mlx5/net/mlx5_vnet.c:2063 mlx5_vdpa_dev_add() error: uninitial=
-ized symbol 'pfmdev'.
 
-Old smatch warnings:
-drivers/vdpa/mlx5/net/mlx5_vnet.c:638 umem_size() error: uninitialized symb=
-ol 'p_a'.
-drivers/vdpa/mlx5/net/mlx5_vnet.c:638 umem_size() error: uninitialized symb=
-ol 'p_b'.
-drivers/vdpa/mlx5/net/mlx5_vnet.c:720 umem_destroy() error: potentially der=
-eferencing uninitialized 'umem'.
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/usb/gadget/udc/gr_udc.c:614:9: note: Calling 'gr_setup_out_desc_=
+list'
+                   ret =3D gr_setup_out_desc_list(ep, req, gfp_flags);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/gr_udc.c:482:2: note: Null pointer value stored t=
+o field 'first_desc'
+           req->first_desc =3D NULL; /* Signals that no allocation is done =
+yet */
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/gr_udc.c:485:9: note: Assuming 'bytes_left' is <=
+=3D 0
+           while (bytes_left > 0) {
+                  ^~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/gr_udc.c:485:2: note: Loop condition is false. Ex=
+ecution continues on line 503
+           while (bytes_left > 0) {
+           ^
+   drivers/usb/gadget/udc/gr_udc.c:503:24: note: Access to field 'ctrl' res=
+ults in a dereference of a null pointer (loaded from field 'first_desc')
+           req->first_desc->ctrl |=3D GR_DESC_OUT_CTRL_EN;
+                ~~~~~~~~~~       ^
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/gpu/drm/bridge/analogix/analogix-anx6345.c:387:2: warning: Value=
+ stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+           err =3D anx6345_clear_bits(anx6345->map[I2C_IDX_TXCOM],
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/analogix/analogix-anx6345.c:387:2: note: Value st=
+ored to 'err' is never read
+           err =3D anx6345_clear_bits(anx6345->map[I2C_IDX_TXCOM],
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c:424:2: warning: Value =
+stored to 'reg' is never read [clang-analyzer-deadcode.DeadStores]
+           reg =3D readl(dp->reg_base + ANALOGIX_DP_SYS_CTL_3);
+           ^
+   drivers/gpu/drm/bridge/analogix/analogix_dp_reg.c:424:2: note: Value sto=
+red to 'reg' is never read
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   fs/xfs/xfs_pnfs.c:39:3: warning: Value stored to 'error' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   error =3D break_layout(inode, true);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_pnfs.c:39:3: note: Value stored to 'error' is never read
+                   error =3D break_layout(inode, true);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> fs/xfs/scrub/bmap.c:621:2: warning: Undefined or garbage value returned =
+to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return error;
+           ^      ~~~~~
+   fs/xfs/scrub/bmap.c:578:26: note: Assuming 'whichfork' is not equal to 0
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
+K_PTR'
+           ((w) =3D=3D XFS_DATA_FORK ? \
+            ^~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/bmap.c:578:26: note: '?' condition is false
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
+K_PTR'
+           ((w) =3D=3D XFS_DATA_FORK ? \
+            ^
+   fs/xfs/scrub/bmap.c:578:26: note: Assuming 'whichfork' is equal to 1
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
+RK_PTR'
+                   ((w) =3D=3D XFS_ATTR_FORK ? \
+                    ^~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/bmap.c:578:26: note: '?' condition is true
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(sc->ip, whichfork=
+);
+                                          ^
+   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
+RK_PTR'
+                   ((w) =3D=3D XFS_ATTR_FORK ? \
+                    ^
+   fs/xfs/scrub/bmap.c:582:2: note: 'error' declared without an initial val=
+ue
+           int                     error;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Assuming the condition is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:585:6: note: 'whichfork' is not equal to 2
+               whichfork =3D=3D XFS_COW_FORK ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:584:2: note: Assuming the condition is true
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/xfs/scrub/bmap.c:584:2: note: '?' condition is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:585:6: note: 'whichfork' is not equal to 2
+               whichfork =3D=3D XFS_COW_FORK ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/xfs/scrub/bmap.c:584:6: note: Left side of '||' is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+               ^
+   fs/xfs/scrub/bmap.c:584:2: note: '?' condition is false
+           if (!xfs_sb_version_hasrmapbt(&sc->mp->m_sb) ||
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
 
-vim +/pfmdev +2063 drivers/vdpa/mlx5/net/mlx5_vnet.c
+vim +621 fs/xfs/scrub/bmap.c
 
-58926c8aab104da Eli Cohen       2021-04-08  1994  =
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  571  =
 
-58926c8aab104da Eli Cohen       2021-04-08  1995  static int mlx5_vdpa_dev_=
-add(struct vdpa_mgmt_dev *v_mdev, const char *name)
-1a86b377aa2147a Eli Cohen       2020-08-04  1996  {
-58926c8aab104da Eli Cohen       2021-04-08  1997  	struct mlx5_vdpa_mgmtdev=
- *mgtdev =3D container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
-1a86b377aa2147a Eli Cohen       2020-08-04  1998  	struct virtio_net_config=
- *config;
-7c9f131f366ab41 Eli Cohen       2021-04-22  1999  	struct mlx5_core_dev *pf=
-mdev;
-1a86b377aa2147a Eli Cohen       2020-08-04  2000  	struct mlx5_vdpa_dev *mv=
-dev;
-1a86b377aa2147a Eli Cohen       2020-08-04  2001  	struct mlx5_vdpa_net *nd=
-ev;
-58926c8aab104da Eli Cohen       2021-04-08  2002  	struct mlx5_core_dev *md=
-ev;
-1a86b377aa2147a Eli Cohen       2020-08-04  2003  	u32 max_vqs;
-1a86b377aa2147a Eli Cohen       2020-08-04  2004  	int err;
-1a86b377aa2147a Eli Cohen       2020-08-04  2005  =
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  572  /* Make sure each rmap h=
+as a corresponding bmbt entry. */
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  573  STATIC int
+c517b3aa02cff1d Darrick J. Wong   2018-07-19  574  xchk_bmap_check_rmaps(
+1d8a748a8aa94a7 Darrick J. Wong   2018-07-19  575  	struct xfs_scrub	*sc,
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  576  	int			whichfork)
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  577  {
+daf83964a3681cf Christoph Hellwig 2020-05-18  578  	struct xfs_ifork	*ifp =
+=3D XFS_IFORK_PTR(sc->ip, whichfork);
+934933c3eec9e4a Dave Chinner      2021-06-02  579  	struct xfs_perag	*pag;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  580  	xfs_agnumber_t		agno;
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  581  	bool			zero_size;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  582  	int			error;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  583  =
 
-58926c8aab104da Eli Cohen       2021-04-08  2006  	if (mgtdev->ndev)
-58926c8aab104da Eli Cohen       2021-04-08  2007  		return -ENOSPC;
-58926c8aab104da Eli Cohen       2021-04-08  2008  =
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  584  	if (!xfs_sb_version_has=
+rmapbt(&sc->mp->m_sb) ||
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  585  	    whichfork =3D=3D XF=
+S_COW_FORK ||
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  586  	    (sc->sm->sm_flags &=
+ XFS_SCRUB_OFLAG_CORRUPT))
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  587  		return 0;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  588  =
 
-58926c8aab104da Eli Cohen       2021-04-08  2009  	mdev =3D mgtdev->madev->=
-mdev;
-1a86b377aa2147a Eli Cohen       2020-08-04  2010  	/* we save one virtqueue=
- for control virtqueue should we require it */
-1a86b377aa2147a Eli Cohen       2020-08-04  2011  	max_vqs =3D MLX5_CAP_DEV=
-_VDPA_EMULATION(mdev, max_num_virtio_queues);
-1a86b377aa2147a Eli Cohen       2020-08-04  2012  	max_vqs =3D min_t(u32, m=
-ax_vqs, MLX5_MAX_SUPPORTED_VQS);
-1a86b377aa2147a Eli Cohen       2020-08-04  2013  =
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  589  	/* Don't support realti=
+me rmap checks yet. */
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  590  	if (XFS_IS_REALTIME_INO=
+DE(sc->ip) && whichfork =3D=3D XFS_DATA_FORK)
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  591  		return 0;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  592  =
 
-1a86b377aa2147a Eli Cohen       2020-08-04  2014  	ndev =3D vdpa_alloc_devi=
-ce(struct mlx5_vdpa_net, mvdev.vdev, mdev->device, &mlx5_vdpa_ops,
-58926c8aab104da Eli Cohen       2021-04-08  2015  				 name);
-1a86b377aa2147a Eli Cohen       2020-08-04  2016  	if (IS_ERR(ndev))
-74c9729dd892a1b Leon Romanovsky 2020-10-04  2017  		return PTR_ERR(ndev);
-1a86b377aa2147a Eli Cohen       2020-08-04  2018  =
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  593  	ASSERT(XFS_IFORK_PTR(sc=
+->ip, whichfork) !=3D NULL);
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  594  =
 
-1a86b377aa2147a Eli Cohen       2020-08-04  2019  	ndev->mvdev.max_vqs =3D =
-max_vqs;
-1a86b377aa2147a Eli Cohen       2020-08-04  2020  	mvdev =3D &ndev->mvdev;
-1a86b377aa2147a Eli Cohen       2020-08-04  2021  	mvdev->mdev =3D mdev;
-1a86b377aa2147a Eli Cohen       2020-08-04  2022  	init_mvqs(ndev);
-1a86b377aa2147a Eli Cohen       2020-08-04  2023  	mutex_init(&ndev->resloc=
-k);
-1a86b377aa2147a Eli Cohen       2020-08-04  2024  	config =3D &ndev->config;
-d084d996aaf53c0 Si-Wei Liu      2021-04-08  2025  	err =3D query_mtu(mdev, =
-&ndev->mtu);
-1a86b377aa2147a Eli Cohen       2020-08-04  2026  	if (err)
-1a86b377aa2147a Eli Cohen       2020-08-04  2027  		goto err_mtu;
-1a86b377aa2147a Eli Cohen       2020-08-04  2028  =
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  595  	/*
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  596  	 * Only do this for com=
+plex maps that are in btree format, or for
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  597  	 * situations where we =
+would seem to have a size but zero extents.
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  598  	 * The inode repair cod=
+e can zap broken iforks, which means we have
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  599  	 * to flag this bmap as=
+ corrupt if there are rmaps that need to be
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  600  	 * reattached.
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  601  	 */
+f7e67b20ecbbcb9 Christoph Hellwig 2020-05-18  602  =
 
-1a86b377aa2147a Eli Cohen       2020-08-04  2029  	err =3D mlx5_query_nic_v=
-port_mac_address(mdev, 0, 0, config->mac);
-1a86b377aa2147a Eli Cohen       2020-08-04  2030  	if (err)
-1a86b377aa2147a Eli Cohen       2020-08-04  2031  		goto err_mtu;
-1a86b377aa2147a Eli Cohen       2020-08-04  2032  =
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  603  	if (whichfork =3D=3D XF=
+S_DATA_FORK)
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  604  		zero_size =3D i_size_r=
+ead(VFS_I(sc->ip)) =3D=3D 0;
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  605  	else
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  606  		zero_size =3D false;
+5fd68bdb5a87c92 Darrick J. Wong   2020-05-16  607  =
 
-7c9f131f366ab41 Eli Cohen       2021-04-22  2033  	if (!is_zero_ether_addr(=
-config->mac)) {
-7c9f131f366ab41 Eli Cohen       2021-04-22  2034  		pfmdev =3D pci_get_drvd=
-ata(pci_physfn(mdev->pdev));
-7c9f131f366ab41 Eli Cohen       2021-04-22  2035  		err =3D mlx5_mpfs_add_m=
-ac(pfmdev, config->mac);
-7c9f131f366ab41 Eli Cohen       2021-04-22  2036  		if (err)
-7c9f131f366ab41 Eli Cohen       2021-04-22  2037  			goto err_mtu;
-7c9f131f366ab41 Eli Cohen       2021-04-22  2038  	}
-7c9f131f366ab41 Eli Cohen       2021-04-22  2039  =
+f7e67b20ecbbcb9 Christoph Hellwig 2020-05-18  608  	if (ifp->if_format !=3D=
+ XFS_DINODE_FMT_BTREE &&
+daf83964a3681cf Christoph Hellwig 2020-05-18  609  	    (zero_size || ifp->=
+if_nextents > 0))
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  610  		return 0;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  611  =
 
-1a86b377aa2147a Eli Cohen       2020-08-04  2040  	mvdev->vdev.dma_dev =3D =
-mdev->device;
-1a86b377aa2147a Eli Cohen       2020-08-04  2041  	err =3D mlx5_vdpa_alloc_=
-resources(&ndev->mvdev);
-1a86b377aa2147a Eli Cohen       2020-08-04  2042  	if (err)
-7c9f131f366ab41 Eli Cohen       2021-04-22  2043  		goto err_mpfs;
-1a86b377aa2147a Eli Cohen       2020-08-04  2044  =
-
-1a86b377aa2147a Eli Cohen       2020-08-04  2045  	err =3D alloc_resources(=
-ndev);
-1a86b377aa2147a Eli Cohen       2020-08-04  2046  	if (err)
-1a86b377aa2147a Eli Cohen       2020-08-04  2047  		goto err_res;
-1a86b377aa2147a Eli Cohen       2020-08-04  2048  =
-
-58926c8aab104da Eli Cohen       2021-04-08  2049  	mvdev->vdev.mdev =3D &mg=
-tdev->mgtdev;
-58926c8aab104da Eli Cohen       2021-04-08  2050  	err =3D _vdpa_register_d=
-evice(&mvdev->vdev, 2 * mlx5_vdpa_max_qps(max_vqs));
-1a86b377aa2147a Eli Cohen       2020-08-04  2051  	if (err)
-1a86b377aa2147a Eli Cohen       2020-08-04  2052  		goto err_reg;
-1a86b377aa2147a Eli Cohen       2020-08-04  2053  =
-
-58926c8aab104da Eli Cohen       2021-04-08  2054  	mgtdev->ndev =3D ndev;
-74c9729dd892a1b Leon Romanovsky 2020-10-04  2055  	return 0;
-1a86b377aa2147a Eli Cohen       2020-08-04  2056  =
-
-1a86b377aa2147a Eli Cohen       2020-08-04  2057  err_reg:
-1a86b377aa2147a Eli Cohen       2020-08-04  2058  	free_resources(ndev);
-1a86b377aa2147a Eli Cohen       2020-08-04  2059  err_res:
-1a86b377aa2147a Eli Cohen       2020-08-04  2060  	mlx5_vdpa_free_resources=
-(&ndev->mvdev);
-7c9f131f366ab41 Eli Cohen       2021-04-22  2061  err_mpfs:
-7c9f131f366ab41 Eli Cohen       2021-04-22  2062  	if (!is_zero_ether_addr(=
-config->mac))
-7c9f131f366ab41 Eli Cohen       2021-04-22 @2063  		mlx5_mpfs_del_mac(pfmde=
-v, config->mac);
-1a86b377aa2147a Eli Cohen       2020-08-04  2064  err_mtu:
-1a86b377aa2147a Eli Cohen       2020-08-04  2065  	mutex_destroy(&ndev->res=
-lock);
-1a86b377aa2147a Eli Cohen       2020-08-04  2066  	put_device(&mvdev->vdev.=
-dev);
-74c9729dd892a1b Leon Romanovsky 2020-10-04  2067  	return err;
-1a86b377aa2147a Eli Cohen       2020-08-04  2068  }
-1a86b377aa2147a Eli Cohen       2020-08-04  2069  =
+934933c3eec9e4a Dave Chinner      2021-06-02  612  	for_each_perag(sc->mp, =
+agno, pag) {
+934933c3eec9e4a Dave Chinner      2021-06-02  613  		error =3D xchk_bmap_ch=
+eck_ag_rmaps(sc, whichfork, pag->pag_agno);
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  614  		if (error)
+934933c3eec9e4a Dave Chinner      2021-06-02  615  			break;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  616  		if (sc->sm->sm_flags &=
+ XFS_SCRUB_OFLAG_CORRUPT)
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  617  			break;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  618  	}
+934933c3eec9e4a Dave Chinner      2021-06-02  619  	if (pag)
+934933c3eec9e4a Dave Chinner      2021-06-02  620  		xfs_perag_put(pag);
+934933c3eec9e4a Dave Chinner      2021-06-02 @621  	return error;
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  622  }
+5e777b62b0bcb64 Darrick J. Wong   2018-03-23  623  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7764886291789418880==--
+--===============7680575112530998173==--
 
