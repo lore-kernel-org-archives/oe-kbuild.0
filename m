@@ -1,65 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============1053822274237322349=="
+Content-Type: multipart/mixed; boundary="===============1038026776481252642=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 118/346] fs/xfs/xfs_buf.c:2495 xfs_buftarg_nr_sectors() warn: bitwise AND condition is false here
-Date: Fri, 18 Mar 2022 22:53:27 +0800
-Message-ID: <202203182211.ZToeiUKO-lkp@intel.com>
+Subject: [trondmy-nfs-2.6:linux-next 59/66] net/sunrpc/xprt.c:1690:18-28: ERROR: function xprt_dynamic_alloc_slot called on line 1728 inside lock on line 1722 but uses GFP_KERNEL
+Date: Mon, 14 Mar 2022 11:41:33 +0800
+Message-ID: <202203141129.Lt2sd2kq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1053822274237322349==
+--===============1038026776481252642==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+TO: NeilBrown <neilb@suse.de>
+CC: Trond Myklebust <trond.myklebust@hammerspace.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t vectorized-scrub
-head:   37f1eaa855b8115b247530a5e8081189a09db2de
-commit: d3f41663fd239d8c9cc08e903657993c7b230e49 [118/346] xfs: support in-=
-memory btrees
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
-config: openrisc-randconfig-m031-20220317 (https://download.01.org/0day-ci/=
-archive/20220318/202203182211.ZToeiUKO-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+tree:   git://git.linux-nfs.org/projects/trondmy/nfs-2.6.git linux-next
+head:   693486d5f8951780a9bb31f7fe935171a80010e4
+commit: a721035477fb5fb8abc738fbe410b07c12af3dc5 [59/66] SUNRPC/xprt: async=
+ tasks mustn't block waiting for memory
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/2022031=
+4/202203141129.Lt2sd2kq-lkp(a)intel.com/config)
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-fs/xfs/xfs_buf.c:2495 xfs_buftarg_nr_sectors() warn: bitwise AND condition =
-is false here
 
-Old smatch warnings:
-fs/xfs/xfs_buf.c:863 xfs_buf_readahead_map() warn: bitwise AND condition is=
- false here
-fs/xfs/xfs_buf.c:1605 _xfs_buf_ioapply() warn: bitwise AND condition is fal=
-se here
-fs/xfs/xfs_buf.c:1962 xfs_free_buftarg() warn: bitwise AND condition is fal=
-se here
+cocci warnings: (new ones prefixed by >>)
+>> net/sunrpc/xprt.c:1690:18-28: ERROR: function xprt_dynamic_alloc_slot ca=
+lled on line 1728 inside lock on line 1722 but uses GFP_KERNEL
 
-vim +2495 fs/xfs/xfs_buf.c
-
-d3f41663fd239d Darrick J. Wong 2022-01-06  2489  =
-
-d3f41663fd239d Darrick J. Wong 2022-01-06  2490  /* Return the number of se=
-ctors for a buffer target. */
-d3f41663fd239d Darrick J. Wong 2022-01-06  2491  xfs_daddr_t
-d3f41663fd239d Darrick J. Wong 2022-01-06  2492  xfs_buftarg_nr_sectors(
-d3f41663fd239d Darrick J. Wong 2022-01-06  2493  	struct xfs_buftarg	*btp)
-d3f41663fd239d Darrick J. Wong 2022-01-06  2494  {
-d3f41663fd239d Darrick J. Wong 2022-01-06 @2495  	if (btp->bt_flags & XFS_B=
-UFTARG_IN_MEMORY)
+Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1053822274237322349==--
+--===============1038026776481252642==--
 
