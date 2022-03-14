@@ -1,613 +1,300 @@
-Content-Type: multipart/mixed; boundary="===============6046114624371651638=="
+Content-Type: multipart/mixed; boundary="===============2671375051028670148=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hare-scsi-devel:tls-upcall.v4 121/156] net/tls/af_tlsh.c:640:6: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Mon, 14 Mar 2022 11:10:41 +0800
-Message-ID: <202203141106.9fgCAlQD-lkp@intel.com>
+Subject: Re: [PATCH 2/2] fbdev: Fix cfb_imageblit() for arbitrary image widths
+Date: Mon, 14 Mar 2022 11:10:37 +0800
+Message-ID: <202203141119.bZSAwA1k-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6046114624371651638==
+--===============2671375051028670148==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Chuck Lever <chuck.lever@oracle.com>
-CC: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20220313192952.12058-3-tzimmermann@suse.de>
+References: <20220313192952.12058-3-tzimmermann@suse.de>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: daniel(a)ffwll.ch
+TO: deller(a)gmx.de
+TO: m.szyprowski(a)samsung.com
+TO: geert(a)linux-m68k.org
+TO: javierm(a)redhat.com
+TO: sam(a)ravnborg.org
+CC: linux-fbdev(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
+CC: Thomas Zimmermann <tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git=
- tls-upcall.v4
-head:   d2416ecdb6b03fc2e4aa40b20cdf919322713224
-commit: 33ec82590b0b919215a255fb431d661be4807b45 [121/156] net/tls: Add sup=
-port for PF_TLSH (a TLS handshake listener)
-:::::: branch date: 4 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-c002-20220313 (https://download.01.org/0day-ci/archi=
-ve/20220314/202203141106.9fgCAlQD-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0467eb=
-2cb7654c15ae366967ef35093c5724c416)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.g=
-it/commit/?id=3D33ec82590b0b919215a255fb431d661be4807b45
-        git remote add hare-scsi-devel https://git.kernel.org/pub/scm/linux=
-/kernel/git/hare/scsi-devel.git
-        git fetch --no-tags hare-scsi-devel tls-upcall.v4
-        git checkout 33ec82590b0b919215a255fb431d661be4807b45
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+Hi Thomas,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20220310]
+[cannot apply to linus/master v5.17-rc7 v5.17-rc6 v5.17-rc5 v5.17-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/fbdev-Fi=
+x-image-blitting-for-arbitrary-image-widths/20220314-033209
+base:    71941773e143369a73c9c4a3b62fbb60736a1182
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+314/202203141119.bZSAwA1k-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/video/fbdev/core/cfbimgblt.c:304 fast_imageblit() error: uninitiali=
+zed symbol 'j'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/mmc/host/atmel-mci.c:1253:6: note: Left side of '||' is false
-   drivers/mmc/host/atmel-mci.c:1253:26: note: Assuming field 'need_reset_a=
-fter_xfer' is false
-           if (host->need_reset || host->caps.need_reset_after_xfer) {
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1253:2: note: Taking false branch
-           if (host->need_reset || host->caps.need_reset_after_xfer) {
-           ^
-   drivers/mmc/host/atmel-mci.c:1267:6: note: Assuming the condition is fal=
-se
-           if (iflags & ~(ATMCI_SDIOIRQA | ATMCI_SDIOIRQB))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1267:2: note: Taking false branch
-           if (iflags & ~(ATMCI_SDIOIRQA | ATMCI_SDIOIRQB))
-           ^
-   drivers/mmc/host/atmel-mci.c:1271:15: note: '?' condition is true
-           if (unlikely(test_and_clear_bit(ATMCI_CARD_NEED_INIT, &slot->fla=
-gs))) {
-                        ^
-   arch/arm/include/asm/bitops.h:193:34: note: expanded from macro 'test_an=
-d_clear_bit'
-   #define test_and_clear_bit(nr,p)        ATOMIC_BITOP(test_and_clear_bit,=
-nr,p)
-                                           ^
-   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
-ITOP'
-           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
-r,p))
-            ^
-   drivers/mmc/host/atmel-mci.c:1271:6: note: Assuming the condition is true
-           if (unlikely(test_and_clear_bit(ATMCI_CARD_NEED_INIT, &slot->fla=
-gs))) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   drivers/mmc/host/atmel-mci.c:1271:2: note: Taking false branch
-           if (unlikely(test_and_clear_bit(ATMCI_CARD_NEED_INIT, &slot->fla=
-gs))) {
-           ^
-   drivers/mmc/host/atmel-mci.c:1278:2: note: Value assigned to 'data'
-           data =3D mrq->data;
-           ^~~~~~~~~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1279:6: note: Assuming 'data' is null
-           if (data) {
-               ^~~~
-   drivers/mmc/host/atmel-mci.c:1279:2: note: Taking false branch
-           if (data) {
-           ^
-   drivers/mmc/host/atmel-mci.c:1301:6: note: Assuming the condition is fal=
-se
-           if (host->submit_data !=3D &atmci_submit_data_dma)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1301:2: note: Taking false branch
-           if (host->submit_data !=3D &atmci_submit_data_dma)
-           ^
-   drivers/mmc/host/atmel-mci.c:1304:6: note: 'data' is null
-           if (data)
-               ^~~~
-   drivers/mmc/host/atmel-mci.c:1304:2: note: Taking false branch
-           if (data)
-           ^
-   drivers/mmc/host/atmel-mci.c:1307:6: note: Assuming the condition is fal=
-se
-           if (host->submit_data =3D=3D &atmci_submit_data_dma)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1307:2: note: Taking false branch
-           if (host->submit_data =3D=3D &atmci_submit_data_dma)
-           ^
-   drivers/mmc/host/atmel-mci.c:1310:6: note: Assuming field 'stop' is non-=
-null
-           if (mrq->stop) {
-               ^~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1310:2: note: Taking true branch
-           if (mrq->stop) {
-           ^
-   drivers/mmc/host/atmel-mci.c:1313:9: note: Access to field 'flags' resul=
-ts in a dereference of a null pointer (loaded from variable 'data')
-                   if (!(data->flags & MMC_DATA_WRITE))
-                         ^~~~
-   drivers/mmc/host/atmel-mci.c:1727:23: warning: Value stored to 'state' d=
-uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           enum atmel_mci_state    state =3D host->state;
-                                   ^~~~~   ~~~~~~~~~~~
-   drivers/mmc/host/atmel-mci.c:1727:23: note: Value stored to 'state' duri=
-ng its initialization is never read
-           enum atmel_mci_state    state =3D host->state;
-                                   ^~~~~   ~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> net/tls/af_tlsh.c:640:6: warning: Assigned value is garbage or undefined=
- [clang-analyzer-core.uninitialized.Assign]
-           if (put_user(outlen, optlen)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:352:3: note: expanded from macro '__put_u=
-ser_switch'
-                   __typeof__(*(ptr)) __pu_val =3D (x);                    =
-  \
-                   ^
-   net/tls/af_tlsh.c:701:2: note: Control jumps to 'case 2:'  at line 702
-           switch (sk->sk_family) {
-           ^
-   net/tls/af_tlsh.c:703:3: note:  Execution continues on line 712
-                   break;
-                   ^
-   net/tls/af_tlsh.c:712:6: note: Assuming 'level' is equal to SOL_TLSH
-           if (level !=3D SOL_TLSH)
-               ^~~~~~~~~~~~~~~~~
-   net/tls/af_tlsh.c:712:2: note: Taking false branch
-           if (level !=3D SOL_TLSH)
-           ^
-   net/tls/af_tlsh.c:715:2: note: Control jumps to 'case 1:'  at line 716
-           switch (optname) {
-           ^
-   net/tls/af_tlsh.c:717:9: note: Calling 'tlsh_getsockopt_priorities'
-                   ret =3D tlsh_getsockopt_priorities(sk, optval, optlen);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/af_tlsh.c:605:6: note: 'outlen' declared without an initial value
-           int outlen, len, ret;
-               ^~~~~~
-   net/tls/af_tlsh.c:608:6: note: Control jumps to 'case 4:'  at line 608
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:216:3: note: expanded from macro 'get_use=
-r'
-                   __get_user_check(x, p);                                 \
-                   ^
-   arch/arm/include/asm/uaccess.h:180:3: note: expanded from macro '__get_u=
-ser_check'
-                   switch (sizeof(*(__p))) {                               \
-                   ^
-   net/tls/af_tlsh.c:608:6: note: Taking false branch
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:216:3: note: expanded from macro 'get_use=
-r'
-                   __get_user_check(x, p);                                 \
-                   ^
-   arch/arm/include/asm/uaccess.h:194:4: note: expanded from macro '__get_u=
-ser_check'
-                           if (sizeof((x)) >=3D 8)                         =
-  \
-                           ^
-   net/tls/af_tlsh.c:608:6: note:  Execution continues on line 608
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:216:3: note: expanded from macro 'get_use=
-r'
-                   __get_user_check(x, p);                                 \
-                   ^
-   arch/arm/include/asm/uaccess.h:198:4: note: expanded from macro '__get_u=
-ser_check'
-                           break;                                          \
-                           ^
-   net/tls/af_tlsh.c:608:6: note: Assuming the condition is false
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:214:2: note: expanded from macro 'get_use=
-r'
-           ({                                                              \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/af_tlsh.c:608:2: note: Taking false branch
-           if (get_user(len, optlen))
-           ^
-   net/tls/af_tlsh.c:610:6: note: Assuming 'optval' is non-null
-           if (!optval)
-               ^~~~~~~
-   net/tls/af_tlsh.c:610:2: note: Taking false branch
-           if (!optval)
-           ^
-   net/tls/af_tlsh.c:619:6: note: Assuming 'info' is non-null
-           if (info) {
-               ^~~~
-   net/tls/af_tlsh.c:619:2: note: Taking true branch
-           if (info) {
-           ^
-   net/tls/af_tlsh.c:629:6: note: Assuming 'val' is non-null
-           if (val) {
-               ^~~
-   net/tls/af_tlsh.c:629:2: note: Taking true branch
-           if (val) {
-           ^
-   net/tls/af_tlsh.c:632:7: note: Assuming 'len' is >=3D 'outlen'
-                   if (len < outlen) {
-                       ^~~~~~~~~~~~
-   net/tls/af_tlsh.c:632:3: note: Taking false branch
-                   if (len < outlen) {
-                   ^
-   net/tls/af_tlsh.c:640:6: note: Assigned value is garbage or undefined
-           if (put_user(outlen, optlen)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:352:3: note: expanded from macro '__put_u=
-ser_switch'
-                   __typeof__(*(ptr)) __pu_val =3D (x);                    =
-  \
-                   ^                             ~~~
-   Suppressed 7 warnings (5 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-               ^~~~
-   net/ceph/messenger_v2.c:2548:2: note: Taking false branch
-           if (skip)
-           ^
-   net/ceph/messenger_v2.c:2552:10: note: Access to field 'con' results in =
-a dereference of a null pointer (loaded from field 'in_msg')
-           WARN_ON(con->in_msg->con !=3D con);
-                   ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/splice.c:725:2: warning: Undefined or garbage value returned to calle=
-r [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^      ~~~
-   fs/splice.c:630:2: note: 'ret' declared without an initial value
-           ssize_t ret;
-           ^~~~~~~~~~~
-   fs/splice.c:632:15: note: Assuming 'array' is non-null
-           if (unlikely(!array))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/splice.c:632:2: note: Taking false branch
-           if (unlikely(!array))
-           ^
-   fs/splice.c:638:2: note: Loop condition is false. Execution continues on=
- line 717
-           while (sd.total_len) {
-           ^
-   fs/splice.c:722:9: note: Field 'num_spliced' is 0
-           if (sd.num_spliced)
-                  ^
-   fs/splice.c:722:2: note: Taking false branch
-           if (sd.num_spliced)
-           ^
-   fs/splice.c:725:2: note: Undefined or garbage value returned to caller
-           return ret;
-           ^      ~~~
-   fs/splice.c:853:2: warning: Value stored to 'ret' is never read [clang-a=
-nalyzer-deadcode.DeadStores]
-           ret =3D 0;
-           ^     ~
-   fs/splice.c:853:2: note: Value stored to 'ret' is never read
-           ret =3D 0;
-           ^     ~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   net/rxrpc/local_object.c:218:3: warning: Value stored to 'age' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   age =3D "old";
-                   ^     ~~~~~
-   net/rxrpc/local_object.c:218:3: note: Value stored to 'age' is never read
-                   age =3D "old";
-                   ^     ~~~~~
-   net/rxrpc/local_object.c:234:2: warning: Value stored to 'age' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           age =3D "new";
-           ^     ~~~~~
-   net/rxrpc/local_object.c:234:2: note: Value stored to 'age' is never read
-           age =3D "new";
-           ^     ~~~~~
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> net/tls/af_tlsh.c:640:6: warning: Assigned value is garbage or undefined=
- [clang-analyzer-core.uninitialized.Assign]
-           if (put_user(outlen, optlen)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:352:3: note: expanded from macro '__put_u=
-ser_switch'
-                   __typeof__(*(ptr)) __pu_val =3D (x);                    =
-  \
-                   ^
-   net/tls/af_tlsh.c:701:2: note: Control jumps to 'case 2:'  at line 702
-           switch (sk->sk_family) {
-           ^
-   net/tls/af_tlsh.c:703:3: note:  Execution continues on line 712
-                   break;
-                   ^
-   net/tls/af_tlsh.c:712:6: note: Assuming 'level' is equal to SOL_TLSH
-           if (level !=3D SOL_TLSH)
-               ^~~~~~~~~~~~~~~~~
-   net/tls/af_tlsh.c:712:2: note: Taking false branch
-           if (level !=3D SOL_TLSH)
-           ^
-   net/tls/af_tlsh.c:715:2: note: Control jumps to 'case 1:'  at line 716
-           switch (optname) {
-           ^
-   net/tls/af_tlsh.c:717:9: note: Calling 'tlsh_getsockopt_priorities'
-                   ret =3D tlsh_getsockopt_priorities(sk, optval, optlen);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/af_tlsh.c:605:6: note: 'outlen' declared without an initial value
-           int outlen, len, ret;
-               ^~~~~~
-   net/tls/af_tlsh.c:608:6: note: Control jumps to 'case 4:'  at line 608
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:216:3: note: expanded from macro 'get_use=
-r'
-                   __get_user_check(x, p);                                 \
-                   ^
-   arch/arm/include/asm/uaccess.h:180:3: note: expanded from macro '__get_u=
-ser_check'
-                   switch (sizeof(*(__p))) {                               \
-                   ^
-   net/tls/af_tlsh.c:608:6: note: Taking false branch
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:216:3: note: expanded from macro 'get_use=
-r'
-                   __get_user_check(x, p);                                 \
-                   ^
-   arch/arm/include/asm/uaccess.h:194:4: note: expanded from macro '__get_u=
-ser_check'
-                           if (sizeof((x)) >=3D 8)                         =
-  \
-                           ^
-   net/tls/af_tlsh.c:608:6: note:  Execution continues on line 608
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:216:3: note: expanded from macro 'get_use=
-r'
-                   __get_user_check(x, p);                                 \
-                   ^
-   arch/arm/include/asm/uaccess.h:198:4: note: expanded from macro '__get_u=
-ser_check'
-                           break;                                          \
-                           ^
-   net/tls/af_tlsh.c:608:6: note: Assuming the condition is false
-           if (get_user(len, optlen))
-               ^
-   arch/arm/include/asm/uaccess.h:214:2: note: expanded from macro 'get_use=
-r'
-           ({                                                              \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tls/af_tlsh.c:608:2: note: Taking false branch
-           if (get_user(len, optlen))
-           ^
-   net/tls/af_tlsh.c:610:6: note: Assuming 'optval' is non-null
-           if (!optval)
-               ^~~~~~~
-   net/tls/af_tlsh.c:610:2: note: Taking false branch
-           if (!optval)
-           ^
-   net/tls/af_tlsh.c:619:6: note: Assuming 'info' is non-null
-           if (info) {
-               ^~~~
-   net/tls/af_tlsh.c:619:2: note: Taking true branch
-           if (info) {
-           ^
-   net/tls/af_tlsh.c:629:6: note: Assuming 'val' is non-null
-           if (val) {
-               ^~~
-   net/tls/af_tlsh.c:629:2: note: Taking true branch
-           if (val) {
-           ^
-   net/tls/af_tlsh.c:632:7: note: Assuming 'len' is >=3D 'outlen'
-                   if (len < outlen) {
-                       ^~~~~~~~~~~~
-   net/tls/af_tlsh.c:632:3: note: Taking false branch
-                   if (len < outlen) {
-                   ^
-   net/tls/af_tlsh.c:640:6: note: Assigned value is garbage or undefined
-           if (put_user(outlen, optlen)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/uaccess.h:352:3: note: expanded from macro '__put_u=
-ser_switch'
-                   __typeof__(*(ptr)) __pu_val =3D (x);                    =
-  \
-                   ^                             ~~~
-   Suppressed 7 warnings (5 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+vim +/j +304 drivers/video/fbdev/core/cfbimgblt.c
 
-vim +640 net/tls/af_tlsh.c
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  206  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  600  =
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  207  /*
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  208   * fast_imageblit - optimized monochrome color expansion
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  209   *
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  210   * Only if:  bits_per_pixel =3D=3D 8, 16, or 32
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  211   *           image->width is divisible by pixel/dword (ppw);
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  212   *           fix->line_legth is divisible by 4;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  213   *           beginning and end of a scanline is dword aligned
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  214   */
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  215  static inline void fast_imageblit(const struct fb_image *image,=
+ struct fb_info *p,
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  216  				  u8 __iomem *dst1, u32 fgcolor,
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  217  				  u32 bgcolor)
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  218  {
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  219  	u32 fgx =3D fgcolor, bgx =3D bgcolor, bpp =3D p->var.bits_per_=
+pixel;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  220  	u32 ppw =3D 32/bpp, spitch =3D (image->width + 7)/8;
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  221  	u32 bit_mask, eorx, shift;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  222  	const char *s =3D image->data, *src;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  223  	u32 __iomem *dst;
+d95159cf1b12e8 drivers/video/cfbimgblt.c            Helge Deller      2006-=
+12-08  224  	const u32 *tab =3D NULL;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  225  	size_t tablen;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  226  	u32 colortab[16];
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  227  	int i, j, k;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  228  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  601  static int tlsh_getsockopt_prio=
-rities(struct sock *sk, char __user *optval,
-33ec82590b0b91 Chuck Lever 2021-11-19  602  				      int __user *optlen)
-33ec82590b0b91 Chuck Lever 2021-11-19  603  {
-33ec82590b0b91 Chuck Lever 2021-11-19  604  	struct tlsh_sock_info *info;
-33ec82590b0b91 Chuck Lever 2021-11-19  605  	int outlen, len, ret;
-33ec82590b0b91 Chuck Lever 2021-11-19  606  	const char *val;
-33ec82590b0b91 Chuck Lever 2021-11-19  607  =
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  229  	switch (bpp) {
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  230  	case 8:
+e4c690e061b909 drivers/video/cfbimgblt.c            Anton Vorontsov   2008-=
+04-28  231  		tab =3D fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  232  		tablen =3D 16;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  233  		break;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  234  	case 16:
+e4c690e061b909 drivers/video/cfbimgblt.c            Anton Vorontsov   2008-=
+04-28  235  		tab =3D fb_be_math(p) ? cfb_tab16_be : cfb_tab16_le;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  236  		tablen =3D 4;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  237  		break;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  238  	case 32:
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  239  		tab =3D cfb_tab32;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  240  		tablen =3D 2;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  241  		break;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  242  	default:
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  243  		return;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  244  	}
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  245  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  608  	if (get_user(len, optlen))
-33ec82590b0b91 Chuck Lever 2021-11-19  609  		return -EFAULT;
-33ec82590b0b91 Chuck Lever 2021-11-19  610  	if (!optval)
-33ec82590b0b91 Chuck Lever 2021-11-19  611  		return -EINVAL;
-33ec82590b0b91 Chuck Lever 2021-11-19  612  =
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  246  	for (i =3D ppw-1; i--; ) {
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  247  		fgx <<=3D bpp;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  248  		bgx <<=3D bpp;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  249  		fgx |=3D fgcolor;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  250  		bgx |=3D bgcolor;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  251  	}
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  252  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  613  	ret =3D 0;
-33ec82590b0b91 Chuck Lever 2021-11-19  614  =
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  253  	bit_mask =3D (1 << ppw) - 1;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  254  	eorx =3D fgx ^ bgx;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  255  	k =3D image->width/ppw;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  256  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  615  	sock_hold(sk);
-33ec82590b0b91 Chuck Lever 2021-11-19  616  	write_lock_bh(&sk->sk_callback=
-_lock);
-33ec82590b0b91 Chuck Lever 2021-11-19  617  =
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  257  	for (i =3D 0; i < tablen; ++i)
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  258  		colortab[i] =3D (tab[i] & eorx) ^ bgx;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  259  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  618  	info =3D sk->sk_tlsh_priv;
-33ec82590b0b91 Chuck Lever 2021-11-19  619  	if (info) {
-33ec82590b0b91 Chuck Lever 2021-11-19  620  		val =3D info->tsi_tls_priorit=
-ies;
-33ec82590b0b91 Chuck Lever 2021-11-19  621  	} else {
-33ec82590b0b91 Chuck Lever 2021-11-19  622  		write_unlock_bh(&sk->sk_callb=
-ack_lock);
-33ec82590b0b91 Chuck Lever 2021-11-19  623  		ret =3D -EBUSY;
-33ec82590b0b91 Chuck Lever 2021-11-19  624  		goto out_put;
-33ec82590b0b91 Chuck Lever 2021-11-19  625  	}
-33ec82590b0b91 Chuck Lever 2021-11-19  626  =
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  260  	for (i =3D image->height; i--; ) {
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  261  		dst =3D (u32 __iomem *)dst1;
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  262  		shift =3D 8;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  263  		src =3D s;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  264  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  627  	write_unlock_bh(&sk->sk_callba=
-ck_lock);
-33ec82590b0b91 Chuck Lever 2021-11-19  628  =
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  265  		/*
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  266  		 * Manually unroll the per-line copying loop for better
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  267  		 * performance. This works until we processed the last
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  268  		 * completely filled source byte (inclusive).
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  269  		 */
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  270  		switch (ppw) {
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  271  		case 4: /* 8 bpp */
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  272  			for (j =3D k; j >=3D 2; j -=3D 2, ++src) {
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  273  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  274  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  275  			}
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  276  			break;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  277  		case 2: /* 16 bpp */
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  278  			for (j =3D k; j >=3D 4; j -=3D 4, ++src) {
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  279  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  280  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  281  				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  282  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  283  			}
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  284  			break;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  285  		case 1: /* 32 bpp */
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  286  			for (j =3D k; j >=3D 8; j -=3D 8, ++src) {
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  287  				FB_WRITEL(colortab[(*src >> 7) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  288  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  289  				FB_WRITEL(colortab[(*src >> 5) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  290  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  291  				FB_WRITEL(colortab[(*src >> 3) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  292  				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  293  				FB_WRITEL(colortab[(*src >> 1) & bit_mask], dst++);
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  294  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  295  			}
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  296  			break;
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  297  		}
+0d03011894d232 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+02-23  298  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  629  	if (val) {
-33ec82590b0b91 Chuck Lever 2021-11-19  630  		int outlen =3D strlen(val);
-33ec82590b0b91 Chuck Lever 2021-11-19  631  =
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  299  		/*
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  300  		 * For image widths that are not a multiple of 8, there
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  301  		 * are trailing pixels left on the current line. Print
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  302  		 * them as well.
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  303  		 */
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13 @304  		for (; j--; ) {
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  305  			shift -=3D ppw;
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  306  			FB_WRITEL(colortab[(*src >> shift) & bit_mask], dst++);
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  307  			if (!shift) {
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  308  				shift =3D 8;
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  309  				++src;
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  310  			}
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  311  		}
+9410e2f8731c22 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022-=
+03-13  312  =
 
-33ec82590b0b91 Chuck Lever 2021-11-19  632  		if (len < outlen) {
-33ec82590b0b91 Chuck Lever 2021-11-19  633  			ret =3D -EINVAL;
-33ec82590b0b91 Chuck Lever 2021-11-19  634  			goto out_put;
-33ec82590b0b91 Chuck Lever 2021-11-19  635  		}
-33ec82590b0b91 Chuck Lever 2021-11-19  636  	} else {
-33ec82590b0b91 Chuck Lever 2021-11-19  637  		outlen =3D 0;
-33ec82590b0b91 Chuck Lever 2021-11-19  638  	}
-33ec82590b0b91 Chuck Lever 2021-11-19  639  =
-
-33ec82590b0b91 Chuck Lever 2021-11-19 @640  	if (put_user(outlen, optlen)) {
-33ec82590b0b91 Chuck Lever 2021-11-19  641  		ret =3D -EFAULT;
-33ec82590b0b91 Chuck Lever 2021-11-19  642  		goto out_put;
-33ec82590b0b91 Chuck Lever 2021-11-19  643  	}
-33ec82590b0b91 Chuck Lever 2021-11-19  644  	if (copy_to_user(optval, &val,=
- outlen))
-33ec82590b0b91 Chuck Lever 2021-11-19  645  		ret =3D -EFAULT;
-33ec82590b0b91 Chuck Lever 2021-11-19  646  =
-
-33ec82590b0b91 Chuck Lever 2021-11-19  647  out_put:
-33ec82590b0b91 Chuck Lever 2021-11-19  648  	sock_put(sk);
-33ec82590b0b91 Chuck Lever 2021-11-19  649  	return ret;
-33ec82590b0b91 Chuck Lever 2021-11-19  650  }
-33ec82590b0b91 Chuck Lever 2021-11-19  651  =
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  313  		dst1 +=3D p->fix.line_length;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  314  		s +=3D spitch;
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  315  	}
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  316  }
+^1da177e4c3f41 drivers/video/cfbimgblt.c            Linus Torvalds    2005-=
+04-16  317  =
 
 
 ---
 0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6046114624371651638==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2671375051028670148==--
 
