@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5862333248174902259=="
+Content-Type: multipart/mixed; boundary="===============3664998015867476644=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] staging: rts5208: Resolve checkpath.pl issues.
-Date: Wed, 16 Mar 2022 08:30:25 +0800
-Message-ID: <202203160807.K3AjX7FR-lkp@intel.com>
+Subject: [linux-next:master 5182/12845] drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:718:4: warning: Value stored to 'res' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 16 Mar 2022 03:13:10 +0800
+Message-ID: <202203160354.UzsrIfrQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5862333248174902259==
+--===============3664998015867476644==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,41 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <Yi/5nEXVmzZrbfbz@sckzor-linux.localdomain>
-References: <Yi/5nEXVmzZrbfbz@sckzor-linux.localdomain>
-TO: Charlie Sands <sandsch@northvilleschools.net>
-TO: gregkh(a)linuxfoundation.org
-CC: linux-staging(a)lists.linux.dev
-CC: linux-kernel(a)vger.kernel.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Luben Tuikov <luben.tuikov@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
 
-Hi Charlie,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on staging/staging-testing]
-
-url:    https://github.com/0day-ci/linux/commits/Charlie-Sands/staging-rts5=
-208-Resolve-checkpath-pl-issues/20220315-102944
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
-56955aae9fc2c59fa3c9b32f1f147cdbe05e5ac4
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: riscv-randconfig-c006-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220316/202203160807.K3AjX7FR-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6b2f5=
-0fb47da3baeee10b1906da6e30ac5d26ec)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   a32cd981a6da2373c093d471ee4405a915e217d5
+commit: a6c40b178092f41b9d6cc8615697c14b1e5a1c3a [5182/12845] drm/amdgpu: S=
+how IP discovery in sysfs
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
+hive/20220316/202203160354.UzsrIfrQ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
+7382b8f16a65bddac700202924228982f6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/db68d91d62af3bfc71979b5fd=
-01ca858a56a22ba
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Charlie-Sands/staging-rts5208-Reso=
-lve-checkpath-pl-issues/20220315-102944
-        git checkout db68d91d62af3bfc71979b5fd01ca858a56a22ba
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Da6c40b178092f41b9d6cc8615697c14b1e5a1c3a
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout a6c40b178092f41b9d6cc8615697c14b1e5a1c3a
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -60,286 +52,425 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
+               ^~~~
+   drivers/nvmem/core.c:1481:2: note: Taking false branch
+           if (!buf)
+           ^
+   drivers/nvmem/core.c:1484:7: note: Calling '__nvmem_cell_read'
+           rc =3D __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvmem/core.c:1441:6: note: Assuming 'rc' is not equal to 0
+           if (rc)
+               ^~
+   drivers/nvmem/core.c:1441:2: note: Taking true branch
+           if (rc)
+           ^
+   drivers/nvmem/core.c:1484:7: note: Returning from '__nvmem_cell_read'
+           rc =3D __nvmem_cell_read(nvmem, cell->entry, buf, len, cell->id);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvmem/core.c:1485:6: note: 'rc' is not equal to 0
+           if (rc) {
+               ^~
+   drivers/nvmem/core.c:1485:2: note: Taking true branch
+           if (rc) {
+           ^
+   drivers/nvmem/core.c:1691:8: note: Returning from 'nvmem_cell_read'
+           buf =3D nvmem_cell_read(cell, len);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvmem/core.c:1693:6: note: Calling 'IS_ERR'
+           if (IS_ERR(buf))
+               ^~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvmem/core.c:1693:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(buf))
+               ^~~~~~~~~~~
+   drivers/nvmem/core.c:1693:2: note: Taking false branch
+           if (IS_ERR(buf))
+           ^
+   drivers/nvmem/core.c:1700:6: note: Assuming 'nbits' is 0
+           if (nbits)
+               ^~~~~
+   drivers/nvmem/core.c:1700:2: note: Taking false branch
+           if (nbits)
+           ^
+   drivers/nvmem/core.c:1703:11: note: The left operand of '>' is a garbage=
+ value
+           if (*len > max_len) {
+               ~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:718:4: warning: Value stor=
+ed to 'res' is never read [clang-analyzer-deadcode.DeadStores]
+                           res =3D kobject_add(&ip_hw_instance->kobj, NULL,
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c:718:4: note: Value stored =
+to 'res' is never read
+                           res =3D kobject_add(&ip_hw_instance->kobj, NULL,
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    10 warnings generated.
-   drivers/md/dm-kcopyd.c:246:10: warning: Access to field 'next' results i=
-n a dereference of a null pointer (loaded from variable 'pl') [clang-analyz=
-er-core.NullDereference]
-                   next =3D pl->next;
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/smumgr/smu8_smumgr.c:96:2: wa=
+rning: Value stored to 'elapsed_us' is never read [clang-analyzer-deadcode.=
+DeadStores]
+           elapsed_us =3D ktime_us_delta(ktime_get(), t_start);
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/smumgr/smu8_smumgr.c:96:2: no=
+te: Value stored to 'elapsed_us' is never read
+           elapsed_us =3D ktime_us_delta(ktime_get(), t_start);
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/gpu/drm/radeon/si.c:1814:4: warning: Value stored to 'err' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1814:4: note: Value stored to 'err' is never=
+ read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1837:4: warning: Value stored to 'err' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1837:4: note: Value stored to 'err' is never=
+ read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1860:4: warning: Value stored to 'err' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1860:4: note: Value stored to 'err' is never=
+ read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1891:4: warning: Value stored to 'err' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:1891:4: note: Value stored to 'err' is never=
+ read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/gpu/drm/radeon/si.c:3613:3: warning: Value stored to 'r' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   r =3D radeon_ring_lock(rdev, ring, 2);
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/si.c:3613:3: note: Value stored to 'r' is never r=
+ead
+                   r =3D radeon_ring_lock(rdev, ring, 2);
+                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/si.c:3956:3: warning: Value stored to 'tmp' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   tmp =3D RREG32(GRBM_SOFT_RESET);
+                   ^
+   drivers/gpu/drm/radeon/si.c:3956:3: note: Value stored to 'tmp' is never=
+ read
+   drivers/gpu/drm/radeon/si.c:3970:3: warning: Value stored to 'tmp' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   tmp =3D RREG32(SRBM_SOFT_RESET);
+                   ^
+   drivers/gpu/drm/radeon/si.c:3970:3: note: Value stored to 'tmp' is never=
+ read
+   drivers/gpu/drm/radeon/si.c:5155:3: warning: Value stored to 'tmp' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   tmp =3D RREG32(DB_DEPTH_INFO);
+                   ^
+   drivers/gpu/drm/radeon/si.c:5155:3: note: Value stored to 'tmp' is never=
+ read
+   drivers/gpu/drm/radeon/si.c:5270:3: warning: Value stored to 'tmp' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   tmp =3D RREG32(DB_RENDER_CONTROL);
+                   ^
+   drivers/gpu/drm/radeon/si.c:5270:3: note: Value stored to 'tmp' is never=
+ read
+   drivers/gpu/drm/radeon/si.c:5396:10: warning: Although the value stored =
+to 'data' is used in the enclosing expression, the value is never actually =
+read from 'data' [clang-analyzer-deadcode.DeadStores]
+                   orig =3D data =3D RREG32(CGTS_SM_CTRL_REG);
                           ^
-   drivers/md/dm-kcopyd.c:913:6: note: Assuming 'kc' is non-null
-           if (!kc)
-               ^~~
-   drivers/md/dm-kcopyd.c:913:2: note: Taking false branch
-           if (!kc)
-           ^
-   drivers/md/dm-kcopyd.c:916:2: note: Loop condition is false.  Exiting lo=
-op
-           spin_lock_init(&kc->job_lock);
-           ^
-   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/md/dm-kcopyd.c:924:6: note: Assuming 'r' is 0
-           if (r)
-               ^
-   drivers/md/dm-kcopyd.c:924:2: note: Taking false branch
-           if (r)
-           ^
-   drivers/md/dm-kcopyd.c:927:2: note: Loop condition is false.  Exiting lo=
-op
-           INIT_WORK(&kc->kcopyd_work, do_work);
-           ^
-   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
-           __INIT_WORK((_work), (_func), 0)
-           ^
-   include/linux/workqueue.h:225:2: note: expanded from macro '__INIT_WORK'
-           do {                                                            \
-           ^
-   drivers/md/dm-kcopyd.c:929:6: note: Assuming field 'kcopyd_wq' is non-nu=
-ll
-           if (!kc->kcopyd_wq) {
-               ^~~~~~~~~~~~~~
-   drivers/md/dm-kcopyd.c:929:2: note: Taking false branch
-           if (!kc->kcopyd_wq) {
-           ^
-   drivers/md/dm-kcopyd.c:939:6: note: Calling 'client_reserve_pages'
-           r =3D client_reserve_pages(kc, reserve_pages);
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-kcopyd.c:309:20: note: 'pl' initialized to a null pointer =
-value
-           struct page_list *pl =3D NULL, *next;
-                             ^~
-   drivers/md/dm-kcopyd.c:311:14: note: Assuming 'i' is >=3D 'nr_pages'
-           for (i =3D 0; i < nr_pages; i++) {
-                       ^~~~~~~~~~~~
-   drivers/md/dm-kcopyd.c:311:2: note: Loop condition is false. Execution c=
-ontinues on line 322
-           for (i =3D 0; i < nr_pages; i++) {
-           ^
-   drivers/md/dm-kcopyd.c:323:23: note: Passing null pointer value via 2nd =
-parameter 'pl'
-           kcopyd_put_pages(kc, pl);
-                                ^~
-   drivers/md/dm-kcopyd.c:323:2: note: Calling 'kcopyd_put_pages'
-           kcopyd_put_pages(kc, pl);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-kcopyd.c:246:10: note: Access to field 'next' results in a=
- dereference of a null pointer (loaded from variable 'pl')
-                   next =3D pl->next;
-                          ^~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   drivers/gpu/drm/radeon/si.c:5396:10: note: Although the value stored to =
+'data' is used in the enclosing expression, the value is never actually rea=
+d from 'data'
+   drivers/gpu/drm/radeon/si.c:5554:11: warning: Although the value stored =
+to 'data' is used in the enclosing expression, the value is never actually =
+read from 'data' [clang-analyzer-deadcode.DeadStores]
+                           orig =3D data =3D RREG32(DMA_CLK_CTRL + offset);
+                                  ^
+   drivers/gpu/drm/radeon/si.c:5554:11: note: Although the value stored to =
+'data' is used in the enclosing expression, the value is never actually rea=
+d from 'data'
+   drivers/gpu/drm/radeon/si.c:6824:22: warning: Value stored to 'ring' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct radeon_ring *ring =3D &rdev->ring[RADEON_RING_TYPE_GFX_IN=
+DEX];
+                               ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/gpu/drm/radeon/si.c:6824:22: note: Value stored to 'ring' during=
+ its initialization is never read
+           struct radeon_ring *ring =3D &rdev->ring[RADEON_RING_TYPE_GFX_IN=
+DEX];
+                               ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/staging/greybus/uart.c:273:3: warning: Value stored to 'ret' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D kfifo_out(&gb_tty->write_fifo, &request->data[0],
-                   ^
-   drivers/staging/greybus/uart.c:273:3: note: Value stored to 'ret' is nev=
-er read
-   drivers/staging/greybus/uart.c:571:3: warning: Value stored to 'retval' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/uart.c:571:3: note: Value stored to 'retval' is =
-never read
-                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/uart.c:590:3: warning: Value stored to 'retval' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/uart.c:590:3: note: Value stored to 'retval' is =
-never read
-                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> drivers/staging/rts5208/rtsx.c:187:19: warning: Value stored to 'dev' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct rtsx_dev *dev =3D host_to_rtsx(srb->device->host);
-                            ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:187:19: note: Value stored to 'dev' durin=
-g its initialization is never read
-           struct rtsx_dev *dev =3D host_to_rtsx(srb->device->host);
-                            ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:384:7: warning: Access to field 'sc_data_=
-direction' results in a dereference of a null pointer (loaded from field 's=
-rb') [clang-analyzer-core.NullDereference]
-                   if (chip->srb->sc_data_direction =3D=3D DMA_BIDIRECTIONA=
-L) {
-                       ^     ~~~
-   drivers/staging/rts5208/rtsx.c:356:2: note: Loop condition is true.  Ent=
-ering loop body
-           for (;;) {
-           ^
-   drivers/staging/rts5208/rtsx.c:357:7: note: Assuming the condition is fa=
-lse
-                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:357:3: note: Taking false branch
-                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
-                   ^
-   drivers/staging/rts5208/rtsx.c:364:7: note: Assuming field 'rtsx_stat' i=
-s not equal to RTSX_STAT_DISCONNECT
-                   if (rtsx_chk_stat(chip, RTSX_STAT_DISCONNECT)) {
-                       ^
-   drivers/staging/rts5208/rtsx_chip.h:935:36: note: expanded from macro 'r=
-tsx_chk_stat'
-   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:364:3: note: Taking false branch
-                   if (rtsx_chk_stat(chip, RTSX_STAT_DISCONNECT)) {
-                   ^
-   drivers/staging/rts5208/rtsx.c:374:7: note: Assuming field 'rtsx_stat' i=
-s equal to RTSX_STAT_ABORT
-                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
-                       ^
-   drivers/staging/rts5208/rtsx_chip.h:935:36: note: expanded from macro 'r=
-tsx_chk_stat'
-   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
-                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:374:3: note: Taking true branch
-                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
-                   ^
-   drivers/staging/rts5208/rtsx.c:376:4: note: Control jumps to line 424
-                           goto skip_for_abort;
-                           ^
-   drivers/staging/rts5208/rtsx.c:424:4: note: Loop condition is false.  Ex=
-iting loop
-                           dev_err(&dev->pci->dev, "scsi command aborted\n"=
-);
-                           ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/staging/rts5208/rtsx.c:427:7: note: Field 'rtsx_stat' is equal t=
-o RTSX_STAT_ABORT
-                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
-                       ^
-   drivers/staging/rts5208/rtsx_chip.h:935:44: note: expanded from macro 'r=
-tsx_chk_stat'
-   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
-                                                    ^
-   drivers/staging/rts5208/rtsx.c:427:3: note: Taking true branch
-                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
-                   ^
-   drivers/staging/rts5208/rtsx.c:430:4: note: RTSX_STAT_IDLE is equal to R=
-TSX_STAT_IDLE
-                           rtsx_set_stat(chip, RTSX_STAT_IDLE);
-                           ^
-   drivers/staging/rts5208/rtsx_chip.h:929:6: note: expanded from macro 'rt=
-sx_set_stat'
-           if ((stat) !=3D RTSX_STAT_IDLE) {                         \
-               ^~~~~~
-   drivers/staging/rts5208/rtsx.c:430:4: note: Taking false branch
-                           rtsx_set_stat(chip, RTSX_STAT_IDLE);
-                           ^
-   drivers/staging/rts5208/rtsx_chip.h:929:2: note: expanded from macro 'rt=
-sx_set_stat'
-           if ((stat) !=3D RTSX_STAT_IDLE) {                         \
-           ^
-   drivers/staging/rts5208/rtsx.c:430:4: note: Loop condition is false.  Ex=
-iting loop
-                           rtsx_set_stat(chip, RTSX_STAT_IDLE);
-                           ^
-   drivers/staging/rts5208/rtsx_chip.h:927:38: note: expanded from macro 'r=
-tsx_set_stat'
-   #define rtsx_set_stat(chip, stat)                               \
-                                                                   ^
-   drivers/staging/rts5208/rtsx.c:434:3: note: Null pointer value stored to=
- field 'srb'
-                   chip->srb =3D NULL;
-                   ^~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:356:2: note: Loop condition is true.  Ent=
-ering loop body
-           for (;;) {
-           ^
-   drivers/staging/rts5208/rtsx.c:357:7: note: Assuming the condition is fa=
-lse
-                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/rts5208/rtsx.c:357:3: note: Taking false branch
-                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
-                   ^
-   drivers/staging/rts5208/rtsx.c:364:7: note: Field 'rtsx_stat' is not equ=
-al to RTSX_STAT_DISCONNECT
-                   if (rtsx_chk_stat(chip, RTSX_STAT_DISCONNECT)) {
-                       ^
-   drivers/staging/rts5208/rtsx_chip.h:935:44: note: expanded from macro 'r=
-tsx_chk_stat'
-   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
 
-vim +/dev +187 drivers/staging/rts5208/rtsx.c
+vim +/res +718 drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
 
-fa590c222fbaa4 Micky Ching    2013-11-12  180  =
+a6c40b178092f41 Luben Tuikov 2022-02-03  639  =
 
-228fc259045878 MingChia Chung 2016-08-28  181  /*
-228fc259045878 MingChia Chung 2016-08-28  182   * This invokes the transpor=
-t reset mechanism to reset the state of the
-228fc259045878 MingChia Chung 2016-08-28  183   * device
-228fc259045878 MingChia Chung 2016-08-28  184   */
-fa590c222fbaa4 Micky Ching    2013-11-12  185  static int device_reset(stru=
-ct scsi_cmnd *srb)
-fa590c222fbaa4 Micky Ching    2013-11-12  186  {
-fa590c222fbaa4 Micky Ching    2013-11-12 @187  	struct rtsx_dev *dev =3D ho=
-st_to_rtsx(srb->device->host);
-fa590c222fbaa4 Micky Ching    2013-11-12  188  =
+a6c40b178092f41 Luben Tuikov 2022-02-03  640  static int amdgpu_discovery_s=
+ysfs_ips(struct amdgpu_device *adev,
+a6c40b178092f41 Luben Tuikov 2022-02-03  641  				      struct ip_die_entry=
+ *ip_die_entry,
+a6c40b178092f41 Luben Tuikov 2022-02-03  642  				      const size_t _ip_of=
+fset, const int num_ips)
+a6c40b178092f41 Luben Tuikov 2022-02-03  643  {
+a6c40b178092f41 Luben Tuikov 2022-02-03  644  	int ii, jj, kk, res;
+a6c40b178092f41 Luben Tuikov 2022-02-03  645  =
 
-de9a009b934a14 Colin Ian King 2017-02-02  189  	return SUCCESS;
-fa590c222fbaa4 Micky Ching    2013-11-12  190  }
-fa590c222fbaa4 Micky Ching    2013-11-12  191  =
+a6c40b178092f41 Luben Tuikov 2022-02-03  646  	DRM_DEBUG("num_ips:%d", num_=
+ips);
+a6c40b178092f41 Luben Tuikov 2022-02-03  647  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  648  	/* Find all IPs of a given H=
+W ID, and add their instance to
+a6c40b178092f41 Luben Tuikov 2022-02-03  649  	 * #die/#hw_id/#instance/<at=
+tributes>
+a6c40b178092f41 Luben Tuikov 2022-02-03  650  	 */
+a6c40b178092f41 Luben Tuikov 2022-02-03  651  	for (ii =3D 0; ii < HW_ID_MA=
+X; ii++) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  652  		struct ip_hw_id *ip_hw_id =
+=3D NULL;
+a6c40b178092f41 Luben Tuikov 2022-02-03  653  		size_t ip_offset =3D _ip_of=
+fset;
+a6c40b178092f41 Luben Tuikov 2022-02-03  654  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  655  		for (jj =3D 0; jj < num_ips=
+; jj++) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  656  			struct ip *ip;
+a6c40b178092f41 Luben Tuikov 2022-02-03  657  			struct ip_hw_instance *ip_=
+hw_instance;
+a6c40b178092f41 Luben Tuikov 2022-02-03  658  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  659  			ip =3D (struct ip *)(adev-=
+>mman.discovery_bin + ip_offset);
+a6c40b178092f41 Luben Tuikov 2022-02-03  660  			if (amdgpu_discovery_valid=
+ate_ip(ip) ||
+a6c40b178092f41 Luben Tuikov 2022-02-03  661  			    le16_to_cpu(ip->hw_id)=
+ !=3D ii)
+a6c40b178092f41 Luben Tuikov 2022-02-03  662  				goto next_ip;
+a6c40b178092f41 Luben Tuikov 2022-02-03  663  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  664  			DRM_DEBUG("match:%d @ ip_o=
+ffset:%ld", ii, ip_offset);
+a6c40b178092f41 Luben Tuikov 2022-02-03  665  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  666  			/* We have a hw_id match; =
+register the hw
+a6c40b178092f41 Luben Tuikov 2022-02-03  667  			 * block if not yet regist=
+ered.
+a6c40b178092f41 Luben Tuikov 2022-02-03  668  			 */
+a6c40b178092f41 Luben Tuikov 2022-02-03  669  			if (!ip_hw_id) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  670  				ip_hw_id =3D kzalloc(size=
+of(*ip_hw_id), GFP_KERNEL);
+a6c40b178092f41 Luben Tuikov 2022-02-03  671  				if (!ip_hw_id)
+a6c40b178092f41 Luben Tuikov 2022-02-03  672  					return -ENOMEM;
+a6c40b178092f41 Luben Tuikov 2022-02-03  673  				ip_hw_id->hw_id =3D ii;
+a6c40b178092f41 Luben Tuikov 2022-02-03  674  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  675  				kobject_set_name(&ip_hw_i=
+d->hw_id_kset.kobj, "%d", ii);
+a6c40b178092f41 Luben Tuikov 2022-02-03  676  				ip_hw_id->hw_id_kset.kobj=
+.kset =3D &ip_die_entry->ip_kset;
+a6c40b178092f41 Luben Tuikov 2022-02-03  677  				ip_hw_id->hw_id_kset.kobj=
+.ktype =3D &ip_hw_id_ktype;
+a6c40b178092f41 Luben Tuikov 2022-02-03  678  				res =3D kset_register(&ip=
+_hw_id->hw_id_kset);
+a6c40b178092f41 Luben Tuikov 2022-02-03  679  				if (res) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  680  					DRM_ERROR("Couldn't regi=
+ster ip_hw_id kset");
+a6c40b178092f41 Luben Tuikov 2022-02-03  681  					kfree(ip_hw_id);
+a6c40b178092f41 Luben Tuikov 2022-02-03  682  					return res;
+a6c40b178092f41 Luben Tuikov 2022-02-03  683  				}
+a6c40b178092f41 Luben Tuikov 2022-02-03  684  				if (hw_id_names[ii]) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  685  					res =3D sysfs_create_lin=
+k(&ip_die_entry->ip_kset.kobj,
+a6c40b178092f41 Luben Tuikov 2022-02-03  686  								&ip_hw_id->hw_id_kset=
+.kobj,
+a6c40b178092f41 Luben Tuikov 2022-02-03  687  								hw_id_names[ii]);
+a6c40b178092f41 Luben Tuikov 2022-02-03  688  					if (res) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  689  						DRM_ERROR("Couldn't cre=
+ate IP link %s in IP Die:%s\n",
+a6c40b178092f41 Luben Tuikov 2022-02-03  690  							  hw_id_names[ii],
+a6c40b178092f41 Luben Tuikov 2022-02-03  691  							  kobject_name(&ip_die=
+_entry->ip_kset.kobj));
+a6c40b178092f41 Luben Tuikov 2022-02-03  692  					}
+a6c40b178092f41 Luben Tuikov 2022-02-03  693  				}
+a6c40b178092f41 Luben Tuikov 2022-02-03  694  			}
+a6c40b178092f41 Luben Tuikov 2022-02-03  695  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  696  			/* Now register its instan=
+ce.
+a6c40b178092f41 Luben Tuikov 2022-02-03  697  			 */
+a6c40b178092f41 Luben Tuikov 2022-02-03  698  			ip_hw_instance =3D kzalloc=
+(struct_size(ip_hw_instance,
+a6c40b178092f41 Luben Tuikov 2022-02-03  699  							     base_addr,
+a6c40b178092f41 Luben Tuikov 2022-02-03  700  							     ip->num_base_addr=
+ess),
+a6c40b178092f41 Luben Tuikov 2022-02-03  701  						 GFP_KERNEL);
+a6c40b178092f41 Luben Tuikov 2022-02-03  702  			if (!ip_hw_instance) {
+a6c40b178092f41 Luben Tuikov 2022-02-03  703  				DRM_ERROR("no memory for =
+ip_hw_instance");
+a6c40b178092f41 Luben Tuikov 2022-02-03  704  				return -ENOMEM;
+a6c40b178092f41 Luben Tuikov 2022-02-03  705  			}
+a6c40b178092f41 Luben Tuikov 2022-02-03  706  			ip_hw_instance->hw_id =3D =
+le16_to_cpu(ip->hw_id); /* =3D=3D ii */
+a6c40b178092f41 Luben Tuikov 2022-02-03  707  			ip_hw_instance->num_instan=
+ce =3D ip->number_instance;
+a6c40b178092f41 Luben Tuikov 2022-02-03  708  			ip_hw_instance->major =3D =
+ip->major;
+a6c40b178092f41 Luben Tuikov 2022-02-03  709  			ip_hw_instance->minor =3D =
+ip->minor;
+a6c40b178092f41 Luben Tuikov 2022-02-03  710  			ip_hw_instance->revision =
+=3D ip->revision;
+a6c40b178092f41 Luben Tuikov 2022-02-03  711  			ip_hw_instance->num_base_a=
+ddresses =3D ip->num_base_address;
+a6c40b178092f41 Luben Tuikov 2022-02-03  712  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  713  			for (kk =3D 0; kk < ip_hw_=
+instance->num_base_addresses; kk++)
+a6c40b178092f41 Luben Tuikov 2022-02-03  714  				ip_hw_instance->base_addr=
+[kk] =3D ip->base_address[kk];
+a6c40b178092f41 Luben Tuikov 2022-02-03  715  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  716  			kobject_init(&ip_hw_instan=
+ce->kobj, &ip_hw_instance_ktype);
+a6c40b178092f41 Luben Tuikov 2022-02-03  717  			ip_hw_instance->kobj.kset =
+=3D &ip_hw_id->hw_id_kset;
+a6c40b178092f41 Luben Tuikov 2022-02-03 @718  			res =3D kobject_add(&ip_hw=
+_instance->kobj, NULL,
+a6c40b178092f41 Luben Tuikov 2022-02-03  719  					  "%d", ip_hw_instance->=
+num_instance);
+a6c40b178092f41 Luben Tuikov 2022-02-03  720  next_ip:
+a6c40b178092f41 Luben Tuikov 2022-02-03  721  			ip_offset +=3D sizeof(*ip)=
+ + 4 * (ip->num_base_address - 1);
+a6c40b178092f41 Luben Tuikov 2022-02-03  722  		}
+a6c40b178092f41 Luben Tuikov 2022-02-03  723  	}
+a6c40b178092f41 Luben Tuikov 2022-02-03  724  =
+
+a6c40b178092f41 Luben Tuikov 2022-02-03  725  	return 0;
+a6c40b178092f41 Luben Tuikov 2022-02-03  726  }
+a6c40b178092f41 Luben Tuikov 2022-02-03  727  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5862333248174902259==--
+--===============3664998015867476644==--
 
