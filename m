@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8398432370426345562=="
+Content-Type: multipart/mixed; boundary="===============1891074863620221847=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/bluetooth/hci_event.c:6979:21: warning: Excessive padding in 'struct hci_ev' (11 padding bytes, where 3 is optimal).
-Date: Tue, 15 Mar 2022 14:54:15 +0800
-Message-ID: <202203151414.UfDO1EXf-lkp@intel.com>
+Subject: Re: [PATCH 2/2] fbdev: Fix cfb_imageblit() for arbitrary image widths
+Date: Tue, 15 Mar 2022 14:03:12 +0800
+Message-ID: <202203151313.gyWGP0AL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8398432370426345562==
+--===============1891074863620221847==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,51 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-CC: Marcel Holtmann <marcel@holtmann.org>
+In-Reply-To: <20220313192952.12058-3-tzimmermann@suse.de>
+References: <20220313192952.12058-3-tzimmermann@suse.de>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+TO: daniel(a)ffwll.ch
+TO: deller(a)gmx.de
+TO: m.szyprowski(a)samsung.com
+TO: geert(a)linux-m68k.org
+TO: javierm(a)redhat.com
+TO: sam(a)ravnborg.org
+CC: linux-fbdev(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
+CC: Thomas Zimmermann <tzimmermann@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   09688c0166e76ce2fb85e86b9d99be8b0084cdf9
-commit: 3e54c5890c87a30b1019a3de9dab968ff2b21e06 Bluetooth: hci_event: Use =
-of a function table to handle HCI events
-date:   3 months ago
+Hi Thomas,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20220310]
+[cannot apply to linus/master v5.17-rc7 v5.17-rc6 v5.17-rc5 v5.17-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/fbdev-Fi=
+x-image-blitting-for-arbitrary-image-widths/20220314-033209
+base:    71941773e143369a73c9c4a3b62fbb60736a1182
 :::::: branch date: 34 hours ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
-hive/20220315/202203151414.UfDO1EXf-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
-7382b8f16a65bddac700202924228982f6)
+:::::: commit date: 34 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20315/202203151313.gyWGP0AL-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0467eb=
+2cb7654c15ae366967ef35093c5724c416)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D3e54c5890c87a30b1019a3de9dab968ff2b21e06
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 3e54c5890c87a30b1019a3de9dab968ff2b21e06
+        # https://github.com/0day-ci/linux/commit/9410e2f8731c2247eb12bf3b2=
+c46d169917bb9b4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-Fix-image-=
+blitting-for-arbitrary-image-widths/20220314-033209
+        git checkout 9410e2f8731c2247eb12bf3b2c46d169917bb9b4
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,610 +67,538 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+               ^
+   include/linux/rcupdate.h:877:41: note: expanded from macro '__is_kvfree_=
+rcu_offset'
+   #define __is_kvfree_rcu_offset(offset) ((offset) < 4096)
+                                           ^~~~~~~~~~~~~~~
+   kernel/rcu/tree.c:3129:2: note: Taking false branch
+           if (__is_kvfree_rcu_offset((unsigned long)func))
+           ^
+   kernel/rcu/tree.c:3140:6: note: Assuming the condition is false
+           if (unlikely(rcu_rdp_is_offloaded(rdp))) {
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   kernel/rcu/tree.c:3140:2: note: Taking true branch
+           if (unlikely(rcu_rdp_is_offloaded(rdp))) {
+           ^
+   kernel/rcu/tree.c:3141:3: note: 2nd function call argument is an uniniti=
+alized value
+                   __call_rcu_nocb_wake(rdp, was_alldone, flags); /* unlock=
+s */
+                   ^                         ~~~~~~~~~~~
+   Suppressed 51 warnings (51 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   drivers/acpi/acpica/utnonansi.c:135:2: warning: Call to function 'strcpy=
+' is insecure as it does not provide bounding of the memory buffer. Replace=
+ unbounded copy functions with analogous functions that support length argu=
+ments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcp=
+y]
+           strcpy(dest, source);
            ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/nouveau/nvkm/subdev/mc/base.c:223:8: warning: Although t=
-he value stored to 'mc' is used in the enclosing expression, the value is n=
-ever actually read from 'mc' [clang-analyzer-deadcode.DeadStores]
-           if (!(mc =3D *pmc =3D kzalloc(sizeof(*mc), GFP_KERNEL)))
-                 ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nvkm/subdev/mc/base.c:223:8: note: Although the =
-value stored to 'mc' is used in the enclosing expression, the value is neve=
-r actually read from 'mc'
-           if (!(mc =3D *pmc =3D kzalloc(sizeof(*mc), GFP_KERNEL)))
-                 ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   net/bluetooth/hci_core.c:890:2: warning: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(di.name, hdev->name);
+   drivers/acpi/acpica/utnonansi.c:135:2: note: Call to function 'strcpy' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcpy'. CWE-119
+           strcpy(dest, source);
            ^~~~~~
-   net/bluetooth/hci_core.c:890:2: note: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119
-           strcpy(di.name, hdev->name);
+   drivers/acpi/acpica/utnonansi.c:146:2: warning: Call to function 'strcat=
+' is insecure as it does not provide bounding of the memory buffer. Replace=
+ unbounded copy functions with analogous functions that support length argu=
+ments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcp=
+y]
+           strcat(dest, source);
            ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   drivers/acpi/acpica/utnonansi.c:146:2: note: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119
+           strcat(dest, source);
+           ^~~~~~
+   drivers/acpi/acpica/utnonansi.c:163:2: warning: Call to function 'strnca=
+t' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'strncat_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncat(dest, source, max_transfer_length);
+           ^~~~~~~
+   drivers/acpi/acpica/utnonansi.c:163:2: note: Call to function 'strncat' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'strncat_s' in case of C11
+           strncat(dest, source, max_transfer_length);
+           ^~~~~~~
+   drivers/acpi/acpica/utnonansi.c:171:2: warning: Call to function 'strncp=
+y' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'strncpy_s' in case of C11 [clang-analyz=
+er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           strncpy(dest, source, dest_size);
+           ^~~~~~~
+   drivers/acpi/acpica/utnonansi.c:171:2: note: Call to function 'strncpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'strncpy_s' in case of C11
+           strncpy(dest, source, dest_size);
+           ^~~~~~~
+   Suppressed 17 warnings (17 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   net/bluetooth/hci_conn.c:1878:18: warning: Value stored to 'hdev' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct hci_dev *hdev =3D conn->hdev;
-                           ^~~~   ~~~~~~~~~~
-   net/bluetooth/hci_conn.c:1878:18: note: Value stored to 'hdev' during it=
-s initialization is never read
-           struct hci_dev *hdev =3D conn->hdev;
-                           ^~~~   ~~~~~~~~~~
-   net/bluetooth/hci_conn.c:1904:18: warning: Value stored to 'hdev' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct hci_dev *hdev =3D conn->hdev;
-                           ^~~~   ~~~~~~~~~~
-   net/bluetooth/hci_conn.c:1904:18: note: Value stored to 'hdev' during it=
-s initialization is never read
-           struct hci_dev *hdev =3D conn->hdev;
-                           ^~~~   ~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> net/bluetooth/hci_event.c:6979:21: warning: Excessive padding in 'struct=
- hci_ev' (11 padding bytes, where 3 is optimal). =
-
-   Optimal fields order: =
-
-   , =
-
-   min_len, =
-
-   max_len, =
-
-   req, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   static const struct hci_ev {
-                ~~~~~~~^~~~~~~~
-   net/bluetooth/hci_event.c:6979:21: note: Excessive padding in 'struct hc=
-i_ev' (11 padding bytes, where 3 is optimal). Optimal fields order: , min_l=
-en, max_len, req, consider reordering the fields or adding explicit padding=
- members
-   static const struct hci_ev {
-                ~~~~~~~^~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:118:11: warning: V=
-alue stored to 'period' during its initialization is never read [clang-anal=
-yzer-deadcode.DeadStores]
-           uint32_t period =3D ts->period;
-                    ^~~~~~   ~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:118:11: note: Valu=
-e stored to 'period' during its initialization is never read
-           uint32_t period =3D ts->period;
-                    ^~~~~~   ~~~~~~~~~~
-   include/linux/math64.h:28:24: warning: Division by zero [clang-analyzer-=
-core.DivideZero]
-           *remainder =3D dividend % divisor;
-                                 ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:122:6: note: Assum=
-ing 'fifo_nb' is not equal to 0
-           if (fifo_nb =3D=3D 0)
-               ^~~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:122:2: note: Takin=
-g false branch
-           if (fifo_nb =3D=3D 0)
+   48 warnings generated.
+   drivers/video/fbdev/core/fbcvt.c:233:3: warning: Value stored to 'off' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   off +=3D scnprintf(buf + off, size - off,
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:233:3: note: Value stored to 'off' is n=
+ever read
+                   off +=3D scnprintf(buf + off, size - off,
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:252:4: warning: Value stored to 'off' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           off +=3D scnprintf(buf + off, size - off, "-R");
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:252:4: note: Value stored to 'off' is n=
+ever read
+                           off +=3D scnprintf(buf + off, size - off, "-R");
+                           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:298:2: warning: Call to function 'memse=
+t' is insecure as it does not provide security checks introduced in the C11=
+ standard. Replace with analogous functions that support length arguments o=
+r provides boundary checks such as 'memset_s' in case of C11 [clang-analyze=
+r-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&cvt, 0, sizeof(cvt));
            ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:130:6: note: Assum=
-ing field 'lo' is not equal to 0
-           if (it->lo !=3D 0) {
-               ^~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:130:2: note: Takin=
-g true branch
-           if (it->lo !=3D 0) {
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbcvt.c:298:2: note: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11
+           memset(&cvt, 0, sizeof(cvt));
            ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:133:11: note: Call=
-ing 'inv_compute_chip_period'
-                   valid =3D inv_compute_chip_period(ts, fifo_mult, period);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:101:2: note: Takin=
-g false branch
-           if (!inv_validate_period(period, mult))
+   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
+fy_memset_chk'
+           __underlying_memset(p, c, __fortify_size);                      \
+           ^~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
+lying_memset'
+   #define __underlying_memset     __builtin_memset
+                                   ^~~~~~~~~~~~~~~~
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   46 warnings generated.
+>> drivers/video/fbdev/core/cfbimgblt.c:304:10: warning: The expression is =
+an uninitialized value. The computed value will also be garbage [clang-anal=
+yzer-core.uninitialized.Assign]
+                   for (; j--; ) {
+                          ^
+   drivers/video/fbdev/core/cfbimgblt.c:326:6: note: Assuming field 'state'=
+ is equal to FBINFO_STATE_RUNNING
+           if (p->state !=3D FBINFO_STATE_RUNNING)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:326:2: note: Taking false branch
+           if (p->state !=3D FBINFO_STATE_RUNNING)
            ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:106:2: note: Calli=
-ng 'inv_update_acc'
-           inv_update_acc(&ts->chip_period, new_chip_period);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:30:6: note: Assumi=
-ng the condition is false
-           if (acc->idx >=3D ARRAY_SIZE(acc->values))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:30:2: note: Taking=
- false branch
-           if (acc->idx >=3D ARRAY_SIZE(acc->values))
+   drivers/video/fbdev/core/cfbimgblt.c:337:6: note: Assuming field 'fb_syn=
+c' is null
+           if (p->fbops->fb_sync)
+               ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:337:2: note: Taking false branch
+           if (p->fbops->fb_sync)
            ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:34:7: note: The va=
-lue 0 is assigned to 'i'
-           for (i =3D 0; i < ARRAY_SIZE(acc->values); ++i) {
-                ^~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:34:2: note: Loop c=
-ondition is true.  Entering loop body
-           for (i =3D 0; i < ARRAY_SIZE(acc->values); ++i) {
+   drivers/video/fbdev/core/cfbimgblt.c:340:6: note: Assuming field 'depth'=
+ is equal to 1
+           if (image->depth =3D=3D 1) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:340:2: note: Taking true branch
+           if (image->depth =3D=3D 1) {
            ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:35:7: note: Assumi=
-ng the condition is true
-                   if (acc->values[i] =3D=3D 0)
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:35:3: note: Taking=
- true branch
-                   if (acc->values[i] =3D=3D 0)
+   drivers/video/fbdev/core/cfbimgblt.c:341:7: note: Assuming field 'visual=
+' is not equal to FB_VISUAL_TRUECOLOR
+                   if (p->fix.visual =3D=3D FB_VISUAL_TRUECOLOR ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:341:7: note: Left side of '||' is f=
+alse
+   drivers/video/fbdev/core/cfbimgblt.c:342:7: note: Assuming field 'visual=
+' is not equal to FB_VISUAL_DIRECTCOLOR
+                       p->fix.visual =3D=3D FB_VISUAL_DIRECTCOLOR) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:341:3: note: Taking false branch
+                   if (p->fix.visual =3D=3D FB_VISUAL_TRUECOLOR ||
                    ^
-   drivers/iio/imu/inv_icm42600/inv_icm42600_timestamp.c:36:4: note:  Execu=
-tion continues on line 40
-                           break;
+   drivers/video/fbdev/core/cfbimgblt.c:350:7: note: Assuming the condition=
+ is true
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                       ^~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:350:7: note: Left side of '&&' is t=
+rue
+   drivers/video/fbdev/core/cfbimgblt.c:350:24: note: Assuming 'start_index=
+' is 0
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                                        ^~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:350:7: note: Left side of '&&' is t=
+rue
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                       ^
+   drivers/video/fbdev/core/cfbimgblt.c:350:40: note: Assuming 'pitch_index=
+' is 0
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                                                        ^~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:350:7: note: Left side of '&&' is t=
+rue
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                       ^
+   drivers/video/fbdev/core/cfbimgblt.c:351:8: note: Assuming the condition=
+ is true
+                       ((width & (32/bpp-1)) =3D=3D 0) &&
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:350:7: note: Left side of '&&' is t=
+rue
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                       ^
+   drivers/video/fbdev/core/cfbimgblt.c:352:7: note: Assuming 'bpp' is >=3D=
+ 8
+                       bpp >=3D 8 && bpp <=3D 32)
+                       ^~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:350:7: note: Left side of '&&' is t=
+rue
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                       ^
+   drivers/video/fbdev/core/cfbimgblt.c:352:19: note: Assuming 'bpp' is <=
+=3D 32
+                       bpp >=3D 8 && bpp <=3D 32)
+                                   ^~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:350:3: note: Taking true branch
+                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
+                   ^
+   drivers/video/fbdev/core/cfbimgblt.c:353:4: note: Calling 'fast_imagebli=
+t'
+                           fast_imageblit(image, p, dst1, fgcolor, bgcolor);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/cfbimgblt.c:227:9: note: 'j' declared without a=
+n initial value
+           int i, j, k;
+                  ^
+   drivers/video/fbdev/core/cfbimgblt.c:229:2: note: Control jumps to 'case=
+ 32:' @line 238
+           switch (bpp) {
+           ^
+   drivers/video/fbdev/core/cfbimgblt.c:241:3: note:  Execution continues o=
+n line 246
+                   break;
+                   ^
+   drivers/video/fbdev/core/cfbimgblt.c:246:2: note: Loop condition is fals=
+e. Execution continues on line 253
+           for (i =3D ppw-1; i--; ) {
+           ^
+   drivers/video/fbdev/core/cfbimgblt.c:257:2: note: Loop condition is true=
+.  Entering loop body
+           for (i =3D 0; i < tablen; ++i)
+           ^
+   drivers/video/fbdev/core/cfbimgblt.c:257:2: note: Loop condition is true=
+.  Entering loop body
+   drivers/video/fbdev/core/cfbimgblt.c:257:2: note: Loop condition is fals=
+e. Execution continues on line 260
+   drivers/video/fbdev/core/cfbimgblt.c:260:2: note: Loop condition is true=
+.  Entering loop body
+           for (i =3D image->height; i--; ) {
+           ^
+   drivers/video/fbdev/core/cfbimgblt.c:270:3: note: 'Default' branch taken=
+. Execution continues on line 304
+                   switch (ppw) {
+                   ^
+   drivers/video/fbdev/core/cfbimgblt.c:304:10: note: The expression is an =
+uninitialized value. The computed value will also be garbage
+                   for (; j--; ) {
+                          ^
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   drivers/acpi/acpica/tbprint.c:70:2: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
 
-vim +6979 net/bluetooth/hci_event.c
+vim +304 drivers/video/fbdev/core/cfbimgblt.c
 
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6970  =
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  206  =
 
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6971  #define HCI_EV_REQ(=
-_op, _func, _len) \
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6972  	HCI_EV_REQ_VL(_op,=
- _func, _len, _len)
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6973  =
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  207  /*
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  208   * fast_imageblit - optimized monochrome color expansion
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  209   *
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  210   * Only if:  bits_per_pixel =3D=3D 8, 16, or 32
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  211   *           image->width is divisible by pixel/dword (ppw);
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  212   *           fix->line_legth is divisible by 4;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  213   *           beginning and end of a scanline is dword aligned
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  214   */
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  215  static inline void fast_imageblit(const struct fb_image *image=
+, struct fb_info *p,
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  216  				  u8 __iomem *dst1, u32 fgcolor,
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  217  				  u32 bgcolor)
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  218  {
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  219  	u32 fgx =3D fgcolor, bgx =3D bgcolor, bpp =3D p->var.bits_per=
+_pixel;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  220  	u32 ppw =3D 32/bpp, spitch =3D (image->width + 7)/8;
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  221  	u32 bit_mask, eorx, shift;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  222  	const char *s =3D image->data, *src;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  223  	u32 __iomem *dst;
+d95159cf1b12e8e drivers/video/cfbimgblt.c            Helge Deller      2006=
+-12-08  224  	const u32 *tab =3D NULL;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  225  	size_t tablen;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  226  	u32 colortab[16];
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  227  	int i, j, k;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  228  =
 
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6974  /* Entries in this =
-table shall have their position according to the event opcode
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6975   * they handle so t=
-he use of the macros above is recommend since it does attempt
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6976   * to initialize at=
- its proper index using Designated Initializers that way
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6977   * events without a=
- callback function don't have entered.
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6978   */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01 @6979  static const struct=
- hci_ev {
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6980  	bool req;
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6981  	union {
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6982  		void (*func)(stru=
-ct hci_dev *hdev, void *data,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6983  			     struct sk_b=
-uff *skb);
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6984  		void (*func_req)(=
-struct hci_dev *hdev, void *data,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6985  				 struct sk_buff=
- *skb, u16 *opcode, u8 *status,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6986  				 hci_req_comple=
-te_t *req_complete,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6987  				 hci_req_comple=
-te_skb_t *req_complete_skb);
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6988  	};
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6989  	u16  min_len;
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6990  	u16  max_len;
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6991  } hci_ev_table[U8_M=
-AX + 1] =3D {
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6992  	/* [0x01 =3D HCI_E=
-V_INQUIRY_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6993  	HCI_EV_STATUS(HCI_=
-EV_INQUIRY_COMPLETE, hci_inquiry_complete_evt),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6994  	/* [0x02 =3D HCI_E=
-V_INQUIRY_RESULT] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6995  	HCI_EV_VL(HCI_EV_I=
-NQUIRY_RESULT, hci_inquiry_result_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6996  		  sizeof(struct h=
-ci_ev_inquiry_result), HCI_MAX_EVENT_SIZE),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6997  	/* [0x03 =3D HCI_E=
-V_CONN_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6998  	HCI_EV(HCI_EV_CONN=
-_COMPLETE, hci_conn_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  6999  	       sizeof(stru=
-ct hci_ev_conn_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7000  	/* [0x04 =3D HCI_E=
-V_CONN_REQUEST] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7001  	HCI_EV(HCI_EV_CONN=
-_REQUEST, hci_conn_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7002  	       sizeof(stru=
-ct hci_ev_conn_request)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7003  	/* [0x05 =3D HCI_E=
-V_DISCONN_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7004  	HCI_EV(HCI_EV_DISC=
-ONN_COMPLETE, hci_disconn_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7005  	       sizeof(stru=
-ct hci_ev_disconn_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7006  	/* [0x06 =3D HCI_E=
-V_AUTH_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7007  	HCI_EV(HCI_EV_AUTH=
-_COMPLETE, hci_auth_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7008  	       sizeof(stru=
-ct hci_ev_auth_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7009  	/* [0x07 =3D HCI_E=
-V_REMOTE_NAME] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7010  	HCI_EV(HCI_EV_REMO=
-TE_NAME, hci_remote_name_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7011  	       sizeof(stru=
-ct hci_ev_remote_name)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7012  	/* [0x08 =3D HCI_E=
-V_ENCRYPT_CHANGE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7013  	HCI_EV(HCI_EV_ENCR=
-YPT_CHANGE, hci_encrypt_change_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7014  	       sizeof(stru=
-ct hci_ev_encrypt_change)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7015  	/* [0x09 =3D HCI_E=
-V_CHANGE_LINK_KEY_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7016  	HCI_EV(HCI_EV_CHAN=
-GE_LINK_KEY_COMPLETE,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7017  	       hci_change_=
-link_key_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7018  	       sizeof(stru=
-ct hci_ev_change_link_key_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7019  	/* [0x0b =3D HCI_E=
-V_REMOTE_FEATURES] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7020  	HCI_EV(HCI_EV_REMO=
-TE_FEATURES, hci_remote_features_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7021  	       sizeof(stru=
-ct hci_ev_remote_features)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7022  	/* [0x0e =3D HCI_E=
-V_CMD_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7023  	HCI_EV_REQ_VL(HCI_=
-EV_CMD_COMPLETE, hci_cmd_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7024  		      sizeof(stru=
-ct hci_ev_cmd_complete), HCI_MAX_EVENT_SIZE),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7025  	/* [0x0f =3D HCI_E=
-V_CMD_STATUS] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7026  	HCI_EV_REQ(HCI_EV_=
-CMD_STATUS, hci_cmd_status_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7027  		   sizeof(struct =
-hci_ev_cmd_status)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7028  	/* [0x10 =3D HCI_E=
-V_CMD_STATUS] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7029  	HCI_EV(HCI_EV_HARD=
-WARE_ERROR, hci_hardware_error_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7030  	       sizeof(stru=
-ct hci_ev_hardware_error)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7031  	/* [0x12 =3D HCI_E=
-V_ROLE_CHANGE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7032  	HCI_EV(HCI_EV_ROLE=
-_CHANGE, hci_role_change_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7033  	       sizeof(stru=
-ct hci_ev_role_change)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7034  	/* [0x13 =3D HCI_E=
-V_NUM_COMP_PKTS] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7035  	HCI_EV_VL(HCI_EV_N=
-UM_COMP_PKTS, hci_num_comp_pkts_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7036  		  sizeof(struct h=
-ci_ev_num_comp_pkts), HCI_MAX_EVENT_SIZE),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7037  	/* [0x14 =3D HCI_E=
-V_MODE_CHANGE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7038  	HCI_EV(HCI_EV_MODE=
-_CHANGE, hci_mode_change_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7039  	       sizeof(stru=
-ct hci_ev_mode_change)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7040  	/* [0x16 =3D HCI_E=
-V_PIN_CODE_REQ] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7041  	HCI_EV(HCI_EV_PIN_=
-CODE_REQ, hci_pin_code_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7042  	       sizeof(stru=
-ct hci_ev_pin_code_req)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7043  	/* [0x17 =3D HCI_E=
-V_LINK_KEY_REQ] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7044  	HCI_EV(HCI_EV_LINK=
-_KEY_REQ, hci_link_key_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7045  	       sizeof(stru=
-ct hci_ev_link_key_req)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7046  	/* [0x18 =3D HCI_E=
-V_LINK_KEY_NOTIFY] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7047  	HCI_EV(HCI_EV_LINK=
-_KEY_NOTIFY, hci_link_key_notify_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7048  	       sizeof(stru=
-ct hci_ev_link_key_notify)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7049  	/* [0x1c =3D HCI_E=
-V_CLOCK_OFFSET] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7050  	HCI_EV(HCI_EV_CLOC=
-K_OFFSET, hci_clock_offset_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7051  	       sizeof(stru=
-ct hci_ev_clock_offset)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7052  	/* [0x1d =3D HCI_E=
-V_PKT_TYPE_CHANGE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7053  	HCI_EV(HCI_EV_PKT_=
-TYPE_CHANGE, hci_pkt_type_change_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7054  	       sizeof(stru=
-ct hci_ev_pkt_type_change)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7055  	/* [0x20 =3D HCI_E=
-V_PSCAN_REP_MODE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7056  	HCI_EV(HCI_EV_PSCA=
-N_REP_MODE, hci_pscan_rep_mode_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7057  	       sizeof(stru=
-ct hci_ev_pscan_rep_mode)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7058  	/* [0x22 =3D HCI_E=
-V_INQUIRY_RESULT_WITH_RSSI] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7059  	HCI_EV_VL(HCI_EV_I=
-NQUIRY_RESULT_WITH_RSSI,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7060  		  hci_inquiry_res=
-ult_with_rssi_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7061  		  sizeof(struct h=
-ci_ev_inquiry_result_rssi),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7062  		  HCI_MAX_EVENT_S=
-IZE),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7063  	/* [0x23 =3D HCI_E=
-V_REMOTE_EXT_FEATURES] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7064  	HCI_EV(HCI_EV_REMO=
-TE_EXT_FEATURES, hci_remote_ext_features_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7065  	       sizeof(stru=
-ct hci_ev_remote_ext_features)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7066  	/* [0x2c =3D HCI_E=
-V_SYNC_CONN_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7067  	HCI_EV(HCI_EV_SYNC=
-_CONN_COMPLETE, hci_sync_conn_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7068  	       sizeof(stru=
-ct hci_ev_sync_conn_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7069  	/* [0x2d =3D HCI_E=
-V_EXTENDED_INQUIRY_RESULT] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7070  	HCI_EV_VL(HCI_EV_E=
-XTENDED_INQUIRY_RESULT,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7071  		  hci_extended_in=
-quiry_result_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7072  		  sizeof(struct h=
-ci_ev_ext_inquiry_result), HCI_MAX_EVENT_SIZE),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7073  	/* [0x30 =3D HCI_E=
-V_KEY_REFRESH_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7074  	HCI_EV(HCI_EV_KEY_=
-REFRESH_COMPLETE, hci_key_refresh_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7075  	       sizeof(stru=
-ct hci_ev_key_refresh_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7076  	/* [0x31 =3D HCI_E=
-V_IO_CAPA_REQUEST] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7077  	HCI_EV(HCI_EV_IO_C=
-APA_REQUEST, hci_io_capa_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7078  	       sizeof(stru=
-ct hci_ev_io_capa_request)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7079  	/* [0x32 =3D HCI_E=
-V_IO_CAPA_REPLY] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7080  	HCI_EV(HCI_EV_IO_C=
-APA_REPLY, hci_io_capa_reply_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7081  	       sizeof(stru=
-ct hci_ev_io_capa_reply)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7082  	/* [0x33 =3D HCI_E=
-V_USER_CONFIRM_REQUEST] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7083  	HCI_EV(HCI_EV_USER=
-_CONFIRM_REQUEST, hci_user_confirm_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7084  	       sizeof(stru=
-ct hci_ev_user_confirm_req)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7085  	/* [0x34 =3D HCI_E=
-V_USER_PASSKEY_REQUEST] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7086  	HCI_EV(HCI_EV_USER=
-_PASSKEY_REQUEST, hci_user_passkey_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7087  	       sizeof(stru=
-ct hci_ev_user_passkey_req)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7088  	/* [0x35 =3D HCI_E=
-V_REMOTE_OOB_DATA_REQUEST] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7089  	HCI_EV(HCI_EV_REMO=
-TE_OOB_DATA_REQUEST, hci_remote_oob_data_request_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7090  	       sizeof(stru=
-ct hci_ev_remote_oob_data_request)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7091  	/* [0x36 =3D HCI_E=
-V_SIMPLE_PAIR_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7092  	HCI_EV(HCI_EV_SIMP=
-LE_PAIR_COMPLETE, hci_simple_pair_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7093  	       sizeof(stru=
-ct hci_ev_simple_pair_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7094  	/* [0x3b =3D HCI_E=
-V_USER_PASSKEY_NOTIFY] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7095  	HCI_EV(HCI_EV_USER=
-_PASSKEY_NOTIFY, hci_user_passkey_notify_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7096  	       sizeof(stru=
-ct hci_ev_user_passkey_notify)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7097  	/* [0x3c =3D HCI_E=
-V_KEYPRESS_NOTIFY] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7098  	HCI_EV(HCI_EV_KEYP=
-RESS_NOTIFY, hci_keypress_notify_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7099  	       sizeof(stru=
-ct hci_ev_keypress_notify)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7100  	/* [0x3d =3D HCI_E=
-V_REMOTE_HOST_FEATURES] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7101  	HCI_EV(HCI_EV_REMO=
-TE_HOST_FEATURES, hci_remote_host_features_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7102  	       sizeof(stru=
-ct hci_ev_remote_host_features)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7103  	/* [0x3e =3D HCI_E=
-V_LE_META] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7104  	HCI_EV_VL(HCI_EV_L=
-E_META, hci_le_meta_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7105  		  sizeof(struct h=
-ci_ev_le_meta), HCI_MAX_EVENT_SIZE),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7106  #if IS_ENABLED(CONF=
-IG_BT_HS)
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7107  	/* [0x40 =3D HCI_E=
-V_PHY_LINK_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7108  	HCI_EV(HCI_EV_PHY_=
-LINK_COMPLETE, hci_phy_link_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7109  	       sizeof(stru=
-ct hci_ev_phy_link_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7110  	/* [0x41 =3D HCI_E=
-V_CHANNEL_SELECTED] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7111  	HCI_EV(HCI_EV_CHAN=
-NEL_SELECTED, hci_chan_selected_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7112  	       sizeof(stru=
-ct hci_ev_channel_selected)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7113  	/* [0x42 =3D HCI_E=
-V_DISCONN_PHY_LINK_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7114  	HCI_EV(HCI_EV_DISC=
-ONN_LOGICAL_LINK_COMPLETE,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7115  	       hci_disconn=
-_loglink_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7116  	       sizeof(stru=
-ct hci_ev_disconn_logical_link_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7117  	/* [0x45 =3D HCI_E=
-V_LOGICAL_LINK_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7118  	HCI_EV(HCI_EV_LOGI=
-CAL_LINK_COMPLETE, hci_loglink_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7119  	       sizeof(stru=
-ct hci_ev_logical_link_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7120  	/* [0x46 =3D HCI_E=
-V_DISCONN_LOGICAL_LINK_COMPLETE] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7121  	HCI_EV(HCI_EV_DISC=
-ONN_PHY_LINK_COMPLETE,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7122  	       hci_disconn=
-_phylink_complete_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7123  	       sizeof(stru=
-ct hci_ev_disconn_phy_link_complete)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7124  #endif
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7125  	/* [0x48 =3D HCI_E=
-V_NUM_COMP_BLOCKS] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7126  	HCI_EV(HCI_EV_NUM_=
-COMP_BLOCKS, hci_num_comp_blocks_evt,
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7127  	       sizeof(stru=
-ct hci_ev_num_comp_blocks)),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7128  	/* [0xff =3D HCI_E=
-V_VENDOR] */
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7129  	HCI_EV(HCI_EV_VEND=
-OR, msft_vendor_evt, 0),
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7130  };
-3e54c5890c87a3 Luiz Augusto von Dentz 2021-12-01  7131  =
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  229  	switch (bpp) {
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  230  	case 8:
+e4c690e061b9091 drivers/video/cfbimgblt.c            Anton Vorontsov   2008=
+-04-28  231  		tab =3D fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  232  		tablen =3D 16;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  233  		break;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  234  	case 16:
+e4c690e061b9091 drivers/video/cfbimgblt.c            Anton Vorontsov   2008=
+-04-28  235  		tab =3D fb_be_math(p) ? cfb_tab16_be : cfb_tab16_le;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  236  		tablen =3D 4;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  237  		break;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  238  	case 32:
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  239  		tab =3D cfb_tab32;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  240  		tablen =3D 2;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  241  		break;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  242  	default:
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  243  		return;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  244  	}
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  245  =
+
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  246  	for (i =3D ppw-1; i--; ) {
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  247  		fgx <<=3D bpp;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  248  		bgx <<=3D bpp;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  249  		fgx |=3D fgcolor;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  250  		bgx |=3D bgcolor;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  251  	}
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  252  =
+
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  253  	bit_mask =3D (1 << ppw) - 1;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  254  	eorx =3D fgx ^ bgx;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  255  	k =3D image->width/ppw;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  256  =
+
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  257  	for (i =3D 0; i < tablen; ++i)
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  258  		colortab[i] =3D (tab[i] & eorx) ^ bgx;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  259  =
+
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  260  	for (i =3D image->height; i--; ) {
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  261  		dst =3D (u32 __iomem *)dst1;
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  262  		shift =3D 8;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  263  		src =3D s;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  264  =
+
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  265  		/*
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  266  		 * Manually unroll the per-line copying loop for better
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  267  		 * performance. This works until we processed the last
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  268  		 * completely filled source byte (inclusive).
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  269  		 */
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  270  		switch (ppw) {
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  271  		case 4: /* 8 bpp */
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  272  			for (j =3D k; j >=3D 2; j -=3D 2, ++src) {
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  273  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  274  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  275  			}
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  276  			break;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  277  		case 2: /* 16 bpp */
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  278  			for (j =3D k; j >=3D 4; j -=3D 4, ++src) {
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  279  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  280  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  281  				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  282  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  283  			}
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  284  			break;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  285  		case 1: /* 32 bpp */
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  286  			for (j =3D k; j >=3D 8; j -=3D 8, ++src) {
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  287  				FB_WRITEL(colortab[(*src >> 7) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  288  				FB_WRITEL(colortab[(*src >> 6) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  289  				FB_WRITEL(colortab[(*src >> 5) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  290  				FB_WRITEL(colortab[(*src >> 4) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  291  				FB_WRITEL(colortab[(*src >> 3) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  292  				FB_WRITEL(colortab[(*src >> 2) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  293  				FB_WRITEL(colortab[(*src >> 1) & bit_mask], dst++);
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  294  				FB_WRITEL(colortab[(*src >> 0) & bit_mask], dst++);
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  295  			}
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  296  			break;
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  297  		}
+0d03011894d2324 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-02-23  298  =
+
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  299  		/*
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  300  		 * For image widths that are not a multiple of 8, there
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  301  		 * are trailing pixels left on the current line. Print
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  302  		 * them as well.
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  303  		 */
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13 @304  		for (; j--; ) {
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  305  			shift -=3D ppw;
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  306  			FB_WRITEL(colortab[(*src >> shift) & bit_mask], dst++);
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  307  			if (!shift) {
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  308  				shift =3D 8;
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  309  				++src;
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  310  			}
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  311  		}
+9410e2f8731c224 drivers/video/fbdev/core/cfbimgblt.c Thomas Zimmermann 2022=
+-03-13  312  =
+
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  313  		dst1 +=3D p->fix.line_length;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  314  		s +=3D spitch;
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  315  	}
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  316  }
+^1da177e4c3f415 drivers/video/cfbimgblt.c            Linus Torvalds    2005=
+-04-16  317  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8398432370426345562==--
+--===============1891074863620221847==--
 
