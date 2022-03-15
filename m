@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7022773103225196062=="
+Content-Type: multipart/mixed; boundary="===============4907495989219578732=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/controller/pcie-mediatek-gen3.c:239:4: warning: Value stored to 'range_type' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 15 Mar 2022 16:47:05 +0800
-Message-ID: <202203151649.ilNVofK9-lkp@intel.com>
+Subject: [linux-next:master 8478/11953] lib/stackinit_kunit.c:259:8: warning: Excessive padding in 'struct test_big_hole' (124 padding bytes, where 60 is optimal).
+Date: Tue, 15 Mar 2022 15:46:07 +0800
+Message-ID: <202203151502.kyJFS2EG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7022773103225196062==
+--===============4907495989219578732==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Jianjun Wang <jianjun.wang@mediatek.com>
-CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kees Cook <keescook@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   09688c0166e76ce2fb85e86b9d99be8b0084cdf9
-commit: d3bf75b579b980b9d83a76d3b4d8bfb9f55b24ca PCI: mediatek-gen3: Add Me=
-diaTek Gen3 driver for MT8192
-date:   11 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: riscv-randconfig-c006-20220307 (https://download.01.org/0day-ci/arc=
-hive/20220315/202203151649.ilNVofK9-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   71941773e143369a73c9c4a3b62fbb60736a1182
+commit: 8d60400704e503ded9f0c2ea32c2303d22955888 [8478/11953] lib: stackini=
+t: Convert to KUnit
+:::::: branch date: 5 days ago
+:::::: commit date: 2 weeks ago
+config: mips-randconfig-c004-20220302 (https://download.01.org/0day-ci/arch=
+ive/20220315/202203151502.kyJFS2EG-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
 04d5b97b12e6b797c6067d3c96a8d7470e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd3bf75b579b980b9d83a76d3b4d8bfb9f55b24ca
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d3bf75b579b980b9d83a76d3b4d8bfb9f55b24ca
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D8d60400704e503ded9f0c2ea32c2303d22955888
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 8d60400704e503ded9f0c2ea32c2303d22955888
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,421 +51,865 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           list_entry((ptr)->next, type, member)
+   kernel/rcu/rcuscale.c:431:3: note: Taking true branch
+                   if (gp_async) {
+                   ^
+   kernel/rcu/rcuscale.c:433:9: note: 'rhp' is non-null
+                           if (!rhp)
+                                ^~~
+   kernel/rcu/rcuscale.c:433:4: note: Taking false branch
+                           if (!rhp)
+                           ^
+   kernel/rcu/rcuscale.c:435:8: note: 'rhp' is non-null
+                           if (rhp && atomic_read(this_cpu_ptr(&n_async_inf=
+light)) < gp_async_max) {
+                               ^~~
+   kernel/rcu/rcuscale.c:435:8: note: Left side of '&&' is true
+   kernel/rcu/rcuscale.c:435:27: note: Loop condition is false.  Exiting lo=
+op
+                           if (rhp && atomic_read(this_cpu_ptr(&n_async_inf=
+light)) < gp_async_max) {
+                                                  ^
+   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
+                                   ^
+   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
+tr'
+   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
+                                   ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   kernel/rcu/rcuscale.c:435:15: note: Assuming the condition is false
+                           if (rhp && atomic_read(this_cpu_ptr(&n_async_inf=
+light)) < gp_async_max) {
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/rcuscale.c:435:4: note: Taking false branch
+                           if (rhp && atomic_read(this_cpu_ptr(&n_async_inf=
+light)) < gp_async_max) {
+                           ^
+   kernel/rcu/rcuscale.c:439:15: note: Assuming the condition is false
+                           } else if (!kthread_should_stop()) {
+                                      ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/rcuscale.c:439:11: note: Taking false branch
+                           } else if (!kthread_should_stop()) {
+                                  ^
+   kernel/rcu/rcuscale.c:443:5: note: Attempt to free released memory
+                                   kfree(rhp); /* Because we are stopping. =
+*/
+                                   ^~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   134 warnings generated.
+>> lib/stackinit_kunit.c:259:8: warning: Excessive padding in 'struct test_=
+big_hole' (124 padding bytes, where 60 is optimal). =
+
+   Optimal fields order: =
+
+   four, =
+
+   one, =
+
+   two, =
+
+   three, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct test_big_hole {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:259:8: note: Excessive padding in 'struct test_big=
+_hole' (124 padding bytes, where 60 is optimal). Optimal fields order: four=
+, one, two, three, consider reordering the fields or adding explicit paddin=
+g members
+   struct test_big_hole {
+   ~~~~~~~^~~~~~~~~~~~~~~
+>> lib/stackinit_kunit.c:333:1: warning: Address of stack memory associated=
+ with local variable 'var' is still referred to by the global variable 'fil=
+l_start' upon returning to the caller.  This will be a dangling reference [=
+clang-analyzer-core.StackAddressEscape]
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
            ^
-   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:229:2: note: Taking false br=
-anch
-           resource_list_for_each_entry(entry, &host->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
+   lib/stackinit_kunit.c:333:1: note: Taking false branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
    note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
 =3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:229:2: note: Loop condition =
-is false.  Exiting loop
-           resource_list_for_each_entry(entry, &host->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
+   lib/stackinit_kunit.c:333:1: note: Loop condition is false.  Exiting loop
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
    note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
 =3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:229:2: note: Loop condition =
-is true.  Entering loop body
-           resource_list_for_each_entry(entry, &host->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:237:7: note: Assuming 'type'=
- is equal to IORESOURCE_IO
-                   if (type =3D=3D IORESOURCE_IO) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:237:3: note: Taking true bra=
-nch
-                   if (type =3D=3D IORESOURCE_IO) {
-                   ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:249:9: note: Calling 'mtk_pc=
-ie_set_trans_table'
-                   err =3D mtk_pcie_set_trans_table(port, cpu_addr, pci_add=
-r, size,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:154:6: note: 'num' is < PCIE=
-_MAX_TRANS_TABLES
-           if (num >=3D PCIE_MAX_TRANS_TABLES) {
-               ^~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:154:2: note: Taking false br=
-anch
-           if (num >=3D PCIE_MAX_TRANS_TABLES) {
-           ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:163:2: note: Loop condition =
-is false.  Exiting loop
-           writel_relaxed(lower_32_bits(cpu_addr) | PCIE_ATR_SIZE(fls(size)=
- - 1),
-           ^
-   arch/riscv/include/asm/mmio.h:120:33: note: expanded from macro 'writel_=
-relaxed'
-   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __i=
-o_raw(); })
-                                      ^
-   arch/riscv/include/asm/mmio.h:111:21: note: expanded from macro '__io_rb=
-w'
-   #define __io_rbw()              do {} while (0)
-                                   ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:163:43: note: The result of =
-the left shift is undefined because the left operand is negative
-           writel_relaxed(lower_32_bits(cpu_addr) | PCIE_ATR_SIZE(fls(size)=
- - 1),
-                                                    ^
-   drivers/pci/controller/pcie-mediatek-gen3.c:58:18: note: expanded from m=
-acro 'PCIE_ATR_SIZE'
-           (((((size) - 1) << 1) & GENMASK(6, 1)) | PCIE_ATR_EN)
-                           ^
-   arch/riscv/include/asm/mmio.h:120:57: note: expanded from macro 'writel_=
-relaxed'
-   #define writel_relaxed(v, c)    ({ __io_rbw(); writel_cpu((v), (c)); __i=
-o_raw(); })
-                                                  ~~~~~~~~~~~~^~~~~~~~
-   arch/riscv/include/asm/mmio.h:93:71: note: expanded from macro 'writel_c=
-pu'
-   #define writel_cpu(v, c)        ((void)__raw_writel((__force u32)cpu_to_=
-le32(v), (c)))
-                                                                    ~~~~~~~=
-~~~~~^~
-   include/uapi/linux/byteorder/little_endian.h:33:51: note: expanded from =
-macro '__cpu_to_le32'
-   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
-                                                     ^
->> drivers/pci/controller/pcie-mediatek-gen3.c:239:4: warning: Value stored=
- to 'range_type' is never read [clang-analyzer-deadcode.DeadStores]
-                           range_type =3D "IO";
-                           ^            ~~~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:239:4: note: Value stored to=
- 'range_type' is never read
-                           range_type =3D "IO";
-                           ^            ~~~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:242:4: warning: Value stored=
- to 'range_type' is never read [clang-analyzer-deadcode.DeadStores]
-                           range_type =3D "MEM";
-                           ^            ~~~~~
-   drivers/pci/controller/pcie-mediatek-gen3.c:242:4: note: Value stored to=
- 'range_type' is never read
-                           range_type =3D "MEM";
-                           ^            ~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/pci/controller/dwc/pci-keystone.c:260:17: warning: Value stored =
-to 'dev' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct device *dev =3D pci->dev;
-                          ^~~   ~~~~~~~~
-   drivers/pci/controller/dwc/pci-keystone.c:260:17: note: Value stored to =
-'dev' during its initialization is never read
-           struct device *dev =3D pci->dev;
-                          ^~~   ~~~~~~~~
-   drivers/pci/controller/dwc/pci-keystone.c:574:17: warning: Value stored =
-to 'dev' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct device *dev =3D pci->dev;
-                          ^~~   ~~~~~~~~
-   drivers/pci/controller/dwc/pci-keystone.c:574:17: note: Value stored to =
-'dev' during its initialization is never read
-           struct device *dev =3D pci->dev;
-                          ^~~   ~~~~~~~~
-   drivers/pci/controller/dwc/pci-keystone.c:619:17: warning: Value stored =
-to 'dev' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct device *dev =3D pci->dev;
-                          ^~~   ~~~~~~~~
-   drivers/pci/controller/dwc/pci-keystone.c:619:17: note: Value stored to =
-'dev' during its initialization is never read
-           struct device *dev =3D pci->dev;
-                          ^~~   ~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/pci/controller/dwc/pcie-artpec6.c:243:18: warning: Value stored =
-to 'pci' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct dw_pcie *pci =3D artpec6_pcie->pci;
-                           ^~~   ~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/dwc/pcie-artpec6.c:243:18: note: Value stored to =
-'pci' during its initialization is never read
-           struct dw_pcie *pci =3D artpec6_pcie->pci;
-                           ^~~   ~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   lib/radix-tree.c:1045:3: warning: 4th function call argument is an unini=
-tialized value [clang-analyzer-core.CallAndMessage]
-                   node_tag_clear(root, parent, tag, offset);
-                   ^                                 ~~~~~~
-   lib/radix-tree.c:1031:2: note: 'offset' declared without an initial value
-           int offset;
-           ^~~~~~~~~~
-   lib/radix-tree.c:1034:6: note: Assuming 'index' is <=3D 'maxindex'
-           if (index > maxindex)
-               ^~~~~~~~~~~~~~~~
-   lib/radix-tree.c:1034:2: note: Taking false branch
-           if (index > maxindex)
-           ^
-   lib/radix-tree.c:1039:2: note: Loop condition is false. Execution contin=
-ues on line 1044
-           while (radix_tree_is_internal_node(node)) {
-           ^
-   lib/radix-tree.c:1044:6: note: Assuming 'node' is non-null
-           if (node)
+   lib/stackinit_kunit.c:333:1: note: Calling 'leaf_u8_zero'
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:163:12: note: expanded from macro '\DEFINE_TEST_DR=
+IVER'
+           ignored =3D leaf_ ##name((unsigned long)&ignored, 1,      \
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   lib/stackinit_kunit.c:333:1: note: 'fill' is true
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:223:6: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
                ^~~~
-   lib/radix-tree.c:1044:2: note: Taking true branch
-           if (node)
+   lib/stackinit_kunit.c:333:1: note: Taking true branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:223:2: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
            ^
-   lib/radix-tree.c:1045:3: note: 4th function call argument is an uninitia=
-lized value
-                   node_tag_clear(root, parent, tag, offset);
-                   ^                                 ~~~~~~
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   lib/stackinit_kunit.c:333:1: note: Address of stack memory associated wi=
+th local variable 'var' is still referred to by the global variable 'fill_s=
+tart' upon returning to the caller.  This will be a dangling reference
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+>> lib/stackinit_kunit.c:333:1: warning: Address of stack memory associated=
+ with local variable 'var' is still referred to by the global variable 'tar=
+get_start' upon returning to the caller.  This will be a dangling reference=
+ [clang-analyzer-core.StackAddressEscape]
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Taking false branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   lib/stackinit_kunit.c:333:1: note: Loop condition is false.  Exiting loop
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Calling 'leaf_u8_zero'
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:163:12: note: expanded from macro '\DEFINE_TEST_DR=
+IVER'
+           ignored =3D leaf_ ##name((unsigned long)&ignored, 1,      \
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   lib/stackinit_kunit.c:333:1: note: 'fill' is true
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:223:6: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+               ^~~~
+   lib/stackinit_kunit.c:333:1: note: Taking true branch
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:223:2: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+           ^
+   lib/stackinit_kunit.c:333:1: note: Address of stack memory associated wi=
+th local variable 'var' is still referred to by the global variable 'target=
+_start' upon returning to the caller.  This will be a dangling reference
+   DEFINE_SCALAR_TESTS(zero, ALWAYS_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+--
+                   ^
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+   lib/stackinit_kunit.c:343:1: note: Taking false branch
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   lib/stackinit_kunit.c:343:1: note: Loop condition is false.  Exiting loop
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   lib/stackinit_kunit.c:343:1: note: Calling 'leaf_u8_none'
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:163:12: note: expanded from macro '\DEFINE_TEST_DR=
+IVER'
+           ignored =3D leaf_ ##name((unsigned long)&ignored, 1,      \
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   lib/stackinit_kunit.c:343:1: note: 'fill' is true
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:223:6: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+               ^~~~
+   lib/stackinit_kunit.c:343:1: note: Taking true branch
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:223:2: note: expanded from macro 'DEFINE_TEST'
+           if (fill) {                                             \
+           ^
+   lib/stackinit_kunit.c:343:1: note: Address of stack memory associated wi=
+th local variable 'var' is still referred to by the global variable 'target=
+_start' upon returning to the caller.  This will be a dangling reference
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:237:2: note: expanded from macro 'DEFINE_TEST'
+           return (int)buf[0] | (int)buf[sizeof(buf) - 1];         \
+           ^
+>> lib/stackinit_kunit.c:343:1: warning: Undefined or garbage value returne=
+d to caller [clang-analyzer-core.uninitialized.UndefReturn]
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:204:3: note: expanded from macro 'DEFINE_TEST'
+                   return DO_NOTHING_RETURN_ ## which(ptr);        \
+                   ^
+   lib/stackinit_kunit.c:343:1: note: Taking false branch
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   lib/stackinit_kunit.c:343:1: note: Loop condition is false.  Exiting loop
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   lib/stackinit_kunit.c:343:1: note: Loop condition is true.  Entering loo=
+p body
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:166:2: note: expanded from macro '\DEFINE_TEST_DRI=
+VER'
+           for (sum =3D 0, i =3D 0; i < target_size; i++)              \
+           ^
+   lib/stackinit_kunit.c:343:1: note: Assuming the condition is false
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:167:11: note: expanded from macro '\DEFINE_TEST_DR=
+IVER'
+                   sum +=3D (check_buf[i] !=3D 0xFF);                  \
+                           ^~~~~~~~~~~~~~~~~~~~
+   lib/stackinit_kunit.c:343:1: note: Loop condition is false. Execution co=
+ntinues on line 343
+   DEFINE_SCALAR_TESTS(none, STRONG_PASS);
+   ^
+   lib/stackinit_kunit.c:309:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+STS'
+                   DEFINE_SCALAR_TEST(u8, init, xfail);            \
+                   ^
+   lib/stackinit_kunit.c:305:3: note: expanded from macro 'DEFINE_SCALAR_TE=
+ST'
+                   DEFINE_TEST(name ## _ ## init, name, SCALAR,    \
+                   ^
+   lib/stackinit_kunit.c:238:10: note: expanded from macro 'DEFINE_TEST'
+   }                                                               \
+                                                                   ^
+   lib/stackinit_kunit.c:166:2: note: expanded from macro '\DEFINE_TEST_DRI=
+VER'
+           for (sum =3D 0, i =3D 0; i < target_size; i++)              \
+           ^
 
-vim +/range_type +239 drivers/pci/controller/pcie-mediatek-gen3.c
+vim +259 lib/stackinit_kunit.c
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  181  =
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  257  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  182  static int mtk_pcie_startup_po=
-rt(struct mtk_pcie_port *port)
-d3bf75b579b980 Jianjun Wang 2021-04-20  183  {
-d3bf75b579b980 Jianjun Wang 2021-04-20  184  	struct resource_entry *entry;
-d3bf75b579b980 Jianjun Wang 2021-04-20  185  	struct pci_host_bridge *host =
-=3D pci_host_bridge_from_priv(port);
-d3bf75b579b980 Jianjun Wang 2021-04-20  186  	unsigned int table_index =3D =
-0;
-d3bf75b579b980 Jianjun Wang 2021-04-20  187  	int err;
-d3bf75b579b980 Jianjun Wang 2021-04-20  188  	u32 val;
-d3bf75b579b980 Jianjun Wang 2021-04-20  189  =
+f9398f15605a501 lib/test_stackinit.c  Kees Cook 2021-07-23  258  /* Trigger=
+ unhandled padding in a structure. */
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23 @259  struct tes=
+t_big_hole {
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  260  	u8 one;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  261  	u8 two;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  262  	u8 three;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  263  	/* 61 byt=
+e padding hole here. */
+f9398f15605a501 lib/test_stackinit.c  Kees Cook 2021-07-23  264  	u8 four _=
+_aligned(64);
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  265  } __aligne=
+d(64);
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  266  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  190  	/* Set as RC mode */
-d3bf75b579b980 Jianjun Wang 2021-04-20  191  	val =3D readl_relaxed(port->b=
-ase + PCIE_SETTING_REG);
-d3bf75b579b980 Jianjun Wang 2021-04-20  192  	val |=3D PCIE_RC_MODE;
-d3bf75b579b980 Jianjun Wang 2021-04-20  193  	writel_relaxed(val, port->bas=
-e + PCIE_SETTING_REG);
-d3bf75b579b980 Jianjun Wang 2021-04-20  194  =
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  267  struct tes=
+t_trailing_hole {
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  268  	char *one;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  269  	char *two;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  270  	char *thr=
+ee;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  271  	char four;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  272  	/* "sizeo=
+f(unsigned long) - 1" byte padding hole here. */
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  273  };
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  274  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  195  	/* Set class code */
-d3bf75b579b980 Jianjun Wang 2021-04-20  196  	val =3D readl_relaxed(port->b=
-ase + PCIE_PCI_IDS_1);
-d3bf75b579b980 Jianjun Wang 2021-04-20  197  	val &=3D ~GENMASK(31, 8);
-d3bf75b579b980 Jianjun Wang 2021-04-20  198  	val |=3D PCI_CLASS(PCI_CLASS_=
-BRIDGE_PCI << 8);
-d3bf75b579b980 Jianjun Wang 2021-04-20  199  	writel_relaxed(val, port->bas=
-e + PCIE_PCI_IDS_1);
-d3bf75b579b980 Jianjun Wang 2021-04-20  200  =
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  275  /* Test if=
+ STRUCTLEAK is clearing structs with __user fields. */
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  276  struct tes=
+t_user {
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  277  	u8 one;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  278  	unsigned =
+long two;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  279  	char __us=
+er *three;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  280  	unsigned =
+long four;
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  281  };
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  282  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  201  	/* Assert all reset signals */
-d3bf75b579b980 Jianjun Wang 2021-04-20  202  	val =3D readl_relaxed(port->b=
-ase + PCIE_RST_CTRL_REG);
-d3bf75b579b980 Jianjun Wang 2021-04-20  203  	val |=3D PCIE_MAC_RSTB | PCIE=
-_PHY_RSTB | PCIE_BRG_RSTB | PCIE_PE_RSTB;
-d3bf75b579b980 Jianjun Wang 2021-04-20  204  	writel_relaxed(val, port->bas=
-e + PCIE_RST_CTRL_REG);
-d3bf75b579b980 Jianjun Wang 2021-04-20  205  =
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  283  #define AL=
+WAYS_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  284  #define AL=
+WAYS_FAIL	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  285  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  206  	/*
-d3bf75b579b980 Jianjun Wang 2021-04-20  207  	 * Described in PCIe CEM spec=
-ification setctions 2.2 (PERST# Signal)
-d3bf75b579b980 Jianjun Wang 2021-04-20  208  	 * and 2.2.1 (Initial Power-U=
-p (G3 to S0)).
-d3bf75b579b980 Jianjun Wang 2021-04-20  209  	 * The deassertion of PERST# =
-should be delayed 100ms (TPVPERL)
-d3bf75b579b980 Jianjun Wang 2021-04-20  210  	 * for the power and clock to=
- become stable.
-d3bf75b579b980 Jianjun Wang 2021-04-20  211  	 */
-d3bf75b579b980 Jianjun Wang 2021-04-20  212  	msleep(100);
-d3bf75b579b980 Jianjun Wang 2021-04-20  213  =
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  286  #ifdef CON=
+FIG_INIT_STACK_NONE
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  287  # define U=
+SER_PASS	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  288  # define B=
+YREF_PASS	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  289  # define S=
+TRONG_PASS	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  290  #elif defi=
+ned(CONFIG_GCC_PLUGIN_STRUCTLEAK_USER)
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  291  # define U=
+SER_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  292  # define B=
+YREF_PASS	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  293  # define S=
+TRONG_PASS	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  294  #elif defi=
+ned(CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF)
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  295  # define U=
+SER_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  296  # define B=
+YREF_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  297  # define S=
+TRONG_PASS	XFAIL
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  298  #else
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  299  # define U=
+SER_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  300  # define B=
+YREF_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  301  # define S=
+TRONG_PASS	WANT_SUCCESS
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  302  #endif
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  303  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  214  	/* De-assert reset signals */
-d3bf75b579b980 Jianjun Wang 2021-04-20  215  	val &=3D ~(PCIE_MAC_RSTB | PC=
-IE_PHY_RSTB | PCIE_BRG_RSTB | PCIE_PE_RSTB);
-d3bf75b579b980 Jianjun Wang 2021-04-20  216  	writel_relaxed(val, port->bas=
-e + PCIE_RST_CTRL_REG);
-d3bf75b579b980 Jianjun Wang 2021-04-20  217  =
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  304  #define DE=
+FINE_SCALAR_TEST(name, init, xfail)			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  305  		DEFINE_T=
+EST(name ## _ ## init, name, SCALAR,	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  306  			    ini=
+t, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  307  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  218  	/* Check if the link is up or=
- not */
-d3bf75b579b980 Jianjun Wang 2021-04-20  219  	err =3D readl_poll_timeout(po=
-rt->base + PCIE_LINK_STATUS_REG, val,
-d3bf75b579b980 Jianjun Wang 2021-04-20  220  				 !!(val & PCIE_PORT_LINKUP=
-), 20,
-d3bf75b579b980 Jianjun Wang 2021-04-20  221  				 PCI_PM_D3COLD_WAIT * USEC=
-_PER_MSEC);
-d3bf75b579b980 Jianjun Wang 2021-04-20  222  	if (err) {
-d3bf75b579b980 Jianjun Wang 2021-04-20  223  		val =3D readl_relaxed(port->=
-base + PCIE_LTSSM_STATUS_REG);
-d3bf75b579b980 Jianjun Wang 2021-04-20  224  		dev_err(port->dev, "PCIe lin=
-k down, ltssm reg val: %#x\n", val);
-d3bf75b579b980 Jianjun Wang 2021-04-20  225  		return err;
-d3bf75b579b980 Jianjun Wang 2021-04-20  226  	}
-d3bf75b579b980 Jianjun Wang 2021-04-20  227  =
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  308  #define DE=
+FINE_SCALAR_TESTS(init, xfail)			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  309  		DEFINE_S=
+CALAR_TEST(u8, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  310  		DEFINE_S=
+CALAR_TEST(u16, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  311  		DEFINE_S=
+CALAR_TEST(u32, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  312  		DEFINE_S=
+CALAR_TEST(u64, init, xfail);		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  313  		DEFINE_T=
+EST(char_array_ ## init, unsigned char,	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  314  			    STR=
+ING, init, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  315  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  228  	/* Set PCIe translation windo=
-ws */
-d3bf75b579b980 Jianjun Wang 2021-04-20  229  	resource_list_for_each_entry(=
-entry, &host->windows) {
-d3bf75b579b980 Jianjun Wang 2021-04-20  230  		struct resource *res =3D ent=
-ry->res;
-d3bf75b579b980 Jianjun Wang 2021-04-20  231  		unsigned long type =3D resou=
-rce_type(res);
-d3bf75b579b980 Jianjun Wang 2021-04-20  232  		resource_size_t cpu_addr;
-d3bf75b579b980 Jianjun Wang 2021-04-20  233  		resource_size_t pci_addr;
-d3bf75b579b980 Jianjun Wang 2021-04-20  234  		resource_size_t size;
-d3bf75b579b980 Jianjun Wang 2021-04-20  235  		const char *range_type;
-d3bf75b579b980 Jianjun Wang 2021-04-20  236  =
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  316  #define DE=
+FINE_STRUCT_TEST(name, init, xfail)			\
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  317  		DEFINE_T=
+EST(name ## _ ## init,			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  318  			    str=
+uct test_ ## name, STRUCT, init, \
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  319  			    xfa=
+il)
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  320  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  237  		if (type =3D=3D IORESOURCE_I=
-O) {
-d3bf75b579b980 Jianjun Wang 2021-04-20  238  			cpu_addr =3D pci_pio_to_add=
-ress(res->start);
-d3bf75b579b980 Jianjun Wang 2021-04-20 @239  			range_type =3D "IO";
-d3bf75b579b980 Jianjun Wang 2021-04-20  240  		} else if (type =3D=3D IORES=
-OURCE_MEM) {
-d3bf75b579b980 Jianjun Wang 2021-04-20  241  			cpu_addr =3D res->start;
-d3bf75b579b980 Jianjun Wang 2021-04-20  242  			range_type =3D "MEM";
-d3bf75b579b980 Jianjun Wang 2021-04-20  243  		} else {
-d3bf75b579b980 Jianjun Wang 2021-04-20  244  			continue;
-d3bf75b579b980 Jianjun Wang 2021-04-20  245  		}
-d3bf75b579b980 Jianjun Wang 2021-04-20  246  =
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  321  #define DE=
+FINE_STRUCT_TESTS(init, xfail)			\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  322  		DEFINE_S=
+TRUCT_TEST(small_hole, init, xfail);	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  323  		DEFINE_S=
+TRUCT_TEST(big_hole, init, xfail);	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  324  		DEFINE_S=
+TRUCT_TEST(trailing_hole, init, xfail);	\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  325  		DEFINE_S=
+TRUCT_TEST(packed, init, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  326  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  247  		pci_addr =3D res->start - en=
-try->offset;
-d3bf75b579b980 Jianjun Wang 2021-04-20  248  		size =3D resource_size(res);
-d3bf75b579b980 Jianjun Wang 2021-04-20  249  		err =3D mtk_pcie_set_trans_t=
-able(port, cpu_addr, pci_addr, size,
-d3bf75b579b980 Jianjun Wang 2021-04-20  250  					       type, table_index);
-d3bf75b579b980 Jianjun Wang 2021-04-20  251  		if (err)
-d3bf75b579b980 Jianjun Wang 2021-04-20  252  			return err;
-d3bf75b579b980 Jianjun Wang 2021-04-20  253  =
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  327  #define DE=
+FINE_STRUCT_INITIALIZER_TESTS(base, xfail)		\
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  328  		DEFINE_S=
+TRUCT_TESTS(base ## _ ## partial,	\
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  329  				    xf=
+ail);			\
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  330  		DEFINE_S=
+TRUCT_TESTS(base ## _ ## all, xfail)
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  331  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  254  		dev_dbg(port->dev, "set %s t=
-rans window[%d]: cpu_addr =3D %#llx, pci_addr =3D %#llx, size =3D %#llx\n",
-d3bf75b579b980 Jianjun Wang 2021-04-20  255  			range_type, table_index, (u=
-nsigned long long)cpu_addr,
-d3bf75b579b980 Jianjun Wang 2021-04-20  256  			(unsigned long long)pci_add=
-r, (unsigned long long)size);
-d3bf75b579b980 Jianjun Wang 2021-04-20  257  =
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  332  /* These s=
+hould be fully initialized all the time! */
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16 @333  DEFINE_SCA=
+LAR_TESTS(zero, ALWAYS_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  334  DEFINE_STR=
+UCT_TESTS(zero, ALWAYS_PASS);
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  335  /* Struct =
+initializers: padding may be left uninitialized. */
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  336  DEFINE_STR=
+UCT_INITIALIZER_TESTS(static, STRONG_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  337  DEFINE_STR=
+UCT_INITIALIZER_TESTS(dynamic, STRONG_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  338  DEFINE_STR=
+UCT_INITIALIZER_TESTS(runtime, STRONG_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  339  DEFINE_STR=
+UCT_INITIALIZER_TESTS(assigned_static, STRONG_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  340  DEFINE_STR=
+UCT_INITIALIZER_TESTS(assigned_dynamic, STRONG_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  341  DEFINE_STR=
+UCT_TESTS(assigned_copy, ALWAYS_FAIL);
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  342  /* No init=
+ialization without compiler instrumentation. */
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16 @343  DEFINE_SCA=
+LAR_TESTS(none, STRONG_PASS);
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  344  DEFINE_STR=
+UCT_TESTS(none, BYREF_PASS);
+a8fc576d4af2f23 lib/test_stackinit.c  Kees Cook 2021-07-23  345  /* Initial=
+ization of members with __user attribute. */
+8d60400704e503d lib/stackinit_kunit.c Kees Cook 2022-02-16  346  DEFINE_TES=
+T(user, struct test_user, STRUCT, none, USER_PASS);
+50ceaa95ea09703 lib/test_stackinit.c  Kees Cook 2019-01-23  347  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  258  		table_index++;
-d3bf75b579b980 Jianjun Wang 2021-04-20  259  	}
-d3bf75b579b980 Jianjun Wang 2021-04-20  260  =
 
-d3bf75b579b980 Jianjun Wang 2021-04-20  261  	return 0;
-d3bf75b579b980 Jianjun Wang 2021-04-20  262  }
-d3bf75b579b980 Jianjun Wang 2021-04-20  263  =
+:::::: The code@line 259 was first introduced by commit
+:::::: 50ceaa95ea09703722b30b4afa617c972071cd7f lib: Introduce test_stackin=
+it module
 
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7022773103225196062==--
+--===============4907495989219578732==--
 
