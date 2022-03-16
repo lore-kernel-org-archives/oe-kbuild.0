@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5045770846233057073=="
+Content-Type: multipart/mixed; boundary="===============7954481080824477709=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/bluetooth/hci_event.c:3728:21: warning: Excessive padding in 'struct hci_cc' (10 padding bytes, where 2 is optimal).
-Date: Wed, 16 Mar 2022 10:03:27 +0800
-Message-ID: <202203160959.pC7lGBzc-lkp@intel.com>
+Subject: [linux-next:master 11036/12845] drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 16 Mar 2022 09:22:18 +0800
+Message-ID: <202203160941.xIaGxvoZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5045770846233057073==
+--===============7954481080824477709==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-CC: Marcel Holtmann <marcel@holtmann.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Bjorn Helgaas <helgaas@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   56e337f2cf1326323844927a04e9dbce9a244835
-commit: c8992cffbe7411c6da4c4416d5eecfc6b78e0fec Bluetooth: hci_event: Use =
-of a function table to handle Command Complete
-date:   3 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
-hive/20220316/202203160959.pC7lGBzc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
-7382b8f16a65bddac700202924228982f6)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   a32cd981a6da2373c093d471ee4405a915e217d5
+commit: 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc [11036/12845] PCI/VGA: Mov=
+e vgaarb to drivers/pci
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20316/202203160941.xIaGxvoZ-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6b2f5=
+0fb47da3baeee10b1906da6e30ac5d26ec)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dc8992cffbe7411c6da4c4416d5eecfc6b78e0fec
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c8992cffbe7411c6da4c4416d5eecfc6b78e0fec
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,40 +49,114 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   5 warnings generated.
+   fs/xfs/libxfs/xfs_rmap.c:2677:9: note: Assuming the condition is false
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+                  ^
+   fs/xfs/libxfs/xfs_format.h:1433:43: note: expanded from macro 'XFS_RMAP_=
+NON_INODE_OWNER'
+   #define XFS_RMAP_NON_INODE_OWNER(owner) (!!((owner) & (1ULL << 63)))
+                                             ^
+   fs/xfs/xfs_linux.h:208:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ~~~~~~~^~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:41: note: Left side of '||' is true
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+                                                  ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:2: note: '?' condition is true
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+           ^
+   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_rmap.c:2682:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/xfs/libxfs/xfs_rmap.c:2682:2: note: Taking false branch
+           if (error)
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:2684:6: note: Assuming 'has_record' is not equa=
+l to 0
+           if (!has_record) {
+               ^~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:2684:2: note: Taking false branch
+           if (!has_record) {
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:2689:10: note: Calling 'xfs_rmap_get_rec'
+           error =3D xfs_rmap_get_rec(cur, &irec, &has_record);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Assuming 'error' is 0
+           if (error || !*stat)
+               ^~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Left side of '||' is false
+   fs/xfs/libxfs/xfs_rmap.c:209:15: note: Assuming the condition is false
+           if (error || !*stat)
+                        ^~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:2: note: Taking false branch
+           if (error || !*stat)
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:212:6: note: Calling 'xfs_rmap_btrec_to_irec'
+           if (xfs_rmap_btrec_to_irec(rec, irec))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:190:9: note: Calling 'xfs_rmap_irec_offset_unpa=
+ck'
+           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
+et),
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/xfs/libxfs/xfs_rmap.h:70:6: note: Assuming the condition is true
+           if (offset & ~(XFS_RMAP_OFF_MASK | XFS_RMAP_OFF_FLAGS))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.h:70:2: note: Taking true branch
+           if (offset & ~(XFS_RMAP_OFF_MASK | XFS_RMAP_OFF_FLAGS))
+           ^
+   fs/xfs/libxfs/xfs_rmap.h:71:3: note: Returning without writing to 'irec-=
+>rm_flags'
+                   return -EFSCORRUPTED;
+                   ^
+   fs/xfs/libxfs/xfs_rmap.h:71:3: note: Returning the value -117, which par=
+ticipates in a condition later
+                   return -EFSCORRUPTED;
+                   ^~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:190:9: note: Returning from 'xfs_rmap_irec_offs=
+et_unpack'
+           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
+et),
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/xfs/libxfs/xfs_rmap.c:190:2: note: Returning without writing to 'irec=
+->rm_flags'
+           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
+et),
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:190:2: note: Returning the value -117, which pa=
+rticipates in a condition later
+           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
+et),
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/xfs/libxfs/xfs_rmap.c:212:6: note: Returning from 'xfs_rmap_btrec_to_=
+irec'
+           if (xfs_rmap_btrec_to_irec(rec, irec))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:212:2: note: Taking true branch
+           if (xfs_rmap_btrec_to_irec(rec, irec))
+           ^
+   fs/xfs/libxfs/xfs_rmap.c:213:3: note: Control jumps to line 241
+                   goto out_bad_rec;
+                   ^
+   fs/xfs/libxfs/xfs_rmap.c:244:2: note: 4th function call argument is an u=
+ninitialized value
+           xfs_warn(mp,
+           ^
    Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
@@ -99,175 +169,25 @@ se -system-headers to display errors from system headers as well.
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/media/i2c/imx258.c:781:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx258.c:781:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
->> net/bluetooth/hci_event.c:3728:21: warning: Excessive padding in 'struct=
- hci_cc' (10 padding bytes, where 2 is optimal). =
-
-   Optimal fields order: =
-
-   func, =
-
-   op, =
-
-   min_len, =
-
-   max_len, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   static const struct hci_cc {
-                ~~~~~~~^~~~~~~~
-   net/bluetooth/hci_event.c:3728:21: note: Excessive padding in 'struct hc=
-i_cc' (10 padding bytes, where 2 is optimal). Optimal fields order: func, o=
-p, min_len, max_len, consider reordering the fields or adding explicit padd=
-ing members
-   static const struct hci_cc {
-                ~~~~~~~^~~~~~~~
-   net/bluetooth/hci_event.c:6632:21: warning: Excessive padding in 'struct=
- hci_ev' (11 padding bytes, where 3 is optimal). =
-
-   Optimal fields order: =
-
-   , =
-
-   min_len, =
-
-   max_len, =
-
-   req, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   static const struct hci_ev {
-                ~~~~~~~^~~~~~~~
-   net/bluetooth/hci_event.c:6632:21: note: Excessive padding in 'struct hc=
-i_ev' (11 padding bytes, where 3 is optimal). Optimal fields order: , min_l=
-en, max_len, req, consider reordering the fields or adding explicit padding=
- members
-   static const struct hci_ev {
-                ~~~~~~~^~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   net/bluetooth/mgmt.c:6572:4: warning: Value stored to 'authenticated' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                           authenticated =3D 0x00;
-                           ^               ~~~~
-   net/bluetooth/mgmt.c:6572:4: note: Value stored to 'authenticated' is ne=
-ver read
-                           authenticated =3D 0x00;
-                           ^               ~~~~
-   net/bluetooth/mgmt.c:6573:4: warning: Value stored to 'type' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-                           type =3D SMP_LTK_P256_DEBUG;
-                           ^      ~~~~~~~~~~~~~~~~~~
-   net/bluetooth/mgmt.c:6573:4: note: Value stored to 'type' is never read
-                           type =3D SMP_LTK_P256_DEBUG;
-                           ^      ~~~~~~~~~~~~~~~~~~
-   net/bluetooth/mgmt.c:7520:2: warning: Value stored to 'err' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           err =3D mgmt_limited_event(MGMT_EV_LOCAL_OOB_DATA_UPDATED, hdev,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/bluetooth/mgmt.c:7520:2: note: Value stored to 'err' is never read
-           err =3D mgmt_limited_event(MGMT_EV_LOCAL_OOB_DATA_UPDATED, hdev,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/bluetooth/mgmt.c:7866:14: warning: Although the value stored to 'cur=
-_len' is used in the enclosing expression, the value is never actually read=
- from 'cur_len' [clang-analyzer-deadcode.DeadStores]
-           for (i =3D 0, cur_len =3D 0; i < len; i +=3D (cur_len + 1)) {
-                       ^         ~
-   net/bluetooth/mgmt.c:7866:14: note: Although the value stored to 'cur_le=
-n' is used in the enclosing expression, the value is never actually read fr=
-om 'cur_len'
-           for (i =3D 0, cur_len =3D 0; i < len; i +=3D (cur_len + 1)) {
-                       ^         ~
+>> drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its i=
+nitialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:235:17: note: Value stored to 'dev' during its init=
+ialization is never read
+           struct device *dev =3D &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:373:17: warning: Value stored to 'dev' during its i=
+nitialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/pci/vgaarb.c:373:17: note: Value stored to 'dev' during its init=
+ialization is never read
+           struct device *dev =3D &vgadev->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -275,424 +195,423 @@ se -system-headers to display errors from system headers as well.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/most/configfs.c:173:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(mdev_link->direction, page);
-           ^~~~~~
-   drivers/most/configfs.c:173:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(mdev_link->direction, page);
-           ^~~~~~
-   drivers/most/configfs.c:192:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(mdev_link->datatype, page);
-           ^~~~~~
-   drivers/most/configfs.c:192:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(mdev_link->datatype, page);
-           ^~~~~~
-   drivers/most/configfs.c:446:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   drivers/most/configfs.c:446:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   drivers/most/configfs.c:535:2: warning: Call to function 'strcpy' is ins=
-ecure as it does not provide bounding of the memory buffer. Replace unbound=
-ed copy functions with analogous functions that support length arguments su=
-ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   drivers/most/configfs.c:535:2: note: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119
-           strcpy(mdev_link->name, name);
-           ^~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/greybus/manifest.c:56:2: warning: Use of memory after it is free=
+d [clang-analyzer-unix.Malloc]
+           list_for_each_entry_safe(descriptor, next, &intf->manifest_descs=
+, links)
+           ^
+   include/linux/list.h:728:20: note: expanded from macro 'list_for_each_en=
+try_safe'
+                pos =3D n, n =3D list_next_entry(n, member))
+                             ^
+   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^
+   drivers/greybus/manifest.c:464:6: note: Assuming '__ret_warn_on' is 0
+           if (WARN_ON(!list_empty(&intf->manifest_descs)))
+               ^
+   include/asm-generic/bug.h:122:6: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   drivers/greybus/manifest.c:464:6: note: Taking false branch
+           if (WARN_ON(!list_empty(&intf->manifest_descs)))
+               ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   drivers/greybus/manifest.c:464:2: note: Taking false branch
+           if (WARN_ON(!list_empty(&intf->manifest_descs)))
+           ^
+   drivers/greybus/manifest.c:468:6: note: Assuming the condition is false
+           if (size < sizeof(*header)) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/greybus/manifest.c:468:2: note: Taking false branch
+           if (size < sizeof(*header)) {
+           ^
+   drivers/greybus/manifest.c:478:6: note: Assuming 'manifest_size' is equa=
+l to 'size'
+           if (manifest_size !=3D size) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/greybus/manifest.c:478:2: note: Taking false branch
+           if (manifest_size !=3D size) {
+           ^
+   drivers/greybus/manifest.c:485:6: note: Assuming field 'version_major' i=
+s <=3D GREYBUS_VERSION_MAJOR
+           if (header->version_major > GREYBUS_VERSION_MAJOR) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/greybus/manifest.c:485:2: note: Taking false branch
+           if (header->version_major > GREYBUS_VERSION_MAJOR) {
+           ^
+   drivers/greybus/manifest.c:495:2: note: Loop condition is false. Executi=
+on continues on line 508
+           while (size) {
+           ^
+   drivers/greybus/manifest.c:508:2: note: Loop condition is true.  Enterin=
+g loop body
+           list_for_each_entry(descriptor, &intf->manifest_descs, links) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/greybus/manifest.c:509:7: note: Assuming field 'type' is equal t=
+o GREYBUS_TYPE_INTERFACE
+                   if (descriptor->type =3D=3D GREYBUS_TYPE_INTERFACE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/greybus/manifest.c:509:3: note: Taking true branch
+                   if (descriptor->type =3D=3D GREYBUS_TYPE_INTERFACE)
+                   ^
+   drivers/greybus/manifest.c:510:4: note: Taking true branch
+                           if (!found++)
+                           ^
+   drivers/greybus/manifest.c:508:2: note: Loop condition is false. Executi=
+on continues on line 513
+           list_for_each_entry(descriptor, &intf->manifest_descs, links) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/greybus/manifest.c:513:6: note: 'found' is equal to 1
+           if (found !=3D 1) {
+               ^~~~~
+   drivers/greybus/manifest.c:513:2: note: Taking false branch
+           if (found !=3D 1) {
 
-vim +3728 net/bluetooth/hci_event.c
+vim +/dev +235 drivers/pci/vgaarb.c
 
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3721  =
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 231  =
 
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3722  #define HCI_CC(_op,=
- _func, _len) \
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3723  	HCI_CC_VL(_op, _fu=
-nc, _len, _len)
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3724  =
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 232  static struct vga_device *__vga_tryget(struct vga_device *vgadev,
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 233  				       unsigned int rsrc)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 234  {
+a75d68f62106fe6 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 =
+@235  	struct device *dev =3D &vgadev->pdev->dev;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 236  	unsigned int wants, legacy_wants, match;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 237  	struct vga_device *conflict;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 238  	unsigned int pci_bits;
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 239  	u32 flags =3D 0;
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 240  =
 
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3725  #define HCI_CC_STAT=
-US(_op, _func) \
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3726  	HCI_CC(_op, _func,=
- sizeof(struct hci_ev_status))
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3727  =
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 241  	/* Account for "normal" resources to lock. If we decode the legacy,
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 242  	 * counterpart, we need to request it as well
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 243  	 */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 244  	if ((rsrc & VGA_RSRC_NORMAL_IO) &&
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 245  	    (vgadev->decodes & VGA_RSRC_LEGACY_IO))
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 246  		rsrc |=3D VGA_RSRC_LEGACY_IO;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 247  	if ((rsrc & VGA_RSRC_NORMAL_MEM) &&
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 248  	    (vgadev->decodes & VGA_RSRC_LEGACY_MEM))
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 249  		rsrc |=3D VGA_RSRC_LEGACY_MEM;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 250  =
 
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01 @3728  static const struct=
- hci_cc {
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3729  	u16  op;
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3730  	u8 (*func)(struct =
-hci_dev *hdev, void *data, struct sk_buff *skb);
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3731  	u16  min_len;
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3732  	u16  max_len;
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3733  } hci_cc_table[] =
-=3D {
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3734  	HCI_CC_STATUS(HCI_=
-OP_INQUIRY_CANCEL, hci_cc_inquiry_cancel),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3735  	HCI_CC_STATUS(HCI_=
-OP_PERIODIC_INQ, hci_cc_periodic_inq),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3736  	HCI_CC_STATUS(HCI_=
-OP_EXIT_PERIODIC_INQ, hci_cc_exit_periodic_inq),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3737  	HCI_CC_STATUS(HCI_=
-OP_REMOTE_NAME_REQ_CANCEL,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3738  		      hci_cc_remo=
-te_name_req_cancel),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3739  	HCI_CC(HCI_OP_ROLE=
-_DISCOVERY, hci_cc_role_discovery,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3740  	       sizeof(stru=
-ct hci_rp_role_discovery)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3741  	HCI_CC(HCI_OP_READ=
-_LINK_POLICY, hci_cc_read_link_policy,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3742  	       sizeof(stru=
-ct hci_rp_read_link_policy)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3743  	HCI_CC(HCI_OP_WRIT=
-E_LINK_POLICY, hci_cc_write_link_policy,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3744  	       sizeof(stru=
-ct hci_rp_write_link_policy)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3745  	HCI_CC(HCI_OP_READ=
-_DEF_LINK_POLICY, hci_cc_read_def_link_policy,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3746  	       sizeof(stru=
-ct hci_rp_read_def_link_policy)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3747  	HCI_CC_STATUS(HCI_=
-OP_WRITE_DEF_LINK_POLICY,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3748  		      hci_cc_writ=
-e_def_link_policy),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3749  	HCI_CC_STATUS(HCI_=
-OP_RESET, hci_cc_reset),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3750  	HCI_CC(HCI_OP_READ=
-_STORED_LINK_KEY, hci_cc_read_stored_link_key,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3751  	       sizeof(stru=
-ct hci_rp_read_stored_link_key)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3752  	HCI_CC(HCI_OP_DELE=
-TE_STORED_LINK_KEY, hci_cc_delete_stored_link_key,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3753  	       sizeof(stru=
-ct hci_rp_delete_stored_link_key)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3754  	HCI_CC_STATUS(HCI_=
-OP_WRITE_LOCAL_NAME, hci_cc_write_local_name),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3755  	HCI_CC(HCI_OP_READ=
-_LOCAL_NAME, hci_cc_read_local_name,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3756  	       sizeof(stru=
-ct hci_rp_read_local_name)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3757  	HCI_CC_STATUS(HCI_=
-OP_WRITE_AUTH_ENABLE, hci_cc_write_auth_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3758  	HCI_CC_STATUS(HCI_=
-OP_WRITE_ENCRYPT_MODE, hci_cc_write_encrypt_mode),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3759  	HCI_CC_STATUS(HCI_=
-OP_WRITE_SCAN_ENABLE, hci_cc_write_scan_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3760  	HCI_CC_STATUS(HCI_=
-OP_SET_EVENT_FLT, hci_cc_set_event_filter),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3761  	HCI_CC(HCI_OP_READ=
-_CLASS_OF_DEV, hci_cc_read_class_of_dev,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3762  	       sizeof(stru=
-ct hci_rp_read_class_of_dev)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3763  	HCI_CC_STATUS(HCI_=
-OP_WRITE_CLASS_OF_DEV, hci_cc_write_class_of_dev),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3764  	HCI_CC(HCI_OP_READ=
-_VOICE_SETTING, hci_cc_read_voice_setting,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3765  	       sizeof(stru=
-ct hci_rp_read_voice_setting)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3766  	HCI_CC_STATUS(HCI_=
-OP_WRITE_VOICE_SETTING, hci_cc_write_voice_setting),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3767  	HCI_CC(HCI_OP_READ=
-_NUM_SUPPORTED_IAC, hci_cc_read_num_supported_iac,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3768  	       sizeof(stru=
-ct hci_rp_read_num_supported_iac)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3769  	HCI_CC_STATUS(HCI_=
-OP_WRITE_SSP_MODE, hci_cc_write_ssp_mode),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3770  	HCI_CC_STATUS(HCI_=
-OP_WRITE_SC_SUPPORT, hci_cc_write_sc_support),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3771  	HCI_CC(HCI_OP_READ=
-_AUTH_PAYLOAD_TO, hci_cc_read_auth_payload_timeout,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3772  	       sizeof(stru=
-ct hci_rp_read_auth_payload_to)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3773  	HCI_CC(HCI_OP_WRIT=
-E_AUTH_PAYLOAD_TO, hci_cc_write_auth_payload_timeout,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3774  	       sizeof(stru=
-ct hci_rp_write_auth_payload_to)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3775  	HCI_CC(HCI_OP_READ=
-_LOCAL_VERSION, hci_cc_read_local_version,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3776  	       sizeof(stru=
-ct hci_rp_read_local_version)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3777  	HCI_CC(HCI_OP_READ=
-_LOCAL_COMMANDS, hci_cc_read_local_commands,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3778  	       sizeof(stru=
-ct hci_rp_read_local_commands)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3779  	HCI_CC(HCI_OP_READ=
-_LOCAL_FEATURES, hci_cc_read_local_features,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3780  	       sizeof(stru=
-ct hci_rp_read_local_features)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3781  	HCI_CC(HCI_OP_READ=
-_LOCAL_EXT_FEATURES, hci_cc_read_local_ext_features,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3782  	       sizeof(stru=
-ct hci_rp_read_local_ext_features)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3783  	HCI_CC(HCI_OP_READ=
-_BUFFER_SIZE, hci_cc_read_buffer_size,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3784  	       sizeof(stru=
-ct hci_rp_read_buffer_size)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3785  	HCI_CC(HCI_OP_READ=
-_BD_ADDR, hci_cc_read_bd_addr,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3786  	       sizeof(stru=
-ct hci_rp_read_bd_addr)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3787  	HCI_CC(HCI_OP_READ=
-_LOCAL_PAIRING_OPTS, hci_cc_read_local_pairing_opts,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3788  	       sizeof(stru=
-ct hci_rp_read_local_pairing_opts)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3789  	HCI_CC(HCI_OP_READ=
-_PAGE_SCAN_ACTIVITY, hci_cc_read_page_scan_activity,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3790  	       sizeof(stru=
-ct hci_rp_read_page_scan_activity)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3791  	HCI_CC_STATUS(HCI_=
-OP_WRITE_PAGE_SCAN_ACTIVITY,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3792  		      hci_cc_writ=
-e_page_scan_activity),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3793  	HCI_CC(HCI_OP_READ=
-_PAGE_SCAN_TYPE, hci_cc_read_page_scan_type,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3794  	       sizeof(stru=
-ct hci_rp_read_page_scan_type)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3795  	HCI_CC_STATUS(HCI_=
-OP_WRITE_PAGE_SCAN_TYPE, hci_cc_write_page_scan_type),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3796  	HCI_CC(HCI_OP_READ=
-_DATA_BLOCK_SIZE, hci_cc_read_data_block_size,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3797  	       sizeof(stru=
-ct hci_rp_read_data_block_size)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3798  	HCI_CC(HCI_OP_READ=
-_FLOW_CONTROL_MODE, hci_cc_read_flow_control_mode,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3799  	       sizeof(stru=
-ct hci_rp_read_flow_control_mode)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3800  	HCI_CC(HCI_OP_READ=
-_LOCAL_AMP_INFO, hci_cc_read_local_amp_info,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3801  	       sizeof(stru=
-ct hci_rp_read_local_amp_info)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3802  	HCI_CC(HCI_OP_READ=
-_CLOCK, hci_cc_read_clock,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3803  	       sizeof(stru=
-ct hci_rp_read_clock)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3804  	HCI_CC(HCI_OP_READ=
-_INQ_RSP_TX_POWER, hci_cc_read_inq_rsp_tx_power,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3805  	       sizeof(stru=
-ct hci_rp_read_inq_rsp_tx_power)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3806  	HCI_CC(HCI_OP_READ=
-_DEF_ERR_DATA_REPORTING,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3807  	       hci_cc_read=
-_def_err_data_reporting,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3808  	       sizeof(stru=
-ct hci_rp_read_def_err_data_reporting)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3809  	HCI_CC_STATUS(HCI_=
-OP_WRITE_DEF_ERR_DATA_REPORTING,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3810  		      hci_cc_writ=
-e_def_err_data_reporting),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3811  	HCI_CC(HCI_OP_PIN_=
-CODE_REPLY, hci_cc_pin_code_reply,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3812  	       sizeof(stru=
-ct hci_rp_pin_code_reply)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3813  	HCI_CC(HCI_OP_PIN_=
-CODE_NEG_REPLY, hci_cc_pin_code_neg_reply,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3814  	       sizeof(stru=
-ct hci_rp_pin_code_neg_reply)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3815  	HCI_CC(HCI_OP_READ=
-_LOCAL_OOB_DATA, hci_cc_read_local_oob_data,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3816  	       sizeof(stru=
-ct hci_rp_read_local_oob_data)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3817  	HCI_CC(HCI_OP_READ=
-_LOCAL_OOB_EXT_DATA, hci_cc_read_local_oob_ext_data,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3818  	       sizeof(stru=
-ct hci_rp_read_local_oob_ext_data)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3819  	HCI_CC(HCI_OP_LE_R=
-EAD_BUFFER_SIZE, hci_cc_le_read_buffer_size,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3820  	       sizeof(stru=
-ct hci_rp_le_read_buffer_size)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3821  	HCI_CC(HCI_OP_LE_R=
-EAD_LOCAL_FEATURES, hci_cc_le_read_local_features,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3822  	       sizeof(stru=
-ct hci_rp_le_read_local_features)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3823  	HCI_CC(HCI_OP_LE_R=
-EAD_ADV_TX_POWER, hci_cc_le_read_adv_tx_power,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3824  	       sizeof(stru=
-ct hci_rp_le_read_adv_tx_power)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3825  	HCI_CC(HCI_OP_USER=
-_CONFIRM_REPLY, hci_cc_user_confirm_reply,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3826  	       sizeof(stru=
-ct hci_rp_user_confirm_reply)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3827  	HCI_CC(HCI_OP_USER=
-_CONFIRM_NEG_REPLY, hci_cc_user_confirm_neg_reply,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3828  	       sizeof(stru=
-ct hci_rp_user_confirm_reply)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3829  	HCI_CC(HCI_OP_USER=
-_PASSKEY_REPLY, hci_cc_user_passkey_reply,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3830  	       sizeof(stru=
-ct hci_rp_user_confirm_reply)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3831  	HCI_CC(HCI_OP_USER=
-_PASSKEY_NEG_REPLY, hci_cc_user_passkey_neg_reply,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3832  	       sizeof(stru=
-ct hci_rp_user_confirm_reply)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3833  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_RANDOM_ADDR, hci_cc_le_set_random_addr),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3834  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_ADV_ENABLE, hci_cc_le_set_adv_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3835  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_SCAN_PARAM, hci_cc_le_set_scan_param),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3836  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_SCAN_ENABLE, hci_cc_le_set_scan_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3837  	HCI_CC(HCI_OP_LE_R=
-EAD_ACCEPT_LIST_SIZE,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3838  	       hci_cc_le_r=
-ead_accept_list_size,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3839  	       sizeof(stru=
-ct hci_rp_le_read_accept_list_size)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3840  	HCI_CC_STATUS(HCI_=
-OP_LE_CLEAR_ACCEPT_LIST, hci_cc_le_clear_accept_list),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3841  	HCI_CC_STATUS(HCI_=
-OP_LE_ADD_TO_ACCEPT_LIST,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3842  		      hci_cc_le_a=
-dd_to_accept_list),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3843  	HCI_CC_STATUS(HCI_=
-OP_LE_DEL_FROM_ACCEPT_LIST,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3844  		      hci_cc_le_d=
-el_from_accept_list),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3845  	HCI_CC(HCI_OP_LE_R=
-EAD_SUPPORTED_STATES, hci_cc_le_read_supported_states,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3846  	       sizeof(stru=
-ct hci_rp_le_read_supported_states)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3847  	HCI_CC(HCI_OP_LE_R=
-EAD_DEF_DATA_LEN, hci_cc_le_read_def_data_len,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3848  	       sizeof(stru=
-ct hci_rp_le_read_def_data_len)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3849  	HCI_CC_STATUS(HCI_=
-OP_LE_WRITE_DEF_DATA_LEN,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3850  		      hci_cc_le_w=
-rite_def_data_len),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3851  	HCI_CC_STATUS(HCI_=
-OP_LE_ADD_TO_RESOLV_LIST,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3852  		      hci_cc_le_a=
-dd_to_resolv_list),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3853  	HCI_CC_STATUS(HCI_=
-OP_LE_DEL_FROM_RESOLV_LIST,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3854  		      hci_cc_le_d=
-el_from_resolv_list),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3855  	HCI_CC_STATUS(HCI_=
-OP_LE_CLEAR_RESOLV_LIST,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3856  		      hci_cc_le_c=
-lear_resolv_list),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3857  	HCI_CC(HCI_OP_LE_R=
-EAD_RESOLV_LIST_SIZE, hci_cc_le_read_resolv_list_size,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3858  	       sizeof(stru=
-ct hci_rp_le_read_resolv_list_size)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3859  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_ADDR_RESOLV_ENABLE,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3860  		      hci_cc_le_s=
-et_addr_resolution_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3861  	HCI_CC(HCI_OP_LE_R=
-EAD_MAX_DATA_LEN, hci_cc_le_read_max_data_len,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3862  	       sizeof(stru=
-ct hci_rp_le_read_max_data_len)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3863  	HCI_CC_STATUS(HCI_=
-OP_WRITE_LE_HOST_SUPPORTED,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3864  		      hci_cc_writ=
-e_le_host_supported),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3865  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_ADV_PARAM, hci_cc_set_adv_param),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3866  	HCI_CC(HCI_OP_READ=
-_RSSI, hci_cc_read_rssi,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3867  	       sizeof(stru=
-ct hci_rp_read_rssi)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3868  	HCI_CC(HCI_OP_READ=
-_TX_POWER, hci_cc_read_tx_power,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3869  	       sizeof(stru=
-ct hci_rp_read_tx_power)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3870  	HCI_CC_STATUS(HCI_=
-OP_WRITE_SSP_DEBUG_MODE, hci_cc_write_ssp_debug_mode),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3871  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_EXT_SCAN_PARAMS,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3872  		      hci_cc_le_s=
-et_ext_scan_param),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3873  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_EXT_SCAN_ENABLE,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3874  		      hci_cc_le_s=
-et_ext_scan_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3875  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_DEFAULT_PHY, hci_cc_le_set_default_phy),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3876  	HCI_CC(HCI_OP_LE_R=
-EAD_NUM_SUPPORTED_ADV_SETS,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3877  	       hci_cc_le_r=
-ead_num_adv_sets,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3878  	       sizeof(stru=
-ct hci_rp_le_read_num_supported_adv_sets)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3879  	HCI_CC(HCI_OP_LE_S=
-ET_EXT_ADV_PARAMS, hci_cc_set_ext_adv_param,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3880  	       sizeof(stru=
-ct hci_rp_le_set_ext_adv_params)),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3881  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_EXT_ADV_ENABLE,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3882  		      hci_cc_le_s=
-et_ext_adv_enable),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3883  	HCI_CC_STATUS(HCI_=
-OP_LE_SET_ADV_SET_RAND_ADDR,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3884  		      hci_cc_le_s=
-et_adv_set_random_addr),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3885  	HCI_CC_STATUS(HCI_=
-OP_LE_REMOVE_ADV_SET, hci_cc_le_remove_adv_set),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3886  	HCI_CC_STATUS(HCI_=
-OP_LE_CLEAR_ADV_SETS, hci_cc_le_clear_adv_sets),
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3887  	HCI_CC(HCI_OP_LE_R=
-EAD_TRANSMIT_POWER, hci_cc_le_read_transmit_power,
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3888  	       sizeof(stru=
-ct hci_rp_le_read_transmit_power))
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3889  };
-c8992cffbe7411 Luiz Augusto von Dentz 2021-12-01  3890  =
+a75d68f62106fe6 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 =
+ 251  	vgaarb_dbg(dev, "%s: %d\n", __func__, rsrc);
+a75d68f62106fe6 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 =
+ 252  	vgaarb_dbg(dev, "%s: owns: %d\n", __func__, vgadev->owns);
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 253  =
 
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 254  	/* Check what resources we need to acquire */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 255  	wants =3D rsrc & ~vgadev->owns;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 256  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 257  	/* We already own everything, just mark locked & bye bye */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 258  	if (wants =3D=3D 0)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 259  		goto lock_them;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 260  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 261  	/* We don't need to request a legacy resource, we just enable
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 262  	 * appropriate decoding and go
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 263  	 */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 264  	legacy_wants =3D wants & VGA_RSRC_LEGACY_MASK;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 265  	if (legacy_wants =3D=3D 0)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 266  		goto enable_them;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 267  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 268  	/* Ok, we don't, let's find out how we need to kick off */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 269  	list_for_each_entry(conflict, &vga_list, list) {
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 270  		unsigned int lwants =3D legacy_wants;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 271  		unsigned int change_bridge =3D 0;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 272  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 273  		/* Don't conflict with myself */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 274  		if (vgadev =3D=3D conflict)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 275  			continue;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 276  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 277  		/* We have a possible conflict. before we go further, we must
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 278  		 * check if we sit on the same bus as the conflicting device.
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 279  		 * if we don't, then we must tie both IO and MEM resources
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 280  		 * together since there is only a single bit controlling
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 281  		 * VGA forwarding on P2P bridges
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 282  		 */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 283  		if (vgadev->pdev->bus !=3D conflict->pdev->bus) {
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 284  			change_bridge =3D 1;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 285  			lwants =3D VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 286  		}
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 287  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 288  		/* Check if the guy has a lock on the resource. If he does,
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 289  		 * return the conflicting entry
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 290  		 */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 291  		if (conflict->locks & lwants)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 292  			return conflict;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 293  =
+
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 294  		/* Ok, now check if it owns the resource we want.  We can
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 295  		 * lock resources that are not decoded, therefore a device
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 296  		 * can own resources it doesn't decode.
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 297  		 */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 298  		match =3D lwants & conflict->owns;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 299  		if (!match)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 300  			continue;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 301  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 302  		/* looks like he doesn't have a lock, we can steal
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 303  		 * them from him
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 304  		 */
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 305  =
+
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 306  		flags =3D 0;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 307  		pci_bits =3D 0;
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 308  =
+
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 309  		/* If we can't control legacy resources via the bridge, we
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 310  		 * also need to disable normal decoding.
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 311  		 */
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 312  		if (!conflict->bridge_has_one_vga) {
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 313  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 314  				pci_bits |=3D PCI_COMMAND_MEMORY;
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 315  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 316  				pci_bits |=3D PCI_COMMAND_IO;
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 317  =
+
+f6b1772b255504e drivers/gpu/vga/vgaarb.c Christoph Hellwig      2021-07-16 =
+ 318  			if (pci_bits)
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 319  				flags |=3D PCI_VGA_STATE_CHANGE_DECODES;
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 320  		}
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 321  =
+
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 322  		if (change_bridge)
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 323  			flags |=3D PCI_VGA_STATE_CHANGE_BRIDGE;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 324  =
+
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 325  		pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
+f22d776f3e280e6 drivers/gpu/vga/vgaarb.c Alex Williamson        2013-08-15 =
+ 326  		conflict->owns &=3D ~match;
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 327  =
+
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 328  		/* If we disabled normal decoding, reflect it in owns */
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 329  		if (pci_bits & PCI_COMMAND_MEMORY)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 330  			conflict->owns &=3D ~VGA_RSRC_NORMAL_MEM;
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 331  		if (pci_bits & PCI_COMMAND_IO)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 332  			conflict->owns &=3D ~VGA_RSRC_NORMAL_IO;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 333  	}
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 334  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 335  enable_them:
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 336  	/* ok dude, we got it, everybody conflicting has been disabled, let's
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 337  	 * enable us.  Mark any bits in "owns" regardless of whether we
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 338  	 * decoded them.  We can lock resources we don't decode, therefore
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 339  	 * we must track them via "owns".
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 340  	 */
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 341  	flags =3D 0;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 342  	pci_bits =3D 0;
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 343  =
+
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 344  	if (!vgadev->bridge_has_one_vga) {
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 345  		flags |=3D PCI_VGA_STATE_CHANGE_DECODES;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 346  		if (wants & (VGA_RSRC_LEGACY_MEM|VGA_RSRC_NORMAL_MEM))
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 347  			pci_bits |=3D PCI_COMMAND_MEMORY;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 348  		if (wants & (VGA_RSRC_LEGACY_IO|VGA_RSRC_NORMAL_IO))
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 349  			pci_bits |=3D PCI_COMMAND_IO;
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 350  	}
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 351  	if (wants & VGA_RSRC_LEGACY_MASK)
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 352  		flags |=3D PCI_VGA_STATE_CHANGE_BRIDGE;
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 353  =
+
+3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
+ 354  	pci_set_vga_state(vgadev->pdev, true, pci_bits, flags);
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 355  =
+
+4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
+ 356  	vgadev->owns |=3D wants;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 357  lock_them:
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 358  	vgadev->locks |=3D (rsrc & VGA_RSRC_LEGACY_MASK);
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 359  	if (rsrc & VGA_RSRC_LEGACY_IO)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 360  		vgadev->io_lock_cnt++;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 361  	if (rsrc & VGA_RSRC_LEGACY_MEM)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 362  		vgadev->mem_lock_cnt++;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 363  	if (rsrc & VGA_RSRC_NORMAL_IO)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 364  		vgadev->io_norm_cnt++;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 365  	if (rsrc & VGA_RSRC_NORMAL_MEM)
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 366  		vgadev->mem_norm_cnt++;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 367  =
+
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 368  	return NULL;
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 369  }
+deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
+ 370  =
+
+
+:::::: The code at line 235 was first introduced by commit
+:::::: a75d68f62106fe66c4b8b96c0ee7155bdafc6f06 vgaarb: Use dev_printk() wh=
+en possible
+
+:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5045770846233057073==--
+--===============7954481080824477709==--
 
