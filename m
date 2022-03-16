@@ -1,466 +1,591 @@
-Content-Type: multipart/mixed; boundary="===============0948108388955322390=="
+Content-Type: multipart/mixed; boundary="===============4063541170178955836=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/perf/arm_smmuv3_pmu.c:349:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 16 Mar 2022 21:44:17 +0800
-Message-ID: <202203162129.qyCtDjXt-lkp@intel.com>
+Subject: [osandov:btrfs-send-encoded 5/7] fs/btrfs/send.c:7705 btrfs_ioctl_send() error: we previously assumed 'sctx->send_buf_pages' could be null (see line 7492)
+Date: Wed, 16 Mar 2022 19:53:45 +0800
+Message-ID: <202203161918.YLLxVWCm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0948108388955322390==
+--===============4063541170178955836==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: Omar Sandoval <osandov@osandov.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: John Garry <john.garry@huawei.com>
-CC: Will Deacon <will@kernel.org>
+TO: Omar Sandoval <osandov@fb.com>
+CC: Nikolay Borisov <nborisov@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   56e337f2cf1326323844927a04e9dbce9a244835
-commit: e656972b69864348a747954ea187576808000c5a drivers/perf: Improve buil=
-d test coverage
-date:   5 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 5 months ago
-config: riscv-randconfig-c006-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220316/202203162129.qyCtDjXt-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 43f668=
-b98e8d87290fc6bbf5ed13c3ab542e3497)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De656972b69864348a747954ea187576808000c5a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e656972b69864348a747954ea187576808000c5a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://github.com/osandov/linux.git btrfs-send-encoded
+head:   5b9ba5f160f0ee412cf4d94f8e15b54b1ba04758
+commit: e11574dd48a2e1674f9d65592595283a9284115e [5/7] btrfs: send: allocat=
+e send buffer with alloc_page() and vmap() for v2
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: x86_64-randconfig-m001-20220314 (https://download.01.org/0day-ci/ar=
+chive/20220316/202203161918.YLLxVWCm-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/btrfs/send.c:7705 btrfs_ioctl_send() error: we previously assumed 'sctx-=
+>send_buf_pages' could be null (see line 7492)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   fs/xfs/xfs_sysfs.c:633:25: note: Passing value via 1st parameter 'kobj'
-           error =3D xfs_sysfs_init(&mp->m_error_kobj, &xfs_error_ktype,
-                                  ^~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_sysfs.c:633:10: note: Calling 'xfs_sysfs_init'
-           error =3D xfs_sysfs_init(&mp->m_error_kobj, &xfs_error_ktype,
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_sysfs.h:37:11: note: Assuming 'parent_kobj' is null
-           parent =3D parent_kobj ? &parent_kobj->kobject : NULL;
-                    ^~~~~~~~~~~
-   fs/xfs/xfs_sysfs.h:37:11: note: '?' condition is false
-   fs/xfs/xfs_sysfs.h:38:18: note: Passing value via 1st parameter 'x'
-           init_completion(&kobj->complete);
-                           ^~~~~~~~~~~~~~~
-   fs/xfs/xfs_sysfs.h:38:2: note: Calling 'init_completion'
-           init_completion(&kobj->complete);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/completion.h:86:10: note: Access to field 'done' results i=
-n a dereference of a null pointer (loaded from variable 'x')
-           x->done =3D 0;
-           ~       ^
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   crypto/pcbc.c:74:10: warning: Although the value stored to 'nbytes' is u=
-sed in the enclosing expression, the value is never actually read from 'nby=
-tes' [clang-analyzer-deadcode.DeadStores]
-           while ((nbytes =3D walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   crypto/pcbc.c:74:10: note: Although the value stored to 'nbytes' is used=
- in the enclosing expression, the value is never actually read from 'nbytes'
-           while ((nbytes =3D walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   crypto/pcbc.c:141:10: warning: Although the value stored to 'nbytes' is =
-used in the enclosing expression, the value is never actually read from 'nb=
-ytes' [clang-analyzer-deadcode.DeadStores]
-           while ((nbytes =3D walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   crypto/pcbc.c:141:10: note: Although the value stored to 'nbytes' is use=
-d in the enclosing expression, the value is never actually read from 'nbyte=
-s'
-           while ((nbytes =3D walk.nbytes)) {
-                   ^        ~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   fs/xfs/xfs_pnfs.c:39:3: warning: Value stored to 'error' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                   error =3D break_layout(inode, true);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_pnfs.c:39:3: note: Value stored to 'error' is never read
-                   error =3D break_layout(inode, true);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/perf/arm_smmuv3_pmu.c:349:17: warning: Value stored to 'dev' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D smmu_pmu->dev;
-                          ^~~   ~~~~~~~~~~~~~
-   drivers/perf/arm_smmuv3_pmu.c:349:17: note: Value stored to 'dev' during=
- its initialization is never read
-           struct device *dev =3D smmu_pmu->dev;
-                          ^~~   ~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/hwtracing/intel_th/msu.c:860:2: warning: Value stored to 'reg' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           reg =3D ioread32(msc->reg_base + REG_MSU_MSC0STS);
-           ^
-   drivers/hwtracing/intel_th/msu.c:860:2: note: Value stored to 'reg' is n=
-ever read
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/fpga/altera-pr-ip-core.c:188:2: warning: Value stored to 'val' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           val =3D readl(priv->reg_base + ALT_PR_CSR_OFST);
-           ^
-   drivers/fpga/altera-pr-ip-core.c:188:2: note: Value stored to 'val' is n=
-ever read
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/staging/rts5208/ms.c:1770:3: warning: Value stored to 'retval' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   retval =3D ms_set_rw_reg_addr(chip, OVERWRITE_FLAG, MS_E=
-XTRA_SIZE,
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   drivers/staging/rts5208/ms.c:1770:3: note: Value stored to 'retval' is n=
-ever read
-                   retval =3D ms_set_rw_reg_addr(chip, OVERWRITE_FLAG, MS_E=
-XTRA_SIZE,
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/staging/iio/adc/ad7280a.c:130:8: warning: Excessive padding in '=
-struct ad7280_state' (110 padding bytes, where 46 is optimal). =
+vim +7705 fs/btrfs/send.c
 
-   Optimal fields order: =
+62d54f3a7fa27e Filipe Manana             2019-04-22  7387  =
 
-   buf, =
+9ad1230533efb6 Sahil Kang                2022-01-15  7388  long btrfs_ioctl=
+_send(struct inode *inode, struct btrfs_ioctl_send_args *arg)
+31db9f7c23fbf7 Alexander Block           2012-07-25  7389  {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7390  	int ret =3D 0;
+9ad1230533efb6 Sahil Kang                2022-01-15  7391  	struct btrfs_ro=
+ot *send_root =3D BTRFS_I(inode)->root;
+0b246afa62b0cf Jeff Mahoney              2016-06-22  7392  	struct btrfs_fs=
+_info *fs_info =3D send_root->fs_info;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7393  	struct btrfs_ro=
+ot *clone_root;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7394  	struct send_ctx=
+ *sctx =3D NULL;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7395  	u32 i;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7396  	u32 send_buf_nu=
+m_pages =3D 0;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7397  	u64 *clone_sour=
+ces_tmp =3D NULL;
+2c68653787f91c David Sterba              2013-12-16  7398  	int clone_sourc=
+es_to_rollback =3D 0;
+bae12df966f0e1 Denis Efremov             2020-09-21  7399  	size_t alloc_si=
+ze;
+896c14f97f700a Wang Shilong              2014-01-07  7400  	int sort_clone_=
+roots =3D 0;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7401  =
 
-   spi, =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7402  	if (!capable(CA=
+P_SYS_ADMIN))
+31db9f7c23fbf7 Alexander Block           2012-07-25  7403  		return -EPERM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7404  =
 
-   channels, =
+2c68653787f91c David Sterba              2013-12-16  7405  	/*
+2c68653787f91c David Sterba              2013-12-16  7406  	 * The subvolum=
+e must remain read-only during send, protect against
+521e0546c970c3 David Sterba              2014-04-15  7407  	 * making it RW=
+. This also protects against deletion.
+2c68653787f91c David Sterba              2013-12-16  7408  	 */
+2c68653787f91c David Sterba              2013-12-16  7409  	spin_lock(&send=
+_root->root_item_lock);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7410  	if (btrfs_root_=
+readonly(send_root) && send_root->dedupe_in_progress) {
+62d54f3a7fa27e Filipe Manana             2019-04-22  7411  		dedupe_in_prog=
+ress_warn(send_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7412  		spin_unlock(&s=
+end_root->root_item_lock);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7413  		return -EAGAIN;
+62d54f3a7fa27e Filipe Manana             2019-04-22  7414  	}
+2c68653787f91c David Sterba              2013-12-16  7415  	send_root->send=
+_in_progress++;
+2c68653787f91c David Sterba              2013-12-16  7416  	spin_unlock(&se=
+nd_root->root_item_lock);
+2c68653787f91c David Sterba              2013-12-16  7417  =
 
-   iio_attr, =
+2c68653787f91c David Sterba              2013-12-16  7418  	/*
+2c68653787f91c David Sterba              2013-12-16  7419  	 * Userspace to=
+ols do the checks and warn the user if it's
+2c68653787f91c David Sterba              2013-12-16  7420  	 * not RO.
+2c68653787f91c David Sterba              2013-12-16  7421  	 */
+2c68653787f91c David Sterba              2013-12-16  7422  	if (!btrfs_root=
+_readonly(send_root)) {
+2c68653787f91c David Sterba              2013-12-16  7423  		ret =3D -EPERM;
+2c68653787f91c David Sterba              2013-12-16  7424  		goto out;
+2c68653787f91c David Sterba              2013-12-16  7425  	}
+2c68653787f91c David Sterba              2013-12-16  7426  =
 
-   lock, =
+457ae7268b29c3 Dan Carpenter             2017-03-17  7427  	/*
+457ae7268b29c3 Dan Carpenter             2017-03-17  7428  	 * Check that w=
+e don't overflow at later allocations, we request
+457ae7268b29c3 Dan Carpenter             2017-03-17  7429  	 * clone_source=
+s_count + 1 items, and compare to unsigned long inside
+457ae7268b29c3 Dan Carpenter             2017-03-17  7430  	 * access_ok.
+457ae7268b29c3 Dan Carpenter             2017-03-17  7431  	 */
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  7432  	if (arg->clone_=
+sources_count >
+457ae7268b29c3 Dan Carpenter             2017-03-17  7433  	    ULONG_MAX /=
+ sizeof(struct clone_root) - 1) {
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  7434  		ret =3D -EINVA=
+L;
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  7435  		goto out;
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  7436  	}
+f5ecec3ce21f70 Dan Carpenter             2016-04-13  7437  =
 
-   slave_num, =
+c2c71324ecb471 Stefan Behrens            2013-04-10  7438  	if (arg->flags =
+& ~BTRFS_SEND_FLAG_MASK) {
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  7439  		ret =3D -EINVA=
+L;
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  7440  		goto out;
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  7441  	}
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  7442  =
 
-   scan_cnt, =
+e780b0d1c1523e David Sterba              2016-01-18  7443  	sctx =3D kzallo=
+c(sizeof(struct send_ctx), GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7444  	if (!sctx) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7445  		ret =3D -ENOME=
+M;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7446  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7447  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7448  =
 
-   readback_delay_us, =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7449  	INIT_LIST_HEAD(=
+&sctx->new_refs);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7450  	INIT_LIST_HEAD(=
+&sctx->deleted_refs);
+e780b0d1c1523e David Sterba              2016-01-18  7451  	INIT_RADIX_TREE=
+(&sctx->name_cache, GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7452  	INIT_LIST_HEAD(=
+&sctx->name_cache_list);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7453  =
 
-   ctrl_hb, =
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  7454  	sctx->flags =3D=
+ arg->flags;
+cb95e7bf7ba481 Mark Fasheh               2013-02-04  7455  =
 
-   ctrl_lb, =
+e77fbf990316d4 David Sterba              2021-10-22  7456  	if (arg->flags =
+& BTRFS_SEND_FLAG_VERSION) {
+e77fbf990316d4 David Sterba              2021-10-22  7457  		if (arg->versi=
+on > BTRFS_SEND_STREAM_VERSION) {
+e77fbf990316d4 David Sterba              2021-10-22  7458  			ret =3D -EPRO=
+TO;
+e77fbf990316d4 David Sterba              2021-10-22  7459  			goto out;
+e77fbf990316d4 David Sterba              2021-10-22  7460  		}
+e77fbf990316d4 David Sterba              2021-10-22  7461  		/* Zero means =
+"use the highest version" */
+e77fbf990316d4 David Sterba              2021-10-22  7462  		sctx->proto =
+=3D arg->version ?: BTRFS_SEND_STREAM_VERSION;
+e77fbf990316d4 David Sterba              2021-10-22  7463  	} else {
+e77fbf990316d4 David Sterba              2021-10-22  7464  		sctx->proto =
+=3D 1;
+e77fbf990316d4 David Sterba              2021-10-22  7465  	}
+e77fbf990316d4 David Sterba              2021-10-22  7466  =
 
-   cell_threshhigh, =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7467  	sctx->send_filp=
+ =3D fget(arg->send_fd);
+ecc7ada77b5cd1 Tsutomu Itoh              2013-04-19  7468  	if (!sctx->send=
+_filp) {
+ecc7ada77b5cd1 Tsutomu Itoh              2013-04-19  7469  		ret =3D -EBADF;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7470  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7471  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7472  =
 
-   cell_threshlow, =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7473  	sctx->send_root=
+ =3D send_root;
+521e0546c970c3 David Sterba              2014-04-15  7474  	/*
+521e0546c970c3 David Sterba              2014-04-15  7475  	 * Unlikely but=
+ possible, if the subvolume is marked for deletion but
+521e0546c970c3 David Sterba              2014-04-15  7476  	 * is slow to r=
+emove the directory entry, send can still be started
+521e0546c970c3 David Sterba              2014-04-15  7477  	 */
+521e0546c970c3 David Sterba              2014-04-15  7478  	if (btrfs_root_=
+dead(sctx->send_root)) {
+521e0546c970c3 David Sterba              2014-04-15  7479  		ret =3D -EPERM;
+521e0546c970c3 David Sterba              2014-04-15  7480  		goto out;
+521e0546c970c3 David Sterba              2014-04-15  7481  	}
+521e0546c970c3 David Sterba              2014-04-15  7482  =
 
-   aux_threshhigh, =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7483  	sctx->clone_roo=
+ts_cnt =3D arg->clone_sources_count;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7484  =
 
-   aux_threshlow, =
+bed783710857f5 Omar Sandoval             2020-05-13  7485  	if (sctx->proto=
+ >=3D 2) {
+bed783710857f5 Omar Sandoval             2020-05-13  7486  		sctx->send_max=
+_size =3D ALIGN(SZ_16K + BTRFS_MAX_COMPRESSED,
+bed783710857f5 Omar Sandoval             2020-05-13  7487  					    PAGE_SI=
+ZE);
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7488  		send_buf_num_p=
+ages =3D sctx->send_max_size >> PAGE_SHIFT;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7489  		sctx->send_buf=
+_pages =3D kcalloc(send_buf_num_pages,
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7490  					       size=
+of(*sctx->send_buf_pages),
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7491  					       GFP_=
+KERNEL);
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7492  		if (!sctx->sen=
+d_buf_pages) {
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7493  			send_buf_num_=
+pages =3D 0;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7494  			ret =3D -ENOM=
+EM;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7495  			goto out;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7496  		}
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7497  		for (i =3D 0; =
+i < send_buf_num_pages; i++) {
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7498  			sctx->send_bu=
+f_pages[i] =3D alloc_page(GFP_KERNEL);
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7499  			if (!sctx->se=
+nd_buf_pages[i]) {
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7500  				ret =3D -ENO=
+MEM;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7501  				goto out;
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7502  			}
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7503  		}
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7504  		sctx->send_buf=
+ =3D vmap(sctx->send_buf_pages, send_buf_num_pages,
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7505  				      VM_MAP=
+, PAGE_KERNEL);
+bed783710857f5 Omar Sandoval             2020-05-13  7506  	} else {
+6136b03819c025 Omar Sandoval             2020-05-12  7507  		sctx->send_max=
+_size =3D BTRFS_SEND_BUF_SIZE_V1;
+752ade68cbd81d Michal Hocko              2017-05-08  7508  		sctx->send_buf=
+ =3D kvmalloc(sctx->send_max_size, GFP_KERNEL);
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7509  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7510  	if (!sctx->send=
+_buf) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7511  		ret =3D -ENOME=
+M;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7512  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7513  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7514  =
 
-   cb_mask, =
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7515  	sctx->pending_d=
+ir_moves =3D RB_ROOT;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7516  	sctx->waiting_d=
+ir_moves =3D RB_ROOT;
+9dc442143b9874 Filipe Manana             2014-02-19  7517  	sctx->orphan_di=
+rs =3D RB_ROOT;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7518  =
 
-   crc_tab, =
+bae12df966f0e1 Denis Efremov             2020-09-21  7519  	sctx->clone_roo=
+ts =3D kvcalloc(sizeof(*sctx->clone_roots),
+bae12df966f0e1 Denis Efremov             2020-09-21  7520  				     arg->cl=
+one_sources_count + 1,
+bae12df966f0e1 Denis Efremov             2020-09-21  7521  				     GFP_KER=
+NEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7522  	if (!sctx->clon=
+e_roots) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7523  		ret =3D -ENOME=
+M;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7524  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7525  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7526  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad7280_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/staging/iio/adc/ad7280a.c:130:8: note: Excessive padding in 'str=
-uct ad7280_state' (110 padding bytes, where 46 is optimal). Optimal fields =
-order: buf, spi, channels, iio_attr, lock, slave_num, scan_cnt, readback_de=
-lay_us, ctrl_hb, ctrl_lb, cell_threshhigh, cell_threshlow, aux_threshhigh, =
-aux_threshlow, cb_mask, crc_tab, consider reordering the fields or adding e=
-xplicit padding members
-   struct ad7280_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/staging/iio/addac/adt7316.c:1888:2: warning: Value stored to 're=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D chip->bus.write(chip->bus.client, ADT7316_INT_MASK1, mas=
-k);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/iio/addac/adt7316.c:1888:2: note: Value stored to 'ret' =
-is never read
-           ret =3D chip->bus.write(chip->bus.client, ADT7316_INT_MASK1, mas=
-k);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
+bae12df966f0e1 Denis Efremov             2020-09-21  7527  	alloc_size =3D =
+array_size(sizeof(*arg->clone_sources),
+bae12df966f0e1 Denis Efremov             2020-09-21  7528  				arg->clone_s=
+ources_count);
+e55d1153dbf484 David Sterba              2016-04-11  7529  =
 
-vim +/dev +349 drivers/perf/arm_smmuv3_pmu.c
+31db9f7c23fbf7 Alexander Block           2012-07-25  7530  	if (arg->clone_=
+sources_count) {
+752ade68cbd81d Michal Hocko              2017-05-08  7531  		clone_sources_=
+tmp =3D kvmalloc(alloc_size, GFP_KERNEL);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7532  		if (!clone_sou=
+rces_tmp) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7533  			ret =3D -ENOM=
+EM;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7534  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7535  		}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7536  =
 
-3c9347351a6ea12 Robin Murphy 2019-08-01  339  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7537  		ret =3D copy_f=
+rom_user(clone_sources_tmp, arg->clone_sources,
+e55d1153dbf484 David Sterba              2016-04-11  7538  				alloc_size);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7539  		if (ret) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7540  			ret =3D -EFAU=
+LT;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7541  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7542  		}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7543  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  340  /*
-7d839b4b9e00645 Neil Leeder  2019-03-26  341   * Implementation of abstract=
- pmu functionality required by
-7d839b4b9e00645 Neil Leeder  2019-03-26  342   * the core perf events code.
-7d839b4b9e00645 Neil Leeder  2019-03-26  343   */
-7d839b4b9e00645 Neil Leeder  2019-03-26  344  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7544  		for (i =3D 0; =
+i < arg->clone_sources_count; i++) {
+56e9357a1e8167 David Sterba              2020-05-15  7545  			clone_root =
+=3D btrfs_get_fs_root(fs_info,
+56e9357a1e8167 David Sterba              2020-05-15  7546  						clone_sour=
+ces_tmp[i], true);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7547  			if (IS_ERR(cl=
+one_root)) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7548  				ret =3D PTR_=
+ERR(clone_root);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7549  				goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7550  			}
+2c68653787f91c David Sterba              2013-12-16  7551  			spin_lock(&cl=
+one_root->root_item_lock);
+5cc2b17e80cf57 Filipe Manana             2015-03-02  7552  			if (!btrfs_ro=
+ot_readonly(clone_root) ||
+5cc2b17e80cf57 Filipe Manana             2015-03-02  7553  			    btrfs_roo=
+t_dead(clone_root)) {
+2c68653787f91c David Sterba              2013-12-16  7554  				spin_unlock(=
+&clone_root->root_item_lock);
+0024652895e347 Josef Bacik               2020-01-24  7555  				btrfs_put_ro=
+ot(clone_root);
+2c68653787f91c David Sterba              2013-12-16  7556  				ret =3D -EPE=
+RM;
+2c68653787f91c David Sterba              2013-12-16  7557  				goto out;
+2c68653787f91c David Sterba              2013-12-16  7558  			}
+62d54f3a7fa27e Filipe Manana             2019-04-22  7559  			if (clone_roo=
+t->dedupe_in_progress) {
+62d54f3a7fa27e Filipe Manana             2019-04-22  7560  				dedupe_in_pr=
+ogress_warn(clone_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7561  				spin_unlock(=
+&clone_root->root_item_lock);
+0024652895e347 Josef Bacik               2020-01-24  7562  				btrfs_put_ro=
+ot(clone_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7563  				ret =3D -EAG=
+AIN;
+62d54f3a7fa27e Filipe Manana             2019-04-22  7564  				goto out;
+62d54f3a7fa27e Filipe Manana             2019-04-22  7565  			}
+2f1f465ae6da24 Filipe Manana             2015-03-02  7566  			clone_root->s=
+end_in_progress++;
+2c68653787f91c David Sterba              2013-12-16  7567  			spin_unlock(&=
+clone_root->root_item_lock);
+18f687d5384493 Wang Shilong              2014-01-07  7568  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  345  static int smmu_pmu_event_ini=
-t(struct perf_event *event)
-7d839b4b9e00645 Neil Leeder  2019-03-26  346  {
-7d839b4b9e00645 Neil Leeder  2019-03-26  347  	struct hw_perf_event *hwc =
-=3D &event->hw;
-7d839b4b9e00645 Neil Leeder  2019-03-26  348  	struct smmu_pmu *smmu_pmu =
-=3D to_smmu_pmu(event->pmu);
-7d839b4b9e00645 Neil Leeder  2019-03-26 @349  	struct device *dev =3D smmu_=
-pmu->dev;
-7d839b4b9e00645 Neil Leeder  2019-03-26  350  	struct perf_event *sibling;
-33e84ea4330da8a Robin Murphy 2019-08-01  351  	int group_num_events =3D 1;
-7d839b4b9e00645 Neil Leeder  2019-03-26  352  	u16 event_id;
-7d839b4b9e00645 Neil Leeder  2019-03-26  353  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7569  			sctx->clone_r=
+oots[i].root =3D clone_root;
+2f1f465ae6da24 Filipe Manana             2015-03-02  7570  			clone_sources=
+_to_rollback =3D i + 1;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7571  		}
+2f91306a378099 David Sterba              2016-04-11  7572  		kvfree(clone_s=
+ources_tmp);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7573  		clone_sources_=
+tmp =3D NULL;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7574  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7575  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  354  	if (event->attr.type !=3D ev=
-ent->pmu->type)
-7d839b4b9e00645 Neil Leeder  2019-03-26  355  		return -ENOENT;
-7d839b4b9e00645 Neil Leeder  2019-03-26  356  =
-
-7d839b4b9e00645 Neil Leeder  2019-03-26  357  	if (hwc->sample_period) {
-7d839b4b9e00645 Neil Leeder  2019-03-26  358  		dev_dbg(dev, "Sampling not =
-supported\n");
-7d839b4b9e00645 Neil Leeder  2019-03-26  359  		return -EOPNOTSUPP;
-7d839b4b9e00645 Neil Leeder  2019-03-26  360  	}
-7d839b4b9e00645 Neil Leeder  2019-03-26  361  =
-
-7d839b4b9e00645 Neil Leeder  2019-03-26  362  	if (event->cpu < 0) {
-7d839b4b9e00645 Neil Leeder  2019-03-26  363  		dev_dbg(dev, "Per-task mode=
- not supported\n");
-7d839b4b9e00645 Neil Leeder  2019-03-26  364  		return -EOPNOTSUPP;
-7d839b4b9e00645 Neil Leeder  2019-03-26  365  	}
-7d839b4b9e00645 Neil Leeder  2019-03-26  366  =
-
-7d839b4b9e00645 Neil Leeder  2019-03-26  367  	/* Verify specified event is=
- supported on this PMU */
-7d839b4b9e00645 Neil Leeder  2019-03-26  368  	event_id =3D get_event(event=
+31db9f7c23fbf7 Alexander Block           2012-07-25  7576  	if (arg->parent=
+_root) {
+56e9357a1e8167 David Sterba              2020-05-15  7577  		sctx->parent_r=
+oot =3D btrfs_get_fs_root(fs_info, arg->parent_root,
+56e9357a1e8167 David Sterba              2020-05-15  7578  						      true=
 );
-7d839b4b9e00645 Neil Leeder  2019-03-26  369  	if (event_id < SMMU_PMCG_ARC=
-H_MAX_EVENTS &&
-7d839b4b9e00645 Neil Leeder  2019-03-26  370  	    (!test_bit(event_id, smm=
-u_pmu->supported_events))) {
-7d839b4b9e00645 Neil Leeder  2019-03-26  371  		dev_dbg(dev, "Invalid event=
- %d for this PMU\n", event_id);
-7d839b4b9e00645 Neil Leeder  2019-03-26  372  		return -EINVAL;
-7d839b4b9e00645 Neil Leeder  2019-03-26  373  	}
-7d839b4b9e00645 Neil Leeder  2019-03-26  374  =
+b1b195969fe6d9 Stefan Behrens            2013-05-13  7579  		if (IS_ERR(sct=
+x->parent_root)) {
+b1b195969fe6d9 Stefan Behrens            2013-05-13  7580  			ret =3D PTR_E=
+RR(sctx->parent_root);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7581  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7582  		}
+18f687d5384493 Wang Shilong              2014-01-07  7583  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  375  	/* Don't allow groups with m=
-ixed PMUs, except for s/w events */
-33e84ea4330da8a Robin Murphy 2019-08-01  376  	if (!is_software_event(event=
-->group_leader)) {
-3c9347351a6ea12 Robin Murphy 2019-08-01  377  		if (!smmu_pmu_events_compat=
-ible(event->group_leader, event))
-33e84ea4330da8a Robin Murphy 2019-08-01  378  			return -EINVAL;
-33e84ea4330da8a Robin Murphy 2019-08-01  379  =
+2c68653787f91c David Sterba              2013-12-16  7584  		spin_lock(&sct=
+x->parent_root->root_item_lock);
+2c68653787f91c David Sterba              2013-12-16  7585  		sctx->parent_r=
+oot->send_in_progress++;
+521e0546c970c3 David Sterba              2014-04-15  7586  		if (!btrfs_roo=
+t_readonly(sctx->parent_root) ||
+521e0546c970c3 David Sterba              2014-04-15  7587  				btrfs_root_d=
+ead(sctx->parent_root)) {
+2c68653787f91c David Sterba              2013-12-16  7588  			spin_unlock(&=
+sctx->parent_root->root_item_lock);
+2c68653787f91c David Sterba              2013-12-16  7589  			ret =3D -EPER=
+M;
+2c68653787f91c David Sterba              2013-12-16  7590  			goto out;
+2c68653787f91c David Sterba              2013-12-16  7591  		}
+62d54f3a7fa27e Filipe Manana             2019-04-22  7592  		if (sctx->pare=
+nt_root->dedupe_in_progress) {
+62d54f3a7fa27e Filipe Manana             2019-04-22  7593  			dedupe_in_pro=
+gress_warn(sctx->parent_root);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7594  			spin_unlock(&=
+sctx->parent_root->root_item_lock);
+62d54f3a7fa27e Filipe Manana             2019-04-22  7595  			ret =3D -EAGA=
+IN;
+62d54f3a7fa27e Filipe Manana             2019-04-22  7596  			goto out;
+62d54f3a7fa27e Filipe Manana             2019-04-22  7597  		}
+2c68653787f91c David Sterba              2013-12-16  7598  		spin_unlock(&s=
+ctx->parent_root->root_item_lock);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7599  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7600  =
 
-33e84ea4330da8a Robin Murphy 2019-08-01  380  		if (++group_num_events > sm=
-mu_pmu->num_counters)
-7d839b4b9e00645 Neil Leeder  2019-03-26  381  			return -EINVAL;
-7d839b4b9e00645 Neil Leeder  2019-03-26  382  	}
-7d839b4b9e00645 Neil Leeder  2019-03-26  383  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7601  	/*
+31db9f7c23fbf7 Alexander Block           2012-07-25  7602  	 * Clones from =
+send_root are allowed, but only if the clone source
+31db9f7c23fbf7 Alexander Block           2012-07-25  7603  	 * is behind th=
+e current send position. This is checked while searching
+31db9f7c23fbf7 Alexander Block           2012-07-25  7604  	 * for possible=
+ clone sources.
+31db9f7c23fbf7 Alexander Block           2012-07-25  7605  	 */
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7606  	sctx->clone_roo=
+ts[sctx->clone_roots_cnt++].root =3D
+0024652895e347 Josef Bacik               2020-01-24  7607  		btrfs_grab_roo=
+t(sctx->send_root);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7608  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  384  	for_each_sibling_event(sibli=
-ng, event->group_leader) {
-33e84ea4330da8a Robin Murphy 2019-08-01  385  		if (is_software_event(sibli=
-ng))
-33e84ea4330da8a Robin Murphy 2019-08-01  386  			continue;
-33e84ea4330da8a Robin Murphy 2019-08-01  387  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7609  	/* We do a bsea=
+rch later */
+31db9f7c23fbf7 Alexander Block           2012-07-25  7610  	sort(sctx->clon=
+e_roots, sctx->clone_roots_cnt,
+31db9f7c23fbf7 Alexander Block           2012-07-25  7611  			sizeof(*sctx-=
+>clone_roots), __clone_root_cmp_sort,
+31db9f7c23fbf7 Alexander Block           2012-07-25  7612  			NULL);
+896c14f97f700a Wang Shilong              2014-01-07  7613  	sort_clone_root=
+s =3D 1;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7614  =
 
-3c9347351a6ea12 Robin Murphy 2019-08-01  388  		if (!smmu_pmu_events_compat=
-ible(sibling, event))
-33e84ea4330da8a Robin Murphy 2019-08-01  389  			return -EINVAL;
-33e84ea4330da8a Robin Murphy 2019-08-01  390  =
+9f89d5de8631c7 Filipe Manana             2019-04-15  7615  	ret =3D flush_d=
+elalloc_roots(sctx);
+9f89d5de8631c7 Filipe Manana             2019-04-15  7616  	if (ret)
+9f89d5de8631c7 Filipe Manana             2019-04-15  7617  		goto out;
+9f89d5de8631c7 Filipe Manana             2019-04-15  7618  =
 
-33e84ea4330da8a Robin Murphy 2019-08-01  391  		if (++group_num_events > sm=
-mu_pmu->num_counters)
-7d839b4b9e00645 Neil Leeder  2019-03-26  392  			return -EINVAL;
-7d839b4b9e00645 Neil Leeder  2019-03-26  393  	}
-7d839b4b9e00645 Neil Leeder  2019-03-26  394  =
+e5fa8f865b3324 Filipe Manana             2014-10-21  7619  	ret =3D ensure_=
+commit_roots_uptodate(sctx);
+e5fa8f865b3324 Filipe Manana             2014-10-21  7620  	if (ret)
+e5fa8f865b3324 Filipe Manana             2014-10-21  7621  		goto out;
+e5fa8f865b3324 Filipe Manana             2014-10-21  7622  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  395  	hwc->idx =3D -1;
-7d839b4b9e00645 Neil Leeder  2019-03-26  396  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7623  	ret =3D send_su=
+bvol(sctx);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7624  	if (ret < 0)
+31db9f7c23fbf7 Alexander Block           2012-07-25  7625  		goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7626  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  397  	/*
-7d839b4b9e00645 Neil Leeder  2019-03-26  398  	 * Ensure all events are on =
-the same cpu so all events are in the
-7d839b4b9e00645 Neil Leeder  2019-03-26  399  	 * same cpu context, to avoi=
-d races on pmu_enable etc.
-7d839b4b9e00645 Neil Leeder  2019-03-26  400  	 */
-7d839b4b9e00645 Neil Leeder  2019-03-26  401  	event->cpu =3D smmu_pmu->on_=
-cpu;
-7d839b4b9e00645 Neil Leeder  2019-03-26  402  =
+c2c71324ecb471 Stefan Behrens            2013-04-10  7627  	if (!(sctx->fla=
+gs & BTRFS_SEND_FLAG_OMIT_END_CMD)) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7628  		ret =3D begin_=
+cmd(sctx, BTRFS_SEND_C_END);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7629  		if (ret < 0)
+31db9f7c23fbf7 Alexander Block           2012-07-25  7630  			goto out;
+31db9f7c23fbf7 Alexander Block           2012-07-25  7631  		ret =3D send_c=
+md(sctx);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7632  		if (ret < 0)
+31db9f7c23fbf7 Alexander Block           2012-07-25  7633  			goto out;
+c2c71324ecb471 Stefan Behrens            2013-04-10  7634  	}
+31db9f7c23fbf7 Alexander Block           2012-07-25  7635  =
 
-7d839b4b9e00645 Neil Leeder  2019-03-26  403  	return 0;
-7d839b4b9e00645 Neil Leeder  2019-03-26  404  }
-7d839b4b9e00645 Neil Leeder  2019-03-26  405  =
+31db9f7c23fbf7 Alexander Block           2012-07-25  7636  out:
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7637  	WARN_ON(sctx &&=
+ !ret && !RB_EMPTY_ROOT(&sctx->pending_dir_moves));
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7638  	while (sctx && =
+!RB_EMPTY_ROOT(&sctx->pending_dir_moves)) {
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7639  		struct rb_node=
+ *n;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7640  		struct pending=
+_dir_move *pm;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7641  =
 
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7642  		n =3D rb_first=
+(&sctx->pending_dir_moves);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7643  		pm =3D rb_entr=
+y(n, struct pending_dir_move, node);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7644  		while (!list_e=
+mpty(&pm->list)) {
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7645  			struct pendin=
+g_dir_move *pm2;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7646  =
 
-:::::: The code at line 349 was first introduced by commit
-:::::: 7d839b4b9e00645e49345d6ce5dfa8edf53c1a21 perf/smmuv3: Add arm64 smmu=
-v3 pmu driver
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7647  			pm2 =3D list_=
+first_entry(&pm->list,
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7648  					       stru=
+ct pending_dir_move, list);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7649  			free_pending_=
+move(sctx, pm2);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7650  		}
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7651  		free_pending_m=
+ove(sctx, pm);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7652  	}
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7653  =
 
-:::::: TO: Neil Leeder <nleeder@codeaurora.org>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7654  	WARN_ON(sctx &&=
+ !ret && !RB_EMPTY_ROOT(&sctx->waiting_dir_moves));
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7655  	while (sctx && =
+!RB_EMPTY_ROOT(&sctx->waiting_dir_moves)) {
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7656  		struct rb_node=
+ *n;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7657  		struct waiting=
+_dir_move *dm;
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7658  =
+
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7659  		n =3D rb_first=
+(&sctx->waiting_dir_moves);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7660  		dm =3D rb_entr=
+y(n, struct waiting_dir_move, node);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7661  		rb_erase(&dm->=
+node, &sctx->waiting_dir_moves);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7662  		kfree(dm);
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7663  	}
+9f03740a956d7a Filipe David Borba Manana 2014-01-22  7664  =
+
+9dc442143b9874 Filipe Manana             2014-02-19  7665  	WARN_ON(sctx &&=
+ !ret && !RB_EMPTY_ROOT(&sctx->orphan_dirs));
+9dc442143b9874 Filipe Manana             2014-02-19  7666  	while (sctx && =
+!RB_EMPTY_ROOT(&sctx->orphan_dirs)) {
+9dc442143b9874 Filipe Manana             2014-02-19  7667  		struct rb_node=
+ *n;
+9dc442143b9874 Filipe Manana             2014-02-19  7668  		struct orphan_=
+dir_info *odi;
+9dc442143b9874 Filipe Manana             2014-02-19  7669  =
+
+9dc442143b9874 Filipe Manana             2014-02-19  7670  		n =3D rb_first=
+(&sctx->orphan_dirs);
+9dc442143b9874 Filipe Manana             2014-02-19  7671  		odi =3D rb_ent=
+ry(n, struct orphan_dir_info, node);
+9dc442143b9874 Filipe Manana             2014-02-19  7672  		free_orphan_di=
+r_info(sctx, odi);
+9dc442143b9874 Filipe Manana             2014-02-19  7673  	}
+9dc442143b9874 Filipe Manana             2014-02-19  7674  =
+
+896c14f97f700a Wang Shilong              2014-01-07  7675  	if (sort_clone_=
+roots) {
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7676  		for (i =3D 0; =
+i < sctx->clone_roots_cnt; i++) {
+896c14f97f700a Wang Shilong              2014-01-07  7677  			btrfs_root_de=
+c_send_in_progress(
+896c14f97f700a Wang Shilong              2014-01-07  7678  					sctx->clone=
+_roots[i].root);
+0024652895e347 Josef Bacik               2020-01-24  7679  			btrfs_put_roo=
+t(sctx->clone_roots[i].root);
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7680  		}
+896c14f97f700a Wang Shilong              2014-01-07  7681  	} else {
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7682  		for (i =3D 0; =
+sctx && i < clone_sources_to_rollback; i++) {
+896c14f97f700a Wang Shilong              2014-01-07  7683  			btrfs_root_de=
+c_send_in_progress(
+896c14f97f700a Wang Shilong              2014-01-07  7684  					sctx->clone=
+_roots[i].root);
+0024652895e347 Josef Bacik               2020-01-24  7685  			btrfs_put_roo=
+t(sctx->clone_roots[i].root);
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7686  		}
+896c14f97f700a Wang Shilong              2014-01-07  7687  =
+
+896c14f97f700a Wang Shilong              2014-01-07  7688  		btrfs_root_dec=
+_send_in_progress(send_root);
+896c14f97f700a Wang Shilong              2014-01-07  7689  	}
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7690  	if (sctx && !IS=
+_ERR_OR_NULL(sctx->parent_root)) {
+66ef7d65c3fc6e David Sterba              2013-12-17  7691  		btrfs_root_dec=
+_send_in_progress(sctx->parent_root);
+0024652895e347 Josef Bacik               2020-01-24  7692  		btrfs_put_root=
+(sctx->parent_root);
+6f9a3da5da9e7e Josef Bacik               2020-01-24  7693  	}
+2c68653787f91c David Sterba              2013-12-16  7694  =
+
+2f91306a378099 David Sterba              2016-04-11  7695  	kvfree(clone_so=
+urces_tmp);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7696  =
+
+31db9f7c23fbf7 Alexander Block           2012-07-25  7697  	if (sctx) {
+31db9f7c23fbf7 Alexander Block           2012-07-25  7698  		if (sctx->send=
+_filp)
+31db9f7c23fbf7 Alexander Block           2012-07-25  7699  			fput(sctx->se=
+nd_filp);
+31db9f7c23fbf7 Alexander Block           2012-07-25  7700  =
+
+c03d01f3404282 David Sterba              2016-04-11  7701  		kvfree(sctx->c=
+lone_roots);
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7702  		if (sctx->prot=
+o >=3D 2) {
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7703  			vunmap(sctx->=
+send_buf);
+e11574dd48a2e1 Omar Sandoval             2020-05-01  7704  			for (i =3D 0;=
+ i < send_buf_num_pages; i++) {
+e11574dd48a2e1 Omar Sandoval             2020-05-01 @7705  				if (sctx->se=
+nd_buf_pages[i])
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0948108388955322390==--
+--===============4063541170178955836==--
 
