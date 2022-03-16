@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6211124045566127271=="
+Content-Type: multipart/mixed; boundary="===============5862333248174902259=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ata/pata_samsung_cf.c:117:34: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Wed, 16 Mar 2022 09:01:33 +0800
-Message-ID: <202203160824.d9jkYTVc-lkp@intel.com>
+Subject: Re: [PATCH] staging: rts5208: Resolve checkpath.pl issues.
+Date: Wed, 16 Mar 2022 08:30:25 +0800
+Message-ID: <202203160807.K3AjX7FR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6211124045566127271==
+--===============5862333248174902259==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,44 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+In-Reply-To: <Yi/5nEXVmzZrbfbz@sckzor-linux.localdomain>
+References: <Yi/5nEXVmzZrbfbz@sckzor-linux.localdomain>
+TO: Charlie Sands <sandsch@northvilleschools.net>
+TO: gregkh(a)linuxfoundation.org
+CC: linux-staging(a)lists.linux.dev
 CC: linux-kernel(a)vger.kernel.org
-TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-CC: Hannes Reinecke <hare@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   56e337f2cf1326323844927a04e9dbce9a244835
-commit: b6a64a860e1319dfbabc55b351c8b6583bd67413 ata: pata_samsung_cf: add =
-compile test support
-date:   9 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 9 weeks ago
-config: arm-randconfig-c002-20220312 (https://download.01.org/0day-ci/archi=
-ve/20220316/202203160824.d9jkYTVc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
-7382b8f16a65bddac700202924228982f6)
+Hi Charlie,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/0day-ci/linux/commits/Charlie-Sands/staging-rts5=
+208-Resolve-checkpath-pl-issues/20220315-102944
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
+56955aae9fc2c59fa3c9b32f1f147cdbe05e5ac4
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
+config: riscv-randconfig-c006-20220313 (https://download.01.org/0day-ci/arc=
+hive/20220316/202203160807.K3AjX7FR-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6b2f5=
+0fb47da3baeee10b1906da6e30ac5d26ec)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db6a64a860e1319dfbabc55b351c8b6583bd67413
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b6a64a860e1319dfbabc55b351c8b6583bd67413
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/db68d91d62af3bfc71979b5fd=
+01ca858a56a22ba
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Charlie-Sands/staging-rts5208-Reso=
+lve-checkpath-pl-issues/20220315-102944
+        git checkout db68d91d62af3bfc71979b5fd01ca858a56a22ba
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,297 +60,286 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~
-   drivers/tee/tee_core.c:582:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/tee/tee_core.c:585:6: note: Control jumps to 'case 4:'  at line =
-585
-           if (put_user(arg.ret, &uarg->ret) ||
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:356:3: note: expanded from macro '__put_u=
-ser_switch'
-                   switch (sizeof(*(ptr))) {                               \
-                   ^
-   drivers/tee/tee_core.c:585:6: note:  Execution continues on line 585
-           if (put_user(arg.ret, &uarg->ret) ||
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:359:47: note: expanded from macro '__put_=
-user_switch'
-                   case 4: __fn(__pu_val, __pu_ptr, __err, 4); break;      \
-                                                               ^
-   drivers/tee/tee_core.c:585:6: note: Loop condition is false.  Exiting lo=
-op
-           if (put_user(arg.ret, &uarg->ret) ||
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:350:2: note: expanded from macro '__put_u=
-ser_switch'
-           do {                                                            \
-           ^
-   drivers/tee/tee_core.c:585:6: note: Assuming the condition is false
-           if (put_user(arg.ret, &uarg->ret) ||
-               ^
-   arch/arm/include/asm/uaccess.h:366:31: note: expanded from macro 'put_us=
-er'
-   #define put_user(x, ptr)                                                \
-                                                                           ^
-   drivers/tee/tee_core.c:585:6: note: Left side of '||' is false
-           if (put_user(arg.ret, &uarg->ret) ||
-               ^
-   arch/arm/include/asm/uaccess.h:366:31: note: expanded from macro 'put_us=
-er'
-   #define put_user(x, ptr)                                                \
-                                                                           ^
-   drivers/tee/tee_core.c:586:6: note: Control jumps to 'case 4:'  at line =
-586
-               put_user(arg.ret_origin, &uarg->ret_origin)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:356:3: note: expanded from macro '__put_u=
-ser_switch'
-                   switch (sizeof(*(ptr))) {                               \
-                   ^
-   drivers/tee/tee_core.c:586:6: note:  Execution continues on line 586
-               put_user(arg.ret_origin, &uarg->ret_origin)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:359:47: note: expanded from macro '__put_=
-user_switch'
-                   case 4: __fn(__pu_val, __pu_ptr, __err, 4); break;      \
-                                                               ^
-   drivers/tee/tee_core.c:586:6: note: Loop condition is false.  Exiting lo=
-op
-               put_user(arg.ret_origin, &uarg->ret_origin)) {
-               ^
-   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
-r'
-           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
-           ^
-   arch/arm/include/asm/uaccess.h:350:2: note: expanded from macro '__put_u=
-ser_switch'
-           do {                                                            \
-           ^
-   drivers/tee/tee_core.c:586:6: note: Assuming the condition is false
-               put_user(arg.ret_origin, &uarg->ret_origin)) {
-               ^
-   arch/arm/include/asm/uaccess.h:366:31: note: expanded from macro 'put_us=
-er'
-   #define put_user(x, ptr)                                                \
-                                                                           ^
-   drivers/tee/tee_core.c:585:2: note: Taking false branch
-           if (put_user(arg.ret, &uarg->ret) ||
-           ^
-   drivers/tee/tee_core.c:590:47: note: Passing null pointer value via 3rd =
-parameter 'params'
-           rc =3D params_to_user(uparams, arg.num_params, params);
-                                                        ^~~~~~
-   drivers/tee/tee_core.c:590:7: note: Calling 'params_to_user'
-           rc =3D params_to_user(uparams, arg.num_params, params);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tee/tee_core.c:439:14: note: Assuming 'n' is < 'num_params'
-           for (n =3D 0; n < num_params; n++) {
-                       ^~~~~~~~~~~~~~
-   drivers/tee/tee_core.c:439:2: note: Loop condition is true.  Entering lo=
-op body
-           for (n =3D 0; n < num_params; n++) {
-           ^
-   drivers/tee/tee_core.c:441:3: note: 'p' initialized to a null pointer va=
-lue
-                   struct tee_param *p =3D params + n;
-                   ^~~~~~~~~~~~~~~~~~~
-   drivers/tee/tee_core.c:443:11: note: Access to field 'attr' results in a=
- dereference of a null pointer (loaded from variable 'p')
-                   switch (p->attr) {
-                           ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/ata/pata_samsung_cf.c:117:34: warning: Division by zero [clang-a=
-nalyzer-core.DivideZero]
-           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
-                              ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_samsung_cf.c:108:18: note: Loop condition is false.  Ex=
-iting loop
-           ulong ata_cfg =3D readl(info->ide_addr + S3C_ATA_CFG);
-                           ^
-   arch/arm/include/asm/io.h:304:50: note: expanded from macro 'readl'
-   #define readl(c)                ({ u32 __v =3D readl_relaxed(c); __iormb=
-(); __v; })
-                                                                  ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iormb'
-   #define __iormb()               do { } while (0)
-                                   ^
-   drivers/ata/pata_samsung_cf.c:112:6: note: Assuming the condition is true
-           if (ata_pio_need_iordy(adev))
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_samsung_cf.c:112:2: note: Taking true branch
-           if (ata_pio_need_iordy(adev))
-           ^
-   drivers/ata/pata_samsung_cf.c:117:36: note: Calling 'clk_get_rate'
-           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
-                                             ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:882:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/ata/pata_samsung_cf.c:117:36: note: Returning from 'clk_get_rate'
-           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
-                                             ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_samsung_cf.c:117:34: note: Division by zero
-           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
-                              ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
+   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    10 warnings generated.
-   fs/f2fs/xattr.c:424:35: warning: The left operand of '!=3D' is a garbage=
- value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (le32_to_cpu(header->h_magic) !=3D F2FS_XATTR_MAGIC) {
-                                            ^
-   fs/f2fs/xattr.c:144:28: note: Assuming field 'name' is not equal to NULL
-           for (xattr =3D xattr_array; xattr->name !=3D NULL; xattr++) {
-                                     ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:144:2: note: Loop condition is true.  Entering loop body
-           for (xattr =3D xattr_array; xattr->name !=3D NULL; xattr++) {
-           ^
-   fs/f2fs/xattr.c:145:9: note: Calling 'f2fs_setxattr'
-                   err =3D f2fs_setxattr(inode, F2FS_XATTR_INDEX_SECURITY,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:771:6: note: Assuming the condition is true
-           if (unlikely(f2fs_cp_error(sbi)))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/f2fs/xattr.c:771:2: note: Taking false branch
-           if (unlikely(f2fs_cp_error(sbi)))
-           ^
-   fs/f2fs/xattr.c:773:2: note: Taking false branch
-           if (!f2fs_is_checkpoint_ready(sbi))
-           ^
-   fs/f2fs/xattr.c:777:6: note: Assuming 'err' is 0
-           if (err)
+   drivers/md/dm-kcopyd.c:246:10: warning: Access to field 'next' results i=
+n a dereference of a null pointer (loaded from variable 'pl') [clang-analyz=
+er-core.NullDereference]
+                   next =3D pl->next;
+                          ^
+   drivers/md/dm-kcopyd.c:913:6: note: Assuming 'kc' is non-null
+           if (!kc)
                ^~~
-   fs/f2fs/xattr.c:777:2: note: Taking false branch
-           if (err)
+   drivers/md/dm-kcopyd.c:913:2: note: Taking false branch
+           if (!kc)
            ^
-   fs/f2fs/xattr.c:781:6: note: Assuming 'ipage' is non-null
-           if (ipage)
-               ^~~~~
-   fs/f2fs/xattr.c:781:2: note: Taking true branch
-           if (ipage)
+   drivers/md/dm-kcopyd.c:916:2: note: Loop condition is false.  Exiting lo=
+op
+           spin_lock_init(&kc->job_lock);
            ^
-   fs/f2fs/xattr.c:782:10: note: Calling '__f2fs_setxattr'
-                   return __f2fs_setxattr(inode, index, name, value,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:641:6: note: 'name' is not equal to NULL
-           if (name =3D=3D NULL)
-               ^~~~
-   fs/f2fs/xattr.c:641:2: note: Taking false branch
-           if (name =3D=3D NULL)
+   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   drivers/md/dm-kcopyd.c:924:6: note: Assuming 'r' is 0
+           if (r)
+               ^
+   drivers/md/dm-kcopyd.c:924:2: note: Taking false branch
+           if (r)
            ^
-   fs/f2fs/xattr.c:644:6: note: Assuming 'value' is not equal to NULL
-           if (value =3D=3D NULL)
-               ^~~~~~~~~~~~~
-   fs/f2fs/xattr.c:644:2: note: Taking false branch
-           if (value =3D=3D NULL)
+   drivers/md/dm-kcopyd.c:927:2: note: Loop condition is false.  Exiting lo=
+op
+           INIT_WORK(&kc->kcopyd_work, do_work);
            ^
-   fs/f2fs/xattr.c:649:6: note: Assuming 'len' is <=3D F2FS_NAME_LEN
-           if (len > F2FS_NAME_LEN)
-               ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/xattr.c:649:2: note: Taking false branch
-           if (len > F2FS_NAME_LEN)
+   include/linux/workqueue.h:245:2: note: expanded from macro 'INIT_WORK'
+           __INIT_WORK((_work), (_func), 0)
            ^
-   fs/f2fs/xattr.c:652:6: note: Assuming the condition is false
-           if (size > MAX_VALUE_LEN(inode))
+   include/linux/workqueue.h:225:2: note: expanded from macro '__INIT_WORK'
+           do {                                                            \
+           ^
+   drivers/md/dm-kcopyd.c:929:6: note: Assuming field 'kcopyd_wq' is non-nu=
+ll
+           if (!kc->kcopyd_wq) {
+               ^~~~~~~~~~~~~~
+   drivers/md/dm-kcopyd.c:929:2: note: Taking false branch
+           if (!kc->kcopyd_wq) {
+           ^
+   drivers/md/dm-kcopyd.c:939:6: note: Calling 'client_reserve_pages'
+           r =3D client_reserve_pages(kc, reserve_pages);
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/dm-kcopyd.c:309:20: note: 'pl' initialized to a null pointer =
+value
+           struct page_list *pl =3D NULL, *next;
+                             ^~
+   drivers/md/dm-kcopyd.c:311:14: note: Assuming 'i' is >=3D 'nr_pages'
+           for (i =3D 0; i < nr_pages; i++) {
+                       ^~~~~~~~~~~~
+   drivers/md/dm-kcopyd.c:311:2: note: Loop condition is false. Execution c=
+ontinues on line 322
+           for (i =3D 0; i < nr_pages; i++) {
+           ^
+   drivers/md/dm-kcopyd.c:323:23: note: Passing null pointer value via 2nd =
+parameter 'pl'
+           kcopyd_put_pages(kc, pl);
+                                ^~
+   drivers/md/dm-kcopyd.c:323:2: note: Calling 'kcopyd_put_pages'
+           kcopyd_put_pages(kc, pl);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/dm-kcopyd.c:246:10: note: Access to field 'next' results in a=
+ dereference of a null pointer (loaded from variable 'pl')
+                   next =3D pl->next;
+                          ^~
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/staging/greybus/uart.c:273:3: warning: Value stored to 'ret' is =
+never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D kfifo_out(&gb_tty->write_fifo, &request->data[0],
+                   ^
+   drivers/staging/greybus/uart.c:273:3: note: Value stored to 'ret' is nev=
+er read
+   drivers/staging/greybus/uart.c:571:3: warning: Value stored to 'retval' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/uart.c:571:3: note: Value stored to 'retval' is =
+never read
+                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/uart.c:590:3: warning: Value stored to 'retval' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/uart.c:590:3: note: Value stored to 'retval' is =
+never read
+                   retval =3D send_control(gb_tty, gb_tty->ctrlout);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+>> drivers/staging/rts5208/rtsx.c:187:19: warning: Value stored to 'dev' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct rtsx_dev *dev =3D host_to_rtsx(srb->device->host);
+                            ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:187:19: note: Value stored to 'dev' durin=
+g its initialization is never read
+           struct rtsx_dev *dev =3D host_to_rtsx(srb->device->host);
+                            ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:384:7: warning: Access to field 'sc_data_=
+direction' results in a dereference of a null pointer (loaded from field 's=
+rb') [clang-analyzer-core.NullDereference]
+                   if (chip->srb->sc_data_direction =3D=3D DMA_BIDIRECTIONA=
+L) {
+                       ^     ~~~
+   drivers/staging/rts5208/rtsx.c:356:2: note: Loop condition is true.  Ent=
+ering loop body
+           for (;;) {
+           ^
+   drivers/staging/rts5208/rtsx.c:357:7: note: Assuming the condition is fa=
+lse
+                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:357:3: note: Taking false branch
+                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
+                   ^
+   drivers/staging/rts5208/rtsx.c:364:7: note: Assuming field 'rtsx_stat' i=
+s not equal to RTSX_STAT_DISCONNECT
+                   if (rtsx_chk_stat(chip, RTSX_STAT_DISCONNECT)) {
+                       ^
+   drivers/staging/rts5208/rtsx_chip.h:935:36: note: expanded from macro 'r=
+tsx_chk_stat'
+   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:364:3: note: Taking false branch
+                   if (rtsx_chk_stat(chip, RTSX_STAT_DISCONNECT)) {
+                   ^
+   drivers/staging/rts5208/rtsx.c:374:7: note: Assuming field 'rtsx_stat' i=
+s equal to RTSX_STAT_ABORT
+                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
+                       ^
+   drivers/staging/rts5208/rtsx_chip.h:935:36: note: expanded from macro 'r=
+tsx_chk_stat'
+   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
+                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:374:3: note: Taking true branch
+                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
+                   ^
+   drivers/staging/rts5208/rtsx.c:376:4: note: Control jumps to line 424
+                           goto skip_for_abort;
+                           ^
+   drivers/staging/rts5208/rtsx.c:424:4: note: Loop condition is false.  Ex=
+iting loop
+                           dev_err(&dev->pci->dev, "scsi command aborted\n"=
+);
+                           ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/staging/rts5208/rtsx.c:427:7: note: Field 'rtsx_stat' is equal t=
+o RTSX_STAT_ABORT
+                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
+                       ^
+   drivers/staging/rts5208/rtsx_chip.h:935:44: note: expanded from macro 'r=
+tsx_chk_stat'
+   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
+                                                    ^
+   drivers/staging/rts5208/rtsx.c:427:3: note: Taking true branch
+                   if (rtsx_chk_stat(chip, RTSX_STAT_ABORT)) {
+                   ^
+   drivers/staging/rts5208/rtsx.c:430:4: note: RTSX_STAT_IDLE is equal to R=
+TSX_STAT_IDLE
+                           rtsx_set_stat(chip, RTSX_STAT_IDLE);
+                           ^
+   drivers/staging/rts5208/rtsx_chip.h:929:6: note: expanded from macro 'rt=
+sx_set_stat'
+           if ((stat) !=3D RTSX_STAT_IDLE) {                         \
+               ^~~~~~
+   drivers/staging/rts5208/rtsx.c:430:4: note: Taking false branch
+                           rtsx_set_stat(chip, RTSX_STAT_IDLE);
+                           ^
+   drivers/staging/rts5208/rtsx_chip.h:929:2: note: expanded from macro 'rt=
+sx_set_stat'
+           if ((stat) !=3D RTSX_STAT_IDLE) {                         \
+           ^
+   drivers/staging/rts5208/rtsx.c:430:4: note: Loop condition is false.  Ex=
+iting loop
+                           rtsx_set_stat(chip, RTSX_STAT_IDLE);
+                           ^
+   drivers/staging/rts5208/rtsx_chip.h:927:38: note: expanded from macro 'r=
+tsx_set_stat'
+   #define rtsx_set_stat(chip, stat)                               \
+                                                                   ^
+   drivers/staging/rts5208/rtsx.c:434:3: note: Null pointer value stored to=
+ field 'srb'
+                   chip->srb =3D NULL;
+                   ^~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:356:2: note: Loop condition is true.  Ent=
+ering loop body
+           for (;;) {
+           ^
+   drivers/staging/rts5208/rtsx.c:357:7: note: Assuming the condition is fa=
+lse
+                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/rts5208/rtsx.c:357:3: note: Taking false branch
+                   if (wait_for_completion_interruptible(&dev->cmnd_ready))
+                   ^
+   drivers/staging/rts5208/rtsx.c:364:7: note: Field 'rtsx_stat' is not equ=
+al to RTSX_STAT_DISCONNECT
+                   if (rtsx_chk_stat(chip, RTSX_STAT_DISCONNECT)) {
+                       ^
+   drivers/staging/rts5208/rtsx_chip.h:935:44: note: expanded from macro 'r=
+tsx_chk_stat'
+   #define rtsx_chk_stat(chip, stat)       ((chip)->rtsx_stat =3D=3D (stat))
 
-vim +117 drivers/ata/pata_samsung_cf.c
+vim +/dev +187 drivers/staging/rts5208/rtsx.c
 
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  102  =
+fa590c222fbaa4 Micky Ching    2013-11-12  180  =
 
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  103  static void pata_s3c_set_p=
-iomode(struct ata_port *ap, struct ata_device *adev)
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  104  {
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  105  	struct s3c_ide_info *info=
- =3D ap->host->private_data;
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  106  	struct ata_timing timing;
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  107  	int cycle_time;
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  108  	ulong ata_cfg =3D readl(i=
-nfo->ide_addr + S3C_ATA_CFG);
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  109  	ulong piotime;
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  110  =
+228fc259045878 MingChia Chung 2016-08-28  181  /*
+228fc259045878 MingChia Chung 2016-08-28  182   * This invokes the transpor=
+t reset mechanism to reset the state of the
+228fc259045878 MingChia Chung 2016-08-28  183   * device
+228fc259045878 MingChia Chung 2016-08-28  184   */
+fa590c222fbaa4 Micky Ching    2013-11-12  185  static int device_reset(stru=
+ct scsi_cmnd *srb)
+fa590c222fbaa4 Micky Ching    2013-11-12  186  {
+fa590c222fbaa4 Micky Ching    2013-11-12 @187  	struct rtsx_dev *dev =3D ho=
+st_to_rtsx(srb->device->host);
+fa590c222fbaa4 Micky Ching    2013-11-12  188  =
 
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  111  	/* Enables IORDY if mode =
-requires it */
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  112  	if (ata_pio_need_iordy(ad=
-ev))
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  113  		ata_cfg |=3D S3C_ATA_CFG=
-_IORDYEN;
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  114  	else
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  115  		ata_cfg &=3D ~S3C_ATA_CF=
-G_IORDYEN;
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  116  =
+de9a009b934a14 Colin Ian King 2017-02-02  189  	return SUCCESS;
+fa590c222fbaa4 Micky Ching    2013-11-12  190  }
+fa590c222fbaa4 Micky Ching    2013-11-12  191  =
 
-155bf48f10fc3c Abhilash Kesavan 2010-07-13 @117  	cycle_time =3D (int)(1000=
-000000UL / clk_get_rate(info->clk));
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  118  =
-
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  119  	ata_timing_compute(adev, =
-adev->pio_mode, &timing,
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  120  					cycle_time * 1000, 0);
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  121  =
-
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  122  	piotime =3D pata_s3c_setu=
-p_timing(info, &timing);
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  123  =
-
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  124  	writel(ata_cfg, info->ide=
-_addr + S3C_ATA_CFG);
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  125  	writel(piotime, info->ide=
-_addr + S3C_ATA_PIO_TIME);
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  126  }
-155bf48f10fc3c Abhilash Kesavan 2010-07-13  127  =
-
-
-:::::: The code at line 117 was first introduced by commit
-:::::: 155bf48f10fc3c8e0e3125e221981328cd925cf4 [libata] Add Samsung PATA c=
-ontroller driver, pata_samsung_cf
-
-:::::: TO: Abhilash Kesavan <a.kesavan@samsung.com>
-:::::: CC: Jeff Garzik <jgarzik@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6211124045566127271==--
+--===============5862333248174902259==--
 
