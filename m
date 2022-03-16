@@ -1,449 +1,392 @@
-Content-Type: multipart/mixed; boundary="===============7554721445145273377=="
+Content-Type: multipart/mixed; boundary="===============4946363025370833798=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/drivers/serial-u16550.c:609 snd_uart16550_output_byte() warn: ignoring unreachable code.
-Date: Thu, 17 Mar 2022 09:29:04 +0800
-Message-ID: <202203170934.4dupJLnQ-lkp@intel.com>
+Subject: [linux-next:master 5697/13209] drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4330:7: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Thu, 17 Mar 2022 07:35:11 +0800
+Message-ID: <202203170721.SzIPp2pB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7554721445145273377==
+--===============4946363025370833798==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@acm.org>
-CC: Helge Deller <deller@gmx.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Hersen Wu <hersenwu@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Jerry Zuo <Jerry.Zuo@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   56e337f2cf1326323844927a04e9dbce9a244835
-commit: 6968e707d371ef80511448c6771daf445b4a5cf5 parisc: io: Improve the ou=
-tb(), outw() and outl() macros
-date:   10 weeks ago
-:::::: branch date: 32 hours ago
-:::::: commit date: 10 weeks ago
-config: parisc-randconfig-m031-20220317 (https://download.01.org/0day-ci/ar=
-chive/20220317/202203170934.4dupJLnQ-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   8a11187eb62b8b910d2c5484e1f5d160e8b11eb4
+commit: fa39f936dbb96626d3345fd8d66af6be6f47ff9e [5697/13209] drm/amd/displ=
+ay: add dsc mst stream pbn log for debug
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
+hive/20220317/202203170721.SzIPp2pB-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
+7382b8f16a65bddac700202924228982f6)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dfa39f936dbb96626d3345fd8d66af6be6f47ff9e
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout fa39f936dbb96626d3345fd8d66af6be6f47ff9e
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-sound/drivers/serial-u16550.c:609 snd_uart16550_output_byte() warn: ignorin=
-g unreachable code.
-sound/drivers/serial-u16550.c:806 snd_uart16550_create() warn: ignoring unr=
-eachable code.
-sound/drivers/mpu401/mpu401_uart.c:47 mpu401_write_port() warn: ignoring un=
-reachable code.
-drivers/net/hamradio/baycom_ser_hdx.c:394 ser12_interrupt() warn: ignoring =
-unreachable code.
-
-Old smatch warnings:
-sound/drivers/serial-u16550.c:179 snd_uart16550_buffer_output() warn: ignor=
-ing unreachable code.
-sound/drivers/serial-u16550.c:333 snd_uart16550_detect() warn: ignoring unr=
-eachable code.
-sound/drivers/serial-u16550.c:368 snd_uart16550_do_open() warn: ignoring un=
-reachable code.
-sound/drivers/serial-u16550.c:457 snd_uart16550_do_close() warn: ignoring u=
-nreachable code.
-sound/drivers/serial-u16550.c:613 snd_uart16550_output_byte() warn: ignorin=
-g unreachable code.
-sound/drivers/serial-u16550.c:811 snd_uart16550_create() warn: ignoring unr=
-eachable code.
-drivers/net/hamradio/baycom_ser_hdx.c:193 ser12_tx() warn: ignoring unreach=
-able code.
-drivers/net/hamradio/baycom_ser_hdx.c:158 ser12_set_divisor() warn: ignorin=
-g unreachable code.
-drivers/net/hamradio/baycom_ser_hdx.c:339 ser12_rx() warn: ignoring unreach=
-able code.
-drivers/net/hamradio/baycom_ser_hdx.c:431 ser12_check_uart() warn: ignoring=
- unreachable code.
-drivers/net/hamradio/baycom_ser_hdx.c:474 ser12_open() warn: ignoring unrea=
-chable code.
-drivers/net/hamradio/baycom_ser_hdx.c:508 ser12_close() warn: ignoring unre=
-achable code.
-
-vim +609 sound/drivers/serial-u16550.c
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  594  =
-
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  595  static int snd_uart16550_ou=
-tput_byte(struct snd_uart16550 *uart,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  596  				     struct snd_rawmidi=
-_substream *substream,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  597  				     unsigned char midi=
-_byte)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  598  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  599  	if (uart->buff_in_count =
-=3D=3D 0                    /* Buffer empty? */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  600  	    && ((uart->adaptor !=
-=3D SNDRV_SERIAL_MS124W_SA &&
-^1da177e4c3f415 Linus Torvalds 2005-04-16  601  	    uart->adaptor !=3D SND=
-RV_SERIAL_GENERIC) ||
-^1da177e4c3f415 Linus Torvalds 2005-04-16  602  		(uart->fifo_count =3D=3D =
-0                  /* FIFO empty? */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  603  		 && (inb(uart->base + UAR=
-T_MSR) & UART_MSR_CTS)))) { /* CTS? */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  604  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  605  	        /* Tx Buffer Empty=
- - try to write immediately */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  606  		if ((inb(uart->base + UAR=
-T_LSR) & UART_LSR_THRE) !=3D 0) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  607  		        /* Transmitter ho=
-lding register (and Tx FIFO) empty */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  608  		        uart->fifo_count =
-=3D 1;
-^1da177e4c3f415 Linus Torvalds 2005-04-16 @609  			outb(midi_byte, uart->ba=
-se + UART_TX);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  610  		} else {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  611  		        if (uart->fifo_co=
-unt < uart->fifo_limit) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  612  			        uart->fifo_count=
-++;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  613  				outb(midi_byte, uart->b=
-ase + UART_TX);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  614  			} else {
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  615  			        /* Cannot write =
-(buffer empty) -
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  616  				 * put char in buffer */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  617  				snd_uart16550_write_buf=
-fer(uart, midi_byte);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  618  			}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  619  		}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  620  	} else {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  621  		if (!snd_uart16550_write_=
-buffer(uart, midi_byte)) {
-45203832df2fa9e Takashi Iwai   2009-02-05  622  			snd_printk(KERN_WARNING
-45203832df2fa9e Takashi Iwai   2009-02-05  623  				   "%s: Buffer overrun =
-on device at 0x%lx\n",
-^1da177e4c3f415 Linus Torvalds 2005-04-16  624  				   uart->rmidi->name, u=
-art->base);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  625  			return 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  626  		}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  627  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  628  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  629  	return 1;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  630  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  631  =
-
-4a4d2cfd8cbca30 Takashi Iwai   2005-11-17  632  static void snd_uart16550_o=
-utput_write(struct snd_rawmidi_substream *substream)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  633  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  634  	unsigned long flags;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  635  	unsigned char midi_byte, a=
-ddr_byte;
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  636  	struct snd_uart16550 *uart=
- =3D substream->rmidi->private_data;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  637  	char first;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  638  	static unsigned long lastt=
-ime =3D 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  639  	=
-
-561de31a23a8a5d Joe Perches    2007-12-18  640  	/* Interrupts are disabled=
- during the updating of the tx_buff,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  641  	 * since it is 'bad' to ha=
-ve two processes updating the same
-^1da177e4c3f415 Linus Torvalds 2005-04-16  642  	 * variables (ie buff_in &=
- buff_out)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  643  	 */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  644  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  645  	spin_lock_irqsave(&uart->o=
-pen_lock, flags);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  646  =
-
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  647  	if (uart->irq < 0)	/* poll=
-ing */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  648  		snd_uart16550_io_loop(uar=
-t);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  649  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  650  	if (uart->adaptor =3D=3D S=
-NDRV_SERIAL_MS124W_MB) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  651  		while (1) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  652  			/* buffer full? */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  653  			/* in this mode we need =
-two bytes of space */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  654  			if (uart->buff_in_count =
-> TX_BUFF_SIZE - 2)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  655  				break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  656  			if (snd_rawmidi_transmit=
-(substream, &midi_byte, 1) !=3D 1)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  657  				break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  658  #ifdef SNDRV_SERIAL_MS124W_=
-MB_NOCOMBO
-^1da177e4c3f415 Linus Torvalds 2005-04-16  659  			/* select exactly one of=
- the four ports */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  660  			addr_byte =3D (1 << (sub=
-stream->number + 4)) | 0x08;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  661  #else
-^1da177e4c3f415 Linus Torvalds 2005-04-16  662  			/* select any combinatio=
-n of the four ports */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  663  			addr_byte =3D (substream=
-->number << 4) | 0x08;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  664  			/* ...except none */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  665  			if (addr_byte =3D=3D 0x0=
-8)
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  666  				addr_byte =3D 0xf8;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  667  #endif
-^1da177e4c3f415 Linus Torvalds 2005-04-16  668  			snd_uart16550_output_byt=
-e(uart, substream, addr_byte);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  669  			/* send midi byte */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  670  			snd_uart16550_output_byt=
-e(uart, substream, midi_byte);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  671  		}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  672  	} else {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  673  		first =3D 0;
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  674  		while (snd_rawmidi_transm=
-it_peek(substream, &midi_byte, 1) =3D=3D 1) {
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  675  			/* Also send F5 after 3 =
-seconds with no data
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  676  			 * to handle device disc=
-onnect */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  677  			if (first =3D=3D 0 &&
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  678  			    (uart->adaptor =3D=
-=3D SNDRV_SERIAL_SOUNDCANVAS ||
-^1da177e4c3f415 Linus Torvalds 2005-04-16  679  			     uart->adaptor =3D=
-=3D SNDRV_SERIAL_GENERIC) &&
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  680  			    (uart->prev_out !=3D=
- substream->number ||
-f11b799282201fb Julia Lawall   2008-01-07  681  			     time_after(jiffies,=
- lasttime + 3*HZ))) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  682  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  683  				if (snd_uart16550_buffe=
-r_can_write(uart, 3)) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  684  					/* Roland Soundcanvas =
-part selection */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  685  					/* If this substream o=
-f the data is
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  686  					 * different previous =
-substream
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  687  					 * in this uart, send =
-the change part
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  688  					 * event
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  689  					 */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  690  					uart->prev_out =3D sub=
-stream->number;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  691  					/* change part */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  692  					snd_uart16550_output_b=
-yte(uart, substream,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  693  								  0xf5);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  694  					/* data */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  695  					snd_uart16550_output_b=
-yte(uart, substream,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  696  								  uart->prev_out + =
-1);
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  697  					/* If midi_byte is a d=
-ata byte,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  698  					 * send the previous s=
-tatus byte */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  699  					if (midi_byte < 0x80 &&
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  700  					    uart->adaptor =3D=
-=3D SNDRV_SERIAL_SOUNDCANVAS)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  701  						snd_uart16550_output_=
-byte(uart, substream, uart->prev_status[uart->prev_out]);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  702  				} else if (!uart->drop_=
-on_full)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  703  					break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  704  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  705  			}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  706  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  707  			/* send midi byte */
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  708  			if (!snd_uart16550_outpu=
-t_byte(uart, substream, midi_byte) &&
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  709  			    !uart->drop_on_full )
-^1da177e4c3f415 Linus Torvalds 2005-04-16  710  				break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  711  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  712  			if (midi_byte >=3D 0x80 =
-&& midi_byte < 0xf0)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  713  				uart->prev_status[uart-=
->prev_out] =3D midi_byte;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  714  			first =3D 1;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  715  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  716  			snd_rawmidi_transmit_ack=
-( substream, 1 );
-^1da177e4c3f415 Linus Torvalds 2005-04-16  717  		}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  718  		lasttime =3D jiffies;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  719  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  720  	spin_unlock_irqrestore(&ua=
-rt->open_lock, flags);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  721  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  722  =
-
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  723  static void snd_uart16550_o=
-utput_trigger(struct snd_rawmidi_substream *substream,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  724  					 int up)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  725  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  726  	unsigned long flags;
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  727  	struct snd_uart16550 *uart=
- =3D substream->rmidi->private_data;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  728  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  729  	spin_lock_irqsave(&uart->o=
-pen_lock, flags);
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  730  	if (up)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  731  		uart->filemode |=3D SERIA=
-L_MODE_OUTPUT_TRIGGERED;
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  732  	else
-^1da177e4c3f415 Linus Torvalds 2005-04-16  733  		uart->filemode &=3D ~SERI=
-AL_MODE_OUTPUT_TRIGGERED;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  734  	spin_unlock_irqrestore(&ua=
-rt->open_lock, flags);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  735  	if (up)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  736  		snd_uart16550_output_writ=
-e(substream);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  737  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  738  =
-
-c36f486d7bc71d4 Takashi Iwai   2017-01-05  739  static const struct snd_raw=
-midi_ops snd_uart16550_output =3D
-^1da177e4c3f415 Linus Torvalds 2005-04-16  740  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  741  	.open =3D		snd_uart16550_o=
-utput_open,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  742  	.close =3D	snd_uart16550_o=
-utput_close,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  743  	.trigger =3D	snd_uart16550=
-_output_trigger,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  744  };
-^1da177e4c3f415 Linus Torvalds 2005-04-16  745  =
-
-c36f486d7bc71d4 Takashi Iwai   2017-01-05  746  static const struct snd_raw=
-midi_ops snd_uart16550_input =3D
-^1da177e4c3f415 Linus Torvalds 2005-04-16  747  {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  748  	.open =3D		snd_uart16550_i=
-nput_open,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  749  	.close =3D	snd_uart16550_i=
-nput_close,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  750  	.trigger =3D	snd_uart16550=
-_input_trigger,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  751  };
-^1da177e4c3f415 Linus Torvalds 2005-04-16  752  =
-
-fbbb01a12d5d553 Bill Pemberton 2012-12-06  753  static int snd_uart16550_cr=
-eate(struct snd_card *card,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  754  				unsigned long iobase,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  755  				int irq,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  756  				unsigned int speed,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  757  				unsigned int base,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  758  				int adaptor,
-^1da177e4c3f415 Linus Torvalds 2005-04-16  759  				int droponfull,
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  760  				struct snd_uart16550 **=
-ruart)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  761  {
-0b830bac35dd6e3 Takashi Iwai   2006-11-24  762  	struct snd_uart16550 *uart;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  763  	int err;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  764  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  765  =
-
-60d03de81c40270 Takashi Iwai   2021-07-15  766  	uart =3D devm_kzalloc(card=
-->dev, sizeof(*uart), GFP_KERNEL);
-d0ad13ef704164c Takashi Iwai   2021-06-08  767  	if (!uart)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  768  		return -ENOMEM;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  769  	uart->adaptor =3D adaptor;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  770  	uart->card =3D card;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  771  	spin_lock_init(&uart->open=
-_lock);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  772  	uart->irq =3D -1;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  773  	uart->base =3D iobase;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  774  	uart->drop_on_full =3D dro=
-ponfull;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  775  =
-
-d0ad13ef704164c Takashi Iwai   2021-06-08  776  	err =3D snd_uart16550_dete=
-ct(uart);
-d0ad13ef704164c Takashi Iwai   2021-06-08  777  	if (err <=3D 0) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  778  		printk(KERN_ERR "no UART =
-detected@0x%lx\n", iobase);
-68b8bc05213567c Takashi Iwai   2006-01-23  779  		return -ENODEV;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  780  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  781  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  782  	if (irq >=3D 0 && irq !=3D=
- SNDRV_AUTO_IRQ) {
-60d03de81c40270 Takashi Iwai   2021-07-15  783  		if (devm_request_irq(card=
-->dev, irq, snd_uart16550_interrupt,
-88e24c3a4b30a6b Yong Zhang     2011-09-22  784  				     0, "Serial MIDI", =
-uart)) {
-45203832df2fa9e Takashi Iwai   2009-02-05  785  			snd_printk(KERN_WARNING
-45203832df2fa9e Takashi Iwai   2009-02-05  786  				   "irq %d busy. Using =
-Polling.\n", irq);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  787  		} else {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  788  			uart->irq =3D irq;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  789  		}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  790  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  791  	uart->divisor =3D base / s=
-peed;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  792  	uart->speed =3D base / (un=
-signed int)uart->divisor;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  793  	uart->speed_base =3D base;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  794  	uart->prev_out =3D -1;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  795  	uart->prev_in =3D 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  796  	uart->rstatus =3D 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  797  	memset(uart->prev_status, =
-0x80, sizeof(unsigned char) * SNDRV_SERIAL_MAX_OUTS);
-bc47ba90b01afe4 Kees Cook      2017-10-24  798  	timer_setup(&uart->buffer_=
-timer, snd_uart16550_buffer_timer, 0);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  799  	uart->timer_running =3D 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  800  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  801  	switch (uart->adaptor) {
-^1da177e4c3f415 Linus Torvalds 2005-04-16  802  	case SNDRV_SERIAL_MS124W_S=
-A:
-^1da177e4c3f415 Linus Torvalds 2005-04-16  803  	case SNDRV_SERIAL_MS124W_M=
-B:
-^1da177e4c3f415 Linus Torvalds 2005-04-16  804  		/* MS-124W can draw power=
- from RTS and DTR if they
-^1da177e4c3f415 Linus Torvalds 2005-04-16  805  		   are in opposite states=
-. */ =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16 @806  		outb(UART_MCR_RTS | (0&UA=
-RT_MCR_DTR), uart->base + UART_MCR);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  807  		break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  808  	case SNDRV_SERIAL_MS124T:
-^1da177e4c3f415 Linus Torvalds 2005-04-16  809  		/* MS-124T can draw power=
- from RTS and/or DTR (preferably
-^1da177e4c3f415 Linus Torvalds 2005-04-16  810  		   both) if they are asse=
-rted. */
-^1da177e4c3f415 Linus Torvalds 2005-04-16  811  		outb(UART_MCR_RTS | UART_=
-MCR_DTR, uart->base + UART_MCR);
-^1da177e4c3f415 Linus Torvalds 2005-04-16  812  		break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  813  	default:
-^1da177e4c3f415 Linus Torvalds 2005-04-16  814  		break;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  815  	}
-^1da177e4c3f415 Linus Torvalds 2005-04-16  816  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  817  	if (ruart)
-^1da177e4c3f415 Linus Torvalds 2005-04-16  818  		*ruart =3D uart;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  819  =
-
-^1da177e4c3f415 Linus Torvalds 2005-04-16  820  	return 0;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  821  }
-^1da177e4c3f415 Linus Torvalds 2005-04-16  822  =
 
 
-:::::: The code at line 609 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:245:2: note: Taking false branch
+           if (r =3D=3D NCI_STATUS_OK) {
+           ^
+   net/nfc/nci/hci.c:255:2: note: Returning without writing to '*'
+           return r;
+           ^
+   net/nfc/nci/hci.c:531:12: note: Returning from 'nci_hci_send_cmd'
+           *result =3D nci_hci_send_cmd(ndev, NCI_HCI_ADMIN_GATE,
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:534:6: note: Assuming the condition is false
+           if (*result < 0)
+               ^~~~~~~~~~~
+   net/nfc/nci/hci.c:534:2: note: Taking false branch
+           if (*result < 0)
+           ^
+   net/nfc/nci/hci.c:537:44: note: Access to field 'data' results in a dere=
+ference of an undefined pointer value (loaded from variable 'skb')
+           resp =3D (struct nci_hci_create_pipe_resp *)skb->data;
+                                                     ^~~
+   net/nfc/nci/hci.c:742:6: warning: Access to field 'len' results in a der=
+eference of an undefined pointer value (loaded from variable 'skb') [clang-=
+analyzer-core.NullDereference]
+           if (skb->len &&
+               ^~~
+   net/nfc/nci/hci.c:712:2: note: 'skb' declared without an initial value
+           struct sk_buff *skb;
+           ^~~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:719:6: note: Assuming 'conn_info' is non-null
+           if (!conn_info)
+               ^~~~~~~~~~
+   net/nfc/nci/hci.c:719:2: note: Taking false branch
+           if (!conn_info)
+           ^
+   net/nfc/nci/hci.c:727:6: note: Assuming field 'gate' is equal to NCI_HCI=
+_ADMIN_GATE
+           if (ndev->hci_dev->init_data.gates[0].gate !=3D NCI_HCI_ADMIN_GA=
+TE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:727:2: note: Taking false branch
+           if (ndev->hci_dev->init_data.gates[0].gate !=3D NCI_HCI_ADMIN_GA=
+TE)
+           ^
+   net/nfc/nci/hci.c:734:6: note: 'r' is >=3D 0
+           if (r < 0)
+               ^
+   net/nfc/nci/hci.c:734:2: note: Taking false branch
+           if (r < 0)
+           ^
+   net/nfc/nci/hci.c:737:6: note: Calling 'nci_hci_get_param'
+           r =3D nci_hci_get_param(ndev, NCI_HCI_ADMIN_GATE,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:608:2: note: Taking false branch
+           pr_debug("idx=3D%d to gate %d\n", idx, gate);
+           ^
+   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/nfc/nci/hci.c:610:6: note: Assuming 'pipe' is not equal to NCI_HCI_I=
+NVALID_PIPE
+           if (pipe =3D=3D NCI_HCI_INVALID_PIPE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:610:2: note: Taking false branch
+           if (pipe =3D=3D NCI_HCI_INVALID_PIPE)
+           ^
+   net/nfc/nci/hci.c:614:6: note: Assuming 'conn_info' is non-null
+           if (!conn_info)
+               ^~~~~~~~~~
+   net/nfc/nci/hci.c:614:2: note: Taking false branch
+           if (!conn_info)
+           ^
+   net/nfc/nci/hci.c:627:6: note: Assuming 'r' is not equal to NCI_STATUS_OK
+           if (r =3D=3D NCI_STATUS_OK) {
+               ^~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:627:2: note: Taking false branch
+           if (r =3D=3D NCI_STATUS_OK) {
+           ^
+   net/nfc/nci/hci.c:637:2: note: Returning without writing to '*'
+           return r;
+           ^
+   net/nfc/nci/hci.c:737:6: note: Returning from 'nci_hci_get_param'
+           r =3D nci_hci_get_param(ndev, NCI_HCI_ADMIN_GATE,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/nci/hci.c:739:6: note: Assuming 'r' is >=3D 0
+           if (r < 0)
+               ^~~~~
+   net/nfc/nci/hci.c:739:2: note: Taking false branch
+           if (r < 0)
+           ^
+   net/nfc/nci/hci.c:742:6: note: Access to field 'len' results in a derefe=
+rence of an undefined pointer value (loaded from variable 'skb')
+           if (skb->len &&
+               ^~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:3721:2: warning:=
+ Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D dm_helpers_dp_mst_poll_for_allocation_change_trigger(
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:3721:2: note: Va=
+lue stored to 'ret' is never read
+           ret =3D dm_helpers_dp_mst_poll_for_allocation_change_trigger(
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4330:7: warning:=
+ Dereference of null pointer [clang-analyzer-core.NullDereference]
+           if (!pipe_ctx->stream->sink->edid_caps.panel_patch.skip_avmute) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4312:6: note: As=
+suming the condition is false
+           if (is_dp_128b_132b_signal(pipe_ctx))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4312:2: note: Ta=
+king false branch
+           if (is_dp_128b_132b_signal(pipe_ctx))
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4317:6: note: As=
+suming field 'sink' is null
+           if (pipe_ctx->stream->sink) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4317:2: note: Ta=
+king false branch
+           if (pipe_ctx->stream->sink) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4326:18: note: A=
+ssuming field 'dce_environment' is equal to DCE_ENV_FPGA_MAXIMUS
+           if (!IS_DIAG_DC(dc->ctx->dce_environment) &&
+                           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:76:22: note: expande=
+d from macro 'IS_DIAG_DC'
+           (IS_FPGA_MAXIMUS_DC(dce_environment) || (dce_environment =3D=3D =
+DCE_ENV_DIAG))
+            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:73:3: note: expanded=
+ from macro 'IS_FPGA_MAXIMUS_DC'
+           (dce_environment =3D=3D DCE_ENV_FPGA_MAXIMUS)
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4326:7: note: Le=
+ft side of '||' is true
+           if (!IS_DIAG_DC(dc->ctx->dce_environment) &&
+                ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dc_types.h:76:39: note: expande=
+d from macro 'IS_DIAG_DC'
+           (IS_FPGA_MAXIMUS_DC(dce_environment) || (dce_environment =3D=3D =
+DCE_ENV_DIAG))
+                                                ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4326:44: note: L=
+eft side of '&&' is false
+           if (!IS_DIAG_DC(dc->ctx->dce_environment) &&
+                                                     ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c:4330:7: note: De=
+reference of null pointer
+           if (!pipe_ctx->stream->sink->edid_caps.panel_patch.skip_avmute) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (9 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../display/include/fixed31_32.h:528:22: warni=
+ng: The result of the left shift is undefined because the left operand is n=
+egative [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           arg.value &=3D (~0LL) << (FIXED31_32_BITS_PER_FRACTIONAL_PART - =
+frac_bits);
+                               ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2343:6: note=
+: Assuming 'new_ctx' is non-null
+           if (!new_ctx)
+               ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2343:2: note=
+: Taking false branch
+           if (!new_ctx)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2346:6: note=
+: Assuming field 'validate_global' is null
+           if (dc->res_pool->funcs->validate_global) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2346:2: note=
+: Taking false branch
+           if (dc->res_pool->funcs->validate_global) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2352:14: not=
+e: Assuming 'i' is >=3D field 'stream_count'
+           for (i =3D 0; i < new_ctx->stream_count; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2352:2: note=
+: Loop condition is false. Execution continues on line 2390
+           for (i =3D 0; i < new_ctx->stream_count; i++) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:2390:11: not=
+e: Calling 'resource_build_scaling_params_for_context'
+           result =3D resource_build_scaling_params_for_context(dc, new_ctx=
+);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1212:2: note=
+: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < MAX_PIPES; i++) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1213:7: note=
+: Assuming field 'plane_state' is not equal to NULL
+                   if (context->res_ctx.pipe_ctx[i].plane_state !=3D NULL &&
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1213:7: note=
+: Left side of '&&' is true
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1214:5: note=
+: Assuming field 'stream' is not equal to NULL
+                                   context->res_ctx.pipe_ctx[i].stream !=3D=
+ NULL)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1213:3: note=
+: Taking true branch
+                   if (context->res_ctx.pipe_ctx[i].plane_state !=3D NULL &&
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1215:9: note=
+: Calling 'resource_build_scaling_params'
+                           if (!resource_build_scaling_params(&context->res=
+_ctx.pipe_ctx[i]))
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1079:6: note=
+: Assuming field 'next_odm_pipe' is null
+           if (pipe_ctx->next_odm_pipe || pipe_ctx->prev_odm_pipe)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1079:6: note=
+: Left side of '||' is false
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1079:33: not=
+e: Assuming field 'prev_odm_pipe' is null
+           if (pipe_ctx->next_odm_pipe || pipe_ctx->prev_odm_pipe)
+                                          ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1079:2: note=
+: Taking false branch
+           if (pipe_ctx->next_odm_pipe || pipe_ctx->prev_odm_pipe)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:1085:2: note=
+: Calling 'calculate_scaling_ratios'
+           calculate_scaling_ratios(pipe_ctx);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:854:6: note:=
+ Assuming field 'rotation' is not equal to ROTATION_ANGLE_90
+           if (pipe_ctx->plane_state->rotation =3D=3D ROTATION_ANGLE_90 ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:854:6: note:=
+ Left side of '||' is false
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:855:4: note:=
+ Assuming field 'rotation' is not equal to ROTATION_ANGLE_270
+                           pipe_ctx->plane_state->rotation =3D=3D ROTATION_=
+ANGLE_270)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_resource.c:854:2: note:=
+ Taking false branch
+           if (pipe_ctx->plane_state->rotation =3D=3D ROTATION_ANGLE_90 ||
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+vim +4330 drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link.c
+
+4562236b3bc0a28 Harry Wentland     2017-09-12  4304  =
+
+574304041bb9508 Su Sung Chung      2019-07-25  4305  void core_link_disable=
+_stream(struct pipe_ctx *pipe_ctx)
+4562236b3bc0a28 Harry Wentland     2017-09-12  4306  {
+2b77dcc5e5aa382 Anthony Koo        2019-11-05  4307  	struct dc  *dc =3D pi=
+pe_ctx->stream->ctx->dc;
+ab0cb022c8fd6f4 Paul Hsieh         2019-03-18  4308  	struct dc_stream_stat=
+e *stream =3D pipe_ctx->stream;
+052fa7e8c9a92e3 Charlene Liu       2019-04-23  4309  	struct dc_link *link =
+=3D stream->sink->link;
+18b4f1a022951df Michael Strauss    2021-08-23  4310  	struct vpg *vpg =3D p=
+ipe_ctx->stream_res.stream_enc->vpg;
+b0d8889006037a7 Wenjing Liu        2021-09-13  4311  =
+
+b0d8889006037a7 Wenjing Liu        2021-09-13  4312  	if (is_dp_128b_132b_s=
+ignal(pipe_ctx))
+b0d8889006037a7 Wenjing Liu        2021-09-13  4313  		vpg =3D pipe_ctx->st=
+ream_res.hpo_dp_stream_enc->vpg;
+4562236b3bc0a28 Harry Wentland     2017-09-12  4314  =
+
+fa39f936dbb9662 Hersen Wu          2022-02-06  4315  	DC_LOGGER_INIT(pipe_c=
+tx->stream->ctx->logger);
+fa39f936dbb9662 Hersen Wu          2022-02-06  4316  =
+
+fa39f936dbb9662 Hersen Wu          2022-02-06  4317  	if (pipe_ctx->stream-=
+>sink) {
+fa39f936dbb9662 Hersen Wu          2022-02-06  4318  		if (pipe_ctx->stream=
+->sink->sink_signal !=3D SIGNAL_TYPE_VIRTUAL &&
+fa39f936dbb9662 Hersen Wu          2022-02-06  4319  			pipe_ctx->stream->s=
+ink->sink_signal !=3D SIGNAL_TYPE_NONE) {
+fa39f936dbb9662 Hersen Wu          2022-02-06  4320  			DC_LOG_DC("%s pipe_=
+ctx dispname=3D%s signal=3D%x\n", __func__,
+fa39f936dbb9662 Hersen Wu          2022-02-06  4321  			pipe_ctx->stream->s=
+ink->edid_caps.display_name,
+fa39f936dbb9662 Hersen Wu          2022-02-06  4322  			pipe_ctx->stream->s=
+ignal);
+fa39f936dbb9662 Hersen Wu          2022-02-06  4323  		}
+fa39f936dbb9662 Hersen Wu          2022-02-06  4324  	}
+fa39f936dbb9662 Hersen Wu          2022-02-06  4325  =
+
+39063de95cfb1d5 Dmytro Laktyushkin 2020-04-02  4326  	if (!IS_DIAG_DC(dc->c=
+tx->dce_environment) &&
+ef5a7d266e828e4 Wenjing Liu        2019-09-03  4327  			dc_is_virtual_signa=
+l(pipe_ctx->stream->signal))
+ef5a7d266e828e4 Wenjing Liu        2019-09-03  4328  		return;
+ef5a7d266e828e4 Wenjing Liu        2019-09-03  4329  =
+
+74d021b5631f0b6 Brandon Syu        2020-10-06 @4330  	if (!pipe_ctx->stream=
+->sink->edid_caps.panel_patch.skip_avmute) {
+74d021b5631f0b6 Brandon Syu        2020-10-06  4331  		if (dc_is_hdmi_signa=
+l(pipe_ctx->stream->signal))
+4cf7c42739ccafc Jinze Xu           2020-05-07  4332  			core_link_set_avmut=
+e(pipe_ctx, true);
+4cf7c42739ccafc Jinze Xu           2020-05-07  4333  	}
+4cf7c42739ccafc Jinze Xu           2020-05-07  4334  =
+
+c0794a3b5999d61 Roy Chan           2020-11-24  4335  	dc->hwss.disable_audi=
+o_stream(pipe_ctx);
+c0794a3b5999d61 Roy Chan           2020-11-24  4336  =
+
+
+:::::: The code at line 4330 was first introduced by commit
+:::::: 74d021b5631f0b657549cd76cbc7bff693cee35d drm/amd/display: skip avmut=
+e action
+
+:::::: TO: Brandon Syu <Brandon.Syu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7554721445145273377==--
+--===============4946363025370833798==--
 
