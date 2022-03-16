@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7954481080824477709=="
+Content-Type: multipart/mixed; boundary="===============6211124045566127271=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 11036/12845] drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 16 Mar 2022 09:22:18 +0800
-Message-ID: <202203160941.xIaGxvoZ-lkp@intel.com>
+Subject: drivers/ata/pata_samsung_cf.c:117:34: warning: Division by zero [clang-analyzer-core.DivideZero]
+Date: Wed, 16 Mar 2022 09:01:33 +0800
+Message-ID: <202203160824.d9jkYTVc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7954481080824477709==
+--===============6211124045566127271==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,33 +15,37 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Bjorn Helgaas <helgaas@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: Hannes Reinecke <hare@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   a32cd981a6da2373c093d471ee4405a915e217d5
-commit: 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc [11036/12845] PCI/VGA: Mov=
-e vgaarb to drivers/pci
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20316/202203160941.xIaGxvoZ-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6b2f5=
-0fb47da3baeee10b1906da6e30ac5d26ec)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   56e337f2cf1326323844927a04e9dbce9a244835
+commit: b6a64a860e1319dfbabc55b351c8b6583bd67413 ata: pata_samsung_cf: add =
+compile test support
+date:   9 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 9 weeks ago
+config: arm-randconfig-c002-20220312 (https://download.01.org/0day-ci/archi=
+ve/20220316/202203160824.d9jkYTVc-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
+7382b8f16a65bddac700202924228982f6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 1d38fe6ee6a874675ca3bba6b48e69a0e6176ffc
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db6a64a860e1319dfbabc55b351c8b6583bd67413
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b6a64a860e1319dfbabc55b351c8b6583bd67413
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,569 +53,297 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/xfs/libxfs/xfs_rmap.c:2677:9: note: Assuming the condition is false
-           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
-                  ^
-   fs/xfs/libxfs/xfs_format.h:1433:43: note: expanded from macro 'XFS_RMAP_=
-NON_INODE_OWNER'
-   #define XFS_RMAP_NON_INODE_OWNER(owner) (!!((owner) & (1ULL << 63)))
-                                             ^
-   fs/xfs/xfs_linux.h:208:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
-_))
-            ~~~~~~~^~~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   fs/xfs/libxfs/xfs_rmap.c:2677:41: note: Left side of '||' is true
-           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
-                                                  ^
-   fs/xfs/libxfs/xfs_rmap.c:2677:2: note: '?' condition is true
-           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+               ^~
+   drivers/tee/tee_core.c:582:2: note: Taking false branch
+           if (rc)
            ^
-   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
+   drivers/tee/tee_core.c:585:6: note: Control jumps to 'case 4:'  at line =
+585
+           if (put_user(arg.ret, &uarg->ret) ||
+               ^
+   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
+r'
+           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
+           ^
+   arch/arm/include/asm/uaccess.h:356:3: note: expanded from macro '__put_u=
+ser_switch'
+                   switch (sizeof(*(ptr))) {                               \
+                   ^
+   drivers/tee/tee_core.c:585:6: note:  Execution continues on line 585
+           if (put_user(arg.ret, &uarg->ret) ||
+               ^
+   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
+r'
+           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
+           ^
+   arch/arm/include/asm/uaccess.h:359:47: note: expanded from macro '__put_=
+user_switch'
+                   case 4: __fn(__pu_val, __pu_ptr, __err, 4); break;      \
+                                                               ^
+   drivers/tee/tee_core.c:585:6: note: Loop condition is false.  Exiting lo=
+op
+           if (put_user(arg.ret, &uarg->ret) ||
+               ^
+   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
+r'
+           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
+           ^
+   arch/arm/include/asm/uaccess.h:350:2: note: expanded from macro '__put_u=
+ser_switch'
+           do {                                                            \
+           ^
+   drivers/tee/tee_core.c:585:6: note: Assuming the condition is false
+           if (put_user(arg.ret, &uarg->ret) ||
+               ^
+   arch/arm/include/asm/uaccess.h:366:31: note: expanded from macro 'put_us=
+er'
+   #define put_user(x, ptr)                                                \
+                                                                           ^
+   drivers/tee/tee_core.c:585:6: note: Left side of '||' is false
+           if (put_user(arg.ret, &uarg->ret) ||
+               ^
+   arch/arm/include/asm/uaccess.h:366:31: note: expanded from macro 'put_us=
+er'
+   #define put_user(x, ptr)                                                \
+                                                                           ^
+   drivers/tee/tee_core.c:586:6: note: Control jumps to 'case 4:'  at line =
+586
+               put_user(arg.ret_origin, &uarg->ret_origin)) {
+               ^
+   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
+r'
+           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
+           ^
+   arch/arm/include/asm/uaccess.h:356:3: note: expanded from macro '__put_u=
+ser_switch'
+                   switch (sizeof(*(ptr))) {                               \
+                   ^
+   drivers/tee/tee_core.c:586:6: note:  Execution continues on line 586
+               put_user(arg.ret_origin, &uarg->ret_origin)) {
+               ^
+   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
+r'
+           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
+           ^
+   arch/arm/include/asm/uaccess.h:359:47: note: expanded from macro '__put_=
+user_switch'
+                   case 4: __fn(__pu_val, __pu_ptr, __err, 4); break;      \
+                                                               ^
+   drivers/tee/tee_core.c:586:6: note: Loop condition is false.  Exiting lo=
+op
+               put_user(arg.ret_origin, &uarg->ret_origin)) {
+               ^
+   arch/arm/include/asm/uaccess.h:369:2: note: expanded from macro 'put_use=
+r'
+           __put_user_switch((x), (ptr), __pu_err, __put_user_check);      \
+           ^
+   arch/arm/include/asm/uaccess.h:350:2: note: expanded from macro '__put_u=
+ser_switch'
+           do {                                                            \
+           ^
+   drivers/tee/tee_core.c:586:6: note: Assuming the condition is false
+               put_user(arg.ret_origin, &uarg->ret_origin)) {
+               ^
+   arch/arm/include/asm/uaccess.h:366:31: note: expanded from macro 'put_us=
+er'
+   #define put_user(x, ptr)                                                \
+                                                                           ^
+   drivers/tee/tee_core.c:585:2: note: Taking false branch
+           if (put_user(arg.ret, &uarg->ret) ||
+           ^
+   drivers/tee/tee_core.c:590:47: note: Passing null pointer value via 3rd =
+parameter 'params'
+           rc =3D params_to_user(uparams, arg.num_params, params);
+                                                        ^~~~~~
+   drivers/tee/tee_core.c:590:7: note: Calling 'params_to_user'
+           rc =3D params_to_user(uparams, arg.num_params, params);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tee/tee_core.c:439:14: note: Assuming 'n' is < 'num_params'
+           for (n =3D 0; n < num_params; n++) {
+                       ^~~~~~~~~~~~~~
+   drivers/tee/tee_core.c:439:2: note: Loop condition is true.  Entering lo=
+op body
+           for (n =3D 0; n < num_params; n++) {
+           ^
+   drivers/tee/tee_core.c:441:3: note: 'p' initialized to a null pointer va=
+lue
+                   struct tee_param *p =3D params + n;
+                   ^~~~~~~~~~~~~~~~~~~
+   drivers/tee/tee_core.c:443:11: note: Access to field 'attr' results in a=
+ dereference of a null pointer (loaded from variable 'p')
+                   switch (p->attr) {
                            ^
-   fs/xfs/libxfs/xfs_rmap.c:2682:6: note: Assuming 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xfs/libxfs/xfs_rmap.c:2682:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xfs/libxfs/xfs_rmap.c:2684:6: note: Assuming 'has_record' is not equa=
-l to 0
-           if (!has_record) {
-               ^~~~~~~~~~~
-   fs/xfs/libxfs/xfs_rmap.c:2684:2: note: Taking false branch
-           if (!has_record) {
-           ^
-   fs/xfs/libxfs/xfs_rmap.c:2689:10: note: Calling 'xfs_rmap_get_rec'
-           error =3D xfs_rmap_get_rec(cur, &irec, &has_record);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Assuming 'error' is 0
-           if (error || !*stat)
-               ^~~~~
-   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Left side of '||' is false
-   fs/xfs/libxfs/xfs_rmap.c:209:15: note: Assuming the condition is false
-           if (error || !*stat)
-                        ^~~~~~
-   fs/xfs/libxfs/xfs_rmap.c:209:2: note: Taking false branch
-           if (error || !*stat)
-           ^
-   fs/xfs/libxfs/xfs_rmap.c:212:6: note: Calling 'xfs_rmap_btrec_to_irec'
-           if (xfs_rmap_btrec_to_irec(rec, irec))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_rmap.c:190:9: note: Calling 'xfs_rmap_irec_offset_unpa=
-ck'
-           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
-et),
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/xfs/libxfs/xfs_rmap.h:70:6: note: Assuming the condition is true
-           if (offset & ~(XFS_RMAP_OFF_MASK | XFS_RMAP_OFF_FLAGS))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_rmap.h:70:2: note: Taking true branch
-           if (offset & ~(XFS_RMAP_OFF_MASK | XFS_RMAP_OFF_FLAGS))
-           ^
-   fs/xfs/libxfs/xfs_rmap.h:71:3: note: Returning without writing to 'irec-=
->rm_flags'
-                   return -EFSCORRUPTED;
-                   ^
-   fs/xfs/libxfs/xfs_rmap.h:71:3: note: Returning the value -117, which par=
-ticipates in a condition later
-                   return -EFSCORRUPTED;
-                   ^~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_rmap.c:190:9: note: Returning from 'xfs_rmap_irec_offs=
-et_unpack'
-           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
-et),
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/xfs/libxfs/xfs_rmap.c:190:2: note: Returning without writing to 'irec=
-->rm_flags'
-           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
-et),
-           ^
-   fs/xfs/libxfs/xfs_rmap.c:190:2: note: Returning the value -117, which pa=
-rticipates in a condition later
-           return xfs_rmap_irec_offset_unpack(be64_to_cpu(rec->rmap.rm_offs=
-et),
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   fs/xfs/libxfs/xfs_rmap.c:212:6: note: Returning from 'xfs_rmap_btrec_to_=
-irec'
-           if (xfs_rmap_btrec_to_irec(rec, irec))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_rmap.c:212:2: note: Taking true branch
-           if (xfs_rmap_btrec_to_irec(rec, irec))
-           ^
-   fs/xfs/libxfs/xfs_rmap.c:213:3: note: Control jumps to line 241
-                   goto out_bad_rec;
-                   ^
-   fs/xfs/libxfs/xfs_rmap.c:244:2: note: 4th function call argument is an u=
-ninitialized value
-           xfs_warn(mp,
-           ^
-   Suppressed 5 warnings (5 in non-user code).
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/pci/vgaarb.c:235:17: warning: Value stored to 'dev' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:235:17: note: Value stored to 'dev' during its init=
-ialization is never read
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:373:17: warning: Value stored to 'dev' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/pci/vgaarb.c:373:17: note: Value stored to 'dev' during its init=
-ialization is never read
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+>> drivers/ata/pata_samsung_cf.c:117:34: warning: Division by zero [clang-a=
+nalyzer-core.DivideZero]
+           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
+                              ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_samsung_cf.c:108:18: note: Loop condition is false.  Ex=
+iting loop
+           ulong ata_cfg =3D readl(info->ide_addr + S3C_ATA_CFG);
+                           ^
+   arch/arm/include/asm/io.h:304:50: note: expanded from macro 'readl'
+   #define readl(c)                ({ u32 __v =3D readl_relaxed(c); __iormb=
+(); __v; })
+                                                                  ^
+   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iormb'
+   #define __iormb()               do { } while (0)
+                                   ^
+   drivers/ata/pata_samsung_cf.c:112:6: note: Assuming the condition is true
+           if (ata_pio_need_iordy(adev))
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_samsung_cf.c:112:2: note: Taking true branch
+           if (ata_pio_need_iordy(adev))
+           ^
+   drivers/ata/pata_samsung_cf.c:117:36: note: Calling 'clk_get_rate'
+           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
+                                             ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/clk.h:882:2: note: Returning zero
+           return 0;
+           ^~~~~~~~
+   drivers/ata/pata_samsung_cf.c:117:36: note: Returning from 'clk_get_rate'
+           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
+                                             ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ata/pata_samsung_cf.c:117:34: note: Division by zero
+           cycle_time =3D (int)(1000000000UL / clk_get_rate(info->clk));
+                              ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   drivers/greybus/manifest.c:56:2: warning: Use of memory after it is free=
-d [clang-analyzer-unix.Malloc]
-           list_for_each_entry_safe(descriptor, next, &intf->manifest_descs=
-, links)
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   fs/f2fs/xattr.c:424:35: warning: The left operand of '!=3D' is a garbage=
+ value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (le32_to_cpu(header->h_magic) !=3D F2FS_XATTR_MAGIC) {
+                                            ^
+   fs/f2fs/xattr.c:144:28: note: Assuming field 'name' is not equal to NULL
+           for (xattr =3D xattr_array; xattr->name !=3D NULL; xattr++) {
+                                     ^~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:144:2: note: Loop condition is true.  Entering loop body
+           for (xattr =3D xattr_array; xattr->name !=3D NULL; xattr++) {
            ^
-   include/linux/list.h:728:20: note: expanded from macro 'list_for_each_en=
-try_safe'
-                pos =3D n, n =3D list_next_entry(n, member))
-                             ^
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^
-   drivers/greybus/manifest.c:464:6: note: Assuming '__ret_warn_on' is 0
-           if (WARN_ON(!list_empty(&intf->manifest_descs)))
+   fs/f2fs/xattr.c:145:9: note: Calling 'f2fs_setxattr'
+                   err =3D f2fs_setxattr(inode, F2FS_XATTR_INDEX_SECURITY,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:771:6: note: Assuming the condition is true
+           if (unlikely(f2fs_cp_error(sbi)))
                ^
-   include/asm-generic/bug.h:122:6: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-               ^~~~~~~~~~~~~~~~~~~~~~~
    include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
    # define unlikely(x)    __builtin_expect(!!(x), 0)
                                              ^~~~
-   drivers/greybus/manifest.c:464:6: note: Taking false branch
-           if (WARN_ON(!list_empty(&intf->manifest_descs)))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
+   fs/f2fs/xattr.c:771:2: note: Taking false branch
+           if (unlikely(f2fs_cp_error(sbi)))
            ^
-   drivers/greybus/manifest.c:464:2: note: Taking false branch
-           if (WARN_ON(!list_empty(&intf->manifest_descs)))
+   fs/f2fs/xattr.c:773:2: note: Taking false branch
+           if (!f2fs_is_checkpoint_ready(sbi))
            ^
-   drivers/greybus/manifest.c:468:6: note: Assuming the condition is false
-           if (size < sizeof(*header)) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/greybus/manifest.c:468:2: note: Taking false branch
-           if (size < sizeof(*header)) {
+   fs/f2fs/xattr.c:777:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   fs/f2fs/xattr.c:777:2: note: Taking false branch
+           if (err)
            ^
-   drivers/greybus/manifest.c:478:6: note: Assuming 'manifest_size' is equa=
-l to 'size'
-           if (manifest_size !=3D size) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/greybus/manifest.c:478:2: note: Taking false branch
-           if (manifest_size !=3D size) {
-           ^
-   drivers/greybus/manifest.c:485:6: note: Assuming field 'version_major' i=
-s <=3D GREYBUS_VERSION_MAJOR
-           if (header->version_major > GREYBUS_VERSION_MAJOR) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/greybus/manifest.c:485:2: note: Taking false branch
-           if (header->version_major > GREYBUS_VERSION_MAJOR) {
-           ^
-   drivers/greybus/manifest.c:495:2: note: Loop condition is false. Executi=
-on continues on line 508
-           while (size) {
-           ^
-   drivers/greybus/manifest.c:508:2: note: Loop condition is true.  Enterin=
-g loop body
-           list_for_each_entry(descriptor, &intf->manifest_descs, links) {
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/greybus/manifest.c:509:7: note: Assuming field 'type' is equal t=
-o GREYBUS_TYPE_INTERFACE
-                   if (descriptor->type =3D=3D GREYBUS_TYPE_INTERFACE)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/greybus/manifest.c:509:3: note: Taking true branch
-                   if (descriptor->type =3D=3D GREYBUS_TYPE_INTERFACE)
-                   ^
-   drivers/greybus/manifest.c:510:4: note: Taking true branch
-                           if (!found++)
-                           ^
-   drivers/greybus/manifest.c:508:2: note: Loop condition is false. Executi=
-on continues on line 513
-           list_for_each_entry(descriptor, &intf->manifest_descs, links) {
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/greybus/manifest.c:513:6: note: 'found' is equal to 1
-           if (found !=3D 1) {
+   fs/f2fs/xattr.c:781:6: note: Assuming 'ipage' is non-null
+           if (ipage)
                ^~~~~
-   drivers/greybus/manifest.c:513:2: note: Taking false branch
-           if (found !=3D 1) {
+   fs/f2fs/xattr.c:781:2: note: Taking true branch
+           if (ipage)
+           ^
+   fs/f2fs/xattr.c:782:10: note: Calling '__f2fs_setxattr'
+                   return __f2fs_setxattr(inode, index, name, value,
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:641:6: note: 'name' is not equal to NULL
+           if (name =3D=3D NULL)
+               ^~~~
+   fs/f2fs/xattr.c:641:2: note: Taking false branch
+           if (name =3D=3D NULL)
+           ^
+   fs/f2fs/xattr.c:644:6: note: Assuming 'value' is not equal to NULL
+           if (value =3D=3D NULL)
+               ^~~~~~~~~~~~~
+   fs/f2fs/xattr.c:644:2: note: Taking false branch
+           if (value =3D=3D NULL)
+           ^
+   fs/f2fs/xattr.c:649:6: note: Assuming 'len' is <=3D F2FS_NAME_LEN
+           if (len > F2FS_NAME_LEN)
+               ^~~~~~~~~~~~~~~~~~~
+   fs/f2fs/xattr.c:649:2: note: Taking false branch
+           if (len > F2FS_NAME_LEN)
+           ^
+   fs/f2fs/xattr.c:652:6: note: Assuming the condition is false
+           if (size > MAX_VALUE_LEN(inode))
 
-vim +/dev +235 drivers/pci/vgaarb.c
+vim +117 drivers/ata/pata_samsung_cf.c
 
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 231  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  102  =
 
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 232  static struct vga_device *__vga_tryget(struct vga_device *vgadev,
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 233  				       unsigned int rsrc)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 234  {
-a75d68f62106fe6 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 =
-@235  	struct device *dev =3D &vgadev->pdev->dev;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 236  	unsigned int wants, legacy_wants, match;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 237  	struct vga_device *conflict;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 238  	unsigned int pci_bits;
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 239  	u32 flags =3D 0;
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 240  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  103  static void pata_s3c_set_p=
+iomode(struct ata_port *ap, struct ata_device *adev)
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  104  {
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  105  	struct s3c_ide_info *info=
+ =3D ap->host->private_data;
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  106  	struct ata_timing timing;
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  107  	int cycle_time;
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  108  	ulong ata_cfg =3D readl(i=
+nfo->ide_addr + S3C_ATA_CFG);
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  109  	ulong piotime;
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  110  =
 
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 241  	/* Account for "normal" resources to lock. If we decode the legacy,
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 242  	 * counterpart, we need to request it as well
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 243  	 */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 244  	if ((rsrc & VGA_RSRC_NORMAL_IO) &&
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 245  	    (vgadev->decodes & VGA_RSRC_LEGACY_IO))
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 246  		rsrc |=3D VGA_RSRC_LEGACY_IO;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 247  	if ((rsrc & VGA_RSRC_NORMAL_MEM) &&
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 248  	    (vgadev->decodes & VGA_RSRC_LEGACY_MEM))
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 249  		rsrc |=3D VGA_RSRC_LEGACY_MEM;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 250  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  111  	/* Enables IORDY if mode =
+requires it */
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  112  	if (ata_pio_need_iordy(ad=
+ev))
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  113  		ata_cfg |=3D S3C_ATA_CFG=
+_IORDYEN;
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  114  	else
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  115  		ata_cfg &=3D ~S3C_ATA_CF=
+G_IORDYEN;
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  116  =
 
-a75d68f62106fe6 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 =
- 251  	vgaarb_dbg(dev, "%s: %d\n", __func__, rsrc);
-a75d68f62106fe6 drivers/gpu/vga/vgaarb.c Bjorn Helgaas          2016-11-17 =
- 252  	vgaarb_dbg(dev, "%s: owns: %d\n", __func__, vgadev->owns);
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 253  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13 @117  	cycle_time =3D (int)(1000=
+000000UL / clk_get_rate(info->clk));
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  118  =
 
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 254  	/* Check what resources we need to acquire */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 255  	wants =3D rsrc & ~vgadev->owns;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 256  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  119  	ata_timing_compute(adev, =
+adev->pio_mode, &timing,
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  120  					cycle_time * 1000, 0);
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  121  =
 
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 257  	/* We already own everything, just mark locked & bye bye */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 258  	if (wants =3D=3D 0)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 259  		goto lock_them;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 260  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  122  	piotime =3D pata_s3c_setu=
+p_timing(info, &timing);
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  123  =
 
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 261  	/* We don't need to request a legacy resource, we just enable
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 262  	 * appropriate decoding and go
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 263  	 */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 264  	legacy_wants =3D wants & VGA_RSRC_LEGACY_MASK;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 265  	if (legacy_wants =3D=3D 0)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 266  		goto enable_them;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 267  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 268  	/* Ok, we don't, let's find out how we need to kick off */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 269  	list_for_each_entry(conflict, &vga_list, list) {
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 270  		unsigned int lwants =3D legacy_wants;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 271  		unsigned int change_bridge =3D 0;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 272  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 273  		/* Don't conflict with myself */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 274  		if (vgadev =3D=3D conflict)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 275  			continue;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 276  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 277  		/* We have a possible conflict. before we go further, we must
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 278  		 * check if we sit on the same bus as the conflicting device.
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 279  		 * if we don't, then we must tie both IO and MEM resources
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 280  		 * together since there is only a single bit controlling
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 281  		 * VGA forwarding on P2P bridges
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 282  		 */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 283  		if (vgadev->pdev->bus !=3D conflict->pdev->bus) {
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 284  			change_bridge =3D 1;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 285  			lwants =3D VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 286  		}
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 287  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 288  		/* Check if the guy has a lock on the resource. If he does,
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 289  		 * return the conflicting entry
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 290  		 */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 291  		if (conflict->locks & lwants)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 292  			return conflict;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 293  =
-
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 294  		/* Ok, now check if it owns the resource we want.  We can
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 295  		 * lock resources that are not decoded, therefore a device
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 296  		 * can own resources it doesn't decode.
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 297  		 */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 298  		match =3D lwants & conflict->owns;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 299  		if (!match)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 300  			continue;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 301  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 302  		/* looks like he doesn't have a lock, we can steal
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 303  		 * them from him
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 304  		 */
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 305  =
-
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 306  		flags =3D 0;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 307  		pci_bits =3D 0;
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 308  =
-
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 309  		/* If we can't control legacy resources via the bridge, we
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 310  		 * also need to disable normal decoding.
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 311  		 */
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 312  		if (!conflict->bridge_has_one_vga) {
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 313  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_MEM)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 314  				pci_bits |=3D PCI_COMMAND_MEMORY;
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 315  			if ((match & conflict->decodes) & VGA_RSRC_LEGACY_IO)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 316  				pci_bits |=3D PCI_COMMAND_IO;
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 317  =
-
-f6b1772b255504e drivers/gpu/vga/vgaarb.c Christoph Hellwig      2021-07-16 =
- 318  			if (pci_bits)
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 319  				flags |=3D PCI_VGA_STATE_CHANGE_DECODES;
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 320  		}
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 321  =
-
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 322  		if (change_bridge)
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 323  			flags |=3D PCI_VGA_STATE_CHANGE_BRIDGE;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 324  =
-
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 325  		pci_set_vga_state(conflict->pdev, false, pci_bits, flags);
-f22d776f3e280e6 drivers/gpu/vga/vgaarb.c Alex Williamson        2013-08-15 =
- 326  		conflict->owns &=3D ~match;
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 327  =
-
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 328  		/* If we disabled normal decoding, reflect it in owns */
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 329  		if (pci_bits & PCI_COMMAND_MEMORY)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 330  			conflict->owns &=3D ~VGA_RSRC_NORMAL_MEM;
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 331  		if (pci_bits & PCI_COMMAND_IO)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 332  			conflict->owns &=3D ~VGA_RSRC_NORMAL_IO;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 333  	}
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 334  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 335  enable_them:
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 336  	/* ok dude, we got it, everybody conflicting has been disabled, let's
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 337  	 * enable us.  Mark any bits in "owns" regardless of whether we
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 338  	 * decoded them.  We can lock resources we don't decode, therefore
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 339  	 * we must track them via "owns".
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 340  	 */
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 341  	flags =3D 0;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 342  	pci_bits =3D 0;
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 343  =
-
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 344  	if (!vgadev->bridge_has_one_vga) {
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 345  		flags |=3D PCI_VGA_STATE_CHANGE_DECODES;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 346  		if (wants & (VGA_RSRC_LEGACY_MEM|VGA_RSRC_NORMAL_MEM))
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 347  			pci_bits |=3D PCI_COMMAND_MEMORY;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 348  		if (wants & (VGA_RSRC_LEGACY_IO|VGA_RSRC_NORMAL_IO))
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 349  			pci_bits |=3D PCI_COMMAND_IO;
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 350  	}
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 351  	if (wants & VGA_RSRC_LEGACY_MASK)
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 352  		flags |=3D PCI_VGA_STATE_CHANGE_BRIDGE;
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 353  =
-
-3448a19da479b6b drivers/gpu/vga/vgaarb.c Dave Airlie            2010-06-01 =
- 354  	pci_set_vga_state(vgadev->pdev, true, pci_bits, flags);
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 355  =
-
-4e4e7dc55af5aa6 drivers/gpu/vga/vgaarb.c Alex Williamson        2014-07-03 =
- 356  	vgadev->owns |=3D wants;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 357  lock_them:
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 358  	vgadev->locks |=3D (rsrc & VGA_RSRC_LEGACY_MASK);
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 359  	if (rsrc & VGA_RSRC_LEGACY_IO)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 360  		vgadev->io_lock_cnt++;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 361  	if (rsrc & VGA_RSRC_LEGACY_MEM)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 362  		vgadev->mem_lock_cnt++;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 363  	if (rsrc & VGA_RSRC_NORMAL_IO)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 364  		vgadev->io_norm_cnt++;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 365  	if (rsrc & VGA_RSRC_NORMAL_MEM)
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 366  		vgadev->mem_norm_cnt++;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 367  =
-
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 368  	return NULL;
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 369  }
-deb2d2ecd43dfc5 drivers/gpu/vga/vgaarb.c Benjamin Herrenschmidt 2009-08-11 =
- 370  =
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  124  	writel(ata_cfg, info->ide=
+_addr + S3C_ATA_CFG);
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  125  	writel(piotime, info->ide=
+_addr + S3C_ATA_PIO_TIME);
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  126  }
+155bf48f10fc3c Abhilash Kesavan 2010-07-13  127  =
 
 
-:::::: The code at line 235 was first introduced by commit
-:::::: a75d68f62106fe66c4b8b96c0ee7155bdafc6f06 vgaarb: Use dev_printk() wh=
-en possible
+:::::: The code at line 117 was first introduced by commit
+:::::: 155bf48f10fc3c8e0e3125e221981328cd925cf4 [libata] Add Samsung PATA c=
+ontroller driver, pata_samsung_cf
 
-:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: Abhilash Kesavan <a.kesavan@samsung.com>
+:::::: CC: Jeff Garzik <jgarzik@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7954481080824477709==--
+--===============6211124045566127271==--
 
