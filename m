@@ -1,142 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============7329125819614067533=="
+Content-Type: multipart/mixed; boundary="===============6208274920170314868=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 1/3] ACPI / x86: Add support for LPS0 callback handler
-Date: Thu, 17 Mar 2022 16:23:18 +0800
-Message-ID: <202203171657.uF7h6TEG-lkp@intel.com>
+Subject: [linux-next:master 4027/13209] drivers/cxl/core/port.c:830:21-24: ERROR: port is NULL but dereferenced.
+Date: Thu, 17 Mar 2022 15:41:47 +0800
+Message-ID: <202203171545.Vf9oMQFV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7329125819614067533==
+--===============6208274920170314868==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220316212924.5619-1-mario.limonciello@amd.com>
-References: <20220316212924.5619-1-mario.limonciello@amd.com>
-TO: Mario Limonciello <mario.limonciello@amd.com>
-TO: Hans de Goede <hdegoede@redhat.com>
-TO: Mark Gross <mgross@linux.intel.com>
-TO: "Rafael J . Wysocki" <rjw@rjwysocki.net>
-CC: "open list:X86 PLATFORM DRIVERS" <platform-driver-x86@vger.kernel.org>
-CC: linux-acpi(a)vger.kernel.org
-CC: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-CC: Goswami Sanket <Sanket.Goswami@amd.com>
-CC: Mario Limonciello <mario.limonciello@amd.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Dan Williams <dan.j.williams@intel.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Hi Mario,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on next-20220315]
-[also build test WARNING on v5.17-rc8]
-[cannot apply to rafael-pm/linux-next linus/master platform-drivers-x86/for=
--next v5.17-rc8 v5.17-rc7 v5.17-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Mario-Limonciello/ACPI-x86=
--Add-support-for-LPS0-callback-handler/20220317-053103
-base:    a32cd981a6da2373c093d471ee4405a915e217d5
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
-317/202203171657.uF7h6TEG-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   8a11187eb62b8b910d2c5484e1f5d160e8b11eb4
+commit: 2703c16c75aea142c3079ec34ae2262c0557ef7f [4027/13209] cxl/core/port=
+: Add switch port enumeration
+:::::: branch date: 21 hours ago
+:::::: commit date: 5 weeks ago
+config: i386-randconfig-c021-20220314 (https://download.01.org/0day-ci/arch=
+ive/20220317/202203171545.Vf9oMQFV-lkp(a)intel.com/config)
 compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-smatch warnings:
-drivers/acpi/x86/s2idle.c:478 acpi_s2idle_prepare_late() error: we previous=
-ly assumed 'handler' could be null (see line 479)
 
-vim +/handler +478 drivers/acpi/x86/s2idle.c
+cocci warnings: (new ones prefixed by >>)
+>> drivers/cxl/core/port.c:830:21-24: ERROR: port is NULL but dereferenced.
 
-fef98671194be0 Rafael J. Wysocki  2020-12-17  442  =
+vim +830 drivers/cxl/core/port.c
 
-fef98671194be0 Rafael J. Wysocki  2020-12-17  443  int acpi_s2idle_prepare_=
-late(void)
-fef98671194be0 Rafael J. Wysocki  2020-12-17  444  {
-4be2feac72a3ad Mario Limonciello  2022-03-16  445  	struct acpi_s2idle_dev_=
-ops *handler;
-4be2feac72a3ad Mario Limonciello  2022-03-16  446  =
+2703c16c75aea1 Dan Williams 2022-02-04  813  =
 
-fef98671194be0 Rafael J. Wysocki  2020-12-17  447  	if (!lps0_device_handle=
- || sleep_no_lps0)
-fef98671194be0 Rafael J. Wysocki  2020-12-17  448  		return 0;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  449  =
+2703c16c75aea1 Dan Williams 2022-02-04  814  static void cxl_detach_ep(void=
+ *data)
+2703c16c75aea1 Dan Williams 2022-02-04  815  {
+2703c16c75aea1 Dan Williams 2022-02-04  816  	struct cxl_memdev *cxlmd =3D =
+data;
+2703c16c75aea1 Dan Williams 2022-02-04  817  	struct device *iter;
+2703c16c75aea1 Dan Williams 2022-02-04  818  =
 
-fef98671194be0 Rafael J. Wysocki  2020-12-17  450  	if (pm_debug_messages_o=
-n)
-fef98671194be0 Rafael J. Wysocki  2020-12-17  451  		lpi_check_constraints(=
+2703c16c75aea1 Dan Williams 2022-02-04  819  	for (iter =3D &cxlmd->dev; it=
+er; iter =3D grandparent(iter)) {
+2703c16c75aea1 Dan Williams 2022-02-04  820  		struct device *dport_dev =3D=
+ grandparent(iter);
+2703c16c75aea1 Dan Williams 2022-02-04  821  		struct cxl_port *port, *pare=
+nt_port;
+2703c16c75aea1 Dan Williams 2022-02-04  822  		LIST_HEAD(reap_dports);
+2703c16c75aea1 Dan Williams 2022-02-04  823  		struct cxl_ep *ep;
+2703c16c75aea1 Dan Williams 2022-02-04  824  =
+
+2703c16c75aea1 Dan Williams 2022-02-04  825  		if (!dport_dev)
+2703c16c75aea1 Dan Williams 2022-02-04  826  			break;
+2703c16c75aea1 Dan Williams 2022-02-04  827  =
+
+2703c16c75aea1 Dan Williams 2022-02-04  828  		port =3D find_cxl_port(dport=
+_dev);
+2703c16c75aea1 Dan Williams 2022-02-04  829  		if (!port || is_cxl_root(por=
+t)) {
+2703c16c75aea1 Dan Williams 2022-02-04 @830  			put_device(&port->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  831  			continue;
+2703c16c75aea1 Dan Williams 2022-02-04  832  		}
+2703c16c75aea1 Dan Williams 2022-02-04  833  =
+
+2703c16c75aea1 Dan Williams 2022-02-04  834  		parent_port =3D to_cxl_port(=
+port->dev.parent);
+2703c16c75aea1 Dan Williams 2022-02-04  835  		cxl_device_lock(&parent_port=
+->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  836  		if (!parent_port->dev.driver=
+) {
+2703c16c75aea1 Dan Williams 2022-02-04  837  			/*
+2703c16c75aea1 Dan Williams 2022-02-04  838  			 * The bottom-up race to de=
+lete the port lost to a
+2703c16c75aea1 Dan Williams 2022-02-04  839  			 * top-down port disable, g=
+ive up here, because the
+2703c16c75aea1 Dan Williams 2022-02-04  840  			 * parent_port ->remove() w=
+ill have cleaned up all
+2703c16c75aea1 Dan Williams 2022-02-04  841  			 * descendants.
+2703c16c75aea1 Dan Williams 2022-02-04  842  			 */
+2703c16c75aea1 Dan Williams 2022-02-04  843  			cxl_device_unlock(&parent_p=
+ort->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  844  			put_device(&port->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  845  			continue;
+2703c16c75aea1 Dan Williams 2022-02-04  846  		}
+2703c16c75aea1 Dan Williams 2022-02-04  847  =
+
+2703c16c75aea1 Dan Williams 2022-02-04  848  		cxl_device_lock(&port->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  849  		ep =3D find_ep(port, &cxlmd-=
+>dev);
+2703c16c75aea1 Dan Williams 2022-02-04  850  		dev_dbg(&cxlmd->dev, "discon=
+nect %s from %s\n",
+2703c16c75aea1 Dan Williams 2022-02-04  851  			ep ? dev_name(ep->ep) : "",=
+ dev_name(&port->dev));
+2703c16c75aea1 Dan Williams 2022-02-04  852  		cxl_ep_release(ep);
+2703c16c75aea1 Dan Williams 2022-02-04  853  		if (ep && !port->dead && lis=
+t_empty(&port->endpoints) &&
+2703c16c75aea1 Dan Williams 2022-02-04  854  		    !is_cxl_root(parent_port=
+)) {
+2703c16c75aea1 Dan Williams 2022-02-04  855  			/*
+2703c16c75aea1 Dan Williams 2022-02-04  856  			 * This was the last ep att=
+ached to a dynamically
+2703c16c75aea1 Dan Williams 2022-02-04  857  			 * enumerated port. Block n=
+ew cxl_add_ep() and garbage
+2703c16c75aea1 Dan Williams 2022-02-04  858  			 * collect the port.
+2703c16c75aea1 Dan Williams 2022-02-04  859  			 */
+2703c16c75aea1 Dan Williams 2022-02-04  860  			port->dead =3D true;
+2703c16c75aea1 Dan Williams 2022-02-04  861  			list_splice_init(&port->dpo=
+rts, &reap_dports);
+2703c16c75aea1 Dan Williams 2022-02-04  862  		}
+2703c16c75aea1 Dan Williams 2022-02-04  863  		cxl_device_unlock(&port->dev=
 );
-fef98671194be0 Rafael J. Wysocki  2020-12-17  452  =
+2703c16c75aea1 Dan Williams 2022-02-04  864  =
 
-fa209644a7124b Mario Limonciello  2021-09-01  453  	/* Screen off */
-fa209644a7124b Mario Limonciello  2021-09-01  454  	if (lps0_dsm_func_mask =
-> 0)
-fa209644a7124b Mario Limonciello  2021-09-01  455  		acpi_sleep_run_lps0_ds=
-m(acpi_s2idle_vendor_amd() ?
-fa209644a7124b Mario Limonciello  2021-09-01  456  					ACPI_LPS0_SCREEN_OF=
-F_AMD :
-fa209644a7124b Mario Limonciello  2021-09-01  457  					ACPI_LPS0_SCREEN_OF=
-F,
-3f4b116c0b3955 Pratik Vishwakarma 2021-06-17  458  					lps0_dsm_func_mask,=
- lps0_dsm_guid);
-fa209644a7124b Mario Limonciello  2021-09-01  459  =
-
-fa209644a7124b Mario Limonciello  2021-09-01  460  	if (lps0_dsm_func_mask_=
-microsoft > 0)
-3f4b116c0b3955 Pratik Vishwakarma 2021-06-17  461  		acpi_sleep_run_lps0_ds=
-m(ACPI_LPS0_SCREEN_OFF,
-fa209644a7124b Mario Limonciello  2021-09-01  462  				lps0_dsm_func_mask_m=
-icrosoft, lps0_dsm_guid_microsoft);
-fa209644a7124b Mario Limonciello  2021-09-01  463  =
-
-fa209644a7124b Mario Limonciello  2021-09-01  464  	/* LPS0 entry */
-fa209644a7124b Mario Limonciello  2021-09-01  465  	if (lps0_dsm_func_mask =
-> 0)
-fa209644a7124b Mario Limonciello  2021-09-01  466  		acpi_sleep_run_lps0_ds=
-m(acpi_s2idle_vendor_amd() ?
-fa209644a7124b Mario Limonciello  2021-09-01  467  					ACPI_LPS0_ENTRY_AMD=
- :
-fa209644a7124b Mario Limonciello  2021-09-01  468  					ACPI_LPS0_ENTRY,
-3f4b116c0b3955 Pratik Vishwakarma 2021-06-17  469  					lps0_dsm_func_mask,=
- lps0_dsm_guid);
-fa209644a7124b Mario Limonciello  2021-09-01  470  	if (lps0_dsm_func_mask_=
-microsoft > 0) {
-3f4b116c0b3955 Pratik Vishwakarma 2021-06-17  471  		acpi_sleep_run_lps0_ds=
-m(ACPI_LPS0_ENTRY,
-fa209644a7124b Mario Limonciello  2021-09-01  472  				lps0_dsm_func_mask_m=
-icrosoft, lps0_dsm_guid_microsoft);
-fa209644a7124b Mario Limonciello  2021-09-01  473  		/* modern standby entr=
-y */
-fa209644a7124b Mario Limonciello  2021-09-01  474  		acpi_sleep_run_lps0_ds=
-m(ACPI_LPS0_MS_ENTRY,
-fa209644a7124b Mario Limonciello  2021-09-01  475  				lps0_dsm_func_mask_m=
-icrosoft, lps0_dsm_guid_microsoft);
-fef98671194be0 Rafael J. Wysocki  2020-12-17  476  	}
-4be2feac72a3ad Mario Limonciello  2022-03-16  477  =
-
-4be2feac72a3ad Mario Limonciello  2022-03-16 @478  	list_for_each_entry(han=
-dler, &lps0_s2idle_devops_head, list_node) {
-4be2feac72a3ad Mario Limonciello  2022-03-16 @479  		if (handler)
-4be2feac72a3ad Mario Limonciello  2022-03-16  480  			handler->prepare();
-4be2feac72a3ad Mario Limonciello  2022-03-16  481  	}
-4be2feac72a3ad Mario Limonciello  2022-03-16  482  =
-
-fef98671194be0 Rafael J. Wysocki  2020-12-17  483  	return 0;
-fef98671194be0 Rafael J. Wysocki  2020-12-17  484  }
-fef98671194be0 Rafael J. Wysocki  2020-12-17  485  =
+2703c16c75aea1 Dan Williams 2022-02-04  865  		if (!list_empty(&reap_dports=
+)) {
+2703c16c75aea1 Dan Williams 2022-02-04  866  			dev_dbg(&cxlmd->dev, "delet=
+e %s\n",
+2703c16c75aea1 Dan Williams 2022-02-04  867  				dev_name(&port->dev));
+2703c16c75aea1 Dan Williams 2022-02-04  868  			delete_switch_port(port, &r=
+eap_dports);
+2703c16c75aea1 Dan Williams 2022-02-04  869  		}
+2703c16c75aea1 Dan Williams 2022-02-04  870  		put_device(&port->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  871  		cxl_device_unlock(&parent_po=
+rt->dev);
+2703c16c75aea1 Dan Williams 2022-02-04  872  	}
+2703c16c75aea1 Dan Williams 2022-02-04  873  }
+2703c16c75aea1 Dan Williams 2022-02-04  874  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7329125819614067533==--
+--===============6208274920170314868==--
 
