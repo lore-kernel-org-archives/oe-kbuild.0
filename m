@@ -1,124 +1,198 @@
-Content-Type: multipart/mixed; boundary="===============3270506896479370098=="
+Content-Type: multipart/mixed; boundary="===============1731866980628308377=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/ata/libahci_platform.c:552 ahci_platform_get_resources() warn: passing zero to 'ERR_PTR'
-Date: Fri, 18 Mar 2022 07:52:42 +0800
-Message-ID: <202203180743.gbS3jHXG-lkp@intel.com>
+Subject: [linux-next:master 10833/13392] fs/cifs/sess.c:195:42-47: ERROR: invalid reference to the index variable of the iterator on line 177
+Date: Fri, 18 Mar 2022 07:22:08 +0800
+Message-ID: <202203180730.nxPIKEDk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3270506896479370098==
+--===============1731866980628308377==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Wang Hai <wanghai38@huawei.com>
-CC: Damien Le Moal <damien.lemoal@wdc.com>
-CC: Hans de Goede <hdegoede@redhat.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Shyam Prasad N <sprasad@microsoft.com>
+CC: Steve French <stfrench@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   56e337f2cf1326323844927a04e9dbce9a244835
-commit: 776c75010803849c1cc4f11031a2b3960ab05202 ata: ahci_platform: fix nu=
-ll-ptr-deref in ahci_platform_enable_regulators()
-date:   5 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 5 months ago
-config: openrisc-randconfig-m031-20220317 (https://download.01.org/0day-ci/=
-archive/20220318/202203180743.gbS3jHXG-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   97add482e9033a9386baa8824fbea34d0cbfe663
+commit: 6a4006fdea4a1a1274d1faafef6e993987f982ca [10833/13392] cifs: change=
+ iface_list from array to sorted linked list
+:::::: branch date: 14 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20220318/202203180730.nxPIKEDk-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/ata/libahci_platform.c:552 ahci_platform_get_resources() warn: pass=
-ing zero to 'ERR_PTR'
-
-vim +/ERR_PTR +552 drivers/ata/libahci_platform.c
-
-b1a9edbda040a4 Antoine Tenart            2014-07-30  513  =
-
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  514  			rc =3D ahci_pl=
-atform_get_phy(hpriv, port, dev, child);
-d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  515  			if (rc) {
-d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  516  				of_node_put(c=
-hild);
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  517  				goto err_out;
-d7f76f36a8b4dc Nishka Dasgupta           2019-08-15  518  			}
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  519  =
-
-b1a9edbda040a4 Antoine Tenart            2014-07-30  520  			enabled_ports+=
-+;
-b1a9edbda040a4 Antoine Tenart            2014-07-30  521  		}
-b1a9edbda040a4 Antoine Tenart            2014-07-30  522  		if (!enabled_po=
-rts) {
-b1a9edbda040a4 Antoine Tenart            2014-07-30  523  			dev_warn(dev, =
-"No port enabled\n");
-b1a9edbda040a4 Antoine Tenart            2014-07-30  524  			rc =3D -ENODEV;
-b1a9edbda040a4 Antoine Tenart            2014-07-30  525  			goto err_out;
-b1a9edbda040a4 Antoine Tenart            2014-07-30  526  		}
-b1a9edbda040a4 Antoine Tenart            2014-07-30  527  =
-
-b1a9edbda040a4 Antoine Tenart            2014-07-30  528  		if (!hpriv->mas=
-k_port_map)
-b1a9edbda040a4 Antoine Tenart            2014-07-30  529  			hpriv->mask_po=
-rt_map =3D mask_port_map;
-b1a9edbda040a4 Antoine Tenart            2014-07-30  530  	} else {
-b1a9edbda040a4 Antoine Tenart            2014-07-30  531  		/*
-b1a9edbda040a4 Antoine Tenart            2014-07-30  532  		 * If no sub-no=
-de was found, keep this for device tree
-b1a9edbda040a4 Antoine Tenart            2014-07-30  533  		 * compatibility
-b1a9edbda040a4 Antoine Tenart            2014-07-30  534  		 */
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  535  		rc =3D ahci_pla=
-tform_get_phy(hpriv, 0, dev, dev->of_node);
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  536  		if (rc)
-acbd573354bb7b Mikko Perttunen           2014-06-17  537  			goto err_out;
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  538  =
-
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  539  		rc =3D ahci_pla=
-tform_get_regulator(hpriv, 0, dev);
-c7d7ddee7e24ee Gregory CLEMENT           2015-01-15  540  		if (rc =3D=3D -=
-EPROBE_DEFER)
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  541  			goto err_out;
-b1a9edbda040a4 Antoine Tenart            2014-07-30  542  	}
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  543  	pm_runtime_enabl=
-e(dev);
-eac7e072d7e99f Tejun Heo                 2018-08-06  544  	pm_runtime_get_s=
-ync(dev);
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  545  	hpriv->got_runti=
-me_pm =3D true;
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  546  =
-
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  547  	devres_remove_gr=
-oup(dev, NULL);
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  548  	return hpriv;
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  549  =
-
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  550  err_out:
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  551  	devres_release_g=
-roup(dev, NULL);
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25 @552  	return ERR_PTR(r=
-c);
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  553  }
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  554  EXPORT_SYMBOL_GPL=
-(ahci_platform_get_resources);
-fd990556f0fa25 Bartlomiej Zolnierkiewicz 2014-03-25  555  =
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-:::::: The code at line 552 was first introduced by commit
-:::::: fd990556f0fa25446c6bfa9cf4c9e49d387d4472 ata: move library code from=
- ahci_platform.c to libahci_platform.c
+cocci warnings: (new ones prefixed by >>)
+>> fs/cifs/sess.c:195:42-47: ERROR: invalid reference to the index variable=
+ of the iterator on line 177
 
-:::::: TO: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-:::::: CC: Tejun Heo <tj@kernel.org>
+vim +195 fs/cifs/sess.c
+
+d1a931ce2e3b77 Shyam Prasad N  2021-07-19  118  =
+
+d70e9fa5588476 Aurelien Aptel  2019-09-20  119  /* returns number of channe=
+ls added */
+387ec58f339b0c Ronnie Sahlberg 2020-12-14  120  int cifs_try_adding_channel=
+s(struct cifs_sb_info *cifs_sb, struct cifs_ses *ses)
+d70e9fa5588476 Aurelien Aptel  2019-09-20  121  {
+724244cdb38285 Shyam Prasad N  2021-07-19  122  	int old_chan_count, new_ch=
+an_count;
+724244cdb38285 Shyam Prasad N  2021-07-19  123  	int left;
+d70e9fa5588476 Aurelien Aptel  2019-09-20  124  	int rc =3D 0;
+65a37a34145ca6 Aurelien Aptel  2019-11-20  125  	int tries =3D 0;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  126  	struct cifs_server_iface *=
+iface =3D NULL, *niface =3D NULL;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  127  	bool iface_found =3D false;
+d70e9fa5588476 Aurelien Aptel  2019-09-20  128  =
+
+724244cdb38285 Shyam Prasad N  2021-07-19  129  	spin_lock(&ses->chan_lock);
+724244cdb38285 Shyam Prasad N  2021-07-19  130  =
+
+724244cdb38285 Shyam Prasad N  2021-07-19  131  	new_chan_count =3D old_cha=
+n_count =3D ses->chan_count;
+724244cdb38285 Shyam Prasad N  2021-07-19  132  	left =3D ses->chan_max - s=
+es->chan_count;
+724244cdb38285 Shyam Prasad N  2021-07-19  133  =
+
+d70e9fa5588476 Aurelien Aptel  2019-09-20  134  	if (left <=3D 0) {
+88b024f556fcd5 Shyam Prasad N  2021-11-19  135  		spin_unlock(&ses->chan_lo=
+ck);
+d70e9fa5588476 Aurelien Aptel  2019-09-20  136  		cifs_dbg(FYI,
+d70e9fa5588476 Aurelien Aptel  2019-09-20  137  			 "ses already at max_cha=
+nnels (%zu), nothing to open\n",
+d70e9fa5588476 Aurelien Aptel  2019-09-20  138  			 ses->chan_max);
+d70e9fa5588476 Aurelien Aptel  2019-09-20  139  		return 0;
+d70e9fa5588476 Aurelien Aptel  2019-09-20  140  	}
+d70e9fa5588476 Aurelien Aptel  2019-09-20  141  =
+
+53923e0fe2098f Steve French    2022-02-16  142  	if (ses->server->dialect <=
+ SMB30_PROT_ID) {
+53923e0fe2098f Steve French    2022-02-16  143  		spin_unlock(&ses->chan_lo=
+ck);
+53923e0fe2098f Steve French    2022-02-16  144  		cifs_dbg(VFS, "multichann=
+el is not supported on this protocol version, use 3.0 or above\n");
+53923e0fe2098f Steve French    2022-02-16  145  		return 0;
+53923e0fe2098f Steve French    2022-02-16  146  	}
+53923e0fe2098f Steve French    2022-02-16  147  =
+
+9c2dc11df50d1c Steve French    2021-05-07  148  	if (!(ses->server->capabil=
+ities & SMB2_GLOBAL_CAP_MULTI_CHANNEL)) {
+9c2dc11df50d1c Steve French    2021-05-07  149  		ses->chan_max =3D 1;
+724244cdb38285 Shyam Prasad N  2021-07-19  150  		spin_unlock(&ses->chan_lo=
+ck);
+0226487ad81464 Steve French    2021-11-15  151  		cifs_dbg(VFS, "server %s =
+does not support multichannel\n", ses->server->hostname);
+9c2dc11df50d1c Steve French    2021-05-07  152  		return 0;
+9c2dc11df50d1c Steve French    2021-05-07  153  	}
+724244cdb38285 Shyam Prasad N  2021-07-19  154  	spin_unlock(&ses->chan_loc=
+k);
+9c2dc11df50d1c Steve French    2021-05-07  155  =
+
+65a37a34145ca6 Aurelien Aptel  2019-11-20  156  	/*
+65a37a34145ca6 Aurelien Aptel  2019-11-20  157  	 * Keep connecting to same=
+, fastest, iface for all channels as
+65a37a34145ca6 Aurelien Aptel  2019-11-20  158  	 * long as its RSS. Try ne=
+xt fastest one if not RSS or channel
+65a37a34145ca6 Aurelien Aptel  2019-11-20  159  	 * creation fails.
+65a37a34145ca6 Aurelien Aptel  2019-11-20  160  	 */
+65a37a34145ca6 Aurelien Aptel  2019-11-20  161  	while (left > 0) {
+d70e9fa5588476 Aurelien Aptel  2019-09-20  162  =
+
+65a37a34145ca6 Aurelien Aptel  2019-11-20  163  		tries++;
+65a37a34145ca6 Aurelien Aptel  2019-11-20  164  		if (tries > 3*ses->chan_m=
+ax) {
+bbbf9eafbfdaa2 Steve French    2020-05-30  165  			cifs_dbg(FYI, "too many =
+channel open attempts (%d channels left to open)\n",
+65a37a34145ca6 Aurelien Aptel  2019-11-20  166  				 left);
+65a37a34145ca6 Aurelien Aptel  2019-11-20  167  			break;
+65a37a34145ca6 Aurelien Aptel  2019-11-20  168  		}
+65a37a34145ca6 Aurelien Aptel  2019-11-20  169  =
+
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  170  		spin_lock(&ses->iface_loc=
+k);
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  171  		if (!ses->iface_count) {
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  172  			spin_unlock(&ses->iface_=
+lock);
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  173  			break;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  174  		}
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  175  =
+
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  176  		iface_found =3D false;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01 @177  		list_for_each_entry_safe(=
+iface, niface, &ses->iface_list,
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  178  				    iface_head) {
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  179  			/* skip ifaces that are =
+unusable */
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  180  			if (!iface->is_active ||
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  181  			    (is_ses_using_iface(=
+ses, iface) &&
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  182  			     !iface->rss_capable=
+)) {
+d70e9fa5588476 Aurelien Aptel  2019-09-20  183  				continue;
+65a37a34145ca6 Aurelien Aptel  2019-11-20  184  			}
+d70e9fa5588476 Aurelien Aptel  2019-09-20  185  =
+
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  186  			iface_found =3D true;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  187  			kref_get(&iface->refcoun=
+t);
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  188  			break;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  189  		}
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  190  		spin_unlock(&ses->iface_l=
+ock);
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  191  =
+
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  192  		if (!iface_found)
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  193  			break;
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  194  =
+
+387ec58f339b0c Ronnie Sahlberg 2020-12-14 @195  		rc =3D cifs_ses_add_chann=
+el(cifs_sb, ses, iface);
+d70e9fa5588476 Aurelien Aptel  2019-09-20  196  		if (rc) {
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  197  			cifs_dbg(FYI, "failed to=
+ open extra channel on iface:%pIS rc=3D%d\n",
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  198  				 &iface->sockaddr,
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  199  				 rc);
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  200  			kref_put(&iface->refcoun=
+t, release_iface);
+d70e9fa5588476 Aurelien Aptel  2019-09-20  201  			continue;
+d70e9fa5588476 Aurelien Aptel  2019-09-20  202  		}
+d70e9fa5588476 Aurelien Aptel  2019-09-20  203  =
+
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  204  		cifs_dbg(FYI, "successful=
+ly opened new channel on iface:%pIS\n",
+6a4006fdea4a1a Shyam Prasad N  2022-01-01  205  			 &iface->sockaddr);
+d70e9fa5588476 Aurelien Aptel  2019-09-20  206  		left--;
+724244cdb38285 Shyam Prasad N  2021-07-19  207  		new_chan_count++;
+d70e9fa5588476 Aurelien Aptel  2019-09-20  208  	}
+d70e9fa5588476 Aurelien Aptel  2019-09-20  209  =
+
+724244cdb38285 Shyam Prasad N  2021-07-19  210  	return new_chan_count - ol=
+d_chan_count;
+d70e9fa5588476 Aurelien Aptel  2019-09-20  211  }
+d70e9fa5588476 Aurelien Aptel  2019-09-20  212  =
+
+
+:::::: The code at line 195 was first introduced by commit
+:::::: 387ec58f339b0c45e3767395f11fa8dd3772131e cifs: simplify handling of =
+cifs_sb/ctx->local_nls
+
+:::::: TO: Ronnie Sahlberg <lsahlber@redhat.com>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3270506896479370098==--
+--===============1731866980628308377==--
 
