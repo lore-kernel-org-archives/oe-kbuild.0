@@ -1,529 +1,523 @@
-Content-Type: multipart/mixed; boundary="===============7964717214957659440=="
+Content-Type: multipart/mixed; boundary="===============1519992316263187814=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 03/11] habanalabs: change mmu_get_real_page_size to be ASIC-specific
-Date: Thu, 17 Mar 2022 15:00:32 +0800
-Message-ID: <202203171437.0m4BxdYd-lkp@intel.com>
+Subject: Re: [RFC PATCH 2/2] acpi/pci_root: negotiate CXL _OSC
+Date: Thu, 17 Mar 2022 13:48:35 +0800
+Message-ID: <202203171337.1O6VuoTj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7964717214957659440==
+--===============1519992316263187814==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220316114129.2520107-3-ogabbay@kernel.org>
-References: <20220316114129.2520107-3-ogabbay@kernel.org>
-TO: Oded Gabbay <ogabbay@kernel.org>
+In-Reply-To: <20220317002704.1835870-3-vishal.l.verma@intel.com>
+References: <20220317002704.1835870-3-vishal.l.verma@intel.com>
+TO: Vishal Verma <vishal.l.verma@intel.com>
 
-Hi Oded,
+Hi Vishal,
 
-Thank you for the patch! Perhaps something to improve:
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on 74be98774dfbc5b8b795db726bd772e735d2edd4]
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on next-20220316]
-[cannot apply to linux/master linus/master v5.17-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Oded-Gabbay/habanalabs-set=
--non-0-value-in-dram-default-page-size/20220316-194323
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
-t d6cd2f85931f87dbd07c664c9c6e806db1dd7c75
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: riscv-randconfig-c006-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220317/202203171437.0m4BxdYd-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
-3d798f8eab43fb3a91028c6ab04e115fcb)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/9535025e314bc12dbdeebee7c=
-71634699759bcfa
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Oded-Gabbay/habanalabs-set-non-0-v=
-alue-in-dram-default-page-size/20220316-194323
-        git checkout 9535025e314bc12dbdeebee7c71634699759bcfa
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+url:    https://github.com/0day-ci/linux/commits/Vishal-Verma/acpi-add-supp=
+ort-for-CXL-_OSC/20220317-082840
+base:   74be98774dfbc5b8b795db726bd772e735d2edd4
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20317/202203171337.1O6VuoTj-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/acpi/pci_root.c:450 acpi_pci_osc_control_set() error: uninitialized=
+ symbol 'cxl_ctrl'.
+drivers/acpi/pci_root.c:564 calculate_cxl_control() error: uninitialized sy=
+mbol 'control'.
+drivers/acpi/pci_root.c:619 negotiate_os_control() error: uninitialized sym=
+bol 'cxl_support'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 10 warnings (2 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/iio/dac/ad5761.c:63:8: warning: Excessive padding in 'struct ad5=
-761_state' (67 padding bytes, where 3 is optimal). =
+Old smatch warnings:
+drivers/acpi/pci_root.c:453 acpi_pci_osc_control_set() error: uninitialized=
+ symbol 'cxl_ctrl'.
+drivers/acpi/pci_root.c:466 acpi_pci_osc_control_set() error: uninitialized=
+ symbol 'cxl_ctrl'.
+drivers/acpi/pci_root.c:480 acpi_pci_osc_control_set() error: uninitialized=
+ symbol 'cxl_ctrl'.
 
-   Optimal fields order: =
+vim +/cxl_ctrl +450 drivers/acpi/pci_root.c
 
-   data, =
+2f7bbceb5b6aa93 Alexander Chiang           2009-06-10  401  =
 
-   vref, =
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  402  /**
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  403   * acpi_pci_osc=
+_control_set - Request control of PCI root _OSC features.
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  404   * @handle: ACP=
+I handle of a PCI root bridge (or PCIe Root Complex).
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  405   * @mask: Mask =
+of _OSC bits to request control of, place to store control mask.
+843438deebe247f Yang Li                    2021-12-23  406   * @support: _O=
+SC supported capability.
+8020d862c22d52b Vishal Verma               2022-03-16  407   * @cxl_mask: M=
+ask of CXL _OSC control bits, place to store control mask.
+8020d862c22d52b Vishal Verma               2022-03-16  408   * @cxl_support=
+: CXL _OSC supported capability.
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  409   *
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  410   * Run _OSC que=
+ry for @mask and if that is successful, compare the returned
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  411   * mask of cont=
+rol bits with @req.  If all of the @req bits are set in the
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  412   * returned mas=
+k, run _OSC request for it.
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  413   *
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  414   * The variable=
+ at the @mask address may be modified regardless of whether or
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  415   * not the func=
+tion returns success.  On success it will contain the mask of
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  416   * _OSC bits th=
+e BIOS has granted control of, but its contents are meaningless
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  417   * on failure.
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  418   **/
+8020d862c22d52b Vishal Verma               2022-03-16  419  static acpi_sta=
+tus acpi_pci_osc_control_set(acpi_handle handle, u32 *mask,
+8020d862c22d52b Vishal Verma               2022-03-16  420  					    u32 su=
+pport, u32 *cxl_mask,
+8020d862c22d52b Vishal Verma               2022-03-16  421  					    u32 cx=
+l_support)
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  422  {
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  423  	u32 req =3D OS=
+C_PCI_EXPRESS_CAPABILITY_CONTROL;
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  424  	struct acpi_pc=
+i_root *root;
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  425  	acpi_status st=
+atus;
+8020d862c22d52b Vishal Verma               2022-03-16  426  	u32 ctrl, cxl_=
+ctrl, capbuf[8];
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  427  =
 
-   spi, =
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  428  	if (!mask)
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  429  		return AE_BAD=
+_PARAMETER;
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  430  =
 
-   vref_reg, =
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  431  	root =3D acpi_=
+pci_find_root(handle);
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  432  	if (!root)
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  433  		return AE_NOT=
+_EXIST;
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  434  =
 
-   lock, =
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  435  	ctrl   =3D *ma=
+sk;
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  436  	*mask |=3D roo=
+t->osc_control_set;
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  437  =
 
-   range, =
+8020d862c22d52b Vishal Verma               2022-03-16  438  	if (is_cxl(roo=
+t)) {
+8020d862c22d52b Vishal Verma               2022-03-16  439  		cxl_ctrl   =
+=3D *cxl_mask;
+8020d862c22d52b Vishal Verma               2022-03-16  440  		*mask |=3D ro=
+ot->osc_control_set;
+8020d862c22d52b Vishal Verma               2022-03-16  441  	}
+8020d862c22d52b Vishal Verma               2022-03-16  442  =
 
-   use_intref, =
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  443  	/* Need to che=
+ck the available controls bits before requesting them. */
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  444  	do {
+8020d862c22d52b Vishal Verma               2022-03-16  445  		status =3D ac=
+pi_pci_query_osc(root, support, mask, cxl_support,
+8020d862c22d52b Vishal Verma               2022-03-16  446  					    cxl_ma=
+sk);
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  447  		if (ACPI_FAIL=
+URE(status))
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  448  			return statu=
+s;
+8020d862c22d52b Vishal Verma               2022-03-16  449  		if (is_cxl(ro=
+ot)) {
+8020d862c22d52b Vishal Verma               2022-03-16 @450  			if ((ctrl =
+=3D=3D *mask) && (cxl_ctrl =3D=3D *cxl_mask))
+8020d862c22d52b Vishal Verma               2022-03-16  451  				break;
+8020d862c22d52b Vishal Verma               2022-03-16  452  			decode_cxl_o=
+sc_control(root, "platform does not support",
+8020d862c22d52b Vishal Verma               2022-03-16  453  					   cxl_ctr=
+l & ~(*cxl_mask));
+8020d862c22d52b Vishal Verma               2022-03-16  454  		} else {
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  455  			if (ctrl =3D=
+=3D *mask)
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  456  				break;
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  457  			decode_osc_c=
+ontrol(root, "platform does not support",
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  458  					   ctrl & =
+~(*mask));
+8020d862c22d52b Vishal Verma               2022-03-16  459  		}
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  460  		ctrl =3D *mas=
+k;
+8020d862c22d52b Vishal Verma               2022-03-16  461  		cxl_ctrl =3D =
+*cxl_mask;
+8020d862c22d52b Vishal Verma               2022-03-16  462  	} while (*mask=
+ || *cxl_mask);
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  463  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad5761_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/dac/ad5761.c:63:8: note: Excessive padding in 'struct ad5761=
-_state' (67 padding bytes, where 3 is optimal). Optimal fields order: data,=
- vref, spi, vref_reg, lock, range, use_intref, consider reordering the fiel=
-ds or adding explicit padding members
-   struct ad5761_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/misc/genwqe/card_base.c:522:3: warning: Value stored to 'err' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/misc/genwqe/card_base.c:522:3: note: Value stored to 'err' is ne=
-ver read
-                   err =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/misc/genwqe/card_base.c:921:3: warning: Value stored to 'rc' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   rc =3D wait_event_interruptible_timeout(cd->health_waitq,
-                   ^
-   drivers/misc/genwqe/card_base.c:921:3: note: Value stored to 'rc' is nev=
-er read
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
->> drivers/misc/habanalabs/common/mmu/mmu.c:220:2: warning: Value stored to=
- 'prop' is never read [clang-analyzer-deadcode.DeadStores]
-           prop =3D &hdev->asic_prop;
-           ^      ~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/mmu/mmu.c:220:2: note: Value stored to 'p=
-rop' is never read
-           prop =3D &hdev->asic_prop;
-           ^      ~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/mmu/mmu.c:287:2: warning: Value stored to=
- 'prop' is never read [clang-analyzer-deadcode.DeadStores]
-           prop =3D &hdev->asic_prop;
-           ^      ~~~~~~~~~~~~~~~~
-   drivers/misc/habanalabs/common/mmu/mmu.c:287:2: note: Value stored to 'p=
-rop' is never read
-           prop =3D &hdev->asic_prop;
-           ^      ~~~~~~~~~~~~~~~~
-   Suppressed 11 warnings (2 in non-user code, 9 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/misc/habanalabs/common/mmu/mmu_v1.c:381:2: warning: Value stored=
- to 'hop2_pte_addr' is never read [clang-analyzer-deadcode.DeadStores]
-           hop2_pte_addr =3D hop2_addr;
-           ^               ~~~~~~~~~
-   drivers/misc/habanalabs/common/mmu/mmu_v1.c:381:2: note: Value stored to=
- 'hop2_pte_addr' is never read
-           hop2_pte_addr =3D hop2_addr;
-           ^               ~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/iio/frequency/ad9523.c:266:8: warning: Excessive padding in 'str=
-uct ad9523_state' (110 padding bytes, where 46 is optimal). =
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  464  	/* No need to =
+request _OSC if the control was already granted. */
+8020d862c22d52b Vishal Verma               2022-03-16  465  	if (((root->os=
+c_control_set & ctrl) =3D=3D ctrl) &&
+8020d862c22d52b Vishal Verma               2022-03-16  466  	    ((root->cx=
+l_osc_control_set & cxl_ctrl) =3D=3D cxl_ctrl))
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  467  		return AE_OK;
+2b8fd9186d9275b Rafael J. Wysocki          2010-08-23  468  =
 
-   Optimal fields order: =
+75fb60f26befb59 Rafael J. Wysocki          2010-08-23  469  	if ((ctrl & re=
+q) !=3D req) {
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  470  		decode_osc_co=
+ntrol(root, "not requesting control; platform does not support",
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  471  				   req & ~(=
+ctrl));
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  472  		return AE_SUP=
+PORT;
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  473  	}
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  474  =
 
-   data, =
+b938a229c85a567 Bjorn Helgaas              2013-09-05  475  	capbuf[OSC_QUE=
+RY_DWORD] =3D 0;
+b938a229c85a567 Bjorn Helgaas              2013-09-05  476  	capbuf[OSC_SUP=
+PORT_DWORD] =3D root->osc_support_set;
+b938a229c85a567 Bjorn Helgaas              2013-09-05  477  	capbuf[OSC_CON=
+TROL_DWORD] =3D ctrl;
+8020d862c22d52b Vishal Verma               2022-03-16  478  	if (is_cxl(roo=
+t)) {
+8020d862c22d52b Vishal Verma               2022-03-16  479  		capbuf[OSC_CX=
+L_SUPPORT_DWORD] =3D root->cxl_osc_support_set;
+8020d862c22d52b Vishal Verma               2022-03-16  480  		capbuf[OSC_CX=
+L_CONTROL_DWORD] =3D cxl_ctrl;
+8020d862c22d52b Vishal Verma               2022-03-16  481  	}
+8020d862c22d52b Vishal Verma               2022-03-16  482  =
 
-   spi, =
+8020d862c22d52b Vishal Verma               2022-03-16  483  	status =3D acp=
+i_pci_run_osc(root, capbuf, mask, cxl_mask);
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  484  	if (ACPI_FAILU=
+RE(status))
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  485  		return status;
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  486  =
 
-   reg, =
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  487  	root->osc_cont=
+rol_set =3D *mask;
+8020d862c22d52b Vishal Verma               2022-03-16  488  	root->cxl_osc_=
+control_set =3D *cxl_mask;
+866e61fc40c96e7 Bjorn Helgaas              2020-06-02  489  	return AE_OK;
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  490  }
+63f10f0f6df4e4e Kenji Kaneshige            2009-02-09  491  =
 
-   pdata, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  492  static u32 calc=
+ulate_support(void)
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  493  {
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  494  	u32 support;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  495  =
 
-   pwrdown_gpio, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  496  	/*
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  497  	 * All support=
+ed architectures that use ACPI have support for
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  498  	 * PCI domains=
+, so we indicate this in _OSC support capabilities.
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  499  	 */
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  500  	support =3D OS=
+C_PCI_SEGMENT_GROUPS_SUPPORT;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  501  	support |=3D O=
+SC_PCI_HPX_TYPE_3_SUPPORT;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  502  	if (pci_ext_cf=
+g_avail())
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  503  		support |=3D =
+OSC_PCI_EXT_CONFIG_SUPPORT;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  504  	if (pcie_aspm_=
+support_enabled())
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  505  		support |=3D =
+OSC_PCI_ASPM_SUPPORT | OSC_PCI_CLOCK_PM_SUPPORT;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  506  	if (pci_msi_en=
+abled())
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  507  		support |=3D =
+OSC_PCI_MSI_SUPPORT;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  508  	if (IS_ENABLED=
+(CONFIG_PCIE_EDR))
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  509  		support |=3D =
+OSC_PCI_EDR_SUPPORT;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  510  =
 
-   reset_gpio, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  511  	return support;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  512  }
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  513  =
 
-   sync_gpio, =
+8020d862c22d52b Vishal Verma               2022-03-16  514  static u32 calc=
+ulate_cxl_support(void)
+8020d862c22d52b Vishal Verma               2022-03-16  515  {
+8020d862c22d52b Vishal Verma               2022-03-16  516  	u32 support;
+8020d862c22d52b Vishal Verma               2022-03-16  517  =
 
-   vcxo_freq, =
+8020d862c22d52b Vishal Verma               2022-03-16  518  	support =3D OS=
+C_CXL_2_0_PORT_DEV_REG_ACCESS_SUPPORT;
+8020d862c22d52b Vishal Verma               2022-03-16  519  	support |=3D O=
+SC_CXL_PER_SUPPORT;
+8020d862c22d52b Vishal Verma               2022-03-16  520  	if (IS_ENABLED=
+(CONFIG_HOTPLUG_PCI_PCIE))
+8020d862c22d52b Vishal Verma               2022-03-16  521  		support |=3D =
+OSC_CXL_NATIVE_HP_SUPPORT;
+8020d862c22d52b Vishal Verma               2022-03-16  522  =
 
-   vco_freq, =
+8020d862c22d52b Vishal Verma               2022-03-16  523  	return support;
+8020d862c22d52b Vishal Verma               2022-03-16  524  }
+8020d862c22d52b Vishal Verma               2022-03-16  525  =
 
-   vco_out_freq, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  526  static u32 calc=
+ulate_control(void)
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  527  {
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  528  	u32 control;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  529  =
 
-   lock, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  530  	control =3D OS=
+C_PCI_EXPRESS_CAPABILITY_CONTROL
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  531  		| OSC_PCI_EXP=
+RESS_PME_CONTROL;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  532  =
 
-   ad9523_channels, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  533  	if (IS_ENABLED=
+(CONFIG_PCIEASPM))
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  534  		control |=3D =
+OSC_PCI_EXPRESS_LTR_CONTROL;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  535  =
 
-   vco_out_map, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  536  	if (IS_ENABLED=
+(CONFIG_HOTPLUG_PCI_PCIE))
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  537  		control |=3D =
+OSC_PCI_EXPRESS_NATIVE_HP_CONTROL;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  538  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad9523_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/frequency/ad9523.c:266:8: note: Excessive padding in 'struct=
- ad9523_state' (110 padding bytes, where 46 is optimal). Optimal fields ord=
-er: data, spi, reg, pdata, pwrdown_gpio, reset_gpio, sync_gpio, vcxo_freq, =
-vco_freq, vco_out_freq, lock, ad9523_channels, vco_out_map, consider reorde=
-ring the fields or adding explicit padding members
-   struct ad9523_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/iio/frequency/adf4350.c:33:8: warning: Excessive padding in 'str=
-uct adf4350_state' (100 padding bytes, where 36 is optimal). =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  539  	if (IS_ENABLED=
+(CONFIG_HOTPLUG_PCI_SHPC))
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  540  		control |=3D =
+OSC_PCI_SHPC_NATIVE_HP_CONTROL;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  541  =
 
-   Optimal fields order: =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  542  	if (pci_aer_av=
+ailable())
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  543  		control |=3D =
+OSC_PCI_EXPRESS_AER_CONTROL;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  544  =
 
-   val, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  545  	/*
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  546  	 * Per the Dow=
+nstream Port Containment Related Enhancements ECN to
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  547  	 * the PCI Fir=
+mware Spec, r3.2, sec 4.5.1, table 4-5,
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  548  	 * OSC_PCI_EXP=
+RESS_DPC_CONTROL indicates the OS supports both DPC
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  549  	 * and EDR.
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  550  	 */
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  551  	if (IS_ENABLED=
+(CONFIG_PCIE_DPC) && IS_ENABLED(CONFIG_PCIE_EDR))
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  552  		control |=3D =
+OSC_PCI_EXPRESS_DPC_CONTROL;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  553  =
 
-   r0_fract, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  554  	return control;
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  555  }
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  556  =
 
-   spi, =
+8020d862c22d52b Vishal Verma               2022-03-16  557  static u32 calc=
+ulate_cxl_control(void)
+8020d862c22d52b Vishal Verma               2022-03-16  558  {
+8020d862c22d52b Vishal Verma               2022-03-16  559  	u32 control;
+8020d862c22d52b Vishal Verma               2022-03-16  560  =
 
-   reg, =
+8020d862c22d52b Vishal Verma               2022-03-16  561  	if (pci_aer_av=
+ailable())
+8020d862c22d52b Vishal Verma               2022-03-16  562  		control |=3D =
+OSC_CXL_ERROR_REPORTING_CONTROL;
+8020d862c22d52b Vishal Verma               2022-03-16  563  =
 
-   lock_detect_gpiod, =
+8020d862c22d52b Vishal Verma               2022-03-16 @564  	return control;
+8020d862c22d52b Vishal Verma               2022-03-16  565  }
+8020d862c22d52b Vishal Verma               2022-03-16  566  =
 
-   pdata, =
+87f1f87a16818c3 Joerg Roedel               2021-08-24  567  static bool os_=
+control_query_checks(struct acpi_pci_root *root, u32 support)
+87f1f87a16818c3 Joerg Roedel               2021-08-24  568  {
+87f1f87a16818c3 Joerg Roedel               2021-08-24  569  	struct acpi_de=
+vice *device =3D root->device;
+87f1f87a16818c3 Joerg Roedel               2021-08-24  570  =
 
-   clk, =
+87f1f87a16818c3 Joerg Roedel               2021-08-24  571  	if (pcie_ports=
+_disabled) {
+87f1f87a16818c3 Joerg Roedel               2021-08-24  572  		dev_info(&dev=
+ice->dev, "PCIe port services disabled; not requesting _OSC control\n");
+87f1f87a16818c3 Joerg Roedel               2021-08-24  573  		return false;
+87f1f87a16818c3 Joerg Roedel               2021-08-24  574  	}
+87f1f87a16818c3 Joerg Roedel               2021-08-24  575  =
 
-   clkin, =
+87f1f87a16818c3 Joerg Roedel               2021-08-24  576  	if ((support &=
+ ACPI_PCIE_REQ_SUPPORT) !=3D ACPI_PCIE_REQ_SUPPORT) {
+87f1f87a16818c3 Joerg Roedel               2021-08-24  577  		decode_osc_su=
+pport(root, "not requesting OS control; OS requires",
+87f1f87a16818c3 Joerg Roedel               2021-08-24  578  				   ACPI_PCI=
+E_REQ_SUPPORT);
+87f1f87a16818c3 Joerg Roedel               2021-08-24  579  		return false;
+87f1f87a16818c3 Joerg Roedel               2021-08-24  580  	}
+87f1f87a16818c3 Joerg Roedel               2021-08-24  581  =
 
-   chspc, =
+87f1f87a16818c3 Joerg Roedel               2021-08-24  582  	return true;
+87f1f87a16818c3 Joerg Roedel               2021-08-24  583  }
+87f1f87a16818c3 Joerg Roedel               2021-08-24  584  =
 
-   fpfd, =
+53da48751c13ffc Dan Williams               2022-03-16  585  static void neg=
+otiate_os_control(struct acpi_pci_root *root, int *no_aspm)
+^1da177e4c3f415 Linus Torvalds             2005-04-16  586  {
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  587  	u32 support, c=
+ontrol =3D 0, requested =3D 0;
+8020d862c22d52b Vishal Verma               2022-03-16  588  	u32 cxl_suppor=
+t, cxl_control =3D 0, cxl_requested =3D 0;
+3e43abb012d45dc Bjorn Helgaas              2013-09-05  589  	acpi_status st=
+atus;
+3e43abb012d45dc Bjorn Helgaas              2013-09-05  590  	struct acpi_de=
+vice *device =3D root->device;
+bfe2414aecca03d Jiang Liu                  2013-05-28  591  	acpi_handle ha=
+ndle =3D device->handle;
+^1da177e4c3f415 Linus Torvalds             2005-04-16  592  =
 
-   min_out_freq, =
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  593  	/*
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  594  	 * Apple alway=
+s return failure on _OSC calls when _OSI("Darwin") has
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  595  	 * been called=
+ successfully. We know the feature set supported by the
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  596  	 * platform, s=
+o avoid calling _OSC at all
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  597  	 */
+630b3aff8a51c90 Lukas Wunner               2017-08-01  598  	if (x86_apple_=
+machine) {
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  599  		root->osc_con=
+trol_set =3D ~OSC_PCI_EXPRESS_PME_CONTROL;
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  600  		decode_osc_co=
+ntrol(root, "OS assumes control of",
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  601  				   root->os=
+c_control_set);
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  602  		return;
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  603  	}
+7bc5a2bad0b8d9d Matthew Garrett            2014-09-20  604  =
 
-   freq_req, =
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  605  	support =3D ca=
+lculate_support();
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  606  =
 
-   regs, =
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  607  	decode_osc_sup=
+port(root, "OS supports", support);
+de18966228ed4b4 Bjorn Helgaas              2013-09-05  608  =
 
-   regs_hw, =
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  609  	if (os_control=
+_query_checks(root, support))
+4c6f6060b7c4fe0 Joerg Roedel               2021-08-24  610  		requested =3D=
+ control =3D calculate_control();
+ac1c8e35a3262d0 Kuppuswamy Sathyanarayanan 2020-03-23  611  =
 
-   lock, =
+8020d862c22d52b Vishal Verma               2022-03-16  612  	if (is_cxl(roo=
+t)) {
+8020d862c22d52b Vishal Verma               2022-03-16  613  		cxl_support =
+=3D calculate_cxl_support();
+8020d862c22d52b Vishal Verma               2022-03-16  614  		decode_cxl_os=
+c_support(root, "OS supports", cxl_support);
+8020d862c22d52b Vishal Verma               2022-03-16  615  		cxl_requested=
+ =3D cxl_control =3D calculate_cxl_control();
+8020d862c22d52b Vishal Verma               2022-03-16  616  	}
+8020d862c22d52b Vishal Verma               2022-03-16  617  =
 
-   r0_int, =
+8020d862c22d52b Vishal Verma               2022-03-16  618  	status =3D acp=
+i_pci_osc_control_set(handle, &control, support,
+8020d862c22d52b Vishal Verma               2022-03-16 @619  					  &cxl_con=
+trol, cxl_support);
+eca67315e0e0d5f Naga Chumbalkar            2011-03-21  620  	if (ACPI_SUCCE=
+SS(status)) {
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  621  		if (control)
+955f14b4ed0648d Bjorn Helgaas              2013-09-05  622  			decode_osc_c=
+ontrol(root, "OS now controls", control);
+8020d862c22d52b Vishal Verma               2022-03-16  623  		if (cxl_contr=
+ol)
+8020d862c22d52b Vishal Verma               2022-03-16  624  			decode_cxl_o=
+sc_control(root, "OS now controls",
+8020d862c22d52b Vishal Verma               2022-03-16  625  					   cxl_con=
+trol);
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  626  =
 
-   r1_mod, =
+b8178f130e25c1b Bjorn Helgaas              2013-04-01  627  		if (acpi_gbl_=
+FADT.boot_flags & ACPI_FADT_NO_ASPM) {
+b8178f130e25c1b Bjorn Helgaas              2013-04-01  628  			/*
+387d37577fdd05e Matthew Garrett            2015-04-07  629  			 * We have A=
+SPM control, but the FADT indicates that
+387d37577fdd05e Matthew Garrett            2015-04-07  630  			 * it's unsu=
+pported. Leave existing configuration
+387d37577fdd05e Matthew Garrett            2015-04-07  631  			 * intact an=
+d prevent the OS from touching it.
+b8178f130e25c1b Bjorn Helgaas              2013-04-01  632  			 */
+387d37577fdd05e Matthew Garrett            2015-04-07  633  			dev_info(&de=
+vice->dev, "FADT indicates ASPM is unsupported, using BIOS configuration\n"=
+);
+387d37577fdd05e Matthew Garrett            2015-04-07  634  			*no_aspm =3D=
+ 1;
+b8178f130e25c1b Bjorn Helgaas              2013-04-01  635  		}
+eca67315e0e0d5f Naga Chumbalkar            2011-03-21  636  	} else {
+3dc48af310709b8 Neil Horman                2013-08-29  637  		/*
+3dc48af310709b8 Neil Horman                2013-08-29  638  		 * We want to=
+ disable ASPM here, but aspm_disabled
+3dc48af310709b8 Neil Horman                2013-08-29  639  		 * needs to r=
+emain in its state from boot so that we
+3dc48af310709b8 Neil Horman                2013-08-29  640  		 * properly h=
+andle PCIe 1.1 devices.  So we set this
+3dc48af310709b8 Neil Horman                2013-08-29  641  		 * flag here,=
+ to defer the action until after the ACPI
+3dc48af310709b8 Neil Horman                2013-08-29  642  		 * root scan.
+3dc48af310709b8 Neil Horman                2013-08-29  643  		 */
+3e43abb012d45dc Bjorn Helgaas              2013-09-05  644  		*no_aspm =3D =
+1;
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  645  =
 
-   r4_rf_div_sel, =
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  646  		/* _OSC is op=
+tional for PCI host bridges */
+53da48751c13ffc Dan Williams               2022-03-16  647  		if ((status =
+=3D=3D AE_NOT_FOUND) && !is_pcie(root))
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  648  			return;
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  649  =
 
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  650  		if (control) {
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  651  			decode_osc_c=
+ontrol(root, "OS requested", requested);
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  652  			decode_osc_c=
+ontrol(root, "platform willing to grant", control);
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  653  		}
+8020d862c22d52b Vishal Verma               2022-03-16  654  		if (cxl_contr=
+ol) {
+8020d862c22d52b Vishal Verma               2022-03-16  655  			decode_cxl_o=
+sc_control(root, "OS requested", cxl_requested);
+8020d862c22d52b Vishal Verma               2022-03-16  656  			decode_cxl_o=
+sc_control(root, "platform willing to grant",
+8020d862c22d52b Vishal Verma               2022-03-16  657  					   cxl_con=
+trol);
+8020d862c22d52b Vishal Verma               2022-03-16  658  		}
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  659  =
 
-vim +/prop +220 drivers/misc/habanalabs/common/mmu/mmu.c
-
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  184  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  185  /*
-5c05487f155093 drivers/misc/habanalabs/common/mmu.c     Ofir Bitton    2020=
--10-22  186   * hl_mmu_unmap_page - unmaps a virtual addr
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  187   *
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  188   * @ctx: pointer to the context structure
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  189   * @virt_addr: virt addr to map from
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  190   * @page_size: size of the page to unmap
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  191   * @flush_pte: whether to do a PCI flush
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  192   *
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  193   * This function does the following:
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  194   * - Check that the virt addr is mapped
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  195   * - Unmap the virt addr and frees pgts if possible
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  196   * - Returns 0 on success, -EINVAL if the given addr is not ma=
-pped
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  197   *
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  198   * Because this function changes the page tables in the device=
- and because it
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  199   * changes the MMU hash, it must be protected by a lock.
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  200   * However, because it maps only a single page, the lock shoul=
-d be implemented
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  201   * in a higher level in order to protect the entire mapping of=
- the memory area
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  202   *
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  203   * For optimization reasons PCI flush may be requested once af=
-ter unmapping of
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  204   * large area.
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  205   */
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  206  int hl_mmu_unmap_page(struct hl_ctx *ctx, u64 virt_addr, u32 p=
-age_size, bool flush_pte)
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  207  {
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  208  	struct hl_device *hdev =3D ctx->hdev;
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  209  	struct asic_fixed_properties *prop;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  210  	struct hl_mmu_properties *mmu_prop;
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  211  	struct hl_mmu_funcs *mmu_funcs;
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  212  	int i, pgt_residency, rc =3D 0;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  213  	u32 real_page_size, npages;
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  214  	u64 real_virt_addr;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  215  	bool is_dram_addr;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  216  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  217  	if (!hdev->mmu_enable)
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  218  		return 0;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  219  =
-
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16 @220  	prop =3D &hdev->asic_prop;
-9488307a555925 drivers/misc/habanalabs/common/mmu.c     Oded Gabbay    2021=
--01-11  221  	is_dram_addr =3D hl_is_dram_va(hdev, virt_addr);
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  222  	mmu_prop =3D hl_mmu_get_prop(hdev, page_size, is_dram_addr);
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  223  =
-
-ccf979ee330b19 drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--10-05  224  	pgt_residency =3D mmu_prop->host_resident ? MMU_HR_PGT : MMU_=
-DR_PGT;
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  225  	mmu_funcs =3D hl_mmu_get_funcs(hdev, pgt_residency, is_dram_a=
-ddr);
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  226  =
-
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  227  	rc =3D hdev->asic_funcs->mmu_get_real_page_size(hdev, mmu_pro=
-p, page_size, &real_page_size,
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  228  							is_dram_addr);
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  229  	if (rc)
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  230  		return rc;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  231  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  232  	npages =3D page_size / real_page_size;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  233  	real_virt_addr =3D virt_addr;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  234  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  235  	for (i =3D 0 ; i < npages ; i++) {
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  236  		rc =3D mmu_funcs->unmap(ctx, real_virt_addr, is_dram_addr);
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  237  		if (rc)
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  238  			break;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  239  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  240  		real_virt_addr +=3D real_page_size;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  241  	}
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  242  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  243  	if (flush_pte)
-9535025e314bc1 drivers/misc/habanalabs/common/mmu/mmu.c Ohad Sharabi   2022=
--03-16  244  		mmu_funcs->flush(ctx);
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  245  =
-
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  246  	return rc;
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  247  }
-d83fe66928b2ff drivers/misc/habanalabs/common/mmu.c     Moti Haimovski 2020=
--08-12  248  =
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  660  		dev_info(&dev=
+ice->dev, "_OSC: platform retains control of PCIe features (%s)\n",
+6bc779ee05d4fa6 Joerg Roedel               2021-08-24  661  			 acpi_format=
+_exception(status));
+eca67315e0e0d5f Naga Chumbalkar            2011-03-21  662  	}
+3e43abb012d45dc Bjorn Helgaas              2013-09-05  663  }
+3e43abb012d45dc Bjorn Helgaas              2013-09-05  664  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7964717214957659440==--
+--===============1519992316263187814==--
 
