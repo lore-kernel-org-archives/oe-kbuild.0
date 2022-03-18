@@ -1,118 +1,703 @@
-Content-Type: multipart/mixed; boundary="===============1197310546365155234=="
+Content-Type: multipart/mixed; boundary="===============8262340195279914597=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/codecs/cs35l41.c:1103:60: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Tue, 15 Mar 2022 22:36:57 +0800
-Message-ID: <202203152258.nCo1I8qU-lkp@intel.com>
+Subject: [linux-next:master 12075/13576] drivers/media/platform/chips-media/coda-common.c:478:38: warning: Array access (from variable 'formats') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Sat, 19 Mar 2022 04:08:26 +0800
+Message-ID: <202203190414.BjtXaFht-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1197310546365155234==
+--===============8262340195279914597==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Charles Keepax <ckeepax@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   09688c0166e76ce2fb85e86b9d99be8b0084cdf9
-commit: fe1024d50477becf35128f3ef03bf3525a2cd140 ASoC: cs35l41: Combine adj=
-acent register writes
-date:   6 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   6d72dda014a4753974eb08950089ddf71fec4f60
+commit: bfc08fd88e458b98c7c771e4eeb5df3fd4e42feb [12075/13576] media: platf=
+orm: rename coda/ to chips-media/
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-c006-20220317 (https://download.01.org/0day-ci/arc=
+hive/20220319/202203190414.BjtXaFht-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
+3d798f8eab43fb3a91028c6ab04e115fcb)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dbfc08fd88e458b98c7c771e4eeb5df3fd4e42feb
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout bfc08fd88e458b98c7c771e4eeb5df3fd4e42feb
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/fuse/dev.c:1676:8: note: '?' condition is false
+           num =3D min(outarg->size, fc->max_write);
+                 ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/fuse/dev.c:1677:6: note: Assuming 'file_size' is >=3D field 'offset'
+           if (outarg->offset > file_size)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev.c:1677:2: note: Taking false branch
+           if (outarg->offset > file_size)
+           ^
+   fs/fuse/dev.c:1679:11: note: Assuming the condition is false
+           else if (outarg->offset + num > file_size)
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev.c:1679:7: note: Taking false branch
+           else if (outarg->offset + num > file_size)
+                ^
+   fs/fuse/dev.c:1683:14: note: Assuming '__UNIQUE_ID___x266' is >=3D '__UN=
+IQUE_ID___y267'
+           num_pages =3D min(num_pages, fc->max_pages);
+                       ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/fuse/dev.c:1683:14: note: '?' condition is false
+           num_pages =3D min(num_pages, fc->max_pages);
+                       ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/fuse/dev.c:1687:7: note: Calling 'kzalloc'
+           ra =3D kzalloc(args_size, GFP_KERNEL);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:715:9: note: Uninitialized value stored to field 'n=
+um_pages'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:715:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev.c:1687:7: note: Returning from 'kzalloc'
+           ra =3D kzalloc(args_size, GFP_KERNEL);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/dev.c:1688:6: note: Assuming 'ra' is non-null
+           if (!ra)
+               ^~~
+   fs/fuse/dev.c:1688:2: note: Taking false branch
+           if (!ra)
+           ^
+   fs/fuse/dev.c:1704:9: note: Assuming 'num' is not equal to 0
+           while (num && ap->num_pages < num_pages) {
+                  ^~~
+   fs/fuse/dev.c:1704:9: note: Left side of '&&' is true
+   fs/fuse/dev.c:1704:30: note: The left operand of '<' is a garbage value
+           while (num && ap->num_pages < num_pages) {
+                         ~~~~~~~~~~~~~ ^
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> drivers/media/platform/chips-media/coda-common.c:478:38: warning: Array =
+access (from variable 'formats') results in a null pointer dereference [cla=
+ng-analyzer-core.NullDereference]
+           if (f->index >=3D CODA_MAX_FORMATS || formats[f->index] =3D=3D 0)
+                                               ^~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:448:6: note: Assuming f=
+ield 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT
+           if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:448:2: note: Taking tru=
+e branch
+           if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+           ^
+   drivers/media/platform/chips-media/coda-common.c:449:3: note: Null point=
+er value stored to 'formats'
+                   formats =3D cvd->src_formats;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:478:6: note: Assuming f=
+ield 'index' is < CODA_MAX_FORMATS
+           if (f->index >=3D CODA_MAX_FORMATS || formats[f->index] =3D=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:478:6: note: Left side =
+of '||' is false
+   drivers/media/platform/chips-media/coda-common.c:478:38: note: Array acc=
+ess (from variable 'formats') results in a null pointer dereference
+           if (f->index >=3D CODA_MAX_FORMATS || formats[f->index] =3D=3D 0)
+                                               ^~~~~~~
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   drivers/media/platform/chips-media/coda-common.c:2117:9: note: Assuming =
+field 'streamon_out' is not equal to 0
+           stop =3D ctx->streamon_out && ctx->streamon_cap;
+                  ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:2117:9: note: Left side=
+ of '&&' is true
+   drivers/media/platform/chips-media/coda-common.c:2119:2: note: Assuming =
+'coda_debug' is < 1
+           coda_dbg(1, ctx, "stop streaming %s\n", v4l2_type_names[q->type]=
+);
+           ^
+   drivers/media/platform/chips-media/coda.h:300:7: note: expanded from mac=
+ro 'coda_dbg'
+                   if (coda_debug >=3D (level))                            =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:2119:2: note: Taking fa=
+lse branch
+           coda_dbg(1, ctx, "stop streaming %s\n", v4l2_type_names[q->type]=
+);
+           ^
+   drivers/media/platform/chips-media/coda.h:300:3: note: expanded from mac=
+ro 'coda_dbg'
+                   if (coda_debug >=3D (level))                            =
+  \
+                   ^
+   drivers/media/platform/chips-media/coda-common.c:2119:2: note: Loop cond=
+ition is false.  Exiting loop
+           coda_dbg(1, ctx, "stop streaming %s\n", v4l2_type_names[q->type]=
+);
+           ^
+   drivers/media/platform/chips-media/coda.h:299:2: note: expanded from mac=
+ro 'coda_dbg'
+           do {                                                            \
+           ^
+   drivers/media/platform/chips-media/coda-common.c:2121:6: note: Assuming =
+field 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT
+           if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:2121:2: note: Taking tr=
+ue branch
+           if (q->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT) {
+           ^
+   drivers/media/platform/chips-media/coda-common.c:2128:3: note: Loop cond=
+ition is false. Execution continues on line 2140
+                   while ((buf =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx)=
+))
+                   ^
+   drivers/media/platform/chips-media/coda-common.c:2140:6: note: Assuming =
+'stop' is true
+           if (stop) {
+               ^~~~
+   drivers/media/platform/chips-media/coda-common.c:2140:2: note: Taking tr=
+ue branch
+           if (stop) {
+           ^
+   drivers/media/platform/chips-media/coda-common.c:2143:7: note: Assuming =
+field 'seq_end_work' is null
+                   if (ctx->ops->seq_end_work) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:2143:3: note: Taking fa=
+lse branch
+                   if (ctx->ops->seq_end_work) {
+                   ^
+   drivers/media/platform/chips-media/coda-common.c:2148:3: note: Loop cond=
+ition is true.  Entering loop body
+                   while (!list_empty(&ctx->buffer_meta_list)) {
+                   ^
+   drivers/media/platform/chips-media/coda-common.c:2152:4: note: Memory is=
+ released
+                           kfree(meta);
+                           ^~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:2148:3: note: Loop cond=
+ition is true.  Entering loop body
+                   while (!list_empty(&ctx->buffer_meta_list)) {
+                   ^
+   drivers/media/platform/chips-media/coda-common.c:2151:4: note: Calling '=
+list_del'
+                           list_del(&meta->list);
+                           ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:6: note: Assuming the condition is false
+           if (!__list_del_entry_valid(entry))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           entry->next =3D LIST_POISON1;
+                       ^
+   drivers/media/platform/chips-media/coda-common.c:2117:9: note: Assuming =
+field 'streamon_out' is not equal to 0
+           stop =3D ctx->streamon_out && ctx->streamon_cap;
+                  ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-common.c:2117:9: note: Left side=
+ of '&&' is true
+   drivers/media/platform/chips-media/coda-common.c:2119:2: note: Assuming =
+'coda_debug' is < 1
+           coda_dbg(1, ctx, "stop streaming %s\n", v4l2_type_names[q->type]=
+);
+           ^
+   drivers/media/platform/chips-media/coda.h:300:7: note: expanded from mac=
+ro 'coda_dbg'
+                   if (coda_debug >=3D (level))                            =
+  \
+--
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:621:21: note: Value stored to 'c=
+lient' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:895:3: warning: Value stored to =
+'u16tmp' is never read [clang-analyzer-deadcode.DeadStores]
+                   u16tmp =3D 0;
+                   ^        ~
+   drivers/media/dvb-frontends/m88ds3103.c:895:3: note: Value stored to 'u1=
+6tmp' is never read
+                   u16tmp =3D 0;
+                   ^        ~
+   drivers/media/dvb-frontends/m88ds3103.c:1141:21: warning: Value stored t=
+o 'client' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1141:21: note: Value stored to '=
+client' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1180:21: warning: Value stored t=
+o 'client' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1180:21: note: Value stored to '=
+client' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1370:21: warning: Value stored t=
+o 'client' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1370:21: note: Value stored to '=
+client' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1416:21: warning: Value stored t=
+o 'client' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1416:21: note: Value stored to '=
+client' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1466:21: warning: Value stored t=
+o 'client' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1466:21: note: Value stored to '=
+client' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1545:21: warning: Value stored t=
+o 'client' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/m88ds3103.c:1545:21: note: Value stored to '=
+client' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_parse.c:84:3: warning: Valu=
+e stored to 'length' is never read [clang-analyzer-deadcode.DeadStores]
+                   length =3D 0;
+                   ^        ~
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_dec_parse.c:84:3: note: Value s=
+tored to 'length' is never read
+                   length =3D 0;
+                   ^        ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c:419:3: warning: Value=
+ stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D -EBUSY;
+                   ^     ~~~~~~
+   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c:419:3: note: Value st=
+ored to 'ret' is never read
+                   ret =3D -EBUSY;
+                   ^     ~~~~~~
+   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c:429:3: warning: Value=
+ stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D -EBUSY;
+                   ^     ~~~~~~
+   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c:429:3: note: Value st=
+ored to 'ret' is never read
+                   ret =3D -EBUSY;
+                   ^     ~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> drivers/media/platform/chips-media/coda-bit.c:1127:2: warning: Value sto=
+red to 'value' is never read [clang-analyzer-deadcode.DeadStores]
+           value =3D 0;
+           ^       ~
+   drivers/media/platform/chips-media/coda-bit.c:1127:2: note: Value stored=
+ to 'value' is never read
+           value =3D 0;
+           ^       ~
+   include/linux/log2.h:57:13: warning: The result of the left shift is und=
+efined due to shifting by '32', which is greater or equal to the width of t=
+ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << fls_long(n - 1);
+                      ^
+   drivers/media/platform/chips-media/coda-bit.c:1794:6: note: Assuming fie=
+ld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT
+           if (rb->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-bit.c:1794:2: note: Taking false=
+ branch
+           if (rb->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+           ^
+   drivers/media/platform/chips-media/coda-bit.c:1797:6: note: Assuming fie=
+ld 'count' is not equal to 0
+           if (rb->count) {
+               ^~~~~~~~~
+   drivers/media/platform/chips-media/coda-bit.c:1797:2: note: Taking true =
+branch
+           if (rb->count) {
+           ^
+   drivers/media/platform/chips-media/coda-bit.c:1800:7: note: 'ret' is >=
+=3D 0
+                   if (ret < 0)
+                       ^~~
+   drivers/media/platform/chips-media/coda-bit.c:1800:3: note: Taking false=
+ branch
+                   if (ret < 0)
+                   ^
+   drivers/media/platform/chips-media/coda-bit.c:1802:9: note: Calling 'cod=
+a_alloc_bitstream_buffer'
+                   ret =3D coda_alloc_bitstream_buffer(ctx, q_data_src);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-bit.c:1760:6: note: Assuming fie=
+ld 'vaddr' is null
+           if (ctx->bitstream.vaddr)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/chips-media/coda-bit.c:1760:2: note: Taking false=
+ branch
+           if (ctx->bitstream.vaddr)
+           ^
+   drivers/media/platform/chips-media/coda-bit.c:1763:24: note: '?' conditi=
+on is false
+           ctx->bitstream.size =3D roundup_pow_of_two(q_data->sizeimage * 2=
+);
+                                 ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __builtin_constant_p(n) ? (             \
+           ^
+   drivers/media/platform/chips-media/coda-bit.c:1763:24: note: Calling '__=
+roundup_pow_of_two'
+           ctx->bitstream.size =3D roundup_pow_of_two(q_data->sizeimage * 2=
+);
+                                 ^
+   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __roundup_pow_of_two(n)                 \
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:154:2: note: Taking true branch
+           if (sizeof(l) =3D=3D 4)
+           ^
+   include/linux/bitops.h:155:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r =3D 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
+o 0, which participates in a condition later
+           if (!x)
+               ^~
+   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
+           if (!x)
+           ^
+   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
+ded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:155:10: note: Returning from 'fls'
+                   return fls(l);
 
->> sound/soc/codecs/cs35l41.c:1103:60: warning: Boolean result is used in b=
-itwise operation. Clarify expression with parentheses. [clarifyCondition]
-         irq_gpio_cfg1->irq_pol_inv << CS35L41_GPIO_POL_SHIFT |
-                                                              ^
-   sound/soc/codecs/cs35l41.c:1108:60: warning: Boolean result is used in b=
-itwise operation. Clarify expression with parentheses. [clarifyCondition]
-         irq_gpio_cfg1->irq_pol_inv << CS35L41_GPIO_POL_SHIFT |
-                                                              ^
+vim +/formats +478 drivers/media/platform/chips-media/coda-common.c
 
-vim +1103 sound/soc/codecs/cs35l41.c
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  439  =
 
-6450ef55905688 David Rhodes   2021-09-07  1094  =
+22e244b813ddd9a drivers/media/platform/coda.c             Philipp Zabel 201=
+4-07-18  440  static int coda_enum_fmt(struct file *file, void *priv,
+22e244b813ddd9a drivers/media/platform/coda.c             Philipp Zabel 201=
+4-07-18  441  			 struct v4l2_fmtdesc *f)
+186b250a0725377 drivers/media/video/coda.c                Javier Martin 201=
+2-07-26  442  {
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  443  	struct video_device *vdev =3D video_devdata(file);
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  444  	const struct coda_video_device *cvd =3D to_coda_video_device=
+(vdev);
+9d826ce8122fc63 drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+7-04-06  445  	struct coda_ctx *ctx =3D fh_to_ctx(priv);
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  446  	const u32 *formats;
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  447  =
 
-6450ef55905688 David Rhodes   2021-09-07  1095  static int cs35l41_irq_gpio=
-_config(struct cs35l41_private *cs35l41)
-6450ef55905688 David Rhodes   2021-09-07  1096  {
-6450ef55905688 David Rhodes   2021-09-07  1097  	struct cs35l41_irq_cfg *ir=
-q_gpio_cfg1 =3D &cs35l41->pdata.irq_config1;
-6450ef55905688 David Rhodes   2021-09-07  1098  	struct cs35l41_irq_cfg *ir=
-q_gpio_cfg2 =3D &cs35l41->pdata.irq_config2;
-6450ef55905688 David Rhodes   2021-09-07  1099  	int irq_pol =3D IRQF_TRIGG=
-ER_NONE;
-6450ef55905688 David Rhodes   2021-09-07  1100  =
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  448  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  449  		formats =3D cvd->src_formats;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  450  	else if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  451  		struct coda_q_data *q_data_src;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  452  		struct vb2_queue *src_vq;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  453  =
 
-fe1024d50477be Charles Keepax 2021-09-14  1101  	regmap_update_bits(cs35l41=
-->regmap, CS35L41_GPIO1_CTRL1,
-fe1024d50477be Charles Keepax 2021-09-14  1102  			   CS35L41_GPIO_POL_MASK=
- | CS35L41_GPIO_DIR_MASK,
-fe1024d50477be Charles Keepax 2021-09-14 @1103  			   irq_gpio_cfg1->irq_po=
-l_inv << CS35L41_GPIO_POL_SHIFT |
-fe1024d50477be Charles Keepax 2021-09-14  1104  			   !irq_gpio_cfg1->irq_o=
-ut_en << CS35L41_GPIO_DIR_SHIFT);
-fe1024d50477be Charles Keepax 2021-09-14  1105  =
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  454  		formats =3D cvd->dst_formats;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  455  =
 
-fe1024d50477be Charles Keepax 2021-09-14  1106  	regmap_update_bits(cs35l41=
-->regmap, CS35L41_GPIO2_CTRL1,
-fe1024d50477be Charles Keepax 2021-09-14  1107  			   CS35L41_GPIO_POL_MASK=
- | CS35L41_GPIO_DIR_MASK,
-fe1024d50477be Charles Keepax 2021-09-14  1108  			   irq_gpio_cfg1->irq_po=
-l_inv << CS35L41_GPIO_POL_SHIFT |
-fe1024d50477be Charles Keepax 2021-09-14  1109  			   !irq_gpio_cfg1->irq_o=
-ut_en << CS35L41_GPIO_DIR_SHIFT);
-fe1024d50477be Charles Keepax 2021-09-14  1110  =
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  456  		/*
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  457  		 * If the source format is already fixed, only allow the sa=
+me
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  458  		 * chroma subsampling.
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  459  		 */
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  460  		q_data_src =3D get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  461  		src_vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  462  					 V4L2_BUF_TYPE_VIDEO_OUTPUT);
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  463  		if (q_data_src->fourcc =3D=3D V4L2_PIX_FMT_JPEG &&
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  464  		    vb2_is_streaming(src_vq)) {
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  465  			if (ctx->params.jpeg_chroma_subsampling =3D=3D
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  466  			    V4L2_JPEG_CHROMA_SUBSAMPLING_420) {
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  467  				formats =3D coda_formats_420;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  468  			} else if (ctx->params.jpeg_chroma_subsampling =3D=3D
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  469  				   V4L2_JPEG_CHROMA_SUBSAMPLING_422) {
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  470  				f->pixelformat =3D V4L2_PIX_FMT_YUV422P;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  471  				return f->index ? -EINVAL : 0;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  472  			}
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  473  		}
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  474  	} else {
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  475  		return -EINVAL;
+12310819a26aa56 drivers/media/platform/coda/coda-common.c Philipp Zabel 202=
+0-03-18  476  	}
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  477  =
 
-fe1024d50477be Charles Keepax 2021-09-14  1111  	regmap_update_bits(cs35l41=
-->regmap, CS35L41_GPIO_PAD_CONTROL,
-fe1024d50477be Charles Keepax 2021-09-14  1112  			   CS35L41_GPIO1_CTRL_MA=
-SK | CS35L41_GPIO2_CTRL_MASK,
-fe1024d50477be Charles Keepax 2021-09-14  1113  			   irq_gpio_cfg1->irq_sr=
-c_sel << CS35L41_GPIO1_CTRL_SHIFT |
-fe1024d50477be Charles Keepax 2021-09-14  1114  			   irq_gpio_cfg2->irq_sr=
-c_sel << CS35L41_GPIO2_CTRL_SHIFT);
-6450ef55905688 David Rhodes   2021-09-07  1115  =
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02 @478  	if (f->index >=3D CODA_MAX_FORMATS || formats[f->index] =3D=
+=3D 0)
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  479  		return -EINVAL;
+186b250a0725377 drivers/media/video/coda.c                Javier Martin 201=
+2-07-26  480  =
 
-6450ef55905688 David Rhodes   2021-09-07  1116  	if ((irq_gpio_cfg2->irq_sr=
-c_sel =3D=3D
-6450ef55905688 David Rhodes   2021-09-07  1117  			(CS35L41_GPIO_CTRL_ACTV_=
-LO | CS35L41_VALID_PDATA)) ||
-6450ef55905688 David Rhodes   2021-09-07  1118  		(irq_gpio_cfg2->irq_src_s=
-el =3D=3D
-6450ef55905688 David Rhodes   2021-09-07  1119  			(CS35L41_GPIO_CTRL_OPEN_=
-INT | CS35L41_VALID_PDATA)))
-6450ef55905688 David Rhodes   2021-09-07  1120  		irq_pol =3D IRQF_TRIGGER_=
-LOW;
-6450ef55905688 David Rhodes   2021-09-07  1121  	else if (irq_gpio_cfg2->ir=
-q_src_sel =3D=3D
-6450ef55905688 David Rhodes   2021-09-07  1122  			(CS35L41_GPIO_CTRL_ACTV_=
-HI | CS35L41_VALID_PDATA))
-6450ef55905688 David Rhodes   2021-09-07  1123  		irq_pol =3D IRQF_TRIGGER_=
-HIGH;
-6450ef55905688 David Rhodes   2021-09-07  1124  =
+9d826ce8122fc63 drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+7-04-06  481  	/* Skip YUYV if the vdoa is not available */
+9d826ce8122fc63 drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+7-04-06  482  	if (!ctx->vdoa && f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE=
+ &&
+9d826ce8122fc63 drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+7-04-06  483  	    formats[f->index] =3D=3D V4L2_PIX_FMT_YUYV)
+9d826ce8122fc63 drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+7-04-06  484  		return -EINVAL;
+9d826ce8122fc63 drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+7-04-06  485  =
 
-6450ef55905688 David Rhodes   2021-09-07  1125  	return irq_pol;
-6450ef55905688 David Rhodes   2021-09-07  1126  }
-6450ef55905688 David Rhodes   2021-09-07  1127  =
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  486  	f->pixelformat =3D formats[f->index];
+186b250a0725377 drivers/media/video/coda.c                Javier Martin 201=
+2-07-26  487  =
 
+2c11d1bdfc7175c drivers/media/platform/coda/coda-common.c Philipp Zabel 201=
+4-10-02  488  	return 0;
+186b250a0725377 drivers/media/video/coda.c                Javier Martin 201=
+2-07-26  489  }
+186b250a0725377 drivers/media/video/coda.c                Javier Martin 201=
+2-07-26  490  =
+
+
+:::::: The code at line 478 was first introduced by commit
+:::::: 2c11d1bdfc7175cc75a603e433367caaf038ab69 [media] coda: add coda_vide=
+o_device descriptors
+
+:::::: TO: Philipp Zabel <p.zabel@pengutronix.de>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1197310546365155234==--
+--===============8262340195279914597==--
 
