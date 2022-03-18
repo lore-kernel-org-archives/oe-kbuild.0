@@ -1,632 +1,136 @@
-Content-Type: multipart/mixed; boundary="===============3451097604867680371=="
+Content-Type: multipart/mixed; boundary="===============5864705470358786291=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/nand/raw/renesas-nand-controller.c:874:4: warning: Null pointer passed as 2nd argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Fri, 18 Mar 2022 11:26:17 +0800
-Message-ID: <202203181149.Pc4wi1wS-lkp@intel.com>
+Subject: Re: [PATCH RFC v5 08/21] dept: Apply Dept to seqlock
+Date: Fri, 18 Mar 2022 09:03:59 +0800
+Message-ID: <202203180801.CEoECntN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3451097604867680371==
+--===============5864705470358786291==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+In-Reply-To: <1647397593-16747-9-git-send-email-byungchul.park@lge.com>
+References: <1647397593-16747-9-git-send-email-byungchul.park@lge.com>
+TO: Byungchul Park <byungchul.park@lge.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   56e337f2cf1326323844927a04e9dbce9a244835
-commit: d8701fe890ecbab239086e7053d62d0f08587d7c mtd: rawnand: renesas: Add=
- new NAND controller driver
-date:   3 months ago
+Hi Byungchul,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master v5.17-rc8]
+[cannot apply to tip/locking/core tip/sched/core hnaz-mm/master next-202203=
+17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Byungchul-Park/DEPT-Depend=
+ency-Tracker/20220316-102853
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+2c271fe77d52a0555161926c232cd5bc07178b39
 :::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20220316 (https://download.01.org/0day-ci/archi=
-ve/20220318/202203181149.Pc4wi1wS-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
-3d798f8eab43fb3a91028c6ab04e115fcb)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd8701fe890ecbab239086e7053d62d0f08587d7c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d8701fe890ecbab239086e7053d62d0f08587d7c
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+:::::: commit date: 2 days ago
+config: parisc-randconfig-m031-20220317 (https://download.01.org/0day-ci/ar=
+chive/20220318/202203180801.CEoECntN-lkp(a)intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+kernel/time/tick-legacy.c:31 legacy_timer_tick() warn: statement has no eff=
+ect 31
+include/linux/u64_stats_sync.h:148 u64_stats_update_end() warn: statement h=
+as no effect 31
+include/linux/fs.h:907 i_size_write() warn: statement has no effect 31
+include/linux/fs.h:907 i_size_write() warn: statement has no effect 31
+include/linux/fs.h:907 i_size_write() warn: statement has no effect 31
+include/linux/fs.h:907 i_size_write() warn: statement has no effect 31
+include/linux/u64_stats_sync.h:174 u64_stats_update_end_irqrestore() warn: =
+statement has no effect 31
+include/linux/u64_stats_sync.h:148 u64_stats_update_end() warn: statement h=
+as no effect 31
+include/linux/u64_stats_sync.h:174 u64_stats_update_end_irqrestore() warn: =
+statement has no effect 31
+include/linux/u64_stats_sync.h:148 u64_stats_update_end() warn: statement h=
+as no effect 31
+include/linux/u64_stats_sync.h:148 u64_stats_update_end() warn: statement h=
+as no effect 31
+include/linux/u64_stats_sync.h:148 u64_stats_update_end() warn: statement h=
+as no effect 31
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   drivers/mtd/tests/subpagetest.c:250:2: note: '?' condition is true
-           pr_info("verifying all eraseblocks for 0xff\n");
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   drivers/mtd/tests/subpagetest.c:250:2: note: '?' condition is true
-           pr_info("verifying all eraseblocks for 0xff\n");
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   drivers/mtd/tests/subpagetest.c:250:2: note: Loop condition is false.  E=
-xiting loop
-           pr_info("verifying all eraseblocks for 0xff\n");
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   drivers/mtd/tests/subpagetest.c:251:14: note: Assuming 'i' is < 'ebcnt'
-           for (i =3D 0; i < ebcnt; ++i) {
-                       ^~~~~~~~~
-   drivers/mtd/tests/subpagetest.c:251:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < ebcnt; ++i) {
-           ^
-   drivers/mtd/tests/subpagetest.c:252:7: note: Assuming the condition is f=
-alse
-                   if (bbt[i])
-                       ^~~~~~
-   drivers/mtd/tests/subpagetest.c:252:3: note: Taking false branch
-                   if (bbt[i])
-                   ^
-   drivers/mtd/tests/subpagetest.c:254:9: note: Calling 'verify_eraseblock_=
-ff'
-                   err =3D verify_eraseblock_ff(i);
-                         ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/tests/subpagetest.c:220:14: note: Assuming the condition is =
-true
-           for (j =3D 0; j < mtd->erasesize / subpgsize; ++j) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/tests/subpagetest.c:220:2: note: Loop condition is true.  En=
-tering loop body
-           for (j =3D 0; j < mtd->erasesize / subpgsize; ++j) {
-           ^
-   drivers/mtd/tests/subpagetest.c:222:9: note: Value assigned to 'subpgsiz=
-e'
-                   err =3D mtd_read(mtd, addr, subpgsize, &read, readbuf);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/tests/subpagetest.c:223:16: note: Assuming 'err' is 0
-                   if (unlikely(err || read !=3D subpgsize)) {
-                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/mtd/tests/subpagetest.c:223:16: note: Left side of '||' is false
-                   if (unlikely(err || read !=3D subpgsize)) {
-                                ^
-   drivers/mtd/tests/subpagetest.c:223:23: note: Assuming 'read' is equal t=
-o 'subpgsize'
-                   if (unlikely(err || read !=3D subpgsize)) {
-                                       ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/mtd/tests/subpagetest.c:223:3: note: Taking false branch
-                   if (unlikely(err || read !=3D subpgsize)) {
-                   ^
-   drivers/mtd/tests/subpagetest.c:234:3: note: Taking false branch
-                   if (unlikely(memcmp(readbuf, writebuf, subpgsize))) {
-                   ^
-   drivers/mtd/tests/subpagetest.c:220:33: note: Division by zero
-           for (j =3D 0; j < mtd->erasesize / subpgsize; ++j) {
-                           ~~~~~~~~~~~~~~~^~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> drivers/mtd/nand/raw/renesas-nand-controller.c:874:4: warning: Null poin=
-ter passed as 2nd argument to memory copy function [clang-analyzer-unix.cst=
-ring.NullArg]
-                           memcpy(&last_bytes, rop.buf + (words * sizeof(u3=
-2)), remainder);
-                           ^                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:698:6: note: Assuming 'ch=
-eck_only' is false
-           if (!check_only)
-               ^~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:698:2: note: Taking true =
-branch
-           if (!check_only)
-           ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:701:18: note: Assuming 'o=
-p_id' is < field 'ninstrs'
-           for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
-                           ^~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:701:2: note: Loop conditi=
-on is true.  Entering loop body
-           for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
-           ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:706:3: note: Control jump=
-s to 'case NAND_OP_DATA_OUT_INSTR:'  at line 782
-                   switch (instr->type) {
-                   ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:784:4: note: Value assign=
-ed to 'rop.buf'
-                           rop.buf =3D instr->ctx.data.buf.in;
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:788:4: note: Control jump=
-s to 'case 0:'  at line 789
-                           switch (data_phase++) {
-                           ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:790:9: note: 'cmd_phase' =
-is <=3D 2
-                                   if (cmd_phase <=3D 2)
-                                       ^~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:790:5: note: Taking true =
-branch
-                                   if (cmd_phase <=3D 2)
-                                   ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:792:9: note: 'addr_phase'=
- is <=3D 1
-                                   if (addr_phase <=3D 1)
-                                       ^~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:792:5: note: Taking true =
-branch
-                                   if (addr_phase <=3D 1)
-                                   ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:794:9: note: 'delay_phase=
-' is equal to 0
-                                   if (delay_phase =3D=3D 0)
-                                       ^~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:794:5: note: Taking true =
-branch
-                                   if (delay_phase =3D=3D 0)
-                                   ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:796:5: note:  Execution c=
-ontinues on line 800
-                                   break;
-                                   ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:800:4: note:  Execution c=
-ontinues on line 701
-                           break;
-                           ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:701:18: note: Assuming 'o=
-p_id' is >=3D field 'ninstrs'
-           for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
-                           ^~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:701:2: note: Loop conditi=
-on is false. Execution continues on line 829
-           for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
-           ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:829:6: note: Assuming fie=
-ld 'buf' is null
-           if (rop.buf && !rop.read)
-               ^~~~~~~
-   drivers/mtd/nand/raw/renesas-nand-controller.c:829:14: note: Left side o=
-f '&&' is false
-           if (rop.buf && !rop.read)
-                       ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:832:18: note: Taking fals=
-e branch
-                   rop.command |=3D COMMAND_SEQ_GEN_IN;
-                                  ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:27:32: note: expanded fro=
-m macro 'COMMAND_SEQ_GEN_IN'
-   #define     COMMAND_SEQ_GEN_IN COMMAND_SEQ_18
-                                  ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:25:28: note: expanded fro=
-m macro 'COMMAND_SEQ_18'
-   #define     COMMAND_SEQ_18 COMMAND_SEQ(0x32)
-                              ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:22:26: note: expanded fro=
-m macro 'COMMAND_SEQ'
-   #define   COMMAND_SEQ(x) FIELD_PREP(GENMASK(5, 0), (x))
-                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:832:18: note: Loop condit=
-ion is false.  Exiting loop
-                   rop.command |=3D COMMAND_SEQ_GEN_IN;
-                                  ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:27:32: note: expanded fro=
-m macro 'COMMAND_SEQ_GEN_IN'
-   #define     COMMAND_SEQ_GEN_IN COMMAND_SEQ_18
-                                  ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:25:28: note: expanded fro=
-m macro 'COMMAND_SEQ_18'
-   #define     COMMAND_SEQ_18 COMMAND_SEQ(0x32)
-                              ^
-   drivers/mtd/nand/raw/renesas-nand-controller.c:22:26: note: expanded fro=
-m macro 'COMMAND_SEQ'
-   #define   COMMAND_SEQ(x) FIELD_PREP(GENMASK(5, 0), (x))
-                            ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
+Old smatch warnings:
+fs/gfs2/dir.c:1422 gfs2_dir_read_leaf() error: dereferencing freed memory '=
+bh'
+fs/gfs2/dir.c:1765 dir_new_leaf() warn: passing freed memory 'bh'
+fs/gfs2/quota.c:708 gfs2_write_buf_to_page() warn: should 'index << (12 - s=
+dp->sd_sb.sb_bsize_shift)' be a 64 bit type?
+fs/gfs2/bmap.c:1248 gfs2_get_extent() warn: should '*extlen << blkbits' be =
+a 64 bit type?
+fs/gfs2/bmap.c:1269 gfs2_alloc_extent() warn: should '*extlen << blkbits' b=
+e a 64 bit type?
+fs/gfs2/bmap.c:1878 punch_hole() error: uninitialized symbol 'end_aligned'.
+fs/gfs2/bmap.c:1926 punch_hole() error: uninitialized symbol 'end_aligned'.
+net/sched/sch_gred.c:470 gred_change_table_def() warn: potential spectre is=
+sue 'table->tab' [w] (local cap)
+net/sched/sch_prio.c:216 prio_tune() warn: potential spectre issue 'q->queu=
+es' [w] (local cap)
+net/sched/sch_cake.c:776 cake_hash() error: buffer overflow 'q->flows' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:788 cake_hash() error: buffer overflow 'q->flows' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:811 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:814 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:834 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:837 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:1357 cake_overhead() warn: should 'off << 16' be a 64 =
+bit type?
 
-vim +874 drivers/mtd/nand/raw/renesas-nand-controller.c
+vim +31 kernel/time/tick-legacy.c
 
-d8701fe890ecba Miquel Raynal 2021-12-17  677  =
+b3550164a19d62 Arnd Bergmann 2020-09-24  12  =
 
-d8701fe890ecba Miquel Raynal 2021-12-17  678  /*
-d8701fe890ecba Miquel Raynal 2021-12-17  679   * This controller is simple =
-enough and thus does not need to use the parser
-d8701fe890ecba Miquel Raynal 2021-12-17  680   * provided by the core, inst=
-ead, handle every situation here.
-d8701fe890ecba Miquel Raynal 2021-12-17  681   */
-d8701fe890ecba Miquel Raynal 2021-12-17  682  static int rnandc_exec_op(str=
-uct nand_chip *chip,
-d8701fe890ecba Miquel Raynal 2021-12-17  683  			  const struct nand_operat=
-ion *op, bool check_only)
-d8701fe890ecba Miquel Raynal 2021-12-17  684  {
-d8701fe890ecba Miquel Raynal 2021-12-17  685  	struct rnandc *rnandc =3D to=
-_rnandc(chip->controller);
-d8701fe890ecba Miquel Raynal 2021-12-17  686  	const struct nand_op_instr *=
-instr =3D NULL;
-d8701fe890ecba Miquel Raynal 2021-12-17  687  	struct rnandc_op rop =3D {
-d8701fe890ecba Miquel Raynal 2021-12-17  688  		.command =3D COMMAND_INPUT_=
-SEL_AHBS,
-d8701fe890ecba Miquel Raynal 2021-12-17  689  		.gen_seq_ctrl =3D GEN_SEQ_I=
-MD_SEQ,
-d8701fe890ecba Miquel Raynal 2021-12-17  690  	};
-d8701fe890ecba Miquel Raynal 2021-12-17  691  	unsigned int cmd_phase =3D 0=
-, addr_phase =3D 0, data_phase =3D 0,
-d8701fe890ecba Miquel Raynal 2021-12-17  692  		delay_phase =3D 0, delays =
-=3D 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  693  	unsigned int op_id, col_addr=
-s, row_addrs, naddrs, remainder, words, i;
-d8701fe890ecba Miquel Raynal 2021-12-17  694  	const u8 *addrs;
-d8701fe890ecba Miquel Raynal 2021-12-17  695  	u32 last_bytes;
-d8701fe890ecba Miquel Raynal 2021-12-17  696  	int ret;
-d8701fe890ecba Miquel Raynal 2021-12-17  697  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  698  	if (!check_only)
-d8701fe890ecba Miquel Raynal 2021-12-17  699  		rnandc_select_target(chip, =
-op->cs);
-d8701fe890ecba Miquel Raynal 2021-12-17  700  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  701  	for (op_id =3D 0; op_id < op=
-->ninstrs; op_id++) {
-d8701fe890ecba Miquel Raynal 2021-12-17  702  		instr =3D &op->instrs[op_id=
-];
-d8701fe890ecba Miquel Raynal 2021-12-17  703  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  704  		nand_op_trace("  ", instr);
-d8701fe890ecba Miquel Raynal 2021-12-17  705  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  706  		switch (instr->type) {
-d8701fe890ecba Miquel Raynal 2021-12-17  707  		case NAND_OP_CMD_INSTR:
-d8701fe890ecba Miquel Raynal 2021-12-17  708  			switch (cmd_phase++) {
-d8701fe890ecba Miquel Raynal 2021-12-17  709  			case 0:
-d8701fe890ecba Miquel Raynal 2021-12-17  710  				rop.command |=3D COMMAND_=
-0(instr->ctx.cmd.opcode);
-d8701fe890ecba Miquel Raynal 2021-12-17  711  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_CMD0_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  712  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  713  			case 1:
-d8701fe890ecba Miquel Raynal 2021-12-17  714  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_COMMAND_3(instr->ctx.cmd.opcode);
-d8701fe890ecba Miquel Raynal 2021-12-17  715  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_CMD3_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  716  				if (addr_phase =3D=3D 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  717  					addr_phase =3D 1;
-d8701fe890ecba Miquel Raynal 2021-12-17  718  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  719  			case 2:
-d8701fe890ecba Miquel Raynal 2021-12-17  720  				rop.command |=3D COMMAND_=
-2(instr->ctx.cmd.opcode);
-d8701fe890ecba Miquel Raynal 2021-12-17  721  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_CMD2_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  722  				if (addr_phase <=3D 1)
-d8701fe890ecba Miquel Raynal 2021-12-17  723  					addr_phase =3D 2;
-d8701fe890ecba Miquel Raynal 2021-12-17  724  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  725  			case 3:
-d8701fe890ecba Miquel Raynal 2021-12-17  726  				rop.command |=3D COMMAND_=
-1(instr->ctx.cmd.opcode);
-d8701fe890ecba Miquel Raynal 2021-12-17  727  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_CMD1_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  728  				if (addr_phase <=3D 1)
-d8701fe890ecba Miquel Raynal 2021-12-17  729  					addr_phase =3D 2;
-d8701fe890ecba Miquel Raynal 2021-12-17  730  				if (delay_phase =3D=3D 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  731  					delay_phase =3D 1;
-d8701fe890ecba Miquel Raynal 2021-12-17  732  				if (data_phase =3D=3D 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  733  					data_phase =3D 1;
-d8701fe890ecba Miquel Raynal 2021-12-17  734  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  735  			default:
-d8701fe890ecba Miquel Raynal 2021-12-17  736  				return -EOPNOTSUPP;
-d8701fe890ecba Miquel Raynal 2021-12-17  737  			}
-d8701fe890ecba Miquel Raynal 2021-12-17  738  			break;
-d8701fe890ecba Miquel Raynal 2021-12-17  739  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  740  		case NAND_OP_ADDR_INSTR:
-d8701fe890ecba Miquel Raynal 2021-12-17  741  			addrs =3D instr->ctx.addr.=
-addrs;
-d8701fe890ecba Miquel Raynal 2021-12-17  742  			naddrs =3D instr->ctx.addr=
-.naddrs;
-d8701fe890ecba Miquel Raynal 2021-12-17  743  			if (naddrs > 5)
-d8701fe890ecba Miquel Raynal 2021-12-17  744  				return -EOPNOTSUPP;
-d8701fe890ecba Miquel Raynal 2021-12-17  745  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  746  			col_addrs =3D min(2U, nadd=
-rs);
-d8701fe890ecba Miquel Raynal 2021-12-17  747  			row_addrs =3D naddrs > 2 ?=
- naddrs - col_addrs : 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  748  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  749  			switch (addr_phase++) {
-d8701fe890ecba Miquel Raynal 2021-12-17  750  			case 0:
-d8701fe890ecba Miquel Raynal 2021-12-17  751  				for (i =3D 0; i < col_add=
-rs; i++)
-d8701fe890ecba Miquel Raynal 2021-12-17  752  					rop.addr0_col |=3D addrs=
-[i] << (i * 8);
-d8701fe890ecba Miquel Raynal 2021-12-17  753  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_COL_A0(col_addrs);
-d8701fe890ecba Miquel Raynal 2021-12-17  754  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  755  				for (i =3D 0; i < row_add=
-rs; i++)
-d8701fe890ecba Miquel Raynal 2021-12-17  756  					rop.addr0_row |=3D addrs=
-[2 + i] << (i * 8);
-d8701fe890ecba Miquel Raynal 2021-12-17  757  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_ROW_A0(row_addrs);
-d8701fe890ecba Miquel Raynal 2021-12-17  758  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  759  				if (cmd_phase =3D=3D 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  760  					cmd_phase =3D 1;
-d8701fe890ecba Miquel Raynal 2021-12-17  761  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  762  			case 1:
-d8701fe890ecba Miquel Raynal 2021-12-17  763  				for (i =3D 0; i < col_add=
-rs; i++)
-d8701fe890ecba Miquel Raynal 2021-12-17  764  					rop.addr1_col |=3D addrs=
-[i] << (i * 8);
-d8701fe890ecba Miquel Raynal 2021-12-17  765  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_COL_A1(col_addrs);
-d8701fe890ecba Miquel Raynal 2021-12-17  766  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  767  				for (i =3D 0; i < row_add=
-rs; i++)
-d8701fe890ecba Miquel Raynal 2021-12-17  768  					rop.addr1_row |=3D addrs=
-[2 + i] << (i * 8);
-d8701fe890ecba Miquel Raynal 2021-12-17  769  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_ROW_A1(row_addrs);
-d8701fe890ecba Miquel Raynal 2021-12-17  770  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  771  				if (cmd_phase <=3D 1)
-d8701fe890ecba Miquel Raynal 2021-12-17  772  					cmd_phase =3D 2;
-d8701fe890ecba Miquel Raynal 2021-12-17  773  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  774  			default:
-d8701fe890ecba Miquel Raynal 2021-12-17  775  				return -EOPNOTSUPP;
-d8701fe890ecba Miquel Raynal 2021-12-17  776  			}
-d8701fe890ecba Miquel Raynal 2021-12-17  777  			break;
-d8701fe890ecba Miquel Raynal 2021-12-17  778  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  779  		case NAND_OP_DATA_IN_INSTR:
-d8701fe890ecba Miquel Raynal 2021-12-17  780  			rop.read =3D true;
-d8701fe890ecba Miquel Raynal 2021-12-17  781  			fallthrough;
-d8701fe890ecba Miquel Raynal 2021-12-17  782  		case NAND_OP_DATA_OUT_INSTR:
-d8701fe890ecba Miquel Raynal 2021-12-17  783  			rop.gen_seq_ctrl |=3D GEN_=
-SEQ_DATA_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  784  			rop.buf =3D instr->ctx.dat=
-a.buf.in;
-d8701fe890ecba Miquel Raynal 2021-12-17  785  			rop.len =3D instr->ctx.dat=
-a.len;
-d8701fe890ecba Miquel Raynal 2021-12-17  786  			rop.command |=3D COMMAND_F=
-IFO_SEL;
-d8701fe890ecba Miquel Raynal 2021-12-17  787  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  788  			switch (data_phase++) {
-d8701fe890ecba Miquel Raynal 2021-12-17  789  			case 0:
-d8701fe890ecba Miquel Raynal 2021-12-17  790  				if (cmd_phase <=3D 2)
-d8701fe890ecba Miquel Raynal 2021-12-17  791  					cmd_phase =3D 3;
-d8701fe890ecba Miquel Raynal 2021-12-17  792  				if (addr_phase <=3D 1)
-d8701fe890ecba Miquel Raynal 2021-12-17  793  					addr_phase =3D 2;
-d8701fe890ecba Miquel Raynal 2021-12-17  794  				if (delay_phase =3D=3D 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  795  					delay_phase =3D 1;
-d8701fe890ecba Miquel Raynal 2021-12-17  796  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  797  			default:
-d8701fe890ecba Miquel Raynal 2021-12-17  798  				return -EOPNOTSUPP;
-d8701fe890ecba Miquel Raynal 2021-12-17  799  			}
-d8701fe890ecba Miquel Raynal 2021-12-17  800  			break;
-d8701fe890ecba Miquel Raynal 2021-12-17  801  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  802  		case NAND_OP_WAITRDY_INSTR:
-d8701fe890ecba Miquel Raynal 2021-12-17  803  			switch (delay_phase++) {
-d8701fe890ecba Miquel Raynal 2021-12-17  804  			case 0:
-d8701fe890ecba Miquel Raynal 2021-12-17  805  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_DELAY0_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  806  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  807  				if (cmd_phase <=3D 2)
-d8701fe890ecba Miquel Raynal 2021-12-17  808  					cmd_phase =3D 3;
-d8701fe890ecba Miquel Raynal 2021-12-17  809  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  810  			case 1:
-d8701fe890ecba Miquel Raynal 2021-12-17  811  				rop.gen_seq_ctrl |=3D GEN=
-_SEQ_DELAY1_EN;
-d8701fe890ecba Miquel Raynal 2021-12-17  812  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  813  				if (cmd_phase <=3D 3)
-d8701fe890ecba Miquel Raynal 2021-12-17  814  					cmd_phase =3D 4;
-d8701fe890ecba Miquel Raynal 2021-12-17  815  				if (data_phase =3D=3D 0)
-d8701fe890ecba Miquel Raynal 2021-12-17  816  					data_phase =3D 1;
-d8701fe890ecba Miquel Raynal 2021-12-17  817  				break;
-d8701fe890ecba Miquel Raynal 2021-12-17  818  			default:
-d8701fe890ecba Miquel Raynal 2021-12-17  819  				return -EOPNOTSUPP;
-d8701fe890ecba Miquel Raynal 2021-12-17  820  			}
-d8701fe890ecba Miquel Raynal 2021-12-17  821  			break;
-d8701fe890ecba Miquel Raynal 2021-12-17  822  		}
-d8701fe890ecba Miquel Raynal 2021-12-17  823  	}
-d8701fe890ecba Miquel Raynal 2021-12-17  824  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  825  	/*
-d8701fe890ecba Miquel Raynal 2021-12-17  826  	 * Sequence 19 is generic an=
-d dedicated to write operations.
-d8701fe890ecba Miquel Raynal 2021-12-17  827  	 * Sequence 18 is also gener=
-ic and works for all other operations.
-d8701fe890ecba Miquel Raynal 2021-12-17  828  	 */
-d8701fe890ecba Miquel Raynal 2021-12-17  829  	if (rop.buf && !rop.read)
-d8701fe890ecba Miquel Raynal 2021-12-17  830  		rop.command |=3D COMMAND_SE=
-Q_GEN_OUT;
-d8701fe890ecba Miquel Raynal 2021-12-17  831  	else
-d8701fe890ecba Miquel Raynal 2021-12-17  832  		rop.command |=3D COMMAND_SE=
-Q_GEN_IN;
-d8701fe890ecba Miquel Raynal 2021-12-17  833  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  834  	if (delays > 1) {
-d8701fe890ecba Miquel Raynal 2021-12-17  835  		dev_err(rnandc->dev, "Canno=
-t handle more than one wait delay\n");
-d8701fe890ecba Miquel Raynal 2021-12-17  836  		return -EOPNOTSUPP;
-d8701fe890ecba Miquel Raynal 2021-12-17  837  	}
-d8701fe890ecba Miquel Raynal 2021-12-17  838  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  839  	if (check_only)
-d8701fe890ecba Miquel Raynal 2021-12-17  840  		return 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  841  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  842  	rnandc_trigger_op(rnandc, &r=
-op);
-d8701fe890ecba Miquel Raynal 2021-12-17  843  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  844  	words =3D rop.len / sizeof(u=
-32);
-d8701fe890ecba Miquel Raynal 2021-12-17  845  	remainder =3D rop.len % size=
-of(u32);
-d8701fe890ecba Miquel Raynal 2021-12-17  846  	if (rop.buf && rop.read) {
-d8701fe890ecba Miquel Raynal 2021-12-17  847  		while (!FIFO_STATE_C_EMPTY(=
-readl(rnandc->regs + FIFO_STATE_REG)))
-d8701fe890ecba Miquel Raynal 2021-12-17  848  			cpu_relax();
-d8701fe890ecba Miquel Raynal 2021-12-17  849  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  850  		while (FIFO_STATE_R_EMPTY(r=
-eadl(rnandc->regs + FIFO_STATE_REG)))
-d8701fe890ecba Miquel Raynal 2021-12-17  851  			cpu_relax();
-d8701fe890ecba Miquel Raynal 2021-12-17  852  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  853  		ioread32_rep(rnandc->regs +=
- FIFO_DATA_REG, rop.buf, words);
-d8701fe890ecba Miquel Raynal 2021-12-17  854  		if (remainder) {
-d8701fe890ecba Miquel Raynal 2021-12-17  855  			last_bytes =3D readl_relax=
-ed(rnandc->regs + FIFO_DATA_REG);
-d8701fe890ecba Miquel Raynal 2021-12-17  856  			memcpy(rop.buf + (words * =
-sizeof(u32)), &last_bytes,
-d8701fe890ecba Miquel Raynal 2021-12-17  857  			       remainder);
-d8701fe890ecba Miquel Raynal 2021-12-17  858  		}
-d8701fe890ecba Miquel Raynal 2021-12-17  859  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  860  		if (!FIFO_STATE_R_EMPTY(rea=
-dl(rnandc->regs + FIFO_STATE_REG))) {
-d8701fe890ecba Miquel Raynal 2021-12-17  861  			dev_warn(rnandc->dev,
-d8701fe890ecba Miquel Raynal 2021-12-17  862  				 "Clearing residual data =
-in the read FIFO\n");
-d8701fe890ecba Miquel Raynal 2021-12-17  863  			rnandc_clear_fifo(rnandc);
-d8701fe890ecba Miquel Raynal 2021-12-17  864  		}
-d8701fe890ecba Miquel Raynal 2021-12-17  865  	} else if (rop.len && !rop.r=
-ead) {
-d8701fe890ecba Miquel Raynal 2021-12-17  866  		while (FIFO_STATE_W_FULL(re=
-adl(rnandc->regs + FIFO_STATE_REG)))
-d8701fe890ecba Miquel Raynal 2021-12-17  867  			cpu_relax();
-d8701fe890ecba Miquel Raynal 2021-12-17  868  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  869  		iowrite32_rep(rnandc->regs =
-+ FIFO_DATA_REG, rop.buf,
-d8701fe890ecba Miquel Raynal 2021-12-17  870  			      DIV_ROUND_UP(rop.len=
-, 4));
-d8701fe890ecba Miquel Raynal 2021-12-17  871  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  872  		if (remainder) {
-d8701fe890ecba Miquel Raynal 2021-12-17  873  			last_bytes =3D 0;
-d8701fe890ecba Miquel Raynal 2021-12-17 @874  			memcpy(&last_bytes, rop.bu=
-f + (words * sizeof(u32)), remainder);
-d8701fe890ecba Miquel Raynal 2021-12-17  875  			writel_relaxed(last_bytes,=
- rnandc->regs + FIFO_DATA_REG);
-d8701fe890ecba Miquel Raynal 2021-12-17  876  		}
-d8701fe890ecba Miquel Raynal 2021-12-17  877  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  878  		while (!FIFO_STATE_W_EMPTY(=
-readl(rnandc->regs + FIFO_STATE_REG)))
-d8701fe890ecba Miquel Raynal 2021-12-17  879  			cpu_relax();
-d8701fe890ecba Miquel Raynal 2021-12-17  880  	}
-d8701fe890ecba Miquel Raynal 2021-12-17  881  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  882  	ret =3D rnandc_wait_end_of_o=
-p(rnandc, chip);
-d8701fe890ecba Miquel Raynal 2021-12-17  883  	if (ret)
-d8701fe890ecba Miquel Raynal 2021-12-17  884  		return ret;
-d8701fe890ecba Miquel Raynal 2021-12-17  885  =
-
-d8701fe890ecba Miquel Raynal 2021-12-17  886  	return 0;
-d8701fe890ecba Miquel Raynal 2021-12-17  887  }
-d8701fe890ecba Miquel Raynal 2021-12-17  888  =
-
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  13  /**
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  14   * legacy_timer_tick() - advan=
+ces the timekeeping infrastructure
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  15   * @ticks:	number of ticks, th=
+at have elapsed since the last call.
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  16   *
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  17   * This is used by platforms t=
+hat have not been converted to
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  18   * generic clockevents.
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  19   *
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  20   * If 'ticks' is zero, the CPU=
+ is not handling timekeeping, so
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  21   * only perform process accoun=
+ting and profiling.
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  22   *
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  23   * Must be called with interru=
+pts disabled.
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  24   */
+b3550164a19d62 Arnd Bergmann 2020-09-24  25  void legacy_timer_tick(unsigne=
+d long ticks)
+b3550164a19d62 Arnd Bergmann 2020-09-24  26  {
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  27  	if (ticks) {
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  28  		raw_spin_lock(&jiffies_lock);
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  29  		write_seqcount_begin(&jiffie=
+s_seq);
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24  30  		do_timer(ticks);
+56cc7b8acfb7c7 Arnd Bergmann 2020-09-24 @31  		write_seqcount_end(&jiffies_=
+seq);
 
 ---
 0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3451097604867680371==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============5864705470358786291==--
 
