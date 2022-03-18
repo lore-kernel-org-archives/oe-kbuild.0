@@ -1,588 +1,87 @@
-Content-Type: multipart/mixed; boundary="===============5189863554191864022=="
+Content-Type: multipart/mixed; boundary="===============5123275631720223671=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/2] fbdev: Fix sys_imageblit() for arbitrary image widths
-Date: Mon, 14 Mar 2022 22:44:58 +0800
-Message-ID: <202203142244.kD75RW4r-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 242/346] fs/xfs/xfs_trace.c:52 xfs_btree_crack_agno_opdev() warn: bitwise AND condition is false here
+Date: Sat, 19 Mar 2022 01:46:05 +0800
+Message-ID: <202203190133.RsXMt3pF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5189863554191864022==
+--===============5123275631720223671==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220313192952.12058-2-tzimmermann@suse.de>
-References: <20220313192952.12058-2-tzimmermann@suse.de>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: daniel(a)ffwll.ch
-TO: deller(a)gmx.de
-TO: m.szyprowski(a)samsung.com
-TO: geert(a)linux-m68k.org
-TO: javierm(a)redhat.com
-TO: sam(a)ravnborg.org
-CC: linux-fbdev(a)vger.kernel.org
-CC: dri-devel(a)lists.freedesktop.org
-CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi Thomas,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on next-20220310]
-[cannot apply to linus/master v5.17-rc7 v5.17-rc6 v5.17-rc5 v5.17-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/fbdev-Fi=
-x-image-blitting-for-arbitrary-image-widths/20220314-033209
-base:    71941773e143369a73c9c4a3b62fbb60736a1182
-:::::: branch date: 19 hours ago
-:::::: commit date: 19 hours ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20314/202203142244.kD75RW4r-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0467eb=
-2cb7654c15ae366967ef35093c5724c416)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/34e093954c6d2a7ff3da7c7d5=
-99ba6486855c3d1
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-Fix-image-=
-blitting-for-arbitrary-image-widths/20220314-033209
-        git checkout 34e093954c6d2a7ff3da7c7d599ba6486855c3d1
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   37f1eaa855b8115b247530a5e8081189a09db2de
+commit: c42b1a06786a60b83b0a4eff298255977355329b [242/346] xfs: widen xfs_r=
+map_irec fields to handle realtime rmapbt
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
+config: openrisc-randconfig-m031-20220317 (https://download.01.org/0day-ci/=
+archive/20220319/202203190133.RsXMt3pF-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/xfs/xfs_trace.c:52 xfs_btree_crack_agno_opdev() warn: bitwise AND condit=
+ion is false here
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/apei/erst.c:1015:2: warning: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(record->buf, rcd->data, len - sizeof(*rcd));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/apei/erst.c:1015:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(record->buf, rcd->data, len - sizeof(*rcd));
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/apei/erst.c:1046:2: warning: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(rcd, 0, sizeof(*rcd));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/apei/erst.c:1046:2: note: Call to function 'memset' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memset_s' in case of C11
-           memset(rcd, 0, sizeof(*rcd));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/apei/erst.c:1047:2: warning: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(rcd->hdr.signature, CPER_SIG_RECORD, CPER_SIG_SIZE);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   drivers/acpi/apei/erst.c:1047:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(rcd->hdr.signature, CPER_SIG_RECORD, CPER_SIG_SIZE);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 37 warnings (37 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   46 warnings generated.
->> drivers/video/fbdev/core/sysimgblt.c:274:10: warning: The expression is =
-an uninitialized value. The computed value will also be garbage [clang-anal=
-yzer-core.uninitialized.Assign]
-                   for (; j--; ) {
-                          ^
-   drivers/video/fbdev/core/sysimgblt.c:296:6: note: Assuming field 'state'=
- is equal to FBINFO_STATE_RUNNING
-           if (p->state !=3D FBINFO_STATE_RUNNING)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:296:2: note: Taking false branch
-           if (p->state !=3D FBINFO_STATE_RUNNING)
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:307:6: note: Assuming field 'fb_syn=
-c' is null
-           if (p->fbops->fb_sync)
-               ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:307:2: note: Taking false branch
-           if (p->fbops->fb_sync)
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:310:6: note: Assuming field 'depth'=
- is equal to 1
-           if (image->depth =3D=3D 1) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:310:2: note: Taking true branch
-           if (image->depth =3D=3D 1) {
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:311:7: note: Assuming field 'visual=
-' is not equal to FB_VISUAL_TRUECOLOR
-                   if (p->fix.visual =3D=3D FB_VISUAL_TRUECOLOR ||
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:311:7: note: Left side of '||' is f=
-alse
-   drivers/video/fbdev/core/sysimgblt.c:312:7: note: Assuming field 'visual=
-' is not equal to FB_VISUAL_DIRECTCOLOR
-                       p->fix.visual =3D=3D FB_VISUAL_DIRECTCOLOR) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:311:3: note: Taking false branch
-                   if (p->fix.visual =3D=3D FB_VISUAL_TRUECOLOR ||
-                   ^
-   drivers/video/fbdev/core/sysimgblt.c:320:7: note: Assuming the condition=
- is true
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                       ^~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:320:7: note: Left side of '&&' is t=
-rue
-   drivers/video/fbdev/core/sysimgblt.c:320:24: note: Assuming 'start_index=
-' is 0
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                                        ^~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:320:7: note: Left side of '&&' is t=
-rue
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                       ^
-   drivers/video/fbdev/core/sysimgblt.c:320:40: note: Assuming 'pitch_index=
-' is 0
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                                                        ^~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:320:7: note: Left side of '&&' is t=
-rue
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                       ^
-   drivers/video/fbdev/core/sysimgblt.c:321:8: note: Assuming the condition=
- is true
-                       ((width & (32/bpp-1)) =3D=3D 0) &&
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:320:7: note: Left side of '&&' is t=
-rue
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                       ^
-   drivers/video/fbdev/core/sysimgblt.c:322:7: note: Assuming 'bpp' is >=3D=
- 8
-                       bpp >=3D 8 && bpp <=3D 32)
-                       ^~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:320:7: note: Left side of '&&' is t=
-rue
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                       ^
-   drivers/video/fbdev/core/sysimgblt.c:322:19: note: Assuming 'bpp' is <=
-=3D 32
-                       bpp >=3D 8 && bpp <=3D 32)
-                                   ^~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:320:3: note: Taking true branch
-                   if (32 % bpp =3D=3D 0 && !start_index && !pitch_index &&
-                   ^
-   drivers/video/fbdev/core/sysimgblt.c:323:4: note: Calling 'fast_imagebli=
-t'
-                           fast_imageblit(image, p, dst1, fgcolor, bgcolor);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/core/sysimgblt.c:197:9: note: 'j' declared without a=
-n initial value
-           int i, j, k;
-                  ^
-   drivers/video/fbdev/core/sysimgblt.c:199:2: note: Control jumps to 'case=
- 32:' @line 208
-           switch (bpp) {
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:211:3: note:  Execution continues o=
-n line 216
-                   break;
-                   ^
-   drivers/video/fbdev/core/sysimgblt.c:216:2: note: Loop condition is fals=
-e. Execution continues on line 223
-           for (i =3D ppw-1; i--; ) {
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:227:2: note: Loop condition is true=
-.  Entering loop body
-           for (i =3D 0; i < tablen; ++i)
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:227:2: note: Loop condition is true=
-.  Entering loop body
-   drivers/video/fbdev/core/sysimgblt.c:227:2: note: Loop condition is fals=
-e. Execution continues on line 230
-   drivers/video/fbdev/core/sysimgblt.c:230:2: note: Loop condition is true=
-.  Entering loop body
-           for (i =3D image->height; i--; ) {
-           ^
-   drivers/video/fbdev/core/sysimgblt.c:240:3: note: 'Default' branch taken=
-. Execution continues on line 274
-                   switch (ppw) {
-                   ^
-   drivers/video/fbdev/core/sysimgblt.c:274:10: note: The expression is an =
-uninitialized value. The computed value will also be garbage
-                   for (; j--; ) {
-                          ^
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   68 warnings generated.
-   drivers/ptp/ptp_chardev.c:24:2: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&rq, 0, sizeof(rq));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
+vim +52 fs/xfs/xfs_trace.c
 
-vim +274 drivers/video/fbdev/core/sysimgblt.c
+0b1b213fcf3a84 fs/xfs/linux-2.6/xfs_trace.c Christoph Hellwig 2009-12-14  4=
+5  =
 
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  177  =
-
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  178  /*
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  179   * fast_imageblit - optimized monochrome color expansion
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  180   *
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  181   * Only if:  bits_per_pixel =3D=3D 8, 16, or 32
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  182   *           image->width is divisible by pixel/dword (ppw);
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  183   *           fix->line_legth is divisible by 4;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  184   *           beginning and end of a scanline is dword aligned
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  185   */
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  186  static void fast_imageblit(const struct fb_image *image, struc=
-t fb_info *p,
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  187  				  void *dst1, u32 fgcolor, u32 bgcolor)
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  188  {
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  189  	u32 fgx =3D fgcolor, bgx =3D bgcolor, bpp =3D p->var.bits_per=
-_pixel;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  190  	u32 ppw =3D 32/bpp, spitch =3D (image->width + 7)/8;
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  191  	u32 bit_mask, eorx, shift;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  192  	const char *s =3D image->data, *src;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  193  	u32 *dst;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  194  	const u32 *tab;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  195  	size_t tablen;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  196  	u32 colortab[16];
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  197  	int i, j, k;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  198  =
-
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  199  	switch (bpp) {
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  200  	case 8:
-e4c690e061b909 drivers/video/sysimgblt.c            Anton Vorontsov    2008=
--04-28  201  		tab =3D fb_be_math(p) ? cfb_tab8_be : cfb_tab8_le;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  202  		tablen =3D 16;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  203  		break;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  204  	case 16:
-e4c690e061b909 drivers/video/sysimgblt.c            Anton Vorontsov    2008=
--04-28  205  		tab =3D fb_be_math(p) ? cfb_tab16_be : cfb_tab16_le;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  206  		tablen =3D 4;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  207  		break;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  208  	case 32:
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  209  		tab =3D cfb_tab32;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  210  		tablen =3D 2;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  211  		break;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  212  	default:
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  213  		return;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  214  	}
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  215  =
-
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  216  	for (i =3D ppw-1; i--; ) {
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  217  		fgx <<=3D bpp;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  218  		bgx <<=3D bpp;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  219  		fgx |=3D fgcolor;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  220  		bgx |=3D bgcolor;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  221  	}
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  222  =
-
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  223  	bit_mask =3D (1 << ppw) - 1;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  224  	eorx =3D fgx ^ bgx;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  225  	k =3D image->width/ppw;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  226  =
-
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  227  	for (i =3D 0; i < tablen; ++i)
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  228  		colortab[i] =3D (tab[i] & eorx) ^ bgx;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  229  =
-
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  230  	for (i =3D image->height; i--; ) {
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  231  		dst =3D dst1;
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  232  		shift =3D 8;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  233  		src =3D s;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  234  =
-
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  235  		/*
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  236  		 * Manually unroll the per-line copying loop for better
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  237  		 * performance. This works until we processed the last
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  238  		 * completely filled source byte (inclusive).
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  239  		 */
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  240  		switch (ppw) {
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  241  		case 4: /* 8 bpp */
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  242  			for (j =3D k; j >=3D 2; j -=3D 2, ++src) {
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  243  				*dst++ =3D colortab[(*src >> 4) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  244  				*dst++ =3D colortab[(*src >> 0) & bit_mask];
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  245  			}
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  246  			break;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  247  		case 2: /* 16 bpp */
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  248  			for (j =3D k; j >=3D 4; j -=3D 4, ++src) {
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  249  				*dst++ =3D colortab[(*src >> 6) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  250  				*dst++ =3D colortab[(*src >> 4) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  251  				*dst++ =3D colortab[(*src >> 2) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  252  				*dst++ =3D colortab[(*src >> 0) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  253  			}
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  254  			break;
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  255  		case 1: /* 32 bpp */
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  256  			for (j =3D k; j >=3D 8; j -=3D 8, ++src) {
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  257  				*dst++ =3D colortab[(*src >> 7) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  258  				*dst++ =3D colortab[(*src >> 6) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  259  				*dst++ =3D colortab[(*src >> 5) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  260  				*dst++ =3D colortab[(*src >> 4) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  261  				*dst++ =3D colortab[(*src >> 3) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  262  				*dst++ =3D colortab[(*src >> 2) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  263  				*dst++ =3D colortab[(*src >> 1) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  264  				*dst++ =3D colortab[(*src >> 0) & bit_mask];
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  265  			}
-6f29e04938bf50 drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--02-23  266  			break;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  267  		}
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  268  =
-
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  269  		/*
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  270  		 * For image widths that are not a multiple of 8, there
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  271  		 * are trailing pixels left on the current line. Print
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  272  		 * them as well.
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  273  		 */
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13 @274  		for (; j--; ) {
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  275  			shift -=3D ppw;
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  276  			*dst++ =3D colortab[(*src >> shift) & bit_mask];
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  277  			if (!shift) {
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  278  				shift =3D 8;
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  279  				++src;
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  280  			}
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  281  		}
-34e093954c6d2a drivers/video/fbdev/core/sysimgblt.c Thomas Zimmermann  2022=
--03-13  282  =
-
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  283  		dst1 +=3D p->fix.line_length;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  284  		s +=3D spitch;
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  285  	}
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  286  }
-68648ed1f58d98 drivers/video/sysimgblt.c            Antonino A. Daplas 2007=
--05-08  287  =
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  4=
+6  static inline void
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  4=
+7  xfs_btree_crack_agno_opdev(
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  4=
+8  	struct xfs_btree_cur	*cur,
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  4=
+9  	xfs_agnumber_t		*agno,
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+0  	dev_t			*opdev)
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+1  {
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06 @5=
+2  	if (cur->bc_flags & XFS_BTREE_IN_MEMORY) {
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+3  		*agno =3D 0;
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+4  		*opdev =3D xfbtree_target(cur->bc_mem.xfbtree)->bt_dev;
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+5  	} else if (cur->bc_flags & XFS_BTREE_ROOT_IN_INODE) {
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+6  		*agno =3D 0;
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+7  		*opdev =3D cur->bc_mp->m_rtdev_targp->bt_dev;
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+8  	} else {
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  5=
+9  		*agno =3D cur->bc_ag.pag->pag_agno;
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  6=
+0  		*opdev =3D cur->bc_mp->m_super->s_dev;
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  6=
+1  	}
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  6=
+2  }
+c42b1a06786a60 fs/xfs/xfs_trace.c           Darrick J. Wong   2022-01-06  6=
+3  =
 
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5189863554191864022==--
+--===============5123275631720223671==--
 
