@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8901347514620833102=="
+Content-Type: multipart/mixed; boundary="===============5963955179371580708=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/memory/tegra/tegra210-emc-core.c:936:2: warning: Value stored to 'mpc_req' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 19 Mar 2022 07:43:26 +0800
-Message-ID: <202203190700.YnlAyyNj-lkp@intel.com>
+Subject: [hverkuil-media-tree:cec 352/417] drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored to 'error' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 18 Mar 2022 14:08:50 +0800
+Message-ID: <202203181456.719UtS65-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8901347514620833102==
+--===============5963955179371580708==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,37 +16,33 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Thierry Reding <treding@nvidia.com>
-CC: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   551acdc3c3d2b6bc97f11e31dcf960bc36343bfc
-commit: 56ebc9b0d77e0406aba2d900c82e79204cc7dc32 memory: tegra: Enable comp=
-ile testing for all drivers
-date:   10 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20220317 (https://download.01.org/0day-ci/archi=
-ve/20220319/202203190700.YnlAyyNj-lkp(a)intel.com/config)
+tree:   git://linuxtv.org/hverkuil/media_tree.git cec
+head:   8b429dac2d98bd585ff5af37042d1d9bb104a2eb
+commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 [352/417] media: platform:=
+ place Renesas drivers on a separate dir
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 days ago
+config: riscv-randconfig-c006-20220317 (https://download.01.org/0day-ci/arc=
+hive/20220318/202203181456.719UtS65-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
 3d798f8eab43fb3a91028c6ab04e115fcb)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D56ebc9b0d77e0406aba2d900c82e79204cc7dc32
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 56ebc9b0d77e0406aba2d900c82e79204cc7dc32
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media=
+_tree.git
+        git fetch --no-tags hverkuil-media-tree cec
+        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,849 +50,502 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                   ^
-   drivers/hwtracing/coresight/coresight-core.c:469:3: note: Taking true br=
-anch
-                   if (source_ops(csdev)->disable)
-                   ^
-   drivers/hwtracing/coresight/coresight-core.c:471:3: note: Calling 'cores=
-ight_control_assoc_ectdev'
-                   coresight_control_assoc_ectdev(csdev, false);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:273:6: note: Assuming 'ect_=
-csdev' is non-null
-           if (!ect_csdev)
-               ^~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:273:2: note: Taking false b=
-ranch
-           if (!ect_csdev)
-           ^
-   drivers/hwtracing/coresight/coresight-core.c:275:7: note: Assuming field=
- 'enable' is null
-           if ((!ect_ops(ect_csdev)->enable) || (!ect_ops(ect_csdev)->disab=
-le))
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:275:36: note: Left side of =
-'||' is true
-           if ((!ect_ops(ect_csdev)->enable) || (!ect_ops(ect_csdev)->disab=
-le))
-                                             ^
-   drivers/hwtracing/coresight/coresight-core.c:276:3: note: Returning with=
-out writing to 'csdev->enable', which participates in a condition later
-                   return 0;
-                   ^
-   drivers/hwtracing/coresight/coresight-core.c:471:3: note: Returning from=
- 'coresight_control_assoc_ectdev'
-                   coresight_control_assoc_ectdev(csdev, false);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:474:2: note: Returning the =
-value 1, which participates in a condition later
-           return !csdev->enable;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1180:25: note: Returning fr=
-om 'coresight_disable_source'
-           if (!csdev->enable || !coresight_disable_source(csdev))
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1180:2: note: Taking false =
-branch
-           if (!csdev->enable || !coresight_disable_source(csdev))
-           ^
-   drivers/hwtracing/coresight/coresight-core.c:1183:2: note: Control jumps=
- to the 'default' case at line 1193
-           switch (csdev->subtype.source_subtype) {
-           ^
-   drivers/hwtracing/coresight/coresight-core.c:1195:3: note:  Execution co=
-ntinues on line 1198
-                   break;
-                   ^
-   drivers/hwtracing/coresight/coresight-core.c:1199:25: note: Passing null=
- pointer value via 1st parameter 'path'
-           coresight_release_path(path);
-                                  ^~~~
-   drivers/hwtracing/coresight/coresight-core.c:1199:2: note: Calling 'core=
-sight_release_path'
-           coresight_release_path(path);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:880:2: note: Access to fiel=
-d 'next' results in a dereference of a null pointer (loaded from variable '=
-path')
-           list_for_each_entry_safe(nd, next, path, link) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^                ~~~~
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^           ~~~
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^            ~~~
-   include/linux/kernel.h:703:25: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~
-   drivers/hwtracing/coresight/coresight-core.c:1737:4: warning: Value stor=
-ed to 'idx' is never read [clang-analyzer-deadcode.DeadStores]
-                           idx =3D -ENOMEM;
-                           ^     ~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1737:4: note: Value stored =
-to 'idx' is never read
-                           idx =3D -ENOMEM;
-                           ^     ~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   drivers/memory/tegra/mc.c:872:19: warning: Value stored to 'mc' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct tegra_mc *mc =3D dev_get_drvdata(dev);
-                            ^~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/mc.c:872:19: note: Value stored to 'mc' during its =
-initialization is never read
-           struct tegra_mc *mc =3D dev_get_drvdata(dev);
-                            ^~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/mc.c:886:19: warning: Value stored to 'mc' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct tegra_mc *mc =3D dev_get_drvdata(dev);
-                            ^~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/mc.c:886:19: note: Value stored to 'mc' during its =
-initialization is never read
-           struct tegra_mc *mc =3D dev_get_drvdata(dev);
-                            ^~   ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
->> drivers/memory/tegra/tegra210-emc-core.c:936:2: warning: Value stored to=
- 'mpc_req' is never read [clang-analyzer-deadcode.DeadStores]
-           mpc_req =3D emc_readl(emc, EMC_MPC);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:936:2: note: Value stored to 'm=
-pc_req' is never read
-           mpc_req =3D emc_readl(emc, EMC_MPC);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/memory/tegra/tegra210-emc-core.c:1901:7: warning: Dereference of=
- null pointer [clang-analyzer-core.NullDereference]
-                   if (emc->timings[i].rate =3D=3D current_rate) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1837:6: note: Assuming 'emc' is=
- non-null
-           if (!emc)
-               ^~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1837:2: note: Taking false bran=
-ch
-           if (!emc)
-           ^
-   drivers/memory/tegra/tegra210-emc-core.c:1841:6: note: Calling 'IS_ERR'
-           if (IS_ERR(emc->clk))
-               ^~~~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1841:6: note: Returning from 'I=
-S_ERR'
-           if (IS_ERR(emc->clk))
-               ^~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1841:2: note: Taking false bran=
-ch
-           if (IS_ERR(emc->clk))
-           ^
-   drivers/memory/tegra/tegra210-emc-core.c:1844:2: note: Calling 'platform=
-_set_drvdata'
-           platform_set_drvdata(pdev, emc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:248:2: note: Calling 'dev_set_drvdata'
-           dev_set_drvdata(&pdev->dev, data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:676:1: note: Returning without writing to 'data->=
-nominal', which participates in a condition later
-   }
-   ^
-   include/linux/device.h:676:1: note: Returning without writing to 'data->=
-derated', which participates in a condition later
-   include/linux/device.h:676:1: note: Returning without writing to 'data->=
-nominal'
-   include/linux/device.h:676:1: note: Returning without writing to 'data->=
-timings'
-   include/linux/platform_device.h:248:2: note: Returning from 'dev_set_drv=
-data'
-           dev_set_drvdata(&pdev->dev, data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:249:1: note: Returning without writing t=
-o 'data->nominal', which participates in a condition later
-   }
-   ^
-   include/linux/platform_device.h:249:1: note: Returning without writing t=
-o 'data->derated', which participates in a condition later
-   include/linux/platform_device.h:249:1: note: Returning without writing t=
-o 'data->nominal'
-   include/linux/platform_device.h:249:1: note: Returning without writing t=
-o 'data->timings'
-   drivers/memory/tegra/tegra210-emc-core.c:1844:2: note: Returning from 'p=
-latform_set_drvdata'
-           platform_set_drvdata(pdev, emc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1845:2: note: Loop condition is=
- false.  Exiting loop
-           spin_lock_init(&emc->lock);
-           ^
-   include/linux/spinlock.h:334:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/memory/tegra/tegra210-emc-core.c:1848:12: note: Value assigned t=
-o field 'nominal'
-           emc->mc =3D devm_tegra_memory_controller_get(&pdev->dev);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1849:6: note: Calling 'IS_ERR'
-           if (IS_ERR(emc->mc))
-               ^~~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1849:6: note: Returning from 'I=
-S_ERR'
-           if (IS_ERR(emc->mc))
-               ^~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1849:2: note: Taking false bran=
-ch
-           if (IS_ERR(emc->mc))
-           ^
-   drivers/memory/tegra/tegra210-emc-core.c:1853:6: note: Calling 'IS_ERR'
-           if (IS_ERR(emc->regs))
-               ^~~~~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1853:6: note: Returning from 'I=
-S_ERR'
-           if (IS_ERR(emc->regs))
---
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   include/linux/log2.h:67:13: warning: The result of the left shift is und=
-efined due to shifting by '4294967295', which is greater or equal to the wi=
-dth of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorRes=
-ult]
-           return 1UL << (fls_long(n) - 1);
-                      ^
-   drivers/hwtracing/coresight/coresight-stm.c:414:32: note: Left side of '=
-&&' is false
-           struct stm_drvdata *drvdata =3D container_of(stm_data,
-                                         ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/hwtracing/coresight/coresight-stm.c:414:32: note: Taking false b=
-ranch
-           struct stm_drvdata *drvdata =3D container_of(stm_data,
-                                         ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/hwtracing/coresight/coresight-stm.c:414:32: note: Loop condition=
- is false.  Exiting loop
-           struct stm_drvdata *drvdata =3D container_of(stm_data,
-                                         ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/hwtracing/coresight/coresight-stm.c:418:8: note: Assuming 'drvda=
-ta' is non-null
-           if (!(drvdata && local_read(&drvdata->mode)))
-                 ^~~~~~~
-   drivers/hwtracing/coresight/coresight-stm.c:418:8: note: Left side of '&=
-&' is true
-   drivers/hwtracing/coresight/coresight-stm.c:418:6: note: Assuming the co=
-ndition is false
-           if (!(drvdata && local_read(&drvdata->mode)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-stm.c:418:2: note: Taking false br=
-anch
-           if (!(drvdata && local_read(&drvdata->mode)))
-           ^
-   drivers/hwtracing/coresight/coresight-stm.c:421:6: note: Assuming 'chann=
-el' is < field 'numsp'
-           if (channel >=3D drvdata->numsp)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-stm.c:421:2: note: Taking false br=
-anch
-           if (channel >=3D drvdata->numsp)
-           ^
-   drivers/hwtracing/coresight/coresight-stm.c:426:15: note: Assuming the c=
-ondition is false
-           stm_flags =3D (flags & STP_PACKET_TIMESTAMPED) ?
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-stm.c:426:14: note: '?' condition =
-is false
-           stm_flags =3D (flags & STP_PACKET_TIMESTAMPED) ?
-                       ^
-   drivers/hwtracing/coresight/coresight-stm.c:428:15: note: Assuming the c=
-ondition is false
-           stm_flags |=3D test_bit(channel, drvdata->chs.guaranteed) ?
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-stm.c:428:15: note: '?' condition =
-is false
-   drivers/hwtracing/coresight/coresight-stm.c:431:6: note: Assuming 'size'=
- is <=3D field 'write_bytes'
-           if (size > drvdata->write_bytes)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-stm.c:431:2: note: Taking false br=
-anch
-           if (size > drvdata->write_bytes)
-           ^
-   drivers/hwtracing/coresight/coresight-stm.c:434:10: note: '?' condition =
-is false
-                   size =3D rounddown_pow_of_two(size);
-                          ^
-   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_=
-two'
-           __builtin_constant_p(n) ? (             \
-           ^
-   drivers/hwtracing/coresight/coresight-stm.c:434:10: note: Calling '__rou=
-nddown_pow_of_two'
-                   size =3D rounddown_pow_of_two(size);
-                          ^
-   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_=
-two'
-           __rounddown_pow_of_two(n)               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:67:13: note: The result of the left shift is undefi=
-ned due to shifting by '4294967295', which is greater or equal to the width=
- of type 'unsigned long'
-           return 1UL << (fls_long(n) - 1);
-                      ^  ~~~~~~~~~~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/memory/tegra/tegra210-emc-cc-r21021.c:148:15: warning: The left =
-expression of the compound assignment is an uninitialized value. The comput=
-ed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-                           temp[i][0] |=3D (value & 0x00ff) >> 0;
-                           ~~~~~~~~~~ ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:118:34: note: Assuming 'ty=
-pe' is not equal to PERIODIC_TRAINING_UPDATE
-           bool periodic_training_update =3D type =3D=3D PERIODIC_TRAINING_=
-UPDATE;
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:123:21: note: Assuming 'ty=
-pe' is not equal to DVFS_UPDATE
-           bool dvfs_update =3D type =3D=3D DVFS_UPDATE;
-                              ^~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:125:18: note: Assuming 'ty=
-pe' is equal to DVFS_PT1
-           bool dvfs_pt1 =3D type =3D=3D DVFS_PT1;
-                           ^~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:133:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
+   14 warnings generated.
+   drivers/i2c/busses/i2c-qcom-geni.c:170:6: warning: Value stored to 'm_cm=
+d' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           u32 m_cmd =3D readl_relaxed(gi2c->se.base + SE_GENI_M_CMD0);
+               ^~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:170:6: note: Value stored to 'm_cmd' =
+during its initialization is never read
+           u32 m_cmd =3D readl_relaxed(gi2c->se.base + SE_GENI_M_CMD0);
+               ^~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:171:6: warning: Value stored to 'm_st=
+at' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           u32 m_stat =3D readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATU=
+S);
+               ^~~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:171:6: note: Value stored to 'm_stat'=
+ during its initialization is never read
+           u32 m_stat =3D readl_relaxed(gi2c->se.base + SE_GENI_M_IRQ_STATU=
+S);
+               ^~~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:172:6: warning: Value stored to 'geni=
+_s' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           u32 geni_s =3D readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+               ^~~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:172:6: note: Value stored to 'geni_s'=
+ during its initialization is never read
+           u32 geni_s =3D readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
+               ^~~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:173:6: warning: Value stored to 'geni=
+_ios' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           u32 geni_ios =3D readl_relaxed(gi2c->se.base + SE_GENI_IOS);
                ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:133:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:15: note: Assuming 'i'=
- is >=3D field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:3: note: Loop conditio=
-n is false. Execution continues on line 145
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:147:15: note: Assuming 'i'=
- is < field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:147:3: note: Loop conditio=
-n is true.  Entering loop body
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:148:15: note: The left exp=
-ression of the compound assignment is an uninitialized value. The computed =
-value will also be garbage
-                           temp[i][0] |=3D (value & 0x00ff) >> 0;
-                           ~~~~~~~~~~ ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:157:36: warning: The right=
- operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinaryOper=
-atorResult]
-                   cval /=3D last_timing_rate_mhz * 2 * temp[0][0];
-                                                    ^ ~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:118:34: note: Assuming 'ty=
-pe' is not equal to PERIODIC_TRAINING_UPDATE
-           bool periodic_training_update =3D type =3D=3D PERIODIC_TRAINING_=
-UPDATE;
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:123:21: note: Assuming 'ty=
-pe' is not equal to DVFS_UPDATE
-           bool dvfs_update =3D type =3D=3D DVFS_UPDATE;
-                              ^~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:125:18: note: Assuming 'ty=
-pe' is equal to DVFS_PT1
-           bool dvfs_pt1 =3D type =3D=3D DVFS_PT1;
-                           ^~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:133:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
+   drivers/i2c/busses/i2c-qcom-geni.c:173:6: note: Value stored to 'geni_io=
+s' during its initialization is never read
+           u32 geni_ios =3D readl_relaxed(gi2c->se.base + SE_GENI_IOS);
                ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:133:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:15: note: Assuming 'i'=
- is >=3D field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:3: note: Loop conditio=
-n is false. Execution continues on line 145
-                   for (i =3D 0; i < emc->num_channels; i++) {
+   drivers/i2c/busses/i2c-qcom-geni.c:178:3: warning: Value stored to 'rx_s=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+                   rx_st =3D readl_relaxed(gi2c->se.base + SE_DMA_RX_IRQ_ST=
+AT);
                    ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:147:15: note: Assuming 'i'=
- is >=3D field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:147:3: note: Loop conditio=
-n is false. Execution continues on line 154
-                   for (i =3D 0; i < emc->num_channels; i++) {
+   drivers/i2c/busses/i2c-qcom-geni.c:178:3: note: Value stored to 'rx_st' =
+is never read
+   drivers/i2c/busses/i2c-qcom-geni.c:179:3: warning: Value stored to 'tx_s=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+                   tx_st =3D readl_relaxed(gi2c->se.base + SE_DMA_TX_IRQ_ST=
+AT);
                    ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:154:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:154:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:157:36: note: The right op=
-erand of '*' is a garbage value
-                   cval /=3D last_timing_rate_mhz * 2 * temp[0][0];
-                                                    ^ ~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:283:15: warning: The left =
-expression of the compound assignment is an uninitialized value. The comput=
-ed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-                           temp[i][0] |=3D (value & 0x00ff) >> 0;
-                           ~~~~~~~~~~ ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:118:34: note: Assuming 'ty=
-pe' is not equal to PERIODIC_TRAINING_UPDATE
-           bool periodic_training_update =3D type =3D=3D PERIODIC_TRAINING_=
-UPDATE;
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:123:21: note: Assuming 'ty=
-pe' is not equal to DVFS_UPDATE
-           bool dvfs_update =3D type =3D=3D DVFS_UPDATE;
-                              ^~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:125:18: note: Assuming 'ty=
-pe' is equal to DVFS_PT1
-           bool dvfs_pt1 =3D type =3D=3D DVFS_PT1;
-                           ^~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:133:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:133:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:15: note: Assuming 'i'=
- is < field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:3: note: Loop conditio=
-n is true.  Entering loop body
-                   for (i =3D 0; i < emc->num_channels; i++) {
+   drivers/i2c/busses/i2c-qcom-geni.c:179:3: note: Value stored to 'tx_st' =
+is never read
+   drivers/i2c/busses/i2c-qcom-geni.c:181:3: warning: Value stored to 'rx_s=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+                   rx_st =3D readl_relaxed(gi2c->se.base + SE_GENI_RX_FIFO_=
+STATUS);
                    ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:15: note: Assuming 'i'=
- is >=3D field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:136:3: note: Loop conditio=
-n is false. Execution continues on line 145
-                   for (i =3D 0; i < emc->num_channels; i++) {
+   drivers/i2c/busses/i2c-qcom-geni.c:181:3: note: Value stored to 'rx_st' =
+is never read
+   drivers/i2c/busses/i2c-qcom-geni.c:182:3: warning: Value stored to 'tx_s=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+                   tx_st =3D readl_relaxed(gi2c->se.base + SE_GENI_TX_FIFO_=
+STATUS);
                    ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:147:15: note: Assuming 'i'=
- is >=3D field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:147:3: note: Loop conditio=
-n is false. Execution continues on line 154
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:154:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:154:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:160:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1)
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:160:2: note: Taking true b=
-ranch
-           if (dvfs_pt1)
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:167:6: note: 'dvfs_update'=
- is false
-           if (dvfs_update || periodic_training_update) {
-               ^~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:167:6: note: Left side of =
-'||' is false
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:167:21: note: 'periodic_tr=
-aining_update' is false
-           if (dvfs_update || periodic_training_update) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:167:2: note: Taking false =
-branch
-           if (dvfs_update || periodic_training_update) {
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:179:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:179:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:185:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1)
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:185:2: note: Taking true b=
-ranch
-           if (dvfs_pt1)
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:6: note: 'dvfs_update'=
- is false
-           if (dvfs_update || periodic_training_update) {
-               ^~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:6: note: Left side of =
-'||' is false
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:21: note: 'periodic_tr=
-aining_update' is false
-           if (dvfs_update || periodic_training_update) {
-                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:192:2: note: Taking false =
-branch
-           if (dvfs_update || periodic_training_update) {
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:206:11: note: Field 'num_c=
-hannels' is <=3D 1
-           if (emc->num_channels > 1) {
-                    ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:206:2: note: Taking false =
-branch
-           if (emc->num_channels > 1) {
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:262:6: note: Assuming fiel=
-d 'num_devices' is >=3D 2
-           if (emc->num_devices < 2)
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:262:2: note: Taking false =
-branch
-           if (emc->num_devices < 2)
-           ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:268:6: note: 'dvfs_pt1' is=
- true
-           if (dvfs_pt1 || periodic_training_update) {
-               ^~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:268:15: note: Left side of=
- '||' is true
-           if (dvfs_pt1 || periodic_training_update) {
-                        ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:271:15: note: Assuming 'i'=
- is >=3D field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:271:3: note: Loop conditio=
-n is false. Execution continues on line 280
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:15: note: Assuming 'i'=
- is < field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:3: note: Loop conditio=
-n is true.  Entering loop body
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:15: note: Assuming 'i'=
- is < field 'num_channels'
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:282:3: note: Loop conditio=
-n is true.  Entering loop body
-                   for (i =3D 0; i < emc->num_channels; i++) {
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:283:15: note: The left exp=
-ression of the compound assignment is an uninitialized value. The computed =
-value will also be garbage
-                           temp[i][0] |=3D (value & 0x00ff) >> 0;
-                           ~~~~~~~~~~ ^
->> drivers/memory/tegra/tegra210-emc-cc-r21021.c:456:5: warning: Value stor=
-ed to 'adel' is never read [clang-analyzer-deadcode.DeadStores]
-                                   adel =3D update_clock_tree_delay(emc, DV=
-FS_PT1);
-                                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:456:5: note: Value stored =
-to 'adel' is never read
-                                   adel =3D update_clock_tree_delay(emc, DV=
-FS_PT1);
-                                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
->> drivers/memory/tegra/tegra210-emc-cc-r21021.c:500:3: warning: Value stor=
-ed to 'value' is never read [clang-analyzer-deadcode.DeadStores]
-                   value =3D emc_readl(emc, EMC_DBG);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:500:3: note: Value stored =
-to 'value' is never read
-                   value =3D emc_readl(emc, EMC_DBG);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/memory/tegra/tegra210-emc-cc-r21021.c:875:3: warning: Value stor=
-ed to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long =3D max((u32)1, div_o3(1000000, dst_clk_per=
-iod));
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:875:3: note: Value stored =
-to 'zq_wait_long' is never read
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:877:3: warning: Value stor=
-ed to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long =3D max(next->min_mrs_wait,
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:877:3: note: Value stored =
-to 'zq_wait_long' is never read
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:880:3: warning: Value stor=
-ed to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long =3D max((u32)256,
-                   ^
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:880:3: note: Value stored =
-to 'zq_wait_long' is never read
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:883:3: warning: Value stor=
-ed to 'zq_wait_long' is never read [clang-analyzer-deadcode.DeadStores]
-                   zq_wait_long =3D 0;
-                   ^              ~
-   drivers/memory/tegra/tegra210-emc-cc-r21021.c:883:3: note: Value stored =
-to 'zq_wait_long' is never read
-                   zq_wait_long =3D 0;
-                   ^              ~
-   16 warnings generated.
-   Suppressed 16 warnings (16 in non-user code).
+   drivers/i2c/busses/i2c-qcom-geni.c:182:3: note: Value stored to 'tx_st' =
+is never read
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   include/linux/list.h:135:13: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           __list_del(entry->prev, entry->next);
-                      ^
-   fs/btrfs/qgroup.c:1549:6: note: Assuming field 'quota_root' is non-null
-           if (!fs_info->quota_root) {
-               ^~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/qgroup.c:1549:2: note: Taking false branch
-           if (!fs_info->quota_root) {
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/media/platform/qcom/venus/venc.c:877:3: warning: Value stored to=
+ 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D hfi_session_set_property(inst, ptype, &en);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/qcom/venus/venc.c:877:3: note: Value stored to 'r=
+et' is never read
+                   ret =3D hfi_session_set_property(inst, ptype, &en);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored=
+ to 'error' during its initialization is never read [clang-analyzer-deadcod=
+e.DeadStores]
+                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
+ASK;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/renesas/rcar_jpu.c:1551:17: note: Value stored to=
+ 'error' during its initialization is never read
+                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
+ASK;
+                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/media/dvb-frontends/drxd_hard.c:858:9: warning: The left express=
+ion of the compound assignment is an uninitialized value. The computed valu=
+e will also be garbage [clang-analyzer-core.uninitialized.Assign]
+                   Value &=3D FE_AG_REG_GC1_AGC_DAT__M;
+                         ^
+   drivers/media/dvb-frontends/drxd_hard.c:2761:8: note: Calling 'ReadIFAgc'
+           res =3D ReadIFAgc(state, &value);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/drxd_hard.c:855:6: note: Assuming field 'ctr=
+lMode' is not equal to AGC_CTRL_OFF
+           if (state->if_agc_cfg.ctrlMode !=3D AGC_CTRL_OFF) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/drxd_hard.c:855:2: note: Taking true branch
+           if (state->if_agc_cfg.ctrlMode !=3D AGC_CTRL_OFF) {
            ^
-   fs/btrfs/qgroup.c:1555:6: note: Assuming 'qgroup' is non-null
-           if (!qgroup) {
-               ^~~~~~~
-   fs/btrfs/qgroup.c:1555:2: note: Taking false branch
-           if (!qgroup) {
+   drivers/media/dvb-frontends/drxd_hard.c:856:3: note: 'Value' declared wi=
+thout an initial value
+                   u16 Value;
+                   ^~~~~~~~~
+   drivers/media/dvb-frontends/drxd_hard.c:857:12: note: Calling 'Read16'
+                   status =3D Read16(state, FE_AG_REG_GC1_AGC_DAT__A, &Valu=
+e, 0);
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/media/dvb-frontends/drxd_hard.c:232:2: note: Taking true branch
+           if (i2c_read(state->i2c, adr, mm1, 4, mm2, 2) < 0)
            ^
-   fs/btrfs/qgroup.c:1561:6: note: Assuming the condition is false
-           if (!list_empty(&qgroup->members)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/qgroup.c:1561:2: note: Taking false branch
-           if (!list_empty(&qgroup->members)) {
+   drivers/media/dvb-frontends/drxd_hard.c:233:3: note: Returning without w=
+riting to '*data'
+                   return -1;
+                   ^
+   drivers/media/dvb-frontends/drxd_hard.c:857:12: note: Returning from 'Re=
+ad16'
+                   status =3D Read16(state, FE_AG_REG_GC1_AGC_DAT__A, &Valu=
+e, 0);
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/media/dvb-frontends/drxd_hard.c:858:9: note: The left expression=
+ of the compound assignment is an uninitialized value. The computed value w=
+ill also be garbage
+                   Value &=3D FE_AG_REG_GC1_AGC_DAT__M;
+                   ~~~~~ ^
+   drivers/media/dvb-frontends/drxd_hard.c:2259:4: warning: Value stored to=
+ 'operationMode' is never read [clang-analyzer-deadcode.DeadStores]
+                           operationMode |=3D SC_RA_RAM_OP_AUTO_RATE__M;
+                           ^
+   drivers/media/dvb-frontends/drxd_hard.c:2259:4: note: Value stored to 'o=
+perationMode' is never read
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/media/dvb-frontends/drxk_hard.c:1378:2: warning: Value stored to=
+ 'status' is never read [clang-analyzer-deadcode.DeadStores]
+           status =3D write16(state, SIO_OFDM_SH_OFDM_RING_ENABLE__A, desir=
+ed_ctrl);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/media/dvb-frontends/drxk_hard.c:1378:2: note: Value stored to 's=
+tatus' is never read
+           status =3D write16(state, SIO_OFDM_SH_OFDM_RING_ENABLE__A, desir=
+ed_ctrl);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/media/dvb-frontends/drxk_hard.c:4172:2: warning: Value stored to=
+ 'fec_rs_prescale' is never read [clang-analyzer-deadcode.DeadStores]
+           fec_rs_prescale =3D 1;
+           ^                 ~
+   drivers/media/dvb-frontends/drxk_hard.c:4172:2: note: Value stored to 'f=
+ec_rs_prescale' is never read
+           fec_rs_prescale =3D 1;
+           ^                 ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/media/tuners/xc5000.c:645:2: warning: 3rd function call argument=
+ is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           dprintk(1, "*** ADC envelope (0-1023) =3D %d\n", adc_envelope);
            ^
-   fs/btrfs/qgroup.c:1567:6: note: 'ret' is not equal to 0
-           if (ret && ret !=3D -ENOENT)
-               ^~~
-   fs/btrfs/qgroup.c:1567:6: note: Left side of '&&' is true
-   fs/btrfs/qgroup.c:1567:13: note: Assuming the condition is false
-           if (ret && ret !=3D -ENOENT)
-                      ^~~~~~~~~~~~~~
-   fs/btrfs/qgroup.c:1567:2: note: Taking false branch
-           if (ret && ret !=3D -ENOENT)
+   drivers/media/tuners/xc5000.c:37:2: note: expanded from macro 'dprintk'
+           printk(KERN_INFO "%s: " fmt, "xc5000", ## arg)
            ^
-   fs/btrfs/qgroup.c:1570:2: note: Loop condition is false. Execution conti=
-nues on line 1579
-           while (!list_empty(&qgroup->groups)) {
+   include/linux/printk.h:446:44: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                              ^
+   drivers/media/tuners/xc5000.c:1286:2: note: Assuming 'debug' is < 1
+           dprintk(1, "%s()\n", __func__);
            ^
-   fs/btrfs/qgroup.c:1580:2: note: Calling 'del_qgroup_rb'
-           del_qgroup_rb(fs_info, qgroupid);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/qgroup.c:253:6: note: Assuming 'qgroup' is non-null
-           if (!qgroup)
-               ^~~~~~~
-   fs/btrfs/qgroup.c:253:2: note: Taking false branch
-           if (!qgroup)
-           ^
-   fs/btrfs/qgroup.c:257:2: note: Calling '__del_qgroup_rb'
-           __del_qgroup_rb(fs_info, qgroup);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/qgroup.c:231:2: note: Loop condition is true.  Entering loop bo=
-dy
-           while (!list_empty(&qgroup->groups)) {
-           ^
-   fs/btrfs/qgroup.c:232:10: note: Left side of '&&' is false
-                   list =3D list_first_entry(&qgroup->groups,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/btrfs/qgroup.c:232:10: note: Taking false branch
-                   list =3D list_first_entry(&qgroup->groups,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   drivers/media/tuners/xc5000.c:36:41: note: expanded from macro 'dprintk'
+   #define dprintk(level, fmt, arg...) if (debug >=3D level) \
+                                           ^~~~~~~~~~~~~~
+   drivers/media/tuners/xc5000.c:1286:2: note: Taking false branch
 
-vim +/mpc_req +936 drivers/memory/tegra/tegra210-emc-core.c
+vim +/error +1551 drivers/media/platform/renesas/rcar_jpu.c
 
-10de21148f7d28 Joseph Lo 2019-05-29  930  =
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1489  =
 
-10de21148f7d28 Joseph Lo 2019-05-29  931  void tegra210_emc_start_periodic_=
-compensation(struct tegra210_emc *emc)
-10de21148f7d28 Joseph Lo 2019-05-29  932  {
-10de21148f7d28 Joseph Lo 2019-05-29  933  	u32 mpc_req =3D 0x4b;
-10de21148f7d28 Joseph Lo 2019-05-29  934  =
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1490  /*
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1491   * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1492   * IRQ handler
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1493   * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1494   */
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1495  static irqreturn_t jpu_irq_handler(int irq, void *dev_id)
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1496  {
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1497  	struct jpu *jpu =3D dev_id;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1498  	struct jpu_ctx *curr_ctx;
+2d7007153f0c9b1 drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-2=
+2  1499  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1500  	unsigned int int_status;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1501  =
 
-10de21148f7d28 Joseph Lo 2019-05-29  935  	emc_writel(emc, mpc_req, EMC_MPC=
-);
-10de21148f7d28 Joseph Lo 2019-05-29 @936  	mpc_req =3D emc_readl(emc, EMC_M=
-PC);
-10de21148f7d28 Joseph Lo 2019-05-29  937  }
-10de21148f7d28 Joseph Lo 2019-05-29  938  =
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1502  	int_status =3D jpu_read(jpu, JINTS);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1503  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1504  	/* ...spurious interrupt */
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1505  	if (!((JINTS_TRANSF_COMPL | JINTS_PROCESS_COMPL | JINTS_ERR) &
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1506  	    int_status))
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1507  		return IRQ_NONE;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1508  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1509  	/* ...clear interrupts */
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1510  	jpu_write(jpu, ~(int_status & JINTS_MASK), JINTS);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1511  	if (int_status & (JINTS_ERR | JINTS_PROCESS_COMPL))
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1512  		jpu_write(jpu, JCCMD_JEND, JCCMD);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1513  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1514  	spin_lock(&jpu->lock);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1515  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1516  	if ((int_status & JINTS_PROCESS_COMPL) &&
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1517  	   !(int_status & JINTS_TRANSF_COMPL))
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1518  		goto handled;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1519  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1520  	curr_ctx =3D v4l2_m2m_get_curr_priv(jpu->m2m_dev);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1521  	if (!curr_ctx) {
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1522  		/* ...instance is not running */
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1523  		dev_err(jpu->dev, "no active context for m2m\n");
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1524  		goto handled;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1525  	}
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1526  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1527  	src_buf =3D v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1528  	dst_buf =3D v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1529  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1530  	if (int_status & JINTS_TRANSF_COMPL) {
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1531  		if (curr_ctx->encoder) {
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1532  			unsigned long payload_size =3D jpu_read(jpu, JCDTCU) << 16
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1533  						   | jpu_read(jpu, JCDTCM) << 8
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1534  						   | jpu_read(jpu, JCDTCD);
+2d7007153f0c9b1 drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-2=
+2  1535  			vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1536  				payload_size + JPU_JPEG_HDR_SIZE);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1537  		}
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1538  =
+
+2d7007153f0c9b1 drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-2=
+2  1539  		dst_buf->field =3D src_buf->field;
+d6dd645eae76eeb drivers/media/platform/rcar_jpu.c Junghak Sung    2015-11-0=
+3  1540  		dst_buf->vb2_buf.timestamp =3D src_buf->vb2_buf.timestamp;
+2d7007153f0c9b1 drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-2=
+2  1541  		if (src_buf->flags & V4L2_BUF_FLAG_TIMECODE)
+2d7007153f0c9b1 drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-2=
+2  1542  			dst_buf->timecode =3D src_buf->timecode;
+2d7007153f0c9b1 drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-2=
+2  1543  		dst_buf->flags =3D src_buf->flags &
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1544  			(V4L2_BUF_FLAG_TIMECODE | V4L2_BUF_FLAG_KEYFRAME |
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1545  			 V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME |
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1546  			 V4L2_BUF_FLAG_TSTAMP_SRC_MASK);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1547  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1548  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1549  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1550  	} else if (int_status & JINTS_ERR) {
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2 @1551  		unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_MASK;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1552  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1553  		dev_dbg(jpu->dev, "processing error: %#X: %s\n", error,
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1554  			error_to_text[error]);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1555  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1556  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1557  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1558  	}
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1559  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1560  	jpu->curr =3D NULL;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1561  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1562  	/* ...reset JPU after completion */
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1563  	jpu_write(jpu, JCCMD_SRST, JCCMD);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1564  	spin_unlock(&jpu->lock);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1565  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1566  	v4l2_m2m_job_finish(jpu->m2m_dev, curr_ctx->fh.m2m_ctx);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1567  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1568  	return IRQ_HANDLED;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1569  =
+
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1570  handled:
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1571  	spin_unlock(&jpu->lock);
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1572  	return IRQ_HANDLED;
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1573  }
+2c42cdbaec56a95 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-2=
+2  1574  =
 
 
-:::::: The code at line 936 was first introduced by commit
-:::::: 10de21148f7d28c9e918aaee7cede74a7d506e24 memory: tegra: Add EMC scal=
-ing support code for Tegra210
+:::::: The code at line 1551 was first introduced by commit
+:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add=
+ Renesas R-Car JPEG codec driver
 
-:::::: TO: Joseph Lo <josephl@nvidia.com>
-:::::: CC: Thierry Reding <treding@nvidia.com>
+:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8901347514620833102==--
+--===============5963955179371580708==--
 
