@@ -1,220 +1,575 @@
-Content-Type: multipart/mixed; boundary="===============6556402217152041706=="
+Content-Type: multipart/mixed; boundary="===============0328443713849660049=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows outer function [shadowFunction]
-Date: Sat, 19 Mar 2022 15:23:06 +0800
-Message-ID: <202203191533.SWh3PIR5-lkp@intel.com>
+Subject: drivers/pci/controller/pci-aardvark.c:595:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 19 Mar 2022 13:31:28 +0800
+Message-ID: <202203191339.68l7gFv8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6556402217152041706==
+--===============0328443713849660049==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Marek Beh=C3=BAn" <kabel@kernel.org>
+CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   34e047aa16c0123bbae8e2f6df33e5ecc1f56601
-commit: 445fcf7c721450dd1d4ec6c217b3c6a932602a44 mm/memory_hotplug: memory =
-group aware "auto-movable" online policy
-date:   6 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-compiler: powerpc64-linux-gcc (GCC) 11.2.0
+commit: 464de7e7fff767e87429cd7be09c4f2cb50a6ccb PCI: aardvark: Don't spam =
+about PIO Response Status
+date:   5 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 5 months ago
+config: riscv-randconfig-c006-20220307 (https://download.01.org/0day-ci/arc=
+hive/20220319/202203191339.68l7gFv8-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
+04d5b97b12e6b797c6067d3c96a8d7470e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D464de7e7fff767e87429cd7be09c4f2cb50a6ccb
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 464de7e7fff767e87429cd7be09c4f2cb50a6ccb
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/bridge/tc358767.c:820:2: note: Value stored to 'ret' is =
+never read
+           ret =3D regmap_write(tc->regmap, DP0_VIDSYNCDELAY,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/tc358767.c:946:2: warning: Value stored to 'ret' =
+is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/tc358767.c:946:2: note: Value stored to 'ret' is =
+never read
+           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/tc358767.c:949:2: warning: Value stored to 'ret' =
+is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/tc358767.c:949:2: note: Value stored to 'ret' is =
+never read
+           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:508:3: warning: Value store=
+d to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D wait_event_interruptible_timeout(adv7511->wq,
+                   ^
+   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:508:3: note: Value stored t=
+o 'ret' is never read
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/media/v4l2-core/v4l2-mc.c:176:4: warning: Value stored to 'if_au=
+d' is never read [clang-analyzer-deadcode.DeadStores]
+                           if_aud =3D tuner;
+                           ^        ~~~~~
+   drivers/media/v4l2-core/v4l2-mc.c:176:4: note: Value stored to 'if_aud' =
+is never read
+                           if_aud =3D tuner;
+                           ^        ~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+>> drivers/pci/controller/pci-aardvark.c:595:17: warning: Value stored to '=
+dev' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]
+           struct device *dev =3D &pcie->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:595:17: note: Value stored to 'dev=
+' during its initialization is never read
+           struct device *dev =3D &pcie->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/pci-aardvark.c:682:3: warning: Value stored to 's=
+tr_posted' is never read [clang-analyzer-deadcode.DeadStores]
+                   str_posted =3D "Non-posted";
+                   ^            ~~~~~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:682:3: note: Value stored to 'str_=
+posted' is never read
+                   str_posted =3D "Non-posted";
+                   ^            ~~~~~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:684:3: warning: Value stored to 's=
+tr_posted' is never read [clang-analyzer-deadcode.DeadStores]
+                   str_posted =3D "Posted";
+                   ^            ~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:684:3: note: Value stored to 'str_=
+posted' is never read
+                   str_posted =3D "Posted";
+                   ^            ~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:1439:21: warning: The result of th=
+e left shift is undefined because the right operand is negative [clang-anal=
+yzer-core.UndefinedBinaryOperatorResult]
+                           win_size =3D (1ULL << (fls64(size)-1)) |
+                                            ^  ~~~~~~~~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:1396:6: note: Assuming 'bridge' is=
+ non-null
+           if (!bridge)
+               ^~~~~~~
+   drivers/pci/controller/pci-aardvark.c:1396:2: note: Taking false branch
+           if (!bridge)
+           ^
+   drivers/pci/controller/pci-aardvark.c:1403:2: note: Left side of '&&' is=
+ false
+           resource_list_for_each_entry(entry, &bridge->windows) {
+           ^
+   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
+ist_for_each_entry'
+           list_for_each_entry((entry), (list), node)
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/pci/controller/pci-aardvark.c:1403:2: note: Taking false branch
+           resource_list_for_each_entry(entry, &bridge->windows) {
+           ^
+   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
+ist_for_each_entry'
+           list_for_each_entry((entry), (list), node)
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/pci/controller/pci-aardvark.c:1403:2: note: Loop condition is fa=
+lse.  Exiting loop
+           resource_list_for_each_entry(entry, &bridge->windows) {
+           ^
+   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
+ist_for_each_entry'
+           list_for_each_entry((entry), (list), node)
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/pci/controller/pci-aardvark.c:1403:2: note: Loop condition is tr=
+ue.  Entering loop body
+           resource_list_for_each_entry(entry, &bridge->windows) {
+           ^
+   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
+ist_for_each_entry'
+           list_for_each_entry((entry), (list), node)
+           ^
+   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/pci/controller/pci-aardvark.c:1415:7: note: Assuming 'type' is e=
+qual to IORESOURCE_MEM
+                   if (type !=3D IORESOURCE_MEM && type !=3D IORESOURCE_MEM=
+_64 &&
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pci-aardvark.c:1415:30: note: Left side of '&&' i=
+s false
+                   if (type !=3D IORESOURCE_MEM && type !=3D IORESOURCE_MEM=
+_64 &&
+                                              ^
+   drivers/pci/controller/pci-aardvark.c:1424:8: note: 'type' is equal to I=
+ORESOURCE_MEM
+                   if ((type =3D=3D IORESOURCE_MEM || type =3D=3D IORESOURC=
+E_MEM_64) &&
+                        ^~~~
 
->> mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows=
- outer function [shadowFunction]
-    unsigned long online_pages =3D 0, max_pages, end_pfn;
-                  ^
-   mm/memory_hotplug.c:1024:11: note: Shadowed declaration
-   int __ref online_pages(unsigned long pfn, unsigned long nr_pages,
-             ^
-   mm/memory_hotplug.c:860:16: note: Shadow variable
-    unsigned long online_pages =3D 0, max_pages, end_pfn;
-                  ^
+vim +/dev +595 drivers/pci/controller/pci-aardvark.c
 
-vim +860 mm/memory_hotplug.c
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  592  =
 
-c246a213f5bad68 Michal Hocko      2017-07-06  808  =
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  593  static int advk_pcie_check_pio_status(struct advk_pcie *pc=
+ie, bool allow_crs, u32 *val)
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  594  {
+9aec2feaf787a7 drivers/pci/host/pci-aardvark.c       Bjorn Helgaas    2016-=
+10-06 @595  	struct device *dev =3D &pcie->pdev->dev;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  596  	u32 reg;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  597  	unsigned int status;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  598  	char *strcomp_status, *str_posted;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  599  =
 
-e83a437faa625ef David Hildenbrand 2021-09-07  809  /*
-e83a437faa625ef David Hildenbrand 2021-09-07  810   * Determine to which zo=
-ne to online memory dynamically based on user
-e83a437faa625ef David Hildenbrand 2021-09-07  811   * configuration and sys=
-tem stats. We care about the following ratio:
-e83a437faa625ef David Hildenbrand 2021-09-07  812   *
-e83a437faa625ef David Hildenbrand 2021-09-07  813   *   MOVABLE : KERNEL
-e83a437faa625ef David Hildenbrand 2021-09-07  814   *
-e83a437faa625ef David Hildenbrand 2021-09-07  815   * Whereby MOVABLE is me=
-mory in ZONE_MOVABLE and KERNEL is memory in
-e83a437faa625ef David Hildenbrand 2021-09-07  816   * one of the kernel zon=
-es. CMA pages inside one of the kernel zones really
-e83a437faa625ef David Hildenbrand 2021-09-07  817   * behaves like ZONE_MOV=
-ABLE, so we treat them accordingly.
-e83a437faa625ef David Hildenbrand 2021-09-07  818   *
-e83a437faa625ef David Hildenbrand 2021-09-07  819   * We don't allow for ho=
-tplugged memory in a KERNEL zone to increase the
-e83a437faa625ef David Hildenbrand 2021-09-07  820   * amount of MOVABLE mem=
-ory we can have, so we end up with:
-e83a437faa625ef David Hildenbrand 2021-09-07  821   *
-e83a437faa625ef David Hildenbrand 2021-09-07  822   *   MOVABLE : KERNEL_EA=
-RLY
-e83a437faa625ef David Hildenbrand 2021-09-07  823   *
-e83a437faa625ef David Hildenbrand 2021-09-07  824   * Whereby KERNEL_EARLY =
-is memory in one of the kernel zones, available sinze
-e83a437faa625ef David Hildenbrand 2021-09-07  825   * boot. We base our cal=
-culation on KERNEL_EARLY internally, because:
-e83a437faa625ef David Hildenbrand 2021-09-07  826   *
-e83a437faa625ef David Hildenbrand 2021-09-07  827   * a) Hotplugged memory =
-in one of the kernel zones can sometimes still get
-e83a437faa625ef David Hildenbrand 2021-09-07  828   *    hotunplugged, espe=
-cially when hot(un)plugging individual memory blocks.
-e83a437faa625ef David Hildenbrand 2021-09-07  829   *    There is no coordi=
-nation across memory devices, therefore "automatic"
-e83a437faa625ef David Hildenbrand 2021-09-07  830   *    hotunplugging, as =
-implemented in hypervisors, could result in zone
-e83a437faa625ef David Hildenbrand 2021-09-07  831   *    imbalances.
-e83a437faa625ef David Hildenbrand 2021-09-07  832   * b) Early/boot memory =
-in one of the kernel zones can usually not get
-e83a437faa625ef David Hildenbrand 2021-09-07  833   *    hotunplugged again=
- (e.g., no firmware interface to unplug, fragmented
-e83a437faa625ef David Hildenbrand 2021-09-07  834   *    with unmovable all=
-ocations). While there are corner cases where it might
-e83a437faa625ef David Hildenbrand 2021-09-07  835   *    still work, it is =
-barely relevant in practice.
-e83a437faa625ef David Hildenbrand 2021-09-07  836   *
-e83a437faa625ef David Hildenbrand 2021-09-07  837   * We rely on "present p=
-ages" instead of "managed pages", as the latter is
-e83a437faa625ef David Hildenbrand 2021-09-07  838   * highly unreliable and=
- dynamic in virtualized environments, and does not
-e83a437faa625ef David Hildenbrand 2021-09-07  839   * consider boot time al=
-locations. For example, memory ballooning adjusts the
-e83a437faa625ef David Hildenbrand 2021-09-07  840   * managed pages when in=
-flating/deflating the balloon, and balloon compaction
-e83a437faa625ef David Hildenbrand 2021-09-07  841   * can even migrate infl=
-ated pages between zones.
-e83a437faa625ef David Hildenbrand 2021-09-07  842   *
-e83a437faa625ef David Hildenbrand 2021-09-07  843   * Using "present pages"=
- is better but some things to keep in mind are:
-e83a437faa625ef David Hildenbrand 2021-09-07  844   *
-e83a437faa625ef David Hildenbrand 2021-09-07  845   * a) Some memblock allo=
-cations, such as for the crashkernel area, are
-e83a437faa625ef David Hildenbrand 2021-09-07  846   *    effectively unused=
- by the kernel, yet they account to "present pages".
-e83a437faa625ef David Hildenbrand 2021-09-07  847   *    Fortunately, these=
- allocations are comparatively small in relevant setups
-e83a437faa625ef David Hildenbrand 2021-09-07  848   *    (e.g., fraction of=
- system memory).
-e83a437faa625ef David Hildenbrand 2021-09-07  849   * b) Some hotplugged me=
-mory blocks in virtualized environments, esecially
-e83a437faa625ef David Hildenbrand 2021-09-07  850   *    hotplugged by virt=
-io-mem, look like they are completely present, however,
-e83a437faa625ef David Hildenbrand 2021-09-07  851   *    only parts of the =
-memory block are actually currently usable.
-e83a437faa625ef David Hildenbrand 2021-09-07  852   *    "present pages" is=
- an upper limit that can get reached at runtime. As
-e83a437faa625ef David Hildenbrand 2021-09-07  853   *    we base our calcul=
-ations on KERNEL_EARLY, this is not an issue.
-e83a437faa625ef David Hildenbrand 2021-09-07  854   */
-445fcf7c721450d David Hildenbrand 2021-09-07  855  static struct zone *auto=
-_movable_zone_for_pfn(int nid,
-445fcf7c721450d David Hildenbrand 2021-09-07  856  					      struct memory=
-_group *group,
-445fcf7c721450d David Hildenbrand 2021-09-07  857  					      unsigned long=
- pfn,
-e83a437faa625ef David Hildenbrand 2021-09-07  858  					      unsigned long=
- nr_pages)
-e83a437faa625ef David Hildenbrand 2021-09-07  859  {
-445fcf7c721450d David Hildenbrand 2021-09-07 @860  	unsigned long online_pa=
-ges =3D 0, max_pages, end_pfn;
-445fcf7c721450d David Hildenbrand 2021-09-07  861  	struct page *page;
-445fcf7c721450d David Hildenbrand 2021-09-07  862  =
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  600  	reg =3D advk_readl(pcie, PIO_STAT);
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  601  	status =3D (reg & PIO_COMPLETION_STATUS_MASK) >>
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  602  		PIO_COMPLETION_STATUS_SHIFT;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  603  =
 
-e83a437faa625ef David Hildenbrand 2021-09-07  863  	if (!auto_movable_ratio)
-e83a437faa625ef David Hildenbrand 2021-09-07  864  		goto kernel_zone;
-e83a437faa625ef David Hildenbrand 2021-09-07  865  =
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  604  	/*
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  605  	 * According to HW spec, the PIO status check sequence as belo=
+w:
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  606  	 * 1) even if COMPLETION_STATUS(bit9:7) indicates successful,
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  607  	 *    it still needs to check Error Status(bit11), only when t=
+his bit
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  608  	 *    indicates no error happen, the operation is successful.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  609  	 * 2) value Unsupported Request(1) of COMPLETION_STATUS(bit9:7=
+) only
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  610  	 *    means a PIO write error, and for PIO read it is successf=
+ul with
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  611  	 *    a read value of 0xFFFFFFFF.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  612  	 * 3) value Completion Retry Status(CRS) of COMPLETION_STATUS(=
+bit9:7)
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  613  	 *    only means a PIO write error, and for PIO read it is suc=
+cessful
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  614  	 *    with a read value of 0xFFFF0001.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  615  	 * 4) value Completer Abort (CA) of COMPLETION_STATUS(bit9:7) =
+means
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  616  	 *    error for both PIO read and PIO write operation.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  617  	 * 5) other errors are indicated as 'unknown'.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  618  	 */
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  619  	switch (status) {
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  620  	case PIO_COMPLETION_STATUS_OK:
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  621  		if (reg & PIO_ERR_STATUS) {
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  622  			strcomp_status =3D "COMP_ERR";
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  623  			break;
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  624  		}
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  625  		/* Get the read result */
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  626  		if (val)
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  627  			*val =3D advk_readl(pcie, PIO_RD_DATA);
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  628  		/* No error */
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  629  		strcomp_status =3D NULL;
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  630  		break;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  631  	case PIO_COMPLETION_STATUS_UR:
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  632  		strcomp_status =3D "UR";
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  633  		break;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  634  	case PIO_COMPLETION_STATUS_CRS:
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  635  		if (allow_crs && val) {
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  636  			/* PCIe r4.0, sec 2.3.2, says:
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  637  			 * If CRS Software Visibility is enabled:
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  638  			 * For a Configuration Read Request that includes both
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  639  			 * bytes of the Vendor ID field of a device Function's
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  640  			 * Configuration Space Header, the Root Complex must
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  641  			 * complete the Request to the host by returning a
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  642  			 * read-data value of 0001h for the Vendor ID field and
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  643  			 * all '1's for any additional bytes included in the
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  644  			 * request.
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  645  			 *
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  646  			 * So CRS in this case is not an error status.
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  647  			 */
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  648  			*val =3D CFG_RD_CRS_VAL;
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  649  			strcomp_status =3D NULL;
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  650  			break;
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  651  		}
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  652  		/* PCIe r4.0, sec 2.3.2, says:
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  653  		 * If CRS Software Visibility is not enabled, the Root Complex
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  654  		 * must re-issue the Configuration Request as a new Request.
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  655  		 * If CRS Software Visibility is enabled: For a Configur=
+ation
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  656  		 * Write Request or for any other Configuration Read Req=
+uest,
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  657  		 * the Root Complex must re-issue the Configuration Requ=
+est as
+43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
+2021-07-22  658  		 * a new Request.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  659  		 * A Root Complex implementation may choose to limit the numb=
+er
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  660  		 * of Configuration Request/CRS Completion Status loops before
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  661  		 * determining that something is wrong with the target of the
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  662  		 * Request and taking appropriate action, e.g., complete the
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  663  		 * Request to the host as a failed transaction.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  664  		 *
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  665  		 * To simplify implementation do not re-issue the Configurati=
+on
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  666  		 * Request and complete the Request as a failed transaction.
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  667  		 */
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  668  		strcomp_status =3D "CRS";
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  669  		break;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  670  	case PIO_COMPLETION_STATUS_CA:
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  671  		strcomp_status =3D "CA";
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  672  		break;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  673  	default:
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  674  		strcomp_status =3D "Unknown";
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  675  		break;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  676  	}
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  677  =
 
-445fcf7c721450d David Hildenbrand 2021-09-07  866  	if (group && !group->is=
-_dynamic) {
-445fcf7c721450d David Hildenbrand 2021-09-07  867  		max_pages =3D group->s=
-.max_pages;
-445fcf7c721450d David Hildenbrand 2021-09-07  868  		online_pages =3D group=
-->present_movable_pages;
-445fcf7c721450d David Hildenbrand 2021-09-07  869  =
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  678  	if (!strcomp_status)
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  679  		return 0;
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  680  =
 
-445fcf7c721450d David Hildenbrand 2021-09-07  870  		/* If anything is !MOV=
-ABLE online the rest !MOVABLE. */
-445fcf7c721450d David Hildenbrand 2021-09-07  871  		if (group->present_ker=
-nel_pages)
-445fcf7c721450d David Hildenbrand 2021-09-07  872  			goto kernel_zone;
-445fcf7c721450d David Hildenbrand 2021-09-07  873  	} else if (!group || gr=
-oup->d.unit_pages =3D=3D nr_pages) {
-445fcf7c721450d David Hildenbrand 2021-09-07  874  		max_pages =3D nr_pages;
-445fcf7c721450d David Hildenbrand 2021-09-07  875  	} else {
-445fcf7c721450d David Hildenbrand 2021-09-07  876  		max_pages =3D group->d=
-.unit_pages;
-445fcf7c721450d David Hildenbrand 2021-09-07  877  		/*
-445fcf7c721450d David Hildenbrand 2021-09-07  878  		 * Take a look at all =
-online sections in the current unit.
-445fcf7c721450d David Hildenbrand 2021-09-07  879  		 * We can safely assum=
-e that all pages within a section belong
-445fcf7c721450d David Hildenbrand 2021-09-07  880  		 * to the same zone, b=
-ecause dynamic memory groups only deal
-445fcf7c721450d David Hildenbrand 2021-09-07  881  		 * with hotplugged mem=
-ory.
-445fcf7c721450d David Hildenbrand 2021-09-07  882  		 */
-445fcf7c721450d David Hildenbrand 2021-09-07  883  		pfn =3D ALIGN_DOWN(pfn=
-, group->d.unit_pages);
-445fcf7c721450d David Hildenbrand 2021-09-07  884  		end_pfn =3D pfn + grou=
-p->d.unit_pages;
-445fcf7c721450d David Hildenbrand 2021-09-07  885  		for (; pfn < end_pfn; =
-pfn +=3D PAGES_PER_SECTION) {
-445fcf7c721450d David Hildenbrand 2021-09-07  886  			page =3D pfn_to_onlin=
-e_page(pfn);
-445fcf7c721450d David Hildenbrand 2021-09-07  887  			if (!page)
-445fcf7c721450d David Hildenbrand 2021-09-07  888  				continue;
-445fcf7c721450d David Hildenbrand 2021-09-07  889  			/* If anything is !MO=
-VABLE online the rest !MOVABLE. */
-445fcf7c721450d David Hildenbrand 2021-09-07  890  			if (page_zonenum(page=
-) !=3D ZONE_MOVABLE)
-445fcf7c721450d David Hildenbrand 2021-09-07  891  				goto kernel_zone;
-445fcf7c721450d David Hildenbrand 2021-09-07  892  			online_pages +=3D PAG=
-ES_PER_SECTION;
-445fcf7c721450d David Hildenbrand 2021-09-07  893  		}
-445fcf7c721450d David Hildenbrand 2021-09-07  894  	}
-445fcf7c721450d David Hildenbrand 2021-09-07  895  =
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  681  	if (reg & PIO_NON_POSTED_REQ)
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30 @682  		str_posted =3D "Non-posted";
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  683  	else
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  684  		str_posted =3D "Posted";
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  685  =
 
-445fcf7c721450d David Hildenbrand 2021-09-07  896  	/*
-445fcf7c721450d David Hildenbrand 2021-09-07  897  	 * Online MOVABLE if we=
- could *currently* online all remaining parts
-445fcf7c721450d David Hildenbrand 2021-09-07  898  	 * MOVABLE. We expect t=
-o (add+) online them immediately next, so if
-445fcf7c721450d David Hildenbrand 2021-09-07  899  	 * nobody interferes, a=
-ll will be MOVABLE if possible.
-445fcf7c721450d David Hildenbrand 2021-09-07  900  	 */
-445fcf7c721450d David Hildenbrand 2021-09-07  901  	nr_pages =3D max_pages =
-- online_pages;
-e83a437faa625ef David Hildenbrand 2021-09-07  902  	if (!auto_movable_can_o=
-nline_movable(NUMA_NO_NODE, nr_pages))
-e83a437faa625ef David Hildenbrand 2021-09-07  903  		goto kernel_zone;
-e83a437faa625ef David Hildenbrand 2021-09-07  904  =
+464de7e7fff767 drivers/pci/controller/pci-aardvark.c Marek Beh=C3=BAn      =
+2021-10-05  686  	dev_dbg(dev, "%s PIO Response Status: %s, %#x @ %#x\n",
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  687  		str_posted, strcomp_status, reg, advk_readl(pcie, PIO_ADDR_LS=
+));
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  688  =
 
+fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
+07-22  689  	return -EFAULT;
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  690  }
+8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
+06-30  691  =
+
+
+:::::: The code at line 595 was first introduced by commit
+:::::: 9aec2feaf787a766f802172e9021c7422029bc64 PCI: aardvark: Add local st=
+ruct device pointers
+
+:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 ---
 0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6556402217152041706==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0328443713849660049==--
 
