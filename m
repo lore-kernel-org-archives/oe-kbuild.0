@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4054025421503139306=="
+Content-Type: multipart/mixed; boundary="===============8486557591997876076=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:google/android/kernel/common/android13-5.15 5109/5372] drivers/iommu/iova.c:364:3: warning: Value stored to 'candidate_gap' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 19 Mar 2022 12:09:47 +0800
-Message-ID: <202203191211.fcb2dVA5-lkp@intel.com>
+Subject: [linux-next:master 436/13576] drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2927:5: warning: Value stored to 'smc_result' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 19 Mar 2022 11:59:28 +0800
+Message-ID: <202203191135.s8YHWkWk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4054025421503139306==
+--===============8486557591997876076==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,37 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
-CC: linux-kernel(a)vger.kernel.org
-TO: Liam Mark <lmark@codeaurora.org>
-CC: Todd Kjos <tkjos@google.com>
-CC: "Isaac J. Manjarres" <isaacm@codeaurora.org>
-CC: Georgi Djakov <quic_c_gdjako@quicinc.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Evan Quan <evan.quan@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Lijo Lazar <lijo.lazar@amd.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block google/android/kernel/co=
-mmon/android13-5.15
-head:   28b046777fb6eee7c4382a4272e6fa1f517d7038
-commit: 150c882a3dd8f530eb425e8a264838131973a53f [5109/5372] FROMLIST: iomm=
-u/iova: Add a best-fit algorithm
-:::::: branch date: 21 hours ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20319/202203191211.fcb2dVA5-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6e70e=
-4056dff962ec634c5bd4f2f4105a0bef71)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   6d72dda014a4753974eb08950089ddf71fec4f60
+commit: 837d542a09cd533055423dfca7e621a9c1d13c5b [436/13576] drm/amd/pm: re=
+locate the power related headers
+:::::: branch date: 19 hours ago
+:::::: commit date: 9 weeks ago
+config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
+hive/20220319/202203191135.s8YHWkWk-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
+7382b8f16a65bddac700202924228982f6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/150c882a3dd8f53=
-0eb425e8a264838131973a53f
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block google/android/kernel/common/=
-android13-5.15
-        git checkout 150c882a3dd8f530eb425e8a264838131973a53f
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3D837d542a09cd533055423dfca7e621a9c1d13c5b
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 837d542a09cd533055423dfca7e621a9c1d13c5b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,154 +53,227 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:167:18: note: The le=
+ft operand of '*' is a garbage value
+           return clk_freq * 100;
+                  ~~~~~~~~ ^
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:181:18: warning: The=
+ left operand of '*' is a garbage value [clang-analyzer-core.UndefinedBinar=
+yOperatorResult]
+           return clk_freq * 100;
+                  ~~~~~~~~ ^
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:173:2: note: 'clk_fr=
+eq' declared without an initial value
+           uint32_t clk_freq;
+           ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:177:10: note: Assumi=
+ng 'low' is true
+                                        low ? &clk_freq : NULL,
+                                        ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:177:10: note: '?' co=
+ndition is true
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:178:11: note: 'low' =
+is true
+                                        !low ? &clk_freq : NULL);
+                                         ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:178:10: note: '?' co=
+ndition is false
+                                        !low ? &clk_freq : NULL);
+                                        ^
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:176:8: note: Calling=
+ 'smu_get_dpm_freq_range'
+           ret =3D smu_get_dpm_freq_range(smu, SMU_GFXCLK,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:140:7: note: 'min' i=
+s non-null
+           if (!min && !max)
+                ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:140:11: note: Left s=
+ide of '&&' is false
+           if (!min && !max)
+                    ^
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:145:6: note: Assumin=
+g field 'get_dpm_ultimate_freq' is null
+           if (smu->ppt_funcs->get_dpm_ultimate_freq)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:145:2: note: Taking =
+false branch
+           if (smu->ppt_funcs->get_dpm_ultimate_freq)
            ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:153:2: note: Returni=
+ng without writing to '*min'
+           return ret;
            ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:153:2: note: Returni=
+ng zero (loaded from 'ret'), which participates in a condition later
+           return ret;
+           ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:176:8: note: Returni=
+ng from 'smu_get_dpm_freq_range'
+           ret =3D smu_get_dpm_freq_range(smu, SMU_GFXCLK,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:179:6: note: 'ret' i=
+s 0
+           if (ret)
+               ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:179:2: note: Taking =
+false branch
+           if (ret)
            ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/skbuff.h:1961:2: note: Loop condition is false.  Exiting l=
-oop
-           WRITE_ONCE(prev->next, newsk);
-           ^
-   include/asm-generic/rwonce.h:60:2: note: expanded from macro 'WRITE_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/linux/skbuff.h:1961:2: note: Dereference of null pointer
-           WRITE_ONCE(prev->next, newsk);
-           ^
-   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
-           __WRITE_ONCE(x, val);                                           \
-           ^~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
-NCE'
-           *(volatile typeof(x) *)&(x) =3D (val);                          =
-  \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/linux/skbuff.h:2067:2: warning: 2nd function call argument is an=
- uninitialized value [clang-analyzer-core.CallAndMessage]
-           __skb_insert(newsk, next->prev, next, list);
-           ^
-   net/tipc/bcast.c:565:2: note: Calling 'tipc_bcbase_xmit'
-           tipc_bcbase_xmit(net, &xmitq);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tipc/bcast.c:184:2: note: Taking false branch
-           if (skb_queue_empty(xmitq))
-           ^
-   net/tipc/bcast.c:189:6: note: Assuming 'bearer_id' is < 0
-           if (bearer_id >=3D 0) {
-               ^~~~~~~~~~~~~~
-   net/tipc/bcast.c:189:2: note: Taking false branch
-           if (bearer_id >=3D 0) {
-           ^
-   net/tipc/bcast.c:195:2: note: Calling '__skb_queue_head_init'
-           __skb_queue_head_init(&_xmitq);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tipc/bcast.c:195:2: note: Returning from '__skb_queue_head_init'
-           __skb_queue_head_init(&_xmitq);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/tipc/bcast.c:196:2: note: Loop condition is true.  Entering loop body
-           for (bearer_id =3D 0; bearer_id < MAX_BEARERS; bearer_id++) {
-           ^
-   net/tipc/bcast.c:197:7: note: Assuming the condition is false
-                   if (!bb->dests[bearer_id])
-                       ^~~~~~~~~~~~~~~~~~~~~
-   net/tipc/bcast.c:197:3: note: Taking false branch
-                   if (!bb->dests[bearer_id])
-                   ^
-   net/tipc/bcast.c:200:3: note: Loop condition is true.  Entering loop body
-                   skb_queue_walk(xmitq, skb) {
-                   ^
-   include/linux/skbuff.h:3556:3: note: expanded from macro 'skb_queue_walk'
-                   for (skb =3D (queue)->next;                             =
-          \
-                   ^
-   net/tipc/bcast.c:202:8: note: Assuming '_skb' is non-null
-                           if (!_skb)
-                               ^~~~~
-   net/tipc/bcast.c:202:4: note: Taking false branch
-                           if (!_skb)
-                           ^
-   net/tipc/bcast.c:204:4: note: Calling '__skb_queue_tail'
-                           __skb_queue_tail(&_xmitq, _skb);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2100:2: note: Calling '__skb_queue_before'
-           __skb_queue_before(list, (struct sk_buff *)list, newsk);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2067:2: note: 2nd function call argument is an un=
-initialized value
-           __skb_insert(newsk, next->prev, next, list);
-           ^                   ~~~~~~~~~~
-   Suppressed 10 warnings (10 in non-user code).
+   drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:181:18: note: The le=
+ft operand of '*' is a garbage value
+           return clk_freq * 100;
+                  ~~~~~~~~ ^
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/iommu/iova.c:364:3: warning: Value stored to 'candidate_gap' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   candidate_gap =3D gap;
-                   ^               ~~~
-   drivers/iommu/iova.c:364:3: note: Value stored to 'candidate_gap' is nev=
-er read
-                   candidate_gap =3D gap;
-                   ^               ~~~
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2570:21: warning: A=
+ccess to field 'enable_dte' results in a dereference of a null pointer (loa=
+ded from variable 'si_pi') [clang-analyzer-core.NullDereference]
+                   si_pi->enable_dte =3D false;
+                   ~~~~~             ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2561:32: note: Call=
+ing 'si_get_pi'
+           struct si_power_info *si_pi =3D si_get_pi(adev);
+                                         ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:1853:2: note: 'pi' =
+initialized here
+           struct si_power_info *pi =3D adev->pm.dpm.priv;
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:1854:2: note: Retur=
+ning pointer (loaded from 'pi')
+           return pi;
+           ^~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2561:32: note: Retu=
+rning from 'si_get_pi'
+           struct si_power_info *si_pi =3D si_get_pi(adev);
+                                         ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2561:2: note: 'si_p=
+i' initialized here
+           struct si_power_info *si_pi =3D si_get_pi(adev);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2569:6: note: Assum=
+ing 'dte_data' is equal to NULL
+           if (dte_data =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2569:2: note: Takin=
+g true branch
+           if (dte_data =3D=3D NULL)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2570:21: note: Acce=
+ss to field 'enable_dte' results in a dereference of a null pointer (loaded=
+ from variable 'si_pi')
+                   si_pi->enable_dte =3D false;
+                   ~~~~~             ^
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2927:5: warning: Va=
+lue stored to 'smc_result' is never read [clang-analyzer-deadcode.DeadStore=
+s]
+                                   smc_result =3D amdgpu_si_send_msg_to_smc=
+(adev, PPSMC_MSG_DisableDTE);
+                                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2927:5: note: Value=
+ stored to 'smc_result' is never read
+                                   smc_result =3D amdgpu_si_send_msg_to_smc=
+(adev, PPSMC_MSG_DisableDTE);
+                                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2929:4: warning: Va=
+lue stored to 'smc_result' is never read [clang-analyzer-deadcode.DeadStore=
+s]
+                           smc_result =3D amdgpu_si_send_msg_to_smc(adev, P=
+PSMC_MSG_DisableCac);
+                           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2929:4: note: Value=
+ stored to 'smc_result' is never read
+                           smc_result =3D amdgpu_si_send_msg_to_smc(adev, P=
+PSMC_MSG_DisableCac);
+                           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2934:5: warning: Va=
+lue stored to 'smc_result' is never read [clang-analyzer-deadcode.DeadStore=
+s]
+                                   smc_result =3D amdgpu_si_send_msg_to_smc=
+(adev, PPSMC_CACLongTermAvgDisable);
+                                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:2934:5: note: Value=
+ stored to 'smc_result' is never read
+                                   smc_result =3D amdgpu_si_send_msg_to_smc=
+(adev, PPSMC_CACLongTermAvgDisable);
+                                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:4668:7: warning: Va=
+lue stored to 'voltage_found' is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+                                                   voltage_found =3D true;
+                                                   ^               ~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c:4668:7: note: Value=
+ stored to 'voltage_found' is never read
+                                                   voltage_found =3D true;
+                                                   ^               ~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
-   drivers/gpu/vga/vgaarb.c:235:17: warning: Value stored to 'dev' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/gpu/vga/vgaarb.c:235:17: note: Value stored to 'dev' during its =
-initialization is never read
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/gpu/vga/vgaarb.c:373:17: warning: Value stored to 'dev' during i=
-ts initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
-   drivers/gpu/vga/vgaarb.c:373:17: note: Value stored to 'dev' during its =
-initialization is never read
-           struct device *dev =3D &vgadev->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/imx274.c:955:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &imx274->client->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/imx274.c:955:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &imx274->client->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/imx274.c:1014:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &imx274->client->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/imx274.c:1014:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D &imx274->client->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -209,220 +281,499 @@ se -system-headers to display errors from system headers as well.
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   drivers/base/bus.c:873:18: warning: Access to field 'drivers_kset' resul=
-ts in a dereference of a null pointer (loaded from field 'p') [clang-analyz=
-er-core.NullDereference]
-           kset_unregister(bus->p->drivers_kset);
-                           ^
-   drivers/base/bus.c:1139:9: note: Calling 'subsys_register'
-           return subsys_register(subsys, groups, &system_kset->kobj);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/bus.c:1083:8: note: Calling 'bus_register'
-           err =3D bus_register(subsys);
-                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/bus.c:788:6: note: Assuming 'priv' is non-null
-           if (!priv)
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/gpu/drm/r128/r128_cce.c:829:3: warning: Value stored to 'buf_pri=
+v' is never read [clang-analyzer-deadcode.DeadStores]
+                   buf_priv =3D buf->dev_private;
+                   ^          ~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/r128/r128_cce.c:829:3: note: Value stored to 'buf_priv' =
+is never read
+                   buf_priv =3D buf->dev_private;
+                   ^          ~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/staging/sm750fb/sm750.c:369:2: warning: Value stored to 'ret' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750.c:369:2: note: Value stored to 'ret' is ne=
+ver read
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750.c:485:2: warning: Value stored to 'ret' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750.c:485:2: note: Value stored to 'ret' is ne=
+ver read
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750.c:703:2: warning: Value stored to 'ret' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750.c:703:2: note: Value stored to 'ret' is ne=
+ver read
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750.c:1137:4: warning: Call to function 'strca=
+t' is insecure as it does not provide bounding of the memory buffer. Replac=
+e unbounded copy functions with analogous functions that support length arg=
+uments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strc=
+py]
+                           strcat(tmp, opt);
+                           ^~~~~~
+   drivers/staging/sm750fb/sm750.c:1137:4: note: Call to function 'strcat' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcat'. CWE-119
+                           strcat(tmp, opt);
+                           ^~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/staging/sm750fb/sm750_hw.c:33:2: warning: Value stored to 'ret' =
+is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750_hw.c:33:2: note: Value stored to 'ret' is =
+never read
+           ret =3D 0;
+           ^     ~
+   drivers/staging/sm750fb/sm750_hw.c:261:2: warning: Value stored to 'ret'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+--
+                               ^~~~~~   ~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/ubifs/file.c:1376:21: warning: Value stored to 'c' during its initial=
+ization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ubifs_info *c =3D inode->i_sb->s_fs_info;
+                              ^   ~~~~~~~~~~~~~~~~~~~~~~
+   fs/ubifs/file.c:1376:21: note: Value stored to 'c' during its initializa=
+tion is never read
+           struct ubifs_info *c =3D inode->i_sb->s_fs_info;
+                              ^   ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:161:6: warnin=
+g: Access to field 'hwmgr_func' results in a dereference of a null pointer =
+(loaded from variable 'hwmgr') [clang-analyzer-core.NullDereference]
+           if (hwmgr->hwmgr_func->notify_cac_buffer_info)
+               ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:181:6: note: =
+Assuming 'hwmgr' is null
+           if (hwmgr && hwmgr->pm_en) {
                ^~~~~
-   drivers/base/bus.c:788:2: note: Taking false branch
-           if (!priv)
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:181:12: note:=
+ Left side of '&&' is false
+           if (hwmgr && hwmgr->pm_en) {
+                     ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:187:6: note: =
+Assuming field 'smu_prv_buffer_size' is not equal to 0
+           if (adev->pm.smu_prv_buffer_size !=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:187:2: note: =
+Taking true branch
+           if (adev->pm.smu_prv_buffer_size !=3D 0)
            ^
-   drivers/base/bus.c:794:2: note: Loop condition is false.  Exiting loop
-           BLOCKING_INIT_NOTIFIER_HEAD(&priv->bus_notifier);
-           ^
-   include/linux/notifier.h:85:3: note: expanded from macro 'BLOCKING_INIT_=
-NOTIFIER_HEAD'
-                   init_rwsem(&(name)->rwsem);     \
-                   ^
-   include/linux/rwsem.h:123:30: note: expanded from macro 'init_rwsem'
-   #define init_rwsem(sem)                                         \
-                                                                   ^
-   drivers/base/bus.c:794:2: note: Loop condition is false.  Exiting loop
-           BLOCKING_INIT_NOTIFIER_HEAD(&priv->bus_notifier);
-           ^
-   include/linux/notifier.h:84:43: note: expanded from macro 'BLOCKING_INIT=
-_NOTIFIER_HEAD'
-   #define BLOCKING_INIT_NOTIFIER_HEAD(name) do {  \
-                                             ^
-   drivers/base/bus.c:797:6: note: Assuming 'retval' is not equal to 0
-           if (retval)
-               ^~~~~~
-   drivers/base/bus.c:797:2: note: Taking true branch
-           if (retval)
-           ^
-   drivers/base/bus.c:798:3: note: Control jumps to line 853
-                   goto out;
-                   ^
-   drivers/base/bus.c:854:2: note: Null pointer value stored to field 'p'
-           bus->p =3D NULL;
-           ^~~~~~~~~~~~~
-   drivers/base/bus.c:1083:8: note: Returning from 'bus_register'
-           err =3D bus_register(subsys);
-                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/bus.c:1084:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
-               ^~~~~~~
-   drivers/base/bus.c:1084:2: note: Taking false branch
-           if (err < 0)
-           ^
-   drivers/base/bus.c:1088:6: note: Assuming 'dev' is null
-           if (!dev) {
-               ^~~~
-   drivers/base/bus.c:1088:2: note: Taking true branch
-           if (!dev) {
-           ^
-   drivers/base/bus.c:1090:3: note: Control jumps to line 1114
-                   goto err_dev;
-                   ^
-   drivers/base/bus.c:1114:2: note: Calling 'bus_unregister'
-           bus_unregister(subsys);
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:188:3: note: =
+Calling 'pp_reserve_vram_for_smu'
+                   pp_reserve_vram_for_smu(adev);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:150:2: note: =
+'hwmgr' initialized to a null pointer value
+           struct pp_hwmgr *hwmgr =3D adev->powerplay.pp_handle;
            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/bus.c:868:2: note: Taking false branch
-           pr_debug("bus: '%s': unregistering\n", bus->name);
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:152:6: note: =
+Assuming the condition is false
+           if (amdgpu_bo_create_kernel(adev, adev->pm.smu_prv_buffer_size,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:152:2: note: =
+Taking false branch
+           if (amdgpu_bo_create_kernel(adev, adev->pm.smu_prv_buffer_size,
            ^
-   include/linux/printk.h:580:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/amd_powerplay.c:161:6: note: =
+Access to field 'hwmgr_func' results in a dereference of a null pointer (lo=
+aded from variable 'hwmgr')
+           if (hwmgr->hwmgr_func->notify_cac_buffer_info)
+               ^~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1463:3: warning: Va=
+lue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D amdgpu_kv_copy_bytes_to_smc(adev,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1463:3: note: Value=
+ stored to 'ret' is never read
+                   ret =3D amdgpu_kv_copy_bytes_to_smc(adev,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1662:13: warning: T=
+he result of the left shift is undefined due to shifting by '255', which is=
+ greater or equal to the width of type 'int' [clang-analyzer-core.Undefined=
+BinaryOperatorResult]
+                                                             (1 << pi->acp_=
+boot_level));
+                                                                ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1950:6: note: Assum=
+ing field 'bapm_enable' is false
+           if (pi->bapm_enable) {
+               ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1950:2: note: Takin=
+g false branch
+           if (pi->bapm_enable) {
            ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:6: note: Assum=
+ing field 'asic_type' is not equal to CHIP_KABINI
+           if (adev->asic_type =3D=3D CHIP_KABINI || adev->asic_type =3D=3D=
+ CHIP_MULLINS) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:6: note: Left =
+side of '||' is false
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:40: note: Assu=
+ming field 'asic_type' is not equal to CHIP_MULLINS
+           if (adev->asic_type =3D=3D CHIP_KABINI || adev->asic_type =3D=3D=
+ CHIP_MULLINS) {
+                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1958:2: note: Takin=
+g false branch
+           if (adev->asic_type =3D=3D CHIP_KABINI || adev->asic_type =3D=3D=
+ CHIP_MULLINS) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1988:7: note: Assum=
+ing field 'enable_dpm' is true
+                   if (pi->enable_dpm) {
+                       ^~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1988:3: note: Takin=
+g true branch
+                   if (pi->enable_dpm) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1992:8: note: Assum=
+ing 'ret' is 0
+                           if (ret) {
+                               ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1992:4: note: Takin=
+g false branch
+                           if (ret) {
+                           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:2004:8: note: Assum=
+ing 'ret' is 0
+                           if (ret) {
+                               ^~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:2004:4: note: Takin=
+g false branch
+                           if (ret) {
+                           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:2008:4: note: Calli=
+ng 'kv_update_acp_boot_level'
+                           kv_update_acp_boot_level(adev);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1656:6: note: Assum=
+ing field 'caps_stable_p_state' is false
+           if (!pi->caps_stable_p_state) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1656:2: note: Takin=
+g true branch
+           if (!pi->caps_stable_p_state) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1657:20: note: Call=
+ing 'kv_get_acp_boot_level'
+                   acp_boot_level =3D kv_get_acp_boot_level(adev);
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1640:14: note: Assu=
+ming 'i' is >=3D field 'count'
+           for (i =3D 0; i < table->count; i++) {
+                       ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1640:2: note: Loop =
+condition is false. Execution continues on line 1645
+           for (i =3D 0; i < table->count; i++) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1645:6: note: 'i' i=
+s >=3D field 'count'
+           if (i >=3D table->count)
+               ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1645:2: note: Takin=
+g true branch
+           if (i >=3D table->count)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1646:3: note: The v=
+alue 255 is assigned to 'i'
+                   i =3D table->count - 1;
+                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1648:2: note: Retur=
+ning the value 255 (loaded from 'i')
+           return i;
+           ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1657:20: note: Retu=
+rning from 'kv_get_acp_boot_level'
+                   acp_boot_level =3D kv_get_acp_boot_level(adev);
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1657:3: note: The v=
+alue 255 is assigned to 'acp_boot_level'
+                   acp_boot_level =3D kv_get_acp_boot_level(adev);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1658:7: note: Assum=
+ing 'acp_boot_level' is not equal to field 'acp_boot_level'
+                   if (acp_boot_level !=3D pi->acp_boot_level) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1658:3: note: Takin=
+g true branch
+                   if (acp_boot_level !=3D pi->acp_boot_level) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1659:4: note: The v=
+alue 255 is assigned to field 'acp_boot_level'
+                           pi->acp_boot_level =3D acp_boot_level;
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/kv_dpm.c:1662:13: note: The =
+result of the left shift is undefined due to shifting by '255', which is gr=
+eater or equal to the width of type 'int'
+                                                             (1 << pi->acp_=
+boot_level));
+                                                                ^  ~~~~~~~~=
+~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/media/tuners/xc4000.c:1104:2: warning: 3rd function call argumen=
+t is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           dprintk(1, "*** ADC envelope (0-1023) =3D %d\n", adc_envelope);
+           ^
+   drivers/media/tuners/xc4000.c:53:2: note: expanded from macro 'dprintk'
+           printk(KERN_INFO "%s: " fmt, "xc4000", ## arg)
+           ^
+   include/linux/printk.h:450:44: note: expanded from macro 'printk'
 
-vim +/candidate_gap +364 drivers/iommu/iova.c
+vim +/smc_result +2927 drivers/gpu/drm/amd/amdgpu/../pm/legacy-dpm/si_dpm.c
 
-f8de50eb6b0855 drivers/pci/iova.c   Keshavamurthy, Anil S 2007-10-21  320  =
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2892  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  321  =
-static int __alloc_and_insert_iova_best_fit(struct iova_domain *iovad,
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  322  =
-					    unsigned long size,
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  323  =
-					    unsigned long limit_pfn,
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  324  =
-					    struct iova *new, bool size_aligned)
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  325  {
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  326  =
-	struct rb_node *curr, *prev;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  327  =
-	struct iova *curr_iova, *prev_iova;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  328  =
-	unsigned long flags;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  329  =
-	unsigned long align_mask =3D ~0UL;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  330  =
-	struct rb_node *candidate_rb_parent;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  331  =
-	unsigned long new_pfn, candidate_pfn =3D ~0UL;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  332  =
-	unsigned long gap, candidate_gap =3D ~0UL;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  333  =
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2893  static int si_enable_smc_cac(struct amdgpu_device *adev,
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2894  			     struct amdgpu_ps *amdgpu_new_state,
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2895  			     bool enable)
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2896  {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2897  	struct ni_power_info *ni_pi =3D ni_get_pi(adev);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2898  	struct si_power_info *si_pi =3D si_get_pi(adev);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2899  	PPSMC_Result smc_result;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2900  	int ret =3D 0;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2901  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  334  =
-	if (size_aligned)
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  335  =
-		align_mask <<=3D limit_align_shift(iovad, fls_long(size - 1));
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  336  =
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2902  	if (ni_pi->enable_cac) {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2903  		if (enable) {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2904  			if (!si_should_disable_uvd_powertune(adev, amdgpu_new_sta=
+te)) {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2905  				if (ni_pi->support_cac_long_term_average) {
+6861c837e28e1b1 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Deucher        201=
+6-09-13  2906  					smc_result =3D amdgpu_si_send_msg_to_smc(adev, PPSMC_CA=
+CLongTermAvgEnable);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2907  					if (smc_result !=3D PPSMC_Result_OK)
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2908  						ni_pi->support_cac_long_term_average =3D false;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2909  				}
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2910  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  337  =
-	/* Walk the tree backwards */
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  338  =
-	spin_lock_irqsave(&iovad->iova_rbtree_lock, flags);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  339  =
-	curr =3D &iovad->anchor.node;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  340  =
-	prev =3D rb_prev(curr);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  341  =
-	for (; prev; curr =3D prev, prev =3D rb_prev(curr)) {
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  342  =
-		curr_iova =3D rb_entry(curr, struct iova, node);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  343  =
-		prev_iova =3D rb_entry(prev, struct iova, node);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  344  =
+6861c837e28e1b1 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Deucher        201=
+6-09-13  2911  				smc_result =3D amdgpu_si_send_msg_to_smc(adev, PPSMC_MSG=
+_EnableCac);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2912  				if (smc_result !=3D PPSMC_Result_OK) {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2913  					ret =3D -EINVAL;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2914  					ni_pi->cac_enabled =3D false;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2915  				} else {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2916  					ni_pi->cac_enabled =3D true;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2917  				}
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2918  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  345  =
-		limit_pfn =3D min(limit_pfn, curr_iova->pfn_lo);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  346  =
-		new_pfn =3D (limit_pfn - size) & align_mask;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  347  =
-		gap =3D curr_iova->pfn_lo - prev_iova->pfn_hi - 1;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  348  =
-		if ((limit_pfn >=3D size) && (new_pfn > prev_iova->pfn_hi)
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  349  =
-				&& (gap < candidate_gap)) {
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  350  =
-			candidate_gap =3D gap;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  351  =
-			candidate_pfn =3D new_pfn;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  352  =
-			candidate_rb_parent =3D curr;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  353  =
-			if (gap =3D=3D size)
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  354  =
-				goto insert;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  355  =
-		}
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  356  =
-	}
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  357  =
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2919  				if (si_pi->enable_dte) {
+6861c837e28e1b1 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Deucher        201=
+6-09-13  2920  					smc_result =3D amdgpu_si_send_msg_to_smc(adev, PPSMC_MS=
+G_EnableDTE);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2921  					if (smc_result !=3D PPSMC_Result_OK)
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2922  						ret =3D -EINVAL;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2923  				}
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2924  			}
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2925  		} else if (ni_pi->cac_enabled) {
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2926  			if (si_pi->enable_dte)
+6861c837e28e1b1 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Deucher        201=
+6-09-13 @2927  				smc_result =3D amdgpu_si_send_msg_to_smc(adev, PPSMC_MSG=
+_DisableDTE);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2928  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  358  =
-	curr_iova =3D rb_entry(curr, struct iova, node);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  359  =
-	limit_pfn =3D min(limit_pfn, curr_iova->pfn_lo);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  360  =
-	new_pfn =3D (limit_pfn - size) & align_mask;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  361  =
-	gap =3D curr_iova->pfn_lo - iovad->start_pfn;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  362  =
-	if (limit_pfn >=3D size && new_pfn >=3D iovad->start_pfn &&
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  363  =
-			gap < candidate_gap) {
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26 @364  =
-		candidate_gap =3D gap;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  365  =
-		candidate_pfn =3D new_pfn;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  366  =
-		candidate_rb_parent =3D curr;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  367  =
-	}
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  368  =
+6861c837e28e1b1 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Deucher        201=
+6-09-13 @2929  			smc_result =3D amdgpu_si_send_msg_to_smc(adev, PPSMC_MSG_=
+DisableCac);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2930  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  369  =
-insert:
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  370  =
-	if (candidate_pfn =3D=3D ~0UL) {
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  371  =
-		spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  372  =
-		return -ENOMEM;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  373  =
-	}
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  374  =
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2931  			ni_pi->cac_enabled =3D false;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2932  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  375  =
-	/* pfn_lo will point to size aligned address if size_aligned is set */
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  376  =
-	new->pfn_lo =3D candidate_pfn;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  377  =
-	new->pfn_hi =3D new->pfn_lo + size - 1;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  378  =
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2933  			if (ni_pi->support_cac_long_term_average)
+6861c837e28e1b1 drivers/gpu/drm/amd/amdgpu/si_dpm.c Alex Deucher        201=
+6-09-13  2934  				smc_result =3D amdgpu_si_send_msg_to_smc(adev, PPSMC_CAC=
+LongTermAvgDisable);
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2935  		}
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2936  	}
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2937  	return ret;
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2938  }
+841686df9f7d294 drivers/gpu/drm/amd/amdgpu/si_dpm.c Maruthi Bayyavarapu 201=
+6-08-01  2939  =
 
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  379  =
-	/* If we have 'prev', it's a valid place to start the insertion. */
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  380  =
-	iova_insert_rbtree(&iovad->rbroot, new, candidate_rb_parent);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  381  =
-	spin_unlock_irqrestore(&iovad->iova_rbtree_lock, flags);
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  382  =
-	return 0;
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  383  }
-150c882a3dd8f5 drivers/iommu/iova.c Liam Mark             2020-02-26  384  =
 
+:::::: The code at line 2927 was first introduced by commit
+:::::: 6861c837e28e1b1300a1b24ddab748c8ee50da3b drm/amdgpu/si/dpm: fix symb=
+ol conflicts with radeon
+
+:::::: TO: Alex Deucher <alexander.deucher@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4054025421503139306==--
+--===============8486557591997876076==--
 
