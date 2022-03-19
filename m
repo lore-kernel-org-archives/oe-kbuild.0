@@ -1,506 +1,220 @@
-Content-Type: multipart/mixed; boundary="===============0420488159780363101=="
+Content-Type: multipart/mixed; boundary="===============6556402217152041706=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mchehab-media-next:master 259/331] drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Sat, 19 Mar 2022 16:44:38 +0800
-Message-ID: <202203191647.oSnuoCij-lkp@intel.com>
+Subject: mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows outer function [shadowFunction]
+Date: Sat, 19 Mar 2022 15:23:06 +0800
+Message-ID: <202203191533.SWh3PIR5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0420488159780363101==
+--===============6556402217152041706==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: David Hildenbrand <david@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   git://linuxtv.org/mchehab/media-next.git master
-head:   47aa866f248c89b319b99ac7b21a0a961ed2264a
-commit: 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7 [259/331] media: platform:=
- place NXP drivers on a separate dir
-:::::: branch date: 26 hours ago
-:::::: commit date: 5 days ago
-config: arm-randconfig-c002-20220318 (https://download.01.org/0day-ci/archi=
-ve/20220319/202203191647.oSnuoCij-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6e70e=
-4056dff962ec634c5bd4f2f4105a0bef71)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        git remote add mchehab-media-next git://linuxtv.org/mchehab/media-n=
-ext.git
-        git fetch --no-tags mchehab-media-next master
-        git checkout 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   34e047aa16c0123bbae8e2f6df33e5ecc1f56601
+commit: 445fcf7c721450dd1d4ec6c217b3c6a932602a44 mm/memory_hotplug: memory =
+group aware "auto-movable" online policy
+date:   6 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 months ago
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:902:2: note: Taking true =
-branch
-           if (img_fmt =3D=3D MXC_JPEG_INVALID)
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Left side of=
- '&&' is true
-                   dev_err(jpeg->dev, "No valid image format detected\n");
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                       ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Taking true =
-branch
-                   dev_err(jpeg->dev, "No valid image format detected\n");
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: '?' conditio=
-n is true
-                   dev_err(jpeg->dev, "No valid image format detected\n");
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: '?' conditio=
-n is true
-                   dev_err(jpeg->dev, "No valid image format detected\n");
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Loop conditi=
-on is false.  Exiting loop
-                   dev_err(jpeg->dev, "No valid image format detected\n");
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:905:5: note: The result o=
-f the left shift is undefined because the left operand is negative
-                            STM_CTRL_IMAGE_FORMAT(img_fmt);
-                            ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h:84:52: note: expanded =
-from macro 'STM_CTRL_IMAGE_FORMAT'
-   #define STM_CTRL_IMAGE_FORMAT(img_fmt)          ((img_fmt) << 3)
-                                                    ~~~~~~~~~ ^
->> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: warning: Branch c=
-ondition evaluates to a garbage value [clang-analyzer-core.uninitialized.Br=
-anch]
-                   if (!q->sizeimage[0])
-                       ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
-c_jpeg_try_fmt_vid_out'
-           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
-ield 'mode' is not equal to MXC_JPEG_ENCODE
-           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
-ion is false
-           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
-                        ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
-eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-                ^
-   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
-PE_IS_MULTIPLANAR'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
-f '||' is false
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-                ^
-   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
-PE_IS_MULTIPLANAR'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
-            ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
-eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-                ^
-   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
-PE_IS_MULTIPLANAR'
-            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
-e branch
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
-n-null
-           if (!fmt || fmt->flags !=3D q_type) {
-                ^~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
-f '||' is false
-           if (!fmt || fmt->flags !=3D q_type) {
-               ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
-q_type' is equal to field 'flags'
-           if (!fmt || fmt->flags !=3D q_type) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
-e branch
-           if (!fmt || fmt->flags !=3D q_type) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
-c_jpeg_try_fmt'
-           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
-ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
-           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
-ion is false
-           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
-                   ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
-ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
-           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
-ion is false
-           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
-                   ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
-i' is >=3D field 'num_planes'
-           for (i =3D 0; i < pix_mp->num_planes; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
-ion is false. Execution continues on line 1655
-           for (i =3D 0; i < pix_mp->num_planes; i++) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
-c_jpeg_bytesperline'
-           mxc_jpeg_bytesperline(&tmp_q, 8);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
-e condition is true
-           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
- branch
-           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
-rom 'mxc_jpeg_bytesperline'
-           mxc_jpeg_bytesperline(&tmp_q, 8);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
-c_jpeg_sizeimage'
-           mxc_jpeg_sizeimage(&tmp_q);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
- branch
-           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Branch cond=
-ition evaluates to a garbage value
-                   if (!q->sizeimage[0])
-                       ^~~~~~~~~~~~~~~~
->> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1662:22: warning: Assigne=
-d value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   pfmt->bytesperline =3D tmp_q.bytesperline[i];
-                                      ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
-c_jpeg_try_fmt_vid_out'
-           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
-ield 'mode' is not equal to MXC_JPEG_ENCODE
-           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
-ion is false
-           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
-                        ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
-eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-                ^
-   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
-PE_IS_MULTIPLANAR'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
-f '||' is false
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-                ^
-   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
-PE_IS_MULTIPLANAR'
-           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
-            ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
-eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-                ^
-   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
-PE_IS_MULTIPLANAR'
-            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
-e branch
-           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
-n-null
-           if (!fmt || fmt->flags !=3D q_type) {
-                ^~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
-f '||' is false
-           if (!fmt || fmt->flags !=3D q_type) {
-               ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
-q_type' is equal to field 'flags'
-           if (!fmt || fmt->flags !=3D q_type) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
-e branch
-           if (!fmt || fmt->flags !=3D q_type) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
-c_jpeg_try_fmt'
-           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
-ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
-           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
-ion is false
-           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
-                   ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
-ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
-           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
-ion is false
-           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
-                   ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
-i' is < field 'num_planes'
-           for (i =3D 0; i < pix_mp->num_planes; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
-ion is true.  Entering loop body
-           for (i =3D 0; i < pix_mp->num_planes; i++) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
-i' is >=3D field 'num_planes'
-           for (i =3D 0; i < pix_mp->num_planes; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
-ion is false. Execution continues on line 1655
-           for (i =3D 0; i < pix_mp->num_planes; i++) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
-c_jpeg_bytesperline'
-           mxc_jpeg_bytesperline(&tmp_q, 8);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
-e condition is true
-           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
- branch
-           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
-rom 'mxc_jpeg_bytesperline'
-           mxc_jpeg_bytesperline(&tmp_q, 8);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
-c_jpeg_sizeimage'
-           mxc_jpeg_sizeimage(&tmp_q);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
- branch
-           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-           ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Assuming th=
-e condition is false
-                   if (!q->sizeimage[0])
-                       ^~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:3: note: Taking fals=
-e branch
-                   if (!q->sizeimage[0])
-                   ^
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:7: note: Assuming th=
-e condition is false
-                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:3: note: Taking fals=
-e branch
-                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +1231 drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows=
+ outer function [shadowFunction]
+    unsigned long online_pages =3D 0, max_pages, end_pfn;
+                  ^
+   mm/memory_hotplug.c:1024:11: note: Shadowed declaration
+   int __ref online_pages(unsigned long pfn, unsigned long nr_pages,
+             ^
+   mm/memory_hotplug.c:860:16: note: Shadow variable
+    unsigned long online_pages =3D 0, max_pages, end_pfn;
+                  ^
 
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1226  =
+vim +860 mm/memory_hotplug.c
 
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1227  static void mxc_jpeg_sizeimage(struct mxc_jpeg_q_data *q)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1228  {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1229  	if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1230  		/* if no sizeimage from user, assume worst jpeg compressi=
-on */
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11 @1231  		if (!q->sizeimage[0])
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1232  			q->sizeimage[0] =3D 6 * q->w * q->h;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1233  		q->sizeimage[1] =3D 0;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1234  =
+c246a213f5bad68 Michal Hocko      2017-07-06  808  =
 
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1235  		if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1236  			q->sizeimage[0] =3D MXC_JPEG_MAX_SIZEIMAGE;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1237  =
+e83a437faa625ef David Hildenbrand 2021-09-07  809  /*
+e83a437faa625ef David Hildenbrand 2021-09-07  810   * Determine to which zo=
+ne to online memory dynamically based on user
+e83a437faa625ef David Hildenbrand 2021-09-07  811   * configuration and sys=
+tem stats. We care about the following ratio:
+e83a437faa625ef David Hildenbrand 2021-09-07  812   *
+e83a437faa625ef David Hildenbrand 2021-09-07  813   *   MOVABLE : KERNEL
+e83a437faa625ef David Hildenbrand 2021-09-07  814   *
+e83a437faa625ef David Hildenbrand 2021-09-07  815   * Whereby MOVABLE is me=
+mory in ZONE_MOVABLE and KERNEL is memory in
+e83a437faa625ef David Hildenbrand 2021-09-07  816   * one of the kernel zon=
+es. CMA pages inside one of the kernel zones really
+e83a437faa625ef David Hildenbrand 2021-09-07  817   * behaves like ZONE_MOV=
+ABLE, so we treat them accordingly.
+e83a437faa625ef David Hildenbrand 2021-09-07  818   *
+e83a437faa625ef David Hildenbrand 2021-09-07  819   * We don't allow for ho=
+tplugged memory in a KERNEL zone to increase the
+e83a437faa625ef David Hildenbrand 2021-09-07  820   * amount of MOVABLE mem=
+ory we can have, so we end up with:
+e83a437faa625ef David Hildenbrand 2021-09-07  821   *
+e83a437faa625ef David Hildenbrand 2021-09-07  822   *   MOVABLE : KERNEL_EA=
+RLY
+e83a437faa625ef David Hildenbrand 2021-09-07  823   *
+e83a437faa625ef David Hildenbrand 2021-09-07  824   * Whereby KERNEL_EARLY =
+is memory in one of the kernel zones, available sinze
+e83a437faa625ef David Hildenbrand 2021-09-07  825   * boot. We base our cal=
+culation on KERNEL_EARLY internally, because:
+e83a437faa625ef David Hildenbrand 2021-09-07  826   *
+e83a437faa625ef David Hildenbrand 2021-09-07  827   * a) Hotplugged memory =
+in one of the kernel zones can sometimes still get
+e83a437faa625ef David Hildenbrand 2021-09-07  828   *    hotunplugged, espe=
+cially when hot(un)plugging individual memory blocks.
+e83a437faa625ef David Hildenbrand 2021-09-07  829   *    There is no coordi=
+nation across memory devices, therefore "automatic"
+e83a437faa625ef David Hildenbrand 2021-09-07  830   *    hotunplugging, as =
+implemented in hypervisors, could result in zone
+e83a437faa625ef David Hildenbrand 2021-09-07  831   *    imbalances.
+e83a437faa625ef David Hildenbrand 2021-09-07  832   * b) Early/boot memory =
+in one of the kernel zones can usually not get
+e83a437faa625ef David Hildenbrand 2021-09-07  833   *    hotunplugged again=
+ (e.g., no firmware interface to unplug, fragmented
+e83a437faa625ef David Hildenbrand 2021-09-07  834   *    with unmovable all=
+ocations). While there are corner cases where it might
+e83a437faa625ef David Hildenbrand 2021-09-07  835   *    still work, it is =
+barely relevant in practice.
+e83a437faa625ef David Hildenbrand 2021-09-07  836   *
+e83a437faa625ef David Hildenbrand 2021-09-07  837   * We rely on "present p=
+ages" instead of "managed pages", as the latter is
+e83a437faa625ef David Hildenbrand 2021-09-07  838   * highly unreliable and=
+ dynamic in virtualized environments, and does not
+e83a437faa625ef David Hildenbrand 2021-09-07  839   * consider boot time al=
+locations. For example, memory ballooning adjusts the
+e83a437faa625ef David Hildenbrand 2021-09-07  840   * managed pages when in=
+flating/deflating the balloon, and balloon compaction
+e83a437faa625ef David Hildenbrand 2021-09-07  841   * can even migrate infl=
+ated pages between zones.
+e83a437faa625ef David Hildenbrand 2021-09-07  842   *
+e83a437faa625ef David Hildenbrand 2021-09-07  843   * Using "present pages"=
+ is better but some things to keep in mind are:
+e83a437faa625ef David Hildenbrand 2021-09-07  844   *
+e83a437faa625ef David Hildenbrand 2021-09-07  845   * a) Some memblock allo=
+cations, such as for the crashkernel area, are
+e83a437faa625ef David Hildenbrand 2021-09-07  846   *    effectively unused=
+ by the kernel, yet they account to "present pages".
+e83a437faa625ef David Hildenbrand 2021-09-07  847   *    Fortunately, these=
+ allocations are comparatively small in relevant setups
+e83a437faa625ef David Hildenbrand 2021-09-07  848   *    (e.g., fraction of=
+ system memory).
+e83a437faa625ef David Hildenbrand 2021-09-07  849   * b) Some hotplugged me=
+mory blocks in virtualized environments, esecially
+e83a437faa625ef David Hildenbrand 2021-09-07  850   *    hotplugged by virt=
+io-mem, look like they are completely present, however,
+e83a437faa625ef David Hildenbrand 2021-09-07  851   *    only parts of the =
+memory block are actually currently usable.
+e83a437faa625ef David Hildenbrand 2021-09-07  852   *    "present pages" is=
+ an upper limit that can get reached at runtime. As
+e83a437faa625ef David Hildenbrand 2021-09-07  853   *    we base our calcul=
+ations on KERNEL_EARLY, this is not an issue.
+e83a437faa625ef David Hildenbrand 2021-09-07  854   */
+445fcf7c721450d David Hildenbrand 2021-09-07  855  static struct zone *auto=
+_movable_zone_for_pfn(int nid,
+445fcf7c721450d David Hildenbrand 2021-09-07  856  					      struct memory=
+_group *group,
+445fcf7c721450d David Hildenbrand 2021-09-07  857  					      unsigned long=
+ pfn,
+e83a437faa625ef David Hildenbrand 2021-09-07  858  					      unsigned long=
+ nr_pages)
+e83a437faa625ef David Hildenbrand 2021-09-07  859  {
+445fcf7c721450d David Hildenbrand 2021-09-07 @860  	unsigned long online_pa=
+ges =3D 0, max_pages, end_pfn;
+445fcf7c721450d David Hildenbrand 2021-09-07  861  	struct page *page;
+445fcf7c721450d David Hildenbrand 2021-09-07  862  =
 
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1238  		/* jpeg stream size must be multiple of 1K */
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1239  		q->sizeimage[0] =3D ALIGN(q->sizeimage[0], 1024);
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1240  	} else {
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1241  		q->sizeimage[0] =3D q->bytesperline[0] * q->h;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1242  		q->sizeimage[1] =3D 0;
-784a1883cff07e drivers/media/platform/imx-jpeg/mxc-jpeg.c Ming Qian      20=
-21-12-24  1243  		if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_NV12M)
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1244  			q->sizeimage[1] =3D q->sizeimage[0] / 2;
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1245  	}
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1246  }
-2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
-21-03-11  1247  =
+e83a437faa625ef David Hildenbrand 2021-09-07  863  	if (!auto_movable_ratio)
+e83a437faa625ef David Hildenbrand 2021-09-07  864  		goto kernel_zone;
+e83a437faa625ef David Hildenbrand 2021-09-07  865  =
 
+445fcf7c721450d David Hildenbrand 2021-09-07  866  	if (group && !group->is=
+_dynamic) {
+445fcf7c721450d David Hildenbrand 2021-09-07  867  		max_pages =3D group->s=
+.max_pages;
+445fcf7c721450d David Hildenbrand 2021-09-07  868  		online_pages =3D group=
+->present_movable_pages;
+445fcf7c721450d David Hildenbrand 2021-09-07  869  =
 
-:::::: The code at line 1231 was first introduced by commit
-:::::: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 d=
-river for i.MX8 JPEG Encoder/Decoder
+445fcf7c721450d David Hildenbrand 2021-09-07  870  		/* If anything is !MOV=
+ABLE online the rest !MOVABLE. */
+445fcf7c721450d David Hildenbrand 2021-09-07  871  		if (group->present_ker=
+nel_pages)
+445fcf7c721450d David Hildenbrand 2021-09-07  872  			goto kernel_zone;
+445fcf7c721450d David Hildenbrand 2021-09-07  873  	} else if (!group || gr=
+oup->d.unit_pages =3D=3D nr_pages) {
+445fcf7c721450d David Hildenbrand 2021-09-07  874  		max_pages =3D nr_pages;
+445fcf7c721450d David Hildenbrand 2021-09-07  875  	} else {
+445fcf7c721450d David Hildenbrand 2021-09-07  876  		max_pages =3D group->d=
+.unit_pages;
+445fcf7c721450d David Hildenbrand 2021-09-07  877  		/*
+445fcf7c721450d David Hildenbrand 2021-09-07  878  		 * Take a look at all =
+online sections in the current unit.
+445fcf7c721450d David Hildenbrand 2021-09-07  879  		 * We can safely assum=
+e that all pages within a section belong
+445fcf7c721450d David Hildenbrand 2021-09-07  880  		 * to the same zone, b=
+ecause dynamic memory groups only deal
+445fcf7c721450d David Hildenbrand 2021-09-07  881  		 * with hotplugged mem=
+ory.
+445fcf7c721450d David Hildenbrand 2021-09-07  882  		 */
+445fcf7c721450d David Hildenbrand 2021-09-07  883  		pfn =3D ALIGN_DOWN(pfn=
+, group->d.unit_pages);
+445fcf7c721450d David Hildenbrand 2021-09-07  884  		end_pfn =3D pfn + grou=
+p->d.unit_pages;
+445fcf7c721450d David Hildenbrand 2021-09-07  885  		for (; pfn < end_pfn; =
+pfn +=3D PAGES_PER_SECTION) {
+445fcf7c721450d David Hildenbrand 2021-09-07  886  			page =3D pfn_to_onlin=
+e_page(pfn);
+445fcf7c721450d David Hildenbrand 2021-09-07  887  			if (!page)
+445fcf7c721450d David Hildenbrand 2021-09-07  888  				continue;
+445fcf7c721450d David Hildenbrand 2021-09-07  889  			/* If anything is !MO=
+VABLE online the rest !MOVABLE. */
+445fcf7c721450d David Hildenbrand 2021-09-07  890  			if (page_zonenum(page=
+) !=3D ZONE_MOVABLE)
+445fcf7c721450d David Hildenbrand 2021-09-07  891  				goto kernel_zone;
+445fcf7c721450d David Hildenbrand 2021-09-07  892  			online_pages +=3D PAG=
+ES_PER_SECTION;
+445fcf7c721450d David Hildenbrand 2021-09-07  893  		}
+445fcf7c721450d David Hildenbrand 2021-09-07  894  	}
+445fcf7c721450d David Hildenbrand 2021-09-07  895  =
 
-:::::: TO: Mirela Rabulea <mirela.rabulea@nxp.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+445fcf7c721450d David Hildenbrand 2021-09-07  896  	/*
+445fcf7c721450d David Hildenbrand 2021-09-07  897  	 * Online MOVABLE if we=
+ could *currently* online all remaining parts
+445fcf7c721450d David Hildenbrand 2021-09-07  898  	 * MOVABLE. We expect t=
+o (add+) online them immediately next, so if
+445fcf7c721450d David Hildenbrand 2021-09-07  899  	 * nobody interferes, a=
+ll will be MOVABLE if possible.
+445fcf7c721450d David Hildenbrand 2021-09-07  900  	 */
+445fcf7c721450d David Hildenbrand 2021-09-07  901  	nr_pages =3D max_pages =
+- online_pages;
+e83a437faa625ef David Hildenbrand 2021-09-07  902  	if (!auto_movable_can_o=
+nline_movable(NUMA_NO_NODE, nr_pages))
+e83a437faa625ef David Hildenbrand 2021-09-07  903  		goto kernel_zone;
+e83a437faa625ef David Hildenbrand 2021-09-07  904  =
+
 
 ---
 0-DAY CI Kernel Test Service
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0420488159780363101==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============6556402217152041706==--
 
