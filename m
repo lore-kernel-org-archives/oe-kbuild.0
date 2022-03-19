@@ -1,575 +1,194 @@
-Content-Type: multipart/mixed; boundary="===============0328443713849660049=="
+Content-Type: multipart/mixed; boundary="===============4640425449705452623=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/controller/pci-aardvark.c:595:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 19 Mar 2022 13:31:28 +0800
-Message-ID: <202203191339.68l7gFv8-lkp@intel.com>
+Subject: [axboe-block:for-5.18/block 125/127] block/blk-throttle.c:1188 throtl_pending_timer_fn() error: we previously assumed 'tg' could be null (see line 1146)
+Date: Sat, 19 Mar 2022 12:50:39 +0800
+Message-ID: <202203191245.PiGwwAAl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0328443713849660049==
+--===============4640425449705452623==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: "Marek Beh=C3=BAn" <kabel@kernel.org>
-CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+TO: Ming Lei <ming.lei@redhat.com>
+CC: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   34e047aa16c0123bbae8e2f6df33e5ecc1f56601
-commit: 464de7e7fff767e87429cd7be09c4f2cb50a6ccb PCI: aardvark: Don't spam =
-about PIO Response Status
-date:   5 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 5 months ago
-config: riscv-randconfig-c006-20220307 (https://download.01.org/0day-ci/arc=
-hive/20220319/202203191339.68l7gFv8-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project d271fc=
-04d5b97b12e6b797c6067d3c96a8d7470e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D464de7e7fff767e87429cd7be09c4f2cb50a6ccb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 464de7e7fff767e87429cd7be09c4f2cb50a6ccb
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-5.18/block
+head:   8f9e7b65f833cb9a4b2e2f54a049d74df394d906
+commit: ee37eddbfa9e0401f13a01691cf4bbbacd2d16c9 [125/127] block: avoid use=
+-after-free on throttle data
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: openrisc-randconfig-m031-20220318 (https://download.01.org/0day-ci/=
+archive/20220319/202203191245.PiGwwAAl-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+block/blk-throttle.c:1188 throtl_pending_timer_fn() error: we previously as=
+sumed 'tg' could be null (see line 1146)
+
+vim +/tg +1188 block/blk-throttle.c
+
+e43473b7f223ec Vivek Goyal       2010-09-15  1117  =
+
+c79892c5576163 Shaohua Li        2017-03-27  1118  static bool throtl_can_u=
+pgrade(struct throtl_data *td,
+c79892c5576163 Shaohua Li        2017-03-27  1119  	struct throtl_grp *this=
+_tg);
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1120  /**
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1121   * throtl_pending_timer_=
+fn - timer function for service_queue->pending_timer
+216382dccb2e0c Bart Van Assche   2019-05-30  1122   * @t: the pending_timer=
+ member of the throtl_service_queue being serviced
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1123   *
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1124   * This timer is armed w=
+hen a child throtl_grp with active bio's become
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1125   * pending and queued on=
+ the service_queue's pending_tree and expires when
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1126   * the first child throt=
+l_grp should be dispatched.  This function
+2e48a530a3a7da Tejun Heo         2013-05-14  1127   * dispatches bio's from=
+ the children throtl_grps to the parent
+2e48a530a3a7da Tejun Heo         2013-05-14  1128   * service_queue.
+2e48a530a3a7da Tejun Heo         2013-05-14  1129   *
+2e48a530a3a7da Tejun Heo         2013-05-14  1130   * If the parent's paren=
+t is another throtl_grp, dispatching is propagated
+2e48a530a3a7da Tejun Heo         2013-05-14  1131   * by either arming its =
+pending_timer or repeating dispatch directly.  If
+2e48a530a3a7da Tejun Heo         2013-05-14  1132   * the top-level service=
+_tree is reached, throtl_data->dispatch_work is
+2e48a530a3a7da Tejun Heo         2013-05-14  1133   * kicked so that the re=
+ady bio's are issued.
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1134   */
+e99e88a9d2b067 Kees Cook         2017-10-16  1135  static void throtl_pendi=
+ng_timer_fn(struct timer_list *t)
+69df0ab030c94e Tejun Heo         2013-05-14  1136  {
+e99e88a9d2b067 Kees Cook         2017-10-16  1137  	struct throtl_service_q=
+ueue *sq =3D from_timer(sq, t, pending_timer);
+2e48a530a3a7da Tejun Heo         2013-05-14  1138  	struct throtl_grp *tg =
+=3D sq_to_tg(sq);
+69df0ab030c94e Tejun Heo         2013-05-14  1139  	struct throtl_data *td =
+=3D sq_to_td(sq);
+2e48a530a3a7da Tejun Heo         2013-05-14  1140  	struct throtl_service_q=
+ueue *parent_sq;
+ee37eddbfa9e04 Ming Lei          2022-03-18  1141  	struct request_queue *q;
+2e48a530a3a7da Tejun Heo         2013-05-14  1142  	bool dispatched;
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1143  	int ret;
+e43473b7f223ec Vivek Goyal       2010-09-15  1144  =
+
+ee37eddbfa9e04 Ming Lei          2022-03-18  1145  	/* throtl_data may be g=
+one, so figure out request queue by blkg */
+ee37eddbfa9e04 Ming Lei          2022-03-18 @1146  	if (tg)
+ee37eddbfa9e04 Ming Lei          2022-03-18  1147  		q =3D tg->pd.blkg->q;
+ee37eddbfa9e04 Ming Lei          2022-03-18  1148  	else
+ee37eddbfa9e04 Ming Lei          2022-03-18  1149  		q =3D td->queue;
+ee37eddbfa9e04 Ming Lei          2022-03-18  1150  =
+
+0d945c1f966b2b Christoph Hellwig 2018-11-15  1151  	spin_lock_irq(&q->queue=
+_lock);
+ee37eddbfa9e04 Ming Lei          2022-03-18  1152  =
+
+ee37eddbfa9e04 Ming Lei          2022-03-18  1153  	if (!q->root_blkg)
+ee37eddbfa9e04 Ming Lei          2022-03-18  1154  		goto out_unlock;
+ee37eddbfa9e04 Ming Lei          2022-03-18  1155  =
+
+c79892c5576163 Shaohua Li        2017-03-27  1156  	if (throtl_can_upgrade(=
+td, NULL))
+c79892c5576163 Shaohua Li        2017-03-27  1157  		throtl_upgrade_state(t=
+d);
+c79892c5576163 Shaohua Li        2017-03-27  1158  =
+
+2e48a530a3a7da Tejun Heo         2013-05-14  1159  again:
+2e48a530a3a7da Tejun Heo         2013-05-14  1160  	parent_sq =3D sq->paren=
+t_sq;
+2e48a530a3a7da Tejun Heo         2013-05-14  1161  	dispatched =3D false;
+e43473b7f223ec Vivek Goyal       2010-09-15  1162  =
+
+7f52f98c2a8333 Tejun Heo         2013-05-14  1163  	while (true) {
+fda6f272c77a7a Tejun Heo         2013-05-14  1164  		throtl_log(sq, "dispat=
+ch nr_queued=3D%u read=3D%u write=3D%u",
+2e48a530a3a7da Tejun Heo         2013-05-14  1165  			   sq->nr_queued[READ=
+] + sq->nr_queued[WRITE],
+2e48a530a3a7da Tejun Heo         2013-05-14  1166  			   sq->nr_queued[READ=
+], sq->nr_queued[WRITE]);
+e43473b7f223ec Vivek Goyal       2010-09-15  1167  =
+
+7f52f98c2a8333 Tejun Heo         2013-05-14  1168  		ret =3D throtl_select_=
+dispatch(sq);
+7f52f98c2a8333 Tejun Heo         2013-05-14  1169  		if (ret) {
+7f52f98c2a8333 Tejun Heo         2013-05-14  1170  			throtl_log(sq, "bios =
+disp=3D%u", ret);
+7f52f98c2a8333 Tejun Heo         2013-05-14  1171  			dispatched =3D true;
+651930bc1c2a25 Tejun Heo         2013-05-14  1172  		}
+e43473b7f223ec Vivek Goyal       2010-09-15  1173  =
+
+7f52f98c2a8333 Tejun Heo         2013-05-14  1174  		if (throtl_schedule_ne=
+xt_dispatch(sq, false))
+7f52f98c2a8333 Tejun Heo         2013-05-14  1175  			break;
+7f52f98c2a8333 Tejun Heo         2013-05-14  1176  =
+
+7f52f98c2a8333 Tejun Heo         2013-05-14  1177  		/* this dispatch windo=
+ws is still open, relax and repeat */
+0d945c1f966b2b Christoph Hellwig 2018-11-15  1178  		spin_unlock_irq(&q->qu=
+eue_lock);
+7f52f98c2a8333 Tejun Heo         2013-05-14  1179  		cpu_relax();
+0d945c1f966b2b Christoph Hellwig 2018-11-15  1180  		spin_lock_irq(&q->queu=
+e_lock);
+7f52f98c2a8333 Tejun Heo         2013-05-14  1181  	}
+6a525600ffeb9e Tejun Heo         2013-05-14  1182  =
+
+2e48a530a3a7da Tejun Heo         2013-05-14  1183  	if (!dispatched)
+2e48a530a3a7da Tejun Heo         2013-05-14  1184  		goto out_unlock;
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1185  =
+
+2e48a530a3a7da Tejun Heo         2013-05-14  1186  	if (parent_sq) {
+2e48a530a3a7da Tejun Heo         2013-05-14  1187  		/* @parent_sq is anoth=
+er throl_grp, propagate dispatch */
+2e48a530a3a7da Tejun Heo         2013-05-14 @1188  		if (tg->flags & THROTL=
+_TG_WAS_EMPTY) {
+2e48a530a3a7da Tejun Heo         2013-05-14  1189  			tg_update_disptime(tg=
+);
+2e48a530a3a7da Tejun Heo         2013-05-14  1190  			if (!throtl_schedule_=
+next_dispatch(parent_sq, false)) {
+2e48a530a3a7da Tejun Heo         2013-05-14  1191  				/* window is already=
+ open, repeat dispatching */
+2e48a530a3a7da Tejun Heo         2013-05-14  1192  				sq =3D parent_sq;
+2e48a530a3a7da Tejun Heo         2013-05-14  1193  				tg =3D sq_to_tg(sq);
+2e48a530a3a7da Tejun Heo         2013-05-14  1194  				goto again;
+2e48a530a3a7da Tejun Heo         2013-05-14  1195  			}
+2e48a530a3a7da Tejun Heo         2013-05-14  1196  		}
+2e48a530a3a7da Tejun Heo         2013-05-14  1197  	} else {
+b53b072c4bb579 Baolin Wang       2020-09-07  1198  		/* reached the top-lev=
+el, queue issuing */
+2e48a530a3a7da Tejun Heo         2013-05-14  1199  		queue_work(kthrotld_wo=
+rkqueue, &td->dispatch_work);
+2e48a530a3a7da Tejun Heo         2013-05-14  1200  	}
+2e48a530a3a7da Tejun Heo         2013-05-14  1201  out_unlock:
+0d945c1f966b2b Christoph Hellwig 2018-11-15  1202  	spin_unlock_irq(&q->que=
+ue_lock);
+6e1a5704cbbd24 Tejun Heo         2013-05-14  1203  }
+e43473b7f223ec Vivek Goyal       2010-09-15  1204  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/bridge/tc358767.c:820:2: note: Value stored to 'ret' is =
-never read
-           ret =3D regmap_write(tc->regmap, DP0_VIDSYNCDELAY,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:946:2: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:946:2: note: Value stored to 'ret' is =
-never read
-           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:949:2: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:949:2: note: Value stored to 'ret' is =
-never read
-           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:508:3: warning: Value store=
-d to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D wait_event_interruptible_timeout(adv7511->wq,
-                   ^
-   drivers/gpu/drm/bridge/adv7511/adv7511_drv.c:508:3: note: Value stored t=
-o 'ret' is never read
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/media/v4l2-core/v4l2-mc.c:176:4: warning: Value stored to 'if_au=
-d' is never read [clang-analyzer-deadcode.DeadStores]
-                           if_aud =3D tuner;
-                           ^        ~~~~~
-   drivers/media/v4l2-core/v4l2-mc.c:176:4: note: Value stored to 'if_aud' =
-is never read
-                           if_aud =3D tuner;
-                           ^        ~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> drivers/pci/controller/pci-aardvark.c:595:17: warning: Value stored to '=
-dev' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct device *dev =3D &pcie->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:595:17: note: Value stored to 'dev=
-' during its initialization is never read
-           struct device *dev =3D &pcie->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~
->> drivers/pci/controller/pci-aardvark.c:682:3: warning: Value stored to 's=
-tr_posted' is never read [clang-analyzer-deadcode.DeadStores]
-                   str_posted =3D "Non-posted";
-                   ^            ~~~~~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:682:3: note: Value stored to 'str_=
-posted' is never read
-                   str_posted =3D "Non-posted";
-                   ^            ~~~~~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:684:3: warning: Value stored to 's=
-tr_posted' is never read [clang-analyzer-deadcode.DeadStores]
-                   str_posted =3D "Posted";
-                   ^            ~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:684:3: note: Value stored to 'str_=
-posted' is never read
-                   str_posted =3D "Posted";
-                   ^            ~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:1439:21: warning: The result of th=
-e left shift is undefined because the right operand is negative [clang-anal=
-yzer-core.UndefinedBinaryOperatorResult]
-                           win_size =3D (1ULL << (fls64(size)-1)) |
-                                            ^  ~~~~~~~~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:1396:6: note: Assuming 'bridge' is=
- non-null
-           if (!bridge)
-               ^~~~~~~
-   drivers/pci/controller/pci-aardvark.c:1396:2: note: Taking false branch
-           if (!bridge)
-           ^
-   drivers/pci/controller/pci-aardvark.c:1403:2: note: Left side of '&&' is=
- false
-           resource_list_for_each_entry(entry, &bridge->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/pci/controller/pci-aardvark.c:1403:2: note: Taking false branch
-           resource_list_for_each_entry(entry, &bridge->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/pci/controller/pci-aardvark.c:1403:2: note: Loop condition is fa=
-lse.  Exiting loop
-           resource_list_for_each_entry(entry, &bridge->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/pci/controller/pci-aardvark.c:1403:2: note: Loop condition is tr=
-ue.  Entering loop body
-           resource_list_for_each_entry(entry, &bridge->windows) {
-           ^
-   include/linux/resource_ext.h:64:2: note: expanded from macro 'resource_l=
-ist_for_each_entry'
-           list_for_each_entry((entry), (list), node)
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/pci/controller/pci-aardvark.c:1415:7: note: Assuming 'type' is e=
-qual to IORESOURCE_MEM
-                   if (type !=3D IORESOURCE_MEM && type !=3D IORESOURCE_MEM=
-_64 &&
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/pci-aardvark.c:1415:30: note: Left side of '&&' i=
-s false
-                   if (type !=3D IORESOURCE_MEM && type !=3D IORESOURCE_MEM=
-_64 &&
-                                              ^
-   drivers/pci/controller/pci-aardvark.c:1424:8: note: 'type' is equal to I=
-ORESOURCE_MEM
-                   if ((type =3D=3D IORESOURCE_MEM || type =3D=3D IORESOURC=
-E_MEM_64) &&
-                        ^~~~
+:::::: The code at line 1188 was first introduced by commit
+:::::: 2e48a530a3a7daebd0cc17866304a36d39b611de blk-throttle: make throtl_p=
+ending_timer_fn() ready for hierarchy
 
-vim +/dev +595 drivers/pci/controller/pci-aardvark.c
-
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  592  =
-
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  593  static int advk_pcie_check_pio_status(struct advk_pcie *pc=
-ie, bool allow_crs, u32 *val)
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  594  {
-9aec2feaf787a7 drivers/pci/host/pci-aardvark.c       Bjorn Helgaas    2016-=
-10-06 @595  	struct device *dev =3D &pcie->pdev->dev;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  596  	u32 reg;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  597  	unsigned int status;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  598  	char *strcomp_status, *str_posted;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  599  =
-
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  600  	reg =3D advk_readl(pcie, PIO_STAT);
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  601  	status =3D (reg & PIO_COMPLETION_STATUS_MASK) >>
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  602  		PIO_COMPLETION_STATUS_SHIFT;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  603  =
-
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  604  	/*
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  605  	 * According to HW spec, the PIO status check sequence as belo=
-w:
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  606  	 * 1) even if COMPLETION_STATUS(bit9:7) indicates successful,
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  607  	 *    it still needs to check Error Status(bit11), only when t=
-his bit
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  608  	 *    indicates no error happen, the operation is successful.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  609  	 * 2) value Unsupported Request(1) of COMPLETION_STATUS(bit9:7=
-) only
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  610  	 *    means a PIO write error, and for PIO read it is successf=
-ul with
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  611  	 *    a read value of 0xFFFFFFFF.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  612  	 * 3) value Completion Retry Status(CRS) of COMPLETION_STATUS(=
-bit9:7)
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  613  	 *    only means a PIO write error, and for PIO read it is suc=
-cessful
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  614  	 *    with a read value of 0xFFFF0001.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  615  	 * 4) value Completer Abort (CA) of COMPLETION_STATUS(bit9:7) =
-means
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  616  	 *    error for both PIO read and PIO write operation.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  617  	 * 5) other errors are indicated as 'unknown'.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  618  	 */
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  619  	switch (status) {
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  620  	case PIO_COMPLETION_STATUS_OK:
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  621  		if (reg & PIO_ERR_STATUS) {
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  622  			strcomp_status =3D "COMP_ERR";
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  623  			break;
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  624  		}
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  625  		/* Get the read result */
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  626  		if (val)
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  627  			*val =3D advk_readl(pcie, PIO_RD_DATA);
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  628  		/* No error */
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  629  		strcomp_status =3D NULL;
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  630  		break;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  631  	case PIO_COMPLETION_STATUS_UR:
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  632  		strcomp_status =3D "UR";
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  633  		break;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  634  	case PIO_COMPLETION_STATUS_CRS:
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  635  		if (allow_crs && val) {
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  636  			/* PCIe r4.0, sec 2.3.2, says:
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  637  			 * If CRS Software Visibility is enabled:
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  638  			 * For a Configuration Read Request that includes both
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  639  			 * bytes of the Vendor ID field of a device Function's
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  640  			 * Configuration Space Header, the Root Complex must
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  641  			 * complete the Request to the host by returning a
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  642  			 * read-data value of 0001h for the Vendor ID field and
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  643  			 * all '1's for any additional bytes included in the
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  644  			 * request.
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  645  			 *
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  646  			 * So CRS in this case is not an error status.
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  647  			 */
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  648  			*val =3D CFG_RD_CRS_VAL;
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  649  			strcomp_status =3D NULL;
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  650  			break;
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  651  		}
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  652  		/* PCIe r4.0, sec 2.3.2, says:
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  653  		 * If CRS Software Visibility is not enabled, the Root Complex
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  654  		 * must re-issue the Configuration Request as a new Request.
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  655  		 * If CRS Software Visibility is enabled: For a Configur=
-ation
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  656  		 * Write Request or for any other Configuration Read Req=
-uest,
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  657  		 * the Root Complex must re-issue the Configuration Requ=
-est as
-43f5c77bcbd27c drivers/pci/controller/pci-aardvark.c Pali Roh=C3=A1r       =
-2021-07-22  658  		 * a new Request.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  659  		 * A Root Complex implementation may choose to limit the numb=
-er
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  660  		 * of Configuration Request/CRS Completion Status loops before
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  661  		 * determining that something is wrong with the target of the
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  662  		 * Request and taking appropriate action, e.g., complete the
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  663  		 * Request to the host as a failed transaction.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  664  		 *
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  665  		 * To simplify implementation do not re-issue the Configurati=
-on
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  666  		 * Request and complete the Request as a failed transaction.
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  667  		 */
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  668  		strcomp_status =3D "CRS";
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  669  		break;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  670  	case PIO_COMPLETION_STATUS_CA:
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  671  		strcomp_status =3D "CA";
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  672  		break;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  673  	default:
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  674  		strcomp_status =3D "Unknown";
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  675  		break;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  676  	}
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  677  =
-
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  678  	if (!strcomp_status)
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  679  		return 0;
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  680  =
-
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  681  	if (reg & PIO_NON_POSTED_REQ)
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30 @682  		str_posted =3D "Non-posted";
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  683  	else
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  684  		str_posted =3D "Posted";
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  685  =
-
-464de7e7fff767 drivers/pci/controller/pci-aardvark.c Marek Beh=C3=BAn      =
-2021-10-05  686  	dev_dbg(dev, "%s PIO Response Status: %s, %#x @ %#x\n",
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  687  		str_posted, strcomp_status, reg, advk_readl(pcie, PIO_ADDR_LS=
-));
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  688  =
-
-fcb461e2bc8b83 drivers/pci/controller/pci-aardvark.c Evan Wang        2021-=
-07-22  689  	return -EFAULT;
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  690  }
-8c39d710363c14 drivers/pci/host/pci-aardvark.c       Thomas Petazzoni 2016-=
-06-30  691  =
-
-
-:::::: The code at line 595 was first introduced by commit
-:::::: 9aec2feaf787a766f802172e9021c7422029bc64 PCI: aardvark: Add local st=
-ruct device pointers
-
-:::::: TO: Bjorn Helgaas <bhelgaas@google.com>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0328443713849660049==--
+--===============4640425449705452623==--
 
