@@ -1,128 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============2682049638890444310=="
+Content-Type: multipart/mixed; boundary="===============0321087865279115567=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p' large enough for 'struct gpr_pkt'? s32min
-Date: Sun, 20 Mar 2022 02:02:15 +0800
-Message-ID: <202203200147.9WZMpDX8-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.17-rc6 24/27] drivers/iommu/iommufd/vfio_compat.c:494:2-8: preceding lock on line 491
+Date: Sat, 19 Mar 2022 22:39:16 +0800
+Message-ID: <202203192251.I4YPcIY5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2682049638890444310==
+--===============0321087865279115567==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-CC: Mark Brown <broonie@kernel.org>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-Hi Srinivas,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   34e047aa16c0123bbae8e2f6df33e5ecc1f56601
-commit: cf989b68fcadbeeea1446e50fd8b2f24a0f1275c ASoC: qdsp6: audioreach: a=
-dd Kconfig and Makefile
-date:   5 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 5 months ago
-config: openrisc-randconfig-m031-20220319 (https://download.01.org/0day-ci/=
-archive/20220320/202203200147.9WZMpDX8-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.17-rc6
+head:   340b1a57e312d5c0622af07796235073b0d8dbf3
+commit: a3273f1f88fe60e784d6e9916269a7d70fc6daf4 [24/27] iommufd: Add vfio_=
+group_set/unset_iommufd helpers
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
+319/202203192251.I4YPcIY5-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p'=
- large enough for 'struct gpr_pkt'? s32min
-sound/soc/qcom/qdsp6/audioreach.c:228 __audioreach_alloc_pkt() warn: is 'p'=
- large enough for 'struct apm_cmd_header'? 0
-
-vim +212 sound/soc/qcom/qdsp6/audioreach.c
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  196  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  197  static void *__audiorea=
-ch_alloc_pkt(int payload_size, uint32_t opcode, uint32_t token,
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  198  				    uint32_t src_po=
-rt, uint32_t dest_port, bool has_cmd_hdr)
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  199  {
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  200  	struct gpr_pkt *pkt;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  201  	void *p;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  202  	int pkt_size =3D GPR_H=
-DR_SIZE + payload_size;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  203  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  204  	if (has_cmd_hdr)
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  205  		pkt_size +=3D APM_CMD=
-_HDR_SIZE;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  206  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  207  	p =3D kzalloc(pkt_size=
-, GFP_KERNEL);
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  208  	if (!p)
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  209  		return ERR_PTR(-ENOME=
-M);
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  210  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  211  	pkt =3D p;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26 @212  	pkt->hdr.version =3D G=
-PR_PKT_VER;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  213  	pkt->hdr.hdr_size =3D =
-GPR_PKT_HEADER_WORD_SIZE;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  214  	pkt->hdr.pkt_size =3D =
-pkt_size;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  215  	pkt->hdr.dest_port =3D=
- dest_port;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  216  	pkt->hdr.src_port =3D =
-src_port;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  217  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  218  	pkt->hdr.dest_domain =
-=3D GPR_DOMAIN_ID_ADSP;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  219  	pkt->hdr.src_domain =
-=3D GPR_DOMAIN_ID_APPS;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  220  	pkt->hdr.token =3D tok=
-en;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  221  	pkt->hdr.opcode =3D op=
-code;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  222  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  223  	if (has_cmd_hdr) {
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  224  		struct apm_cmd_header=
- *cmd_header;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  225  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  226  		p =3D p + GPR_HDR_SIZ=
-E;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  227  		cmd_header =3D p;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26 @228  		cmd_header->payload_s=
-ize =3D payload_size;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  229  	}
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  230  =
-
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  231  	return pkt;
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  232  }
-44c28dbdb6195b Srinivas Kandagatla 2021-10-26  233  =
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-:::::: The code at line 212 was first introduced by commit
-:::::: 44c28dbdb6195b2a92e1fcb2946d1e987658f8b5 ASoC: qdsp6: audioreach: ad=
-d basic pkt alloc support
+cocci warnings: (new ones prefixed by >>)
+>> drivers/iommu/iommufd/vfio_compat.c:494:2-8: preceding lock on line 491
 
-:::::: TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-:::::: CC: Mark Brown <broonie@kernel.org>
+vim +494 drivers/iommu/iommufd/vfio_compat.c
+
+a3273f1f88fe60 Nicolin Chen 2022-01-31  481  =
+
+a3273f1f88fe60 Nicolin Chen 2022-01-31  482  void vfio_group_unset_iommufd(=
+void *iommufd, struct list_head *device_list)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  483  {
+a3273f1f88fe60 Nicolin Chen 2022-01-31  484  	struct iommufd_ctx *ictx =3D =
+(struct iommufd_ctx *)iommufd;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  485  	struct iommufd_ioas *ioas;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  486  	struct vfio_device *device;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  487  	unsigned int ioas_id;
+a3273f1f88fe60 Nicolin Chen 2022-01-31  488  =
+
+a3273f1f88fe60 Nicolin Chen 2022-01-31  489  	if (!ictx)
+a3273f1f88fe60 Nicolin Chen 2022-01-31  490  		return;
+a3273f1f88fe60 Nicolin Chen 2022-01-31 @491  	mutex_lock(&ictx->vfio_compat=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  492  	ioas =3D get_compat_ioas(ictx=
+);
+a3273f1f88fe60 Nicolin Chen 2022-01-31  493  	if (IS_ERR(ioas))
+a3273f1f88fe60 Nicolin Chen 2022-01-31 @494  		return;
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2682049638890444310==--
+--===============0321087865279115567==--
 
