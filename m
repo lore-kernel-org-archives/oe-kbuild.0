@@ -1,558 +1,117 @@
-Content-Type: multipart/mixed; boundary="===============2858890704651158130=="
+Content-Type: multipart/mixed; boundary="===============7231782726144463326=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mchehab-experimental:master 262/324] drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored to 'error' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 21 Mar 2022 05:47:03 +0800
-Message-ID: <202203210517.RfM049VH-lkp@intel.com>
+Subject: arch/alpha/lib/csum_partial_copy.c:96:15: warning: Uninitialized variable: word [uninitvar]
+Date: Mon, 21 Mar 2022 03:45:50 +0800
+Message-ID: <202203210351.MdKrN4NJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2858890704651158130==
+--===============7231782726144463326==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.linuxtv.org/mchehab/experimental.git master
-head:   71e6d0608e4d1b79069990c7dacb3600ced28a3b
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 [262/324] media: platform:=
- place Renesas drivers on a separate dir
-:::::: branch date: 3 days ago
-:::::: commit date: 7 days ago
-config: riscv-randconfig-c006-20220317 (https://download.01.org/0day-ci/arc=
-hive/20220321/202203210517.RfM049VH-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
-3d798f8eab43fb3a91028c6ab04e115fcb)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add mchehab-experimental https://git.linuxtv.org/mchehab=
-/experimental.git
-        git fetch --no-tags mchehab-experimental master
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   14702b3b2438e2f2d07ae93b5d695c166e5c83d1
+commit: 0214967a376d0726baf35cc2845a59ac17ef4db1 alpha: csum_partial_copy.c=
+: add function prototypes from <net/checksum.h>
+date:   11 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 11 months ago
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/i2c/busses/i2c-rcar.c:404:17: warning: Value stored to 'dev' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D rcar_i2c_priv_to_dev(priv);
-                          ^~~
-   drivers/i2c/busses/i2c-rcar.c:404:17: note: Value stored to 'dev' during=
- its initialization is never read
-           struct device *dev =3D rcar_i2c_priv_to_dev(priv);
-                          ^~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/i2c/busses/i2c-brcmstb.c:219:6: warning: Value stored to 'status=
-_iic_intrp' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-           u32 status_iic_intrp =3D bsc_readl(dev, iic_enable);
-               ^~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-brcmstb.c:219:6: note: Value stored to 'status_ii=
-c_intrp' during its initialization is never read
-           u32 status_iic_intrp =3D bsc_readl(dev, iic_enable);
-               ^~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/iio/adc/max11100.c:31:8: warning: Excessive padding in 'struct m=
-ax11100_state' (117 padding bytes, where 53 is optimal). =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   Optimal fields order: =
+>> arch/alpha/lib/csum_partial_copy.c:96:15: warning: Uninitialized variabl=
+e: word [uninitvar]
+     checksum +=3D word;
+                 ^
+   arch/alpha/lib/csum_partial_copy.c:98:22: warning: Uninitialized variabl=
+e: word [uninitvar]
+     carry =3D checksum < word;
+                        ^
+   arch/alpha/lib/csum_partial_copy.c:99:10: warning: Uninitialized variabl=
+e: word [uninitvar]
+     *dst =3D word;
+            ^
 
-   buffer, =
+vim +96 arch/alpha/lib/csum_partial_copy.c
 
-   vref_reg, =
+^1da177e4c3f41 Linus Torvalds 2005-04-16   77  =
 
-   spi, =
+^1da177e4c3f41 Linus Torvalds 2005-04-16   78  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct max11100_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   drivers/iio/adc/max11100.c:31:8: note: Excessive padding in 'struct max1=
-1100_state' (117 padding bytes, where 53 is optimal). Optimal fields order:=
- buffer, vref_reg, spi, consider reordering the fields or adding explicit p=
-adding members
-   struct max11100_state {
-   ~~~~~~~^~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/iio/adc/mcp320x.c:84:8: warning: Excessive padding in 'struct mc=
-p320x' (75 padding bytes, where 11 is optimal). =
+^1da177e4c3f41 Linus Torvalds 2005-04-16   79  =
 
-   Optimal fields order: =
+^1da177e4c3f41 Linus Torvalds 2005-04-16   80  /*
+^1da177e4c3f41 Linus Torvalds 2005-04-16   81   * Ok. This isn't fun, but t=
+his is the EASY case.
+^1da177e4c3f41 Linus Torvalds 2005-04-16   82   */
+^1da177e4c3f41 Linus Torvalds 2005-04-16   83  static inline unsigned long
+^1da177e4c3f41 Linus Torvalds 2005-04-16   84  csum_partial_cfu_aligned(con=
+st unsigned long __user *src, unsigned long *dst,
+b712139543af98 Al Viro        2020-07-12   85  			 long len)
+^1da177e4c3f41 Linus Torvalds 2005-04-16   86  {
+b712139543af98 Al Viro        2020-07-12   87  	unsigned long checksum =3D =
+~0U;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   88  	unsigned long carry =3D 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   89  =
 
-   tx_buf, =
-
-   rx_buf, =
-
-   spi, =
-
-   reg, =
-
-   chip_info, =
-
-   lock, =
-
-   msg, =
-
-   start_conv_msg, =
-
-   start_conv_transfer, =
-
-   transfer, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct mcp320x {
-   ~~~~~~~^~~~~~~~~
-   drivers/iio/adc/mcp320x.c:84:8: note: Excessive padding in 'struct mcp32=
-0x' (75 padding bytes, where 11 is optimal). Optimal fields order: tx_buf, =
-rx_buf, spi, reg, chip_info, lock, msg, start_conv_msg, start_conv_transfer=
-, transfer, consider reordering the fields or adding explicit padding membe=
-rs
-   struct mcp320x {
-   ~~~~~~~^~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/media/platform/qcom/venus/venc.c:877:3: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D hfi_session_set_property(inst, ptype, &en);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/venc.c:877:3: note: Value stored to 'r=
-et' is never read
-                   ret =3D hfi_session_set_property(inst, ptype, &en);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored=
- to 'error' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
-ASK;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_jpu.c:1551:17: note: Value stored to=
- 'error' during its initialization is never read
-                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
-ASK;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/media/dvb-frontends/stv0900_sw.c:1978:4: warning: Value stored t=
-o 'lock' is never read [clang-analyzer-deadcode.DeadStores]
-                           lock =3D TRUE;
-                           ^
-   drivers/media/dvb-frontends/stv0900_sw.c:1978:4: note: Value stored to '=
-lock' is never read
-   drivers/media/dvb-frontends/stv0900_sw.c:1993:4: warning: Value stored t=
-o 'lock' is never read [clang-analyzer-deadcode.DeadStores]
-                           lock =3D FALSE;
-                           ^
-   drivers/media/dvb-frontends/stv0900_sw.c:1993:4: note: Value stored to '=
-lock' is never read
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/dax/bus.c:848:7: warning: Value stored to 'is_shrink' during its=
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-           bool is_shrink =3D resource_size(res) > size;
-                ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/dax/bus.c:848:7: note: Value stored to 'is_shrink' during its in=
-itialization is never read
-           bool is_shrink =3D resource_size(res) > size;
-                ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/dax/bus.c:1137:17: warning: Value stored to 'dev' during its ini=
-tialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &dev_dax->dev;
-                          ^~~   ~~~~~~~~~~~~~
-   drivers/dax/bus.c:1137:17: note: Value stored to 'dev' during its initia=
-lization is never read
-           struct device *dev =3D &dev_dax->dev;
-                          ^~~   ~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-
-vim +/error +1551 drivers/media/platform/renesas/rcar_jpu.c
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1489  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1490  /*
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1491   * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1492   * IRQ handler
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1493   * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1494   */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1495  static irqreturn_t jpu_irq_handler(int irq, void *dev_id)
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1496  {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1497  	struct jpu *jpu =3D dev_id;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1498  	struct jpu_ctx *curr_ctx;
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1499  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1500  	unsigned int int_status;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1501  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1502  	int_status =3D jpu_read(jpu, JINTS);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1503  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1504  	/* ...spurious interrupt */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1505  	if (!((JINTS_TRANSF_COMPL | JINTS_PROCESS_COMPL | JINTS_ERR) &
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1506  	    int_status))
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1507  		return IRQ_NONE;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1508  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1509  	/* ...clear interrupts */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1510  	jpu_write(jpu, ~(int_status & JINTS_MASK), JINTS);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1511  	if (int_status & (JINTS_ERR | JINTS_PROCESS_COMPL))
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1512  		jpu_write(jpu, JCCMD_JEND, JCCMD);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1513  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1514  	spin_lock(&jpu->lock);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1515  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1516  	if ((int_status & JINTS_PROCESS_COMPL) &&
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1517  	   !(int_status & JINTS_TRANSF_COMPL))
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1518  		goto handled;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1519  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1520  	curr_ctx =3D v4l2_m2m_get_curr_priv(jpu->m2m_dev);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1521  	if (!curr_ctx) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1522  		/* ...instance is not running */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1523  		dev_err(jpu->dev, "no active context for m2m\n");
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1524  		goto handled;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1525  	}
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1526  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1527  	src_buf =3D v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1528  	dst_buf =3D v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1529  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1530  	if (int_status & JINTS_TRANSF_COMPL) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1531  		if (curr_ctx->encoder) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1532  			unsigned long payload_size =3D jpu_read(jpu, JCDTCU) << 16
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1533  						   | jpu_read(jpu, JCDTCM) << 8
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1534  						   | jpu_read(jpu, JCDTCD);
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1535  			vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1536  				payload_size + JPU_JPEG_HDR_SIZE);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1537  		}
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1538  =
-
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1539  		dst_buf->field =3D src_buf->field;
-d6dd645eae76ee drivers/media/platform/rcar_jpu.c Junghak Sung    2015-11-03=
-  1540  		dst_buf->vb2_buf.timestamp =3D src_buf->vb2_buf.timestamp;
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1541  		if (src_buf->flags & V4L2_BUF_FLAG_TIMECODE)
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1542  			dst_buf->timecode =3D src_buf->timecode;
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1543  		dst_buf->flags =3D src_buf->flags &
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1544  			(V4L2_BUF_FLAG_TIMECODE | V4L2_BUF_FLAG_KEYFRAME |
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1545  			 V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME |
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1546  			 V4L2_BUF_FLAG_TSTAMP_SRC_MASK);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1547  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1548  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1549  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1550  	} else if (int_status & JINTS_ERR) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
- @1551  		unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_MASK;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1552  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1553  		dev_dbg(jpu->dev, "processing error: %#X: %s\n", error,
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1554  			error_to_text[error]);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1555  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1556  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1557  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1558  	}
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1559  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1560  	jpu->curr =3D NULL;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1561  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1562  	/* ...reset JPU after completion */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1563  	jpu_write(jpu, JCCMD_SRST, JCCMD);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1564  	spin_unlock(&jpu->lock);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1565  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1566  	v4l2_m2m_job_finish(jpu->m2m_dev, curr_ctx->fh.m2m_ctx);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1567  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1568  	return IRQ_HANDLED;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1569  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1570  handled:
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1571  	spin_unlock(&jpu->lock);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1572  	return IRQ_HANDLED;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1573  }
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1574  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16   90  	while (len >=3D 0) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16   91  		unsigned long word;
+b712139543af98 Al Viro        2020-07-12   92  		if (__get_word(ldq, word, =
+src))
+b712139543af98 Al Viro        2020-07-12   93  			return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   94  		checksum +=3D carry;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   95  		src++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  @96  		checksum +=3D word;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   97  		len -=3D 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   98  		carry =3D checksum < word;
+^1da177e4c3f41 Linus Torvalds 2005-04-16   99  		*dst =3D word;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  100  		dst++;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  101  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  102  	len +=3D 8;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  103  	checksum +=3D carry;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  104  	if (len) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  105  		unsigned long word, tmp;
+b712139543af98 Al Viro        2020-07-12  106  		if (__get_word(ldq, word, =
+src))
+b712139543af98 Al Viro        2020-07-12  107  			return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  108  		tmp =3D *dst;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  109  		mskql(word, len, word);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  110  		checksum +=3D word;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  111  		mskqh(tmp, len, tmp);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  112  		carry =3D checksum < word;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  113  		*dst =3D word | tmp;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  114  		checksum +=3D carry;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  115  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  116  	return checksum;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  117  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  118  =
 
 
-:::::: The code at line 1551 was first introduced by commit
-:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add=
- Renesas R-Car JPEG codec driver
+:::::: The code@line 96 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2858890704651158130==--
+--===============7231782726144463326==--
 
