@@ -1,278 +1,389 @@
-Content-Type: multipart/mixed; boundary="===============6308074399276290648=="
+Content-Type: multipart/mixed; boundary="===============6333941816689823859=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH V2 09/12] scsi: iscsi: Remove iscsi_get_task back_lock requirement
-Date: Sun, 20 Mar 2022 11:51:15 +0800
-Message-ID: <202203201128.bN7SCVD0-lkp@intel.com>
+Subject: drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:129:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sun, 20 Mar 2022 09:09:02 +0800
+Message-ID: <202203200817.Ju87mbQ5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6308074399276290648==
+--===============6333941816689823859==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220320004402.6707-10-michael.christie@oracle.com>
-References: <20220320004402.6707-10-michael.christie@oracle.com>
-TO: Mike Christie <michael.christie@oracle.com>
-TO: lduncan(a)suse.com
-TO: martin.petersen(a)oracle.com
-TO: linux-scsi(a)vger.kernel.org
-TO: jejb(a)linux.ibm.com
-CC: Mike Christie <michael.christie@oracle.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Kees Cook <keescook@chromium.org>
+CC: Miguel Ojeda <ojeda@kernel.org>
 
-Hi Mike,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   34e047aa16c0123bbae8e2f6df33e5ecc1f56601
+commit: c80d92fbb67b2c80b8eeb8759ee79d676eb33520 compiler_types.h: Remove _=
+_compiletime_object_size()
+date:   6 months ago
+:::::: branch date: 29 hours ago
+:::::: commit date: 6 months ago
+config: riscv-randconfig-c006-20220316 (https://download.01.org/0day-ci/arc=
+hive/20220320/202203200817.Ju87mbQ5-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
+3d798f8eab43fb3a91028c6ab04e115fcb)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dc80d92fbb67b2c80b8eeb8759ee79d676eb33520
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c80d92fbb67b2c80b8eeb8759ee79d676eb33520
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next next-20220318]
-[cannot apply to v5.17-rc8]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Mike-Christie/misc-iscsi-p=
-atches/20220320-084535
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-ne=
-xt
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: powerpc-randconfig-c024-20220320 (https://download.01.org/0day-ci/a=
-rchive/20220320/202203201128.bN7SCVD0-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/scsi/libiscsi_tcp.c:563:2-8: preceding lock on line 542
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^
+   include/linux/dev_printk.h:218:2: note: expanded from macro 'dev_err_rat=
+elimited'
+           dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:207:2: note: expanded from macro 'dev_level_r=
+atelimited'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   drivers/spmi/spmi-pmic-arb.c:481:3: note: Loop condition is false.  Exit=
+ing loop
+                   dev_err_ratelimited(&pmic_arb->spmic->dev, "failed irqch=
+ip transaction on %x\n",
+                   ^
+   include/linux/dev_printk.h:218:2: note: expanded from macro 'dev_err_rat=
+elimited'
+           dev_level_ratelimited(dev_err, dev, fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:202:59: note: expanded from macro 'dev_level_=
+ratelimited'
+   #define dev_level_ratelimited(dev_level, dev, fmt, ...)                 \
+                                                                           ^
+   drivers/spmi/spmi-pmic-arb.c:483:1: note: Returning without writing to '=
+buf->type'
+   }
+   ^
+   drivers/spmi/spmi-pmic-arb.c:607:2: note: Returning from 'qpnpint_spmi_r=
+ead'
+           qpnpint_spmi_read(d, QPNPINT_REG_SET_TYPE, &type, sizeof(type));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spmi/spmi-pmic-arb.c:609:6: note: Assuming the condition is false
+           if (flow_type & (IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spmi/spmi-pmic-arb.c:609:2: note: Taking false branch
+           if (flow_type & (IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING)) {
+           ^
+   drivers/spmi/spmi-pmic-arb.c:618:8: note: Assuming the condition is false
+                   if ((flow_type & (IRQF_TRIGGER_HIGH)) &&
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spmi/spmi-pmic-arb.c:618:41: note: Left side of '&&' is false
+                   if ((flow_type & (IRQF_TRIGGER_HIGH)) &&
+                                                         ^
+   drivers/spmi/spmi-pmic-arb.c:622:13: note: The left expression of the co=
+mpound assignment is an uninitialized value. The computed value will also b=
+e garbage
+                   type.type &=3D ~BIT(irq); /* level trig */
+                   ~~~~~~~~~ ^
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/input/keyboard/lm8323.c:333:3: warning: Value stored to 'active'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   active =3D debounce + 3;
+                   ^        ~~~~~~~~~~~~
+   drivers/input/keyboard/lm8323.c:333:3: note: Value stored to 'active' is=
+ never read
+                   active =3D debounce + 3;
+                   ^        ~~~~~~~~~~~~
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (11 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (10 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (10 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (7 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:129:7: war=
+ning: Branch condition evaluates to a garbage value [clang-analyzer-core.un=
+initialized.Branch]
+                   if (!elements[i].data && elements[i].size !=3D 0)
+                       ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:601:18: no=
+te: Assuming 'vchiq_arm_log_level' is < 7
+           vchiq_log_trace(vchiq_arm_log_level,
+                           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:60:11: no=
+te: expanded from macro 'vchiq_log_trace'
+           do { if (cat >=3D VCHIQ_LOG_TRACE) \
+                    ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:601:2: not=
+e: Taking false branch
+           vchiq_log_trace(vchiq_arm_log_level,
+           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:60:7: not=
+e: expanded from macro 'vchiq_log_trace'
+           do { if (cat >=3D VCHIQ_LOG_TRACE) \
+                ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:601:2: not=
+e: Loop condition is false.  Exiting loop
+           vchiq_log_trace(vchiq_arm_log_level,
+           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h:60:2: not=
+e: expanded from macro 'vchiq_log_trace'
+           do { if (cat >=3D VCHIQ_LOG_TRACE) \
+           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:608:2: not=
+e: Control jumps to 'case 1074840580:'  at line 738
+           switch (cmd) {
+           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:741:3: not=
+e: Taking false branch
+                   if (copy_from_user(&args, (const void __user *)arg,
+                   ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:7: not=
+e: Assuming 'service' is non-null
+                   if (service && (args.count <=3D MAX_ELEMENTS)) {
+                       ^~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:7: not=
+e: Left side of '&&' is true
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:19: no=
+te: Assuming field 'count' is <=3D MAX_ELEMENTS
+                   if (service && (args.count <=3D MAX_ELEMENTS)) {
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:749:3: not=
+e: Taking true branch
+                   if (service && (args.count <=3D MAX_ELEMENTS)) {
+                   ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:8: not=
+e: Calling 'copy_from_user'
+                           if (copy_from_user(elements, args.elements,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking false branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->d=
+ata', which participates in a condition later
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->d=
+ata'
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:8: not=
+e: Returning from 'copy_from_user'
+                           if (copy_from_user(elements, args.elements,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:8: not=
+e: Assuming the condition is true
+                           if (copy_from_user(elements, args.elements,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:753:4: not=
+e: Taking true branch
+                           if (copy_from_user(elements, args.elements,
+                           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:755:11: no=
+te: Calling 'vchiq_ioc_queue_message'
+                                   ret =3D vchiq_ioc_queue_message(args.han=
+dle, elements,
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:128:14: no=
+te: Assuming 'i' is < 'count'
+           for (i =3D 0; i < count; i++) {
+                       ^~~~~~~~~
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:128:2: not=
+e: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < count; i++) {
+           ^
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:129:7: not=
+e: Branch condition evaluates to a garbage value
+                   if (!elements[i].data && elements[i].size !=3D 0)
+                       ^~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (9 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (5 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/mmc/core/mmc_test.c:323:16: warning: Dereference of null pointer=
+ [clang-analyzer-core.NullDereference]
+                   __free_pages(mem->arr[mem->cnt].page,
+                                ^
+   drivers/mmc/core/mmc_test.c:1644:9: note: Calling 'mmc_test_area_init'
+           return mmc_test_area_init(test, 1, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +563 drivers/scsi/libiscsi_tcp.c
+vim +129 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
 
-a081c13e39b5c17 Mike Christie     2008-12-02  523  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  114  =
 
-a081c13e39b5c17 Mike Christie     2008-12-02  524  /**
-a081c13e39b5c17 Mike Christie     2008-12-02  525   * iscsi_tcp_r2t_rsp - i=
-SCSI R2T Response processing
-a081c13e39b5c17 Mike Christie     2008-12-02  526   * @conn: iscsi connecti=
-on
-5923d64b7ab63dc Mike Christie     2021-02-06  527   * @hdr: PDU header
-a081c13e39b5c17 Mike Christie     2008-12-02  528   */
-5923d64b7ab63dc Mike Christie     2021-02-06  529  static int iscsi_tcp_r2t=
-_rsp(struct iscsi_conn *conn, struct iscsi_hdr *hdr)
-a081c13e39b5c17 Mike Christie     2008-12-02  530  {
-a081c13e39b5c17 Mike Christie     2008-12-02  531  	struct iscsi_session *s=
-ession =3D conn->session;
-5923d64b7ab63dc Mike Christie     2021-02-06  532  	struct iscsi_tcp_task *=
-tcp_task;
-5923d64b7ab63dc Mike Christie     2021-02-06  533  	struct iscsi_tcp_conn *=
-tcp_conn;
-5923d64b7ab63dc Mike Christie     2021-02-06  534  	struct iscsi_r2t_rsp *r=
-hdr;
-a081c13e39b5c17 Mike Christie     2008-12-02  535  	struct iscsi_r2t_info *=
-r2t;
-5923d64b7ab63dc Mike Christie     2021-02-06  536  	struct iscsi_task *task;
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  537  	u32 data_length;
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  538  	u32 data_offset;
-5923d64b7ab63dc Mike Christie     2021-02-06  539  	int r2tsn;
-a081c13e39b5c17 Mike Christie     2008-12-02  540  	int rc;
-a081c13e39b5c17 Mike Christie     2008-12-02  541  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  115  static int
+f05916281fd75d Ojaswin Mujoo 2021-07-21  116  vchiq_ioc_queue_message(unsig=
+ned int handle, struct vchiq_element *elements,
+f05916281fd75d Ojaswin Mujoo 2021-07-21  117  			unsigned long count)
+f05916281fd75d Ojaswin Mujoo 2021-07-21  118  {
+f05916281fd75d Ojaswin Mujoo 2021-07-21  119  	struct vchiq_io_copy_callbac=
+k_context context;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  120  	enum vchiq_status status =3D=
+ VCHIQ_SUCCESS;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  121  	unsigned long i;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  122  	size_t total_size =3D 0;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  123  =
 
-5923d64b7ab63dc Mike Christie     2021-02-06 @542  	spin_lock(&session->bac=
-k_lock);
-5923d64b7ab63dc Mike Christie     2021-02-06  543  	task =3D iscsi_itt_to_c=
-task(conn, hdr->itt);
-5923d64b7ab63dc Mike Christie     2021-02-06  544  	if (!task) {
-5923d64b7ab63dc Mike Christie     2021-02-06  545  		spin_unlock(&session->=
-back_lock);
-5923d64b7ab63dc Mike Christie     2021-02-06  546  		return ISCSI_ERR_BAD_I=
-TT;
-5923d64b7ab63dc Mike Christie     2021-02-06  547  	} else if (task->sc->sc=
-_data_direction !=3D DMA_TO_DEVICE) {
-5923d64b7ab63dc Mike Christie     2021-02-06  548  		spin_unlock(&session->=
-back_lock);
-5923d64b7ab63dc Mike Christie     2021-02-06  549  		return ISCSI_ERR_PROTO;
-5923d64b7ab63dc Mike Christie     2021-02-06  550  	}
-5923d64b7ab63dc Mike Christie     2021-02-06  551  	/*
-5923d64b7ab63dc Mike Christie     2021-02-06  552  	 * A bad target might c=
-omplete the cmd before we have handled R2Ts
-5923d64b7ab63dc Mike Christie     2021-02-06  553  	 * so get a ref to the =
-task that will be dropped in the xmit path.
-5923d64b7ab63dc Mike Christie     2021-02-06  554  	 */
-5923d64b7ab63dc Mike Christie     2021-02-06  555  	if (task->state !=3D IS=
-CSI_TASK_RUNNING) {
-5923d64b7ab63dc Mike Christie     2021-02-06  556  		spin_unlock(&session->=
-back_lock);
-5923d64b7ab63dc Mike Christie     2021-02-06  557  		/* Let the path that g=
-ot the early rsp complete it */
-5923d64b7ab63dc Mike Christie     2021-02-06  558  		return 0;
-5923d64b7ab63dc Mike Christie     2021-02-06  559  	}
-5923d64b7ab63dc Mike Christie     2021-02-06  560  	task->last_xfer =3D jif=
-fies;
-231349c81d2fff8 Mike Christie     2022-03-19  561  	if (!iscsi_get_task(tas=
-k)) {
-231349c81d2fff8 Mike Christie     2022-03-19  562  		/* Let the path that g=
-ot the early rsp complete it */
-231349c81d2fff8 Mike Christie     2022-03-19 @563  		return 0;
-231349c81d2fff8 Mike Christie     2022-03-19  564  	}
-5923d64b7ab63dc Mike Christie     2021-02-06  565  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  124  	context.element =3D elements;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  125  	context.element_offset =3D 0;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  126  	context.elements_to_go =3D c=
+ount;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  127  =
 
-5923d64b7ab63dc Mike Christie     2021-02-06  566  	tcp_conn =3D conn->dd_d=
-ata;
-5923d64b7ab63dc Mike Christie     2021-02-06  567  	rhdr =3D (struct iscsi_=
-r2t_rsp *)tcp_conn->in.hdr;
-5923d64b7ab63dc Mike Christie     2021-02-06  568  	/* fill-in new R2T asso=
-ciated with the task */
-5923d64b7ab63dc Mike Christie     2021-02-06  569  	iscsi_update_cmdsn(sess=
-ion, (struct iscsi_nopin *)rhdr);
-5923d64b7ab63dc Mike Christie     2021-02-06  570  	spin_unlock(&session->b=
-ack_lock);
-5923d64b7ab63dc Mike Christie     2021-02-06  571  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  128  	for (i =3D 0; i < count; i++=
+) {
+f05916281fd75d Ojaswin Mujoo 2021-07-21 @129  		if (!elements[i].data && el=
+ements[i].size !=3D 0)
+f05916281fd75d Ojaswin Mujoo 2021-07-21  130  			return -EFAULT;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  131  =
 
-a081c13e39b5c17 Mike Christie     2008-12-02  572  	if (tcp_conn->in.datale=
-n) {
-a081c13e39b5c17 Mike Christie     2008-12-02  573  		iscsi_conn_printk(KERN=
-_ERR, conn,
-a081c13e39b5c17 Mike Christie     2008-12-02  574  				  "invalid R2t with =
-datalen %d\n",
-a081c13e39b5c17 Mike Christie     2008-12-02  575  				  tcp_conn->in.datal=
-en);
-5923d64b7ab63dc Mike Christie     2021-02-06  576  		rc =3D ISCSI_ERR_DATAL=
-EN;
-5923d64b7ab63dc Mike Christie     2021-02-06  577  		goto put_task;
-a081c13e39b5c17 Mike Christie     2008-12-02  578  	}
-a081c13e39b5c17 Mike Christie     2008-12-02  579  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  132  		total_size +=3D elements[i]=
+.size;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  133  	}
+f05916281fd75d Ojaswin Mujoo 2021-07-21  134  =
 
-5923d64b7ab63dc Mike Christie     2021-02-06  580  	tcp_task =3D task->dd_d=
-ata;
-5923d64b7ab63dc Mike Christie     2021-02-06  581  	r2tsn =3D be32_to_cpu(r=
-hdr->r2tsn);
-a081c13e39b5c17 Mike Christie     2008-12-02  582  	if (tcp_task->exp_datas=
-n !=3D r2tsn){
-0ab1c2529e6a70e Mike Christie     2009-03-05  583  		ISCSI_DBG_TCP(conn, "t=
-ask->exp_datasn(%d) !=3D rhdr->r2tsn(%d)\n",
-0ab1c2529e6a70e Mike Christie     2009-03-05  584  			      tcp_task->exp_d=
-atasn, r2tsn);
-5923d64b7ab63dc Mike Christie     2021-02-06  585  		rc =3D ISCSI_ERR_R2TSN;
-5923d64b7ab63dc Mike Christie     2021-02-06  586  		goto put_task;
-a081c13e39b5c17 Mike Christie     2008-12-02  587  	}
-a081c13e39b5c17 Mike Christie     2008-12-02  588  =
-
-5923d64b7ab63dc Mike Christie     2021-02-06  589  	if (session->state !=3D=
- ISCSI_STATE_LOGGED_IN) {
-a081c13e39b5c17 Mike Christie     2008-12-02  590  		iscsi_conn_printk(KERN=
-_INFO, conn,
-a081c13e39b5c17 Mike Christie     2008-12-02  591  				  "dropping R2T itt =
-%d in recovery.\n",
-a081c13e39b5c17 Mike Christie     2008-12-02  592  				  task->itt);
-5923d64b7ab63dc Mike Christie     2021-02-06  593  		rc =3D 0;
-5923d64b7ab63dc Mike Christie     2021-02-06  594  		goto put_task;
-a081c13e39b5c17 Mike Christie     2008-12-02  595  	}
-a081c13e39b5c17 Mike Christie     2008-12-02  596  =
-
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  597  	data_length =3D be32_to=
-_cpu(rhdr->data_length);
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  598  	if (data_length =3D=3D =
-0) {
-a081c13e39b5c17 Mike Christie     2008-12-02  599  		iscsi_conn_printk(KERN=
-_ERR, conn,
-a081c13e39b5c17 Mike Christie     2008-12-02  600  				  "invalid R2T with =
-zero data len\n");
-5923d64b7ab63dc Mike Christie     2021-02-06  601  		rc =3D ISCSI_ERR_DATAL=
-EN;
-5923d64b7ab63dc Mike Christie     2021-02-06  602  		goto put_task;
-a081c13e39b5c17 Mike Christie     2008-12-02  603  	}
-a081c13e39b5c17 Mike Christie     2008-12-02  604  =
-
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  605  	if (data_length > sessi=
-on->max_burst)
-0ab1c2529e6a70e Mike Christie     2009-03-05  606  		ISCSI_DBG_TCP(conn, "i=
-nvalid R2T with data len %u and max "
-0ab1c2529e6a70e Mike Christie     2009-03-05  607  			      "burst %u. Atte=
-mpting to execute request.\n",
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  608  			      data_length, se=
-ssion->max_burst);
-a081c13e39b5c17 Mike Christie     2008-12-02  609  =
-
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  610  	data_offset =3D be32_to=
-_cpu(rhdr->data_offset);
-ae3d56d81507c33 Christoph Hellwig 2019-01-29  611  	if (data_offset + data_=
-length > task->sc->sdb.length) {
-a081c13e39b5c17 Mike Christie     2008-12-02  612  		iscsi_conn_printk(KERN=
-_ERR, conn,
-a081c13e39b5c17 Mike Christie     2008-12-02  613  				  "invalid R2T with =
-data len %u at offset %u "
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  614  				  "and total length =
-%d\n", data_length,
-ae3d56d81507c33 Christoph Hellwig 2019-01-29  615  				  data_offset, task-=
->sc->sdb.length);
-5923d64b7ab63dc Mike Christie     2021-02-06  616  		rc =3D ISCSI_ERR_DATAL=
-EN;
-5923d64b7ab63dc Mike Christie     2021-02-06  617  		goto put_task;
-a081c13e39b5c17 Mike Christie     2008-12-02  618  	}
-a081c13e39b5c17 Mike Christie     2008-12-02  619  =
-
-659743b02c41107 Shlomo Pongratz   2014-02-07  620  	spin_lock(&tcp_task->po=
-ol2queue);
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  621  	rc =3D kfifo_out(&tcp_t=
-ask->r2tpool.queue, (void *)&r2t, sizeof(void *));
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  622  	if (!rc) {
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  623  		iscsi_conn_printk(KERN=
-_ERR, conn, "Could not allocate R2T. "
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  624  				  "Target has sent m=
-ore R2Ts than it "
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  625  				  "negotiated for or=
- driver has leaked.\n");
-659743b02c41107 Shlomo Pongratz   2014-02-07  626  		spin_unlock(&tcp_task-=
->pool2queue);
-5923d64b7ab63dc Mike Christie     2021-02-06  627  		rc =3D ISCSI_ERR_PROTO;
-5923d64b7ab63dc Mike Christie     2021-02-06  628  		goto put_task;
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  629  	}
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  630  =
-
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  631  	r2t->exp_statsn =3D rhd=
-r->statsn;
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  632  	r2t->data_length =3D da=
-ta_length;
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  633  	r2t->data_offset =3D da=
-ta_offset;
-5d0fddd0a72d302 Shlomo Pongratz   2014-02-07  634  =
-
-a081c13e39b5c17 Mike Christie     2008-12-02  635  	r2t->ttt =3D rhdr->ttt;=
- /* no flip */
-a081c13e39b5c17 Mike Christie     2008-12-02  636  	r2t->datasn =3D 0;
-a081c13e39b5c17 Mike Christie     2008-12-02  637  	r2t->sent =3D 0;
-a081c13e39b5c17 Mike Christie     2008-12-02  638  =
-
-a081c13e39b5c17 Mike Christie     2008-12-02  639  	tcp_task->exp_datasn =
-=3D r2tsn + 1;
-7acd72eb85f1c7a Stefani Seibold   2009-12-21  640  	kfifo_in(&tcp_task->r2t=
-queue, (void*)&r2t, sizeof(void*));
-a081c13e39b5c17 Mike Christie     2008-12-02  641  	conn->r2t_pdus_cnt++;
-659743b02c41107 Shlomo Pongratz   2014-02-07  642  	spin_unlock(&tcp_task->=
-pool2queue);
-a081c13e39b5c17 Mike Christie     2008-12-02  643  =
-
-a081c13e39b5c17 Mike Christie     2008-12-02  644  	iscsi_requeue_task(task=
+f05916281fd75d Ojaswin Mujoo 2021-07-21  135  	status =3D vchiq_queue_messa=
+ge(handle, vchiq_ioc_copy_element_data,
+f05916281fd75d Ojaswin Mujoo 2021-07-21  136  				     &context, total_size=
 );
-a081c13e39b5c17 Mike Christie     2008-12-02  645  	return 0;
-5923d64b7ab63dc Mike Christie     2021-02-06  646  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  137  =
 
-5923d64b7ab63dc Mike Christie     2021-02-06  647  put_task:
-5923d64b7ab63dc Mike Christie     2021-02-06  648  	iscsi_put_task(task);
-5923d64b7ab63dc Mike Christie     2021-02-06  649  	return rc;
-a081c13e39b5c17 Mike Christie     2008-12-02  650  }
-a081c13e39b5c17 Mike Christie     2008-12-02  651  =
+f05916281fd75d Ojaswin Mujoo 2021-07-21  138  	if (status =3D=3D VCHIQ_ERRO=
+R)
+f05916281fd75d Ojaswin Mujoo 2021-07-21  139  		return -EIO;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  140  	else if (status =3D=3D VCHIQ=
+_RETRY)
+f05916281fd75d Ojaswin Mujoo 2021-07-21  141  		return -EINTR;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  142  	return 0;
+f05916281fd75d Ojaswin Mujoo 2021-07-21  143  }
+f05916281fd75d Ojaswin Mujoo 2021-07-21  144  =
 
+
+:::::: The code@line 129 was first introduced by commit
+:::::: f05916281fd75db2fe32294e26c04d666c762370 staging: vchiq: Move vchiq =
+char driver to its own file
+
+:::::: TO: Ojaswin Mujoo <ojaswin98@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6308074399276290648==--
+--===============6333941816689823859==--
 
