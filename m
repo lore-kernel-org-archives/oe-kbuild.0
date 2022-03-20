@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8982062621191354244=="
+Content-Type: multipart/mixed; boundary="===============8191669883410836262=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2939/13576] drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2109:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sun, 20 Mar 2022 22:51:27 +0800
-Message-ID: <202203202242.yzVcezyu-lkp@intel.com>
+Subject: [mchehab-experimental:master 259/324] drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sun, 20 Mar 2022 22:51:24 +0800
+Message-ID: <202203202244.fhiDJXlj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8982062621191354244==
+--===============8191669883410836262==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Felix Kuehling <Felix.Kuehling@amd.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   6d72dda014a4753974eb08950089ddf71fec4f60
-commit: 22f7cc7524081bb2bfb2720e43ab9889e2ed5b00 [2939/13576] drm/amdgpu: r=
-estructure amdgpu_fill_buffer v2
+tree:   https://git.linuxtv.org/mchehab/experimental.git master
+head:   71e6d0608e4d1b79069990c7dacb3600ced28a3b
+commit: 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7 [259/324] media: platform:=
+ place NXP drivers on a separate dir
 :::::: branch date: 2 days ago
-:::::: commit date: 7 weeks ago
-config: riscv-randconfig-c006-20220310 (https://download.01.org/0day-ci/arc=
-hive/20220320/202203202242.yzVcezyu-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
-7382b8f16a65bddac700202924228982f6)
+:::::: commit date: 6 days ago
+config: arm-randconfig-c002-20220318 (https://download.01.org/0day-ci/archi=
+ve/20220320/202203202244.fhiDJXlj-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6e70e=
+4056dff962ec634c5bd4f2f4105a0bef71)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D22f7cc7524081bb2bfb2720e43ab9889e2ed5b00
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 22f7cc7524081bb2bfb2720e43ab9889e2ed5b00
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        git remote add mchehab-experimental https://git.linuxtv.org/mchehab=
+/experimental.git
+        git fetch --no-tags mchehab-experimental master
+        git checkout 46fb99951fe2c71adfd7f4ea4439af5ed5ebb7f7
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,368 +50,458 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/media/cec/core/cec-adap.c:921:2: note: Taking true branch
-           if (!data->completed)
+               ^~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:902:2: note: Taking true =
+branch
+           if (img_fmt =3D=3D MXC_JPEG_INVALID)
            ^
-   drivers/media/cec/core/cec-adap.c:922:3: note: Calling 'cec_data_cancel'
-                   cec_data_cancel(data, CEC_TX_STATUS_ABORTED);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:378:6: note: Assuming 'data' is equal =
-to field 'transmitting'
-           if (data->adap->transmitting =3D=3D data) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:378:2: note: Taking true branch
-           if (data->adap->transmitting =3D=3D data) {
-           ^
-   drivers/media/cec/core/cec-adap.c:387:6: note: Assuming the condition is=
- true
-           if (data->msg.tx_status & CEC_TX_STATUS_OK) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:387:2: note: Taking true branch
-           if (data->msg.tx_status & CEC_TX_STATUS_OK) {
-           ^
-   drivers/media/cec/core/cec-adap.c:401:2: note: Calling 'cec_data_complet=
-ed'
-           cec_data_completed(data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:344:6: note: Assuming field 'fh' is nu=
-ll
-           if (data->fh)
-               ^~~~~~~~
-   drivers/media/cec/core/cec-adap.c:344:2: note: Taking false branch
-           if (data->fh)
-           ^
-   drivers/media/cec/core/cec-adap.c:347:6: note: Assuming field 'blocking'=
- is false
-           if (data->blocking) {
-               ^~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:347:2: note: Taking false branch
-           if (data->blocking) {
-           ^
-   drivers/media/cec/core/cec-adap.c:359:13: note: Field 'fh' is null
-                   if (data->fh)
-                             ^
-   drivers/media/cec/core/cec-adap.c:359:3: note: Taking false branch
-                   if (data->fh)
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Left side of=
+ '&&' is true
+                   dev_err(jpeg->dev, "No valid image format detected\n");
                    ^
-   drivers/media/cec/core/cec-adap.c:361:3: note: Memory is released
-                   kfree(data);
-                   ^~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:401:2: note: Returning; memory was rel=
-eased via 1st parameter
-           cec_data_completed(data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:922:3: note: Returning; memory was rel=
-eased via 1st parameter
-                   cec_data_cancel(data, CEC_TX_STATUS_ABORTED);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/cec/core/cec-adap.c:925:9: note: Use of memory after it is=
- freed
-           *msg =3D data->msg;
-                  ^~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/hdp_v5_0.c:62:17: warning: Although the value=
- stored to 'hdp_clk_cntl1' is used in the enclosing expression, the value i=
-s never actually read from 'hdp_clk_cntl1' [clang-analyzer-deadcode.DeadSto=
-res]
-           hdp_clk_cntl =3D hdp_clk_cntl1 =3D RREG32_SOC15(HDP, 0, mmHDP_CL=
-K_CNTL);
-                          ^
-   drivers/gpu/drm/amd/amdgpu/hdp_v5_0.c:62:17: note: Although the value st=
-ored to 'hdp_clk_cntl1' is used in the enclosing expression, the value is n=
-ever actually read from 'hdp_clk_cntl1'
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/gpu/drm/amd/amdgpu/atom.c:960:2: warning: Value stored to 'dst' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:960:2: note: Value stored to 'dst' is =
-never read
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:979:2: warning: Value stored to 'dst' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:979:2: note: Value stored to 'dst' is =
-never read
-           dst =3D atom_get_dst(ctx, arg, attr, ptr, &saved, 1);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1386:2: warning: Value stored to 'str_=
-off' is never read [clang-analyzer-deadcode.DeadStores]
-           str_off =3D 0;
-           ^         ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1386:2: note: Value stored to 'str_off=
-' is never read
-           str_off =3D 0;
-           ^         ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1409:2: warning: Value stored to 'off_=
-to_vbios_str' is never read [clang-analyzer-deadcode.DeadStores]
-           off_to_vbios_str =3D 0;
-           ^                  ~
-   drivers/gpu/drm/amd/amdgpu/atom.c:1409:2: note: Value stored to 'off_to_=
-vbios_str' is never read
-           off_to_vbios_str =3D 0;
-           ^                  ~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:2109:2: warning: Undefined or ga=
-rbage value returned to caller [clang-analyzer-core.uninitialized.UndefRetu=
-rn]
-           return r;
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:460:6: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_TT
-           if (new_mem->mem_type =3D=3D TTM_PL_TT ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:460:6: note: Left side of '||' i=
-s false
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:461:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:460:2: note: Taking false branch
-           if (new_mem->mem_type =3D=3D TTM_PL_TT ||
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:469:19: note: Assuming field 'pi=
-n_count' is <=3D 0
-           if (WARN_ON_ONCE(abo->tbo.pin_count > 0))
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                       ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Taking true =
+branch
+                   dev_err(jpeg->dev, "No valid image format detected\n");
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
+emit'
+                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
+level)) { \
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: '?' conditio=
+n is true
+                   dev_err(jpeg->dev, "No valid image format detected\n");
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
+_emit'
+                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
+fmt) : NULL, \
+                                          ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: '?' conditio=
+n is true
+                   dev_err(jpeg->dev, "No valid image format detected\n");
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
+_emit'
+                                   .level =3D __builtin_constant_p(_level) =
+? (_level) : NULL, \
+                                            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:903:3: note: Loop conditi=
+on is false.  Exiting loop
+                   dev_err(jpeg->dev, "No valid image format detected\n");
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
+emit'
+           do {                                                            \
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:905:5: note: The result o=
+f the left shift is undefined because the left operand is negative
+                            STM_CTRL_IMAGE_FORMAT(img_fmt);
                             ^
-   include/asm-generic/bug.h:179:41: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:469:2: note: Taking false branch
-           if (WARN_ON_ONCE(abo->tbo.pin_count > 0))
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:474:6: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_SYSTEM
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM && bo->ttm =3D=3D NUL=
-L) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:474:41: note: Left side of '&&' =
-is false
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM && bo->ttm =3D=3D NUL=
-L) {
-                                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:478:15: note: Field 'mem_type' i=
-s not equal to TTM_PL_SYSTEM
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h:84:52: note: expanded =
+from macro 'STM_CTRL_IMAGE_FORMAT'
+   #define STM_CTRL_IMAGE_FORMAT(img_fmt)          ((img_fmt) << 3)
+                                                    ~~~~~~~~~ ^
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: warning: Branch c=
+ondition evaluates to a garbage value [clang-analyzer-core.uninitialized.Br=
+anch]
+                   if (!q->sizeimage[0])
+                       ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
+c_jpeg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
+ield 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
+ion is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
                         ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:478:41: note: Left side of '&&' =
-is false
-           if (old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:484:7: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_TT
-           if ((old_mem->mem_type =3D=3D TTM_PL_TT ||
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:484:7: note: Left side of '||' i=
-s false
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:485:7: note: Assuming the condit=
-ion is false
-                old_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:485:47: note: Left side of '&&' =
-is false
-                old_mem->mem_type =3D=3D AMDGPU_PL_PREEMPT) &&
-                                                        ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Assuming the condit=
-ion is false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:498:6: note: Assuming the condit=
-ion is false
-               old_mem->mem_type =3D=3D AMDGPU_PL_GWS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:499:6: note: Assuming the condit=
-ion is false
-               old_mem->mem_type =3D=3D AMDGPU_PL_OA ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:500:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:501:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_GWS ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:6: note: Left side of '||' i=
-s false
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:502:6: note: Assuming the condit=
-ion is false
-               new_mem->mem_type =3D=3D AMDGPU_PL_OA) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:497:2: note: Taking false branch
-           if (old_mem->mem_type =3D=3D AMDGPU_PL_GDS ||
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
+f '||' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
+e branch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:508:6: note: Assuming field 'typ=
-e' is not equal to ttm_bo_type_device
-           if (bo->type =3D=3D ttm_bo_type_device &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:508:37: note: Left side of '&&' =
-is false
-           if (bo->type =3D=3D ttm_bo_type_device &&
-                                              ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:517:6: note: Assuming field 'buf=
-fer_funcs_enabled' is true
-           if (adev->mman.buffer_funcs_enabled) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:517:2: note: Taking true branch
-           if (adev->mman.buffer_funcs_enabled) {
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
+n-null
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
+f '||' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
+q_type' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
+e branch
+           if (!fmt || fmt->flags !=3D q_type) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:518:18: note: Field 'mem_type' i=
-s not equal to TTM_PL_SYSTEM
-                   if (((old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                                  ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:518:44: note: Left side of '&&' =
-is false
-                   if (((old_mem->mem_type =3D=3D TTM_PL_SYSTEM &&
-                                                            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:520:9: note: Assuming field 'mem=
-_type' is not equal to TTM_PL_VRAM
-                        (old_mem->mem_type =3D=3D TTM_PL_VRAM &&
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
+c_jpeg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
+ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
+ion is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
+ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
+ion is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is false. Execution continues on line 1655
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
+c_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
+e condition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
+rom 'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
+c_jpeg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Branch cond=
+ition evaluates to a garbage value
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+>> drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1662:22: warning: Assigne=
+d value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                   pfmt->bytesperline =3D tmp_q.bytesperline[i];
+                                      ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1823:8: note: Calling 'mx=
+c_jpeg_try_fmt_vid_out'
+           ret =3D mxc_jpeg_try_fmt_vid_out(file, priv, f);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:16: note: Assuming f=
+ield 'mode' is not equal to MXC_JPEG_ENCODE
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1720:15: note: '?' condit=
+ion is false
+           int q_type =3D (jpeg->mode =3D=3D MXC_JPEG_ENCODE) ?
+                        ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is not equal to V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Left side o=
+f '||' is false
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:161:3: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+           ((type) =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE   \
+            ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:7: note: Assuming fi=
+eld 'type' is equal to V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+                ^
+   include/uapi/linux/videodev2.h:162:6: note: expanded from macro 'V4L2_TY=
+PE_IS_MULTIPLANAR'
+            || (type) =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1723:2: note: Taking fals=
+e branch
+           if (!V4L2_TYPE_IS_MULTIPLANAR(f->type)) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:7: note: 'fmt' is no=
+n-null
+           if (!fmt || fmt->flags !=3D q_type) {
+                ^~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:6: note: Left side o=
+f '||' is false
+           if (!fmt || fmt->flags !=3D q_type) {
+               ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:14: note: Assuming '=
+q_type' is equal to field 'flags'
+           if (!fmt || fmt->flags !=3D q_type) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1729:2: note: Taking fals=
+e branch
+           if (!fmt || fmt->flags !=3D q_type) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1739:9: note: Calling 'mx=
+c_jpeg_try_fmt'
+           return mxc_jpeg_try_fmt(f, fmt, ctx, q_type);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:11: note: Assuming f=
+ield 'width' is >=3D MXC_JPEG_MAX_WIDTH
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1615:10: note: '?' condit=
+ion is false
+           u32 w =3D (pix_mp->width < MXC_JPEG_MAX_WIDTH) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:11: note: Assuming f=
+ield 'height' is >=3D MXC_JPEG_MAX_HEIGHT
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1617:10: note: '?' condit=
+ion is false
+           u32 h =3D (pix_mp->height < MXC_JPEG_MAX_HEIGHT) ?
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is < field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is true.  Entering loop body
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:14: note: Assuming '=
+i' is >=3D field 'num_planes'
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1648:2: note: Loop condit=
+ion is false. Execution continues on line 1655
+           for (i =3D 0; i < pix_mp->num_planes; i++) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Calling 'mx=
+c_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:6: note: Assuming th=
+e condition is true
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1207:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1655:2: note: Returning f=
+rom 'mxc_jpeg_bytesperline'
+           mxc_jpeg_bytesperline(&tmp_q, 8);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1656:2: note: Calling 'mx=
+c_jpeg_sizeimage'
+           mxc_jpeg_sizeimage(&tmp_q);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1229:2: note: Taking true=
+ branch
+           if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+           ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:7: note: Assuming th=
+e condition is false
+                   if (!q->sizeimage[0])
+                       ^~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1231:3: note: Taking fals=
+e branch
+                   if (!q->sizeimage[0])
+                   ^
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:7: note: Assuming th=
+e condition is false
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:1235:3: note: Taking fals=
+e branch
+                   if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
 
-vim +2109 drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+vim +1231 drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
 
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2062  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1226  =
 
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2063  int amdgpu_fill_buffe=
-r(struct amdgpu_bo *bo,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2064  			uint32_t src_data,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2065  			struct dma_resv *r=
-esv,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2066  			struct dma_fence *=
-*f)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2067  {
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2068  	struct amdgpu_device=
- *adev =3D amdgpu_ttm_adev(bo->tbo.bdev);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2069  	struct amdgpu_ring *=
-ring =3D adev->mman.buffer_funcs_ring;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2070  	struct dma_fence *fe=
-nce =3D NULL;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2071  	struct amdgpu_res_cu=
-rsor dst;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2072  	int r;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2073  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1227  static void mxc_jpeg_sizeimage(struct mxc_jpeg_q_data *q)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1228  {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1229  	if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_JPEG) {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1230  		/* if no sizeimage from user, assume worst jpeg compressi=
+on */
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11 @1231  		if (!q->sizeimage[0])
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1232  			q->sizeimage[0] =3D 6 * q->w * q->h;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1233  		q->sizeimage[1] =3D 0;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1234  =
 
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2074  	if (!adev->mman.buff=
-er_funcs_enabled) {
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2075  		DRM_ERROR("Trying t=
-o clear memory with ring turned off.\n");
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2076  		return -EINVAL;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2077  	}
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2078  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1235  		if (q->sizeimage[0] > MXC_JPEG_MAX_SIZEIMAGE)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1236  			q->sizeimage[0] =3D MXC_JPEG_MAX_SIZEIMAGE;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1237  =
 
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2079  	amdgpu_res_first(bo-=
->tbo.resource, 0, amdgpu_bo_size(bo), &dst);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2080  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2081  	mutex_lock(&adev->mm=
-an.gtt_window_lock);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2082  	while (dst.remaining=
-) {
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2083  		struct dma_fence *n=
-ext;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2084  		uint64_t cur_size, =
-to;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2085  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2086  		/* Never fill more =
-than 256MiB at once to avoid timeouts */
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2087  		cur_size =3D min(ds=
-t.size, 256ULL << 20);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2088  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2089  		r =3D amdgpu_ttm_ma=
-p_buffer(&bo->tbo, bo->tbo.resource, &dst,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2090  					  1, ring, false=
-, &cur_size, &to);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2091  		if (r)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2092  			goto error;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2093  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2094  		r =3D amdgpu_ttm_fi=
-ll_mem(ring, src_data, to, cur_size, resv,
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2095  					&next, true);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2096  		if (r)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2097  			goto error;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2098  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2099  		dma_fence_put(fence=
-);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2100  		fence =3D next;
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2101  =
-
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2102  		amdgpu_res_next(&ds=
-t, cur_size);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2103  	}
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2104  error:
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2105  	mutex_unlock(&adev->=
-mman.gtt_window_lock);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2106  	if (f)
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2107  		*f =3D dma_fence_ge=
-t(fence);
-22f7cc7524081b Christian K=C3=B6nig 2022-01-28  2108  	dma_fence_put(fence);
-59b4a97742888d Flora Cui       2016-07-19 @2109  	return r;
-59b4a97742888d Flora Cui       2016-07-19  2110  }
-59b4a97742888d Flora Cui       2016-07-19  2111  =
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1238  		/* jpeg stream size must be multiple of 1K */
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1239  		q->sizeimage[0] =3D ALIGN(q->sizeimage[0], 1024);
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1240  	} else {
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1241  		q->sizeimage[0] =3D q->bytesperline[0] * q->h;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1242  		q->sizeimage[1] =3D 0;
+784a1883cff07e drivers/media/platform/imx-jpeg/mxc-jpeg.c Ming Qian      20=
+21-12-24  1243  		if (q->fmt->fourcc =3D=3D V4L2_PIX_FMT_NV12M)
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1244  			q->sizeimage[1] =3D q->sizeimage[0] / 2;
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1245  	}
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1246  }
+2db16c6ed72ce6 drivers/media/platform/imx-jpeg/mxc-jpeg.c Mirela Rabulea 20=
+21-03-11  1247  =
 
 
-:::::: The code at line 2109 was first introduced by commit
-:::::: 59b4a97742888d9d3c4daa96bd15157ebd496f81 drm/amdgpu: implement amdgp=
-u_fill_buffer()
+:::::: The code at line 1231 was first introduced by commit
+:::::: 2db16c6ed72ce644d5639b3ed15e5817442db4ba media: imx-jpeg: Add V4L2 d=
+river for i.MX8 JPEG Encoder/Decoder
 
-:::::: TO: Flora Cui <Flora.Cui@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Mirela Rabulea <mirela.rabulea@nxp.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8982062621191354244==--
+--===============8191669883410836262==--
 
