@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5752627858101558982=="
+Content-Type: multipart/mixed; boundary="===============6109210881949493976=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/perf/arm_smmuv3_pmu.c:349:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 21 Mar 2022 02:14:24 +0800
-Message-ID: <202203210246.W8OFaWHR-lkp@intel.com>
+Subject: [bvanassche:ufs-for-next 317/317] drivers/scsi/ufs/ufshcd.c:690:23: warning: Value stored to 'priv' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 21 Mar 2022 01:54:02 +0800
+Message-ID: <202203210141.ha243aFw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5752627858101558982==
+--===============6109210881949493976==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,33 +16,29 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: John Garry <john.garry@huawei.com>
-CC: Will Deacon <will@kernel.org>
+TO: Bart Van Assche <bvanassche@acm.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   14702b3b2438e2f2d07ae93b5d695c166e5c83d1
-commit: e656972b69864348a747954ea187576808000c5a drivers/perf: Improve buil=
-d test coverage
-date:   6 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20220313 (https://download.01.org/0day-ci/arc=
-hive/20220321/202203210246.W8OFaWHR-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 43f668=
-b98e8d87290fc6bbf5ed13c3ab542e3497)
+tree:   https://github.com/bvanassche/linux ufs-for-next
+head:   905917fe701f16ad2d895c3fef85ca92efd86a06
+commit: 905917fe701f16ad2d895c3fef85ca92efd86a06 [317/317] scsi: ufs: Split=
+ struct ufs_hba
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+config: riscv-randconfig-c006-20220320 (https://download.01.org/0day-ci/arc=
+hive/20220321/202203210141.ha243aFw-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2=
+687a13d1908aa86d1b89c5ce398a06cd39)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De656972b69864348a747954ea187576808000c5a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e656972b69864348a747954ea187576808000c5a
+        # https://github.com/bvanassche/linux/commit/905917fe701f16ad2d895c=
+3fef85ca92efd86a06
+        git remote add bvanassche https://github.com/bvanassche/linux
+        git fetch --no-tags bvanassche ufs-for-next
+        git checkout 905917fe701f16ad2d895c3fef85ca92efd86a06
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -53,396 +49,303 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:179:2: note: Taking true branch
-           if (value & ~XSCOM_DATA_IND_FORM1_DATA)
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   sound/core/device.c:226:17: note: Assuming 'card' is non-null
+           if (snd_BUG_ON(!card))
+                          ^
+   include/sound/core.h:413:25: note: expanded from macro 'snd_BUG_ON'
+           int __ret_warn_on =3D !!(condition); \
+                                  ^~~~~~~~~
+   sound/core/device.c:226:2: note: Taking false branch
+           if (snd_BUG_ON(!card))
            ^
-   drivers/fsi/fsi-scom.c:180:3: note: Returning without writing to '*statu=
-s'
-                   return -EINVAL;
+   sound/core/device.c:228:2: note: Loop condition is true.  Entering loop =
+body
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
+) {
+           ^
+   include/linux/list.h:772:2: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
+           ^
+   sound/core/device.c:230:7: note: Assuming field 'type' is not equal to S=
+NDRV_DEV_CONTROL
+                   if (dev->type =3D=3D SNDRV_DEV_CONTROL ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:230:7: note: Left side of '||' is false
+   sound/core/device.c:231:7: note: Assuming field 'type' is not equal to S=
+NDRV_DEV_LOWLEVEL
+                       dev->type =3D=3D SNDRV_DEV_LOWLEVEL)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:230:3: note: Taking false branch
+                   if (dev->type =3D=3D SNDRV_DEV_CONTROL ||
                    ^
-   drivers/fsi/fsi-scom.c:221:11: note: Returning from 'put_indirect_scom_f=
-orm1'
-                           return put_indirect_scom_form1(scom, value, addr=
-, status);
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   drivers/fsi/fsi-scom.c:221:4: note: Returning without writing to '*statu=
-s'
-                           return put_indirect_scom_form1(scom, value, addr=
-, status);
-                           ^
-   drivers/fsi/fsi-scom.c:291:7: note: Returning from 'raw_put_scom'
-           rc =3D raw_put_scom(scom, value, addr, &status);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:292:2: note: Taking false branch
-           if (rc =3D=3D -ENODEV)
+   sound/core/device.c:233:3: note: Calling '__snd_device_free'
+                   __snd_device_free(dev);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:75:6: note: Assuming field 'dev_free' is null
+           if (dev->ops->dev_free) {
+               ^~~~~~~~~~~~~~~~~~
+   sound/core/device.c:75:2: note: Taking false branch
+           if (dev->ops->dev_free) {
            ^
-   drivers/fsi/fsi-scom.c:295:7: note: 2nd function call argument is an uni=
-nitialized value
-           rc =3D handle_fsi2pib_status(scom, status);
-                ^                           ~~~~~~
-   drivers/fsi/fsi-scom.c:314:7: warning: 2nd function call argument is an =
-uninitialized value [clang-analyzer-core.CallAndMessage]
-           rc =3D handle_fsi2pib_status(scom, status);
-                ^
-   drivers/fsi/fsi-scom.c:331:6: note: Assuming the condition is false
-           if (len !=3D sizeof(uint64_t))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:331:2: note: Taking false branch
-           if (len !=3D sizeof(uint64_t))
+   sound/core/device.c:79:2: note: Memory is released
+           kfree(dev);
+           ^~~~~~~~~~
+   sound/core/device.c:233:3: note: Returning; memory was released via 1st =
+parameter
+                   __snd_device_free(dev);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   sound/core/device.c:228:2: note: Loop condition is false. Execution cont=
+inues on line 237
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list=
+) {
            ^
-   drivers/fsi/fsi-scom.c:335:6: note: Assuming field 'dead' is false
-           if (scom->dead)
-               ^~~~~~~~~~
-   drivers/fsi/fsi-scom.c:335:2: note: Taking false branch
-           if (scom->dead)
+   include/linux/list.h:772:2: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+           for (pos =3D list_last_entry(head, typeof(*pos), member),       =
+  \
            ^
-   drivers/fsi/fsi-scom.c:338:8: note: Calling 'get_scom'
-                   rc =3D get_scom(scom, &val, *offset);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:307:2: note: 'status' declared without an initial=
- value
-           uint32_t status;
-           ^~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:310:7: note: Calling 'raw_get_scom'
-           rc =3D raw_get_scom(scom, value, addr, &status);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:231:6: note: Assuming the condition is true
-           if (addr & XSCOM_ADDR_IND_FLAG) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:231:2: note: Taking true branch
-           if (addr & XSCOM_ADDR_IND_FLAG) {
+   sound/core/device.c:237:2: note: Use of memory after it is freed
+           list_for_each_entry_safe_reverse(dev, next, &card->devices, list)
            ^
-   drivers/fsi/fsi-scom.c:232:7: note: Assuming the condition is true
-                   if (addr & XSCOM_ADDR_INF_FORM1)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:232:3: note: Taking true branch
-                   if (addr & XSCOM_ADDR_INF_FORM1)
+   include/linux/list.h:773:7: note: expanded from macro 'list_for_each_ent=
+ry_safe_reverse'
+                   n =3D list_prev_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:572:2: note: expanded from macro 'list_prev_entry'
+           list_entry((pos)->member.prev, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/clk/bcm/clk-iproc-pll.c:182:3: warning: Value stored to 'val' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   val =3D readl(base + offset);
                    ^
-   drivers/fsi/fsi-scom.c:233:4: note: Returning without writing to '*statu=
-s'
-                           return -ENXIO;
+   drivers/clk/bcm/clk-iproc-pll.c:182:3: note: Value stored to 'val' is ne=
+ver read
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+>> drivers/scsi/ufs/ufshcd.c:690:23: warning: Value stored to 'priv' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
+ba);
+                                ^~~~
+   drivers/scsi/ufs/ufshcd.c:690:23: note: Value stored to 'priv' during it=
+s initialization is never read
+           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
+ba);
+                                ^~~~
+   drivers/scsi/ufs/ufshcd.c:942:23: warning: Value stored to 'priv' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
+ba);
+                                ^~~~
+   drivers/scsi/ufs/ufshcd.c:942:23: note: Value stored to 'priv' during it=
+s initialization is never read
+           struct ufs_hba_priv *priv =3D container_of(hba, typeof(*priv), h=
+ba);
+                                ^~~~
+   drivers/scsi/ufs/ufshcd.c:5371:36: warning: Access to field 'cmd_active'=
+ results in a dereference of a null pointer (loaded from field 'active_uic_=
+cmd') [clang-analyzer-core.NullDereference]
+                   priv->active_uic_cmd->cmd_active =3D 0;
+                                                    ^
+   drivers/scsi/ufs/ufshcd.c:6729:16: note: Loop condition is false.  Exiti=
+ng loop
+           intr_status =3D ufshcd_readl(hba, REG_INTERRUPT_STATUS);
+                         ^
+   drivers/scsi/ufs/ufshcd.h:1016:2: note: expanded from macro 'ufshcd_read=
+l'
+           readl((hba)->mmio_base + (reg))
+           ^
+   arch/riscv/include/asm/mmio.h:140:30: note: expanded from macro 'readl'
+   #define readl(c)        ({ u32 __v; __io_br(); __v =3D readl_cpu(c); __i=
+o_ar(__v); __v; })
+                                       ^
+   arch/riscv/include/asm/mmio.h:133:19: note: expanded from macro '__io_br'
+   #define __io_br()       do {} while (0)
                            ^
-   drivers/fsi/fsi-scom.c:310:7: note: Returning from 'raw_get_scom'
-           rc =3D raw_get_scom(scom, value, addr, &status);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:311:2: note: Taking false branch
-           if (rc =3D=3D -ENODEV)
+   drivers/scsi/ufs/ufshcd.c:6739:9: note: Assuming 'intr_status' is not eq=
+ual to 0
+           while (intr_status && retries--) {
+                  ^~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:6739:9: note: Left side of '&&' is true
+   drivers/scsi/ufs/ufshcd.c:6739:2: note: Loop condition is true.  Enterin=
+g loop body
+           while (intr_status && retries--) {
            ^
-   drivers/fsi/fsi-scom.c:314:7: note: 2nd function call argument is an uni=
-nitialized value
-           rc =3D handle_fsi2pib_status(scom, status);
-                ^                           ~~~~~~
-   drivers/fsi/fsi-scom.c:327:17: warning: Value stored to 'dev' during its=
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &scom->fsi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:327:17: note: Value stored to 'dev' during its in=
-itialization is never read
-           struct device *dev =3D &scom->fsi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:357:17: warning: Value stored to 'dev' during its=
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &scom->fsi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/fsi/fsi-scom.c:357:17: note: Value stored to 'dev' during its in=
-itialization is never read
-           struct device *dev =3D &scom->fsi_dev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/perf/arm_smmuv3_pmu.c:349:17: warning: Value stored to 'dev' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D smmu_pmu->dev;
-                          ^~~   ~~~~~~~~~~~~~
-   drivers/perf/arm_smmuv3_pmu.c:349:17: note: Value stored to 'dev' during=
- its initialization is never read
-           struct device *dev =3D smmu_pmu->dev;
-                          ^~~   ~~~~~~~~~~~~~
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/hwtracing/intel_th/msu.c:860:2: warning: Value stored to 'reg' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           reg =3D ioread32(msc->reg_base + REG_MSU_MSC0STS);
+   drivers/scsi/ufs/ufshcd.c:6741:18: note: Loop condition is false.  Exiti=
+ng loop
+                           intr_status & ufshcd_readl(hba, REG_INTERRUPT_EN=
+ABLE);
+                                         ^
+   drivers/scsi/ufs/ufshcd.h:1016:2: note: expanded from macro 'ufshcd_read=
+l'
+           readl((hba)->mmio_base + (reg))
            ^
-   drivers/hwtracing/intel_th/msu.c:860:2: note: Value stored to 'reg' is n=
-ever read
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   28 warnings generated.
-   drivers/md/bcache/sysfs.c:204:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(writeback_rate,
+   arch/riscv/include/asm/mmio.h:140:30: note: expanded from macro 'readl'
+   #define readl(c)        ({ u32 __v; __io_br(); __v =3D readl_cpu(c); __i=
+o_ar(__v); __v; })
+                                       ^
+   arch/riscv/include/asm/mmio.h:133:19: note: expanded from macro '__io_br'
+   #define __io_br()       do {} while (0)
+                           ^
+   drivers/scsi/ufs/ufshcd.c:6742:3: note: Loop condition is false.  Exitin=
+g loop
+                   ufshcd_writel(hba, intr_status, REG_INTERRUPT_STATUS);
+                   ^
+   drivers/scsi/ufs/ufshcd.h:1014:2: note: expanded from macro 'ufshcd_writ=
+el'
+           writel((val), (hba)->mmio_base + (reg))
            ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:204:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           sysfs_hprint(writeback_rate,
+   arch/riscv/include/asm/mmio.h:144:58: note: expanded from macro 'writel'
+   #define writel(v, c)    ({ __io_bw(); writel_cpu((v), (c)); __io_aw(); })
+                                                               ^
+   arch/riscv/include/asm/mmio.h:136:19: note: expanded from macro '__io_aw'
+   #define __io_aw()       mmiowb_set_pending()
+                           ^
+   include/asm-generic/mmiowb.h:61:31: note: expanded from macro 'mmiowb_se=
+t_pending'
+   #define mmiowb_set_pending()            do { } while (0)
+                                           ^
+   drivers/scsi/ufs/ufshcd.c:6743:7: note: Assuming 'enabled_intr_status' i=
+s not equal to 0
+                   if (enabled_intr_status)
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:6743:3: note: Taking true branch
+                   if (enabled_intr_status)
+                   ^
+   drivers/scsi/ufs/ufshcd.c:6744:14: note: Calling 'ufshcd_sl_intr'
+                           retval |=3D ufshcd_sl_intr(hba, enabled_intr_sta=
+tus);
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/scsi/ufs/ufshcd.c:6697:6: note: Assuming the condition is true
+           if (intr_status & UFSHCD_UIC_MASK)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:6697:2: note: Taking true branch
+           if (intr_status & UFSHCD_UIC_MASK)
            ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:255:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(dirty_data,
+   drivers/scsi/ufs/ufshcd.c:6698:13: note: Calling 'ufshcd_uic_cmd_compl'
+                   retval |=3D ufshcd_uic_cmd_compl(hba, intr_status);
+                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:5356:2: note: Taking false branch
+           if (ufshcd_is_auto_hibern8_error(hba, intr_status))
            ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:255:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           sysfs_hprint(dirty_data,
+   drivers/scsi/ufs/ufshcd.c:5359:7: note: Assuming the condition is true
+           if ((intr_status & UIC_COMMAND_COMPL) && priv->active_uic_cmd) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:5359:6: note: Left side of '&&' is true
+           if ((intr_status & UIC_COMMAND_COMPL) && priv->active_uic_cmd) {
+               ^
+   drivers/scsi/ufs/ufshcd.c:5359:43: note: Assuming field 'active_uic_cmd'=
+ is null
+           if ((intr_status & UIC_COMMAND_COMPL) && priv->active_uic_cmd) {
+                                                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:5359:6: note: Assuming pointer value is null
+           if ((intr_status & UIC_COMMAND_COMPL) && priv->active_uic_cmd) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:5359:2: note: Taking false branch
+           if ((intr_status & UIC_COMMAND_COMPL) && priv->active_uic_cmd) {
            ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:258:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           sysfs_hprint(stripe_size,        ((uint64_t)dc->disk.stripe_size=
-) << 9);
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:258:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           sysfs_hprint(stripe_size,        ((uint64_t)dc->disk.stripe_size=
-) << 9);
-           ^
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:261:2: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           var_hprint(sequential_cutoff);
-           ^
-   drivers/md/bcache/sysfs.h:74:26: note: expanded from macro 'var_hprint'
-   #define var_hprint(_var)        sysfs_hprint(_var, var(_var))
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:261:2: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-           var_hprint(sequential_cutoff);
-           ^
-   drivers/md/bcache/sysfs.h:74:26: note: expanded from macro 'var_hprint'
-   #define var_hprint(_var)        sysfs_hprint(_var, var(_var))
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
-                   strcat(buf, "\n");                                      \
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:269:3: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcat(buf, "\n");
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:269:3: note: Call to function 'strcat' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcat'. CWE-119
-                   strcat(buf, "\n");
-                   ^~~~~~
-   drivers/md/bcache/sysfs.c:275:3: warning: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+   drivers/scsi/ufs/ufshcd.c:5370:7: note: Assuming the condition is true
+           if ((intr_status & UFSHCD_UIC_PWR_MASK) && priv->uic_async_done)=
+ {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/ufs/ufshcd.c:5370:6: note: Left side of '&&' is true
 
-vim +/dev +349 drivers/perf/arm_smmuv3_pmu.c
+vim +/priv +690 drivers/scsi/ufs/ufshcd.c
 
-3c9347351a6ea1 Robin Murphy 2019-08-01  339  =
+5a0b0cb9bee767 Sujit Reddy Thumma 2013-07-30  681  =
 
-7d839b4b9e0064 Neil Leeder  2019-03-26  340  /*
-7d839b4b9e0064 Neil Leeder  2019-03-26  341   * Implementation of abstract =
-pmu functionality required by
-7d839b4b9e0064 Neil Leeder  2019-03-26  342   * the core perf events code.
-7d839b4b9e0064 Neil Leeder  2019-03-26  343   */
-7d839b4b9e0064 Neil Leeder  2019-03-26  344  =
+2fbd009b40967f Seungwon Jeon      2013-06-26  682  /**
+2fbd009b40967f Seungwon Jeon      2013-06-26  683   * ufshcd_get_intr_mask =
+- Get the interrupt bit mask
+8aa29f192ca675 Bart Van Assche    2018-03-01  684   * @hba: Pointer to adap=
+ter instance
+2fbd009b40967f Seungwon Jeon      2013-06-26  685   *
+2fbd009b40967f Seungwon Jeon      2013-06-26  686   * Returns interrupt bit=
+ mask per version
+2fbd009b40967f Seungwon Jeon      2013-06-26  687   */
+2fbd009b40967f Seungwon Jeon      2013-06-26  688  static inline u32 ufshcd=
+_get_intr_mask(struct ufs_hba *hba)
+2fbd009b40967f Seungwon Jeon      2013-06-26  689  {
+905917fe701f16 Bart Van Assche    2022-03-19 @690  	struct ufs_hba_priv *pr=
+iv =3D container_of(hba, typeof(*priv), hba);
+905917fe701f16 Bart Van Assche    2022-03-19  691  =
 
-7d839b4b9e0064 Neil Leeder  2019-03-26  345  static int smmu_pmu_event_init=
-(struct perf_event *event)
-7d839b4b9e0064 Neil Leeder  2019-03-26  346  {
-7d839b4b9e0064 Neil Leeder  2019-03-26  347  	struct hw_perf_event *hwc =3D=
- &event->hw;
-7d839b4b9e0064 Neil Leeder  2019-03-26  348  	struct smmu_pmu *smmu_pmu =3D=
- to_smmu_pmu(event->pmu);
-7d839b4b9e0064 Neil Leeder  2019-03-26 @349  	struct device *dev =3D smmu_p=
-mu->dev;
-7d839b4b9e0064 Neil Leeder  2019-03-26  350  	struct perf_event *sibling;
-33e84ea4330da8 Robin Murphy 2019-08-01  351  	int group_num_events =3D 1;
-7d839b4b9e0064 Neil Leeder  2019-03-26  352  	u16 event_id;
-7d839b4b9e0064 Neil Leeder  2019-03-26  353  =
+5142881801786a Caleb Connolly     2021-03-10  692  	if (hba->ufs_version =
+=3D=3D ufshci_version(1, 0))
+5142881801786a Caleb Connolly     2021-03-10  693  		return INTERRUPT_MASK_=
+ALL_VER_10;
+5142881801786a Caleb Connolly     2021-03-10  694  	if (hba->ufs_version <=
+=3D ufshci_version(2, 0))
+5142881801786a Caleb Connolly     2021-03-10  695  		return INTERRUPT_MASK_=
+ALL_VER_11;
+c01848c67d48aa Yaniv Gardi        2016-12-05  696  =
 
-7d839b4b9e0064 Neil Leeder  2019-03-26  354  	if (event->attr.type !=3D eve=
-nt->pmu->type)
-7d839b4b9e0064 Neil Leeder  2019-03-26  355  		return -ENOENT;
-7d839b4b9e0064 Neil Leeder  2019-03-26  356  =
+5142881801786a Caleb Connolly     2021-03-10  697  	return INTERRUPT_MASK_A=
+LL_VER_21;
+2fbd009b40967f Seungwon Jeon      2013-06-26  698  }
+2fbd009b40967f Seungwon Jeon      2013-06-26  699  =
 
-7d839b4b9e0064 Neil Leeder  2019-03-26  357  	if (hwc->sample_period) {
-7d839b4b9e0064 Neil Leeder  2019-03-26  358  		dev_dbg(dev, "Sampling not s=
-upported\n");
-7d839b4b9e0064 Neil Leeder  2019-03-26  359  		return -EOPNOTSUPP;
-7d839b4b9e0064 Neil Leeder  2019-03-26  360  	}
-7d839b4b9e0064 Neil Leeder  2019-03-26  361  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  362  	if (event->cpu < 0) {
-7d839b4b9e0064 Neil Leeder  2019-03-26  363  		dev_dbg(dev, "Per-task mode =
-not supported\n");
-7d839b4b9e0064 Neil Leeder  2019-03-26  364  		return -EOPNOTSUPP;
-7d839b4b9e0064 Neil Leeder  2019-03-26  365  	}
-7d839b4b9e0064 Neil Leeder  2019-03-26  366  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  367  	/* Verify specified event is =
-supported on this PMU */
-7d839b4b9e0064 Neil Leeder  2019-03-26  368  	event_id =3D get_event(event);
-7d839b4b9e0064 Neil Leeder  2019-03-26  369  	if (event_id < SMMU_PMCG_ARCH=
-_MAX_EVENTS &&
-7d839b4b9e0064 Neil Leeder  2019-03-26  370  	    (!test_bit(event_id, smmu=
-_pmu->supported_events))) {
-7d839b4b9e0064 Neil Leeder  2019-03-26  371  		dev_dbg(dev, "Invalid event =
-%d for this PMU\n", event_id);
-7d839b4b9e0064 Neil Leeder  2019-03-26  372  		return -EINVAL;
-7d839b4b9e0064 Neil Leeder  2019-03-26  373  	}
-7d839b4b9e0064 Neil Leeder  2019-03-26  374  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  375  	/* Don't allow groups with mi=
-xed PMUs, except for s/w events */
-33e84ea4330da8 Robin Murphy 2019-08-01  376  	if (!is_software_event(event-=
->group_leader)) {
-3c9347351a6ea1 Robin Murphy 2019-08-01  377  		if (!smmu_pmu_events_compati=
-ble(event->group_leader, event))
-33e84ea4330da8 Robin Murphy 2019-08-01  378  			return -EINVAL;
-33e84ea4330da8 Robin Murphy 2019-08-01  379  =
-
-33e84ea4330da8 Robin Murphy 2019-08-01  380  		if (++group_num_events > smm=
-u_pmu->num_counters)
-7d839b4b9e0064 Neil Leeder  2019-03-26  381  			return -EINVAL;
-7d839b4b9e0064 Neil Leeder  2019-03-26  382  	}
-7d839b4b9e0064 Neil Leeder  2019-03-26  383  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  384  	for_each_sibling_event(siblin=
-g, event->group_leader) {
-33e84ea4330da8 Robin Murphy 2019-08-01  385  		if (is_software_event(siblin=
-g))
-33e84ea4330da8 Robin Murphy 2019-08-01  386  			continue;
-33e84ea4330da8 Robin Murphy 2019-08-01  387  =
-
-3c9347351a6ea1 Robin Murphy 2019-08-01  388  		if (!smmu_pmu_events_compati=
-ble(sibling, event))
-33e84ea4330da8 Robin Murphy 2019-08-01  389  			return -EINVAL;
-33e84ea4330da8 Robin Murphy 2019-08-01  390  =
-
-33e84ea4330da8 Robin Murphy 2019-08-01  391  		if (++group_num_events > smm=
-u_pmu->num_counters)
-7d839b4b9e0064 Neil Leeder  2019-03-26  392  			return -EINVAL;
-7d839b4b9e0064 Neil Leeder  2019-03-26  393  	}
-7d839b4b9e0064 Neil Leeder  2019-03-26  394  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  395  	hwc->idx =3D -1;
-7d839b4b9e0064 Neil Leeder  2019-03-26  396  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  397  	/*
-7d839b4b9e0064 Neil Leeder  2019-03-26  398  	 * Ensure all events are on t=
-he same cpu so all events are in the
-7d839b4b9e0064 Neil Leeder  2019-03-26  399  	 * same cpu context, to avoid=
- races on pmu_enable etc.
-7d839b4b9e0064 Neil Leeder  2019-03-26  400  	 */
-7d839b4b9e0064 Neil Leeder  2019-03-26  401  	event->cpu =3D smmu_pmu->on_c=
-pu;
-7d839b4b9e0064 Neil Leeder  2019-03-26  402  =
-
-7d839b4b9e0064 Neil Leeder  2019-03-26  403  	return 0;
-7d839b4b9e0064 Neil Leeder  2019-03-26  404  }
-7d839b4b9e0064 Neil Leeder  2019-03-26  405  =
-
-
-:::::: The code at line 349 was first introduced by commit
-:::::: 7d839b4b9e00645e49345d6ce5dfa8edf53c1a21 perf/smmuv3: Add arm64 smmu=
-v3 pmu driver
-
-:::::: TO: Neil Leeder <nleeder@codeaurora.org>
-:::::: CC: Will Deacon <will.deacon@arm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5752627858101558982==--
+--===============6109210881949493976==--
 
