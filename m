@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2961168217868832838=="
+Content-Type: multipart/mixed; boundary="===============3382395522399088799=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:bpf/bpf-next/master 244/270] kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
-Date: Tue, 22 Mar 2022 21:13:24 +0800
-Message-ID: <202203222134.Yjg9BagC-lkp@intel.com>
+Subject: drivers/scsi/qla2xxx/qla_target.c:2650:34: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Tue, 22 Mar 2022 19:56:34 +0800
+Message-ID: <202203221922.lT4A0xDN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2961168217868832838==
+--===============3382395522399088799==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,43 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Joanne Koong <joannelkoong@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: Quinn Tran <qutran@marvell.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Hannes Reinecke <hare@suse.de>
+CC: Himanshu Madhani <himanshu.madhani@oracle.com>
+CC: Larry Wisneski <Larry.Wisneski@marvell.com>
+CC: Duane Grigsby <duane.grigsby@marvell.com>
+CC: Rick Hicksted Jr <rhicksted@marvell.com>
+CC: Nilesh Javali <njavali@marvell.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
-head:   e52b8f5bd3d2f7b2f4b98067db33bc2fdc125643
-commit: b00fa38a9c1cba044a32a601b49a55a18ed719d1 [244/270] bpf: Enable non-=
-atomic allocations in local storage
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   b47d5a4f6b8d42f8a8fbe891b36215e4fddc53be
+commit: 44d018577f179383ea2c409f3a392e9dbd1a155e scsi: qla2xxx: edif: Add e=
+ncryption to I/O path
+date:   8 months ago
 :::::: branch date: 8 hours ago
-:::::: commit date: 35 hours ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-322/202203222134.Yjg9BagC-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2=
-687a13d1908aa86d1b89c5ce398a06cd39)
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20220312 (https://download.01.org/0day-ci/archi=
+ve/20220322/202203221922.lT4A0xDN-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 276ca8=
+7382b8f16a65bddac700202924228982f6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/b00fa38a9c1cba0=
-44a32a601b49a55a18ed719d1
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block bpf/bpf-next/master
-        git checkout b00fa38a9c1cba044a32a601b49a55a18ed719d1
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D44d018577f179383ea2c409f3a392e9dbd1a155e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 44d018577f179383ea2c409f3a392e9dbd1a155e
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,485 +59,376 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/xor.c:155:2: note: Left side of '&&' is true
-           pr_info("xor: using function: %s (%d MB/sec)\n",
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                       ^
-   crypto/xor.c:155:2: note: Taking true branch
-           pr_info("xor: using function: %s (%d MB/sec)\n",
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   crypto/xor.c:155:2: note: '?' condition is true
-           pr_info("xor: using function: %s (%d MB/sec)\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   crypto/xor.c:155:2: note: '?' condition is true
-           pr_info("xor: using function: %s (%d MB/sec)\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   crypto/xor.c:155:2: note: Loop condition is false.  Exiting loop
-           pr_info("xor: using function: %s (%d MB/sec)\n",
-           ^
-   include/linux/printk.h:519:2: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
            do {                                                            \
            ^
-   crypto/xor.c:156:9: note: Access to field 'name' results in a dereferenc=
-e of a null pointer (loaded from variable 'fastest')
-                  fastest->name, fastest->speed);
-                  ^
-   include/linux/printk.h:519:34: note: expanded from macro 'pr_info'
-           printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-                                           ^~~~~~~~~~~
-   include/linux/printk.h:446:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                              ^~~~~~~~~~~
-   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
-rap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                                   ^~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   drivers/scsi/sg.c:2222:3: note: Calling 'sg_finish_rem_req'
+                   sg_finish_rem_req(srp);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/sg.c:1856:2: note: 'sfp' initialized to a null pointer value
+           Sg_fd *sfp =3D srp->parentfp;
+           ^~~~~~~~~~
+   drivers/scsi/sg.c:1859:2: note: Assuming the condition is false
+           SCSI_LOG_TIMEOUT(4, sg_printk(KERN_INFO, sfp->parentdp,
+           ^
+   drivers/scsi/scsi_logging.h:67:9: note: expanded from macro 'SCSI_LOG_TI=
+MEOUT'
+           SCSI_CHECK_LOGGING(SCSI_LOG_TIMEOUT_SHIFT, SCSI_LOG_TIMEOUT_BITS=
+, LEVEL,CMD);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   drivers/scsi/scsi_logging.h:49:22: note: expanded from macro 'SCSI_CHECK=
+_LOGGING'
+           if (unlikely((SCSI_LOG_LEVEL(SHIFT, BITS)) > (LEVEL)))  \
+               ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/scsi/sg.c:1859:2: note: Taking false branch
+           SCSI_LOG_TIMEOUT(4, sg_printk(KERN_INFO, sfp->parentdp,
+           ^
+   drivers/scsi/scsi_logging.h:67:9: note: expanded from macro 'SCSI_LOG_TI=
+MEOUT'
+           SCSI_CHECK_LOGGING(SCSI_LOG_TIMEOUT_SHIFT, SCSI_LOG_TIMEOUT_BITS=
+, LEVEL,CMD);
+           ^
+   drivers/scsi/scsi_logging.h:49:9: note: expanded from macro 'SCSI_CHECK_=
+LOGGING'
+           if (unlikely((SCSI_LOG_LEVEL(SHIFT, BITS)) > (LEVEL)))  \
+           ^
+   drivers/scsi/sg.c:1859:2: note: Loop condition is false.  Exiting loop
+           SCSI_LOG_TIMEOUT(4, sg_printk(KERN_INFO, sfp->parentdp,
+           ^
+   drivers/scsi/scsi_logging.h:67:9: note: expanded from macro 'SCSI_LOG_TI=
+MEOUT'
+           SCSI_CHECK_LOGGING(SCSI_LOG_TIMEOUT_SHIFT, SCSI_LOG_TIMEOUT_BITS=
+, LEVEL,CMD);
+           ^
+   drivers/scsi/scsi_logging.h:47:54: note: expanded from macro 'SCSI_CHECK=
+_LOGGING'
+   #define SCSI_CHECK_LOGGING(SHIFT, BITS, LEVEL, CMD)             \
+                                                                   ^
+   drivers/scsi/sg.c:1862:6: note: Assuming field 'bio' is null
+           if (srp->bio)
+               ^~~~~~~~
+   drivers/scsi/sg.c:1862:2: note: Taking false branch
+           if (srp->bio)
+           ^
+   drivers/scsi/sg.c:1865:6: note: Assuming field 'rq' is null
+           if (srp->rq) {
+               ^~~~~~~
+   drivers/scsi/sg.c:1865:2: note: Taking false branch
+           if (srp->rq) {
+           ^
+   drivers/scsi/sg.c:1870:6: note: Assuming field 'res_used' is not equal t=
+o 0
+           if (srp->res_used)
+               ^~~~~~~~~~~~~
+   drivers/scsi/sg.c:1870:2: note: Taking true branch
+           if (srp->res_used)
+           ^
+   drivers/scsi/sg.c:1871:21: note: Passing null pointer value via 1st para=
+meter 'sfp'
+                   sg_unlink_reserve(sfp, srp);
+                                     ^~~
+   drivers/scsi/sg.c:1871:3: note: Calling 'sg_unlink_reserve'
+                   sg_unlink_reserve(sfp, srp);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/sg.c:2079:2: note: Taking false branch
+           SCSI_LOG_TIMEOUT(4, sg_printk(KERN_INFO, srp->parentfp->parentdp,
+           ^
+   drivers/scsi/scsi_logging.h:67:9: note: expanded from macro 'SCSI_LOG_TI=
+MEOUT'
+           SCSI_CHECK_LOGGING(SCSI_LOG_TIMEOUT_SHIFT, SCSI_LOG_TIMEOUT_BITS=
+, LEVEL,CMD);
+           ^
+   drivers/scsi/scsi_logging.h:49:9: note: expanded from macro 'SCSI_CHECK_=
+LOGGING'
+           if (unlikely((SCSI_LOG_LEVEL(SHIFT, BITS)) > (LEVEL)))  \
+           ^
+   drivers/scsi/sg.c:2079:2: note: Loop condition is false.  Exiting loop
+           SCSI_LOG_TIMEOUT(4, sg_printk(KERN_INFO, srp->parentfp->parentdp,
+           ^
+   drivers/scsi/scsi_logging.h:67:9: note: expanded from macro 'SCSI_LOG_TI=
+MEOUT'
+           SCSI_CHECK_LOGGING(SCSI_LOG_TIMEOUT_SHIFT, SCSI_LOG_TIMEOUT_BITS=
+, LEVEL,CMD);
+           ^
+   drivers/scsi/scsi_logging.h:47:54: note: expanded from macro 'SCSI_CHECK=
+_LOGGING'
+   #define SCSI_CHECK_LOGGING(SHIFT, BITS, LEVEL, CMD)             \
+                                                                   ^
+   drivers/scsi/sg.c:2089:18: note: Access to field 'res_in_use' results in=
+ a dereference of a null pointer (loaded from variable 'sfp')
+           sfp->res_in_use =3D 0;
+           ~~~             ^
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory =
-pointed to by 'selem' [clang-analyzer-unix.Malloc]
-           raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-           ^
-   include/linux/spinlock.h:279:13: note: expanded from macro 'raw_spin_unl=
-ock_irqrestore'
-                   typecheck(unsigned long, flags);                \
-                             ^
-   kernel/bpf/bpf_local_storage.c:363:15: note: Assuming the condition is f=
-alse
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
+   15 warnings generated.
+>> drivers/scsi/qla2xxx/qla_target.c:2650:34: warning: Dereference of null =
+pointer [clang-analyzer-core.NullDereference]
+                           prm->cmd->sess->edif.rx_bytes +=3D cmd->bufflen;
                                                          ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:16: note: Assuming the condition is t=
-rue
-               unlikely((map_flags & BPF_F_LOCK) &&
-                         ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+   drivers/scsi/qla2xxx/qla_target.c:3442:2: note: Taking false branch
+           if (qlt_pci_map_calc_cnt(&prm) !=3D 0)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+   drivers/scsi/qla2xxx/qla_target.c:3445:6: note: Assuming field 'fw_start=
+ed' is not equal to 0
+           if (!qpair->fw_started || (cmd->reset_count !=3D qpair->chip_res=
+et) ||
+               ^~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_target.c:3445:6: note: Left side of '||' is fal=
+se
+   drivers/scsi/qla2xxx/qla_target.c:3445:29: note: Assuming field 'reset_c=
+ount' is equal to field 'chip_reset'
+           if (!qpair->fw_started || (cmd->reset_count !=3D qpair->chip_res=
+et) ||
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_target.c:3445:6: note: Left side of '||' is fal=
+se
+           if (!qpair->fw_started || (cmd->reset_count !=3D qpair->chip_res=
+et) ||
                ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+   drivers/scsi/qla2xxx/qla_target.c:3446:7: note: Assuming field 'sess' is=
+ null
+               (cmd->sess && cmd->sess->deleted)) {
+                ^~~~~~~~~
+   drivers/scsi/qla2xxx/qla_target.c:3446:17: note: Left side of '&&' is fa=
+lse
+               (cmd->sess && cmd->sess->deleted)) {
+                          ^
+   drivers/scsi/qla2xxx/qla_target.c:3462:2: note: Loop condition is false.=
+  Exiting loop
+           spin_lock_irqsave(qpair->qp_lock_ptr, flags);
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
            ^
-   kernel/bpf/bpf_local_storage.c:363:2: note: Taking false branch
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+   include/linux/spinlock.h:274:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:214:3: note: expanded from macro 'local_irq_sav=
+e'
+                   raw_local_irq_save(flags);              \
+                   ^
+   include/linux/irqflags.h:169:2: note: expanded from macro 'raw_local_irq=
+_save'
+           do {                                            \
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/bpf/bpf_local_storage.c:369:6: note: Assuming the condition is tr=
-ue
-           if (gfp_flags =3D=3D GFP_KERNEL && (map_flags & ~BPF_F_LOCK) !=
-=3D BPF_NOEXIST)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:369:6: note: Left side of '&&' is true
-           if (gfp_flags =3D=3D GFP_KERNEL && (map_flags & ~BPF_F_LOCK) !=
-=3D BPF_NOEXIST)
-               ^
-   kernel/bpf/bpf_local_storage.c:369:33: note: Assuming the condition is f=
-alse
-           if (gfp_flags =3D=3D GFP_KERNEL && (map_flags & ~BPF_F_LOCK) !=
-=3D BPF_NOEXIST)
-                                          ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
+   drivers/scsi/qla2xxx/qla_target.c:3462:2: note: Assuming the condition i=
+s false
+           spin_lock_irqsave(qpair->qp_lock_ptr, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:274:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/irqflags.h:215:7: note: expanded from macro 'local_irq_sav=
+e'
+                   if (!raw_irqs_disabled_flags(flags))    \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_target.c:3462:2: note: Taking false branch
+           spin_lock_irqsave(qpair->qp_lock_ptr, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:274:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:215:3: note: expanded from macro 'local_irq_sav=
+e'
+                   if (!raw_irqs_disabled_flags(flags))    \
+                   ^
+   drivers/scsi/qla2xxx/qla_target.c:3462:2: note: Loop condition is false.=
+  Exiting loop
+           spin_lock_irqsave(qpair->qp_lock_ptr, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:274:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:213:2: note: expanded from macro 'local_irq_sav=
+e'
+           do {                                            \
+           ^
+   drivers/scsi/qla2xxx/qla_target.c:3462:2: note: Loop condition is false.=
+  Exiting loop
+           spin_lock_irqsave(qpair->qp_lock_ptr, flags);
+           ^
+   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
+save'
 
-vim +/selem +473 kernel/bpf/bpf_local_storage.c
+vim +2650 drivers/scsi/qla2xxx/qla_target.c
 
-450af8d0f6be2e7 KP Singh     2020-08-25  346  =
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2606  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  347  /* sk cannot be going away be=
-cause it is linking new elem
-450af8d0f6be2e7 KP Singh     2020-08-25  348   * to sk->sk_bpf_storage. (i.=
-e. sk->sk_refcnt cannot be 0).
-450af8d0f6be2e7 KP Singh     2020-08-25  349   * Otherwise, it will become =
-a leak (and other memory issues
-450af8d0f6be2e7 KP Singh     2020-08-25  350   * during map destruction).
-450af8d0f6be2e7 KP Singh     2020-08-25  351   */
-450af8d0f6be2e7 KP Singh     2020-08-25  352  struct bpf_local_storage_data=
- *
-450af8d0f6be2e7 KP Singh     2020-08-25  353  bpf_local_storage_update(void=
- *owner, struct bpf_local_storage_map *smap,
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  354  			 void *value, u64 map_flag=
-s, gfp_t gfp_flags)
-450af8d0f6be2e7 KP Singh     2020-08-25  355  {
-450af8d0f6be2e7 KP Singh     2020-08-25  356  	struct bpf_local_storage_dat=
-a *old_sdata =3D NULL;
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  357  	struct bpf_local_storage_ele=
-m *selem =3D NULL;
-450af8d0f6be2e7 KP Singh     2020-08-25  358  	struct bpf_local_storage *lo=
-cal_storage;
-a10787e6d58c24b Song Liu     2021-02-25  359  	unsigned long flags;
-450af8d0f6be2e7 KP Singh     2020-08-25  360  	int err;
-450af8d0f6be2e7 KP Singh     2020-08-25  361  =
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2607  /* ha->hardware_lock su=
+pposed to be held on entry */
+82de802ad46e23 Quinn Tran         2017-06-13  2608  static int qlt_24xx_bui=
+ld_ctio_pkt(struct qla_qpair *qpair,
+82de802ad46e23 Quinn Tran         2017-06-13  2609  	struct qla_tgt_prm *pr=
+m)
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2610  {
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2611  	uint32_t h;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2612  	struct ctio7_to_24xx *=
+pkt;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2613  	struct atio_from_isp *=
+atio =3D &prm->cmd->atio;
+33a5fcee7f5d49 Quinn Tran         2014-06-24  2614  	uint16_t temp;
+44d018577f1793 Quinn Tran         2021-06-23  2615  	struct qla_tgt_cmd    =
+  *cmd =3D prm->cmd;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2616  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  362  	/* BPF_EXIST and BPF_NOEXIST=
- cannot be both set */
-450af8d0f6be2e7 KP Singh     2020-08-25  363  	if (unlikely((map_flags & ~B=
-PF_F_LOCK) > BPF_EXIST) ||
-450af8d0f6be2e7 KP Singh     2020-08-25  364  	    /* BPF_F_LOCK can only b=
-e used in a value with spin_lock */
-450af8d0f6be2e7 KP Singh     2020-08-25  365  	    unlikely((map_flags & BP=
-F_F_LOCK) &&
-450af8d0f6be2e7 KP Singh     2020-08-25  366  		     !map_value_has_spin_lo=
-ck(&smap->map)))
-450af8d0f6be2e7 KP Singh     2020-08-25  367  		return ERR_PTR(-EINVAL);
-450af8d0f6be2e7 KP Singh     2020-08-25  368  =
+82de802ad46e23 Quinn Tran         2017-06-13  2617  	pkt =3D (struct ctio7_=
+to_24xx *)qpair->req->ring_ptr;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2618  	prm->pkt =3D pkt;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2619  	memset(pkt, 0, sizeof(=
+*pkt));
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2620  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  369  	if (gfp_flags =3D=3D GFP_KER=
-NEL && (map_flags & ~BPF_F_LOCK) !=3D BPF_NOEXIST)
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  370  		return ERR_PTR(-EINVAL);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  371  =
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2621  	pkt->entry_type =3D CT=
+IO_TYPE7;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2622  	pkt->entry_count =3D (=
+uint8_t)prm->req_cnt;
+22d84726e3b824 Quinn Tran         2017-06-13  2623  	pkt->vp_index =3D prm-=
+>cmd->vp_idx;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2624  =
 
-0fe4b381a59ebc5 KP Singh     2021-12-24  372  	local_storage =3D rcu_derefe=
-rence_check(*owner_storage(smap, owner),
-0fe4b381a59ebc5 KP Singh     2021-12-24  373  					      bpf_rcu_lock_held(=
-));
-450af8d0f6be2e7 KP Singh     2020-08-25  374  	if (!local_storage || hlist_=
-empty(&local_storage->list)) {
-450af8d0f6be2e7 KP Singh     2020-08-25  375  		/* Very first elem for the =
-owner */
-450af8d0f6be2e7 KP Singh     2020-08-25  376  		err =3D check_flags(NULL, m=
-ap_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  377  		if (err)
-450af8d0f6be2e7 KP Singh     2020-08-25  378  			return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  379  =
+82de802ad46e23 Quinn Tran         2017-06-13  2625  	h =3D qlt_make_handle(=
+qpair);
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2626  	if (unlikely(h =3D=3D =
+QLA_TGT_NULL_HANDLE)) {
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2627  		/*
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2628  		 * CTIO type 7 from t=
+he firmware doesn't provide a way to
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2629  		 * know the initiator=
+'s LOOP ID, hence we can't find
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2630  		 * the session and, s=
+o, the command.
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2631  		 */
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2632  		return -EAGAIN;
+e326d22af9653d Quinn Tran         2017-06-13  2633  	} else
+e326d22af9653d Quinn Tran         2017-06-13  2634  		qpair->req->outstandi=
+ng_cmds[h] =3D (srb_t *)prm->cmd;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2635  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  380  		selem =3D bpf_selem_alloc(s=
-map, owner, value, true, gfp_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  381  		if (!selem)
-450af8d0f6be2e7 KP Singh     2020-08-25  382  			return ERR_PTR(-ENOMEM);
-450af8d0f6be2e7 KP Singh     2020-08-25  383  =
+c25eb70a10243c Bart Van Assche    2020-02-19  2636  	pkt->handle =3D make_h=
+andle(qpair->req->id, h);
+82de802ad46e23 Quinn Tran         2017-06-13  2637  	pkt->handle |=3D CTIO_=
+COMPLETION_HANDLE_MARK;
+82de802ad46e23 Quinn Tran         2017-06-13  2638  	pkt->nport_handle =3D =
+cpu_to_le16(prm->cmd->loop_id);
+ad950360eebb5f Bart Van Assche    2015-07-09  2639  	pkt->timeout =3D cpu_t=
+o_le16(QLA_TGT_TIMEOUT);
+df95f39ae76474 Bart Van Assche    2019-08-08  2640  	pkt->initiator_id =3D =
+be_id_to_le(atio->u.isp24.fcp_hdr.s_id);
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2641  	pkt->exchange_addr =3D=
+ atio->u.isp24.exchange_addr;
+f7e761f56c7119 Quinn Tran         2017-06-02  2642  	temp =3D atio->u.isp24=
+.attr << 9;
+f7e761f56c7119 Quinn Tran         2017-06-02  2643  	pkt->u.status0.flags |=
+=3D cpu_to_le16(temp);
+33a5fcee7f5d49 Quinn Tran         2014-06-24  2644  	temp =3D be16_to_cpu(a=
+tio->u.isp24.fcp_hdr.ox_id);
+33a5fcee7f5d49 Quinn Tran         2014-06-24  2645  	pkt->u.status0.ox_id =
+=3D cpu_to_le16(temp);
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2646  	pkt->u.status0.relativ=
+e_offset =3D cpu_to_le32(prm->cmd->offset);
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2647  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  384  		err =3D bpf_local_storage_a=
-lloc(owner, smap, selem, gfp_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  385  		if (err) {
-450af8d0f6be2e7 KP Singh     2020-08-25  386  			kfree(selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  387  			mem_uncharge(smap, owner, =
-smap->elem_size);
-450af8d0f6be2e7 KP Singh     2020-08-25  388  			return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  389  		}
-450af8d0f6be2e7 KP Singh     2020-08-25  390  =
+44d018577f1793 Quinn Tran         2021-06-23  2648  	if (cmd->edif) {
+44d018577f1793 Quinn Tran         2021-06-23  2649  		if (cmd->dma_data_dir=
+ection =3D=3D DMA_TO_DEVICE)
+44d018577f1793 Quinn Tran         2021-06-23 @2650  			prm->cmd->sess->edif=
+.rx_bytes +=3D cmd->bufflen;
+44d018577f1793 Quinn Tran         2021-06-23  2651  		if (cmd->dma_data_dir=
+ection =3D=3D DMA_FROM_DEVICE)
+44d018577f1793 Quinn Tran         2021-06-23  2652  			prm->cmd->sess->edif=
+.tx_bytes +=3D cmd->bufflen;
+44d018577f1793 Quinn Tran         2021-06-23  2653  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  391  		return SDATA(selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  392  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  393  =
+44d018577f1793 Quinn Tran         2021-06-23  2654  		pkt->u.status0.edif_f=
+lags |=3D EF_EN_EDIF;
+44d018577f1793 Quinn Tran         2021-06-23  2655  	}
+44d018577f1793 Quinn Tran         2021-06-23  2656  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  394  	if ((map_flags & BPF_F_LOCK)=
- && !(map_flags & BPF_NOEXIST)) {
-450af8d0f6be2e7 KP Singh     2020-08-25  395  		/* Hoping to find an old_sd=
-ata to do inline update
-450af8d0f6be2e7 KP Singh     2020-08-25  396  		 * such that it can avoid t=
-aking the local_storage->lock
-450af8d0f6be2e7 KP Singh     2020-08-25  397  		 * and changing the lists.
-450af8d0f6be2e7 KP Singh     2020-08-25  398  		 */
-450af8d0f6be2e7 KP Singh     2020-08-25  399  		old_sdata =3D
-450af8d0f6be2e7 KP Singh     2020-08-25  400  			bpf_local_storage_lookup(l=
-ocal_storage, smap, false);
-450af8d0f6be2e7 KP Singh     2020-08-25  401  		err =3D check_flags(old_sda=
-ta, map_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  402  		if (err)
-450af8d0f6be2e7 KP Singh     2020-08-25  403  			return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  404  		if (old_sdata && selem_link=
-ed_to_storage(SELEM(old_sdata))) {
-450af8d0f6be2e7 KP Singh     2020-08-25  405  			copy_map_value_locked(&sma=
-p->map, old_sdata->data,
-450af8d0f6be2e7 KP Singh     2020-08-25  406  					      value, false);
-450af8d0f6be2e7 KP Singh     2020-08-25  407  			return old_sdata;
-450af8d0f6be2e7 KP Singh     2020-08-25  408  		}
-450af8d0f6be2e7 KP Singh     2020-08-25  409  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  410  =
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2657  	return 0;
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2658  }
+2d70c103fd2a06 Nicholas Bellinger 2012-05-15  2659  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  411  	if (gfp_flags =3D=3D GFP_KER=
-NEL) {
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  412  		selem =3D bpf_selem_alloc(s=
-map, owner, value, true, gfp_flags);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  413  		if (!selem)
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  414  			return ERR_PTR(-ENOMEM);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  415  	}
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  416  =
-
-a10787e6d58c24b Song Liu     2021-02-25  417  	raw_spin_lock_irqsave(&local=
-_storage->lock, flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  418  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  419  	/* Recheck local_storage->li=
-st under local_storage->lock */
-450af8d0f6be2e7 KP Singh     2020-08-25  420  	if (unlikely(hlist_empty(&lo=
-cal_storage->list))) {
-450af8d0f6be2e7 KP Singh     2020-08-25  421  		/* A parallel del is happen=
-ing and local_storage is going
-450af8d0f6be2e7 KP Singh     2020-08-25  422  		 * away.  It has just been =
-checked before, so very
-450af8d0f6be2e7 KP Singh     2020-08-25  423  		 * unlikely.  Return instea=
-d of retry to keep things
-450af8d0f6be2e7 KP Singh     2020-08-25  424  		 * simple.
-450af8d0f6be2e7 KP Singh     2020-08-25  425  		 */
-450af8d0f6be2e7 KP Singh     2020-08-25  426  		err =3D -EAGAIN;
-450af8d0f6be2e7 KP Singh     2020-08-25  427  		goto unlock_err;
-450af8d0f6be2e7 KP Singh     2020-08-25  428  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  429  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  430  	old_sdata =3D bpf_local_stor=
-age_lookup(local_storage, smap, false);
-450af8d0f6be2e7 KP Singh     2020-08-25  431  	err =3D check_flags(old_sdat=
-a, map_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  432  	if (err)
-450af8d0f6be2e7 KP Singh     2020-08-25  433  		goto unlock_err;
-450af8d0f6be2e7 KP Singh     2020-08-25  434  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  435  	if (old_sdata && (map_flags =
-& BPF_F_LOCK)) {
-450af8d0f6be2e7 KP Singh     2020-08-25  436  		copy_map_value_locked(&smap=
-->map, old_sdata->data, value,
-450af8d0f6be2e7 KP Singh     2020-08-25  437  				      false);
-450af8d0f6be2e7 KP Singh     2020-08-25  438  		selem =3D SELEM(old_sdata);
-450af8d0f6be2e7 KP Singh     2020-08-25  439  		goto unlock;
-450af8d0f6be2e7 KP Singh     2020-08-25  440  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  441  =
-
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  442  	if (gfp_flags !=3D GFP_KERNE=
-L) {
-450af8d0f6be2e7 KP Singh     2020-08-25  443  		/* local_storage->lock is h=
-eld.  Hence, we are sure
-450af8d0f6be2e7 KP Singh     2020-08-25  444  		 * we can unlink and unchar=
-ge the old_sdata successfully
-450af8d0f6be2e7 KP Singh     2020-08-25  445  		 * later.  Hence, instead o=
-f charging the new selem now
-450af8d0f6be2e7 KP Singh     2020-08-25  446  		 * and then uncharge the ol=
-d selem later (which may cause
-450af8d0f6be2e7 KP Singh     2020-08-25  447  		 * a potential but unnecess=
-ary charge failure),  avoid taking
-450af8d0f6be2e7 KP Singh     2020-08-25  448  		 * a charge at all here (th=
-e "!old_sdata" check) and the
-450af8d0f6be2e7 KP Singh     2020-08-25  449  		 * old_sdata will not be un=
-charged later during
-450af8d0f6be2e7 KP Singh     2020-08-25  450  		 * bpf_selem_unlink_storage=
-_nolock().
-450af8d0f6be2e7 KP Singh     2020-08-25  451  		 */
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  452  		selem =3D bpf_selem_alloc(s=
-map, owner, value, !old_sdata, gfp_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  453  		if (!selem) {
-450af8d0f6be2e7 KP Singh     2020-08-25  454  			err =3D -ENOMEM;
-450af8d0f6be2e7 KP Singh     2020-08-25  455  			goto unlock_err;
-450af8d0f6be2e7 KP Singh     2020-08-25  456  		}
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  457  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  458  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  459  	/* First, link the new selem=
- to the map */
-450af8d0f6be2e7 KP Singh     2020-08-25  460  	bpf_selem_link_map(smap, sel=
-em);
-450af8d0f6be2e7 KP Singh     2020-08-25  461  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  462  	/* Second, link (and publish=
-) the new selem to local_storage */
-450af8d0f6be2e7 KP Singh     2020-08-25  463  	bpf_selem_link_storage_noloc=
-k(local_storage, selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  464  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  465  	/* Third, remove old selem, =
-SELEM(old_sdata) */
-450af8d0f6be2e7 KP Singh     2020-08-25  466  	if (old_sdata) {
-450af8d0f6be2e7 KP Singh     2020-08-25  467  		bpf_selem_unlink_map(SELEM(=
-old_sdata));
-450af8d0f6be2e7 KP Singh     2020-08-25  468  		bpf_selem_unlink_storage_no=
-lock(local_storage, SELEM(old_sdata),
-450af8d0f6be2e7 KP Singh     2020-08-25  469  						false);
-450af8d0f6be2e7 KP Singh     2020-08-25  470  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  471  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  472  unlock:
-a10787e6d58c24b Song Liu     2021-02-25 @473  	raw_spin_unlock_irqrestore(&=
-local_storage->lock, flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  474  	return SDATA(selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  475  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  476  unlock_err:
-a10787e6d58c24b Song Liu     2021-02-25  477  	raw_spin_unlock_irqrestore(&=
-local_storage->lock, flags);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  478  	if (selem) {
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  479  		mem_uncharge(smap, owner, s=
-map->elem_size);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  480  		kfree(selem);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  481  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  482  	return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  483  }
-450af8d0f6be2e7 KP Singh     2020-08-25  484  =
-
-
-:::::: The code at line 473 was first introduced by commit
-:::::: a10787e6d58c24b51e91c19c6d16c5da89fcaa4b bpf: Enable task local stor=
-age for tracing programs
-
-:::::: TO: Song Liu <songliubraving@fb.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2961168217868832838==--
+--===============3382395522399088799==--
 
