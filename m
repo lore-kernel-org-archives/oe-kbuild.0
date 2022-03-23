@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1526285876333689956=="
+Content-Type: multipart/mixed; boundary="===============9072139842531159658=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:bpf/bpf-next/master 186/270] net/ipv4/tcp_bpf.c:354:4: warning: Argument to kfree() is the address of the local variable 'tmp', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-Date: Wed, 23 Mar 2022 09:35:49 +0800
-Message-ID: <202203230906.D7fHJVsd-lkp@intel.com>
+Subject: [avpatel:riscv_kvm_aia_v1 33/38] arch/riscv/kvm/../../../virt/kvm/eventfd.c:392:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 23 Mar 2022 09:15:19 +0800
+Message-ID: <202203230947.AjswzFbw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1526285876333689956==
+--===============9072139842531159658==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,33 +15,30 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Wang Yufen <wangyufen@huawei.com>
-CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: Anup Patel <apatel@ventanamicro.com>
 
-tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
-head:   7f0059b58f0257d895fafd2f2e3afe3bbdf21e64
-commit: 2486ab434b2c2a14e9237296db00b1e1b7ae3273 [186/270] bpf, sockmap: Fi=
-x double uncharge the mem of sk_msg
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 days ago
-config: riscv-randconfig-c006-20220322 (https://download.01.org/0day-ci/arc=
-hive/20220323/202203230906.D7fHJVsd-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
-08fe1d03b0de7e5315ef875006a6adc319)
+tree:   https://github.com/avpatel/linux.git riscv_kvm_aia_v1
+head:   bafeaefb38960799e1f7ac9b6707a22e5be067d0
+commit: 472607f8a84913ba6fda3fbda42c963a1df9e411 [33/38] RISC-V: KVM: Initi=
+al skeletal support for in-kernel AIA irqchip
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+config: riscv-randconfig-c006-20220320 (https://download.01.org/0day-ci/arc=
+hive/20220323/202203230947.AjswzFbw-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2=
+687a13d1908aa86d1b89c5ce398a06cd39)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/ammarfaizi2/linux-block/commit/2486ab434b2c2a1=
-4e9237296db00b1e1b7ae3273
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block bpf/bpf-next/master
-        git checkout 2486ab434b2c2a14e9237296db00b1e1b7ae3273
+        # https://github.com/avpatel/linux/commit/472607f8a84913ba6fda3fbda=
+42c963a1df9e411
+        git remote add avpatel https://github.com/avpatel/linux.git
+        git fetch --no-tags avpatel riscv_kvm_aia_v1
+        git checkout 472607f8a84913ba6fda3fbda42c963a1df9e411
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -52,108 +49,102 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/skbuff.h:2605:1: note: Returning without writing to 'skb->=
-end'
-   }
-   ^
-   net/ipv4/raw.c:376:2: note: Returning from 'skb_reserve'
-           skb_reserve(skb, hlen);
-           ^~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/raw.c:381:2: note: Calling 'skb_dst_set'
-           skb_dst_set(skb, &rt->dst);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:1131:21: note: 'dst' is non-null
-           skb->slow_gro |=3D !!dst;
-                              ^~~
-   include/linux/skbuff.h:1133:1: note: Returning without writing to 'skb->=
-end'
-   }
-   ^
-   net/ipv4/raw.c:381:2: note: Returning from 'skb_dst_set'
-           skb_dst_set(skb, &rt->dst);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/raw.c:384:2: note: Calling 'skb_reset_network_header'
-           skb_reset_network_header(skb);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2746:1: note: Returning without writing to 'skb->=
-end'
-   }
-   ^
-   net/ipv4/raw.c:384:2: note: Returning from 'skb_reset_network_header'
-           skb_reset_network_header(skb);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/raw.c:386:2: note: Value assigned to field 'end'
-           skb_put(skb, length);
-           ^~~~~~~~~~~~~~~~~~~~
-   net/ipv4/raw.c:390:2: note: Calling 'skb_setup_tx_timestamp'
-           skb_setup_tx_timestamp(skb, sockc->tsflags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2698:39: note: Passing value via 3rd parameter 'tx_fl=
-ags'
-           _sock_tx_timestamp(skb->sk, tsflags, &skb_shinfo(skb)->tx_flags,
-                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2698:2: note: Calling '_sock_tx_timestamp'
-           _sock_tx_timestamp(skb->sk, tsflags, &skb_shinfo(skb)->tx_flags,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2680:6: note: Assuming 'tsflags' is not equal to 0
-           if (unlikely(tsflags)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/net/sock.h:2680:2: note: Taking true branch
-           if (unlikely(tsflags)) {
+                   ^
+   drivers/dma-buf/dma-resv.c:165:18: note: '?' condition is false
+                   max =3D max(4ul, roundup_pow_of_two(num_fences));
+                                  ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __builtin_constant_p(n) ? (             \
            ^
-   include/net/sock.h:2682:7: note: Assuming the condition is true
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2682:7: note: Left side of '&&' is true
-   include/net/sock.h:2682:44: note: Assuming 'tskey' is null
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                                                            ^~~~~
-   include/net/sock.h:2682:7: note: Assuming pointer value is null
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2682:50: note: Left side of '&&' is false
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                                                                  ^
-   include/net/sock.h:2686:6: note: Assuming the condition is false
-           if (unlikely(sock_flag(sk, SOCK_WIFI_STATUS)))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/net/sock.h:2686:2: note: Taking true branch
-           if (unlikely(sock_flag(sk, SOCK_WIFI_STATUS)))
+   drivers/dma-buf/dma-resv.c:165:18: note: Calling '__roundup_pow_of_two'
+                   max =3D max(4ul, roundup_pow_of_two(num_fences));
+                                  ^
+   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __roundup_pow_of_two(n)                 \
            ^
-   include/net/sock.h:2687:13: note: Dereference of null pointer (loaded fr=
-om variable 'tx_flags')
-                   *tx_flags |=3D SKBTX_WIFI_STATUS;
-                    ~~~~~~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
+   include/linux/minmax.h:52:36: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ~~~~~~~~~~~~~~~~~^~~~~
+   include/linux/minmax.h:38:17: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:32:25: note: expanded from macro '__cmp_once'
+                   typeof(y) unique_y =3D (y);               \
+                                         ^
+   include/linux/log2.h:57:16: note: Calling 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/bitops.h:154:2: note: Taking true branch
+           if (sizeof(l) =3D=3D 4)
+           ^
+   include/linux/bitops.h:155:10: note: Calling 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
+           int r =3D 32;
+           ^~~~~
+   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
+o 0, which participates in a condition later
+           if (!x)
+               ^~
+   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
+           if (!x)
+           ^
+   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xffff0000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
+           if (!(x & 0xffff0000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xff000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
+           if (!(x & 0xff000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xf0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
+           if (!(x & 0xf0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0xc0000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
+           if (!(x & 0xc0000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
+alse
+           if (!(x & 0x80000000u)) {
+               ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
+           if (!(x & 0x80000000u)) {
+           ^
+   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
+ded from 'r')
+           return r;
+           ^~~~~~~~
+   include/linux/bitops.h:155:10: note: Returning from 'fls'
+                   return fls(l);
+                          ^~~~~~
+   include/linux/bitops.h:155:3: note: Returning the value 32
+                   return fls(l);
+                   ^~~~~~~~~~~~~
+   include/linux/log2.h:57:16: note: Returning from 'fls_long'
+           return 1UL << fls_long(n - 1);
+                         ^~~~~~~~~~~~~~~
+   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
+ned due to shifting by '32', which is greater or equal to the width of type=
+ 'unsigned long'
+           return 1UL << fls_long(n - 1);
+                      ^  ~~~~~~~~~~~~~~~
    Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -166,289 +157,368 @@ se -system-headers to display errors from system headers as well.
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
->> net/ipv4/tcp_bpf.c:354:4: warning: Argument to kfree() is the address of=
- the local variable 'tmp', which is not memory allocated by malloc() [clang=
--analyzer-unix.Malloc]
-                           kfree(msg);
-                           ^
-   net/ipv4/tcp_bpf.c:483:16: note: 'psock' is non-null
-           if (unlikely(!psock))
-                         ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   net/ipv4/tcp_bpf.c:483:2: note: Taking false branch
-           if (unlikely(!psock))
-           ^
-   net/ipv4/tcp_bpf.c:487:6: note: Assuming field 'cork' is null
-           if (psock->cork) {
-               ^~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:487:2: note: Taking false branch
-           if (psock->cork) {
-           ^
-   net/ipv4/tcp_bpf.c:495:2: note: Taking false branch
-           if (unlikely(sk_msg_full(msg)))
-           ^
-   net/ipv4/tcp_bpf.c:501:2: note: Taking false branch
-           if (sk_msg_full(msg))
-           ^
-   net/ipv4/tcp_bpf.c:503:6: note: Assuming field 'cork_bytes' is 0
-           if (psock->cork_bytes) {
-               ^~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:503:2: note: Taking false branch
-           if (psock->cork_bytes) {
-           ^
-   net/ipv4/tcp_bpf.c:515:8: note: Calling 'tcp_bpf_send_verdict'
-           err =3D tcp_bpf_send_verdict(sk, psock, msg, &copied, flags);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:287:6: note: Assuming field 'eval' is equal to __SK_N=
-ONE
-           if (psock->eval =3D=3D __SK_NONE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:287:2: note: Taking true branch
-           if (psock->eval =3D=3D __SK_NONE) {
-           ^
-   net/ipv4/tcp_bpf.c:298:6: note: Assuming field 'cork_bytes' is 0
-           if (msg->cork_bytes &&
-               ^~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:298:22: note: Left side of '&&' is false
-           if (msg->cork_bytes &&
-                               ^
-   net/ipv4/tcp_bpf.c:312:6: note: Assuming field 'apply_bytes' is not equa=
-l to 0
-           if (psock->apply_bytes && psock->apply_bytes < tosend)
-               ^~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:312:6: note: Left side of '&&' is true
-   net/ipv4/tcp_bpf.c:312:28: note: Assuming 'tosend' is <=3D field 'apply_=
-bytes'
-           if (psock->apply_bytes && psock->apply_bytes < tosend)
-                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:312:2: note: Taking false branch
-           if (psock->apply_bytes && psock->apply_bytes < tosend)
-           ^
-   net/ipv4/tcp_bpf.c:315:2: note: Control jumps to 'case __SK_REDIRECT:'  =
-at line 324
-           switch (psock->eval) {
-           ^
-   net/ipv4/tcp_bpf.c:327:7: note: Assuming field 'apply_bytes' is not equa=
-l to 0
-                   if (!psock->apply_bytes) {
-                       ^~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:327:3: note: Taking false branch
-                   if (!psock->apply_bytes) {
-                   ^
-   net/ipv4/tcp_bpf.c:333:7: note: Assuming field 'cork' is non-null
-                   if (psock->cork) {
-                       ^~~~~~~~~~~
-   net/ipv4/tcp_bpf.c:333:3: note: Taking true branch
-                   if (psock->cork) {
-                   ^
-   net/ipv4/tcp_bpf.c:342:7: note: 'eval' is not equal to __SK_REDIRECT
-                   if (eval =3D=3D __SK_REDIRECT)
-                       ^~~~
-   net/ipv4/tcp_bpf.c:342:3: note: Taking false branch
-                   if (eval =3D=3D __SK_REDIRECT)
-                   ^
-   net/ipv4/tcp_bpf.c:346:3: note: Taking true branch
-                   if (unlikely(ret < 0)) {
-                   ^
-   net/ipv4/tcp_bpf.c:349:9: note: 'cork' is true
-                           if (!cork)
-                                ^~~~
-   net/ipv4/tcp_bpf.c:349:4: note: Taking false branch
-                           if (!cork)
-                           ^
-   net/ipv4/tcp_bpf.c:352:7: note: 'cork' is true
-                   if (cork) {
-                       ^~~~
-   net/ipv4/tcp_bpf.c:352:3: note: Taking true branch
-                   if (cork) {
-                   ^
-   net/ipv4/tcp_bpf.c:354:4: note: Argument to kfree() is the address of th=
-e local variable 'tmp', which is not memory allocated by malloc()
-                           kfree(msg);
-                           ^     ~~~
+   Suppressed 4 warnings (2 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> arch/riscv/kvm/../../../virt/kvm/eventfd.c:392:2: warning: Value stored =
+to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   arch/riscv/kvm/../../../virt/kvm/eventfd.c:392:2: note: Value stored to =
+'ret' is never read
+           ret =3D 0;
+           ^     ~
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   drivers/soundwire/bus.c:1235:6: warning: The result of the left shift is=
- undefined due to shifting by '255', which is greater or equal to the width=
- of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           if (BIT(scale_index) !=3D scale || scale_index > 6) {
-               ^
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/base/cacheinfo.c:38:31: warning: Access to field 'fw_token' resu=
+lts in a dereference of a null pointer (loaded from variable 'this_leaf') [=
+clang-analyzer-core.NullDereference]
+           return sib_leaf->fw_token =3D=3D this_leaf->fw_token;
+                                        ^
+   drivers/base/cacheinfo.c:225:6: note: Assuming field 'cpu_map_populated'=
+ is false
+           if (this_cpu_ci->cpu_map_populated)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:225:2: note: Taking false branch
+           if (this_cpu_ci->cpu_map_populated)
+           ^
+   drivers/base/cacheinfo.c:228:2: note: Taking false branch
+           if (of_have_populated_dt())
+           ^
+   drivers/base/cacheinfo.c:230:7: note: Taking false branch
+           else if (!acpi_disabled)
+                ^
+   drivers/base/cacheinfo.c:233:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/base/cacheinfo.c:233:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/base/cacheinfo.c:236:26: note: Loop condition is false.  Exiting=
+ loop
+           for (index =3D 0; index < cache_leaves(cpu); index++) {
+                                   ^
+   drivers/base/cacheinfo.c:26:28: note: expanded from macro 'cache_leaves'
+   #define cache_leaves(cpu)       (ci_cacheinfo(cpu)->num_leaves)
+                                    ^
+   drivers/base/cacheinfo.c:25:29: note: expanded from macro 'ci_cacheinfo'
+   #define ci_cacheinfo(cpu)       (&per_cpu(ci_cpu_cacheinfo, cpu))
+                                     ^
+   include/linux/percpu-defs.h:269:29: note: expanded from macro 'per_cpu'
+   #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
+                                     ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   drivers/base/cacheinfo.c:236:18: note: Assuming 'index' is < field 'num_=
+leaves'
+           for (index =3D 0; index < cache_leaves(cpu); index++) {
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:236:2: note: Loop condition is true.  Entering =
+loop body
+           for (index =3D 0; index < cache_leaves(cpu); index++) {
+           ^
+   drivers/base/cacheinfo.c:241:8: note: Calling 'cpumask_empty'
+                   if (!cpumask_empty(&this_leaf->shared_cpu_map))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/cpumask.h:557:9: note: Calling 'bitmap_empty'
+           return bitmap_empty(cpumask_bits(srcp), nr_cpumask_bits);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:385:6: note: Left side of '&&' is false
+           if (small_const_nbits(nbits))
 
-vim +/tmp +354 net/ipv4/tcp_bpf.c
+vim +/ret +392 arch/riscv/kvm/../../../virt/kvm/eventfd.c
 
-c0fd336ea4ca82 YueHaibing      2020-03-20  276  =
+1a02b27035f820 Eric Auger            2015-09-18  292  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  277  static int tcp_bpf_send_ver=
-dict(struct sock *sk, struct sk_psock *psock,
-604326b41a6fb9 Daniel Borkmann 2018-10-13  278  				struct sk_msg *msg, int=
- *copied, int flags)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  279  {
-031097d9e079e4 Jakub Kicinski  2019-11-27  280  	bool cork =3D false, enosp=
-c =3D sk_msg_full(msg);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  281  	struct sock *sk_redir;
-7246d8ed4dcce2 John Fastabend  2018-11-26  282  	u32 tosend, delta =3D 0;
-cd9733f5d75c94 Liu Jian        2021-10-12  283  	u32 eval =3D __SK_NONE;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  284  	int ret;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  285  =
+721eecbf4fe995 Gregory Haskins       2009-05-20  293  static int
+d4db2935e4fffe Alex Williamson       2012-06-29  294  kvm_irqfd_assign(stru=
+ct kvm *kvm, struct kvm_irqfd *args)
+721eecbf4fe995 Gregory Haskins       2009-05-20  295  {
+166c9775f1f8b8 Eric Auger            2015-09-18  296  	struct kvm_kernel_ir=
+qfd *irqfd, *tmp;
+cffe78d92c217a Al Viro               2013-08-30  297  	struct fd f;
+7a84428af7ca6a Alex Williamson       2012-09-21  298  	struct eventfd_ctx *=
+eventfd =3D NULL, *resamplefd =3D NULL;
+721eecbf4fe995 Gregory Haskins       2009-05-20  299  	int ret;
+e6c8adca20ba45 Al Viro               2017-07-03  300  	__poll_t events;
+9957c86d659a4d Paul Mackerras        2014-06-30  301  	int idx;
+721eecbf4fe995 Gregory Haskins       2009-05-20  302  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  286  more_data:
-7246d8ed4dcce2 John Fastabend  2018-11-26  287  	if (psock->eval =3D=3D __S=
-K_NONE) {
-7246d8ed4dcce2 John Fastabend  2018-11-26  288  		/* Track delta in msg siz=
-e to add/subtract it on SK_DROP from
-7246d8ed4dcce2 John Fastabend  2018-11-26  289  		 * returned to user copie=
-d size. This ensures user doesn't
-7246d8ed4dcce2 John Fastabend  2018-11-26  290  		 * get a positive return =
-code with msg_cut_data and SK_DROP
-7246d8ed4dcce2 John Fastabend  2018-11-26  291  		 * verdict.
-7246d8ed4dcce2 John Fastabend  2018-11-26  292  		 */
-7246d8ed4dcce2 John Fastabend  2018-11-26  293  		delta =3D msg->sg.size;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  294  		psock->eval =3D sk_psock_=
-msg_verdict(sk, psock, msg);
-7246d8ed4dcce2 John Fastabend  2018-11-26  295  		delta -=3D msg->sg.size;
-7246d8ed4dcce2 John Fastabend  2018-11-26  296  	}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  297  =
+01c94e64f5a6f2 Eric Auger            2015-03-04  303  	if (!kvm_arch_intc_i=
+nitialized(kvm))
+01c94e64f5a6f2 Eric Auger            2015-03-04  304  		return -EAGAIN;
+01c94e64f5a6f2 Eric Auger            2015-03-04  305  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  298  	if (msg->cork_bytes &&
-604326b41a6fb9 Daniel Borkmann 2018-10-13  299  	    msg->cork_bytes > msg-=
->sg.size && !enospc) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  300  		psock->cork_bytes =3D msg=
-->cork_bytes - msg->sg.size;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  301  		if (!psock->cork) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  302  			psock->cork =3D kzalloc(=
-sizeof(*psock->cork),
-604326b41a6fb9 Daniel Borkmann 2018-10-13  303  					      GFP_ATOMIC | __G=
-FP_NOWARN);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  304  			if (!psock->cork)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  305  				return -ENOMEM;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  306  		}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  307  		memcpy(psock->cork, msg, =
-sizeof(*msg));
-604326b41a6fb9 Daniel Borkmann 2018-10-13  308  		return 0;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  309  	}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  310  =
+654f1f13ea56b9 Peter Xu              2019-05-05  306  	if (!kvm_arch_irqfd_=
+allowed(kvm, args))
+654f1f13ea56b9 Peter Xu              2019-05-05  307  		return -EINVAL;
+654f1f13ea56b9 Peter Xu              2019-05-05  308  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  311  	tosend =3D msg->sg.size;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  312  	if (psock->apply_bytes && =
-psock->apply_bytes < tosend)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  313  		tosend =3D psock->apply_b=
-ytes;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  314  =
+b12ce36a43f29d Ben Gardon            2019-02-11  309  	irqfd =3D kzalloc(si=
+zeof(*irqfd), GFP_KERNEL_ACCOUNT);
+721eecbf4fe995 Gregory Haskins       2009-05-20  310  	if (!irqfd)
+721eecbf4fe995 Gregory Haskins       2009-05-20  311  		return -ENOMEM;
+721eecbf4fe995 Gregory Haskins       2009-05-20  312  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  315  	switch (psock->eval) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  316  	case __SK_PASS:
-604326b41a6fb9 Daniel Borkmann 2018-10-13  317  		ret =3D tcp_bpf_push(sk, =
-msg, tosend, flags, true);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  318  		if (unlikely(ret)) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  319  			*copied -=3D sk_msg_free=
-(sk, msg);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  320  			break;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  321  		}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  322  		sk_msg_apply_bytes(psock,=
- tosend);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  323  		break;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  324  	case __SK_REDIRECT:
-604326b41a6fb9 Daniel Borkmann 2018-10-13  325  		sk_redir =3D psock->sk_re=
-dir;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  326  		sk_msg_apply_bytes(psock,=
- tosend);
-cd9733f5d75c94 Liu Jian        2021-10-12  327  		if (!psock->apply_bytes) {
-cd9733f5d75c94 Liu Jian        2021-10-12  328  			/* Clean up before relea=
-sing the sock lock. */
-cd9733f5d75c94 Liu Jian        2021-10-12  329  			eval =3D psock->eval;
-cd9733f5d75c94 Liu Jian        2021-10-12  330  			psock->eval =3D __SK_NON=
-E;
-cd9733f5d75c94 Liu Jian        2021-10-12  331  			psock->sk_redir =3D NULL;
-cd9733f5d75c94 Liu Jian        2021-10-12  332  		}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  333  		if (psock->cork) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  334  			cork =3D true;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  335  			psock->cork =3D NULL;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  336  		}
-84472b436e760b Wang Yufen      2022-03-04  337  		sk_msg_return(sk, msg, ms=
-g->sg.size);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  338  		release_sock(sk);
-cd9733f5d75c94 Liu Jian        2021-10-12  339  =
+721eecbf4fe995 Gregory Haskins       2009-05-20  313  	irqfd->kvm =3D kvm;
+d4db2935e4fffe Alex Williamson       2012-06-29  314  	irqfd->gsi =3D args-=
+>gsi;
+721eecbf4fe995 Gregory Haskins       2009-05-20  315  	INIT_LIST_HEAD(&irqf=
+d->list);
+721eecbf4fe995 Gregory Haskins       2009-05-20  316  	INIT_WORK(&irqfd->in=
+ject, irqfd_inject);
+721eecbf4fe995 Gregory Haskins       2009-05-20  317  	INIT_WORK(&irqfd->sh=
+utdown, irqfd_shutdown);
+5c73b9a2b1b4ec Ahmed S. Darwish      2020-07-20  318  	seqcount_spinlock_in=
+it(&irqfd->irq_entry_sc, &kvm->irqfds.lock);
+721eecbf4fe995 Gregory Haskins       2009-05-20  319  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  340  		ret =3D tcp_bpf_sendmsg_r=
-edir(sk_redir, msg, tosend, flags);
-cd9733f5d75c94 Liu Jian        2021-10-12  341  =
+cffe78d92c217a Al Viro               2013-08-30  320  	f =3D fdget(args->fd=
+);
+cffe78d92c217a Al Viro               2013-08-30  321  	if (!f.file) {
+cffe78d92c217a Al Viro               2013-08-30  322  		ret =3D -EBADF;
+cffe78d92c217a Al Viro               2013-08-30  323  		goto out;
+721eecbf4fe995 Gregory Haskins       2009-05-20  324  	}
+721eecbf4fe995 Gregory Haskins       2009-05-20  325  =
 
-cd9733f5d75c94 Liu Jian        2021-10-12  342  		if (eval =3D=3D __SK_REDI=
-RECT)
-cd9733f5d75c94 Liu Jian        2021-10-12  343  			sock_put(sk_redir);
-cd9733f5d75c94 Liu Jian        2021-10-12  344  =
+cffe78d92c217a Al Viro               2013-08-30  326  	eventfd =3D eventfd_=
+ctx_fileget(f.file);
+721eecbf4fe995 Gregory Haskins       2009-05-20  327  	if (IS_ERR(eventfd))=
+ {
+721eecbf4fe995 Gregory Haskins       2009-05-20  328  		ret =3D PTR_ERR(eve=
+ntfd);
+721eecbf4fe995 Gregory Haskins       2009-05-20  329  		goto fail;
+721eecbf4fe995 Gregory Haskins       2009-05-20  330  	}
+721eecbf4fe995 Gregory Haskins       2009-05-20  331  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  345  		lock_sock(sk);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  346  		if (unlikely(ret < 0)) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  347  			int free =3D sk_msg_free=
-_nocharge(sk, msg);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  348  =
+721eecbf4fe995 Gregory Haskins       2009-05-20  332  	irqfd->eventfd =3D e=
+ventfd;
+721eecbf4fe995 Gregory Haskins       2009-05-20  333  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  349  			if (!cork)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  350  				*copied -=3D free;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  351  		}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  352  		if (cork) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  353  			sk_msg_free(sk, msg);
-604326b41a6fb9 Daniel Borkmann 2018-10-13 @354  			kfree(msg);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  355  			msg =3D NULL;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  356  			ret =3D 0;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  357  		}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  358  		break;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  359  	case __SK_DROP:
-604326b41a6fb9 Daniel Borkmann 2018-10-13  360  	default:
-604326b41a6fb9 Daniel Borkmann 2018-10-13  361  		sk_msg_free_partial(sk, m=
-sg, tosend);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  362  		sk_msg_apply_bytes(psock,=
- tosend);
-7246d8ed4dcce2 John Fastabend  2018-11-26  363  		*copied -=3D (tosend + de=
-lta);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  364  		return -EACCES;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  365  	}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  366  =
+7a84428af7ca6a Alex Williamson       2012-09-21  334  	if (args->flags & KV=
+M_IRQFD_FLAG_RESAMPLE) {
+166c9775f1f8b8 Eric Auger            2015-09-18  335  		struct kvm_kernel_i=
+rqfd_resampler *resampler;
+7a84428af7ca6a Alex Williamson       2012-09-21  336  =
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  367  	if (likely(!ret)) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  368  		if (!psock->apply_bytes) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  369  			psock->eval =3D  __SK_NO=
-NE;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  370  			if (psock->sk_redir) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  371  				sock_put(psock->sk_redi=
-r);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  372  				psock->sk_redir =3D NUL=
-L;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  373  			}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  374  		}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  375  		if (msg &&
-604326b41a6fb9 Daniel Borkmann 2018-10-13  376  		    msg->sg.data[msg->sg.=
-start].page_link &&
-84472b436e760b Wang Yufen      2022-03-04  377  		    msg->sg.data[msg->sg.=
-start].length) {
-84472b436e760b Wang Yufen      2022-03-04  378  			if (eval =3D=3D __SK_RED=
-IRECT)
-84472b436e760b Wang Yufen      2022-03-04  379  				sk_mem_charge(sk, msg->=
-sg.size);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  380  			goto more_data;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  381  		}
-84472b436e760b Wang Yufen      2022-03-04  382  	}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  383  	return ret;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  384  }
-604326b41a6fb9 Daniel Borkmann 2018-10-13  385  =
+7a84428af7ca6a Alex Williamson       2012-09-21  337  		resamplefd =3D even=
+tfd_ctx_fdget(args->resamplefd);
+7a84428af7ca6a Alex Williamson       2012-09-21  338  		if (IS_ERR(resample=
+fd)) {
+7a84428af7ca6a Alex Williamson       2012-09-21  339  			ret =3D PTR_ERR(re=
+samplefd);
+7a84428af7ca6a Alex Williamson       2012-09-21  340  			goto fail;
+7a84428af7ca6a Alex Williamson       2012-09-21  341  		}
+7a84428af7ca6a Alex Williamson       2012-09-21  342  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  343  		irqfd->resamplefd =
+=3D resamplefd;
+7a84428af7ca6a Alex Williamson       2012-09-21  344  		INIT_LIST_HEAD(&irq=
+fd->resampler_link);
+7a84428af7ca6a Alex Williamson       2012-09-21  345  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  346  		mutex_lock(&kvm->ir=
+qfds.resampler_lock);
+7a84428af7ca6a Alex Williamson       2012-09-21  347  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  348  		list_for_each_entry=
+(resampler,
+49f8a1a5394d8b Alex Williamson       2012-12-06  349  				    &kvm->irqfds.=
+resampler_list, link) {
+7a84428af7ca6a Alex Williamson       2012-09-21  350  			if (resampler->not=
+ifier.gsi =3D=3D irqfd->gsi) {
+7a84428af7ca6a Alex Williamson       2012-09-21  351  				irqfd->resampler =
+=3D resampler;
+7a84428af7ca6a Alex Williamson       2012-09-21  352  				break;
+7a84428af7ca6a Alex Williamson       2012-09-21  353  			}
+7a84428af7ca6a Alex Williamson       2012-09-21  354  		}
+7a84428af7ca6a Alex Williamson       2012-09-21  355  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  356  		if (!irqfd->resampl=
+er) {
+b12ce36a43f29d Ben Gardon            2019-02-11  357  			resampler =3D kzal=
+loc(sizeof(*resampler),
+b12ce36a43f29d Ben Gardon            2019-02-11  358  					    GFP_KERNEL_A=
+CCOUNT);
+7a84428af7ca6a Alex Williamson       2012-09-21  359  			if (!resampler) {
+7a84428af7ca6a Alex Williamson       2012-09-21  360  				ret =3D -ENOMEM;
+7a84428af7ca6a Alex Williamson       2012-09-21  361  				mutex_unlock(&kvm=
+->irqfds.resampler_lock);
+7a84428af7ca6a Alex Williamson       2012-09-21  362  				goto fail;
+7a84428af7ca6a Alex Williamson       2012-09-21  363  			}
+7a84428af7ca6a Alex Williamson       2012-09-21  364  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  365  			resampler->kvm =3D=
+ kvm;
+7a84428af7ca6a Alex Williamson       2012-09-21  366  			INIT_LIST_HEAD(&re=
+sampler->list);
+7a84428af7ca6a Alex Williamson       2012-09-21  367  			resampler->notifie=
+r.gsi =3D irqfd->gsi;
+7a84428af7ca6a Alex Williamson       2012-09-21  368  			resampler->notifie=
+r.irq_acked =3D irqfd_resampler_ack;
+7a84428af7ca6a Alex Williamson       2012-09-21  369  			INIT_LIST_HEAD(&re=
+sampler->link);
+7a84428af7ca6a Alex Williamson       2012-09-21  370  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  371  			list_add(&resample=
+r->link, &kvm->irqfds.resampler_list);
+7a84428af7ca6a Alex Williamson       2012-09-21  372  			kvm_register_irq_a=
+ck_notifier(kvm,
+7a84428af7ca6a Alex Williamson       2012-09-21  373  						      &resample=
+r->notifier);
+7a84428af7ca6a Alex Williamson       2012-09-21  374  			irqfd->resampler =
+=3D resampler;
+7a84428af7ca6a Alex Williamson       2012-09-21  375  		}
+7a84428af7ca6a Alex Williamson       2012-09-21  376  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  377  		list_add_rcu(&irqfd=
+->resampler_link, &irqfd->resampler->list);
+719d93cd5f5c5c Christian Borntraeger 2014-01-16  378  		synchronize_srcu(&k=
+vm->irq_srcu);
+7a84428af7ca6a Alex Williamson       2012-09-21  379  =
+
+7a84428af7ca6a Alex Williamson       2012-09-21  380  		mutex_unlock(&kvm->=
+irqfds.resampler_lock);
+7a84428af7ca6a Alex Williamson       2012-09-21  381  	}
+7a84428af7ca6a Alex Williamson       2012-09-21  382  =
+
+721eecbf4fe995 Gregory Haskins       2009-05-20  383  	/*
+721eecbf4fe995 Gregory Haskins       2009-05-20  384  	 * Install our own c=
+ustom wake-up handling so we are notified via
+721eecbf4fe995 Gregory Haskins       2009-05-20  385  	 * a callback whenev=
+er someone signals the underlying eventfd
+721eecbf4fe995 Gregory Haskins       2009-05-20  386  	 */
+721eecbf4fe995 Gregory Haskins       2009-05-20  387  	init_waitqueue_func_=
+entry(&irqfd->wait, irqfd_wakeup);
+721eecbf4fe995 Gregory Haskins       2009-05-20  388  	init_poll_funcptr(&i=
+rqfd->pt, irqfd_ptable_queue_proc);
+721eecbf4fe995 Gregory Haskins       2009-05-20  389  =
+
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  390  	spin_lock_irq(&kvm->=
+irqfds.lock);
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  391  =
+
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13 @392  	ret =3D 0;
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  393  	list_for_each_entry(=
+tmp, &kvm->irqfds.items, list) {
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  394  		if (irqfd->eventfd =
+!=3D tmp->eventfd)
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  395  			continue;
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  396  		/* This fd is used =
+for another irq already. */
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  397  		ret =3D -EBUSY;
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  398  		spin_unlock_irq(&kv=
+m->irqfds.lock);
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  399  		goto fail;
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  400  	}
+f1d1c309f35e9b Michael S. Tsirkin    2010-01-13  401  =
+
+9957c86d659a4d Paul Mackerras        2014-06-30  402  	idx =3D srcu_read_lo=
+ck(&kvm->irq_srcu);
+9957c86d659a4d Paul Mackerras        2014-06-30  403  	irqfd_update(kvm, ir=
+qfd);
+bd2b53b20fcd0d Michael S. Tsirkin    2010-11-18  404  =
+
+721eecbf4fe995 Gregory Haskins       2009-05-20  405  	list_add_tail(&irqfd=
+->list, &kvm->irqfds.items);
+721eecbf4fe995 Gregory Haskins       2009-05-20  406  =
+
+684a0b719ddbba Cornelia Huck         2014-03-17  407  	spin_unlock_irq(&kvm=
+->irqfds.lock);
+684a0b719ddbba Cornelia Huck         2014-03-17  408  =
+
+721eecbf4fe995 Gregory Haskins       2009-05-20  409  	/*
+721eecbf4fe995 Gregory Haskins       2009-05-20  410  	 * Check if there wa=
+s an event already pending on the eventfd
+721eecbf4fe995 Gregory Haskins       2009-05-20  411  	 * before we registe=
+red, and trigger it as if we didn't miss it.
+721eecbf4fe995 Gregory Haskins       2009-05-20  412  	 */
+9965ed174e7d38 Christoph Hellwig     2018-03-05  413  	events =3D vfs_poll(=
+f.file, &irqfd->pt);
+684a0b719ddbba Cornelia Huck         2014-03-17  414  =
+
+a9a08845e9acbd Linus Torvalds        2018-02-11  415  	if (events & EPOLLIN)
+721eecbf4fe995 Gregory Haskins       2009-05-20  416  		schedule_work(&irqf=
+d->inject);
+721eecbf4fe995 Gregory Haskins       2009-05-20  417  =
 
 
-:::::: The code at line 354 was first introduced by commit
-:::::: 604326b41a6fb9b4a78b6179335decee0365cd8c bpf, sockmap: convert to ge=
-neric sk_msg interface
+:::::: The code at line 392 was first introduced by commit
+:::::: f1d1c309f35e9b0fb961cffd70fbd04f450ec47c KVM: only allow one gsi per=
+ fd
 
-:::::: TO: Daniel Borkmann <daniel@iogearbox.net>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+:::::: TO: Michael S. Tsirkin <mst@redhat.com>
+:::::: CC: Marcelo Tosatti <mtosatti@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1526285876333689956==--
+--===============9072139842531159658==--
 
