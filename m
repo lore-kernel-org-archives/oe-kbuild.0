@@ -1,200 +1,454 @@
-Content-Type: multipart/mixed; boundary="===============5925683309789204392=="
+Content-Type: multipart/mixed; boundary="===============1526285876333689956=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:brauner/linux/fs.idmapped.overlayfs 9/18] fs/overlayfs/inode.c:1184 ovl_get_inode() warn: variable dereferenced before check 'lowerdentry' (see line 1115)
-Date: Wed, 23 Mar 2022 10:16:35 +0800
-Message-ID: <202203231031.8n97zs3f-lkp@intel.com>
+Subject: [ammarfaizi2-block:bpf/bpf-next/master 186/270] net/ipv4/tcp_bpf.c:354:4: warning: Argument to kfree() is the address of the local variable 'tmp', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
+Date: Wed, 23 Mar 2022 09:35:49 +0800
+Message-ID: <202203230906.D7fHJVsd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5925683309789204392==
+--===============1526285876333689956==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Christian Brauner <brauner@kernel.org>
+TO: Wang Yufen <wangyufen@huawei.com>
+CC: Daniel Borkmann <daniel@iogearbox.net>
 
-tree:   https://github.com/ammarfaizi2/linux-block brauner/linux/fs.idmappe=
-d.overlayfs
-head:   c3ec1253a179e5f2141b49da212f86ee64b8d49d
-commit: 4d7eb3ec1e8ac09753cd97f2231f0dd2f23d5d7d [9/18] ovl: use ovl_path_g=
-etxattr()() wrapper
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: i386-randconfig-m021-20220321 (https://download.01.org/0day-ci/arch=
-ive/20220323/202203231031.8n97zs3f-lkp(a)intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+tree:   https://github.com/ammarfaizi2/linux-block bpf/bpf-next/master
+head:   7f0059b58f0257d895fafd2f2e3afe3bbdf21e64
+commit: 2486ab434b2c2a14e9237296db00b1e1b7ae3273 [186/270] bpf, sockmap: Fi=
+x double uncharge the mem of sk_msg
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 days ago
+config: riscv-randconfig-c006-20220322 (https://download.01.org/0day-ci/arc=
+hive/20220323/202203230906.D7fHJVsd-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
+08fe1d03b0de7e5315ef875006a6adc319)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/ammarfaizi2/linux-block/commit/2486ab434b2c2a1=
+4e9237296db00b1e1b7ae3273
+        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
+ux-block
+        git fetch --no-tags ammarfaizi2-block bpf/bpf-next/master
+        git checkout 2486ab434b2c2a14e9237296db00b1e1b7ae3273
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/overlayfs/inode.c:1184 ovl_get_inode() warn: variable dereferenced befor=
-e check 'lowerdentry' (see line 1115)
 
-Old smatch warnings:
-fs/overlayfs/inode.c:1109 ovl_get_inode() error: we previously assumed 'low=
-erpath' could be null (see line 1106)
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/skbuff.h:2605:1: note: Returning without writing to 'skb->=
+end'
+   }
+   ^
+   net/ipv4/raw.c:376:2: note: Returning from 'skb_reserve'
+           skb_reserve(skb, hlen);
+           ^~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/raw.c:381:2: note: Calling 'skb_dst_set'
+           skb_dst_set(skb, &rt->dst);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/skbuff.h:1131:21: note: 'dst' is non-null
+           skb->slow_gro |=3D !!dst;
+                              ^~~
+   include/linux/skbuff.h:1133:1: note: Returning without writing to 'skb->=
+end'
+   }
+   ^
+   net/ipv4/raw.c:381:2: note: Returning from 'skb_dst_set'
+           skb_dst_set(skb, &rt->dst);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/raw.c:384:2: note: Calling 'skb_reset_network_header'
+           skb_reset_network_header(skb);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/skbuff.h:2746:1: note: Returning without writing to 'skb->=
+end'
+   }
+   ^
+   net/ipv4/raw.c:384:2: note: Returning from 'skb_reset_network_header'
+           skb_reset_network_header(skb);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/raw.c:386:2: note: Value assigned to field 'end'
+           skb_put(skb, length);
+           ^~~~~~~~~~~~~~~~~~~~
+   net/ipv4/raw.c:390:2: note: Calling 'skb_setup_tx_timestamp'
+           skb_setup_tx_timestamp(skb, sockc->tsflags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:2698:39: note: Passing value via 3rd parameter 'tx_fl=
+ags'
+           _sock_tx_timestamp(skb->sk, tsflags, &skb_shinfo(skb)->tx_flags,
+                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:2698:2: note: Calling '_sock_tx_timestamp'
+           _sock_tx_timestamp(skb->sk, tsflags, &skb_shinfo(skb)->tx_flags,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:2680:6: note: Assuming 'tsflags' is not equal to 0
+           if (unlikely(tsflags)) {
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/net/sock.h:2680:2: note: Taking true branch
+           if (unlikely(tsflags)) {
+           ^
+   include/net/sock.h:2682:7: note: Assuming the condition is true
+                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:2682:7: note: Left side of '&&' is true
+   include/net/sock.h:2682:44: note: Assuming 'tskey' is null
+                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
+                                                            ^~~~~
+   include/net/sock.h:2682:7: note: Assuming pointer value is null
+                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/sock.h:2682:50: note: Left side of '&&' is false
+                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
+                                                                  ^
+   include/net/sock.h:2686:6: note: Assuming the condition is false
+           if (unlikely(sock_flag(sk, SOCK_WIFI_STATUS)))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/net/sock.h:2686:2: note: Taking true branch
+           if (unlikely(sock_flag(sk, SOCK_WIFI_STATUS)))
+           ^
+   include/net/sock.h:2687:13: note: Dereference of null pointer (loaded fr=
+om variable 'tx_flags')
+                   *tx_flags |=3D SKBTX_WIFI_STATUS;
+                    ~~~~~~~~ ^
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> net/ipv4/tcp_bpf.c:354:4: warning: Argument to kfree() is the address of=
+ the local variable 'tmp', which is not memory allocated by malloc() [clang=
+-analyzer-unix.Malloc]
+                           kfree(msg);
+                           ^
+   net/ipv4/tcp_bpf.c:483:16: note: 'psock' is non-null
+           if (unlikely(!psock))
+                         ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/ipv4/tcp_bpf.c:483:2: note: Taking false branch
+           if (unlikely(!psock))
+           ^
+   net/ipv4/tcp_bpf.c:487:6: note: Assuming field 'cork' is null
+           if (psock->cork) {
+               ^~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:487:2: note: Taking false branch
+           if (psock->cork) {
+           ^
+   net/ipv4/tcp_bpf.c:495:2: note: Taking false branch
+           if (unlikely(sk_msg_full(msg)))
+           ^
+   net/ipv4/tcp_bpf.c:501:2: note: Taking false branch
+           if (sk_msg_full(msg))
+           ^
+   net/ipv4/tcp_bpf.c:503:6: note: Assuming field 'cork_bytes' is 0
+           if (psock->cork_bytes) {
+               ^~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:503:2: note: Taking false branch
+           if (psock->cork_bytes) {
+           ^
+   net/ipv4/tcp_bpf.c:515:8: note: Calling 'tcp_bpf_send_verdict'
+           err =3D tcp_bpf_send_verdict(sk, psock, msg, &copied, flags);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:287:6: note: Assuming field 'eval' is equal to __SK_N=
+ONE
+           if (psock->eval =3D=3D __SK_NONE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:287:2: note: Taking true branch
+           if (psock->eval =3D=3D __SK_NONE) {
+           ^
+   net/ipv4/tcp_bpf.c:298:6: note: Assuming field 'cork_bytes' is 0
+           if (msg->cork_bytes &&
+               ^~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:298:22: note: Left side of '&&' is false
+           if (msg->cork_bytes &&
+                               ^
+   net/ipv4/tcp_bpf.c:312:6: note: Assuming field 'apply_bytes' is not equa=
+l to 0
+           if (psock->apply_bytes && psock->apply_bytes < tosend)
+               ^~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:312:6: note: Left side of '&&' is true
+   net/ipv4/tcp_bpf.c:312:28: note: Assuming 'tosend' is <=3D field 'apply_=
+bytes'
+           if (psock->apply_bytes && psock->apply_bytes < tosend)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:312:2: note: Taking false branch
+           if (psock->apply_bytes && psock->apply_bytes < tosend)
+           ^
+   net/ipv4/tcp_bpf.c:315:2: note: Control jumps to 'case __SK_REDIRECT:'  =
+at line 324
+           switch (psock->eval) {
+           ^
+   net/ipv4/tcp_bpf.c:327:7: note: Assuming field 'apply_bytes' is not equa=
+l to 0
+                   if (!psock->apply_bytes) {
+                       ^~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:327:3: note: Taking false branch
+                   if (!psock->apply_bytes) {
+                   ^
+   net/ipv4/tcp_bpf.c:333:7: note: Assuming field 'cork' is non-null
+                   if (psock->cork) {
+                       ^~~~~~~~~~~
+   net/ipv4/tcp_bpf.c:333:3: note: Taking true branch
+                   if (psock->cork) {
+                   ^
+   net/ipv4/tcp_bpf.c:342:7: note: 'eval' is not equal to __SK_REDIRECT
+                   if (eval =3D=3D __SK_REDIRECT)
+                       ^~~~
+   net/ipv4/tcp_bpf.c:342:3: note: Taking false branch
+                   if (eval =3D=3D __SK_REDIRECT)
+                   ^
+   net/ipv4/tcp_bpf.c:346:3: note: Taking true branch
+                   if (unlikely(ret < 0)) {
+                   ^
+   net/ipv4/tcp_bpf.c:349:9: note: 'cork' is true
+                           if (!cork)
+                                ^~~~
+   net/ipv4/tcp_bpf.c:349:4: note: Taking false branch
+                           if (!cork)
+                           ^
+   net/ipv4/tcp_bpf.c:352:7: note: 'cork' is true
+                   if (cork) {
+                       ^~~~
+   net/ipv4/tcp_bpf.c:352:3: note: Taking true branch
+                   if (cork) {
+                   ^
+   net/ipv4/tcp_bpf.c:354:4: note: Argument to kfree() is the address of th=
+e local variable 'tmp', which is not memory allocated by malloc()
+                           kfree(msg);
+                           ^     ~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/soundwire/bus.c:1235:6: warning: The result of the left shift is=
+ undefined due to shifting by '255', which is greater or equal to the width=
+ of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (BIT(scale_index) !=3D scale || scale_index > 6) {
+               ^
+   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
 
-vim +/lowerdentry +1184 fs/overlayfs/inode.c
+vim +/tmp +354 net/ipv4/tcp_bpf.c
 
-01b39dcc95680b Amir Goldstein    2018-05-11  1097  =
+c0fd336ea4ca82 YueHaibing      2020-03-20  276  =
 
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1098  struct inode *ovl_get_in=
-ode(struct super_block *sb,
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1099  			    struct ovl_inode_=
-params *oip)
-51f7e52dc94346 Miklos Szeredi    2016-07-29  1100  {
-610afc0bd40882 Miklos Szeredi    2020-09-02  1101  	struct ovl_fs *ofs =3D =
-OVL_FS(sb);
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1102  	struct dentry *upperden=
-try =3D oip->upperdentry;
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1103  	struct ovl_path *lowerp=
-ath =3D oip->lowerpath;
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1104  	struct inode *realinode=
- =3D upperdentry ? d_inode(upperdentry) : NULL;
-51f7e52dc94346 Miklos Szeredi    2016-07-29  1105  	struct inode *inode;
-12574a9f4c9cc9 Amir Goldstein    2018-03-16  1106  	struct dentry *lowerden=
-try =3D lowerpath ? lowerpath->dentry : NULL;
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1107  	bool bylower =3D ovl_ha=
-sh_bylower(sb, upperdentry, lowerdentry,
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1108  					oip->index);
-300b124fcf6ad2 Amir Goldstein    2019-11-19  1109  	int fsid =3D bylower ? =
-lowerpath->layer->fsid : 0;
-28166ab3c875b8 Vivek Goyal       2020-06-01  1110  	bool is_dir;
-695b46e76b6244 Amir Goldstein    2018-03-15  1111  	unsigned long ino =3D 0;
-acf3062a7e1ccf Amir Goldstein    2019-03-28  1112  	int err =3D oip->newino=
-de ? -EEXIST : -ENOMEM;
-6eaf011144af10 Amir Goldstein    2017-10-12  1113  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  277  static int tcp_bpf_send_ver=
+dict(struct sock *sk, struct sk_psock *psock,
+604326b41a6fb9 Daniel Borkmann 2018-10-13  278  				struct sk_msg *msg, int=
+ *copied, int flags)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  279  {
+031097d9e079e4 Jakub Kicinski  2019-11-27  280  	bool cork =3D false, enosp=
+c =3D sk_msg_full(msg);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  281  	struct sock *sk_redir;
+7246d8ed4dcce2 John Fastabend  2018-11-26  282  	u32 tosend, delta =3D 0;
+cd9733f5d75c94 Liu Jian        2021-10-12  283  	u32 eval =3D __SK_NONE;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  284  	int ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  285  =
 
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1114  	if (!realinode)
-09d8b586731bf5 Miklos Szeredi    2017-07-04 @1115  		realinode =3D d_inode(=
-lowerdentry);
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1116  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  286  more_data:
+7246d8ed4dcce2 John Fastabend  2018-11-26  287  	if (psock->eval =3D=3D __S=
+K_NONE) {
+7246d8ed4dcce2 John Fastabend  2018-11-26  288  		/* Track delta in msg siz=
+e to add/subtract it on SK_DROP from
+7246d8ed4dcce2 John Fastabend  2018-11-26  289  		 * returned to user copie=
+d size. This ensures user doesn't
+7246d8ed4dcce2 John Fastabend  2018-11-26  290  		 * get a positive return =
+code with msg_cut_data and SK_DROP
+7246d8ed4dcce2 John Fastabend  2018-11-26  291  		 * verdict.
+7246d8ed4dcce2 John Fastabend  2018-11-26  292  		 */
+7246d8ed4dcce2 John Fastabend  2018-11-26  293  		delta =3D msg->sg.size;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  294  		psock->eval =3D sk_psock_=
+msg_verdict(sk, psock, msg);
+7246d8ed4dcce2 John Fastabend  2018-11-26  295  		delta -=3D msg->sg.size;
+7246d8ed4dcce2 John Fastabend  2018-11-26  296  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  297  =
 
-6eaf011144af10 Amir Goldstein    2017-10-12  1117  	/*
-764baba80168ad Amir Goldstein    2018-02-04  1118  	 * Copy up origin (lowe=
-r) may exist for non-indexed upper, but we must
-764baba80168ad Amir Goldstein    2018-02-04  1119  	 * not use lower as has=
-h key if this is a broken hardlink.
-6eaf011144af10 Amir Goldstein    2017-10-12  1120  	 */
-31747eda41ef3c Amir Goldstein    2018-01-14  1121  	is_dir =3D S_ISDIR(real=
-inode->i_mode);
-764baba80168ad Amir Goldstein    2018-02-04  1122  	if (upperdentry || bylo=
-wer) {
-764baba80168ad Amir Goldstein    2018-02-04  1123  		struct inode *key =3D =
-d_inode(bylower ? lowerdentry :
-764baba80168ad Amir Goldstein    2018-02-04  1124  						      upperdentry);
-31747eda41ef3c Amir Goldstein    2018-01-14  1125  		unsigned int nlink =3D=
- is_dir ? 1 : realinode->i_nlink;
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1126  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  298  	if (msg->cork_bytes &&
+604326b41a6fb9 Daniel Borkmann 2018-10-13  299  	    msg->cork_bytes > msg-=
+>sg.size && !enospc) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  300  		psock->cork_bytes =3D msg=
+->cork_bytes - msg->sg.size;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  301  		if (!psock->cork) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  302  			psock->cork =3D kzalloc(=
+sizeof(*psock->cork),
+604326b41a6fb9 Daniel Borkmann 2018-10-13  303  					      GFP_ATOMIC | __G=
+FP_NOWARN);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  304  			if (!psock->cork)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  305  				return -ENOMEM;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  306  		}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  307  		memcpy(psock->cork, msg, =
+sizeof(*msg));
+604326b41a6fb9 Daniel Borkmann 2018-10-13  308  		return 0;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  309  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  310  =
 
-01b39dcc95680b Amir Goldstein    2018-05-11  1127  		inode =3D ovl_iget5(sb=
-, oip->newinode, key);
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1128  		if (!inode)
-027065b726434d Vivek Goyal       2018-05-11  1129  			goto out_err;
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1130  		if (!(inode->i_state &=
- I_NEW)) {
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1131  			/*
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1132  			 * Verify that the un=
-derlying files stored in the inode
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1133  			 * match those in the=
- dentry.
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1134  			 */
-4b91c30a5a1933 Amir Goldstein    2018-01-18  1135  			if (!ovl_verify_inode=
-(inode, lowerdentry, upperdentry,
-4b91c30a5a1933 Amir Goldstein    2018-01-18  1136  					      true)) {
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1137  				iput(inode);
-027065b726434d Vivek Goyal       2018-05-11  1138  				err =3D -ESTALE;
-027065b726434d Vivek Goyal       2018-05-11  1139  				goto out_err;
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1140  			}
-b9ac5c274b8c9d Miklos Szeredi    2017-07-04  1141  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  311  	tosend =3D msg->sg.size;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  312  	if (psock->apply_bytes && =
+psock->apply_bytes < tosend)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  313  		tosend =3D psock->apply_b=
+ytes;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  314  =
 
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1142  			dput(upperdentry);
-9cec54c83a8bab Vivek Goyal       2018-05-11  1143  			kfree(oip->redirect);
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1144  			goto out;
-09d8b586731bf5 Miklos Szeredi    2017-07-04  1145  		}
-e6d2ebddbc5205 Miklos Szeredi    2017-07-04  1146  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  315  	switch (psock->eval) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  316  	case __SK_PASS:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  317  		ret =3D tcp_bpf_push(sk, =
+msg, tosend, flags, true);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  318  		if (unlikely(ret)) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  319  			*copied -=3D sk_msg_free=
+(sk, msg);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  320  			break;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  321  		}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  322  		sk_msg_apply_bytes(psock,=
+ tosend);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  323  		break;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  324  	case __SK_REDIRECT:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  325  		sk_redir =3D psock->sk_re=
+dir;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  326  		sk_msg_apply_bytes(psock,=
+ tosend);
+cd9733f5d75c94 Liu Jian        2021-10-12  327  		if (!psock->apply_bytes) {
+cd9733f5d75c94 Liu Jian        2021-10-12  328  			/* Clean up before relea=
+sing the sock lock. */
+cd9733f5d75c94 Liu Jian        2021-10-12  329  			eval =3D psock->eval;
+cd9733f5d75c94 Liu Jian        2021-10-12  330  			psock->eval =3D __SK_NON=
+E;
+cd9733f5d75c94 Liu Jian        2021-10-12  331  			psock->sk_redir =3D NULL;
+cd9733f5d75c94 Liu Jian        2021-10-12  332  		}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  333  		if (psock->cork) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  334  			cork =3D true;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  335  			psock->cork =3D NULL;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  336  		}
+84472b436e760b Wang Yufen      2022-03-04  337  		sk_msg_return(sk, msg, ms=
+g->sg.size);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  338  		release_sock(sk);
+cd9733f5d75c94 Liu Jian        2021-10-12  339  =
 
-31747eda41ef3c Amir Goldstein    2018-01-14  1147  		/* Recalculate nlink f=
-or non-dir due to indexing */
-31747eda41ef3c Amir Goldstein    2018-01-14  1148  		if (!is_dir)
-610afc0bd40882 Miklos Szeredi    2020-09-02  1149  			nlink =3D ovl_get_nli=
-nk(ofs, lowerdentry, upperdentry,
-610afc0bd40882 Miklos Szeredi    2020-09-02  1150  					      nlink);
-5f8415d6b87ecb Amir Goldstein    2017-06-20  1151  		set_nlink(inode, nlink=
-);
-695b46e76b6244 Amir Goldstein    2018-03-15  1152  		ino =3D key->i_ino;
-e6d2ebddbc5205 Miklos Szeredi    2017-07-04  1153  	} else {
-764baba80168ad Amir Goldstein    2018-02-04  1154  		/* Lower hardlink that=
- will be broken on copy up */
-0aceb53e73befe Amir Goldstein    2017-12-12  1155  		inode =3D new_inode(sb=
-);
-027065b726434d Vivek Goyal       2018-05-11  1156  		if (!inode) {
-027065b726434d Vivek Goyal       2018-05-11  1157  			err =3D -ENOMEM;
-027065b726434d Vivek Goyal       2018-05-11  1158  			goto out_err;
-027065b726434d Vivek Goyal       2018-05-11  1159  		}
-300b124fcf6ad2 Amir Goldstein    2019-11-19  1160  		ino =3D realinode->i_i=
-no;
-300b124fcf6ad2 Amir Goldstein    2019-11-19  1161  		fsid =3D lowerpath->la=
-yer->fsid;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  1162  	}
-62c832ed4e1b67 Amir Goldstein    2019-11-19  1163  	ovl_fill_inode(inode, r=
-ealinode->i_mode, realinode->i_rdev);
-62c832ed4e1b67 Amir Goldstein    2019-11-19  1164  	ovl_inode_init(inode, o=
-ip, ino, fsid);
-13c72075ac9f5a Miklos Szeredi    2017-07-04  1165  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  340  		ret =3D tcp_bpf_sendmsg_r=
+edir(sk_redir, msg, tosend, flags);
+cd9733f5d75c94 Liu Jian        2021-10-12  341  =
 
-610afc0bd40882 Miklos Szeredi    2020-09-02  1166  	if (upperdentry && ovl_=
-is_impuredir(sb, upperdentry))
-13c72075ac9f5a Miklos Szeredi    2017-07-04  1167  		ovl_set_flag(OVL_IMPUR=
-E, inode);
-13c72075ac9f5a Miklos Szeredi    2017-07-04  1168  =
+cd9733f5d75c94 Liu Jian        2021-10-12  342  		if (eval =3D=3D __SK_REDI=
+RECT)
+cd9733f5d75c94 Liu Jian        2021-10-12  343  			sock_put(sk_redir);
+cd9733f5d75c94 Liu Jian        2021-10-12  344  =
 
-ac6a52eb65b532 Vivek Goyal       2018-05-08  1169  	if (oip->index)
-0471a9cdb00ff4 Vivek Goyal       2018-03-20  1170  		ovl_set_flag(OVL_INDEX=
-, inode);
-0471a9cdb00ff4 Vivek Goyal       2018-03-20  1171  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  345  		lock_sock(sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  346  		if (unlikely(ret < 0)) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  347  			int free =3D sk_msg_free=
+_nocharge(sk, msg);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  348  =
 
-9cec54c83a8bab Vivek Goyal       2018-05-11  1172  	OVL_I(inode)->redirect =
-=3D oip->redirect;
-9cec54c83a8bab Vivek Goyal       2018-05-11  1173  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  349  			if (!cork)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  350  				*copied -=3D free;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  351  		}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  352  		if (cork) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  353  			sk_msg_free(sk, msg);
+604326b41a6fb9 Daniel Borkmann 2018-10-13 @354  			kfree(msg);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  355  			msg =3D NULL;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  356  			ret =3D 0;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  357  		}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  358  		break;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  359  	case __SK_DROP:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  360  	default:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  361  		sk_msg_free_partial(sk, m=
+sg, tosend);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  362  		sk_msg_apply_bytes(psock,=
+ tosend);
+7246d8ed4dcce2 John Fastabend  2018-11-26  363  		*copied -=3D (tosend + de=
+lta);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  364  		return -EACCES;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  365  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  366  =
 
-a00c2d59e914b8 Vivek Goyal       2018-05-11  1174  	if (bylower)
-a00c2d59e914b8 Vivek Goyal       2018-05-11  1175  		ovl_set_flag(OVL_CONST=
-_INO, inode);
-a00c2d59e914b8 Vivek Goyal       2018-05-11  1176  =
+604326b41a6fb9 Daniel Borkmann 2018-10-13  367  	if (likely(!ret)) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  368  		if (!psock->apply_bytes) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  369  			psock->eval =3D  __SK_NO=
+NE;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  370  			if (psock->sk_redir) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  371  				sock_put(psock->sk_redi=
+r);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  372  				psock->sk_redir =3D NUL=
+L;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  373  			}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  374  		}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  375  		if (msg &&
+604326b41a6fb9 Daniel Borkmann 2018-10-13  376  		    msg->sg.data[msg->sg.=
+start].page_link &&
+84472b436e760b Wang Yufen      2022-03-04  377  		    msg->sg.data[msg->sg.=
+start].length) {
+84472b436e760b Wang Yufen      2022-03-04  378  			if (eval =3D=3D __SK_RED=
+IRECT)
+84472b436e760b Wang Yufen      2022-03-04  379  				sk_mem_charge(sk, msg->=
+sg.size);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  380  			goto more_data;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  381  		}
+84472b436e760b Wang Yufen      2022-03-04  382  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  383  	return ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  384  }
+604326b41a6fb9 Daniel Borkmann 2018-10-13  385  =
 
-b79e05aaa16675 Amir Goldstein    2017-06-25  1177  	/* Check for non-merge =
-dir that may have whiteouts */
-31747eda41ef3c Amir Goldstein    2018-01-14  1178  	if (is_dir) {
-4d7eb3ec1e8ac0 Christian Brauner 2022-03-22  1179  		struct path realpath =
-=3D {
-4d7eb3ec1e8ac0 Christian Brauner 2022-03-22  1180  			.dentry =3D upperdent=
-ry ?: lowerdentry,
-4d7eb3ec1e8ac0 Christian Brauner 2022-03-22  1181  			.mnt =3D upperdentry =
-? ovl_upper_mnt(ofs) : lowerpath->layer->mnt,
-4d7eb3ec1e8ac0 Christian Brauner 2022-03-22  1182  		};
-4d7eb3ec1e8ac0 Christian Brauner 2022-03-22  1183  =
 
-ac6a52eb65b532 Vivek Goyal       2018-05-08 @1184  		if (((upperdentry && l=
-owerdentry) || oip->numlower > 1) ||
+:::::: The code at line 354 was first introduced by commit
+:::::: 604326b41a6fb9b4a78b6179335decee0365cd8c bpf, sockmap: convert to ge=
+neric sk_msg interface
 
-:::::: The code at line 1184 was first introduced by commit
-:::::: ac6a52eb65b5327859135269c9374bf2ff731c9f ovl: Pass argument to ovl_g=
-et_inode() in a structure
-
-:::::: TO: Vivek Goyal <vgoyal@redhat.com>
-:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
+:::::: TO: Daniel Borkmann <daniel@iogearbox.net>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5925683309789204392==--
+--===============1526285876333689956==--
 
