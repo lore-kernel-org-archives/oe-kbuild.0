@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3039023802198723713=="
+Content-Type: multipart/mixed; boundary="===============6589847068061653698=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/2] Bluetooth: Add support for devcoredump
-Date: Thu, 24 Mar 2022 12:31:27 +0800
-Message-ID: <202203241228.EDfAR8zW-lkp@intel.com>
+Subject: Re: [PATCH v13 2/4] fs: split off do_getxattr from getxattr
+Date: Thu, 24 Mar 2022 11:50:25 +0800
+Message-ID: <202203241103.2NH9nYdb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3039023802198723713==
+--===============6589847068061653698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,56 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220320183225.1.Iaf638bb9f885f5880ab1b4e7ae2f73dd53a54661@=
-changeid>
-References: <20220320183225.1.Iaf638bb9f885f5880ab1b4e7ae2f73dd53a54661@c=
-hangeid>
-TO: Manish Mandlik <mmandlik@google.com>
-TO: marcel(a)holtmann.org
-TO: luiz.dentz(a)gmail.com
-CC: chromeos-bluetooth-upstreaming(a)chromium.org
-CC: linux-bluetooth(a)vger.kernel.org
-CC: "Abhishek Pandit-Subedi" <abhishekpandit@chromium.org>
-CC: Manish Mandlik <mmandlik@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Johan Hedberg <johan.hedberg@gmail.com>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: linux-kernel(a)vger.kernel.org
-CC: netdev(a)vger.kernel.org
+In-Reply-To: <20220323154420.3301504-3-shr@fb.com>
+References: <20220323154420.3301504-3-shr@fb.com>
+TO: Stefan Roesch <shr@fb.com>
 
-Hi Manish,
+Hi Stefan,
 
 Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master v5.17 next-20220323]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[auto build test WARNING on ad9c6ee642a61adae93dfa35582b5af16dc5173a]
 
-url:    https://github.com/0day-ci/linux/commits/Manish-Mandlik/Bluetooth-A=
-dd-support-for-devcoredump/20220321-093553
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
-.git master
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-324/202203241228.EDfAR8zW-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2=
-687a13d1908aa86d1b89c5ce398a06cd39)
+url:    https://github.com/0day-ci/linux/commits/Stefan-Roesch/io_uring-add=
+-xattr-support/20220323-234525
+base:   ad9c6ee642a61adae93dfa35582b5af16dc5173a
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20324/202203241103.2NH9nYdb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
+08fe1d03b0de7e5315ef875006a6adc319)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/ac170a5ea7c81e445f903d14d=
-ce2a5f92155d1ef
+        # https://github.com/0day-ci/linux/commit/3530c5a50c41155118a8783e9=
+8733f50d1950fa4
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Manish-Mandlik/Bluetooth-Add-suppo=
-rt-for-devcoredump/20220321-093553
-        git checkout ac170a5ea7c81e445f903d14dce2a5f92155d1ef
+        git fetch --no-tags linux-review Stefan-Roesch/io_uring-add-xattr-s=
+upport/20220323-234525
+        git checkout 3530c5a50c41155118a8783e98733f50d1950fa4
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -72,353 +54,257 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           strcpy(motu->card->mixername, motu->spec->name);
-           ^~~~~~
-   sound/firewire/motu/motu.c:46:2: note: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119
-           strcpy(motu->card->mixername, motu->spec->name);
-           ^~~~~~
-   1 warning generated.
-   sound/firewire/motu/motu-pcm.c:363:2: warning: Call to function 'strcpy'=
- is insecure as it does not provide bounding of the memory buffer. Replace =
-unbounded copy functions with analogous functions that support length argum=
-ents such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(pcm->name, motu->card->shortname);
-           ^~~~~~
-   sound/firewire/motu/motu-pcm.c:363:2: note: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119
-           strcpy(pcm->name, motu->card->shortname);
-           ^~~~~~
-   2 warnings generated.
-   sound/firewire/fireface/ff.c:31:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(ff->card->shortname, name);
-           ^~~~~~
-   sound/firewire/fireface/ff.c:31:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy(ff->card->shortname, name);
-           ^~~~~~
-   sound/firewire/fireface/ff.c:32:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(ff->card->mixername, name);
-           ^~~~~~
-   sound/firewire/fireface/ff.c:32:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy(ff->card->mixername, name);
-           ^~~~~~
-   1 warning generated.
-   sound/firewire/fireface/ff-hwdep.c:181:2: warning: Call to function 'str=
-cpy' is insecure as it does not provide bounding of the memory buffer. Repl=
-ace unbounded copy functions with analogous functions that support length a=
-rguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.st=
-rcpy]
-           strcpy(hwdep->name, ff->card->driver);
-           ^~~~~~
-   sound/firewire/fireface/ff-hwdep.c:181:2: note: Call to function 'strcpy=
-' is insecure as it does not provide bounding of the memory buffer. Replace=
- unbounded copy functions with analogous functions that support length argu=
-ments such as 'strlcpy'. CWE-119
-           strcpy(hwdep->name, ff->card->driver);
-           ^~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   fs/xfs/xfs_reflink.c:1154:3: warning: Value stored to 'qdelta' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   qdelta +=3D dmap->br_blockcount;
-                   ^         ~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_reflink.c:1154:3: note: Value stored to 'qdelta' is never read
-                   qdelta +=3D dmap->br_blockcount;
-                   ^         ~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/net/can/softing/softing_fw.c:531:3: warning: Value stored to 'er=
-ror_reporting' is never read [clang-analyzer-deadcode.DeadStores]
-                   error_reporting +=3D softing_error_reporting(netdev);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/softing/softing_fw.c:531:3: note: Value stored to 'error=
-_reporting' is never read
-                   error_reporting +=3D softing_error_reporting(netdev);
-                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
-   net/bluetooth/hci_core.c:891:2: warning: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(di.name, hdev->name);
-           ^~~~~~
-   net/bluetooth/hci_core.c:891:2: note: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119
-           strcpy(di.name, hdev->name);
-           ^~~~~~
->> net/bluetooth/hci_core.c:2467:2: warning: Value stored to 'ptr' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           ptr +=3D read;
-           ^      ~~~~
-   net/bluetooth/hci_core.c:2467:2: note: Value stored to 'ptr' is never re=
-ad
-           ptr +=3D read;
-           ^      ~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-regmap.c:372:4: warning: Value s=
-tored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                           err =3D 0;
-                           ^     ~
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-regmap.c:372:4: note: Value stor=
-ed to 'err' is never read
-                           err =3D 0;
-                           ^     ~
-   1 warning generated.
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-tef.c:152:34: warning: Value sto=
-red to 'tx_ring' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           const struct mcp251xfd_tx_ring *tx_ring =3D priv->tx;
-                                           ^~~~~~~   ~~~~~~~~
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-tef.c:152:34: note: Value stored=
- to 'tx_ring' during its initialization is never read
-           const struct mcp251xfd_tx_ring *tx_ring =3D priv->tx;
-                                           ^~~~~~~   ~~~~~~~~
-   1 warning generated.
-   sound/soc/codecs/da7213.c:1427:3: warning: Value stored to 'indiv' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   indiv =3D DA7213_PLL_INDIV_9_TO_18_MHZ_VAL;
+   fs/nfs/nfs4session.c:406:8: note: Calling 'nfs41_try_wake_next_slot_tabl=
+e_entry'
+                   if (!nfs41_try_wake_next_slot_table_entry(tbl))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:393:27: note: Calling 'nfs4_alloc_slot'
+           struct nfs4_slot *slot =3D nfs4_alloc_slot(tbl);
+                                    ^~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:247:2: note: Loop condition is false.  Exiting loop
+           dprintk("--> %s used_slots=3D%04lx highest_used=3D%u max_slots=
+=3D%u\n",
+           ^
+   include/linux/sunrpc/debug.h:25:2: note: expanded from macro 'dprintk'
+           dfprintk(FACILITY, fmt, ##__VA_ARGS__)
+           ^
+   include/linux/sunrpc/debug.h:70:34: note: expanded from macro 'dfprintk'
+   # define dfprintk(fac, fmt, ...)        do {} while (0)
+                                           ^
+   fs/nfs/nfs4session.c:251:6: note: Assuming 'slotid' is <=3D field 'max_s=
+lotid'
+           if (slotid <=3D tbl->max_slotid) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:251:2: note: Taking true branch
+           if (slotid <=3D tbl->max_slotid) {
+           ^
+   fs/nfs/nfs4session.c:252:9: note: Calling 'nfs4_find_or_create_slot'
+                   ret =3D nfs4_find_or_create_slot(tbl, slotid, 1, GFP_NOW=
+AIT);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/nfs/nfs4session.c:126:2: note: Loop condition is true.  Entering loop=
+ body
+           for (;;) {
+           ^
+   fs/nfs/nfs4session.c:127:7: note: Assuming the condition is true
+                   if (*p =3D=3D NULL) {
+                       ^~~~~~~~~~
+   fs/nfs/nfs4session.c:127:3: note: Taking true branch
+                   if (*p =3D=3D NULL) {
                    ^
-   sound/soc/codecs/da7213.c:1427:3: note: Value stored to 'indiv' is never=
- read
-   1 warning generated.
-   drivers/media/i2c/imx258.c:781:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx258.c:781:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D imx258_write_reg(imx258, IMX258_REG_TEST_PATTERN,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   sound/firewire/fireworks/fireworks.c:94:2: warning: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.s=
-trcpy]
-           strcpy(efw->card->shortname, hwinfo->model_name);
-           ^~~~~~
-   sound/firewire/fireworks/fireworks.c:94:2: note: Call to function 'strcp=
-y' is insecure as it does not provide bounding of the memory buffer. Replac=
-e unbounded copy functions with analogous functions that support length arg=
-uments such as 'strlcpy'. CWE-119
-           strcpy(efw->card->shortname, hwinfo->model_name);
-           ^~~~~~
-   sound/firewire/fireworks/fireworks.c:95:2: warning: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.s=
-trcpy]
-           strcpy(efw->card->mixername, hwinfo->model_name);
-           ^~~~~~
-   sound/firewire/fireworks/fireworks.c:95:2: note: Call to function 'strcp=
-y' is insecure as it does not provide bounding of the memory buffer. Replac=
-e unbounded copy functions with analogous functions that support length arg=
-uments such as 'strlcpy'. CWE-119
-           strcpy(efw->card->mixername, hwinfo->model_name);
-           ^~~~~~
-   1 warning generated.
-   drivers/input/rmi4/rmi_f11.c:1129:2: warning: Value stored to 'query_off=
-set' is never read [clang-analyzer-deadcode.DeadStores]
-           query_offset +=3D rc;
-           ^               ~~
-   drivers/input/rmi4/rmi_f11.c:1129:2: note: Value stored to 'query_offset=
-' is never read
-           query_offset +=3D rc;
-           ^               ~~
-   3 warnings generated.
-   drivers/input/rmi4/rmi_f12.c:133:3: warning: Value stored to 'offset' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   offset +=3D 1;
-                   ^         ~
-   drivers/input/rmi4/rmi_f12.c:133:3: note: Value stored to 'offset' is ne=
-ver read
-                   offset +=3D 1;
-                   ^         ~
-   drivers/input/rmi4/rmi_f12.c:401:2: warning: Value stored to 'query_addr=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           query_addr +=3D 3;
-           ^             ~
-   drivers/input/rmi4/rmi_f12.c:401:2: note: Value stored to 'query_addr' i=
-s never read
-           query_addr +=3D 3;
-           ^             ~
-   drivers/input/rmi4/rmi_f12.c:520:3: warning: Value stored to 'data_offse=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-                   data_offset +=3D item->reg_size;
-                   ^              ~~~~~~~~~~~~~~
-   drivers/input/rmi4/rmi_f12.c:520:3: note: Value stored to 'data_offset' =
-is never read
-                   data_offset +=3D item->reg_size;
-                   ^              ~~~~~~~~~~~~~~
-   2 warnings generated.
-   drivers/media/i2c/adv7170.c:361:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7170_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7170.c:361:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7170_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7170.c:362:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7170_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7170.c:362:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7170_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   drivers/media/i2c/adv7175.c:416:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7175_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7175.c:416:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7175_write(sd, 0x07, TR0MODE | TR0RST);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7175.c:417:3: warning: Value stored to 'i' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   i =3D adv7175_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/adv7175.c:417:3: note: Value stored to 'i' is never re=
-ad
-                   i =3D adv7175_write(sd, 0x07, TR0MODE);
-                   ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
+   fs/nfs/nfs4session.c:128:9: note: Calling 'nfs4_new_slot'
+                           *p =3D nfs4_new_slot(tbl, tbl->max_slots,
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:109:9: note: Calling 'kzalloc'
+           slot =3D kzalloc(sizeof(*slot), gfp_mask);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:714:9: note: Uninitialized value stored to field 'n=
+ext'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:109:9: note: Returning from 'kzalloc'
+           slot =3D kzalloc(sizeof(*slot), gfp_mask);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:110:6: note: Assuming 'slot' is non-null
+           if (slot) {
+               ^~~~
+   fs/nfs/nfs4session.c:110:2: note: Taking true branch
+           if (slot) {
+           ^
+   fs/nfs/nfs4session.c:128:9: note: Returning from 'nfs4_new_slot'
+                           *p =3D nfs4_new_slot(tbl, tbl->max_slots,
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:130:4: note: Taking false branch
+                           if (*p =3D=3D NULL)
+                           ^
+   fs/nfs/nfs4session.c:135:7: note: Assuming 'slotid' is not equal to fiel=
+d 'slot_nr'
+                   if (slot->slot_nr =3D=3D slotid)
+                       ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:135:3: note: Taking false branch
+                   if (slot->slot_nr =3D=3D slotid)
+                   ^
+   fs/nfs/nfs4session.c:126:2: note: Loop condition is true.  Entering loop=
+ body
+           for (;;) {
+           ^
+   fs/nfs/nfs4session.c:127:10: note: The left operand of '=3D=3D' is a gar=
+bage value
+                   if (*p =3D=3D NULL) {
+                       ~~ ^
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   fs/gfs2/file.c:794:3: warning: Value stored to 'pages' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   pages =3D min(pages, nr_dirtied);
+                   ^
+   fs/gfs2/file.c:794:3: note: Value stored to 'pages' is never read
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> fs/xattr.c:33:22: warning: Dereference of null pointer (loaded from vari=
+able 'a') [clang-analyzer-core.NullDereference]
+           while (*a_prefix && *a =3D=3D *a_prefix) {
+                               ^
+   fs/xattr.c:366:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/xattr.c:366:2: note: Taking false branch
+           if (error)
+           ^
+   fs/xattr.c:369:12: note: Calling 'xattr_resolve_name'
+           handler =3D xattr_resolve_name(inode, &name);
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xattr.c:61:6: note: Assuming the condition is false
+           if (!(inode->i_opflags & IOP_XATTR)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xattr.c:61:2: note: Taking false branch
+           if (!(inode->i_opflags & IOP_XATTR)) {
+           ^
+   fs/xattr.c:66:25: note: Assuming 'handlers' is non-null
+           for_each_xattr_handler(handlers, handler) {
+                                  ^
+   fs/xattr.c:47:6: note: expanded from macro 'for_each_xattr_handler'
+           if (handlers)                                           \
+               ^~~~~~~~
+   fs/xattr.c:66:2: note: Taking true branch
+           for_each_xattr_handler(handlers, handler) {
+           ^
+   fs/xattr.c:47:2: note: expanded from macro 'for_each_xattr_handler'
+           if (handlers)                                           \
+           ^
+   fs/xattr.c:66:2: note: Assuming 'handler' is not equal to null
+           for_each_xattr_handler(handlers, handler) {
+           ^
+   fs/xattr.c:49:4: note: expanded from macro 'for_each_xattr_handler'
+                           (handler) !=3D NULL;                      \
+                           ^~~~~~~~~~~~~~~~~
+   fs/xattr.c:66:2: note: Loop condition is true.  Entering loop body
+           for_each_xattr_handler(handlers, handler) {
+           ^
+   fs/xattr.c:48:3: note: expanded from macro 'for_each_xattr_handler'
+                   for ((handler) =3D *(handlers)++;                 \
+                   ^
+   fs/xattr.c:70:7: note: Assuming 'n' is null
+                   if (n) {
+                       ^
+   fs/xattr.c:70:3: note: Taking false branch
+                   if (n) {
+                   ^
+   fs/xattr.c:66:2: note: Assuming 'handler' is not equal to null
+           for_each_xattr_handler(handlers, handler) {
+           ^
+   fs/xattr.c:49:4: note: expanded from macro 'for_each_xattr_handler'
+                           (handler) !=3D NULL;                      \
+                           ^~~~~~~~~~~~~~~~~
+   fs/xattr.c:66:2: note: Loop condition is true.  Entering loop body
+           for_each_xattr_handler(handlers, handler) {
+           ^
+   fs/xattr.c:48:3: note: expanded from macro 'for_each_xattr_handler'
+                   for ((handler) =3D *(handlers)++;                 \
+                   ^
+   fs/xattr.c:69:21: note: Passing null pointer value via 1st parameter 'a'
+                   n =3D strcmp_prefix(*name, xattr_prefix(handler));
+                                     ^~~~~
+   fs/xattr.c:69:7: note: Calling 'strcmp_prefix'
+                   n =3D strcmp_prefix(*name, xattr_prefix(handler));
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xattr.c:33:9: note: Assuming the condition is true
+           while (*a_prefix && *a =3D=3D *a_prefix) {
+                  ^~~~~~~~~
+   fs/xattr.c:33:9: note: Left side of '&&' is true
+   fs/xattr.c:33:22: note: Dereference of null pointer (loaded from variabl=
+e 'a')
+           while (*a_prefix && *a =3D=3D *a_prefix) {
+                               ^~
+   include/linux/list.h:73:12: warning: Access to field 'next' results in a=
+ dereference of a null pointer (loaded from variable 'new') [clang-analyzer=
+-core.NullDereference]
+           new->next =3D next;
+                     ^
+   fs/xattr.c:1058:2: note: 'new_xattr' initialized to a null pointer value
+           struct simple_xattr *new_xattr =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xattr.c:1061:6: note: Assuming 'removed_size' is null
+           if (removed_size)
+               ^~~~~~~~~~~~
+   fs/xattr.c:1061:2: note: Taking false branch
+           if (removed_size)
+           ^
+   fs/xattr.c:1065:6: note: Assuming 'value' is null
+           if (value) {
+               ^~~~~
+   fs/xattr.c:1065:2: note: Taking false branch
+           if (value) {
+           ^
+   fs/xattr.c:1078:2: note: Loop condition is false. Execution continues on=
+ line 1095
+           list_for_each_entry(xattr, &xattrs->head, list) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   fs/xattr.c:1095:6: note: Assuming the condition is false
+           if (flags & XATTR_REPLACE) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   fs/xattr.c:1095:2: note: Taking false branch
 
-vim +/ptr +2467 net/bluetooth/hci_core.c
+vim +/a +33 fs/xattr.c
 
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2445  =
+a3c60330ecbee3 Stefan Roesch       2022-03-23  29  =
 
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2446  static int hci_devc=
-oredump_mkheader(struct hci_dev *hdev, char *buf,
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2447  				    size_t buf_=
-size)
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2448  {
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2449  	char *ptr =3D buf;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2450  	size_t rem =3D buf=
-_size;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2451  	size_t read =3D 0;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2452  =
-
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2453  	read =3D hci_devco=
-redump_update_hdr_state(ptr, rem, HCI_DEVCOREDUMP_IDLE);
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2454  	read +=3D 1; /* up=
-date_hdr_state adds \0 at the end upon state rewrite */
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2455  	rem -=3D read;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2456  	ptr +=3D read;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2457  =
-
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2458  	if (hdev->dump.dmp=
-_hdr) {
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2459  		/* dmp_hdr() shou=
-ld return number of bytes written */
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2460  		read =3D hdev->du=
-mp.dmp_hdr(hdev, ptr, rem);
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2461  		rem -=3D read;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2462  		ptr +=3D read;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2463  	}
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2464  =
-
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2465  	read =3D snprintf(=
-ptr, rem, "--- Start dump ---\n");
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2466  	rem -=3D read;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20 @2467  	ptr +=3D read;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2468  =
-
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2469  	return buf_size - =
-rem;
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2470  }
-ac170a5ea7c81e Abhishek Pandit-Subedi 2022-03-20  2471  =
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  30  static const char *
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  31  strcmp_prefix(const char=
+ *a, const char *a_prefix)
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  32  {
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29 @33  	while (*a_prefix && *a =
+=3D=3D *a_prefix) {
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  34  		a++;
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  35  		a_prefix++;
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  36  	}
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  37  	return *a_prefix ? NULL=
+ : a;
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  38  }
+b6ba11773d9535 Andreas Gruenbacher 2016-09-29  39  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3039023802198723713==--
+--===============6589847068061653698==--
 
