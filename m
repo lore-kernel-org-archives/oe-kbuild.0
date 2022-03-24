@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2768873220558752014=="
+Content-Type: multipart/mixed; boundary="===============3365167801484412722=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:dyndbg-next 6/7] lib/dynamic_debug.c:649:18: warning: Either the condition 'p' is redundant or there is overflow in pointer subtraction. [nullPointerArithmeticRedundantCheck]
-Date: Thu, 24 Mar 2022 23:54:36 +0800
-Message-ID: <202203242305.yF45ZOsR-lkp@intel.com>
+Subject: [jimc:dyndbg-next 6/7] include/linux/cpp_magic.h:224:9: sparse: this was the original definition
+Date: Thu, 24 Mar 2022 23:44:15 +0800
+Message-ID: <202203242303.jFVYHAkh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2768873220558752014==
+--===============3365167801484412722==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -22,116 +22,85 @@ commit: bd35fd3540c38d57ed3f80330e0f76417a4fa9e3 [6/7] dyndbg: WIP use symb=
 olic class names
 :::::: branch date: 9 hours ago
 :::::: commit date: 9 hours ago
-compiler: powerpc64-linux-gcc (GCC) 11.2.0
+config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/202=
+20324/202203242303.jFVYHAkh-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/jimc/linux/commit/bd35fd3540c38d57ed3f80330e0f=
+76417a4fa9e3
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dyndbg-next
+        git checkout bd35fd3540c38d57ed3f80330e0f76417a4fa9e3
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/media/tuners/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+sparse warnings: (new ones prefixed by >>)
+   drivers/media/tuners/xc4000.c: note: in included file:
+   drivers/media/tuners/tuner-xc2028-types.h:77:9: sparse: sparse: preproce=
+ssor token IF redefined
+   drivers/media/tuners/xc4000.c: note: in included file (through include/l=
+inux/dynamic_debug.h, include/linux/acpi.h, include/linux/i2c.h):
+>> include/linux/cpp_magic.h:224:9: sparse: this was the original definition
+--
+   drivers/media/tuners/tuner-xc2028.c: note: in included file:
+   drivers/media/tuners/tuner-xc2028-types.h:77:9: sparse: sparse: preproce=
+ssor token IF redefined
+   drivers/media/tuners/tuner-xc2028.c: note: in included file (through inc=
+lude/linux/dynamic_debug.h, include/linux/acpi.h, include/linux/i2c.h):
+>> include/linux/cpp_magic.h:224:9: sparse: this was the original definition
 
->> lib/dynamic_debug.c:649:18: warning: Either the condition 'p' is redunda=
-nt or there is overflow in pointer subtraction. [nullPointerArithmeticRedun=
-dantCheck]
-     } else if (*(p - 1) =3D=3D '!') {
-                    ^
-   lib/dynamic_debug.c:644:7: note: Assuming that condition 'p' is not redu=
-ndant
-     if (p)
-         ^
-   lib/dynamic_debug.c:649:18: note: Null pointer subtraction
-     } else if (*(p - 1) =3D=3D '!') {
-                    ^
->> lib/dynamic_debug.c:626:16: warning: Variable 'inbits' is not assigned a=
- value. [unassignedVariable]
-    unsigned long inbits;
-                  ^
->> lib/dynamic_debug.c:669:15: warning: Uninitialized variable: inbits [uni=
-nitvar]
-    *dcp->bits =3D inbits;
-                 ^
+vim +224 include/linux/cpp_magic.h
 
-vim +/p +649 lib/dynamic_debug.c
+24fbdc7f0df092 Jim Cromie 2022-03-20  207  =
 
-bd35fd3540c38d Jim Cromie 2022-03-21  623  =
+24fbdc7f0df092 Jim Cromie 2022-03-20  208  =
 
-bd35fd3540c38d Jim Cromie 2022-03-21  624  static int param_set_dyndbg_clas=
-ses(const char *instr, const struct kernel_param *kp)
-bd35fd3540c38d Jim Cromie 2022-03-21  625  {
-bd35fd3540c38d Jim Cromie 2022-03-21 @626  	unsigned long inbits;
-bd35fd3540c38d Jim Cromie 2022-03-21  627  	int idx_rc, matches =3D 0, totc=
-t =3D 0;
-bd35fd3540c38d Jim Cromie 2022-03-21  628  	char query[FMT_QUERY_SIZE];
-bd35fd3540c38d Jim Cromie 2022-03-21  629  	struct dyndbg_classbits_param *=
-dcp =3D kp->arg;
-bd35fd3540c38d Jim Cromie 2022-03-21  630  	bool negate;
-bd35fd3540c38d Jim Cromie 2022-03-21  631  	char *cls, *p;
-bd35fd3540c38d Jim Cromie 2022-03-21  632  =
+24fbdc7f0df092 Jim Cromie 2022-03-20  209  /**
+24fbdc7f0df092 Jim Cromie 2022-03-20  210   * Macro if statement. Usage:
+24fbdc7f0df092 Jim Cromie 2022-03-20  211   *
+24fbdc7f0df092 Jim Cromie 2022-03-20  212   *   IF(c)(expansion when true)
+24fbdc7f0df092 Jim Cromie 2022-03-20  213   *
+24fbdc7f0df092 Jim Cromie 2022-03-20  214   * Here's how:
+24fbdc7f0df092 Jim Cromie 2022-03-20  215   *
+24fbdc7f0df092 Jim Cromie 2022-03-20  216   * 1. The preprocessor expands t=
+he arguments to _IF casting the condition to '0'
+24fbdc7f0df092 Jim Cromie 2022-03-20  217   *    or '1'.
+24fbdc7f0df092 Jim Cromie 2022-03-20  218   * 2. The casted condition is co=
+ncatencated with _IF_ giving _IF_0 or _IF_1.
+24fbdc7f0df092 Jim Cromie 2022-03-20  219   * 3. The _IF_0 and _IF_1 macros=
+ either returns the argument or doesn't (e.g.
+24fbdc7f0df092 Jim Cromie 2022-03-20  220   *    they implement the "choice=
+ selection" part of the macro).
+24fbdc7f0df092 Jim Cromie 2022-03-20  221   * 4. Note that the "true" claus=
+e is in the extra set of brackets; thus these
+24fbdc7f0df092 Jim Cromie 2022-03-20  222   *    become the arguments to _I=
+F_0 or _IF_1 and thus a selection is made!
+24fbdc7f0df092 Jim Cromie 2022-03-20  223   */
+24fbdc7f0df092 Jim Cromie 2022-03-20 @224  #define IF(c) _IF(BOOL(c))
+24fbdc7f0df092 Jim Cromie 2022-03-20  225  #define _IF(c) CAT(_IF_,c)
+24fbdc7f0df092 Jim Cromie 2022-03-20  226  #define _IF_0(...)
+24fbdc7f0df092 Jim Cromie 2022-03-20  227  #define _IF_1(...) __VA_ARGS__
+24fbdc7f0df092 Jim Cromie 2022-03-20  228  =
 
-bd35fd3540c38d Jim Cromie 2022-03-21  633  	if (!dcp) {
-bd35fd3540c38d Jim Cromie 2022-03-21  634  		pr_err("set_dyndbg_classbits: =
-no bits=3D>queries map\n");
-bd35fd3540c38d Jim Cromie 2022-03-21  635  		return -EINVAL;
-bd35fd3540c38d Jim Cromie 2022-03-21  636  	}
-bd35fd3540c38d Jim Cromie 2022-03-21  637  	if (!dcp->class_names) {
-bd35fd3540c38d Jim Cromie 2022-03-21  638  		pr_err("module -get-classes: n=
-o classes\n");
-bd35fd3540c38d Jim Cromie 2022-03-21  639  		return -EINVAL;
-bd35fd3540c38d Jim Cromie 2022-03-21  640  	}
-bd35fd3540c38d Jim Cromie 2022-03-21  641  	cls =3D kstrdup(instr, GFP_KERN=
-EL);
-bd35fd3540c38d Jim Cromie 2022-03-21  642  =
 
-bd35fd3540c38d Jim Cromie 2022-03-21  643  	for (p =3D strchr(cls, ','); cl=
-s; cls =3D strchr(p, ',')) {
-bd35fd3540c38d Jim Cromie 2022-03-21  644  		if (p)
-bd35fd3540c38d Jim Cromie 2022-03-21  645  			*p++ =3D 0; /* chop and advan=
-ce on comma */
-bd35fd3540c38d Jim Cromie 2022-03-21  646  		if (*cls =3D=3D '!') {
-bd35fd3540c38d Jim Cromie 2022-03-21  647  			negate =3D true;
-bd35fd3540c38d Jim Cromie 2022-03-21  648  			cls++;
-bd35fd3540c38d Jim Cromie 2022-03-21 @649  		} else if (*(p - 1) =3D=3D '!'=
-) {
-bd35fd3540c38d Jim Cromie 2022-03-21  650  			negate =3D true;
-bd35fd3540c38d Jim Cromie 2022-03-21  651  			*(p - 1) =3D '0';
-bd35fd3540c38d Jim Cromie 2022-03-21  652  		}
-bd35fd3540c38d Jim Cromie 2022-03-21  653  		idx_rc =3D match_string(dcp->c=
-lass_names, _DPRINTK_CLASS_DFLT, cls);
-bd35fd3540c38d Jim Cromie 2022-03-21  654  		if (idx_rc < 0) {
-bd35fd3540c38d Jim Cromie 2022-03-21  655  			pr_err("%s not found for modu=
-le: %s\n", cls, KP_MOD_NAME);
-bd35fd3540c38d Jim Cromie 2022-03-21  656  			return idx_rc;
-bd35fd3540c38d Jim Cromie 2022-03-21  657  		}
-bd35fd3540c38d Jim Cromie 2022-03-21  658  		if (negate =3D=3D test_bit(idx=
-_rc, dcp->bits))
-bd35fd3540c38d Jim Cromie 2022-03-21  659  			continue;
-bd35fd3540c38d Jim Cromie 2022-03-21  660  =
+:::::: The code at line 224 was first introduced by commit
+:::::: 24fbdc7f0df092d60d756acb563d188b95ee0ac2 dyndbg: add cpp-magic heade=
+r for MAP macro
 
-bd35fd3540c38d Jim Cromie 2022-03-21  661  		snprintf(query, FMT_QUERY_SIZE=
-, "class %s %c%s",
-bd35fd3540c38d Jim Cromie 2022-03-21  662  			 cls, !!negate ? '-' : '+', d=
-cp->flags);
-bd35fd3540c38d Jim Cromie 2022-03-21  663  =
-
-bd35fd3540c38d Jim Cromie 2022-03-21  664  		matches =3D ddebug_exec_querie=
-s(query, KP_MOD_NAME);
-bd35fd3540c38d Jim Cromie 2022-03-21  665  =
-
-bd35fd3540c38d Jim Cromie 2022-03-21  666  		v2pr_info("%d matches on class=
-:%s\n", matches, cls);
-bd35fd3540c38d Jim Cromie 2022-03-21  667  		totct +=3D matches;
-bd35fd3540c38d Jim Cromie 2022-03-21  668  	}
-bd35fd3540c38d Jim Cromie 2022-03-21 @669  	*dcp->bits =3D inbits;
-bd35fd3540c38d Jim Cromie 2022-03-21  670  	vpr_info("total matches: %d\n",=
- totct);
-bd35fd3540c38d Jim Cromie 2022-03-21  671  	return 0;
-bd35fd3540c38d Jim Cromie 2022-03-21  672  }
-bd35fd3540c38d Jim Cromie 2022-03-21  673  =
-
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2768873220558752014==--
+--===============3365167801484412722==--
 
