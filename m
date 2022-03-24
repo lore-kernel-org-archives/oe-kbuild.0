@@ -1,310 +1,245 @@
-Content-Type: multipart/mixed; boundary="===============6589847068061653698=="
+Content-Type: multipart/mixed; boundary="===============5557080208794133267=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v13 2/4] fs: split off do_getxattr from getxattr
-Date: Thu, 24 Mar 2022 11:50:25 +0800
-Message-ID: <202203241103.2NH9nYdb-lkp@intel.com>
+Subject: kernel/bpf/bpf_struct_ops.c:121 bpf_struct_ops_init() warn: we never enter this loop
+Date: Thu, 24 Mar 2022 10:19:22 +0800
+Message-ID: <202203241036.E8iU1jkJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6589847068061653698==
+--===============5557080208794133267==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220323154420.3301504-3-shr@fb.com>
-References: <20220323154420.3301504-3-shr@fb.com>
-TO: Stefan Roesch <shr@fb.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Daniel Borkmann <daniel@iogearbox.net>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-Hi Stefan,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on ad9c6ee642a61adae93dfa35582b5af16dc5173a]
-
-url:    https://github.com/0day-ci/linux/commits/Stefan-Roesch/io_uring-add=
--xattr-support/20220323-234525
-base:   ad9c6ee642a61adae93dfa35582b5af16dc5173a
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20324/202203241103.2NH9nYdb-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
-08fe1d03b0de7e5315ef875006a6adc319)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/3530c5a50c41155118a8783e9=
-8733f50d1950fa4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Stefan-Roesch/io_uring-add-xattr-s=
-upport/20220323-234525
-        git checkout 3530c5a50c41155118a8783e98733f50d1950fa4
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d51b1b33c51d147b757f042b4d336603b699f362
+commit: b24abcff918a5cbf44b0c982bd3477a93e8e4911 bpf, kconfig: Add consolid=
+ated menu entry for bpf with core options
+date:   11 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 11 months ago
+config: arm-randconfig-m031-20220323 (https://download.01.org/0day-ci/archi=
+ve/20220324/202203241036.E8iU1jkJ-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+kernel/bpf/bpf_struct_ops.c:121 bpf_struct_ops_init() warn: we never enter =
+this loop
+kernel/bpf/bpf_struct_ops.c:208 bpf_struct_ops_find_value() warn: we never =
+enter this loop
+kernel/bpf/bpf_struct_ops.c:223 bpf_struct_ops_find() warn: we never enter =
+this loop
+
+vim +121 kernel/bpf/bpf_struct_ops.c
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  113  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  114  	module_id =3D btf_find_b=
+y_name_kind(btf, "module", BTF_KIND_STRUCT);
+85d33df357b6346 Martin KaFai Lau 2020-01-08  115  	if (module_id < 0) {
+85d33df357b6346 Martin KaFai Lau 2020-01-08  116  		pr_warn("Cannot find st=
+ruct module in btf_vmlinux\n");
+85d33df357b6346 Martin KaFai Lau 2020-01-08  117  		return;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  118  	}
+85d33df357b6346 Martin KaFai Lau 2020-01-08  119  	module_type =3D btf_type=
+_by_id(btf, module_id);
+85d33df357b6346 Martin KaFai Lau 2020-01-08  120  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08 @121  	for (i =3D 0; i < ARRAY_=
+SIZE(bpf_struct_ops); i++) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  122  		st_ops =3D bpf_struct_o=
+ps[i];
+27ae7997a66174c Martin KaFai Lau 2020-01-08  123  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  124  		if (strlen(st_ops->name=
+) + VALUE_PREFIX_LEN >=3D
+85d33df357b6346 Martin KaFai Lau 2020-01-08  125  		    sizeof(value_name))=
+ {
+85d33df357b6346 Martin KaFai Lau 2020-01-08  126  			pr_warn("struct_ops na=
+me %s is too long\n",
+85d33df357b6346 Martin KaFai Lau 2020-01-08  127  				st_ops->name);
+85d33df357b6346 Martin KaFai Lau 2020-01-08  128  			continue;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  129  		}
+85d33df357b6346 Martin KaFai Lau 2020-01-08  130  		sprintf(value_name, "%s=
+%s", VALUE_PREFIX, st_ops->name);
+85d33df357b6346 Martin KaFai Lau 2020-01-08  131  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  132  		value_id =3D btf_find_b=
+y_name_kind(btf, value_name,
+85d33df357b6346 Martin KaFai Lau 2020-01-08  133  						 BTF_KIND_STRUCT);
+85d33df357b6346 Martin KaFai Lau 2020-01-08  134  		if (value_id < 0) {
+85d33df357b6346 Martin KaFai Lau 2020-01-08  135  			pr_warn("Cannot find s=
+truct %s in btf_vmlinux\n",
+85d33df357b6346 Martin KaFai Lau 2020-01-08  136  				value_name);
+85d33df357b6346 Martin KaFai Lau 2020-01-08  137  			continue;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  138  		}
+85d33df357b6346 Martin KaFai Lau 2020-01-08  139  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  140  		type_id =3D btf_find_by=
+_name_kind(btf, st_ops->name,
+27ae7997a66174c Martin KaFai Lau 2020-01-08  141  						BTF_KIND_STRUCT);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  142  		if (type_id < 0) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  143  			pr_warn("Cannot find s=
+truct %s in btf_vmlinux\n",
+27ae7997a66174c Martin KaFai Lau 2020-01-08  144  				st_ops->name);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  145  			continue;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  146  		}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  147  		t =3D btf_type_by_id(bt=
+f, type_id);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  148  		if (btf_type_vlen(t) > =
+BPF_STRUCT_OPS_MAX_NR_MEMBERS) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  149  			pr_warn("Cannot suppor=
+t #%u members in struct %s\n",
+27ae7997a66174c Martin KaFai Lau 2020-01-08  150  				btf_type_vlen(t), st_=
+ops->name);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  151  			continue;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  152  		}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  153  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  154  		for_each_member(j, t, m=
+ember) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  155  			const struct btf_type =
+*func_proto;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  156  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  157  			mname =3D btf_name_by_=
+offset(btf, member->name_off);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  158  			if (!*mname) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  159  				pr_warn("anon member =
+in struct %s is not supported\n",
+27ae7997a66174c Martin KaFai Lau 2020-01-08  160  					st_ops->name);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  161  				break;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  162  			}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  163  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  164  			if (btf_member_bitfiel=
+d_size(t, member)) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  165  				pr_warn("bit field me=
+mber %s in struct %s is not supported\n",
+27ae7997a66174c Martin KaFai Lau 2020-01-08  166  					mname, st_ops->name);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  167  				break;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  168  			}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  169  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  170  			func_proto =3D btf_typ=
+e_resolve_func_ptr(btf,
+27ae7997a66174c Martin KaFai Lau 2020-01-08  171  							       member->typ=
+e,
+27ae7997a66174c Martin KaFai Lau 2020-01-08  172  							       NULL);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  173  			if (func_proto &&
+d3e42bb0a329fad Martin KaFai Lau 2020-01-27  174  			    btf_distill_func_p=
+roto(log, btf,
+27ae7997a66174c Martin KaFai Lau 2020-01-08  175  						   func_proto, mnam=
+e,
+27ae7997a66174c Martin KaFai Lau 2020-01-08  176  						   &st_ops->func_mo=
+dels[j])) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  177  				pr_warn("Error in par=
+sing func ptr %s in struct %s\n",
+27ae7997a66174c Martin KaFai Lau 2020-01-08  178  					mname, st_ops->name);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  179  				break;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  180  			}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  181  		}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  182  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  183  		if (j =3D=3D btf_type_v=
+len(t)) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  184  			if (st_ops->init(btf))=
+ {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  185  				pr_warn("Error in ini=
+t bpf_struct_ops %s\n",
+27ae7997a66174c Martin KaFai Lau 2020-01-08  186  					st_ops->name);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  187  			} else {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  188  				st_ops->type_id =3D t=
+ype_id;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  189  				st_ops->type =3D t;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  190  				st_ops->value_id =3D =
+value_id;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  191  				st_ops->value_type =
+=3D btf_type_by_id(btf,
+85d33df357b6346 Martin KaFai Lau 2020-01-08  192  								    value_id);
+27ae7997a66174c Martin KaFai Lau 2020-01-08  193  			}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  194  		}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  195  	}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  196  }
+27ae7997a66174c Martin KaFai Lau 2020-01-08  197  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  198  extern struct btf *btf_vm=
+linux;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  199  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  200  static const struct bpf_s=
+truct_ops *
+85d33df357b6346 Martin KaFai Lau 2020-01-08  201  bpf_struct_ops_find_value=
+(u32 value_id)
+85d33df357b6346 Martin KaFai Lau 2020-01-08  202  {
+85d33df357b6346 Martin KaFai Lau 2020-01-08  203  	unsigned int i;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  204  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  205  	if (!value_id || !btf_vm=
+linux)
+85d33df357b6346 Martin KaFai Lau 2020-01-08  206  		return NULL;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  207  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08 @208  	for (i =3D 0; i < ARRAY_=
+SIZE(bpf_struct_ops); i++) {
+85d33df357b6346 Martin KaFai Lau 2020-01-08  209  		if (bpf_struct_ops[i]->=
+value_id =3D=3D value_id)
+85d33df357b6346 Martin KaFai Lau 2020-01-08  210  			return bpf_struct_ops[=
+i];
+85d33df357b6346 Martin KaFai Lau 2020-01-08  211  	}
+85d33df357b6346 Martin KaFai Lau 2020-01-08  212  =
+
+85d33df357b6346 Martin KaFai Lau 2020-01-08  213  	return NULL;
+85d33df357b6346 Martin KaFai Lau 2020-01-08  214  }
+85d33df357b6346 Martin KaFai Lau 2020-01-08  215  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  216  const struct bpf_struct_o=
+ps *bpf_struct_ops_find(u32 type_id)
+27ae7997a66174c Martin KaFai Lau 2020-01-08  217  {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  218  	unsigned int i;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  219  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  220  	if (!type_id || !btf_vml=
+inux)
+27ae7997a66174c Martin KaFai Lau 2020-01-08  221  		return NULL;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  222  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08 @223  	for (i =3D 0; i < ARRAY_=
+SIZE(bpf_struct_ops); i++) {
+27ae7997a66174c Martin KaFai Lau 2020-01-08  224  		if (bpf_struct_ops[i]->=
+type_id =3D=3D type_id)
+27ae7997a66174c Martin KaFai Lau 2020-01-08  225  			return bpf_struct_ops[=
+i];
+27ae7997a66174c Martin KaFai Lau 2020-01-08  226  	}
+27ae7997a66174c Martin KaFai Lau 2020-01-08  227  =
+
+27ae7997a66174c Martin KaFai Lau 2020-01-08  228  	return NULL;
+27ae7997a66174c Martin KaFai Lau 2020-01-08  229  }
+85d33df357b6346 Martin KaFai Lau 2020-01-08  230  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   fs/nfs/nfs4session.c:406:8: note: Calling 'nfs41_try_wake_next_slot_tabl=
-e_entry'
-                   if (!nfs41_try_wake_next_slot_table_entry(tbl))
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:393:27: note: Calling 'nfs4_alloc_slot'
-           struct nfs4_slot *slot =3D nfs4_alloc_slot(tbl);
-                                    ^~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:247:2: note: Loop condition is false.  Exiting loop
-           dprintk("--> %s used_slots=3D%04lx highest_used=3D%u max_slots=
-=3D%u\n",
-           ^
-   include/linux/sunrpc/debug.h:25:2: note: expanded from macro 'dprintk'
-           dfprintk(FACILITY, fmt, ##__VA_ARGS__)
-           ^
-   include/linux/sunrpc/debug.h:70:34: note: expanded from macro 'dfprintk'
-   # define dfprintk(fac, fmt, ...)        do {} while (0)
-                                           ^
-   fs/nfs/nfs4session.c:251:6: note: Assuming 'slotid' is <=3D field 'max_s=
-lotid'
-           if (slotid <=3D tbl->max_slotid) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:251:2: note: Taking true branch
-           if (slotid <=3D tbl->max_slotid) {
-           ^
-   fs/nfs/nfs4session.c:252:9: note: Calling 'nfs4_find_or_create_slot'
-                   ret =3D nfs4_find_or_create_slot(tbl, slotid, 1, GFP_NOW=
-AIT);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   fs/nfs/nfs4session.c:126:2: note: Loop condition is true.  Entering loop=
- body
-           for (;;) {
-           ^
-   fs/nfs/nfs4session.c:127:7: note: Assuming the condition is true
-                   if (*p =3D=3D NULL) {
-                       ^~~~~~~~~~
-   fs/nfs/nfs4session.c:127:3: note: Taking true branch
-                   if (*p =3D=3D NULL) {
-                   ^
-   fs/nfs/nfs4session.c:128:9: note: Calling 'nfs4_new_slot'
-                           *p =3D nfs4_new_slot(tbl, tbl->max_slots,
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:109:9: note: Calling 'kzalloc'
-           slot =3D kzalloc(sizeof(*slot), gfp_mask);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:714:9: note: Uninitialized value stored to field 'n=
-ext'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:109:9: note: Returning from 'kzalloc'
-           slot =3D kzalloc(sizeof(*slot), gfp_mask);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:110:6: note: Assuming 'slot' is non-null
-           if (slot) {
-               ^~~~
-   fs/nfs/nfs4session.c:110:2: note: Taking true branch
-           if (slot) {
-           ^
-   fs/nfs/nfs4session.c:128:9: note: Returning from 'nfs4_new_slot'
-                           *p =3D nfs4_new_slot(tbl, tbl->max_slots,
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:130:4: note: Taking false branch
-                           if (*p =3D=3D NULL)
-                           ^
-   fs/nfs/nfs4session.c:135:7: note: Assuming 'slotid' is not equal to fiel=
-d 'slot_nr'
-                   if (slot->slot_nr =3D=3D slotid)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/nfs4session.c:135:3: note: Taking false branch
-                   if (slot->slot_nr =3D=3D slotid)
-                   ^
-   fs/nfs/nfs4session.c:126:2: note: Loop condition is true.  Entering loop=
- body
-           for (;;) {
-           ^
-   fs/nfs/nfs4session.c:127:10: note: The left operand of '=3D=3D' is a gar=
-bage value
-                   if (*p =3D=3D NULL) {
-                       ~~ ^
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/gfs2/file.c:794:3: warning: Value stored to 'pages' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                   pages =3D min(pages, nr_dirtied);
-                   ^
-   fs/gfs2/file.c:794:3: note: Value stored to 'pages' is never read
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> fs/xattr.c:33:22: warning: Dereference of null pointer (loaded from vari=
-able 'a') [clang-analyzer-core.NullDereference]
-           while (*a_prefix && *a =3D=3D *a_prefix) {
-                               ^
-   fs/xattr.c:366:6: note: Assuming 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xattr.c:366:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xattr.c:369:12: note: Calling 'xattr_resolve_name'
-           handler =3D xattr_resolve_name(inode, &name);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xattr.c:61:6: note: Assuming the condition is false
-           if (!(inode->i_opflags & IOP_XATTR)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xattr.c:61:2: note: Taking false branch
-           if (!(inode->i_opflags & IOP_XATTR)) {
-           ^
-   fs/xattr.c:66:25: note: Assuming 'handlers' is non-null
-           for_each_xattr_handler(handlers, handler) {
-                                  ^
-   fs/xattr.c:47:6: note: expanded from macro 'for_each_xattr_handler'
-           if (handlers)                                           \
-               ^~~~~~~~
-   fs/xattr.c:66:2: note: Taking true branch
-           for_each_xattr_handler(handlers, handler) {
-           ^
-   fs/xattr.c:47:2: note: expanded from macro 'for_each_xattr_handler'
-           if (handlers)                                           \
-           ^
-   fs/xattr.c:66:2: note: Assuming 'handler' is not equal to null
-           for_each_xattr_handler(handlers, handler) {
-           ^
-   fs/xattr.c:49:4: note: expanded from macro 'for_each_xattr_handler'
-                           (handler) !=3D NULL;                      \
-                           ^~~~~~~~~~~~~~~~~
-   fs/xattr.c:66:2: note: Loop condition is true.  Entering loop body
-           for_each_xattr_handler(handlers, handler) {
-           ^
-   fs/xattr.c:48:3: note: expanded from macro 'for_each_xattr_handler'
-                   for ((handler) =3D *(handlers)++;                 \
-                   ^
-   fs/xattr.c:70:7: note: Assuming 'n' is null
-                   if (n) {
-                       ^
-   fs/xattr.c:70:3: note: Taking false branch
-                   if (n) {
-                   ^
-   fs/xattr.c:66:2: note: Assuming 'handler' is not equal to null
-           for_each_xattr_handler(handlers, handler) {
-           ^
-   fs/xattr.c:49:4: note: expanded from macro 'for_each_xattr_handler'
-                           (handler) !=3D NULL;                      \
-                           ^~~~~~~~~~~~~~~~~
-   fs/xattr.c:66:2: note: Loop condition is true.  Entering loop body
-           for_each_xattr_handler(handlers, handler) {
-           ^
-   fs/xattr.c:48:3: note: expanded from macro 'for_each_xattr_handler'
-                   for ((handler) =3D *(handlers)++;                 \
-                   ^
-   fs/xattr.c:69:21: note: Passing null pointer value via 1st parameter 'a'
-                   n =3D strcmp_prefix(*name, xattr_prefix(handler));
-                                     ^~~~~
-   fs/xattr.c:69:7: note: Calling 'strcmp_prefix'
-                   n =3D strcmp_prefix(*name, xattr_prefix(handler));
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xattr.c:33:9: note: Assuming the condition is true
-           while (*a_prefix && *a =3D=3D *a_prefix) {
-                  ^~~~~~~~~
-   fs/xattr.c:33:9: note: Left side of '&&' is true
-   fs/xattr.c:33:22: note: Dereference of null pointer (loaded from variabl=
-e 'a')
-           while (*a_prefix && *a =3D=3D *a_prefix) {
-                               ^~
-   include/linux/list.h:73:12: warning: Access to field 'next' results in a=
- dereference of a null pointer (loaded from variable 'new') [clang-analyzer=
--core.NullDereference]
-           new->next =3D next;
-                     ^
-   fs/xattr.c:1058:2: note: 'new_xattr' initialized to a null pointer value
-           struct simple_xattr *new_xattr =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xattr.c:1061:6: note: Assuming 'removed_size' is null
-           if (removed_size)
-               ^~~~~~~~~~~~
-   fs/xattr.c:1061:2: note: Taking false branch
-           if (removed_size)
-           ^
-   fs/xattr.c:1065:6: note: Assuming 'value' is null
-           if (value) {
-               ^~~~~
-   fs/xattr.c:1065:2: note: Taking false branch
-           if (value) {
-           ^
-   fs/xattr.c:1078:2: note: Loop condition is false. Execution continues on=
- line 1095
-           list_for_each_entry(xattr, &xattrs->head, list) {
-           ^
-   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   fs/xattr.c:1095:6: note: Assuming the condition is false
-           if (flags & XATTR_REPLACE) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   fs/xattr.c:1095:2: note: Taking false branch
+:::::: The code at line 121 was first introduced by commit
+:::::: 27ae7997a66174cb8afd6a75b3989f5e0c1b9e5a bpf: Introduce BPF_PROG_TYP=
+E_STRUCT_OPS
 
-vim +/a +33 fs/xattr.c
-
-a3c60330ecbee3 Stefan Roesch       2022-03-23  29  =
-
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  30  static const char *
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  31  strcmp_prefix(const char=
- *a, const char *a_prefix)
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  32  {
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29 @33  	while (*a_prefix && *a =
-=3D=3D *a_prefix) {
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  34  		a++;
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  35  		a_prefix++;
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  36  	}
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  37  	return *a_prefix ? NULL=
- : a;
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  38  }
-b6ba11773d9535 Andreas Gruenbacher 2016-09-29  39  =
-
+:::::: TO: Martin KaFai Lau <kafai@fb.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6589847068061653698==--
+--===============5557080208794133267==--
 
