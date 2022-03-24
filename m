@@ -1,245 +1,113 @@
-Content-Type: multipart/mixed; boundary="===============5557080208794133267=="
+Content-Type: multipart/mixed; boundary="===============3351656756544350079=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/bpf/bpf_struct_ops.c:121 bpf_struct_ops_init() warn: we never enter this loop
-Date: Thu, 24 Mar 2022 10:19:22 +0800
-Message-ID: <202203241036.E8iU1jkJ-lkp@intel.com>
+Subject: [linux-next:master 537/14268] kernel/bpf/btf.c:4584:5: warning: union member 'Anonymous3::__t' is never used. [unusedStructMember]
+Date: Thu, 24 Mar 2022 08:10:03 +0800
+Message-ID: <202203240728.1YKMDduf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5557080208794133267==
+--===============3351656756544350079==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Borkmann <daniel@iogearbox.net>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d51b1b33c51d147b757f042b4d336603b699f362
-commit: b24abcff918a5cbf44b0c982bd3477a93e8e4911 bpf, kconfig: Add consolid=
-ated menu entry for bpf with core options
-date:   11 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 11 months ago
-config: arm-randconfig-m031-20220323 (https://download.01.org/0day-ci/archi=
-ve/20220324/202203241036.E8iU1jkJ-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b61581ae229d8eb9f21f8753be3f4011f7692384
+commit: dee872e124e8d5de22b68c58f6f6c3f5e8889160 [537/14268] bpf: Populate =
+kfunc BTF ID sets in struct btf
+:::::: branch date: 16 hours ago
+:::::: commit date: 9 weeks ago
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/bpf/bpf_struct_ops.c:121 bpf_struct_ops_init() warn: we never enter =
-this loop
-kernel/bpf/bpf_struct_ops.c:208 bpf_struct_ops_find_value() warn: we never =
-enter this loop
-kernel/bpf/bpf_struct_ops.c:223 bpf_struct_ops_find() warn: we never enter =
-this loop
 
-vim +121 kernel/bpf/bpf_struct_ops.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-85d33df357b6346 Martin KaFai Lau 2020-01-08  113  =
+                ^
+   kernel/bpf/btf.c:4898:38: note: Null pointer addition
+    args =3D (const struct btf_param *)(t + 1);
+                                        ^
+>> kernel/bpf/btf.c:4584:5: warning: union member 'Anonymous3::__t' is neve=
+r used. [unusedStructMember]
+    } *__t;
+       ^
+   kernel/bpf/btf.c:3877:29: warning: Variable 'tag' is not assigned a valu=
+e. [unassignedVariable]
+    const struct btf_decl_tag *tag;
+                               ^
 
-85d33df357b6346 Martin KaFai Lau 2020-01-08  114  	module_id =3D btf_find_b=
-y_name_kind(btf, "module", BTF_KIND_STRUCT);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  115  	if (module_id < 0) {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  116  		pr_warn("Cannot find st=
-ruct module in btf_vmlinux\n");
-85d33df357b6346 Martin KaFai Lau 2020-01-08  117  		return;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  118  	}
-85d33df357b6346 Martin KaFai Lau 2020-01-08  119  	module_type =3D btf_type=
-_by_id(btf, module_id);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  120  =
+vim +4584 kernel/bpf/btf.c
 
-27ae7997a66174c Martin KaFai Lau 2020-01-08 @121  	for (i =3D 0; i < ARRAY_=
-SIZE(bpf_struct_ops); i++) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  122  		st_ops =3D bpf_struct_o=
-ps[i];
-27ae7997a66174c Martin KaFai Lau 2020-01-08  123  =
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4574  =
 
-85d33df357b6346 Martin KaFai Lau 2020-01-08  124  		if (strlen(st_ops->name=
-) + VALUE_PREFIX_LEN >=3D
-85d33df357b6346 Martin KaFai Lau 2020-01-08  125  		    sizeof(value_name))=
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4575  #define BPF_MAP_TYPE(_i=
+d, _ops)
+f2e10bff16a0fd Andrii Nakryiko    2020-04-28  4576  #define BPF_LINK_TYPE(_=
+id, _name)
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4577  static union {
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4578  	struct bpf_ctx_convert=
  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  126  			pr_warn("struct_ops na=
-me %s is too long\n",
-85d33df357b6346 Martin KaFai Lau 2020-01-08  127  				st_ops->name);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  128  			continue;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  129  		}
-85d33df357b6346 Martin KaFai Lau 2020-01-08  130  		sprintf(value_name, "%s=
-%s", VALUE_PREFIX, st_ops->name);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  131  =
-
-85d33df357b6346 Martin KaFai Lau 2020-01-08  132  		value_id =3D btf_find_b=
-y_name_kind(btf, value_name,
-85d33df357b6346 Martin KaFai Lau 2020-01-08  133  						 BTF_KIND_STRUCT);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  134  		if (value_id < 0) {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  135  			pr_warn("Cannot find s=
-truct %s in btf_vmlinux\n",
-85d33df357b6346 Martin KaFai Lau 2020-01-08  136  				value_name);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  137  			continue;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  138  		}
-85d33df357b6346 Martin KaFai Lau 2020-01-08  139  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  140  		type_id =3D btf_find_by=
-_name_kind(btf, st_ops->name,
-27ae7997a66174c Martin KaFai Lau 2020-01-08  141  						BTF_KIND_STRUCT);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  142  		if (type_id < 0) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  143  			pr_warn("Cannot find s=
-truct %s in btf_vmlinux\n",
-27ae7997a66174c Martin KaFai Lau 2020-01-08  144  				st_ops->name);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  145  			continue;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  146  		}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  147  		t =3D btf_type_by_id(bt=
-f, type_id);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  148  		if (btf_type_vlen(t) > =
-BPF_STRUCT_OPS_MAX_NR_MEMBERS) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  149  			pr_warn("Cannot suppor=
-t #%u members in struct %s\n",
-27ae7997a66174c Martin KaFai Lau 2020-01-08  150  				btf_type_vlen(t), st_=
-ops->name);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  151  			continue;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  152  		}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  153  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  154  		for_each_member(j, t, m=
-ember) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  155  			const struct btf_type =
-*func_proto;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  156  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  157  			mname =3D btf_name_by_=
-offset(btf, member->name_off);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  158  			if (!*mname) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  159  				pr_warn("anon member =
-in struct %s is not supported\n",
-27ae7997a66174c Martin KaFai Lau 2020-01-08  160  					st_ops->name);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  161  				break;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  162  			}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  163  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  164  			if (btf_member_bitfiel=
-d_size(t, member)) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  165  				pr_warn("bit field me=
-mber %s in struct %s is not supported\n",
-27ae7997a66174c Martin KaFai Lau 2020-01-08  166  					mname, st_ops->name);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  167  				break;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  168  			}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  169  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  170  			func_proto =3D btf_typ=
-e_resolve_func_ptr(btf,
-27ae7997a66174c Martin KaFai Lau 2020-01-08  171  							       member->typ=
-e,
-27ae7997a66174c Martin KaFai Lau 2020-01-08  172  							       NULL);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  173  			if (func_proto &&
-d3e42bb0a329fad Martin KaFai Lau 2020-01-27  174  			    btf_distill_func_p=
-roto(log, btf,
-27ae7997a66174c Martin KaFai Lau 2020-01-08  175  						   func_proto, mnam=
-e,
-27ae7997a66174c Martin KaFai Lau 2020-01-08  176  						   &st_ops->func_mo=
-dels[j])) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  177  				pr_warn("Error in par=
-sing func ptr %s in struct %s\n",
-27ae7997a66174c Martin KaFai Lau 2020-01-08  178  					mname, st_ops->name);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  179  				break;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  180  			}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  181  		}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  182  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  183  		if (j =3D=3D btf_type_v=
-len(t)) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  184  			if (st_ops->init(btf))=
- {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  185  				pr_warn("Error in ini=
-t bpf_struct_ops %s\n",
-27ae7997a66174c Martin KaFai Lau 2020-01-08  186  					st_ops->name);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  187  			} else {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  188  				st_ops->type_id =3D t=
-ype_id;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  189  				st_ops->type =3D t;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  190  				st_ops->value_id =3D =
-value_id;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  191  				st_ops->value_type =
-=3D btf_type_by_id(btf,
-85d33df357b6346 Martin KaFai Lau 2020-01-08  192  								    value_id);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  193  			}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  194  		}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  195  	}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  196  }
-27ae7997a66174c Martin KaFai Lau 2020-01-08  197  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  198  extern struct btf *btf_vm=
-linux;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  199  =
-
-85d33df357b6346 Martin KaFai Lau 2020-01-08  200  static const struct bpf_s=
-truct_ops *
-85d33df357b6346 Martin KaFai Lau 2020-01-08  201  bpf_struct_ops_find_value=
-(u32 value_id)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  202  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  203  	unsigned int i;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  204  =
-
-85d33df357b6346 Martin KaFai Lau 2020-01-08  205  	if (!value_id || !btf_vm=
-linux)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  206  		return NULL;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  207  =
-
-85d33df357b6346 Martin KaFai Lau 2020-01-08 @208  	for (i =3D 0; i < ARRAY_=
-SIZE(bpf_struct_ops); i++) {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  209  		if (bpf_struct_ops[i]->=
-value_id =3D=3D value_id)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  210  			return bpf_struct_ops[=
-i];
-85d33df357b6346 Martin KaFai Lau 2020-01-08  211  	}
-85d33df357b6346 Martin KaFai Lau 2020-01-08  212  =
-
-85d33df357b6346 Martin KaFai Lau 2020-01-08  213  	return NULL;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  214  }
-85d33df357b6346 Martin KaFai Lau 2020-01-08  215  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  216  const struct bpf_struct_o=
-ps *bpf_struct_ops_find(u32 type_id)
-27ae7997a66174c Martin KaFai Lau 2020-01-08  217  {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  218  	unsigned int i;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  219  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  220  	if (!type_id || !btf_vml=
-inux)
-27ae7997a66174c Martin KaFai Lau 2020-01-08  221  		return NULL;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  222  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08 @223  	for (i =3D 0; i < ARRAY_=
-SIZE(bpf_struct_ops); i++) {
-27ae7997a66174c Martin KaFai Lau 2020-01-08  224  		if (bpf_struct_ops[i]->=
-type_id =3D=3D type_id)
-27ae7997a66174c Martin KaFai Lau 2020-01-08  225  			return bpf_struct_ops[=
-i];
-27ae7997a66174c Martin KaFai Lau 2020-01-08  226  	}
-27ae7997a66174c Martin KaFai Lau 2020-01-08  227  =
-
-27ae7997a66174c Martin KaFai Lau 2020-01-08  228  	return NULL;
-27ae7997a66174c Martin KaFai Lau 2020-01-08  229  }
-85d33df357b6346 Martin KaFai Lau 2020-01-08  230  =
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4579  #define BPF_PROG_TYPE(_=
+id, _name, prog_ctx_type, kern_ctx_type) \
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4580  	prog_ctx_type _id##_pr=
+og; \
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4581  	kern_ctx_type _id##_ke=
+rn;
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4582  #include <linux/bpf_typ=
+es.h>
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4583  #undef BPF_PROG_TYPE
+91cc1a99740e2e Alexei Starovoitov 2019-11-14 @4584  	} *__t;
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4585  	/* 't' is written once=
+ under lock. Read many times. */
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4586  	const struct btf_type =
+*t;
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4587  } bpf_ctx_convert;
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4588  enum {
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4589  #define BPF_PROG_TYPE(_=
+id, _name, prog_ctx_type, kern_ctx_type) \
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4590  	__ctx_convert##_id,
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4591  #include <linux/bpf_typ=
+es.h>
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4592  #undef BPF_PROG_TYPE
+ce27709b8162e5 Alexei Starovoitov 2019-11-27  4593  	__ctx_convert_unused, =
+/* to avoid empty enum in extreme .config */
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4594  };
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4595  static u8 bpf_ctx_conve=
+rt_map[] =3D {
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4596  #define BPF_PROG_TYPE(_=
+id, _name, prog_ctx_type, kern_ctx_type) \
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4597  	[_id] =3D __ctx_conver=
+t##_id,
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4598  #include <linux/bpf_typ=
+es.h>
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4599  #undef BPF_PROG_TYPE
+4c80c7bc583a87 Arnd Bergmann      2019-12-10  4600  	0, /* avoid empty arra=
+y */
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4601  };
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4602  #undef BPF_MAP_TYPE
+f2e10bff16a0fd Andrii Nakryiko    2020-04-28  4603  #undef BPF_LINK_TYPE
+91cc1a99740e2e Alexei Starovoitov 2019-11-14  4604  =
 
 
-:::::: The code at line 121 was first introduced by commit
-:::::: 27ae7997a66174cb8afd6a75b3989f5e0c1b9e5a bpf: Introduce BPF_PROG_TYP=
-E_STRUCT_OPS
+:::::: The code at line 4584 was first introduced by commit
+:::::: 91cc1a99740e2ed1d903b5906afb470cc5a07379 bpf: Annotate context types
 
-:::::: TO: Martin KaFai Lau <kafai@fb.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+:::::: TO: Alexei Starovoitov <ast@kernel.org>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5557080208794133267==--
+--===============3351656756544350079==--
 
