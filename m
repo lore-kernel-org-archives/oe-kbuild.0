@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7894789863842512420=="
+Content-Type: multipart/mixed; boundary="===============2990289760481119137=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mailbox/pcc.c:190:6: warning: The left expression of the compound assignment is an uninitialized value. The computed value will also be garbage [clang-analyzer-core.uninitialized.Assign]
-Date: Sat, 26 Mar 2022 03:20:03 +0800
-Message-ID: <202203260350.Oyrspszn-lkp@intel.com>
+Subject: drivers/net/ethernet/davicom/dm9051.c:610:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Sat, 26 Mar 2022 00:55:38 +0800
+Message-ID: <202203260014.gxCD6F5x-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7894789863842512420==
+--===============2990289760481119137==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,34 +16,34 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Sudeep Holla <sudeep.holla@arm.com>
-CC: Jassi Brar <jaswinder.singh@linaro.org>
+TO: Joseph CHAMG <josright123@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   34af78c4e616c359ed428d79fe4758a35d2c5473
-commit: 45ec2dafb1775f7d806fbd2387e3f2cc2f56142d mailbox: pcc: Drop handlin=
-g invalid bit-width in {read,write}_register
-date:   5 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-c007-20220321 (https://download.01.org/0day-ci/ar=
-chive/20220326/202203260350.Oyrspszn-lkp(a)intel.com/config)
+commit: 2dc95a4d30eddac9679f295ba4304a7ab0e4ae02 net: Add dm9051 driver
+date:   6 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 6 weeks ago
+config: riscv-randconfig-c006-20220321 (https://download.01.org/0day-ci/arc=
+hive/20220326/202203260014.gxCD6F5x-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 85e9b2=
 687a13d1908aa86d1b89c5ce398a06cd39)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D45ec2dafb1775f7d806fbd2387e3f2cc2f56142d
+t/commit/?id=3D2dc95a4d30eddac9679f295ba4304a7ab0e4ae02
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 45ec2dafb1775f7d806fbd2387e3f2cc2f56142d
+        git checkout 2dc95a4d30eddac9679f295ba4304a7ab0e4ae02
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,302 +51,932 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/media/cec/core/cec-adap.c:418:10: note: Loop condition is false.=
-  Exiting loop
-                   data =3D list_first_entry(&adap->transmit_queue,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/media/cec/core/cec-adap.c:420:3: note: Use of memory after it is=
- freed
-                   cec_data_cancel(data, CEC_TX_STATUS_ABORTED);
-                   ^               ~~~~
-   Suppressed 5 warnings (5 in non-user code).
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   drivers/video/backlight/adp8860_bl.c:230:2: warning: Value stored to 're=
+t' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D adp8860_write(client, ADP8860_ISCFR, pdata->led_fade_law=
+);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/backlight/adp8860_bl.c:230:2: note: Value stored to 'ret' =
+is never read
+           ret =3D adp8860_write(client, ADP8860_ISCFR, pdata->led_fade_law=
+);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (2 in non-user code, 4 with check filters).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   22 warnings generated.
+   drivers/net/ethernet/jme.c:446:4: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(linkmsg, "Forced: ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:446:4: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                           strcat(linkmsg, "Forced: ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:464:4: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(linkmsg, "ANed: ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:464:4: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                           strcat(linkmsg, "ANed: ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:483:4: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(linkmsg, "10 Mbps, ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:483:4: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                           strcat(linkmsg, "10 Mbps, ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:487:4: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(linkmsg, "100 Mbps, ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:487:4: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                           strcat(linkmsg, "100 Mbps, ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:491:4: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                           strcat(linkmsg, "1000 Mbps, ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:491:4: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                           strcat(linkmsg, "1000 Mbps, ");
+                           ^~~~~~
+   drivers/net/ethernet/jme.c:534:3: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(linkmsg, (phylink & PHY_LINK_DUPLEX) ?
+                   ^~~~~~
+   drivers/net/ethernet/jme.c:534:3: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                   strcat(linkmsg, (phylink & PHY_LINK_DUPLEX) ?
+                   ^~~~~~
+   drivers/net/ethernet/jme.c:537:3: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcat(linkmsg, (phylink & PHY_LINK_MDI_STAT) ?
+                   ^~~~~~
+   drivers/net/ethernet/jme.c:537:3: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+                   strcat(linkmsg, (phylink & PHY_LINK_MDI_STAT) ?
+                   ^~~~~~
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/mailbox/pcc.c:190:6: warning: The left expression of the compoun=
-d assignment is an uninitialized value. The computed value will also be gar=
-bage [clang-analyzer-core.uninitialized.Assign]
-           val &=3D reg->preserve_mask;
-               ^
-   drivers/mailbox/pcc.c:345:9: note: Calling 'pcc_chan_reg_read_modify_wri=
-te'
-           return pcc_chan_reg_read_modify_write(&pchan->db);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/pcc.c:184:2: note: 'val' declared without an initial val=
-ue
-           u64 val;
-           ^~~~~~~
-   drivers/mailbox/pcc.c:186:8: note: Calling 'pcc_chan_reg_read'
-           ret =3D pcc_chan_reg_read(reg, &val);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/pcc.c:153:6: note: Assuming field 'gas' is non-null, whi=
-ch participates in a condition later
-           if (!reg->gas) {
-               ^~~~~~~~~
-   drivers/mailbox/pcc.c:153:2: note: Taking false branch
-           if (!reg->gas) {
-           ^
-   drivers/mailbox/pcc.c:158:6: note: Assuming field 'vaddr' is non-null
-           if (reg->vaddr)
-               ^~~~~~~~~~
-   drivers/mailbox/pcc.c:158:2: note: Taking true branch
-           if (reg->vaddr)
-           ^
-   drivers/mailbox/pcc.c:159:3: note: Calling 'read_register'
-                   read_register(reg->vaddr, val, reg->gas->bit_width);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/pcc.c:115:2: note: 'Default' branch taken. Execution con=
-tinues on line 115
-           switch (bit_width) {
-           ^
-   drivers/mailbox/pcc.c:129:1: note: Returning without writing to '*val'
-   }
-   ^
-   drivers/mailbox/pcc.c:159:3: note: Returning from 'read_register'
-                   read_register(reg->vaddr, val, reg->gas->bit_width);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/pcc.c:163:2: note: Returning without writing to '*val'
+   20 warnings generated.
+>> drivers/net/ethernet/davicom/dm9051.c:610:2: warning: Undefined or garba=
+ge value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
            return ret;
+           ^      ~~~
+   drivers/net/ethernet/davicom/dm9051.c:598:9: note: 'ret' declared withou=
+t an initial value
+           int i, ret;
+                  ^~~
+   drivers/net/ethernet/davicom/dm9051.c:600:6: note: Assuming the conditio=
+n is false
+           if ((len | offset) & 1)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:600:2: note: Taking false branch
+           if ((len | offset) & 1)
            ^
-   drivers/mailbox/pcc.c:163:2: note: Returning zero (loaded from 'ret'), w=
-hich participates in a condition later
+   drivers/net/ethernet/davicom/dm9051.c:605:14: note: Assuming 'i' is >=3D=
+ 'len'
+           for (i =3D 0; i < len; i +=3D 2) {
+                       ^~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:605:2: note: Loop condition is fal=
+se. Execution continues on line 610
+           for (i =3D 0; i < len; i +=3D 2) {
+           ^
+   drivers/net/ethernet/davicom/dm9051.c:610:2: note: Undefined or garbage =
+value returned to caller
            return ret;
-           ^~~~~~~~~~
-   drivers/mailbox/pcc.c:186:8: note: Returning from 'pcc_chan_reg_read'
-           ret =3D pcc_chan_reg_read(reg, &val);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/pcc.c:187:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/mailbox/pcc.c:187:2: note: Taking false branch
-           if (ret)
+           ^      ~~~
+   drivers/net/ethernet/davicom/dm9051.c:632:2: warning: Undefined or garba=
+ge value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/net/ethernet/davicom/dm9051.c:619:9: note: 'ret' declared withou=
+t an initial value
+           int i, ret;
+                  ^~~
+   drivers/net/ethernet/davicom/dm9051.c:621:6: note: Assuming the conditio=
+n is false
+           if ((len | offset) & 1)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:621:2: note: Taking false branch
+           if ((len | offset) & 1)
            ^
-   drivers/mailbox/pcc.c:190:6: note: The left expression of the compound a=
-ssignment is an uninitialized value. The computed value will also be garbage
-           val &=3D reg->preserve_mask;
-           ~~~ ^
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/media/dvb-core/dvb_ca_en50221.c:760:19: warning: The left operan=
-d of '&' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorRes=
-ult]
-                   buf[0], (buf[1] & 0x80) =3D=3D 0, bytes_read);
-                                   ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:1300:2: note: Assuming 'dvb_ca_e=
-n50221_debug' is 0
-           dprintk("%s\n", __func__);
+   drivers/net/ethernet/davicom/dm9051.c:624:6: note: Assuming field 'magic=
+' is equal to DM_EEPROM_MAGIC
+           if (ee->magic !=3D DM_EEPROM_MAGIC)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:624:2: note: Taking false branch
+           if (ee->magic !=3D DM_EEPROM_MAGIC)
            ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:39:6: note: expanded from macro =
-'dprintk'
-           if (dvb_ca_en50221_debug)                                       \
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-core/dvb_ca_en50221.c:1300:2: note: Taking false branch
-           dprintk("%s\n", __func__);
+   drivers/net/ethernet/davicom/dm9051.c:627:14: note: Assuming 'i' is >=3D=
+ 'len'
+           for (i =3D 0; i < len; i +=3D 2) {
+                       ^~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:627:2: note: Loop condition is fal=
+se. Execution continues on line 632
+           for (i =3D 0; i < len; i +=3D 2) {
            ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:39:2: note: expanded from macro =
-'dprintk'
-           if (dvb_ca_en50221_debug)                                       \
+   drivers/net/ethernet/davicom/dm9051.c:632:2: note: Undefined or garbage =
+value returned to caller
+           return ret;
+           ^      ~~~
+>> drivers/net/ethernet/davicom/dm9051.c:714:21: warning: Value stored to '=
+ndev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:714:21: note: Value stored to 'nde=
+v' during its initialization is never read
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:744:21: warning: Value stored to '=
+ndev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:744:21: note: Value stored to 'nde=
+v' during its initialization is never read
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   fs/orangefs/inode.c:836:3: warning: Value stored to 'ret' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   ret =3D posix_acl_chmod(&init_user_ns, inode, inode->i_m=
+ode);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/orangefs/inode.c:836:3: note: Value stored to 'ret' is never read
+                   ret =3D posix_acl_chmod(&init_user_ns, inode, inode->i_m=
+ode);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   fs/orangefs/super.c:480:22: warning: Value stored to 'sb' during its ini=
+tialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct super_block *sb =3D ERR_PTR(-EINVAL);
+                               ^~   ~~~~~~~~~~~~~~~~
+   fs/orangefs/super.c:480:22: note: Value stored to 'sb' during its initia=
+lization is never read
+           struct super_block *sb =3D ERR_PTR(-EINVAL);
+                               ^~   ~~~~~~~~~~~~~~~~
+   fs/orangefs/super.c:573:3: warning: Value stored to 'ret' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   ret =3D service_operation(new_op, "orangefs_features", 0=
+);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/orangefs/super.c:573:3: note: Value stored to 'ret' is never read
+                   ret =3D service_operation(new_op, "orangefs_features", 0=
+);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/gpu/drm/sprd/sprd_dsi.c:338:10: warning: Although the value stor=
+ed to 'video_size_step' is used in the enclosing expression, the value is n=
+ever actually read from 'video_size_step' [clang-analyzer-deadcode.DeadStor=
+es]
+                   return video_size_step =3D 1;
+                          ^                 ~
+   drivers/gpu/drm/sprd/sprd_dsi.c:338:10: note: Although the value stored =
+to 'video_size_step' is used in the enclosing expression, the value is neve=
+r actually read from 'video_size_step'
+                   return video_size_step =3D 1;
+                          ^                 ~
+   drivers/gpu/drm/sprd/sprd_dsi.c:345:10: warning: Although the value stor=
+ed to 'video_size_step' is used in the enclosing expression, the value is n=
+ever actually read from 'video_size_step' [clang-analyzer-deadcode.DeadStor=
+es]
+                   return video_size_step =3D 2;
+                          ^                 ~
+   drivers/gpu/drm/sprd/sprd_dsi.c:345:10: note: Although the value stored =
+to 'video_size_step' is used in the enclosing expression, the value is neve=
+r actually read from 'video_size_step'
+                   return video_size_step =3D 2;
+                          ^                 ~
+   drivers/gpu/drm/sprd/sprd_dsi.c:641:15: warning: Although the value stor=
+ed to 'j' is used in the enclosing expression, the value is never actually =
+read from 'j' [clang-analyzer-deadcode.DeadStores]
+                   for (i =3D 0, j =3D 0; i < len; i +=3D j) {
+                               ^   ~
+   drivers/gpu/drm/sprd/sprd_dsi.c:641:15: note: Although the value stored =
+to 'j' is used in the enclosing expression, the value is never actually rea=
+d from 'j'
+                   for (i =3D 0, j =3D 0; i < len; i +=3D j) {
+                               ^   ~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/gpu/drm/msm/dp/dp_aux.c:150:2: warning: Value stored to 'data' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           data =3D dp_catalog_aux_read_data(aux->catalog);
+--
+                  ^~~~~~~~~~~
+   include/asm-generic/bitops/fls64.h:29:6: note: Assuming 'x' is not equal=
+ to 0
+           if (x =3D=3D 0)
+               ^~~~~~
+   include/asm-generic/bitops/fls64.h:29:2: note: Taking false branch
+           if (x =3D=3D 0)
            ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:1300:2: note: Loop condition is =
-false.  Exiting loop
-           dprintk("%s\n", __func__);
+   include/asm-generic/bitops/fls64.h:31:2: note: Returning the value 64
+           return __fls(x) + 1;
+           ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/getorder.h:46:9: note: Returning from 'fls64'
+           return fls64(size);
+                  ^~~~~~~~~~~
+   include/asm-generic/getorder.h:46:2: note: Returning the value 64
+           return fls64(size);
+           ^~~~~~~~~~~~~~~~~~
+   net/packet/af_packet.c:4406:11: note: Returning from 'get_order'
+                   order =3D get_order(req->tp_block_size);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/packet/af_packet.c:4406:3: note: The value 64 is assigned to 'order'
+                   order =3D get_order(req->tp_block_size);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/packet/af_packet.c:4407:30: note: Passing the value 64 via 2nd param=
+eter 'order'
+                   pg_vec =3D alloc_pg_vec(req, order);
+                                              ^~~~~
+   net/packet/af_packet.c:4407:12: note: Calling 'alloc_pg_vec'
+                   pg_vec =3D alloc_pg_vec(req, order);
+                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   net/packet/af_packet.c:4318:15: note: Assuming 'pg_vec' is non-null
+           if (unlikely(!pg_vec))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/packet/af_packet.c:4318:2: note: Taking false branch
+           if (unlikely(!pg_vec))
            ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:38:30: note: expanded from macro=
- 'dprintk'
-   #define dprintk(fmt, arg...) do {                                       \
-                                ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:1306:9: note: Assuming the condi=
-tion is true
-           while (!kthread_should_stop()) {
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-core/dvb_ca_en50221.c:1306:2: note: Loop condition is =
+   net/packet/af_packet.c:4321:14: note: 'i' is < 'block_nr'
+           for (i =3D 0; i < block_nr; i++) {
+                       ^
+   net/packet/af_packet.c:4321:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < block_nr; i++) {
+           ^
+   net/packet/af_packet.c:4322:44: note: Passing the value 64 via 1st param=
+eter 'order'
+                   pg_vec[i].buffer =3D alloc_one_pg_vec_page(order);
+                                                            ^~~~~
+   net/packet/af_packet.c:4322:22: note: Calling 'alloc_one_pg_vec_page'
+                   pg_vec[i].buffer =3D alloc_one_pg_vec_page(order);
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/packet/af_packet.c:4293:6: note: Assuming 'buffer' is null
+           if (buffer)
+               ^~~~~~
+   net/packet/af_packet.c:4293:2: note: Taking false branch
+           if (buffer)
+           ^
+   net/packet/af_packet.c:4297:33: note: The result of the left shift is un=
+defined due to shifting by '64', which is greater or equal to the width of =
+type 'int'
+           buffer =3D vzalloc(array_size((1 << order), PAGE_SIZE));
+                                          ^  ~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+>> drivers/net/ethernet/davicom/dm9051.c:610:2: warning: Undefined or garba=
+ge value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/net/ethernet/davicom/dm9051.c:598:9: note: 'ret' declared withou=
+t an initial value
+           int i, ret;
+                  ^~~
+   drivers/net/ethernet/davicom/dm9051.c:600:6: note: Assuming the conditio=
+n is false
+           if ((len | offset) & 1)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:600:2: note: Taking false branch
+           if ((len | offset) & 1)
+           ^
+   drivers/net/ethernet/davicom/dm9051.c:605:14: note: Assuming 'i' is >=3D=
+ 'len'
+           for (i =3D 0; i < len; i +=3D 2) {
+                       ^~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:605:2: note: Loop condition is fal=
+se. Execution continues on line 610
+           for (i =3D 0; i < len; i +=3D 2) {
+           ^
+   drivers/net/ethernet/davicom/dm9051.c:610:2: note: Undefined or garbage =
+value returned to caller
+           return ret;
+           ^      ~~~
+   drivers/net/ethernet/davicom/dm9051.c:632:2: warning: Undefined or garba=
+ge value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/net/ethernet/davicom/dm9051.c:619:9: note: 'ret' declared withou=
+t an initial value
+           int i, ret;
+                  ^~~
+   drivers/net/ethernet/davicom/dm9051.c:621:6: note: Assuming the conditio=
+n is false
+           if ((len | offset) & 1)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:621:2: note: Taking false branch
+           if ((len | offset) & 1)
+           ^
+   drivers/net/ethernet/davicom/dm9051.c:624:6: note: Assuming field 'magic=
+' is equal to DM_EEPROM_MAGIC
+           if (ee->magic !=3D DM_EEPROM_MAGIC)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:624:2: note: Taking false branch
+           if (ee->magic !=3D DM_EEPROM_MAGIC)
+           ^
+   drivers/net/ethernet/davicom/dm9051.c:627:14: note: Assuming 'i' is >=3D=
+ 'len'
+           for (i =3D 0; i < len; i +=3D 2) {
+                       ^~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:627:2: note: Loop condition is fal=
+se. Execution continues on line 632
+           for (i =3D 0; i < len; i +=3D 2) {
+           ^
+   drivers/net/ethernet/davicom/dm9051.c:632:2: note: Undefined or garbage =
+value returned to caller
+           return ret;
+           ^      ~~~
+>> drivers/net/ethernet/davicom/dm9051.c:714:21: warning: Value stored to '=
+ndev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:714:21: note: Value stored to 'nde=
+v' during its initialization is never read
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:744:21: warning: Value stored to '=
+ndev' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   drivers/net/ethernet/davicom/dm9051.c:744:21: note: Value stored to 'nde=
+v' during its initialization is never read
+           struct net_device *ndev =3D db->ndev;
+                              ^~~~   ~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   fs/ntfs/file.c:194:3: warning: Value stored to 'm' is never read [clang-=
+analyzer-deadcode.DeadStores]
+                   m =3D ctx->mrec;
+                   ^   ~~~~~~~~~
+   fs/ntfs/file.c:194:3: note: Value stored to 'm' is never read
+                   m =3D ctx->mrec;
+                   ^   ~~~~~~~~~
+   fs/ntfs/file.c:1779:15: warning: Although the value stored to 'idx' is u=
+sed in the enclosing expression, the value is never actually read from 'idx=
+' [clang-analyzer-deadcode.DeadStores]
+                   start_idx =3D idx =3D pos >> PAGE_SHIFT;
+                               ^     ~~~~~~~~~~~~~~~~~
+   fs/ntfs/file.c:1779:15: note: Although the value stored to 'idx' is used=
+ in the enclosing expression, the value is never actually read from 'idx'
+                   start_idx =3D idx =3D pos >> PAGE_SHIFT;
+                               ^     ~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   fs/ntfs/inode.c:1840:3: warning: Value stored to 'err' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   err =3D -ENOMEM;
+                   ^     ~~~~~~~
+   fs/ntfs/inode.c:1840:3: note: Value stored to 'err' is never read
+                   err =3D -ENOMEM;
+                   ^     ~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c:355:27: warning: Value stored=
+ to 'mdp5_state' during its initialization is never read [clang-analyzer-de=
+adcode.DeadStores]
+           struct mdp5_plane_state *mdp5_state =3D to_mdp5_plane_state(new_=
+plane_state);
+                                    ^~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c:355:27: note: Value stored to=
+ 'mdp5_state' during its initialization is never read
+           struct mdp5_plane_state *mdp5_state =3D to_mdp5_plane_state(new_=
+plane_state);
+                                    ^~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   57 warnings generated.
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:158:16: warning: The result of =
+the left shift is undefined because the left operand is negative [clang-ana=
+lyzer-core.UndefinedBinaryOperatorResult]
+                   blkcfg |=3D (n << (8 * i));
+                              ~ ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:136:7: note: Assuming 'rev' is =
+<=3D 0
+           if ((rev > 0) && (format->chroma_sample > CHROMA_FULL)) {
+                ^~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:136:16: note: Left side of '&&'=
+ is false
+           if ((rev > 0) && (format->chroma_sample > CHROMA_FULL)) {
+                         ^
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:146:14: note: Assuming 'i' is <=
+ 'nplanes'
+           for (i =3D 0; i < nplanes; i++) {
+                       ^~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/mdp5/mdp5_smp.c:146:2: note: Loop condition is =
 true.  Entering loop body
-           while (!kthread_should_stop()) {
-           ^
-   drivers/media/dvb-core/dvb_ca_en50221.c:1308:7: note: Assuming field 'wa=
-keup' is not equal to 0
-                   if (!ca->wakeup) {
+           for (i =3D 0; i < nplanes; i++) {
 
-vim +190 drivers/mailbox/pcc.c
+vim +610 drivers/net/ethernet/davicom/dm9051.c
 
-800cda7b63f22b Sudeep Holla 2021-09-17  180  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  591  =
 
-800cda7b63f22b Sudeep Holla 2021-09-17  181  static int pcc_chan_reg_read_m=
-odify_write(struct pcc_chan_reg *reg)
-800cda7b63f22b Sudeep Holla 2021-09-17  182  {
-800cda7b63f22b Sudeep Holla 2021-09-17  183  	int ret =3D 0;
-800cda7b63f22b Sudeep Holla 2021-09-17  184  	u64 val;
-800cda7b63f22b Sudeep Holla 2021-09-17  185  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  592  static int dm9051_get_eeprom(s=
+truct net_device *ndev,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  593  			     struct ethtool_eeprom =
+*ee, u8 *data)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  594  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  595  	struct board_info *db =3D to_=
+dm9051_board(ndev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  596  	int offset =3D ee->offset;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  597  	int len =3D ee->len;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  598  	int i, ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  599  =
 
-800cda7b63f22b Sudeep Holla 2021-09-17  186  	ret =3D pcc_chan_reg_read(reg=
-, &val);
-800cda7b63f22b Sudeep Holla 2021-09-17  187  	if (ret)
-800cda7b63f22b Sudeep Holla 2021-09-17  188  		return ret;
-800cda7b63f22b Sudeep Holla 2021-09-17  189  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  600  	if ((len | offset) & 1)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  601  		return -EINVAL;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  602  =
 
-800cda7b63f22b Sudeep Holla 2021-09-17 @190  	val &=3D reg->preserve_mask;
-800cda7b63f22b Sudeep Holla 2021-09-17  191  	val |=3D reg->set_mask;
-800cda7b63f22b Sudeep Holla 2021-09-17  192  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  603  	ee->magic =3D DM_EEPROM_MAGIC;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  604  =
 
-800cda7b63f22b Sudeep Holla 2021-09-17  193  	return pcc_chan_reg_write(reg=
-, val);
-800cda7b63f22b Sudeep Holla 2021-09-17  194  }
-800cda7b63f22b Sudeep Holla 2021-09-17  195  =
+2dc95a4d30edda Joseph CHAMG 2022-02-11  605  	for (i =3D 0; i < len; i +=3D=
+ 2) {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  606  		ret =3D dm9051_eeprom_read(d=
+b, (offset + i) / 2, data + i);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  607  		if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  608  			break;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  609  	}
+2dc95a4d30edda Joseph CHAMG 2022-02-11 @610  	return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  611  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  612  =
 
+2dc95a4d30edda Joseph CHAMG 2022-02-11  613  static int dm9051_set_eeprom(s=
+truct net_device *ndev,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  614  			     struct ethtool_eeprom =
+*ee, u8 *data)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  615  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  616  	struct board_info *db =3D to_=
+dm9051_board(ndev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  617  	int offset =3D ee->offset;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  618  	int len =3D ee->len;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  619  	int i, ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  620  =
 
-:::::: The code at line 190 was first introduced by commit
-:::::: 800cda7b63f22be62e67142f1202d2ead2dff2e8 mailbox: pcc: Add PCC regis=
-ter bundle and associated accessor functions
+2dc95a4d30edda Joseph CHAMG 2022-02-11  621  	if ((len | offset) & 1)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  622  		return -EINVAL;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  623  =
 
-:::::: TO: Sudeep Holla <sudeep.holla@arm.com>
-:::::: CC: Jassi Brar <jaswinder.singh@linaro.org>
+2dc95a4d30edda Joseph CHAMG 2022-02-11  624  	if (ee->magic !=3D DM_EEPROM_=
+MAGIC)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  625  		return -EINVAL;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  626  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  627  	for (i =3D 0; i < len; i +=3D=
+ 2) {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  628  		ret =3D dm9051_eeprom_write(=
+db, (offset + i) / 2, data + i);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  629  		if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  630  			break;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  631  	}
+2dc95a4d30edda Joseph CHAMG 2022-02-11  632  	return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  633  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  634  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  635  static void dm9051_get_pausepa=
+ram(struct net_device *ndev,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  636  				  struct ethtool_pausepara=
+m *pause)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  637  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  638  	struct board_info *db =3D to_=
+dm9051_board(ndev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  639  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  640  	*pause =3D db->pause;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  641  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  642  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  643  static int dm9051_set_pausepar=
+am(struct net_device *ndev,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  644  				 struct ethtool_pauseparam=
+ *pause)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  645  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  646  	struct board_info *db =3D to_=
+dm9051_board(ndev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  647  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  648  	db->pause =3D *pause;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  649  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  650  	if (pause->autoneg =3D=3D AUT=
+ONEG_DISABLE)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  651  		return dm9051_update_fcr(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  652  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  653  	phy_set_sym_pause(db->phydev,=
+ pause->rx_pause, pause->tx_pause,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  654  			  pause->autoneg);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  655  	phy_start_aneg(db->phydev);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  656  	return 0;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  657  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  658  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  659  static const struct ethtool_op=
+s dm9051_ethtool_ops =3D {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  660  	.get_drvinfo =3D dm9051_get_d=
+rvinfo,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  661  	.get_link_ksettings =3D phy_e=
+thtool_get_link_ksettings,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  662  	.set_link_ksettings =3D phy_e=
+thtool_set_link_ksettings,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  663  	.get_msglevel =3D dm9051_get_=
+msglevel,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  664  	.set_msglevel =3D dm9051_set_=
+msglevel,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  665  	.nway_reset =3D phy_ethtool_n=
+way_reset,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  666  	.get_link =3D ethtool_op_get_=
+link,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  667  	.get_eeprom_len =3D dm9051_ge=
+t_eeprom_len,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  668  	.get_eeprom =3D dm9051_get_ee=
+prom,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  669  	.set_eeprom =3D dm9051_set_ee=
+prom,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  670  	.get_pauseparam =3D dm9051_ge=
+t_pauseparam,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  671  	.set_pauseparam =3D dm9051_se=
+t_pauseparam,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  672  };
+2dc95a4d30edda Joseph CHAMG 2022-02-11  673  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  674  static int dm9051_all_start(st=
+ruct board_info *db)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  675  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  676  	int ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  677  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  678  	/* GPR power on of the intern=
+al phy
+2dc95a4d30edda Joseph CHAMG 2022-02-11  679  	 */
+2dc95a4d30edda Joseph CHAMG 2022-02-11  680  	ret =3D dm9051_set_reg(db, DM=
+9051_GPR, 0);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  681  	if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  682  		return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  683  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  684  	/* dm9051 chip registers coul=
+d not be accessed within 1 ms
+2dc95a4d30edda Joseph CHAMG 2022-02-11  685  	 * after GPR power on, delay =
+1 ms is essential
+2dc95a4d30edda Joseph CHAMG 2022-02-11  686  	 */
+2dc95a4d30edda Joseph CHAMG 2022-02-11  687  	msleep(1);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  688  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  689  	ret =3D dm9051_core_reset(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  690  	if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  691  		return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  692  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  693  	return dm9051_enable_interrup=
+t(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  694  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  695  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  696  static int dm9051_all_stop(str=
+uct board_info *db)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  697  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11  698  	int ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  699  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  700  	/* GPR power off of the inter=
+nal phy,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  701  	 * The internal phy still cou=
+ld be accessed after this GPR power off control
+2dc95a4d30edda Joseph CHAMG 2022-02-11  702  	 */
+2dc95a4d30edda Joseph CHAMG 2022-02-11  703  	ret =3D dm9051_set_reg(db, DM=
+9051_GPR, GPR_PHY_OFF);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  704  	if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  705  		return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  706  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  707  	return dm9051_set_reg(db, DM9=
+051_RCR, RCR_RX_DISABLE);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  708  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  709  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  710  /* fifo reset while rx error f=
+ound
+2dc95a4d30edda Joseph CHAMG 2022-02-11  711   */
+2dc95a4d30edda Joseph CHAMG 2022-02-11  712  static int dm9051_all_restart(=
+struct board_info *db)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  713  {
+2dc95a4d30edda Joseph CHAMG 2022-02-11 @714  	struct net_device *ndev =3D d=
+b->ndev;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  715  	int ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  716  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  717  	ret =3D dm9051_core_reset(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  718  	if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  719  		return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  720  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  721  	ret =3D dm9051_enable_interru=
+pt(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  722  	if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  723  		return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  724  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  725  	netdev_dbg(ndev, " rxstatus_E=
+r & rxlen_Er %d, RST_c %d\n",
+2dc95a4d30edda Joseph CHAMG 2022-02-11  726  		   db->bc.status_err_counter=
+ + db->bc.large_err_counter,
+2dc95a4d30edda Joseph CHAMG 2022-02-11  727  		   db->bc.fifo_rst_counter);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  728  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  729  	ret =3D dm9051_set_recv(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  730  	if (ret)
+2dc95a4d30edda Joseph CHAMG 2022-02-11  731  		return ret;
+2dc95a4d30edda Joseph CHAMG 2022-02-11  732  =
+
+2dc95a4d30edda Joseph CHAMG 2022-02-11  733  	return dm9051_set_fcr(db);
+2dc95a4d30edda Joseph CHAMG 2022-02-11  734  }
+2dc95a4d30edda Joseph CHAMG 2022-02-11  735  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7894789863842512420==--
+--===============2990289760481119137==--
 
