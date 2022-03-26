@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0658121807371484877=="
+Content-Type: multipart/mixed; boundary="===============1380032321753295250=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hverkuil-media-tree:tmp 352/423] drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored to 'error' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 24 Mar 2022 14:02:51 +0800
-Message-ID: <202203241312.VpSwODHc-lkp@intel.com>
+Subject: [ulfh-mmc:wip_uhs_v3 45/46] drivers/mmc/core/sd_uhs2.c:236:2: warning: Value stored to 'id_l' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 26 Mar 2022 09:40:23 +0800
+Message-ID: <202203260901.dxqEkxGm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0658121807371484877==
+--===============1380032321753295250==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,33 +16,33 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: Jason Lai <jason.lai@genesyslogic.com.tw>
+CC: Ulf Hansson <ulf.hansson@linaro.org>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git tmp
-head:   f89d74081c909f1c547a611141a23d7670e44bed
-commit: ee4a77a32b39064fdab0aa2b36bbd35ebf57e077 [352/423] media: platform:=
- place Renesas drivers on a separate dir
-:::::: branch date: 20 hours ago
-:::::: commit date: 10 days ago
-config: riscv-randconfig-c006-20220317 (https://download.01.org/0day-ci/arc=
-hive/20220324/202203241312.VpSwODHc-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project a6ec1e=
-3d798f8eab43fb3a91028c6ab04e115fcb)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git wip_uhs_=
+v3
+head:   88e61f681a2427ed18a4dfa4fdd14b011a0f7847
+commit: 904c9867969e3672e160eab8bcd4f4e89be104e9 [45/46] mmc: Implement con=
+tent of UHS-II card initialization functions
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20326/202203260901.dxqEkxGm-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
+08fe1d03b0de7e5315ef875006a6adc319)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media=
-_tree.git
-        git fetch --no-tags hverkuil-media-tree tmp
-        git checkout ee4a77a32b39064fdab0aa2b36bbd35ebf57e077
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git/comm=
+it/?id=3D904c9867969e3672e160eab8bcd4f4e89be104e9
+        git remote add ulfh-mmc git://git.kernel.org/pub/scm/linux/kernel/g=
+it/ulfh/mmc.git
+        git fetch --no-tags ulfh-mmc wip_uhs_v3
+        git checkout 904c9867969e3672e160eab8bcd4f4e89be104e9
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,486 +50,333 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/iio/light/tsl2772.c:879:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
+   include/linux/math.h:89:2: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           (((typeof(x))-1) > 0 ||                         \
            ^
-   drivers/iio/light/tsl2772.c:882:7: note: 'ret' is >=3D 0
-                   if (ret < 0)
-                       ^~~
-   drivers/iio/light/tsl2772.c:882:3: note: Taking false branch
-                   if (ret < 0)
-                   ^
-   drivers/iio/light/tsl2772.c:879:14: note: Assuming 'i' is >=3D field 'pr=
-ox_max_samples_cal'
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:879:2: note: Loop condition is false. Execut=
-ion continues on line 888
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-           ^
-   drivers/iio/light/tsl2772.c:889:2: note: The value -2147483648 is assign=
-ed to 'max'
-           max =3D INT_MIN;
-           ^~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:890:14: note: Assuming 'i' is >=3D field 'pr=
-ox_max_samples_cal'
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/tsl2772.c:890:2: note: Loop condition is false. Execut=
-ion continues on line 894
-           for (i =3D 0; i < chip->settings.prox_max_samples_cal; i++) {
-           ^
-   drivers/iio/light/tsl2772.c:896:40: note: The result of the left shift i=
-s undefined because the left operand is negative
-           chip->settings.prox_thres_high =3D (max << 1) - mean;
-                                             ~~~ ^
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/bluetooth/btqca.c:257:3: warning: Value stored to 'type_len' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   type_len =3D le32_to_cpu(tlv->type_len);
-                   ^
-   drivers/bluetooth/btqca.c:257:3: note: Value stored to 'type_len' is nev=
-er read
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/media/platform/qcom/venus/venc.c:877:3: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D hfi_session_set_property(inst, ptype, &en);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/venc.c:877:3: note: Value stored to 'r=
-et' is never read
-                   ret =3D hfi_session_set_property(inst, ptype, &en);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/media/platform/renesas/rcar_jpu.c:1551:17: warning: Value stored=
- to 'error' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
-ASK;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/renesas/rcar_jpu.c:1551:17: note: Value stored to=
- 'error' during its initialization is never read
-                   unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_M=
-ASK;
-                                 ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/media/platform/s5p-jpeg/jpeg-core.c:1141:3: warning: Value store=
-d to 'length' is never read [clang-analyzer-deadcode.DeadStores]
-                   length =3D 0;
-                   ^        ~
-   drivers/media/platform/s5p-jpeg/jpeg-core.c:1141:3: note: Value stored t=
-o 'length' is never read
-                   length =3D 0;
-                   ^        ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:993:15: warning: Assigned=
- value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   cf->data[6] =3D bec.txerr;
-                               ^
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1307:6: note: Assuming fi=
-eld 'rx_int' is null
-           if (priv->rx_int)
-               ^~~~~~~~~~~~
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1307:2: note: Taking fals=
-e branch
-           if (priv->rx_int)
-           ^
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1330:7: note: Assuming 'e=
-rr' is 0
-                   if (err)
-                       ^~~
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1330:3: note: Taking fals=
-e branch
-                   if (err)
-                   ^
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1333:18: note: Taking fal=
-se branch
-                   intf_pending =3D FIELD_GET(MCP251XFD_REG_INT_IF_MASK,
+   drivers/hwmon/adc128d818.c:217:11: note: Assuming '__UNIQUE_ID___x399' i=
+s <=3D '__UNIQUE_ID___y400'
+           regval =3D clamp_val(DIV_ROUND_CLOSEST(val, 1000), -128, 127);
+                    ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:104:48: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   drivers/hwmon/adc128d818.c:217:11: note: '?' condition is false
+           regval =3D clamp_val(DIV_ROUND_CLOSEST(val, 1000), -128, 127);
+                    ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
                                   ^
-   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                                  ^
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                    ^
-   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
                    ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1333:18: note: Loop condi=
-tion is false.  Exiting loop
-                   intf_pending =3D FIELD_GET(MCP251XFD_REG_INT_IF_MASK,
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/hwmon/adc128d818.c:217:11: note: '__UNIQUE_ID___x401' is < '__UN=
+IQUE_ID___y402'
+           regval =3D clamp_val(DIV_ROUND_CLOSEST(val, 1000), -128, 127);
+                    ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   drivers/hwmon/adc128d818.c:217:11: note: '?' condition is true
+           regval =3D clamp_val(DIV_ROUND_CLOSEST(val, 1000), -128, 127);
+                    ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
                                   ^
-   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                    ^
-   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
                    ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/net/can/spi/mcp251xfd/mcp251xfd-core.c:1333:18: note: Taking fal=
-se branch
-                   intf_pending =3D FIELD_GET(MCP251XFD_REG_INT_IF_MASK,
-                                  ^
-   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/hwmon/adc128d818.c:217:2: note: The value -128 is assigned to 'r=
+egval'
+           regval =3D clamp_val(DIV_ROUND_CLOSEST(val, 1000), -128, 127);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hwmon/adc128d818.c:218:29: note: The result of the left shift is=
+ undefined because the left operand is negative
+           data->temp[index] =3D regval << 1;
+                               ~~~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/mmc/core/sd_uhs2.c:236:2: warning: Value stored to 'id_l' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           id_l =3D resp[4] & 0xF;
+           ^      ~~~~~~~~~~~~~
+   drivers/mmc/core/sd_uhs2.c:236:2: note: Value stored to 'id_l' is never =
+read
+           id_l =3D resp[4] & 0xF;
+           ^      ~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/mmc/core/regulator.c:181:17: warning: Value stored to 'dev' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D mmc_dev(mmc);
+                          ^~~
+   drivers/mmc/core/regulator.c:181:17: note: Value stored to 'dev' during =
+its initialization is never read
+           struct device *dev =3D mmc_dev(mmc);
+                          ^~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/leds/led-class-flash.c:210:16: warning: Call to function 'strcat=
+' is insecure as it does not provide bounding of the memory buffer. Replace=
+ unbounded copy functions with analogous functions that support length argu=
+ments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcp=
+y]
+           return strlen(strcat(buf, "\n"));
+                         ^~~~~~
+   drivers/leds/led-class-flash.c:210:16: note: Call to function 'strcat' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcat'. CWE-119
+           return strlen(strcat(buf, "\n"));
+                         ^~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +/error +1551 drivers/media/platform/renesas/rcar_jpu.c
+vim +/id_l +236 drivers/mmc/core/sd_uhs2.c
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1489  =
+ede956b4ea9aaa Ulf Hansson 2022-01-18  194  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1490  /*
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1491   * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1492   * IRQ handler
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1493   * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1494   */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1495  static irqreturn_t jpu_irq_handler(int irq, void *dev_id)
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1496  {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1497  	struct jpu *jpu =3D dev_id;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1498  	struct jpu_ctx *curr_ctx;
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1499  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1500  	unsigned int int_status;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1501  =
+ede956b4ea9aaa Ulf Hansson 2022-01-18  195  /*
+ede956b4ea9aaa Ulf Hansson 2022-01-18  196   * Run the enumeration process =
+by sending the enumerate command to the card.
+ede956b4ea9aaa Ulf Hansson 2022-01-18  197   * Note that, we currently supp=
+ort only the point to point connection, which
+ede956b4ea9aaa Ulf Hansson 2022-01-18  198   * means only one card can be a=
+ttached per host/slot.
+ede956b4ea9aaa Ulf Hansson 2022-01-18  199   */
+ede956b4ea9aaa Ulf Hansson 2022-01-18  200  static int sd_uhs2_enum(struct =
+mmc_host *host, u32 *node_id)
+ede956b4ea9aaa Ulf Hansson 2022-01-18  201  {
+904c9867969e36 Jason Lai   2022-02-22  202  	struct mmc_command cmd =3D {0};
+904c9867969e36 Jason Lai   2022-02-22  203  	struct uhs2_command uhs2_cmd =
+=3D {};
+904c9867969e36 Jason Lai   2022-02-22  204  	u16 header =3D 0, arg =3D 0;
+904c9867969e36 Jason Lai   2022-02-22  205  	u32 payload[1];
+904c9867969e36 Jason Lai   2022-02-22  206  	u8 plen =3D 1;
+904c9867969e36 Jason Lai   2022-02-22  207  	u8 id_f =3D 0xF, id_l =3D 0x0;
+904c9867969e36 Jason Lai   2022-02-22  208  	u8 resp[8] =3D {0};
+904c9867969e36 Jason Lai   2022-02-22  209  	u8 resp_len =3D 8;
+904c9867969e36 Jason Lai   2022-02-22  210  	int err;
+904c9867969e36 Jason Lai   2022-02-22  211  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1502  	int_status =3D jpu_read(jpu, JINTS);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1503  =
+904c9867969e36 Jason Lai   2022-02-22  212  	header =3D UHS2_NATIVE_PACKET =
+| UHS2_PACKET_TYPE_CCMD;
+904c9867969e36 Jason Lai   2022-02-22  213  	arg =3D ((UHS2_DEV_CMD_ENUMERA=
+TE & 0xFF) << 8) |
+904c9867969e36 Jason Lai   2022-02-22  214  	       UHS2_NATIVE_CMD_WRITE |
+904c9867969e36 Jason Lai   2022-02-22  215  	       UHS2_NATIVE_CMD_PLEN_4B=
+ |
+904c9867969e36 Jason Lai   2022-02-22  216  	       (UHS2_DEV_CMD_ENUMERATE=
+ >> 8);
+904c9867969e36 Jason Lai   2022-02-22  217  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1504  	/* ...spurious interrupt */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1505  	if (!((JINTS_TRANSF_COMPL | JINTS_PROCESS_COMPL | JINTS_ERR) &
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1506  	    int_status))
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1507  		return IRQ_NONE;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1508  =
+904c9867969e36 Jason Lai   2022-02-22  218  	payload[0] =3D (id_f << 4) | i=
+d_l;
+904c9867969e36 Jason Lai   2022-02-22  219  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1509  	/* ...clear interrupts */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1510  	jpu_write(jpu, ~(int_status & JINTS_MASK), JINTS);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1511  	if (int_status & (JINTS_ERR | JINTS_PROCESS_COMPL))
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1512  		jpu_write(jpu, JCCMD_JEND, JCCMD);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1513  =
+904c9867969e36 Jason Lai   2022-02-22  220  	sd_uhs2_cmd_assemble(&cmd, &uh=
+s2_cmd, header, arg, payload, plen, resp, resp_len);
+904c9867969e36 Jason Lai   2022-02-22  221  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1514  	spin_lock(&jpu->lock);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1515  =
+904c9867969e36 Jason Lai   2022-02-22  222  	err =3D mmc_wait_for_cmd(host,=
+ &cmd, 0);
+904c9867969e36 Jason Lai   2022-02-22  223  	if (err) {
+904c9867969e36 Jason Lai   2022-02-22  224  		pr_err("%s: %s: UHS2 CMD send=
+ fail, err=3D 0x%x!\n",
+904c9867969e36 Jason Lai   2022-02-22  225  		       mmc_hostname(host), __=
+func__, err);
+904c9867969e36 Jason Lai   2022-02-22  226  		return -EIO;
+904c9867969e36 Jason Lai   2022-02-22  227  	}
+904c9867969e36 Jason Lai   2022-02-22  228  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1516  	if ((int_status & JINTS_PROCESS_COMPL) &&
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1517  	   !(int_status & JINTS_TRANSF_COMPL))
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1518  		goto handled;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1519  =
+904c9867969e36 Jason Lai   2022-02-22  229  	if (resp[3] !=3D (UHS2_DEV_CMD=
+_ENUMERATE & 0xFF)) {
+904c9867969e36 Jason Lai   2022-02-22  230  		pr_err("%s: ENUMERATE respons=
+e is wrong!\n",
+904c9867969e36 Jason Lai   2022-02-22  231  		       mmc_hostname(host));
+904c9867969e36 Jason Lai   2022-02-22  232  		return -EIO;
+904c9867969e36 Jason Lai   2022-02-22  233  	}
+904c9867969e36 Jason Lai   2022-02-22  234  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1520  	curr_ctx =3D v4l2_m2m_get_curr_priv(jpu->m2m_dev);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1521  	if (!curr_ctx) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1522  		/* ...instance is not running */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1523  		dev_err(jpu->dev, "no active context for m2m\n");
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1524  		goto handled;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1525  	}
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1526  =
+904c9867969e36 Jason Lai   2022-02-22  235  	id_f =3D (resp[4] >> 4) & 0xF;
+904c9867969e36 Jason Lai   2022-02-22 @236  	id_l =3D resp[4] & 0xF;
+904c9867969e36 Jason Lai   2022-02-22  237  	*node_id =3D id_f;
+904c9867969e36 Jason Lai   2022-02-22  238  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1527  	src_buf =3D v4l2_m2m_src_buf_remove(curr_ctx->fh.m2m_ctx);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1528  	dst_buf =3D v4l2_m2m_dst_buf_remove(curr_ctx->fh.m2m_ctx);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1529  =
+ede956b4ea9aaa Ulf Hansson 2022-01-18  239  	return 0;
+ede956b4ea9aaa Ulf Hansson 2022-01-18  240  }
+ede956b4ea9aaa Ulf Hansson 2022-01-18  241  =
 
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1530  	if (int_status & JINTS_TRANSF_COMPL) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1531  		if (curr_ctx->encoder) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1532  			unsigned long payload_size =3D jpu_read(jpu, JCDTCU) << 16
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1533  						   | jpu_read(jpu, JCDTCM) << 8
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1534  						   | jpu_read(jpu, JCDTCD);
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1535  			vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1536  				payload_size + JPU_JPEG_HDR_SIZE);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1537  		}
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1538  =
-
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1539  		dst_buf->field =3D src_buf->field;
-d6dd645eae76ee drivers/media/platform/rcar_jpu.c Junghak Sung    2015-11-03=
-  1540  		dst_buf->vb2_buf.timestamp =3D src_buf->vb2_buf.timestamp;
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1541  		if (src_buf->flags & V4L2_BUF_FLAG_TIMECODE)
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1542  			dst_buf->timecode =3D src_buf->timecode;
-2d7007153f0c9b drivers/media/platform/rcar_jpu.c Junghak Sung    2015-09-22=
-  1543  		dst_buf->flags =3D src_buf->flags &
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1544  			(V4L2_BUF_FLAG_TIMECODE | V4L2_BUF_FLAG_KEYFRAME |
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1545  			 V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_BFRAME |
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1546  			 V4L2_BUF_FLAG_TSTAMP_SRC_MASK);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1547  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1548  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1549  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1550  	} else if (int_status & JINTS_ERR) {
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
- @1551  		unsigned char error =3D jpu_read(jpu, JCDERR) & JCDERR_MASK;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1552  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1553  		dev_dbg(jpu->dev, "processing error: %#X: %s\n", error,
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1554  			error_to_text[error]);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1555  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1556  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_ERROR);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1557  		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_ERROR);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1558  	}
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1559  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1560  	jpu->curr =3D NULL;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1561  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1562  	/* ...reset JPU after completion */
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1563  	jpu_write(jpu, JCCMD_SRST, JCCMD);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1564  	spin_unlock(&jpu->lock);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1565  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1566  	v4l2_m2m_job_finish(jpu->m2m_dev, curr_ctx->fh.m2m_ctx);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1567  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1568  	return IRQ_HANDLED;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1569  =
-
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1570  handled:
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1571  	spin_unlock(&jpu->lock);
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1572  	return IRQ_HANDLED;
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1573  }
-2c42cdbaec56a9 drivers/media/platform/rcar_jpu.c Mikhail Ulyanov 2015-07-22=
-  1574  =
-
-
-:::::: The code at line 1551 was first introduced by commit
-:::::: 2c42cdbaec56a9565a2717b450506150c9c55103 [media] V4L2: platform: Add=
- Renesas R-Car JPEG codec driver
-
-:::::: TO: Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0658121807371484877==--
+--===============1380032321753295250==--
 
