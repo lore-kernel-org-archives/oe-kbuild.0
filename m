@@ -1,137 +1,95 @@
-Content-Type: multipart/mixed; boundary="===============5993472547060560158=="
+Content-Type: multipart/mixed; boundary="===============1343021252220996485=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [nsaenz-rpi:pcpdrain-sl-v3r1 4/4] mm/page_alloc.c:3571 __rmqueue_pcplist() warn: ignoring unreachable code.
-Date: Fri, 25 Mar 2022 19:02:49 +0800
-Message-ID: <202203251815.T2oLEgNJ-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 977/1029] drivers/mtd/spi-nor/swp.c:55 spi_nor_get_min_prot_length_sr() warn: should 'sector_size << (bp_slots_needed - bp_slots)' be a 64 bit type?
+Date: Sat, 26 Mar 2022 12:06:20 +0800
+Message-ID: <202203261214.DGCMTIyM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5993472547060560158==
+--===============1343021252220996485==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Nicolas Saenz Julienne <nsaenzju@redhat.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/nsaenz/linux-rpi.gi=
-t pcpdrain-sl-v3r1
-head:   9710838f0540b295e2ffc2ded307fe65a9fa7111
-commit: 9710838f0540b295e2ffc2ded307fe65a9fa7111 [4/4] mm/page_alloc: Avoid=
- disabling interruptions on hot paths
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
-20325/202203251815.T2oLEgNJ-lkp(a)intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
+head:   1870e0fa79a9d58c6748c34550f3ccea0b515933
+commit: e5219f94d0c1bb784c28acf47d5aec8860f079d6 [977/1029] mtd: spi-nor: A=
+void updating the flash_info struct in dual and stacked modes
+:::::: branch date: 2 days ago
+:::::: commit date: 2 weeks ago
+config: nios2-randconfig-m031-20220324 (https://download.01.org/0day-ci/arc=
+hive/20220326/202203261214.DGCMTIyM-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-mm/page_alloc.c:3571 __rmqueue_pcplist() warn: ignoring unreachable code.
+drivers/mtd/spi-nor/swp.c:55 spi_nor_get_min_prot_length_sr() warn: should =
+'sector_size << (bp_slots_needed - bp_slots)' be a 64 bit type?
 
-vim +3571 mm/page_alloc.c
+vim +55 drivers/mtd/spi-nor/swp.c
 
-060e74173f292f Mel Gorman             2016-05-19  3530  =
+c4c795105f2924c Tudor Ambarus        2021-03-22  35  =
 
-066b23935578d3 Mel Gorman             2017-02-24  3531  /* Remove page from=
- the per-cpu list, caller must protect the list */
-3b822017b636bf Jesper Dangaard Brouer 2021-04-29  3532  static inline
-44042b4498728f Mel Gorman             2021-06-28  3533  struct page *__rmqu=
-eue_pcplist(struct zone *zone, unsigned int order,
-44042b4498728f Mel Gorman             2021-06-28  3534  			int migratetype,
-6bb154504f8b49 Mel Gorman             2018-12-28  3535  			unsigned int all=
-oc_flags,
-453f85d43fa9ee Mel Gorman             2017-11-15  3536  			struct per_cpu_p=
-ages *pcp,
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3537  			struct list_head=
- *list,
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3538  			bool locked)
-^1da177e4c3f41 Linus Torvalds         2005-04-16  3539  {
-689bcebfda16d7 Hugh Dickins           2005-11-21  3540  	struct page *page;
-^1da177e4c3f41 Linus Torvalds         2005-04-16  3541  =
+c4c795105f2924c Tudor Ambarus        2021-03-22  36  static u64 spi_nor_get=
+_min_prot_length_sr(struct spi_nor *nor)
+c4c795105f2924c Tudor Ambarus        2021-03-22  37  {
+c4c795105f2924c Tudor Ambarus        2021-03-22  38  	unsigned int bp_slots=
+, bp_slots_needed;
+c4c795105f2924c Tudor Ambarus        2021-03-22  39  	u8 mask =3D spi_nor_g=
+et_sr_bp_mask(nor);
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  40  	u32 n_sectors =3D nor=
+->info->n_sectors;
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  41  	u32 sector_size =3D n=
+or->info->sector_size;
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  42  =
 
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3542  	/*
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3543  	 * Is IRQ preempti=
-ng or a parallel drain in progress?
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3544  	 *
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3545  	 * If pcp->lock ca=
-nnot be acquired, the caller uses rmqueue_buddy
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3546  	 */
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3547  	if (unlikely(!lock=
-ed && !spin_trylock(&pcp->lock)))
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3548  	       return NULL;
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3549  =
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  43  	if (nor->isstacked)
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  44  		n_sectors <<=3D 1;
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  45  =
 
-479f854a207ce2 Mel Gorman             2016-05-19  3550  	do {
-5f8dcc21211a3d Mel Gorman             2009-09-21  3551  		if (list_empty(li=
-st)) {
-44042b4498728f Mel Gorman             2021-06-28  3552  			int batch =3D RE=
-AD_ONCE(pcp->batch);
-44042b4498728f Mel Gorman             2021-06-28  3553  			int alloced;
-44042b4498728f Mel Gorman             2021-06-28  3554  =
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  46  	if (nor->isparallel)
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  47  		sector_size <<=3D 1;
+c4c795105f2924c Tudor Ambarus        2021-03-22  48  =
 
-44042b4498728f Mel Gorman             2021-06-28  3555  			/*
-44042b4498728f Mel Gorman             2021-06-28  3556  			 * Scale batch r=
-elative to order if batch implies
-44042b4498728f Mel Gorman             2021-06-28  3557  			 * free pages ca=
-n be stored on the PCP. Batch can
-44042b4498728f Mel Gorman             2021-06-28  3558  			 * be 1 for smal=
-l zones or for boot pagesets which
-44042b4498728f Mel Gorman             2021-06-28  3559  			 * should never =
-store free pages as the pages may
-44042b4498728f Mel Gorman             2021-06-28  3560  			 * belong to arb=
-itrary zones.
-44042b4498728f Mel Gorman             2021-06-28  3561  			 */
-44042b4498728f Mel Gorman             2021-06-28  3562  			if (batch > 1)
-44042b4498728f Mel Gorman             2021-06-28  3563  				batch =3D max(b=
-atch >> order, 2);
-44042b4498728f Mel Gorman             2021-06-28  3564  			alloced =3D rmqu=
-eue_bulk(zone, order,
-44042b4498728f Mel Gorman             2021-06-28  3565  					batch, list,
-6bb154504f8b49 Mel Gorman             2018-12-28  3566  					migratetype, a=
-lloc_flags);
-44042b4498728f Mel Gorman             2021-06-28  3567  =
+c4c795105f2924c Tudor Ambarus        2021-03-22  49  	/* Reserved one for "=
+protect none" and one for "protect all". */
+c4c795105f2924c Tudor Ambarus        2021-03-22  50  	bp_slots =3D (1 << hw=
+eight8(mask)) - 2;
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  51  	bp_slots_needed =3D i=
+log2(n_sectors);
+c4c795105f2924c Tudor Ambarus        2021-03-22  52  =
 
-44042b4498728f Mel Gorman             2021-06-28  3568  			pcp->count +=3D =
-alloced << order;
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3569  			if (unlikely(lis=
-t_empty(list))) {
-066b23935578d3 Mel Gorman             2017-02-24  3570  				return NULL;
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24 @3571  				goto out;
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3572  			}
-b92a6edd4b77a8 Mel Gorman             2007-10-16  3573  		}
-b92a6edd4b77a8 Mel Gorman             2007-10-16  3574  =
+c4c795105f2924c Tudor Ambarus        2021-03-22  53  	if (bp_slots_needed >=
+ bp_slots)
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  54  		return sector_size <<
+c4c795105f2924c Tudor Ambarus        2021-03-22 @55  			(bp_slots_needed - =
+bp_slots);
+c4c795105f2924c Tudor Ambarus        2021-03-22  56  	else
+e5219f94d0c1bb7 Sai Krishna Potthuri 2022-03-08  57  		return sector_size;
+c4c795105f2924c Tudor Ambarus        2021-03-22  58  }
+c4c795105f2924c Tudor Ambarus        2021-03-22  59  =
 
-a16601c5458eb7 Geliang Tang           2016-01-14  3575  		page =3D list_fir=
-st_entry(list, struct page, lru);
-^1da177e4c3f41 Linus Torvalds         2005-04-16  3576  		list_del(&page->l=
-ru);
-44042b4498728f Mel Gorman             2021-06-28  3577  		pcp->count -=3D 1=
- << order;
-77fe7f136a7312 Mel Gorman             2022-03-22  3578  	} while (check_new=
-_pcp(page, order));
-066b23935578d3 Mel Gorman             2017-02-24  3579  =
 
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3580  out:
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3581  	if (!locked)
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3582  		spin_unlock(&pcp-=
->lock);
-9710838f0540b2 Nicolas Saenz Julienne 2022-03-24  3583  =
+:::::: The code@line 55 was first introduced by commit
+:::::: c4c795105f2924c80752c30ffd3c7029a8e0ef28 mtd: spi-nor: Move Software=
+ Write Protection logic out of the core
 
-066b23935578d3 Mel Gorman             2017-02-24  3584  	return page;
-066b23935578d3 Mel Gorman             2017-02-24  3585  }
-066b23935578d3 Mel Gorman             2017-02-24  3586  =
-
+:::::: TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+:::::: CC: Tudor Ambarus <tudor.ambarus@microchip.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5993472547060560158==--
+--===============1343021252220996485==--
 
