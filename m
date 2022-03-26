@@ -1,113 +1,368 @@
-Content-Type: multipart/mixed; boundary="===============2021178031369286627=="
+Content-Type: multipart/mixed; boundary="===============2215492878124394950=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 5/5] iio: accel: bma400: Add step change event
-Date: Sun, 27 Mar 2022 06:26:15 +0800
-Message-ID: <202203270615.KLDZXbOm-lkp@intel.com>
+Subject: [drm-misc:for-linux-next 2/3] drivers/dma-buf/st-dma-fence-unwrap.c:148:4: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 27 Mar 2022 04:24:18 +0800
+Message-ID: <202203270435.TtRcG3Pv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2021178031369286627==
+--===============2215492878124394950==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220326194146.15549-6-jagathjog1996@gmail.com>
-References: <20220326194146.15549-6-jagathjog1996@gmail.com>
-TO: Jagath Jog J <jagathjog1996@gmail.com>
-TO: dan(a)dlrobertson.com
-TO: jic23(a)kernel.org
-TO: andy.shevchenko(a)gmail.com
-CC: linux-iio(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-Hi Jagath,
+tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
+head:   519f490db07e1a539490612f376487f61e48e39c
+commit: 64a8f92fd783e750cdb81af75942dcd53bbf61bd [2/3] dma-buf: add dma_fen=
+ce_unwrap v2
+:::::: branch date: 31 hours ago
+:::::: commit date: 31 hours ago
+config: riscv-randconfig-c006-20220324 (https://download.01.org/0day-ci/arc=
+hive/20220327/202203270435.TtRcG3Pv-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
+        git fetch --no-tags drm-misc for-linux-next
+        git checkout 64a8f92fd783e750cdb81af75942dcd53bbf61bd
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on v5.17]
-[cannot apply to jic23-iio/togreg next-20220325]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jagath-Jog-J/iio-acc=
-el-bma400-Add-support-for-buffer-and-step/20220327-034340
-base:    f443e374ae131c168a065ea1748feac6b2e76613
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: parisc-randconfig-c024-20220327 (https://download.01.org/0day-ci/ar=
-chive/20220327/202203270615.KLDZXbOm-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/iio/accel/bma400_core.c:924:4-10: preceding lock on line 916
+clang-analyzer warnings: (new ones prefixed by >>)
+               ^~~
+   fs/ubifs/dir.c:376:2: note: Taking false branch
+           if (err) {
+           ^
+   fs/ubifs/dir.c:382:6: note: Assuming 'err' is 0
+           if (err) {
+               ^~~
+   fs/ubifs/dir.c:382:2: note: Taking false branch
+           if (err) {
+           ^
+   fs/ubifs/dir.c:389:6: note: Calling 'IS_ERR'
+           if (IS_ERR(inode)) {
+               ^~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is true
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning the value 1, which participate=
+s in a condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ubifs/dir.c:389:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(inode)) {
+               ^~~~~~~~~~~~~
+   fs/ubifs/dir.c:389:2: note: Taking true branch
+           if (IS_ERR(inode)) {
+           ^
+   fs/ubifs/dir.c:391:3: note: Control jumps to line 436
+                   goto out_budg;
+                   ^
+   fs/ubifs/dir.c:437:7: note: 'instantiated' is 0
+           if (!instantiated)
+                ^~~~~~~~~~~~
+   fs/ubifs/dir.c:437:2: note: Taking true branch
+           if (!instantiated)
+           ^
+   fs/ubifs/dir.c:441:2: note: Returning without writing to '*whiteout'
+           return err;
+           ^
+   fs/ubifs/dir.c:441:2: note: Returning value (loaded from 'err'), which p=
+articipates in a condition later
+           return err;
+           ^~~~~~~~~~
+   fs/ubifs/dir.c:1334:9: note: Returning from 'do_tmpfile'
+                   err =3D do_tmpfile(old_dir, old_dentry, S_IFCHR | WHITEO=
+UT_MODE, &whiteout);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   fs/ubifs/dir.c:1335:7: note: Assuming 'err' is 0
+                   if (err) {
+                       ^~~
+   fs/ubifs/dir.c:1335:3: note: Taking false branch
+                   if (err) {
+                   ^
+   fs/ubifs/dir.c:1341:21: note: Access to field 'i_state' results in a der=
+eference of a null pointer (loaded from variable 'whiteout')
+                   whiteout->i_state |=3D I_LINKABLE;
+                   ~~~~~~~~          ^
+   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+   Suppressed 22 warnings (12 in non-user code, 10 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> drivers/dma-buf/st-dma-fence-unwrap.c:148:4: warning: Value stored to 'e=
+rr' is never read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:148:4: note: Value stored to 'err'=
+ is never read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:154:3: warning: Value stored to 'e=
+rr' is never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D -EINVAL;
+                   ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:154:3: note: Value stored to 'err'=
+ is never read
+                   err =3D -EINVAL;
+                   ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:190:4: warning: Value stored to 'e=
+rr' is never read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:190:4: note: Value stored to 'err'=
+ is never read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:196:3: warning: Value stored to 'e=
+rr' is never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D -EINVAL;
+                   ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:196:3: note: Value stored to 'err'=
+ is never read
+                   err =3D -EINVAL;
+                   ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:236:4: warning: Value stored to 'e=
+rr' is never read [clang-analyzer-deadcode.DeadStores]
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:236:4: note: Value stored to 'err'=
+ is never read
+                           err =3D -EINVAL;
+                           ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:242:3: warning: Value stored to 'e=
+rr' is never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D -EINVAL;
+                   ^     ~~~~~~~
+   drivers/dma-buf/st-dma-fence-unwrap.c:242:3: note: Value stored to 'err'=
+ is never read
+                   err =3D -EINVAL;
+                   ^     ~~~~~~~
+   Suppressed 9 warnings (5 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   Suppressed 19 warnings (12 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   drivers/net/can/dev/bittiming.c:173:33: warning: Division by zero [clang=
+-analyzer-core.DivideZero]
+           bt->bitrate =3D priv->clock.freq /
+                                          ^
+   drivers/net/can/dev/bittiming.c:277:6: note: Assuming field 'tq' is 0
+           if (!bt->tq && bt->bitrate && btc)
+               ^~~~~~~
+   drivers/net/can/dev/bittiming.c:277:6: note: Left side of '&&' is true
+   drivers/net/can/dev/bittiming.c:277:17: note: Assuming field 'bitrate' i=
+s not equal to 0
+           if (!bt->tq && bt->bitrate && btc)
+                          ^~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:277:6: note: Left side of '&&' is true
+           if (!bt->tq && bt->bitrate && btc)
+               ^
+   drivers/net/can/dev/bittiming.c:277:32: note: Assuming 'btc' is non-null
+           if (!bt->tq && bt->bitrate && btc)
+                                         ^~~
+   drivers/net/can/dev/bittiming.c:277:2: note: Taking true branch
+           if (!bt->tq && bt->bitrate && btc)
+           ^
+   drivers/net/can/dev/bittiming.c:278:9: note: Calling 'can_calc_bittiming'
+                   err =3D can_calc_bittiming(dev, bt, btc);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:77:2: note: 'best_brp' initialized to 0
+           unsigned int best_brp =3D 0;              /* current best value =
+for brp */
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:82:6: note: Assuming field 'sample_point=
+' is not equal to 0
+           if (bt->sample_point) {
+               ^~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:82:2: note: Taking true branch
+           if (bt->sample_point) {
+           ^
+   drivers/net/can/dev/bittiming.c:95:7: note: Assuming the condition is tr=
+ue
+                tseg >=3D (btc->tseg1_min + btc->tseg2_min) * 2; tseg--) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:94:2: note: Loop condition is true.  Ent=
+ering loop body
+           for (tseg =3D (btc->tseg1_max + btc->tseg2_max) * 2 + 1;
+           ^
+   drivers/net/can/dev/bittiming.c:103:7: note: Assuming 'brp' is < field '=
+brp_min'
+                   if (brp < btc->brp_min || brp > btc->brp_max)
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:103:26: note: Left side of '||' is true
+                   if (brp < btc->brp_min || brp > btc->brp_max)
+                                          ^
+   drivers/net/can/dev/bittiming.c:104:4: note:  Execution continues on lin=
+e 95
+                           continue;
+                           ^
+   drivers/net/can/dev/bittiming.c:95:7: note: Assuming the condition is fa=
+lse
+                tseg >=3D (btc->tseg1_min + btc->tseg2_min) * 2; tseg--) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:94:2: note: Loop condition is false. Exe=
+cution continues on line 131
+           for (tseg =3D (btc->tseg1_max + btc->tseg2_max) * 2 + 1;
+           ^
+   drivers/net/can/dev/bittiming.c:131:6: note: 'best_bitrate_error' is 429=
+4967295
+           if (best_bitrate_error) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/net/can/dev/bittiming.c:131:2: note: Taking true branch
 
-vim +924 drivers/iio/accel/bma400_core.c
+vim +/err +148 drivers/dma-buf/st-dma-fence-unwrap.c
 
-289ea151b60e04 Jagath Jog J 2022-03-27  905  =
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  120  =
 
-289ea151b60e04 Jagath Jog J 2022-03-27  906  static int bma400_write_event_=
-config(struct iio_dev *indio_dev,
-289ea151b60e04 Jagath Jog J 2022-03-27  907  				     const struct iio_chan=
-_spec *chan,
-289ea151b60e04 Jagath Jog J 2022-03-27  908  				     enum iio_event_type t=
-ype,
-289ea151b60e04 Jagath Jog J 2022-03-27  909  				     enum iio_event_direct=
-ion dir, int state)
-289ea151b60e04 Jagath Jog J 2022-03-27  910  {
-289ea151b60e04 Jagath Jog J 2022-03-27  911  	int ret;
-289ea151b60e04 Jagath Jog J 2022-03-27  912  	struct bma400_data *data =3D =
-iio_priv(indio_dev);
-289ea151b60e04 Jagath Jog J 2022-03-27  913  =
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  121  static int unwrap_arr=
+ay(void *arg)
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  122  {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  123  	struct dma_fence *fe=
+nce, *f1, *f2, *array;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  124  	struct dma_fence_unw=
+rap iter;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  125  	int err =3D 0;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  126  =
 
-289ea151b60e04 Jagath Jog J 2022-03-27  914  	switch (type) {
-289ea151b60e04 Jagath Jog J 2022-03-27  915  	case IIO_EV_TYPE_CHANGE:
-289ea151b60e04 Jagath Jog J 2022-03-27 @916  		mutex_lock(&data->mutex);
-289ea151b60e04 Jagath Jog J 2022-03-27  917  		if (!data->steps_enabled) {
-289ea151b60e04 Jagath Jog J 2022-03-27  918  			ret =3D regmap_update_bits(=
-data->regmap,
-289ea151b60e04 Jagath Jog J 2022-03-27  919  						 BMA400_INT_CONFIG1_REG,
-289ea151b60e04 Jagath Jog J 2022-03-27  920  						 BMA400_STEP_INT_MSK,
-289ea151b60e04 Jagath Jog J 2022-03-27  921  						 FIELD_PREP(BMA400_STEP_=
-INT_MSK,
-289ea151b60e04 Jagath Jog J 2022-03-27  922  							    1));
-289ea151b60e04 Jagath Jog J 2022-03-27  923  			if (ret)
-289ea151b60e04 Jagath Jog J 2022-03-27 @924  				return ret;
-289ea151b60e04 Jagath Jog J 2022-03-27  925  			data->steps_enabled =3D 1;
-289ea151b60e04 Jagath Jog J 2022-03-27  926  		}
-289ea151b60e04 Jagath Jog J 2022-03-27  927  =
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  127  	f1 =3D mock_fence();
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  128  	if (!f1)
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  129  		return -ENOMEM;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  130  =
 
-289ea151b60e04 Jagath Jog J 2022-03-27  928  		ret =3D regmap_update_bits(d=
-ata->regmap,
-289ea151b60e04 Jagath Jog J 2022-03-27  929  					 BMA400_INT12_MAP_REG,
-289ea151b60e04 Jagath Jog J 2022-03-27  930  					 BMA400_STEP_INT_MSK,
-289ea151b60e04 Jagath Jog J 2022-03-27  931  					 FIELD_PREP(BMA400_STEP_I=
-NT_MSK,
-289ea151b60e04 Jagath Jog J 2022-03-27  932  						    state));
-289ea151b60e04 Jagath Jog J 2022-03-27  933  		mutex_unlock(&data->mutex);
-289ea151b60e04 Jagath Jog J 2022-03-27  934  		if (ret)
-289ea151b60e04 Jagath Jog J 2022-03-27  935  			return ret;
-289ea151b60e04 Jagath Jog J 2022-03-27  936  		data->step_event_en =3D stat=
-e;
-289ea151b60e04 Jagath Jog J 2022-03-27  937  		return 0;
-289ea151b60e04 Jagath Jog J 2022-03-27  938  	default:
-289ea151b60e04 Jagath Jog J 2022-03-27  939  		return -EINVAL;
-289ea151b60e04 Jagath Jog J 2022-03-27  940  	}
-289ea151b60e04 Jagath Jog J 2022-03-27  941  }
-289ea151b60e04 Jagath Jog J 2022-03-27  942  =
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  131  	f2 =3D mock_fence();
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  132  	if (!f2) {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  133  		dma_fence_put(f1);
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  134  		return -ENOMEM;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  135  	}
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  136  =
+
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  137  	array =3D mock_array=
+(2, f1, f2);
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  138  	if (!array)
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  139  		return -ENOMEM;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  140  =
+
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  141  	dma_fence_unwrap_for=
+_each(fence, &iter, array) {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  142  		if (fence =3D=3D f1=
+) {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  143  			f1 =3D NULL;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  144  		} else if (fence =
+=3D=3D f2) {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  145  			f2 =3D NULL;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  146  		} else {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  147  			pr_err("Unexpected=
+ fence!\n");
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11 @148  			err =3D -EINVAL;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  149  		}
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  150  	}
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  151  =
+
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  152  	if (f1 || f2) {
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  153  		pr_err("Not all fen=
+ces seen!\n");
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  154  		err =3D -EINVAL;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  155  	}
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  156  =
+
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  157  	dma_fence_signal(f1);
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  158  	dma_fence_signal(f2);
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  159  	dma_fence_put(array);
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  160  	return 0;
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  161  }
+64a8f92fd783e75 Christian K=C3=B6nig 2022-03-11  162  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2021178031369286627==--
+--===============2215492878124394950==--
 
