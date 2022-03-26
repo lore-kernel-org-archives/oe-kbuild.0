@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5597331472150941940=="
+Content-Type: multipart/mixed; boundary="===============9139465829778160093=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 2/2] kunit: split resource API impl from test.c into new resource.c
-Date: Sun, 27 Mar 2022 00:31:00 +0800
-Message-ID: <202203270042.5RTZ2j0a-lkp@intel.com>
+Subject: kernel/irq/chip.c:1581:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 27 Mar 2022 00:30:57 +0800
+Message-ID: <202203270001.ZZ7rmWmr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5597331472150941940==
+--===============9139465829778160093==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,44 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220326002013.483394-2-dlatypov@google.com>
-References: <20220326002013.483394-2-dlatypov@google.com>
-TO: Daniel Latypov <dlatypov@google.com>
-TO: brendanhiggins(a)google.com
-TO: davidgow(a)google.com
 CC: linux-kernel(a)vger.kernel.org
-CC: kunit-dev(a)googlegroups.com
-CC: linux-kselftest(a)vger.kernel.org
-CC: skhan(a)linuxfoundation.org
-CC: Daniel Latypov <dlatypov@google.com>
+TO: Marc Zyngier <maz@kernel.org>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hi Daniel,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on b14ffae378aa1db993e62b01392e70d1e585fb23]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Latypov/kunit=
--split-resource-API-from-test-h-into-new-resource-h/20220326-082202
-base:   b14ffae378aa1db993e62b01392e70d1e585fb23
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   52d543b5497cf31d6baeb0bcfe5a5474c3238578
+commit: 1f8863bfb5ca500ea1c7669b16b1931ba27fce20 genirq: Allow the PM devic=
+e to originate from irq domain
+date:   6 weeks ago
 :::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: riscv-randconfig-c006-20220324 (https://download.01.org/0day-ci/arc=
-hive/20220327/202203270042.5RTZ2j0a-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
-01cf49ce02937099350d08f20c4af86f3d)
+:::::: commit date: 6 weeks ago
+config: riscv-randconfig-c006-20220323 (https://download.01.org/0day-ci/arc=
+hive/20220327/202203270001.ZZ7rmWmr-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
+08fe1d03b0de7e5315ef875006a6adc319)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/38eca10f33d99e00e81=
-b999ebeff960bb7f2e77b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Latypov/kunit-split-resourc=
-e-API-from-test-h-into-new-resource-h/20220326-082202
-        git checkout 38eca10f33d99e00e81b999ebeff960bb7f2e77b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D1f8863bfb5ca500ea1c7669b16b1931ba27fce20
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1f8863bfb5ca500ea1c7669b16b1931ba27fce20
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -63,275 +53,289 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                            ^~~
-   crypto/drbg.c:1858:18: note: '?' condition is true
-                   u32 cryptlen =3D min3(inlen, outlen, (u32)DRBG_OUTSCRATC=
-HLEN);
-                                  ^
-   include/linux/minmax.h:60:23: note: expanded from macro 'min3'
-   #define min3(x, y, z) min((typeof(x))min(x, y), z)
-                         ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/indirect.c:155:47: note: The right operand of '+' is a garbage v=
+alue
+           add_chain(chain, NULL, EXT4_I(inode)->i_data + *offsets);
+                                                        ^ ~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (7 in non-user code, 6 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (6 in non-user code, 10 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   kernel/kprobes.c:1052:2: warning: Argument to kfree() is a constant addr=
+ess (290), which is not memory allocated by malloc() [clang-analyzer-unix.M=
+alloc]
+           kfree(p);
+           ^
+   kernel/kprobes.c:2172:2: note: Calling 'unregister_kretprobes'
+           unregister_kretprobes(&rp, 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kprobes.c:2180:6: note: 'num' is > 0
+           if (num <=3D 0)
+               ^~~
+   kernel/kprobes.c:2180:2: note: Taking false branch
+           if (num <=3D 0)
+           ^
+   kernel/kprobes.c:2183:2: note: Loop condition is true.  Entering loop bo=
+dy
+           for (i =3D 0; i < num; i++) {
+           ^
+   kernel/kprobes.c:2184:3: note: Taking false branch
+                   if (__unregister_kprobe_top(&rps[i]->kp) < 0)
                    ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
+   kernel/kprobes.c:2183:2: note: Loop condition is false. Execution contin=
+ues on line 2188
+           for (i =3D 0; i < num; i++) {
+           ^
+   kernel/kprobes.c:2191:2: note: Loop condition is true.  Entering loop bo=
+dy
+           for (i =3D 0; i < num; i++) {
+           ^
+   kernel/kprobes.c:2192:7: note: Assuming field 'addr' is non-null
+                   if (rps[i]->kp.addr) {
+                       ^~~~~~~~~~~~~~~
+   kernel/kprobes.c:2192:3: note: Taking true branch
+                   if (rps[i]->kp.addr) {
                    ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+   kernel/kprobes.c:2193:4: note: Calling '__unregister_kprobe_bottom'
+                           __unregister_kprobe_bottom(&rps[i]->kp);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kprobes.c:1818:6: note: Assuming the condition is false
+           if (list_empty(&p->list))
+               ^~~~~~~~~~~~~~~~~~~~
+   kernel/kprobes.c:1818:2: note: Taking false branch
+           if (list_empty(&p->list))
+           ^
+   kernel/kprobes.c:1821:7: note: Taking true branch
+           else if (list_is_singular(&p->list)) {
+                ^
+   kernel/kprobes.c:1825:3: note: Calling 'free_aggr_kprobe'
+                   free_aggr_kprobe(ap);
+                   ^~~~~~~~~~~~~~~~~~~~
+   kernel/kprobes.c:1052:2: note: Argument to kfree() is a constant address=
+ (290), which is not memory allocated by malloc()
+           kfree(p);
+           ^     ~
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   kernel/relay.c:443:8: warning: Although the value stored to 'buf' is use=
+d in the enclosing expression, the value is never actually read from 'buf' =
+[clang-analyzer-deadcode.DeadStores]
+                   if ((buf =3D *per_cpu_ptr(chan->buf, cpu)))
+                        ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/relay.c:443:8: note: Although the value stored to 'buf' is used i=
+n the enclosing expression, the value is never actually read from 'buf'
+                   if ((buf =3D *per_cpu_ptr(chan->buf, cpu)))
+                        ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> kernel/irq/chip.c:1581:17: warning: Value stored to 'dev' during its ini=
+tialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D irq_get_parent_device(data);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/chip.c:1581:17: note: Value stored to 'dev' during its initia=
+lization is never read
+           struct device *dev =3D irq_get_parent_device(data);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/chip.c:1605:17: warning: Value stored to 'dev' during its ini=
+tialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D irq_get_parent_device(data);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/chip.c:1605:17: note: Value stored to 'dev' during its initia=
+lization is never read
+           struct device *dev =3D irq_get_parent_device(data);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   kernel/irq/affinity.c:237:22: warning: Division by zero [clang-analyzer-=
+core.DivideZero]
+                                    numvecs * ncpus / remaining_ncpus);
+                                                    ^
+   kernel/irq/affinity.c:427:6: note: Assuming the condition is true
+           if (nvecs > affd->pre_vectors + affd->post_vectors)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/affinity.c:427:2: note: Taking true branch
+           if (nvecs > affd->pre_vectors + affd->post_vectors)
+           ^
+   kernel/irq/affinity.c:436:6: note: Assuming field 'calc_sets' is non-null
+           if (!affd->calc_sets)
+               ^~~~~~~~~~~~~~~~
+   kernel/irq/affinity.c:436:2: note: Taking false branch
+           if (!affd->calc_sets)
+           ^
+   kernel/irq/affinity.c:442:19: note: Assuming field 'nr_sets' is <=3D 4
+           if (WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS))
                             ^
-   crypto/drbg.c:1863:9: note: Calling 'crypto_wait_req'
-                   ret =3D crypto_wait_req(crypto_skcipher_encrypt(drbg->ct=
-r_req),
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   include/linux/crypto.h:602:2: note: 'Default' branch taken. Execution co=
-ntinues on line 611
-           switch (err) {
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   kernel/irq/affinity.c:442:6: note: Taking false branch
+           if (WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS))
+               ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
            ^
-   include/linux/crypto.h:611:2: note: Returning value (loaded from 'err'),=
- which participates in a condition later
-           return err;
-           ^~~~~~~~~~
-   crypto/drbg.c:1863:9: note: Returning from 'crypto_wait_req'
-                   ret =3D crypto_wait_req(crypto_skcipher_encrypt(drbg->ct=
-r_req),
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   crypto/drbg.c:1865:7: note: Assuming 'ret' is 0
-                   if (ret)
-                       ^~~
-   crypto/drbg.c:1865:3: note: Taking false branch
-                   if (ret)
-                   ^
-   crypto/drbg.c:1870:3: note: Null pointer passed as 1st argument to memor=
-y copy function
-                   memcpy(outbuf, drbg->outscratchpad, cryptlen);
-                   ^      ~~~~~~
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   include/linux/scatterlist.h:76:9: warning: Access to field 'page_link' r=
-esults in a dereference of a null pointer (loaded from variable 'sg') [clan=
-g-analyzer-core.NullDereference]
-           return sg->page_link & SG_PAGE_LINK_MASK;
-                  ^
-   lib/scatterlist.c:103:27: note: 'ret' initialized to a null pointer value
-           struct scatterlist *sg, *ret =3D NULL;
-                                    ^~~
-   lib/scatterlist.c:106:30: note: Assuming 'i' is >=3D 'nents'
-           for_each_sg(sgl, sg, nents, i)
-                                       ^
-   include/linux/scatterlist.h:169:31: note: expanded from macro 'for_each_=
-sg'
-           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
-xt(sg))
-                                        ^~~~~~~~~~
-   lib/scatterlist.c:106:2: note: Loop condition is false. Execution contin=
-ues on line 109
-           for_each_sg(sgl, sg, nents, i)
+   kernel/irq/affinity.c:442:2: note: Taking false branch
+           if (WARN_ON_ONCE(affd->nr_sets > IRQ_AFFINITY_MAX_SETS))
            ^
-   include/linux/scatterlist.h:169:2: note: expanded from macro 'for_each_s=
-g'
-           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
-xt(sg))
+   kernel/irq/affinity.c:446:6: note: Assuming 'affvecs' is not equal to 0
+           if (!affvecs)
+               ^~~~~~~~
+   kernel/irq/affinity.c:446:2: note: Taking false branch
+           if (!affvecs)
            ^
-   lib/scatterlist.c:109:21: note: Passing null pointer value via 1st param=
-eter 'sg'
-           BUG_ON(!sg_is_last(ret));
-                              ^
-   include/asm-generic/bug.h:161:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   lib/scatterlist.c:109:10: note: Calling 'sg_is_last'
-           BUG_ON(!sg_is_last(ret));
-                   ^
-   include/asm-generic/bug.h:161:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/scatterlist.h:91:20: note: Passing null pointer value via =
-1st parameter 'sg'
-           return __sg_flags(sg) & SG_END;
-                             ^~
-   include/linux/scatterlist.h:91:9: note: Calling '__sg_flags'
-           return __sg_flags(sg) & SG_END;
-                  ^~~~~~~~~~~~~~
-   include/linux/scatterlist.h:76:9: note: Access to field 'page_link' resu=
-lts in a dereference of a null pointer (loaded from variable 'sg')
-           return sg->page_link & SG_PAGE_LINK_MASK;
-                  ^~
-   Suppressed 13 warnings (6 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> lib/kunit/resource.c:121:2: warning: Use of memory after it is freed [cl=
-ang-analyzer-unix.Malloc]
-           kunit_put_resource(res);
-           ^                  ~~~
-   lib/kunit/resource.c:115:6: note: Assuming 'res' is non-null
-           if (!res)
-               ^~~~
-   lib/kunit/resource.c:115:2: note: Taking false branch
-           if (!res)
+   kernel/irq/affinity.c:450:6: note: Assuming 'masks' is non-null
+           if (!masks)
+               ^~~~~~
+   kernel/irq/affinity.c:450:2: note: Taking false branch
+           if (!masks)
            ^
-   lib/kunit/resource.c:118:2: note: Calling 'kunit_remove_resource'
-           kunit_remove_resource(test, res);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/resource.c:102:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&test->lock, flags);
+   kernel/irq/affinity.c:454:19: note: Assuming 'curvec' is >=3D field 'pre=
+_vectors'
+           for (curvec =3D 0; curvec < affd->pre_vectors; curvec++)
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/affinity.c:454:2: note: Loop condition is false. Execution co=
+ntinues on line 461
+           for (curvec =3D 0; curvec < affd->pre_vectors; curvec++)
            ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+   kernel/irq/affinity.c:461:28: note: Assuming 'i' is < field 'nr_sets'
+           for (i =3D 0, usedvecs =3D 0; i < affd->nr_sets; i++) {
+                                     ^~~~~~~~~~~~~~~~~
+   kernel/irq/affinity.c:461:2: note: Loop condition is true.  Entering loo=
+p body
+           for (i =3D 0, usedvecs =3D 0; i < affd->nr_sets; i++) {
            ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
+   kernel/irq/affinity.c:465:9: note: Calling 'irq_build_affinity_masks'
+                   ret =3D irq_build_affinity_masks(curvec, this_vecs,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/irq/affinity.c:347:2: note: Taking false branch
+           if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
            ^
-   lib/kunit/resource.c:102:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&test->lock, flags);
+   kernel/irq/affinity.c:350:2: note: Taking false branch
+           if (!zalloc_cpumask_var(&npresmsk, GFP_KERNEL))
            ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   lib/kunit/resource.c:105:2: note: Calling 'kunit_put_resource'
-           kunit_put_resource(res);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/kunit/resource.h:142:2: note: Calling 'kref_put'
-           kref_put(&res->refcount, kunit_release_resource);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:6: note: Assuming the condition is true
-           if (refcount_dec_and_test(&kref->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'kunit_release_resource'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   include/kunit/resource.h:122:6: note: Assuming field 'free' is non-null
-           if (res->free) {
-               ^~~~~~~~~
-   include/kunit/resource.h:122:2: note: Taking true branch
-           if (res->free) {
-           ^
-   include/kunit/resource.h:124:3: note: Memory is released
-                   kfree(res);
-                   ^~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   include/kunit/resource.h:142:2: note: Returning; memory was released
-           kref_put(&res->refcount, kunit_release_resource);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/resource.c:105:2: note: Returning; memory was released via 1st=
- parameter
-           kunit_put_resource(res);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/resource.c:118:2: note: Returning; memory was released via 2nd=
- parameter
-           kunit_remove_resource(test, res);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/kunit/resource.c:121:2: note: Use of memory after it is freed
-           kunit_put_resource(res);
-           ^                  ~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   include/linux/mmzone.h:982:9: warning: Access to field 'pgdat' results i=
-n a dereference of a null pointer (loaded from variable 'lruvec') [clang-an=
-alyzer-core.NullDereference]
-           return lruvec->pgdat;
-                  ^
-   mm/swap.c:741:2: note: Calling 'lru_add_and_bh_lrus_drain'
-           lru_add_and_bh_lrus_drain();
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/swap.c:721:2: note: Loop condition is false.  Exiting loop
-           local_lock(&lru_pvecs.lock);
-           ^
-   include/linux/local_lock.h:16:27: note: expanded from macro 'local_lock'
-   #define local_lock(lock)                __local_lock(lock)
-                                           ^
-   include/linux/local_lock_internal.h:67:3: note: expanded from macro '__l=
-ocal_lock'
-                   preempt_disable();                              \
-                   ^
-   include/linux/preempt.h:201:27: note: expanded from macro 'preempt_disab=
-le'
-   #define preempt_disable() \
-                             ^
-   mm/swap.c:721:2: note: Loop condition is false.  Exiting loop
-           local_lock(&lru_pvecs.lock);
-           ^
-   include/linux/local_lock.h:16:27: note: expanded from macro 'local_lock'
-   #define local_lock(lock)                __local_lock(lock)
-                                           ^
-   include/linux/local_lock_internal.h:68:22: note: expanded from macro '__=
-local_lock'
-                   local_lock_acquire(this_cpu_ptr(lock));         \
-                                      ^
-   include/linux/percpu-defs.h:252:27: note: expanded from macro 'this_cpu_=
-ptr'
-   #define this_cpu_ptr(ptr) raw_cpu_ptr(ptr)
+   kernel/irq/affinity.c:354:7: note: 'node_to_cpumask' is non-null
+           if (!node_to_cpumask)
+                ^~~~~~~~~~~~~~~
+   kernel/irq/affinity.c:354:2: note: Taking false branch
+           if (!node_to_cpumask)
 
-vim +121 lib/kunit/resource.c
+vim +/dev +1581 kernel/irq/chip.c
 
-38eca10f33d99e0 Daniel Latypov 2022-03-25  108  =
+1f8863bfb5ca50 Marc Zyngier 2022-02-01  1571  =
 
-38eca10f33d99e0 Daniel Latypov 2022-03-25  109  int kunit_destroy_resource(=
-struct kunit *test, kunit_resource_match_t match,
-38eca10f33d99e0 Daniel Latypov 2022-03-25  110  			   void *match_data)
-38eca10f33d99e0 Daniel Latypov 2022-03-25  111  {
-38eca10f33d99e0 Daniel Latypov 2022-03-25  112  	struct kunit_resource *res=
- =3D kunit_find_resource(test, match,
-38eca10f33d99e0 Daniel Latypov 2022-03-25  113  							 match_data);
-38eca10f33d99e0 Daniel Latypov 2022-03-25  114  =
+be45beb2df6909 Jon Hunter   2016-06-07  1572  /**
+be45beb2df6909 Jon Hunter   2016-06-07  1573   * irq_chip_pm_get - Enable p=
+ower for an IRQ chip
+be45beb2df6909 Jon Hunter   2016-06-07  1574   * @data:	Pointer to interrup=
+t specific data
+be45beb2df6909 Jon Hunter   2016-06-07  1575   *
+be45beb2df6909 Jon Hunter   2016-06-07  1576   * Enable the power to the IR=
+Q chip referenced by the interrupt data
+be45beb2df6909 Jon Hunter   2016-06-07  1577   * structure.
+be45beb2df6909 Jon Hunter   2016-06-07  1578   */
+be45beb2df6909 Jon Hunter   2016-06-07  1579  int irq_chip_pm_get(struct ir=
+q_data *data)
+be45beb2df6909 Jon Hunter   2016-06-07  1580  {
+1f8863bfb5ca50 Marc Zyngier 2022-02-01 @1581  	struct device *dev =3D irq_g=
+et_parent_device(data);
+be45beb2df6909 Jon Hunter   2016-06-07  1582  	int retval;
+be45beb2df6909 Jon Hunter   2016-06-07  1583  =
 
-38eca10f33d99e0 Daniel Latypov 2022-03-25  115  	if (!res)
-38eca10f33d99e0 Daniel Latypov 2022-03-25  116  		return -ENOENT;
-38eca10f33d99e0 Daniel Latypov 2022-03-25  117  =
+1f8863bfb5ca50 Marc Zyngier 2022-02-01  1584  	if (IS_ENABLED(CONFIG_PM) &&=
+ dev) {
+1f8863bfb5ca50 Marc Zyngier 2022-02-01  1585  		retval =3D pm_runtime_get_s=
+ync(dev);
+be45beb2df6909 Jon Hunter   2016-06-07  1586  		if (retval < 0) {
+1f8863bfb5ca50 Marc Zyngier 2022-02-01  1587  			pm_runtime_put_noidle(dev);
+be45beb2df6909 Jon Hunter   2016-06-07  1588  			return retval;
+be45beb2df6909 Jon Hunter   2016-06-07  1589  		}
+be45beb2df6909 Jon Hunter   2016-06-07  1590  	}
+be45beb2df6909 Jon Hunter   2016-06-07  1591  =
 
-38eca10f33d99e0 Daniel Latypov 2022-03-25  118  	kunit_remove_resource(test=
-, res);
-38eca10f33d99e0 Daniel Latypov 2022-03-25  119  =
+be45beb2df6909 Jon Hunter   2016-06-07  1592  	return 0;
+be45beb2df6909 Jon Hunter   2016-06-07  1593  }
+be45beb2df6909 Jon Hunter   2016-06-07  1594  =
 
-38eca10f33d99e0 Daniel Latypov 2022-03-25  120  	/* We have a reference als=
-o via _find(); drop it. */
-38eca10f33d99e0 Daniel Latypov 2022-03-25 @121  	kunit_put_resource(res);
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5597331472150941940==--
+--===============9139465829778160093==--
 
