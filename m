@@ -1,389 +1,616 @@
-Content-Type: multipart/mixed; boundary="===============1536535036374956125=="
+Content-Type: multipart/mixed; boundary="===============8945789372409931265=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/erofs/zdata.c:767 z_erofs_do_read_page() error: we previously assumed 'fe->cl' could be null (see line 666)
-Date: Mon, 28 Mar 2022 03:58:48 +0800
-Message-ID: <202203280312.qS8bYJij-lkp@intel.com>
+Subject: include/linux/skmsg.h:312:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Mon, 28 Mar 2022 01:47:05 +0800
+Message-ID: <202203280118.wPnZSh4H-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1536535036374956125==
+--===============8945789372409931265==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Gao Xiang <hsiangkao@linux.alibaba.com>
-CC: Yue Hu <huyue2@coolpad.com>
-CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+TO: Cong Wang <cong.wang@bytedance.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7001052160d172f6de06adeffde24dde9935ece8
-commit: 5c6dcc57e2e50553405f2cf8b949f99b8820a685 erofs: get rid of `struct =
-z_erofs_collector'
-date:   12 days ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 12 days ago
-config: riscv-randconfig-m031-20220327 (https://download.01.org/0day-ci/arc=
-hive/20220328/202203280312.qS8bYJij-lkp(a)intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.2.0
+head:   f022814633e1c600507b3a99691b4d624c2813f0
+commit: b01fd6e802b6d0a635176f943315670b679d8d7b skmsg: Introduce a spinloc=
+k to protect ingress_msg
+date:   12 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220327 (https://download.01.org/0day-ci/archi=
+ve/20220328/202203280118.wPnZSh4H-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db01fd6e802b6d0a635176f943315670b679d8d7b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b01fd6e802b6d0a635176f943315670b679d8d7b
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/erofs/zdata.c:767 z_erofs_do_read_page() error: we previously assumed 'f=
-e->cl' could be null (see line 666)
 
-Old smatch warnings:
-fs/erofs/zdata.c:471 z_erofs_register_collection() warn: passing a valid po=
-inter to 'PTR_ERR'
-fs/erofs/zdata.c:1244 jobqueueset_init() warn: maybe use && instead of &
+clang-analyzer warnings: (new ones prefixed by >>)
+                       ^~~~~~~~~~~~~~~~~~
+   fs/fscache/operation.c:597:3: note: Taking false branch
+                   if (object->n_ops =3D=3D 0)
+                   ^
+   fs/fscache/operation.c:601:3: note: Memory is released
+                   kfree(op);
+                   ^~~~~~~~~
+   fs/fscache/operation.c:571:2: note: Loop condition is true. Execution co=
+ntinues on line 572
+           do {
+           ^
+   fs/fscache/operation.c:573:7: note: Assuming the condition is false
+                   if (list_empty(&cache->op_gc_list)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fscache/operation.c:573:3: note: Taking false branch
+                   if (list_empty(&cache->op_gc_list)) {
+                   ^
+   fs/fscache/operation.c:578:8: note: Left side of '&&' is false
+                   op =3D list_entry(cache->op_gc_list.next,
+                        ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   fs/fscache/operation.c:578:8: note: Taking false branch
+                   op =3D list_entry(cache->op_gc_list.next,
+                        ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   fs/fscache/operation.c:578:8: note: Loop condition is false.  Exiting lo=
+op
+                   op =3D list_entry(cache->op_gc_list.next,
+                        ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/fscache/operation.c:580:3: note: Calling 'list_del'
+                   list_del(&op->pend_link);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:147:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (2 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/power/supply/88pm860x_battery.c:197:3: warning: Value stored to =
+'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D ((buf[4] >> 6) << 10) | ((buf[3] >> 6) << 8)
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/88pm860x_battery.c:197:3: note: Value stored to 're=
+t' is never read
+                   ret =3D ((buf[4] >> 6) << 10) | ((buf[3] >> 6) << 8)
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> include/linux/skmsg.h:312:2: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           return msg;
+           ^
+   net/ipv4/tcp_bpf.c:21:11: note: Calling 'sk_psock_peek_msg'
+           msg_rx =3D sk_psock_peek_msg(psock);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/skmsg.h:310:8: note: Left side of '||' is false
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skmsg.h:310:8: note: Left side of '||' is false
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skmsg.h:310:8: note: Left side of '||' is true
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:283:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   include/linux/skmsg.h:310:8: note: Taking false branch
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/skmsg.h:310:8: note: Loop condition is false.  Exiting loop
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/skmsg.h:310:8: note: Assuming 'pos__' is not equal to 'hea=
+d__'
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:546:2: note: expanded from macro 'list_first_entry_=
+or_null'
+           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
+           ^~~~~~~~~~~~~~~
+   include/linux/skmsg.h:310:8: note: '?' condition is true
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+--
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/bus/mhi/core/pm.c:322:17: warning: Value stored to 'dev' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:322:17: note: Value stored to 'dev' during its=
+ initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:379:17: warning: Value stored to 'dev' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:379:17: note: Value stored to 'dev' during its=
+ initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:709:17: warning: Value stored to 'dev' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:709:17: note: Value stored to 'dev' during its=
+ initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:728:17: warning: Value stored to 'dev' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:728:17: note: Value stored to 'dev' during its=
+ initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:1203:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bus/mhi/core/pm.c:1203:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &mhi_cntrl->mhi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> include/linux/skmsg.h:312:2: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           return msg;
+           ^
+   net/ipv4/tcp_bpf.c:21:11: note: Calling 'sk_psock_peek_msg'
+           msg_rx =3D sk_psock_peek_msg(psock);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/skmsg.h:310:8: note: Left side of '||' is false
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skmsg.h:310:8: note: Left side of '||' is false
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skmsg.h:310:8: note: Left side of '||' is true
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:283:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   include/linux/skmsg.h:310:8: note: Taking false branch
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/skmsg.h:310:8: note: Loop condition is false.  Exiting loop
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/skmsg.h:310:8: note: Assuming 'pos__' is not equal to 'hea=
+d__'
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:546:2: note: expanded from macro 'list_first_entry_=
+or_null'
+           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
+           ^~~~~~~~~~~~~~~
+   include/linux/skmsg.h:310:8: note: '?' condition is true
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
 
-vim +767 fs/erofs/zdata.c
+vim +312 include/linux/skmsg.h
 
-92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12-=
-08  639  =
+b01fd6e802b6d0a Cong Wang 2021-03-30  304  =
 
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-=
-31  640  static int z_erofs_do_read_page(struct z_erofs_decompress_frontend=
- *fe,
-eaa9172ad988b3 fs/erofs/zdata.c                  Gao Xiang         2021-10-=
-22  641  				struct page *page, struct page **pagepool)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  642  {
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-=
-31  643  	struct inode *const inode =3D fe->inode;
-bda17a4577da72 fs/erofs/zdata.c                  Gao Xiang         2019-10-=
-08  644  	struct erofs_sb_info *const sbi =3D EROFS_I_SB(inode);
-3b423417d0d1d5 drivers/staging/erofs/unzip_vle.c Chao Yu           2019-01-=
-15  645  	struct erofs_map_blocks *const map =3D &fe->map;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  646  	const loff_t offset =3D page_offset(page);
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  647  	bool tight =3D true;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  648  =
+b01fd6e802b6d0a Cong Wang 2021-03-30  305  static inline struct sk_msg *sk_=
+psock_peek_msg(struct sk_psock *psock)
+b01fd6e802b6d0a Cong Wang 2021-03-30  306  {
+b01fd6e802b6d0a Cong Wang 2021-03-30  307  	struct sk_msg *msg;
+b01fd6e802b6d0a Cong Wang 2021-03-30  308  =
 
-92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12-=
-08  649  	enum z_erofs_cache_alloctype cache_strategy;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  650  	enum z_erofs_page_type page_type;
-7dd68b147d60e5 drivers/staging/erofs/unzip_vle.c Thomas Wei=C3=9Fschuh  201=
-8-09-10  651  	unsigned int cur, end, spiltted, index;
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  652  	int err =3D 0;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  653  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  654  	/* register locked file pages as online pages in pack */
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  655  	z_erofs_onlinepage_init(page);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  656  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  657  	spiltted =3D 0;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  658  	end =3D PAGE_SIZE;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  659  repeat:
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  660  	cur =3D end - 1;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  661  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  662  	/* lucky, within the range of the current map_blocks */
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  663  	if (offset + cur >=3D map->m_la &&
-1e5ceeab692958 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-=
-27  664  	    offset + cur < map->m_la + map->m_llen) {
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-=
-31  665  		/* didn't get a valid collection previously (very rare) */
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02 @666  		if (!fe->cl)
-1e5ceeab692958 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-=
-27  667  			goto restart_now;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  668  		goto hitted;
-1e5ceeab692958 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-=
-27  669  	}
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  670  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  671  	/* go ahead the next map_blocks */
-4f761fa253b49f fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-04  672  	erofs_dbg("%s: [out-of-range] pos %llu", __func__, offset + cur);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  673  =
-
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  674  	if (z_erofs_collector_end(fe))
-f0c519fc2679ca drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-11-=
-23  675  		fe->backmost =3D false;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  676  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  677  	map->m_la =3D offset + cur;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  678  	map->m_llen =3D 0;
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-=
-31  679  	err =3D z_erofs_map_blocks_iter(inode, map, 0);
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-=
-30  680  	if (err)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  681  		goto err_out;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  682  =
-
-1e5ceeab692958 drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-=
-27  683  restart_now:
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-=
-30  684  	if (!(map->m_flags & EROFS_MAP_MAPPED))
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  685  		goto hitted;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  686  =
-
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  687  	err =3D z_erofs_collector_begin(fe, inode, map);
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-=
-30  688  	if (err)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  689  		goto err_out;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  690  =
-
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  691  	if (z_erofs_is_inline_pcluster(fe->pcl)) {
-09c543798c3cde fs/erofs/zdata.c                  Gao Xiang         2022-01-=
-02  692  		void *mp;
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  693  =
-
-09c543798c3cde fs/erofs/zdata.c                  Gao Xiang         2022-01-=
-02  694  		mp =3D erofs_read_metabuf(&fe->map.buf, inode->i_sb,
-09c543798c3cde fs/erofs/zdata.c                  Gao Xiang         2022-01-=
-02  695  					erofs_blknr(map->m_pa), EROFS_NO_KMAP);
-09c543798c3cde fs/erofs/zdata.c                  Gao Xiang         2022-01-=
-02  696  		if (IS_ERR(mp)) {
-09c543798c3cde fs/erofs/zdata.c                  Gao Xiang         2022-01-=
-02  697  			err =3D PTR_ERR(mp);
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  698  			erofs_err(inode->i_sb,
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  699  				  "failed to get inline page, err %d", err);
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  700  			goto err_out;
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  701  		}
-09c543798c3cde fs/erofs/zdata.c                  Gao Xiang         2022-01-=
-02  702  		get_page(fe->map.buf.page);
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  703  		WRITE_ONCE(fe->pcl->compressed_pages[0], fe->map.buf.page);
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  704  		fe->mode =3D COLLECT_PRIMARY_FOLLOWED_NOINPLACE;
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  705  	} else {
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  706  		/* preload all compressed pages (can change mode if needed) */
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  707  		if (should_alloc_managed_pages(fe, sbi->opt.cache_strategy,
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  708  					       map->m_la))
-1825c8d7ce93c4 fs/erofs/zdata.c                  Gao Xiang         2020-12-=
-09  709  			cache_strategy =3D TRYALLOC;
-92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12-=
-08  710  		else
-92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12-=
-08  711  			cache_strategy =3D DONTALLOC;
-92e6efd566c4a1 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-12-=
-08  712  =
-
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  713  		preload_compressed_pages(fe, MNGD_MAPPING(sbi),
-1825c8d7ce93c4 fs/erofs/zdata.c                  Gao Xiang         2020-12-=
-09  714  					 cache_strategy, pagepool);
-cecf864d3d76d5 fs/erofs/zdata.c                  Yue Hu            2021-12-=
-29  715  	}
-105d4ad857dcbf drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  716  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  717  hitted:
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  718  	/*
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  719  	 * Ensure the current partial page belongs to this submit chain r=
-ather
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  720  	 * than other concurrent submit chains or the noio(bypass) chain =
-since
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  721  	 * those chains are handled asynchronously thus the page cannot b=
-e used
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  722  	 * for inplace I/O or pagevec (should be processed in strict orde=
-r.)
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  723  	 */
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  724  	tight &=3D (fe->mode >=3D COLLECT_PRIMARY_HOOKED &&
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  725  		  fe->mode !=3D COLLECT_PRIMARY_FOLLOWED_NOINPLACE);
-dc76ea8c1087b5 fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-22  726  =
-
-7dd68b147d60e5 drivers/staging/erofs/unzip_vle.c Thomas Wei=C3=9Fschuh  201=
-8-09-10  727  	cur =3D end - min_t(unsigned int, offset + end - map->m_la, =
-end);
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-=
-30  728  	if (!(map->m_flags & EROFS_MAP_MAPPED)) {
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  729  		zero_user_segment(page, cur, end);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  730  		goto next_part;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  731  	}
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  732  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  733  	/* let's derive page type */
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  734  	page_type =3D cur ? Z_EROFS_VLE_PAGE_TYPE_HEAD :
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  735  		(!spiltted ? Z_EROFS_PAGE_TYPE_EXCLUSIVE :
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  736  			(tight ? Z_EROFS_PAGE_TYPE_EXCLUSIVE :
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  737  				Z_EROFS_VLE_PAGE_TYPE_TAIL_SHARED));
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  738  =
-
-a112152f6f3a2a drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-=
-27  739  	if (cur)
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  740  		tight &=3D (fe->mode >=3D COLLECT_PRIMARY_FOLLOWED);
-a112152f6f3a2a drivers/staging/erofs/unzip_vle.c Gao Xiang         2019-02-=
-27  741  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  742  retry:
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  743  	err =3D z_erofs_attach_page(fe, page, page_type,
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  744  				  fe->mode >=3D COLLECT_PRIMARY_FOLLOWED);
-6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang         2020-12-=
-08  745  	/* should allocate an additional short-lived page for pagevec */
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  746  	if (err =3D=3D -EAGAIN) {
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  747  		struct page *const newpage =3D
-e3f78d5e7e6b08 fs/erofs/zdata.c                  Chao Yu           2020-09-=
-17  748  				alloc_page(GFP_NOFS | __GFP_NOFAIL);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  749  =
-
-6aaa7b0664e688 fs/erofs/zdata.c                  Gao Xiang         2020-12-=
-08  750  		set_page_private(newpage, Z_EROFS_SHORTLIVED_PAGE);
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02  751  		err =3D z_erofs_attach_page(fe, newpage,
-86432a6dca9bed fs/erofs/zdata.c                  Gao Xiang         2021-11-=
-04  752  					  Z_EROFS_PAGE_TYPE_EXCLUSIVE, true);
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-=
-30  753  		if (!err)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  754  			goto retry;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  755  	}
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  756  =
-
-8d8a09b093d707 fs/erofs/zdata.c                  Gao Xiang         2019-08-=
-30  757  	if (err)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  758  		goto err_out;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  759  =
-
-97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang         2019-07-=
-31  760  	index =3D page->index - (map->m_la >> PAGE_SHIFT);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  761  =
-
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  762  	z_erofs_onlinepage_fixup(page, index, true);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  763  =
-
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  764  	/* bump up the number of spiltted parts of a page */
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  765  	++spiltted;
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  766  	/* also update nr_pages */
-5c6dcc57e2e505 fs/erofs/zdata.c                  Gao Xiang         2022-03-=
-02 @767  	fe->cl->nr_pages =3D max_t(pgoff_t, fe->cl->nr_pages, index + 1);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  768  next_part:
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  769  	/* can be used for verification */
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  770  	map->m_llen =3D offset + cur - map->m_la;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  771  =
-
-2bc7596438aba6 drivers/staging/erofs/unzip_vle.c Kristaps =C4=8Civkulis 201=
-8-08-05  772  	end =3D cur;
-2bc7596438aba6 drivers/staging/erofs/unzip_vle.c Kristaps =C4=8Civkulis 201=
-8-08-05  773  	if (end > 0)
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  774  		goto repeat;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  775  =
-
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  776  out:
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  777  	z_erofs_onlinepage_endio(page);
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  778  =
-
-4f761fa253b49f fs/erofs/zdata.c                  Gao Xiang         2019-09-=
-04  779  	erofs_dbg("%s, finish page: %pK spiltted: %u map->m_llen %llu",
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  780  		  __func__, page, spiltted, map->m_llen);
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  781  	return err;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  782  =
-
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  783  	/* if some error occurred while processing this page */
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  784  err_out:
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  785  	SetPageError(page);
-1e05ff36e6921c drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-09-=
-18  786  	goto out;
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  787  }
-3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang         2018-07-=
-26  788  =
+b01fd6e802b6d0a Cong Wang 2021-03-30  309  	spin_lock_bh(&psock->ingress_lo=
+ck);
+b01fd6e802b6d0a Cong Wang 2021-03-30  310  	msg =3D list_first_entry_or_nul=
+l(&psock->ingress_msg, struct sk_msg, list);
+b01fd6e802b6d0a Cong Wang 2021-03-30  311  	spin_unlock_bh(&psock->ingress_=
+lock);
+b01fd6e802b6d0a Cong Wang 2021-03-30 @312  	return msg;
+b01fd6e802b6d0a Cong Wang 2021-03-30  313  }
+b01fd6e802b6d0a Cong Wang 2021-03-30  314  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1536535036374956125==--
+--===============8945789372409931265==--
 
