@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5153494859705205323=="
+Content-Type: multipart/mixed; boundary="===============1192353730323512669=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 336/1029] drivers/usb/host/xhci-ring.c:1286:3: warning: Value stored to 'stream_id' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 27 Mar 2022 22:53:30 +0800
-Message-ID: <202203272213.jddCKGys-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15 978/1024] drivers/mtd/spi-nor/core.c:2698:3: warning: Value stored to 'wanted_size' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 27 Mar 2022 22:12:57 +0800
+Message-ID: <202203272208.1KiwJsyC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5153494859705205323==
+--===============1192353730323512669==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,35 +16,33 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-arm-kernel(a)lists.infradead.org
-TO: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+TO: Sai Krishna Potthuri <lakshmi.sai.krishna.potthuri@xilinx.com>
 CC: Michal Simek <monstr@monstr.eu>
-CC: Piyush Mehta <piyush.mehta@xilinx.com>
-CC: Manish Narani <manish.narani@xilinx.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   1870e0fa79a9d58c6748c34550f3ccea0b515933
-commit: b93ce7fead6731a072aca8f2c268025f01226cb1 [336/1029] usb: xhci: Add =
-workaround for fixing ep stream ring hang issue
-:::::: branch date: 3 days ago
-:::::: commit date: 8 weeks ago
-config: arm-randconfig-c002-20220327 (https://download.01.org/0day-ci/archi=
-ve/20220327/202203272213.jddCKGys-lkp(a)intel.com/config)
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15
+head:   aceb8dba4813e07934d2847fdaf8bdfaaf9f622c
+commit: bcc0b7fb0ef17a4481a02e10e3b61b0dddebf782 [978/1024] mtd: spi-nor: A=
+void updating the flash_info struct in dual and stacked modes
+:::::: branch date: 4 days ago
+:::::: commit date: 3 weeks ago
+config: riscv-randconfig-c006-20220327 (https://download.01.org/0day-ci/arc=
+hive/20220327/202203272208.1KiwJsyC-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
 01cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/Xilinx/linux-xlnx/commit/b93ce7fead6731a072aca=
-8f2c268025f01226cb1
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/Xilinx/linux-xlnx/commit/bcc0b7fb0ef17a4481a02=
+e10e3b61b0dddebf782
         git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS
-        git checkout b93ce7fead6731a072aca8f2c268025f01226cb1
+        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15
+        git checkout bcc0b7fb0ef17a4481a02e10e3b61b0dddebf782
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,641 +50,382 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   drivers/usb/host/xhci-ring.c:504:3: note: Returning pointer, which parti=
-cipates in a condition later
-                   return ep->ring;
-                   ^~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:532:9: note: Returning from 'xhci_virt_ep_t=
-o_ring'
-           return xhci_virt_ep_to_ring(xhci, ep, stream_id);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:532:2: note: Returning pointer, which parti=
-cipates in a condition later
-           return xhci_virt_ep_to_ring(xhci, ep, stream_id);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:580:12: note: Returning from 'xhci_triad_to=
-_transfer_ring'
-           ep_ring =3D xhci_triad_to_transfer_ring(xhci, slot_id,
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:582:6: note: Assuming 'ep_ring' is non-null
-           if (!ep_ring) {
-               ^~~~~~~~
-   drivers/usb/host/xhci-ring.c:582:2: note: Taking false branch
-           if (!ep_ring) {
            ^
-   drivers/usb/host/xhci-ring.c:594:6: note: Assuming 'td' is non-null
-           if (!td) {
-               ^~~
-   drivers/usb/host/xhci-ring.c:594:2: note: Taking false branch
-           if (!td) {
+   drivers/mtd/spi-nor/core.c:3552:6: note: Assuming the condition is false
+           if (info->flags & SPI_NOR_HAS_LOCK)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:3552:2: note: Taking false branch
+           if (info->flags & SPI_NOR_HAS_LOCK)
            ^
-   drivers/usb/host/xhci-ring.c:608:2: note: Value assigned to 'new_seg'
-           new_seg =3D ep_ring->deq_seg;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:616:6: note: Assuming the condition is false
-           if (xhci->quirks & XHCI_EP_CTX_BROKEN_DCS &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:616:44: note: Left side of '&&' is false
-           if (xhci->quirks & XHCI_EP_CTX_BROKEN_DCS &&
-                                                     ^
-   drivers/usb/host/xhci-ring.c:621:6: note: 'halted_seg' is null
-           if (halted_seg) {
-               ^~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:621:2: note: Taking false branch
-           if (halted_seg) {
-           ^
-   drivers/usb/host/xhci-ring.c:639:8: note: 'cycle_found' is false
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                        ^~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:639:7: note: Left side of '&&' is true
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                       ^
-   drivers/usb/host/xhci-ring.c:639:23: note: Calling 'xhci_trb_virt_to_dma'
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/usb/host/xhci-ring.c:74:6: note: Assuming 'seg' is null
-           if (!seg || !trb || trb < seg->trbs)
-               ^~~~
-   drivers/usb/host/xhci-ring.c:74:11: note: Left side of '||' is true
-           if (!seg || !trb || trb < seg->trbs)
-                    ^
-   drivers/usb/host/xhci-ring.c:639:23: note: Returning from 'xhci_trb_virt=
-_to_dma'
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/usb/host/xhci-ring.c:639:23: note: Assuming the condition is fal=
-se
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/usb/host/xhci-ring.c:639:3: note: Taking false branch
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                   ^
-   drivers/usb/host/xhci-ring.c:645:7: note: Assuming 'new_deq' is not equa=
-l to field 'last_trb'
-                   if (new_deq =3D=3D td->last_trb)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:645:3: note: Taking false branch
-                   if (new_deq =3D=3D td->last_trb)
-                   ^
-   drivers/usb/host/xhci-ring.c:648:7: note: 'cycle_found' is false
-                   if (cycle_found && trb_is_link(new_deq) &&
-                       ^~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:648:19: note: Left side of '&&' is false
-                   if (cycle_found && trb_is_link(new_deq) &&
-                                   ^
-   drivers/usb/host/xhci-ring.c:652:3: note: Calling 'next_trb'
-                   next_trb(xhci, ep_ring, &new_seg, &new_deq);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:147:6: note: Calling 'trb_is_link'
-           if (trb_is_link(*trb)) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:90:9: note: Assuming the condition is true
-           return TRB_TYPE_LINK_LE32(trb->link.control);
-                  ^
-   drivers/usb/host/xhci.h:1507:32: note: expanded from macro 'TRB_TYPE_LIN=
-K_LE32'
-   #define TRB_TYPE_LINK_LE32(x)   (((x) & cpu_to_le32(TRB_TYPE_BITMASK)) =
-=3D=3D \
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/usb/host/xhci-ring.c:90:2: note: Returning the value 1, which pa=
-rticipates in a condition later
-           return TRB_TYPE_LINK_LE32(trb->link.control);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:147:6: note: Returning from 'trb_is_link'
-           if (trb_is_link(*trb)) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:147:2: note: Taking true branch
-           if (trb_is_link(*trb)) {
-           ^
-   drivers/usb/host/xhci-ring.c:148:10: note: Access to field 'next' result=
-s in a dereference of a null pointer
-                   *seg =3D (*seg)->next;
-                          ^~~~~~~~~~~~
->> drivers/usb/host/xhci-ring.c:1286:3: warning: Value stored to 'stream_id=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   stream_id =3D ep_ring->stream_id;
-                   ^           ~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1286:3: note: Value stored to 'stream_id' i=
-s never read
-                   stream_id =3D ep_ring->stream_id;
-                   ^           ~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3806:3: warning: Value stored to 'ret' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D prepare_transfer(xhci, xhci->devs[slot_id],
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3806:3: note: Value stored to 'ret' is neve=
-r read
-                   ret =3D prepare_transfer(xhci, xhci->devs[slot_id],
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:4433:19: warning: Access to field 'command_=
-trb' results in a dereference of a null pointer (loaded from variable 'cmd'=
-) [clang-analyzer-core.NullDereference]
-           cmd->command_trb =3D xhci->cmd_ring->enqueue;
-                            ^
-   drivers/usb/host/xhci-ring.c:3248:9: note: Calling 'xhci_irq'
-           return xhci_irq(hcd);
-                  ^~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3176:6: note: Assuming the condition is fal=
-se
-           if (status =3D=3D ~(u32)0) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3176:2: note: Taking false branch
-           if (status =3D=3D ~(u32)0) {
-           ^
-   drivers/usb/host/xhci-ring.c:3182:6: note: Assuming the condition is fal=
-se
-           if (!(status & STS_EINT))
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3182:2: note: Taking false branch
-           if (!(status & STS_EINT))
-           ^
-   drivers/usb/host/xhci-ring.c:3185:6: note: Assuming the condition is fal=
-se
-           if (status & STS_FATAL) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3185:2: note: Taking false branch
-           if (status & STS_FATAL) {
-           ^
-   drivers/usb/host/xhci-ring.c:3200:6: note: Assuming field 'msi_enabled' =
-is not equal to 0
-           if (!hcd->msi_enabled) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3200:2: note: Taking false branch
-           if (!hcd->msi_enabled) {
-           ^
-   drivers/usb/host/xhci-ring.c:3207:6: note: Assuming the condition is fal=
-se
-           if (xhci->xhc_state & XHCI_STATE_DYING ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3207:6: note: Left side of '||' is false
-   drivers/usb/host/xhci-ring.c:3208:6: note: Assuming the condition is fal=
-se
-               xhci->xhc_state & XHCI_STATE_HALTED) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3207:2: note: Taking false branch
-           if (xhci->xhc_state & XHCI_STATE_DYING ||
-           ^
-   drivers/usb/host/xhci-ring.c:3225:9: note: Calling 'xhci_handle_event'
-           while (xhci_handle_event(xhci) > 0) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3061:13: note: Field 'event_ring' is non-nu=
-ll
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-                      ^
-   drivers/usb/host/xhci-ring.c:3061:6: note: Left side of '||' is false
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-               ^
-   drivers/usb/host/xhci-ring.c:3061:27: note: Assuming field 'dequeue' is =
-non-null
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3061:2: note: Taking false branch
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-           ^
-   drivers/usb/host/xhci-ring.c:3068:6: note: Assuming the condition is fal=
-se
-           if ((le32_to_cpu(event->event_cmd.flags) & TRB_CYCLE) !=3D
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3068:2: note: Taking false branch
-           if ((le32_to_cpu(event->event_cmd.flags) & TRB_CYCLE) !=3D
-           ^
-   drivers/usb/host/xhci-ring.c:3082:2: note: Control jumps to 'case 33:'  =
-at line 3083
-           switch (trb_type) {
-           ^
-   drivers/usb/host/xhci-ring.c:3084:3: note: Calling 'handle_cmd_completio=
-n'
-                   handle_cmd_completion(xhci, &event->event_cmd);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1797:6: note: Assuming 'slot_id' is < MAX_H=
-C_SLOTS
-           if (slot_id >=3D MAX_HC_SLOTS) {
+   drivers/mtd/spi-nor/core.c:3556:6: note: Assuming the condition is false
+           if (info->flags & SST_WRITE)
                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1797:2: note: Taking false branch
-           if (slot_id >=3D MAX_HC_SLOTS) {
+   drivers/mtd/spi-nor/core.c:3556:2: note: Taking false branch
+           if (info->flags & SST_WRITE)
            ^
-   drivers/usb/host/xhci-ring.c:1813:6: note: Assuming 'cmd_dequeue_dma' is=
- not equal to 0
-           if (!cmd_dequeue_dma || cmd_dma !=3D (u64)cmd_dequeue_dma) {
-               ^~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1813:6: note: Left side of '||' is false
-   drivers/usb/host/xhci-ring.c:1813:26: note: Assuming 'cmd_dma' is equal =
-to 'cmd_dequeue_dma'
-           if (!cmd_dequeue_dma || cmd_dma !=3D (u64)cmd_dequeue_dma) {
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1813:2: note: Taking false branch
-           if (!cmd_dequeue_dma || cmd_dma !=3D (u64)cmd_dequeue_dma) {
+   drivers/mtd/spi-nor/core.c:3562:8: note: Calling 'spi_nor_init_params'
+           ret =3D spi_nor_init_params(nor);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:3053:6: note: Assuming field 'params' is non-=
+null
+           if (!nor->params)
+               ^~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:3053:2: note: Taking false branch
+           if (!nor->params)
            ^
-   drivers/usb/host/xhci-ring.c:1819:8: note: Left side of '&&' is false
-           cmd =3D list_first_entry(&xhci->cmd_list, struct xhci_command, c=
-md_list);
-                 ^
+   drivers/mtd/spi-nor/core.c:3056:2: note: Calling 'spi_nor_info_init_para=
+ms'
+           spi_nor_info_init_params(nor);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2879:6: note: Assuming field 'isstacked' is f=
+alse
+           if (nor->isstacked)
+               ^~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2879:2: note: Taking false branch
+           if (nor->isstacked)
+           ^
+   drivers/mtd/spi-nor/core.c:2882:6: note: Assuming field 'isparallel' is =
+false
+           if (nor->isparallel) {
+               ^~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2882:2: note: Taking false branch
+           if (nor->isparallel) {
+           ^
+   drivers/mtd/spi-nor/core.c:2890:6: note: Assuming the condition is false
+           if (!(info->flags & SPI_NOR_NO_FR)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2890:2: note: Taking false branch
+           if (!(info->flags & SPI_NOR_NO_FR)) {
+           ^
+   drivers/mtd/spi-nor/core.c:2905:6: note: Assuming the condition is false
+           if (params->hwcaps.mask & SNOR_HWCAPS_READ_FAST)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2905:2: note: Taking false branch
+           if (params->hwcaps.mask & SNOR_HWCAPS_READ_FAST)
+           ^
+   drivers/mtd/spi-nor/core.c:2910:6: note: Assuming the condition is false
+           if (info->flags & SPI_NOR_DUAL_READ) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2910:2: note: Taking false branch
+           if (info->flags & SPI_NOR_DUAL_READ) {
+           ^
+   drivers/mtd/spi-nor/core.c:2917:6: note: Assuming the condition is false
+           if (info->flags & SPI_NOR_QUAD_READ) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2917:2: note: Taking false branch
+           if (info->flags & SPI_NOR_QUAD_READ) {
+           ^
+   drivers/mtd/spi-nor/core.c:2924:6: note: Assuming the condition is false
+           if (info->flags & SPI_NOR_OCTAL_READ) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2924:2: note: Taking false branch
+           if (info->flags & SPI_NOR_OCTAL_READ) {
+           ^
+   drivers/mtd/spi-nor/core.c:2931:6: note: Assuming the condition is false
+           if (info->flags & SPI_NOR_OCTAL_DTR_READ) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2931:2: note: Taking false branch
+           if (info->flags & SPI_NOR_OCTAL_DTR_READ) {
+           ^
+   drivers/mtd/spi-nor/core.c:2943:6: note: Assuming the condition is false
+           if (info->flags & SPI_NOR_OCTAL_DTR_PP) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2943:2: note: Taking false branch
+           if (info->flags & SPI_NOR_OCTAL_DTR_PP) {
+           ^
+   drivers/mtd/spi-nor/core.c:2959:6: note: Assuming the condition is false
+           if (info->flags & SECT_4K_PMC) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2959:2: note: Taking false branch
+           if (info->flags & SECT_4K_PMC) {
+           ^
+   drivers/mtd/spi-nor/core.c:2964:13: note: Assuming the condition is false
+           } else if (info->flags & SECT_4K) {
+                      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2964:9: note: Taking false branch
+           } else if (info->flags & SECT_4K) {
+                  ^
+   drivers/mtd/spi-nor/core.c:2971:2: note: Calling 'spi_nor_set_erase_type'
+           spi_nor_set_erase_type(&map->erase_type[i], sector_size,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2544:2: note: The value 4294967295 is assigne=
+d to field 'size_shift'
+           erase->size_shift =3D ffs(erase->size) - 1;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/core.c:2545:24: note: The result of the left shift i=
+s undefined due to shifting by '4294967295', which is greater or equal to t=
+he width of type 'int'
+           erase->size_mask =3D (1 << erase->size_shift) - 1;
+                                 ^  ~~~~~~~~~~~~~~~~~
+>> drivers/mtd/spi-nor/core.c:2698:3: warning: Value stored to 'wanted_size=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   wanted_size <<=3D 1;
+                   ^               ~
+   drivers/mtd/spi-nor/core.c:2698:3: note: Value stored to 'wanted_size' i=
+s never read
+                   wanted_size <<=3D 1;
+                   ^               ~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/char/hw_random/cctrng.c:136:17: warning: Value stored to 'dev' d=
+uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &(drvdata->pdev->dev);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cctrng.c:136:17: note: Value stored to 'dev' duri=
+ng its initialization is never read
+           struct device *dev =3D &(drvdata->pdev->dev);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cctrng.c:165:17: warning: Value stored to 'dev' d=
+uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &(drvdata->pdev->dev);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cctrng.c:165:17: note: Value stored to 'dev' duri=
+ng its initialization is never read
+           struct device *dev =3D &(drvdata->pdev->dev);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cctrng.c:278:17: warning: Value stored to 'dev' d=
+uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &(drvdata->pdev->dev);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/hw_random/cctrng.c:278:17: note: Value stored to 'dev' duri=
+ng its initialization is never read
+           struct device *dev =3D &(drvdata->pdev->dev);
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/spi/spi.c:3116:2: warning: Argument to kfree() is offset by -368=
+ bytes from the start of memory allocated by kmalloc() [clang-analyzer-unix=
+.Malloc]
+           kfree(sres);
+           ^
+   drivers/spi/spi.c:3578:6: note: Assuming the condition is false
+           if (list_empty(&message->transfers))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi.c:3578:2: note: Taking false branch
+           if (list_empty(&message->transfers))
+           ^
+   drivers/spi/spi.c:3587:7: note: Assuming the condition is true
+           if ((spi->mode & SPI_CS_WORD) && (!(ctlr->mode_bits & SPI_CS_WOR=
+D) ||
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi.c:3587:6: note: Left side of '&&' is true
+           if ((spi->mode & SPI_CS_WORD) && (!(ctlr->mode_bits & SPI_CS_WOR=
+D) ||
+               ^
+   drivers/spi/spi.c:3587:36: note: Assuming the condition is true
+           if ((spi->mode & SPI_CS_WORD) && (!(ctlr->mode_bits & SPI_CS_WOR=
+D) ||
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/spi/spi.c:3587:69: note: Left side of '||' is true
+           if ((spi->mode & SPI_CS_WORD) && (!(ctlr->mode_bits & SPI_CS_WOR=
+D) ||
+                                                                           =
+   ^
+   drivers/spi/spi.c:3598:9: note: Calling 'spi_split_transfers_maxsize'
+                   ret =3D spi_split_transfers_maxsize(ctlr, message, maxsi=
+ze,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi.c:3376:2: note: Left side of '&&' is false
+           list_for_each_entry(xfer, &msg->transfers, transfer_list) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
    include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
            list_entry((ptr)->next, type, member)
            ^
---
-                   ^
-   drivers/usb/host/xhci-ring.c:504:3: note: Returning pointer, which parti=
-cipates in a condition later
-                   return ep->ring;
-                   ^~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:532:9: note: Returning from 'xhci_virt_ep_t=
-o_ring'
-           return xhci_virt_ep_to_ring(xhci, ep, stream_id);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:532:2: note: Returning pointer, which parti=
-cipates in a condition later
-           return xhci_virt_ep_to_ring(xhci, ep, stream_id);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:580:12: note: Returning from 'xhci_triad_to=
-_transfer_ring'
-           ep_ring =3D xhci_triad_to_transfer_ring(xhci, slot_id,
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:582:6: note: Assuming 'ep_ring' is non-null
-           if (!ep_ring) {
-               ^~~~~~~~
-   drivers/usb/host/xhci-ring.c:582:2: note: Taking false branch
-           if (!ep_ring) {
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   drivers/usb/host/xhci-ring.c:594:6: note: Assuming 'td' is non-null
-           if (!td) {
-               ^~~
-   drivers/usb/host/xhci-ring.c:594:2: note: Taking false branch
-           if (!td) {
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/spi/spi.c:3376:2: note: Taking false branch
+           list_for_each_entry(xfer, &msg->transfers, transfer_list) {
            ^
-   drivers/usb/host/xhci-ring.c:608:2: note: Value assigned to 'new_seg'
-           new_seg =3D ep_ring->deq_seg;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:616:6: note: Assuming the condition is false
-           if (xhci->quirks & XHCI_EP_CTX_BROKEN_DCS &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:616:44: note: Left side of '&&' is false
-           if (xhci->quirks & XHCI_EP_CTX_BROKEN_DCS &&
-                                                     ^
-   drivers/usb/host/xhci-ring.c:621:6: note: 'halted_seg' is null
-           if (halted_seg) {
-               ^~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:621:2: note: Taking false branch
-           if (halted_seg) {
-           ^
-   drivers/usb/host/xhci-ring.c:639:8: note: 'cycle_found' is false
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                        ^~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:639:7: note: Left side of '&&' is true
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                       ^
-   drivers/usb/host/xhci-ring.c:639:23: note: Calling 'xhci_trb_virt_to_dma'
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/usb/host/xhci-ring.c:74:6: note: Assuming 'seg' is null
-           if (!seg || !trb || trb < seg->trbs)
-               ^~~~
-   drivers/usb/host/xhci-ring.c:74:11: note: Left side of '||' is true
-           if (!seg || !trb || trb < seg->trbs)
-                    ^
-   drivers/usb/host/xhci-ring.c:639:23: note: Returning from 'xhci_trb_virt=
-_to_dma'
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/usb/host/xhci-ring.c:639:23: note: Assuming the condition is fal=
-se
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/usb/host/xhci-ring.c:639:3: note: Taking false branch
-                   if (!cycle_found && xhci_trb_virt_to_dma(new_seg, new_de=
-q)
-                   ^
-   drivers/usb/host/xhci-ring.c:645:7: note: Assuming 'new_deq' is not equa=
-l to field 'last_trb'
-                   if (new_deq =3D=3D td->last_trb)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:645:3: note: Taking false branch
-                   if (new_deq =3D=3D td->last_trb)
-                   ^
-   drivers/usb/host/xhci-ring.c:648:7: note: 'cycle_found' is false
-                   if (cycle_found && trb_is_link(new_deq) &&
-                       ^~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:648:19: note: Left side of '&&' is false
-                   if (cycle_found && trb_is_link(new_deq) &&
-                                   ^
-   drivers/usb/host/xhci-ring.c:652:3: note: Calling 'next_trb'
-                   next_trb(xhci, ep_ring, &new_seg, &new_deq);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:147:6: note: Calling 'trb_is_link'
-           if (trb_is_link(*trb)) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:90:9: note: Assuming the condition is true
-           return TRB_TYPE_LINK_LE32(trb->link.control);
-                  ^
-   drivers/usb/host/xhci.h:1507:32: note: expanded from macro 'TRB_TYPE_LIN=
-K_LE32'
-   #define TRB_TYPE_LINK_LE32(x)   (((x) & cpu_to_le32(TRB_TYPE_BITMASK)) =
-=3D=3D \
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/usb/host/xhci-ring.c:90:2: note: Returning the value 1, which pa=
-rticipates in a condition later
-           return TRB_TYPE_LINK_LE32(trb->link.control);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:147:6: note: Returning from 'trb_is_link'
-           if (trb_is_link(*trb)) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:147:2: note: Taking true branch
-           if (trb_is_link(*trb)) {
-           ^
-   drivers/usb/host/xhci-ring.c:148:10: note: Access to field 'next' result=
-s in a dereference of a null pointer
-                   *seg =3D (*seg)->next;
-                          ^~~~~~~~~~~~
->> drivers/usb/host/xhci-ring.c:1286:3: warning: Value stored to 'stream_id=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   stream_id =3D ep_ring->stream_id;
-                   ^           ~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1286:3: note: Value stored to 'stream_id' i=
-s never read
-                   stream_id =3D ep_ring->stream_id;
-                   ^           ~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3806:3: warning: Value stored to 'ret' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D prepare_transfer(xhci, xhci->devs[slot_id],
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3806:3: note: Value stored to 'ret' is neve=
-r read
-                   ret =3D prepare_transfer(xhci, xhci->devs[slot_id],
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:4433:19: warning: Access to field 'command_=
-trb' results in a dereference of a null pointer (loaded from variable 'cmd'=
-) [clang-analyzer-core.NullDereference]
-           cmd->command_trb =3D xhci->cmd_ring->enqueue;
-                            ^
-   drivers/usb/host/xhci-ring.c:3248:9: note: Calling 'xhci_irq'
-           return xhci_irq(hcd);
-                  ^~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3176:6: note: Assuming the condition is fal=
-se
-           if (status =3D=3D ~(u32)0) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3176:2: note: Taking false branch
-           if (status =3D=3D ~(u32)0) {
-           ^
-   drivers/usb/host/xhci-ring.c:3182:6: note: Assuming the condition is fal=
-se
-           if (!(status & STS_EINT))
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3182:2: note: Taking false branch
-           if (!(status & STS_EINT))
-           ^
-   drivers/usb/host/xhci-ring.c:3185:6: note: Assuming the condition is fal=
-se
-           if (status & STS_FATAL) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3185:2: note: Taking false branch
-           if (status & STS_FATAL) {
-           ^
-   drivers/usb/host/xhci-ring.c:3200:6: note: Assuming field 'msi_enabled' =
-is not equal to 0
-           if (!hcd->msi_enabled) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3200:2: note: Taking false branch
-           if (!hcd->msi_enabled) {
-           ^
-   drivers/usb/host/xhci-ring.c:3207:6: note: Assuming the condition is fal=
-se
-           if (xhci->xhc_state & XHCI_STATE_DYING ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3207:6: note: Left side of '||' is false
-   drivers/usb/host/xhci-ring.c:3208:6: note: Assuming the condition is fal=
-se
-               xhci->xhc_state & XHCI_STATE_HALTED) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3207:2: note: Taking false branch
-           if (xhci->xhc_state & XHCI_STATE_DYING ||
-           ^
-   drivers/usb/host/xhci-ring.c:3225:9: note: Calling 'xhci_handle_event'
-           while (xhci_handle_event(xhci) > 0) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3061:13: note: Field 'event_ring' is non-nu=
-ll
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
                       ^
-   drivers/usb/host/xhci-ring.c:3061:6: note: Left side of '||' is false
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-               ^
-   drivers/usb/host/xhci-ring.c:3061:27: note: Assuming field 'dequeue' is =
-non-null
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3061:2: note: Taking false branch
-           if (!xhci->event_ring || !xhci->event_ring->dequeue) {
-           ^
-   drivers/usb/host/xhci-ring.c:3068:6: note: Assuming the condition is fal=
-se
-           if ((le32_to_cpu(event->event_cmd.flags) & TRB_CYCLE) !=3D
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:3068:2: note: Taking false branch
-           if ((le32_to_cpu(event->event_cmd.flags) & TRB_CYCLE) !=3D
-           ^
-   drivers/usb/host/xhci-ring.c:3082:2: note: Control jumps to 'case 33:'  =
-at line 3083
-           switch (trb_type) {
-           ^
-   drivers/usb/host/xhci-ring.c:3084:3: note: Calling 'handle_cmd_completio=
-n'
-                   handle_cmd_completion(xhci, &event->event_cmd);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1797:6: note: Assuming 'slot_id' is < MAX_H=
-C_SLOTS
-           if (slot_id >=3D MAX_HC_SLOTS) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1797:2: note: Taking false branch
-           if (slot_id >=3D MAX_HC_SLOTS) {
-           ^
-   drivers/usb/host/xhci-ring.c:1813:6: note: Assuming 'cmd_dequeue_dma' is=
- not equal to 0
-           if (!cmd_dequeue_dma || cmd_dma !=3D (u64)cmd_dequeue_dma) {
-               ^~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1813:6: note: Left side of '||' is false
-   drivers/usb/host/xhci-ring.c:1813:26: note: Assuming 'cmd_dma' is equal =
-to 'cmd_dequeue_dma'
-           if (!cmd_dequeue_dma || cmd_dma !=3D (u64)cmd_dequeue_dma) {
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci-ring.c:1813:2: note: Taking false branch
-           if (!cmd_dequeue_dma || cmd_dma !=3D (u64)cmd_dequeue_dma) {
-           ^
-   drivers/usb/host/xhci-ring.c:1819:8: note: Left side of '&&' is false
-           cmd =3D list_first_entry(&xhci->cmd_list, struct xhci_command, c=
-md_list);
-                 ^
    include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
            list_entry((ptr)->next, type, member)
            ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
+letime_assert'
 
-vim +/stream_id +1286 drivers/usb/host/xhci-ring.c
+vim +/wanted_size +2698 drivers/mtd/spi-nor/core.c
 
-d9f11ba9f107aa Mathias Nyman        2017-04-07  1252  =
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2688  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1253  /* This function is c=
-alled when the stream ring timer gets timedout.
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1254   * dwc3 host controll=
-er has an issue where it doesn't process the BULK IN
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1255   * stream ring TD's(o=
-nce in a while) even after ringing DoorBell for that
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1256   * stream ring. Becau=
-se of this behaviour there will be no transfer events
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1257   * generated by the c=
-ontroller on the stream ring, resulting in the hang
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1258   * condition. xhci_st=
-ream_timeout() solves this issue by sending a stop
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1259   * command on the str=
-eam ring after stream timer gets timedout.
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1260   */
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1261  void xhci_stream_time=
-out(struct timer_list *arg)
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1262  {
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1263  	struct xhci_hcd *xhc=
-i;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1264  	struct xhci_virt_ep =
-*ep;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1265  	struct xhci_ring *ep=
-_ring;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1266  	unsigned int slot_id=
-, ep_index, stream_id;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1267  	struct xhci_td *td =
-=3D NULL;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1268  	struct urb *urb =3D =
-NULL;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1269  	struct urb_priv *urb=
-_priv;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1270  	struct xhci_command =
-*command;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1271  	unsigned long flags;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1272  	int i;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1273  =
+3a960339e08e16 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+8  2689  static int spi_nor_select_erase(struct spi_nor *nor)
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2690  {
+829ec6408dc58d drivers/mtd/spi-nor/core.c    Tudor Ambarus        2020-03-1=
+3  2691  	struct spi_nor_erase_map *map =3D &nor->params->erase_map;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2692  	const struct spi_nor_erase_type *erase =3D NULL;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2693  	struct mtd_info *mtd =3D &nor->mtd;
+3a960339e08e16 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+8  2694  	u32 wanted_size =3D nor->info->sector_size;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2695  	int i;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2696  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1274  	ep_ring =3D from_tim=
-er(ep_ring, arg, stream_timer);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1275  	xhci =3D ep_ring->xh=
-ci;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1276  =
+bcc0b7fb0ef17a drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2022-03-0=
+8  2697  	if (nor->isparallel)
+bcc0b7fb0ef17a drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2022-03-0=
+8 @2698  		wanted_size <<=3D 1;
+bcc0b7fb0ef17a drivers/mtd/spi-nor/core.c    Sai Krishna Potthuri 2022-03-0=
+8  2699  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1277  	spin_lock_irqsave(&x=
-hci->lock, flags);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1278  =
+2747bc2106aa42 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-01-2=
+5  2700  	if (mtd->erasesize &&
+2747bc2106aa42 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-01-2=
+5  2701  	    nor->jedec_id !=3D CFI_MFR_AMD)
+2747bc2106aa42 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-01-2=
+5  2702  		return 0;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2703  	/*
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2704  	 * The previous implementation handling Sector Erase commands ass=
+umed
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2705  	 * that the SPI flash memory has an uniform layout then used only=
+ one
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2706  	 * of the supported erase sizes for all Sector Erase commands.
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2707  	 * So to be backward compatible, the new implementation also trie=
+s to
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2708  	 * manage the SPI flash memory as uniform with a single erase sec=
+tor
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2709  	 * size, when possible.
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2710  	 */
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2711  #ifdef CONFIG_MTD_SPI_NOR_USE_4K_SECTORS
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2712  	/* prefer "small sector" erase if possible */
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2713  	wanted_size =3D 4096u;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2714  #endif
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2715  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1279  	if (!list_empty(&ep_=
-ring->td_list)) {
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1280  		td =3D list_entry(e=
-p_ring->td_list.next, struct xhci_td, td_list);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1281  		urb =3D td->urb;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1282  		urb_priv =3D urb->h=
-cpriv;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1283  =
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2716  	if (spi_nor_has_uniform_erase(nor)) {
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2717  		erase =3D spi_nor_select_uniform_erase(map, wanted_size);
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2718  		if (!erase)
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2719  			return -EINVAL;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2720  		nor->erase_opcode =3D erase->opcode;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2721  		mtd->erasesize =3D erase->size;
+2747bc2106aa42 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-01-2=
+5  2722  		if (nor->shift)
+2747bc2106aa42 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-01-2=
+5  2723  			mtd->erasesize =3D mtd->erasesize << nor->shift;
+2747bc2106aa42 drivers/mtd/spi-nor/core.c    Amit Kumar Mahapatra 2022-01-2=
+5  2724  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1284  		slot_id =3D urb->de=
-v->slot_id;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1285  		ep_index =3D xhci_g=
-et_endpoint_index(&urb->ep->desc);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26 @1286  		stream_id =3D ep_ri=
-ng->stream_id;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1287  		ep =3D &xhci->devs[=
-slot_id]->eps[ep_index];
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1288  		ep_ring->stream_tim=
-eout_handler =3D true;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1289  =
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2725  		return 0;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2726  	}
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2727  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1290  		/* Delete the strea=
-m ring timer */
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1291  		del_timer(&ep_ring-=
->stream_timer);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1292  =
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2728  	/*
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2729  	 * For non-uniform SPI flash memory, set mtd->erasesize to the
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2730  	 * maximum erase sector size. No need to set nor->erase_opcode.
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2731  	 */
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2732  	for (i =3D SNOR_ERASE_TYPE_MAX - 1; i >=3D 0; i--) {
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2733  		if (map->erase_type[i].size) {
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2734  			erase =3D &map->erase_type[i];
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2735  			break;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2736  		}
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2737  	}
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2738  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1293  		for (i =3D 0; i < u=
-rb_priv->num_tds; i++) {
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1294  			td =3D &urb_priv->=
-td[i];
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1295  			list_add_tail(&td-=
->cancelled_td_list,
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1296  					&ep->cancelled_t=
-d_list);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1297  		}
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1298  =
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2739  	if (!erase)
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2740  		return -EINVAL;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2741  =
 
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1299  		/* Queue a stop end=
-point command, but only if this is
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1300  		 * the first cancel=
-lation to be handled.
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1301  		 */
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1302  		if (!(ep->ep_state =
-& EP_STOP_CMD_PENDING)) {
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1303  			command =3D xhci_a=
-lloc_command(xhci, false,
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1304  					GFP_ATOMIC);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1305  			if (!command) {
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1306  				xhci_warn(xhci,
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1307  					"%s: Failed to a=
-llocate command\n",
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1308  						__func__);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1309  				spin_unlock_irqre=
-store(&xhci->lock, flags);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1310  				return;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1311  			}
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1312  =
-
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1313  			ep->ep_state |=3D =
-EP_STOP_CMD_PENDING;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1314  			ep->stop_cmd_timer=
-.expires =3D jiffies +
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1315  				XHCI_STOP_EP_CMD_=
-TIMEOUT * HZ;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1316  			add_timer(&ep->sto=
-p_cmd_timer);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1317  			xhci_queue_stop_en=
-dpoint(xhci, command,
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1318  					urb->dev->slot_i=
-d, ep_index, 0);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1319  			xhci_ring_cmd_db(x=
-hci);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1320  		}
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1321  =
-
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1322  		spin_unlock_irqrest=
-ore(&xhci->lock, flags);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1323  		return;
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1324  	}
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1325  =
-
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1326  	spin_unlock_irqresto=
-re(&xhci->lock, flags);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1327  	/* let the SCSI stac=
-k take care */
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1328  	del_timer(&ep_ring->=
-stream_timer);
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1329  }
-b93ce7fead6731 Anurag Kumar Vulisha 2022-01-26  1330  =
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2742  	mtd->erasesize =3D erase->size;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2743  	return 0;
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2744  }
+2d7ff858e5f683 drivers/mtd/spi-nor/spi-nor.c Tudor Ambarus        2019-08-2=
+5  2745  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5153494859705205323==--
+--===============1192353730323512669==--
 
