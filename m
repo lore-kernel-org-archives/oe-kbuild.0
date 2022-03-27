@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2018744507331177769=="
+Content-Type: multipart/mixed; boundary="===============4870755910474210861=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 848/1029] drivers/iio/adc/ad7887.c:59:8: warning: Excessive padding in 'struct ad7887_state' (84 padding bytes, where 20 is optimal).
-Date: Sun, 27 Mar 2022 16:37:57 +0800
-Message-ID: <202203271633.rDIe0vrP-lkp@intel.com>
+Subject: drivers/usb/serial/io_ti.c:298:6: warning: Value stored to 'port_number' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 27 Mar 2022 15:16:49 +0800
+Message-ID: <202203271536.AMXvdswe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2018744507331177769==
+--===============4870755910474210861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,37 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
+CC: linux-kernel(a)vger.kernel.org
+TO: Johan Hovold <johan@kernel.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   1870e0fa79a9d58c6748c34550f3ccea0b515933
-commit: ad3ea50420b2f1742f84afbb0de7dd0b355298c2 [848/1029] spi: spi-zynqmp=
--gqspi: Add dual parallel and stacked mode support in driver
-:::::: branch date: 3 days ago
-:::::: commit date: 8 weeks ago
-config: riscv-randconfig-c006-20220327 (https://download.01.org/0day-ci/arc=
-hive/20220327/202203271633.rDIe0vrP-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
-01cf49ce02937099350d08f20c4af86f3d)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   f022814633e1c600507b3a99691b4d624c2813f0
+commit: 7a14fac0c94472ad2d11ac14cefbeab5bf98e303 USB: serial: io_ti: add se=
+nd-port-command helper
+date:   12 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20220324 (https://download.01.org/0day-ci/archi=
+ve/20220327/202203271536.AMXvdswe-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
+08fe1d03b0de7e5315ef875006a6adc319)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/Xilinx/linux-xlnx/commit/ad3ea50420b2f1742f84a=
-fbb0de7dd0b355298c2
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS
-        git checkout ad3ea50420b2f1742f84afbb0de7dd0b355298c2
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D7a14fac0c94472ad2d11ac14cefbeab5bf98e303
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 7a14fac0c94472ad2d11ac14cefbeab5bf98e303
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,370 +53,294 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+           if (verbose) {                                                  =
+        \
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   kernel/locking/locktorture.c:925:4: note: Loop condition is false.  Exit=
+ing loop
+                           VERBOSE_TOROUT_STRING("cxt.lwsa: Out of memory");
+                           ^
+   include/linux/torture.h:34:34: note: expanded from macro 'VERBOSE_TOROUT=
+_STRING'
+   #define VERBOSE_TOROUT_STRING(s) \
+                                    ^
+   kernel/locking/locktorture.c:927:4: note: Control jumps to line 1058
+                           goto unwind;
+                           ^
+   kernel/locking/locktorture.c:1059:2: note: Calling 'lock_torture_cleanup'
+           lock_torture_cleanup();
+           ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:794:6: note: Assuming the condition is false
+           if (torture_cleanup_begin())
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:794:2: note: Taking false branch
+           if (torture_cleanup_begin())
            ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/hwtracing/intel_th/core.c:1022:32: note: Loop condition is false=
-.  Exiting loop
-           struct intel_th_device *hub =3D to_intel_th_device(thdev->dev.pa=
-rent);
-                                         ^
-   drivers/hwtracing/intel_th/intel_th.h:93:2: note: expanded from macro 't=
-o_intel_th_device'
-           container_of((_d), struct intel_th_device, dev)
+   kernel/locking/locktorture.c:804:6: note: Assuming field 'lwsa' is non-n=
+ull
+           if (!cxt.lwsa && !cxt.lrsa)
+               ^~~~~~~~~
+   kernel/locking/locktorture.c:804:16: note: Left side of '&&' is false
+           if (!cxt.lwsa && !cxt.lrsa)
+                         ^
+   kernel/locking/locktorture.c:807:6: note: Assuming 'writer_tasks' is null
+           if (writer_tasks) {
+               ^~~~~~~~~~~~
+   kernel/locking/locktorture.c:807:2: note: Taking false branch
+           if (writer_tasks) {
            ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   kernel/locking/locktorture.c:815:6: note: Assuming 'reader_tasks' is null
+           if (reader_tasks) {
+               ^~~~~~~~~~~~
+   kernel/locking/locktorture.c:815:2: note: Taking false branch
+           if (reader_tasks) {
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   kernel/locking/locktorture.c:824:2: note: Calling 'lock_torture_stats_pr=
+int'
+           lock_torture_stats_print();  /* -After- the stats thread is stop=
+ped! */
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:731:6: note: Assuming field 'readlock' is n=
+ull
+           if (cxt.cur_ops->readlock)
+               ^~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:731:2: note: Taking false branch
+           if (cxt.cur_ops->readlock)
            ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   kernel/locking/locktorture.c:734:8: note: Calling 'kmalloc'
+           buf =3D kmalloc(size, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:542:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   include/linux/compiler_types.h:300:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/hwtracing/intel_th/core.c:1022:2: note: 'hub' initialized to a n=
-ull pointer value
-           struct intel_th_device *hub =3D to_intel_th_device(thdev->dev.pa=
-rent);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/intel_th/core.c:1023:35: note: Dereference of null poi=
-nter
-           struct intel_th_driver *hubdrv =3D to_intel_th_driver(hub->dev.d=
-river);
-                                            ^
-   drivers/hwtracing/intel_th/intel_th.h:192:2: note: expanded from macro '=
-to_intel_th_driver'
-           container_of((_d), struct intel_th_driver, driver)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:494:25: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   drivers/hwtracing/intel_th/core.c:1040:26: warning: Value stored to 'hub=
-drv' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct intel_th_driver *hubdrv =3D to_intel_th_driver(hub->dev.d=
-river);
-                                   ^~~~~~
-   drivers/hwtracing/intel_th/core.c:1040:26: note: Value stored to 'hubdrv=
-' during its initialization is never read
-           struct intel_th_driver *hubdrv =3D to_intel_th_driver(hub->dev.d=
-river);
-                                   ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/adc/ad7766.c:35:8: warning: Excessive padding in 'struct ad7=
-766' (88 padding bytes, where 24 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   chip_info, =
-
-   spi, =
-
-   mclk, =
-
-   pd_gpio, =
-
-   trig, =
-
-   reg, =
-
-   msg, =
-
-   xfer, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad7766 {
-   ~~~~~~~^~~~~~~~
-   drivers/iio/adc/ad7766.c:35:8: note: Excessive padding in 'struct ad7766=
-' (88 padding bytes, where 24 is optimal). Optimal fields order: data, chip=
-_info, spi, mclk, pd_gpio, trig, reg, msg, xfer, consider reordering the fi=
-elds or adding explicit padding members
-   struct ad7766 {
-   ~~~~~~~^~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/adc/ad7768-1.c:154:8: warning: Excessive padding in 'struct =
-ad7768_state' (64 padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   spi, =
-
-   vref, =
-
-   mclk, =
-
-   mclk_freq, =
-
-   samp_freq, =
-
-   trig, =
-
-   gpio_sync_in, =
-
-   labels, =
-
-   completion, =
-
-   lock, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad7768_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/adc/ad7768-1.c:154:8: note: Excessive padding in 'struct ad7=
-768_state' (64 padding bytes, where 0 is optimal). Optimal fields order: da=
-ta, spi, vref, mclk, mclk_freq, samp_freq, trig, gpio_sync_in, labels, comp=
-letion, lock, consider reordering the fields or adding explicit padding mem=
-bers
-   struct ad7768_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/iio/adc/ad7887.c:59:8: warning: Excessive padding in 'struct ad7=
-887_state' (84 padding bytes, where 20 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   spi, =
-
-   chip_info, =
-
-   reg, =
-
-   ring_msg, =
-
-   msg, =
-
-   xfer, =
-
-   tx_cmd_buf, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad7887_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/adc/ad7887.c:59:8: note: Excessive padding in 'struct ad7887=
-_state' (84 padding bytes, where 20 is optimal). Optimal fields order: data=
-, spi, chip_info, reg, ring_msg, msg, xfer, tx_cmd_buf, consider reordering=
- the fields or adding explicit padding members
-   struct ad7887_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/memory/tegra/tegra210-emc-core.c:936:2: warning: Value stored to=
- 'mpc_req' is never read [clang-analyzer-deadcode.DeadStores]
-           mpc_req =3D emc_readl(emc, EMC_MPC);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:936:2: note: Value stored to 'm=
-pc_req' is never read
-           mpc_req =3D emc_readl(emc, EMC_MPC);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1897:7: warning: Dereference of=
- null pointer [clang-analyzer-core.NullDereference]
-                   if (emc->timings[i].rate =3D=3D current_rate) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1833:6: note: Assuming 'emc' is=
- non-null
-           if (!emc)
+   include/linux/slab.h:559:9: note: Value assigned to 'cxt.lwsa'
+           return __kmalloc(size, flags);
+                  ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:559:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:734:8: note: Returning from 'kmalloc'
+           buf =3D kmalloc(size, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:735:6: note: Assuming 'buf' is non-null
+           if (!buf) {
                ^~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1833:2: note: Taking false bran=
-ch
-           if (!emc)
+   kernel/locking/locktorture.c:735:2: note: Taking false branch
+           if (!buf) {
            ^
-   drivers/memory/tegra/tegra210-emc-core.c:1837:6: note: Calling 'IS_ERR'
-           if (IS_ERR(emc->clk))
-               ^~~~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1837:6: note: Returning from 'I=
-S_ERR'
-           if (IS_ERR(emc->clk))
-               ^~~~~~~~~~~~~~~~
-   drivers/memory/tegra/tegra210-emc-core.c:1837:2: note: Taking false bran=
-ch
-           if (IS_ERR(emc->clk))
+   kernel/locking/locktorture.c:741:29: note: Passing value via 2nd paramet=
+er 'statp'
+           __torture_print_stats(buf, cxt.lwsa, true);
+                                      ^~~~~~~~
+   kernel/locking/locktorture.c:741:2: note: Calling '__torture_print_stats'
+           __torture_print_stats(buf, cxt.lwsa, true);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:695:22: note: Assuming 'statp' is null
+           long max =3D 0, min =3D statp ? statp[0].n_lock_acquired : 0;
+                               ^~~~~
+   kernel/locking/locktorture.c:695:22: note: '?' condition is false
+   kernel/locking/locktorture.c:698:13: note: 'write' is true
+           n_stress =3D write ? cxt.nrealwriters_stress : cxt.nrealreaders_=
+stress;
+                      ^~~~~
+   kernel/locking/locktorture.c:698:13: note: '?' condition is true
+   kernel/locking/locktorture.c:699:14: note: Assuming 'i' is < 'n_stress'
+           for (i =3D 0; i < n_stress; i++) {
+                       ^~~~~~~~~~~~
+   kernel/locking/locktorture.c:699:2: note: Loop condition is true.  Enter=
+ing loop body
+           for (i =3D 0; i < n_stress; i++) {
            ^
-   drivers/memory/tegra/tegra210-emc-core.c:1840:2: note: Calling 'platform=
-_set_drvdata'
-           platform_set_drvdata(pdev, emc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:243:2: note: Calling 'dev_set_drvdata'
-           dev_set_drvdata(&pdev->dev, data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:692:1: note: Returning without writing to 'data->=
-nominal', which participates in a condition later
-   }
-   ^
-   include/linux/device.h:692:1: note: Returning without writing to 'data->=
-derated', which participates in a condition later
-   include/linux/device.h:692:1: note: Returning without writing to 'data->=
-nominal'
-   include/linux/device.h:692:1: note: Returning without writing to 'data->=
-timings'
-   include/linux/platform_device.h:243:2: note: Returning from 'dev_set_drv=
-data'
-           dev_set_drvdata(&pdev->dev, data);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/platform_device.h:244:1: note: Returning without writing t=
-o 'data->nominal', which participates in a condition later
-   }
-   ^
-   include/linux/platform_device.h:244:1: note: Returning without writing t=
-o 'data->derated', which participates in a condition later
+   kernel/locking/locktorture.c:700:7: note: Dereference of null pointer
+                   if (statp[i].n_lock_fail)
+                       ^~~~~~~~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:708:2: warning: Value stored to 'page' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           page +=3D sprintf(page,
+           ^       ~~~~~~~~~~~~~
+   kernel/locking/locktorture.c:708:2: note: Value stored to 'page' is neve=
+r read
+           page +=3D sprintf(page,
+           ^       ~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/usb/serial/io_ti.c:298:6: warning: Value stored to 'port_number'=
+ during its initialization is never read [clang-analyzer-deadcode.DeadStore=
+s]
+           int port_number =3D port->port_number;
+               ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:298:6: note: Value stored to 'port_number' du=
+ring its initialization is never read
+           int port_number =3D port->port_number;
+               ^~~~~~~~~~~   ~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:749:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &serial->serial->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:749:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &serial->serial->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:772:2: warning: Value stored to 'desc' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           desc =3D (struct edge_ti_manuf_descriptor *)buffer;
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:772:2: note: Value stored to 'desc' is never =
+read
+           desc =3D (struct edge_ti_manuf_descriptor *)buffer;
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:856:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &serial->serial->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:856:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D &serial->serial->dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:1230:4: warning: Value stored to 'status' is =
+never read [clang-analyzer-deadcode.DeadStores]
+                           status =3D ti_vsend_sync(serial->serial->dev,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:1230:4: note: Value stored to 'status' is nev=
+er read
+                           status =3D ti_vsend_sync(serial->serial->dev,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:1372:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &serial->serial->interface->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:1372:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D &serial->serial->interface->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:1375:26: warning: Value stored to 'fw_hdr' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct edgeport_fw_hdr *fw_hdr =3D (struct edgeport_fw_hdr *)fw-=
+>data;
+                                   ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/usb/serial/io_ti.c:1375:26: note: Value stored to 'fw_hdr' durin=
+g its initialization is never read
+           struct edgeport_fw_hdr *fw_hdr =3D (struct edgeport_fw_hdr *)fw-=
+>data;
+                                   ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/usb/serial/io_ti.c:1744:2: warning: Value stored to 'port_number=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           port_number =3D edge_port->port->port_number;
+           ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:1744:2: note: Value stored to 'port_number' i=
+s never read
+           port_number =3D edge_port->port->port_number;
+           ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:2210:17: warning: Value stored to 'dev' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &edge_port->port->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/io_ti.c:2210:17: note: Value stored to 'dev' during i=
+ts initialization is never read
+           struct device *dev =3D &edge_port->port->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/w1/slaves/w1_ds2438.c:60:3: warning: Value stored to 'crc' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   crc =3D 0;
+                   ^     ~
+   drivers/w1/slaves/w1_ds2438.c:60:3: note: Value stored to 'crc' is never=
+ read
+                   crc =3D 0;
+                   ^     ~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +59 drivers/iio/adc/ad7887.c
+vim +/port_number +298 drivers/usb/serial/io_ti.c
 
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  58  =
+^1da177e4c3f415 Linus Torvalds     2005-04-16  294  =
 
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05 @59  struct ad7887_state {
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  60  	struct spi_device		*spi;
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  61  	const struct ad7887_chip_info	*chip_info;
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  62  	struct regulator		*reg;
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  63  	struct spi_transfer		xfer[4];
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  64  	struct spi_message		msg[3];
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  65  	struct spi_message		*ring_msg;
-fce7c3eac7d4ca7 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  66  	unsigned char			tx_cmd_buf[4];
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  67  =
+^1da177e4c3f415 Linus Torvalds     2005-04-16  295  /* clear tx/rx buffers =
+and fifo in TI UMP */
+2742fd889932834 Alan Cox           2008-04-29  296  static int purge_port(s=
+truct usb_serial_port *port, __u16 mask)
+^1da177e4c3f415 Linus Torvalds     2005-04-16  297  {
+1143832eca8f1d6 Greg Kroah-Hartman 2013-06-06 @298  	int port_number =3D po=
+rt->port_number;
+^1da177e4c3f415 Linus Torvalds     2005-04-16  299  =
 
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  68  	/*
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  69  	 * DMA (thus cache coherency maintenance) requires the
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  70  	 * transfer buffers to live in their own cache lines.
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  71  	 * Buffer needs to be large enough to hold two 16 bit samples and=
- a
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  72  	 * 64 bit aligned 64 bit timestamp.
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  73  	 */
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  74  	unsigned char data[ALIGN(4, sizeof(s64)) + sizeof(s64)]
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  75  		____cacheline_aligned;
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  76  };
-65dd3d3d7a9bca6 drivers/staging/iio/adc/ad7887.c Lars-Peter Clausen 2012-11=
--05  77  =
+67e6da702753dac Greg Kroah-Hartman 2012-09-14  300  	dev_dbg(&port->dev, "%=
+s - port %d, mask %x\n", __func__, port_number, mask);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  301  =
+
+7a14fac0c94472a Johan Hovold       2021-04-12  302  	return send_port_cmd(p=
+ort, UMPC_PURGE_PORT, mask, NULL, 0);
+^1da177e4c3f415 Linus Torvalds     2005-04-16  303  }
+^1da177e4c3f415 Linus Torvalds     2005-04-16  304  =
 
 
-:::::: The code at line 59 was first introduced by commit
-:::::: 65dd3d3d7a9bca683599b214229c546392394622 staging:iio:ad7887: Squash =
-everything into one file
+:::::: The code at line 298 was first introduced by commit
+:::::: 1143832eca8f1d64da7d85642c956ae9d25c69e1 USB: serial: ports: add min=
+or and port number
 
-:::::: TO: Lars-Peter Clausen <lars@metafoo.de>
-:::::: CC: Jonathan Cameron <jic23@kernel.org>
+:::::: TO: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2018744507331177769==--
+--===============4870755910474210861==--
 
