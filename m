@@ -1,48 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============1811501834816144978=="
+Content-Type: multipart/mixed; boundary="===============5259506423476892683=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 106/1029] drivers/fpga/zynqmp-fpga.c:149:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Sun, 27 Mar 2022 19:40:42 +0800
-Message-ID: <202203271923.FG5G9xhd-lkp@intel.com>
+Subject: [plbossart-sound:fix/hda-dai-suspend-rebase 17/17] sound/soc/soc-pcm.c:2126:5: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 27 Mar 2022 18:39:44 +0800
+Message-ID: <202203271840.AHZcuHQv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1811501834816144978==
+--===============5259506423476892683==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Nava kishore Manne <nava.manne@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
+TO: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   1870e0fa79a9d58c6748c34550f3ccea0b515933
-commit: 33504b3c89260e1ca21a73c8d71c5da814f62db8 [106/1029] firmware: xilin=
-x: Update the zynqmp_pm_fpga_load() API
-:::::: branch date: 3 days ago
-:::::: commit date: 8 weeks ago
-config: arm-randconfig-c002-20220327 (https://download.01.org/0day-ci/archi=
-ve/20220327/202203271923.FG5G9xhd-lkp(a)intel.com/config)
+tree:   https://github.com/plbossart/sound fix/hda-dai-suspend-rebase
+head:   596c69339cbe8dcca6d0631e06ceb711373ea25a
+commit: 596c69339cbe8dcca6d0631e06ceb711373ea25a [17/17] ASoC: soc-pcm: imp=
+rove BE transition for TRIGGER_START
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20327/202203271840.AHZcuHQv-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
 01cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/Xilinx/linux-xlnx/commit/33504b3c89260e1ca21a7=
-3c8d71c5da814f62db8
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v5.15_LTS
-        git checkout 33504b3c89260e1ca21a73c8d71c5da814f62db8
+        # https://github.com/plbossart/sound/commit/596c69339cbe8dcca6d0631=
+e06ceb711373ea25a
+        git remote add plbossart-sound https://github.com/plbossart/sound
+        git fetch --no-tags plbossart-sound fix/hda-dai-suspend-rebase
+        git checkout 596c69339cbe8dcca6d0631e06ceb711373ea25a
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,596 +45,541 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/can/skb.h:64:2: note: Calling 'skb_reserve'
-           skb_reserve(skb, sizeof(struct can_skb_priv));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2414:1: note: Returning without writing to 'skb->=
-end'
-   }
-   ^
-   include/linux/can/skb.h:64:2: note: Returning from 'skb_reserve'
-           skb_reserve(skb, sizeof(struct can_skb_priv));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/can/skb.h:65:1: note: Returning without writing to 'skb->e=
-nd'
-   }
-   ^
-   net/can/raw.c:812:2: note: Returning from 'can_skb_reserve'
-           can_skb_reserve(skb);
-           ^~~~~~~~~~~~~~~~~~~~
-   net/can/raw.c:813:2: note: Calling 'can_skb_prv'
-           can_skb_prv(skb)->ifindex =3D dev->ifindex;
-           ^~~~~~~~~~~~~~~~
-   include/linux/can/skb.h:59:2: note: Returning without writing to 'skb->e=
-nd'
-           return (struct can_skb_priv *)(skb->head);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   sound/soc/soc-pcm.c:1273:2: note: Left side of '&&' is false
+           snd_soc_dpcm_mutex_assert_held(fe);
            ^
-   net/can/raw.c:813:2: note: Returning from 'can_skb_prv'
-           can_skb_prv(skb)->ifindex =3D dev->ifindex;
-           ^~~~~~~~~~~~~~~~
-   net/can/raw.c:814:2: note: Calling 'can_skb_prv'
-           can_skb_prv(skb)->skbcnt =3D 0;
-           ^~~~~~~~~~~~~~~~
-   include/linux/can/skb.h:59:2: note: Returning without writing to 'skb->e=
-nd'
-           return (struct can_skb_priv *)(skb->head);
+   sound/soc/soc-pcm.c:41:2: note: expanded from macro 'snd_soc_dpcm_mutex_=
+assert_held'
+           lockdep_assert_held(&(rtd)->card->pcm_mutex)
            ^
-   net/can/raw.c:814:2: note: Returning from 'can_skb_prv'
-           can_skb_prv(skb)->skbcnt =3D 0;
-           ^~~~~~~~~~~~~~~~
-   net/can/raw.c:816:24: note: Value assigned to field 'end'
-           err =3D memcpy_from_msg(skb_put(skb, size), msg, size);
-                                 ^~~~~~~~~~~~~~~~~~
-   net/can/raw.c:817:6: note: 'err' is >=3D 0
-           if (err < 0)
-               ^~~
-   net/can/raw.c:817:2: note: Taking false branch
-           if (err < 0)
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
            ^
-   net/can/raw.c:820:2: note: Calling 'skb_setup_tx_timestamp'
-           skb_setup_tx_timestamp(skb, sk->sk_tsflags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2607:39: note: Passing value via 3rd parameter 'tx_fl=
-ags'
-           _sock_tx_timestamp(skb->sk, tsflags, &skb_shinfo(skb)->tx_flags,
-                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2607:2: note: Calling '_sock_tx_timestamp'
-           _sock_tx_timestamp(skb->sk, tsflags, &skb_shinfo(skb)->tx_flags,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2589:6: note: Assuming 'tsflags' is not equal to 0
-           if (unlikely(tsflags)) {
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/net/sock.h:2589:2: note: Taking true branch
-           if (unlikely(tsflags)) {
-           ^
-   include/net/sock.h:2591:7: note: Assuming the condition is true
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2591:7: note: Left side of '&&' is true
-   include/net/sock.h:2591:44: note: Assuming 'tskey' is null
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                                                            ^~~~~
-   include/net/sock.h:2591:7: note: Assuming pointer value is null
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/sock.h:2591:50: note: Left side of '&&' is false
-                   if (tsflags & SOF_TIMESTAMPING_OPT_ID && tskey &&
-                                                                  ^
-   include/net/sock.h:2595:6: note: Assuming the condition is false
-           if (unlikely(sock_flag(sk, SOCK_WIFI_STATUS)))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/net/sock.h:2595:2: note: Taking true branch
-           if (unlikely(sock_flag(sk, SOCK_WIFI_STATUS)))
-           ^
-   include/net/sock.h:2596:13: note: Dereference of null pointer (loaded fr=
-om variable 'tx_flags')
-                   *tx_flags |=3D SKBTX_WIFI_STATUS;
-                    ~~~~~~~~ ^
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/fpga/zynqmp-fpga.c:149:6: warning: Branch condition evaluates to=
- a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (status)
-               ^~~~~~
-   drivers/fpga/zynqmp-fpga.c:105:2: note: 'status' declared without an ini=
-tial value
-           u32 status;
-           ^~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:112:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:112:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-           ^
-   drivers/fpga/zynqmp-fpga.c:117:9: note: Calling 'dma_alloc_coherent'
-           kbuf =3D dma_alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_=
-KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   include/linux/dma-mapping.h:419:4: note: '?' condition is false
-                           (gfp & __GFP_NOWARN) ? DMA_ATTR_NO_WARN : 0);
-                           ^
-   include/linux/dma-mapping.h:418:2: note: Returning pointer, which partic=
-ipates in a condition later
-           return dma_alloc_attrs(dev, size, dma_handle, gfp,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:117:9: note: Returning from 'dma_alloc_cohere=
-nt'
-           kbuf =3D dma_alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_=
-KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/fpga/zynqmp-fpga.c:118:6: note: Assuming 'kbuf' is non-null
-           if (!kbuf)
-               ^~~~~
-   drivers/fpga/zynqmp-fpga.c:118:2: note: Taking false branch
-           if (!kbuf)
-           ^
-   drivers/fpga/zynqmp-fpga.c:123:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
-           ^
-   drivers/fpga/zynqmp-fpga.c:126:13: note: Assuming the condition is false
-           } else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:126:9: note: Taking false branch
-           } else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
-                  ^
-   drivers/fpga/zynqmp-fpga.c:132:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:132:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-           ^
-   drivers/fpga/zynqmp-fpga.c:134:11: note: Assuming the condition is false
-           else if (priv->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:134:7: note: Taking false branch
-           else if (priv->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-                ^
-   drivers/fpga/zynqmp-fpga.c:137:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:137:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
-           ^
-   drivers/fpga/zynqmp-fpga.c:140:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-           ^
-   drivers/fpga/zynqmp-fpga.c:144:9: note: Calling 'zynqmp_pm_fpga_load'
-                   ret =3D zynqmp_pm_fpga_load(dma_addr, size,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:825:2: note: Returning without writ=
-ing to '*status'
-           return -ENODEV;
-           ^
-   drivers/fpga/zynqmp-fpga.c:144:9: note: Returning from 'zynqmp_pm_fpga_l=
-oad'
-                   ret =3D zynqmp_pm_fpga_load(dma_addr, size,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:149:6: note: Branch condition evaluates to a =
-garbage value
-           if (status)
-               ^~~~~~
-   drivers/fpga/zynqmp-fpga.c:213:6: warning: Branch condition evaluates to=
- a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (status)
-               ^~~~~~
-   drivers/fpga/zynqmp-fpga.c:179:2: note: 'status' declared without an ini=
-tial value
-           u32 status;
-           ^~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:188:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:188:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
-           ^
-   drivers/fpga/zynqmp-fpga.c:190:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:190:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-           ^
-   drivers/fpga/zynqmp-fpga.c:192:11: note: Assuming the condition is false
-           else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:192:7: note: Taking false branch
-           else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM)
-                ^
-   drivers/fpga/zynqmp-fpga.c:194:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:194:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
---
+   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
                                     ^
-   drivers/hwtracing/coresight/coresight-etb10.c:309:6: note: Assuming the =
-condition is false
-           if ((readl_relaxed(drvdata->base + ETB_STATUS_REG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:309:2: note: Taking false =
-branch
-           if ((readl_relaxed(drvdata->base + ETB_STATUS_REG)
+   sound/soc/soc-pcm.c:1273:2: note: Taking false branch
+           snd_soc_dpcm_mutex_assert_held(fe);
            ^
-   drivers/hwtracing/coresight/coresight-etb10.c:319:14: note: Assuming 'i'=
- is >=3D 'depth'
-           for (i =3D 0; i < depth; i++) {
-                       ^~~~~~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:319:2: note: Loop conditio=
-n is false. Execution continues on line 326
-           for (i =3D 0; i < depth; i++) {
+   sound/soc/soc-pcm.c:41:2: note: expanded from macro 'snd_soc_dpcm_mutex_=
+assert_held'
+           lockdep_assert_held(&(rtd)->card->pcm_mutex)
            ^
-   drivers/hwtracing/coresight/coresight-etb10.c:326:6: note: 'lost' is true
-           if (lost)
-               ^~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:326:2: note: Taking true b=
-ranch
-           if (lost)
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
            ^
-   drivers/hwtracing/coresight/coresight-etb10.c:329:6: note: 'frame_off' i=
-s not equal to 0
-           if (frame_off) {
-               ^~~~~~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:329:2: note: Taking true b=
-ranch
-           if (frame_off) {
+   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
            ^
-   drivers/hwtracing/coresight/coresight-etb10.c:331:15: note: Assuming 'i'=
- is < 'frame_endoff'
-                   for (i =3D 0; i < frame_endoff; i++) {
-                               ^~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:331:3: note: Loop conditio=
-n is true.  Entering loop body
-                   for (i =3D 0; i < frame_endoff; i++) {
+   sound/soc/soc-pcm.c:1273:2: note: Loop condition is false.  Exiting loop
+           snd_soc_dpcm_mutex_assert_held(fe);
+           ^
+   sound/soc/soc-pcm.c:41:2: note: expanded from macro 'snd_soc_dpcm_mutex_=
+assert_held'
+           lockdep_assert_held(&(rtd)->card->pcm_mutex)
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   sound/soc/soc-pcm.c:1276:2: note: Loop condition is true.  Entering loop=
+ body
+           for_each_dpcm_be_safe(fe, stream, dpcm, d) {
+           ^
+   include/sound/soc-dpcm.h:116:2: note: expanded from macro 'for_each_dpcm=
+_be_safe'
+           list_for_each_entry_safe(_dpcm, __dpcm, &(fe)->dpcm[stream].be_c=
+lients, list_be)
+           ^
+   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+           ^
+   sound/soc/soc-pcm.c:1277:3: note: Taking false branch
+                   dev_dbg(fe->dev, "ASoC: BE %s disconnect check for %s\n",
                    ^
-   drivers/hwtracing/coresight/coresight-etb10.c:332:5: note: Null pointer =
-value stored to 'buf_ptr'
-                           *buf_ptr++ =3D 0x0;
-                            ^~~~~~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:332:15: note: Dereference =
-of null pointer
-                           *buf_ptr++ =3D 0x0;
-                           ~~~~~~~~~~~^~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:543:3: warning: Value stor=
-ed to 'buf_ptr' is never read [clang-analyzer-deadcode.DeadStores]
-                   buf_ptr +=3D 4;
-                   ^          ~
-   drivers/hwtracing/coresight/coresight-etb10.c:543:3: note: Value stored =
-to 'buf_ptr' is never read
-                   buf_ptr +=3D 4;
-                   ^          ~
-   drivers/hwtracing/coresight/coresight-etb10.c:620:17: warning: Value sto=
-red to 'dev' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-           struct device *dev =3D &drvdata->csdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-etb10.c:620:17: note: Value stored=
- to 'dev' during its initialization is never read
-           struct device *dev =3D &drvdata->csdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/gpu/drm/sun4i/sun4i_tv.c:491:3: warning: Call to function 'strcp=
-y' is insecure as it does not provide bounding of the memory buffer. Replac=
-e unbounded copy functions with analogous functions that support length arg=
-uments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strc=
-py]
-                   strcpy(mode->name, tv_mode->name);
-                   ^~~~~~
-   drivers/gpu/drm/sun4i/sun4i_tv.c:491:3: note: Call to function 'strcpy' =
-is insecure as it does not provide bounding of the memory buffer. Replace u=
-nbounded copy functions with analogous functions that support length argume=
-nts such as 'strlcpy'. CWE-119
-                   strcpy(mode->name, tv_mode->name);
-                   ^~~~~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/fpga/zynqmp-fpga.c:149:6: warning: Branch condition evaluates to=
- a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (status)
-               ^~~~~~
-   drivers/fpga/zynqmp-fpga.c:105:2: note: 'status' declared without an ini=
-tial value
-           u32 status;
-           ^~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:112:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:112:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
            ^
-   drivers/fpga/zynqmp-fpga.c:117:9: note: Calling 'dma_alloc_coherent'
-           kbuf =3D dma_alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_=
-KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   include/linux/dma-mapping.h:419:4: note: '?' condition is false
-                           (gfp & __GFP_NOWARN) ? DMA_ATTR_NO_WARN : 0);
-                           ^
-   include/linux/dma-mapping.h:418:2: note: Returning pointer, which partic=
-ipates in a condition later
-           return dma_alloc_attrs(dev, size, dma_handle, gfp,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:117:9: note: Returning from 'dma_alloc_cohere=
-nt'
-           kbuf =3D dma_alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_=
-KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/fpga/zynqmp-fpga.c:118:6: note: Assuming 'kbuf' is non-null
-           if (!kbuf)
-               ^~~~~
-   drivers/fpga/zynqmp-fpga.c:118:2: note: Taking false branch
-           if (!kbuf)
+   sound/soc/soc-pcm.c:1281:7: note: Assuming field 'state' is equal to SND=
+_SOC_DPCM_LINK_STATE_FREE
+                   if (dpcm->state !=3D SND_SOC_DPCM_LINK_STATE_FREE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:1281:3: note: Taking false branch
+                   if (dpcm->state !=3D SND_SOC_DPCM_LINK_STATE_FREE)
+                   ^
+   sound/soc/soc-pcm.c:1284:3: note: Taking false branch
+                   dev_dbg(fe->dev, "freed DSP %s path %s %s %s\n",
+                   ^
+   include/linux/dev_printk.h:162:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
            ^
-   drivers/fpga/zynqmp-fpga.c:123:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
+   sound/soc/soc-pcm.c:1276:2: note: Loop condition is false. Execution con=
+tinues on line 1294
+           for_each_dpcm_be_safe(fe, stream, dpcm, d) {
            ^
-   drivers/fpga/zynqmp-fpga.c:126:13: note: Assuming the condition is false
-           } else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:126:9: note: Taking false branch
-           } else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
-                  ^
-   drivers/fpga/zynqmp-fpga.c:132:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:132:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
+   include/sound/soc-dpcm.h:116:2: note: expanded from macro 'for_each_dpcm=
+_be_safe'
+           list_for_each_entry_safe(_dpcm, __dpcm, &(fe)->dpcm[stream].be_c=
+lients, list_be)
            ^
-   drivers/fpga/zynqmp-fpga.c:134:11: note: Assuming the condition is false
-           else if (priv->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:134:7: note: Taking false branch
-           else if (priv->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-                ^
-   drivers/fpga/zynqmp-fpga.c:137:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:137:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
+   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
            ^
-   drivers/fpga/zynqmp-fpga.c:140:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
+   sound/soc/soc-pcm.c:1296:2: note: Loop condition is true.  Entering loop=
+ body
+           while (!list_empty(&deleted_dpcms)) {
            ^
-   drivers/fpga/zynqmp-fpga.c:144:9: note: Calling 'zynqmp_pm_fpga_load'
-                   ret =3D zynqmp_pm_fpga_load(dma_addr, size,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/firmware/xlnx-zynqmp.h:825:2: note: Returning without writ=
-ing to '*status'
-           return -ENODEV;
+   sound/soc/soc-pcm.c:1301:3: note: Memory is released
+                   kfree(dpcm);
+                   ^~~~~~~~~~~
+   sound/soc/soc-pcm.c:1296:2: note: Loop condition is true.  Entering loop=
+ body
+           while (!list_empty(&deleted_dpcms)) {
            ^
-   drivers/fpga/zynqmp-fpga.c:144:9: note: Returning from 'zynqmp_pm_fpga_l=
-oad'
-                   ret =3D zynqmp_pm_fpga_load(dma_addr, size,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:149:6: note: Branch condition evaluates to a =
-garbage value
-           if (status)
-               ^~~~~~
-   drivers/fpga/zynqmp-fpga.c:213:6: warning: Branch condition evaluates to=
- a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (status)
-               ^~~~~~
-   drivers/fpga/zynqmp-fpga.c:179:2: note: 'status' declared without an ini=
-tial value
-           u32 status;
-           ^~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:188:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:188:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_PARTIAL_RECONFIG)
+   sound/soc/soc-pcm.c:1299:3: note: Calling 'list_del'
+                   list_del(&dpcm->list_fe);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:149:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+>> sound/soc/soc-pcm.c:2126:5: warning: Value stored to 'ret' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D soc_pcm_trigger(be_substream,
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:2126:5: note: Value stored to 'ret' is never read
+                                   ret =3D soc_pcm_trigger(be_substream,
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:2129:5: warning: Value stored to 'ret' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D soc_pcm_trigger(be_substream,
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/soc-pcm.c:2129:5: note: Value stored to 'ret' is never read
+                                   ret =3D soc_pcm_trigger(be_substream,
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   net/sched/sch_fq.c:321:28: warning: Dereference of null pointer [clang-a=
+nalyzer-core.NullDereference]
+                                        f->socket_hash !=3D sk->sk_hash)) {
+                                                          ^
+   net/sched/sch_fq.c:448:15: note: Assuming field 'qlen' is < field 'limit'
+           if (unlikely(sch->q.qlen >=3D sch->limit))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/sch_fq.c:448:2: note: Taking false branch
+           if (unlikely(sch->q.qlen >=3D sch->limit))
            ^
-   drivers/fpga/zynqmp-fpga.c:190:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:190:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
+   net/sched/sch_fq.c:451:6: note: Assuming field 'tstamp' is 0
+           if (!skb->tstamp) {
+               ^~~~~~~~~~~~
+   net/sched/sch_fq.c:451:2: note: Taking true branch
+           if (!skb->tstamp) {
            ^
-   drivers/fpga/zynqmp-fpga.c:192:11: note: Assuming the condition is false
-           else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:192:7: note: Taking false branch
-           else if (priv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM)
-                ^
-   drivers/fpga/zynqmp-fpga.c:194:6: note: Assuming the condition is false
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/fpga/zynqmp-fpga.c:194:2: note: Taking false branch
-           if (priv->flags & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
+   net/sched/sch_fq.c:473:6: note: Calling 'fq_classify'
+           f =3D fq_classify(skb, q);
+               ^~~~~~~~~~~~~~~~~~~
+   net/sched/sch_fq.c:269:15: note: Assuming the condition is false
+           if (unlikely((skb->priority & TC_PRIO_MAX) =3D=3D TC_PRIO_CONTRO=
+L))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/sch_fq.c:269:2: note: Taking false branch
+           if (unlikely((skb->priority & TC_PRIO_MAX) =3D=3D TC_PRIO_CONTRO=
+L))
+           ^
+   net/sched/sch_fq.c:281:6: note: Assuming 'sk' is null
+           if (!sk || sk_listener(sk)) {
+               ^~~
+   net/sched/sch_fq.c:281:10: note: Left side of '||' is true
+           if (!sk || sk_listener(sk)) {
+                   ^
+   net/sched/sch_fq.c:287:3: note: Value assigned to 'sk'
+                   sk =3D (struct sock *)((hash << 1) | 1UL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_fq.c:304:6: note: Assuming the condition is false
+           if (q->flows >=3D (2U << q->fq_trees_log) &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/sch_fq.c:304:42: note: Left side of '&&' is false
+           if (q->flows >=3D (2U << q->fq_trees_log) &&
+                                                   ^
+   net/sched/sch_fq.c:310:2: note: Loop condition is true.  Entering loop b=
+ody
+           while (*p) {
+           ^
+   net/sched/sch_fq.c:314:7: note: Assuming 'sk' is equal to field 'sk'
+                   if (f->sk =3D=3D sk) {
+                       ^~~~~~~~~~~
+   net/sched/sch_fq.c:314:3: note: Taking true branch
+                   if (f->sk =3D=3D sk) {
+                   ^
+   net/sched/sch_fq.c:320:17: note: Assuming 'sk' is equal to field 'sk'
+                           if (unlikely(skb->sk =3D=3D sk &&
+                                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/sch_fq.c:320:17: note: Left side of '&&' is true
+                           if (unlikely(skb->sk =3D=3D sk &&
+                                        ^
+   net/sched/sch_fq.c:321:28: note: Dereference of null pointer
+                                        f->socket_hash !=3D sk->sk_hash)) {
+                                                          ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/sch_fq.c:349:20: warning: Dereference of null pointer [clang-a=
+nalyzer-core.NullDereference]
+                   f->socket_hash =3D sk->sk_hash;
+                                    ^
+   net/sched/sch_fq.c:448:15: note: Assuming field 'qlen' is < field 'limit'
+           if (unlikely(sch->q.qlen >=3D sch->limit))
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/sch_fq.c:448:2: note: Taking false branch
+           if (unlikely(sch->q.qlen >=3D sch->limit))
+           ^
+   net/sched/sch_fq.c:451:6: note: Assuming field 'tstamp' is 0
+           if (!skb->tstamp) {
+               ^~~~~~~~~~~~
+   net/sched/sch_fq.c:451:2: note: Taking true branch
+           if (!skb->tstamp) {
 
-vim +149 drivers/fpga/zynqmp-fpga.c
+vim +/ret +2126 sound/soc/soc-pcm.c
 
-c09f7471127e9d Nava kishore Manne           2019-04-15   97  =
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2088  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15   98  static int zyn=
-qmp_fpga_ops_write(struct fpga_manager *mgr,
-c09f7471127e9d Nava kishore Manne           2019-04-15   99  				 const cha=
-r *buf, size_t size)
-c09f7471127e9d Nava kishore Manne           2019-04-15  100  {
-c09f7471127e9d Nava kishore Manne           2019-04-15  101  	struct zynqmp=
-_fpga_priv *priv;
-17d80e71b14654 Nava kishore Manne           2020-09-29  102  	dma_addr_t dm=
-a_addr =3D 0;
-c09f7471127e9d Nava kishore Manne           2019-04-15  103  	u32 eemi_flag=
-s =3D 0;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  104  	size_t dma_si=
-ze;
-33504b3c89260e Nava kishore Manne           2022-01-13  105  	u32 status;
-c09f7471127e9d Nava kishore Manne           2019-04-15  106  	char *kbuf;
-c09f7471127e9d Nava kishore Manne           2019-04-15  107  	int ret;
-c09f7471127e9d Nava kishore Manne           2019-04-15  108  =
+23607025303af6 Liam Girdwood        2014-01-17  2089  int dpcm_be_dai_trigg=
+er(struct snd_soc_pcm_runtime *fe, int stream,
+45c0a188ca59e7 Mark Brown           2012-05-09  2090  			       int cmd)
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2091  {
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2092  	struct snd_soc_pcm_r=
+untime *be;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2093  	bool pause_stop_tran=
+sition;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2094  	struct snd_soc_dpcm =
+*dpcm;
+b2ae80663008a7 Takashi Iwai         2021-12-07  2095  	unsigned long flags;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2096  	int ret =3D 0;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2097  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  109  	priv =3D mgr-=
->priv;
-c56dc0db37a37e Appana Durga Kedareswara rao 2019-12-31  110  	priv->size =
-=3D size;
-c09f7471127e9d Nava kishore Manne           2019-04-15  111  =
+8d6258a4dd2678 Kuninori Morimoto    2018-09-18  2098  	for_each_dpcm_be(fe,=
+ stream, dpcm) {
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2099  		struct snd_pcm_subs=
+tream *be_substream;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2100  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  112  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  113  		dma_size =3D=
- size + ENCRYPTED_KEY_LEN;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  114  	else
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  115  		dma_size =3D=
- size;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  116  =
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2101  		be =3D dpcm->be;
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2102  		be_substream =3D sn=
+d_soc_dpcm_get_substream(be, stream);
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2103  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  117  	kbuf =3D dma_=
-alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_KERNEL);
-c09f7471127e9d Nava kishore Manne           2019-04-15  118  	if (!kbuf)
-c09f7471127e9d Nava kishore Manne           2019-04-15  119  		return -ENOM=
-EM;
-c09f7471127e9d Nava kishore Manne           2019-04-15  120  =
+3c75c0ea5da749 Takashi Iwai         2022-01-19  2104  		snd_soc_dpcm_stream=
+_lock_irqsave_nested(be, stream, flags);
+b2ae80663008a7 Takashi Iwai         2021-12-07  2105  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  121  	memcpy(kbuf, =
-buf, size);
-c09f7471127e9d Nava kishore Manne           2019-04-15  122  =
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2106  		/* is this op for t=
+his BE ? */
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2107  		if (!snd_soc_dpcm_b=
+e_can_update(fe, be, stream))
+b2ae80663008a7 Takashi Iwai         2021-12-07  2108  			goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2109  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  123  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  124  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_USERKEY;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  125  		memcpy(kbuf =
-+ size, mgr->key, ENCRYPTED_KEY_LEN);
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  126  	} else if (pr=
-iv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  127  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_DEVKEY;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  128  	}
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  129  =
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2110  		dev_dbg(be->dev, "A=
+SoC: trigger BE %s cmd %d\n",
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2111  			be->dai_link->name=
+, cmd);
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2112  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  130  	wmb(); /* ens=
-ure all writes are done before initiate FW call */
-c09f7471127e9d Nava kishore Manne           2019-04-15  131  =
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2113  		switch (cmd) {
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2114  		case SNDRV_PCM_TRIG=
+GER_START:
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2115  			if (!be->dpcm[stre=
+am].be_start &&
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2116  			    (be->dpcm[stre=
+am].state !=3D SND_SOC_DPCM_STATE_PREPARE) &&
+21fca8bdbb64df =EC=9D=B4=EA=B2=BD=ED=83=9D               2020-04-01  2117  =
+			    (be->dpcm[stream].state !=3D SND_SOC_DPCM_STATE_STOP) &&
+3202e2f5fac003 Mark Brown           2021-08-30  2118  			    (be->dpcm[stre=
+am].state !=3D SND_SOC_DPCM_STATE_PAUSED))
+b2ae80663008a7 Takashi Iwai         2021-12-07  2119  				goto next;
+6479f7588651cb Pierre-Louis Bossart 2021-08-17  2120  =
 
-0a59c37a459937 Nava kishore Manne           2019-12-31  132  	if (priv->fla=
-gs & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-0a59c37a459937 Nava kishore Manne           2019-12-31  133  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_DDR;
-0a59c37a459937 Nava kishore Manne           2019-12-31  134  	else if (priv=
-->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-0a59c37a459937 Nava kishore Manne           2019-12-31  135  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_OCM;
-0a59c37a459937 Nava kishore Manne           2019-12-31  136  =
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2121  			be->dpcm[stream].b=
+e_start++;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2122  			if (be->dpcm[strea=
+m].be_start !=3D 1)
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2123  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2124  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  137  	if (priv->fla=
-gs & FPGA_MGR_PARTIAL_RECONFIG)
-c09f7471127e9d Nava kishore Manne           2019-04-15  138  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_PARTIAL;
-c09f7471127e9d Nava kishore Manne           2019-04-15  139  =
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22  2125  			if (be->dpcm[strea=
+m].state =3D=3D SND_SOC_DPCM_STATE_PAUSED)
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22 @2126  				ret =3D soc_pcm_t=
+rigger(be_substream,
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22  2127  						      SNDRV_PCM=
+_TRIGGER_PAUSE_RELEASE);
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22  2128  			else
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22  2129  				ret =3D soc_pcm_t=
+rigger(be_substream,
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22  2130  						      SNDRV_PCM=
+_TRIGGER_START);
+596c69339cbe8d Pierre-Louis Bossart 2022-03-22  2131  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  140  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  141  		ret =3D zynq=
-mp_pm_fpga_load(dma_addr, dma_addr + size,
-33504b3c89260e Nava kishore Manne           2022-01-13  142  					  eemi_fl=
-ags, &status);
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  143  	else
-33504b3c89260e Nava kishore Manne           2022-01-13  144  		ret =3D zynq=
-mp_pm_fpga_load(dma_addr, size,
-33504b3c89260e Nava kishore Manne           2022-01-13  145  					  eemi_fl=
-ags, &status);
-c09f7471127e9d Nava kishore Manne           2019-04-15  146  =
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2132  			ret =3D soc_pcm_tr=
+igger(be_substream, cmd);
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2133  			if (ret) {
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2134  				be->dpcm[stream].=
+be_start--;
+b2ae80663008a7 Takashi Iwai         2021-12-07  2135  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2136  			}
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2137  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  147  	dma_free_cohe=
-rent(priv->dev, dma_size, kbuf, dma_addr);
-c09f7471127e9d Nava kishore Manne           2019-04-15  148  =
+3202e2f5fac003 Mark Brown           2021-08-30  2138  			be->dpcm[stream].s=
+tate =3D SND_SOC_DPCM_STATE_START;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2139  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2140  		case SNDRV_PCM_TRIG=
+GER_RESUME:
+3202e2f5fac003 Mark Brown           2021-08-30  2141  			if ((be->dpcm[stre=
+am].state !=3D SND_SOC_DPCM_STATE_SUSPEND))
+b2ae80663008a7 Takashi Iwai         2021-12-07  2142  				goto next;
+6479f7588651cb Pierre-Louis Bossart 2021-08-17  2143  =
 
-33504b3c89260e Nava kishore Manne           2022-01-13 @149  	if (status)
-33504b3c89260e Nava kishore Manne           2022-01-13  150  		return statu=
-s;
-33504b3c89260e Nava kishore Manne           2022-01-13  151  =
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2144  			be->dpcm[stream].b=
+e_start++;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2145  			if (be->dpcm[strea=
+m].be_start !=3D 1)
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2146  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2147  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  152  	return ret;
-c09f7471127e9d Nava kishore Manne           2019-04-15  153  }
-c09f7471127e9d Nava kishore Manne           2019-04-15  154  =
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2148  			ret =3D soc_pcm_tr=
+igger(be_substream, cmd);
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2149  			if (ret) {
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2150  				be->dpcm[stream].=
+be_start--;
+b2ae80663008a7 Takashi Iwai         2021-12-07  2151  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2152  			}
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2153  =
+
+3202e2f5fac003 Mark Brown           2021-08-30  2154  			be->dpcm[stream].s=
+tate =3D SND_SOC_DPCM_STATE_START;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2155  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2156  		case SNDRV_PCM_TRIG=
+GER_PAUSE_RELEASE:
+3aa1e96a2b95e2 Pierre-Louis Bossart 2021-12-07  2157  			if (!be->dpcm[stre=
+am].be_start &&
+3aa1e96a2b95e2 Pierre-Louis Bossart 2021-12-07  2158  			    (be->dpcm[stre=
+am].state !=3D SND_SOC_DPCM_STATE_START) &&
+3aa1e96a2b95e2 Pierre-Louis Bossart 2021-12-07  2159  			    (be->dpcm[stre=
+am].state !=3D SND_SOC_DPCM_STATE_PAUSED))
+b2ae80663008a7 Takashi Iwai         2021-12-07  2160  				goto next;
+6479f7588651cb Pierre-Louis Bossart 2021-08-17  2161  =
+
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2162  			fe->dpcm[stream].f=
+e_pause =3D false;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2163  			be->dpcm[stream].b=
+e_pause--;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2164  =
+
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2165  			be->dpcm[stream].b=
+e_start++;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2166  			if (be->dpcm[strea=
+m].be_start !=3D 1)
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2167  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2168  =
+
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2169  			ret =3D soc_pcm_tr=
+igger(be_substream, cmd);
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2170  			if (ret) {
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2171  				be->dpcm[stream].=
+be_start--;
+b2ae80663008a7 Takashi Iwai         2021-12-07  2172  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2173  			}
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2174  =
+
+3202e2f5fac003 Mark Brown           2021-08-30  2175  			be->dpcm[stream].s=
+tate =3D SND_SOC_DPCM_STATE_START;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2176  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2177  		case SNDRV_PCM_TRIG=
+GER_STOP:
+21fca8bdbb64df =EC=9D=B4=EA=B2=BD=ED=83=9D               2020-04-01  2178  =
+			if ((be->dpcm[stream].state !=3D SND_SOC_DPCM_STATE_START) &&
+3202e2f5fac003 Mark Brown           2021-08-30  2179  			    (be->dpcm[stre=
+am].state !=3D SND_SOC_DPCM_STATE_PAUSED))
+b2ae80663008a7 Takashi Iwai         2021-12-07  2180  				goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2181  =
+
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2182  			if (be->dpcm[strea=
+m].state =3D=3D SND_SOC_DPCM_STATE_START)
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2183  				be->dpcm[stream].=
+be_start--;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2184  =
+
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2185  			if (be->dpcm[strea=
+m].be_start !=3D 0)
+b2ae80663008a7 Takashi Iwai         2021-12-07  2186  				goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2187  =
+
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2188  			pause_stop_transit=
+ion =3D false;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2189  			if (fe->dpcm[strea=
+m].fe_pause) {
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2190  				pause_stop_transi=
+tion =3D true;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2191  				fe->dpcm[stream].=
+fe_pause =3D false;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2192  				be->dpcm[stream].=
+be_pause--;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2193  			}
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2194  =
+
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2195  			if (be->dpcm[strea=
+m].be_pause !=3D 0)
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2196  				ret =3D soc_pcm_t=
+rigger(be_substream, SNDRV_PCM_TRIGGER_PAUSE_PUSH);
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2197  			else
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2198  				ret =3D soc_pcm_t=
+rigger(be_substream, SNDRV_PCM_TRIGGER_STOP);
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2199  =
+
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2200  			if (ret) {
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2201  				if (be->dpcm[stre=
+am].state =3D=3D SND_SOC_DPCM_STATE_START)
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2202  					be->dpcm[stream]=
+.be_start++;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2203  				if (pause_stop_tr=
+ansition) {
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2204  					fe->dpcm[stream]=
+.fe_pause =3D true;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2205  					be->dpcm[stream]=
+.be_pause++;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2206  				}
+b2ae80663008a7 Takashi Iwai         2021-12-07  2207  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2208  			}
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2209  =
+
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2210  			if (be->dpcm[strea=
+m].be_pause !=3D 0)
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2211  				be->dpcm[stream].=
+state =3D SND_SOC_DPCM_STATE_PAUSED;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2212  			else
+3202e2f5fac003 Mark Brown           2021-08-30  2213  				be->dpcm[stream].=
+state =3D SND_SOC_DPCM_STATE_STOP;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2214  =
+
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2215  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2216  		case SNDRV_PCM_TRIG=
+GER_SUSPEND:
+3202e2f5fac003 Mark Brown           2021-08-30  2217  			if (be->dpcm[strea=
+m].state !=3D SND_SOC_DPCM_STATE_START)
+b2ae80663008a7 Takashi Iwai         2021-12-07  2218  				goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2219  =
+
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2220  			be->dpcm[stream].b=
+e_start--;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2221  			if (be->dpcm[strea=
+m].be_start !=3D 0)
+b2ae80663008a7 Takashi Iwai         2021-12-07  2222  				goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2223  =
+
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2224  			ret =3D soc_pcm_tr=
+igger(be_substream, cmd);
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2225  			if (ret) {
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2226  				be->dpcm[stream].=
+be_start++;
+b2ae80663008a7 Takashi Iwai         2021-12-07  2227  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2228  			}
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2229  =
+
+3202e2f5fac003 Mark Brown           2021-08-30  2230  			be->dpcm[stream].s=
+tate =3D SND_SOC_DPCM_STATE_SUSPEND;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2231  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2232  		case SNDRV_PCM_TRIG=
+GER_PAUSE_PUSH:
+3202e2f5fac003 Mark Brown           2021-08-30  2233  			if (be->dpcm[strea=
+m].state !=3D SND_SOC_DPCM_STATE_START)
+b2ae80663008a7 Takashi Iwai         2021-12-07  2234  				goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2235  =
+
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2236  			fe->dpcm[stream].f=
+e_pause =3D true;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2237  			be->dpcm[stream].b=
+e_pause++;
+5b3ffa2283999b Pierre-Louis Bossart 2022-03-21  2238  =
+
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2239  			be->dpcm[stream].b=
+e_start--;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2240  			if (be->dpcm[strea=
+m].be_start !=3D 0)
+b2ae80663008a7 Takashi Iwai         2021-12-07  2241  				goto next;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2242  =
+
+a9faca15a644ff Kuninori Morimoto    2020-12-01  2243  			ret =3D soc_pcm_tr=
+igger(be_substream, cmd);
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2244  			if (ret) {
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2245  				be->dpcm[stream].=
+be_start++;
+b2ae80663008a7 Takashi Iwai         2021-12-07  2246  				goto next;
+848aedfdc6ba25 Pierre-Louis Bossart 2021-12-07  2247  			}
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2248  =
+
+3202e2f5fac003 Mark Brown           2021-08-30  2249  			be->dpcm[stream].s=
+tate =3D SND_SOC_DPCM_STATE_PAUSED;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2250  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2251  		}
+b2ae80663008a7 Takashi Iwai         2021-12-07  2252  next:
+b2ae80663008a7 Takashi Iwai         2021-12-07  2253  		snd_soc_dpcm_stream=
+_unlock_irqrestore(be, stream, flags);
+b2ae80663008a7 Takashi Iwai         2021-12-07  2254  		if (ret)
+b2ae80663008a7 Takashi Iwai         2021-12-07  2255  			break;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2256  	}
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2257  	if (ret < 0)
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2258  		dev_err(fe->dev, "A=
+SoC: %s() failed at %s (%d)\n",
+db3aa39c910684 Kuninori Morimoto    2021-03-15  2259  			__func__, be->dai_=
+link->name, ret);
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2260  	return ret;
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2261  }
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2262  EXPORT_SYMBOL_GPL(dpc=
+m_be_dai_trigger);
+01d7584cd2e5a9 Liam Girdwood        2012-04-25  2263  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1811501834816144978==--
+--===============5259506423476892683==--
 
