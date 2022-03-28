@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3470825187697673507=="
+Content-Type: multipart/mixed; boundary="===============9188905213625191211=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mani-mhi:mhi-next 7/18] drivers/bus/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->state [uninitvar]
-Date: Mon, 04 Apr 2022 20:43:26 +0800
-Message-ID: <202204042051.UDNU94jF-lkp@intel.com>
+Subject: sound/soc/qcom/lpass-platform.c:226 __lpass_get_id() error: uninitialized symbol 'id'.
+Date: Mon, 28 Mar 2022 18:53:44 +0800
+Message-ID: <202203281821.GjdtJpZe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3470825187697673507==
+--===============9188905213625191211==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,101 +15,82 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: Alex Elder <elder@linaro.org>
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-ne=
-xt
-head:   5d4be19cbe6aadfad0a5f40df91bd478cedd8344
-commit: 484e04faa8a0487843808a08ff8b11e0684972f5 [7/18] bus: mhi: ep: Add s=
-upport for managing MHI state machine
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
-compiler: alpha-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
+commit: 16413d5c5a2ed81d8fece1c5fe0b85752ecdbdf2 ASoC: qcom: Add helper fun=
+ction to get dma control and lpaif handle
+date:   5 weeks ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 weeks ago
+config: riscv-randconfig-m031-20220327 (https://download.01.org/0day-ci/arc=
+hive/20220328/202203281821.GjdtJpZe-lkp(a)intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+sound/soc/qcom/lpass-platform.c:226 __lpass_get_id() error: uninitialized s=
+ymbol 'id'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/id +226 sound/soc/qcom/lpass-platform.c
 
->> drivers/cxl/pmem.c:383:1: warning: There is an unknown macro here somewh=
-ere. Configuration is required. If __stringify is a macro then please confi=
-gure it. [unknownMacro]
-   MODULE_ALIAS_CXL(CXL_DEVICE_NVDIMM_BRIDGE);
-   ^
---
->> drivers/bus/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->=
-state [uninitvar]
-       mhi_state_str(itr->state));
-                          ^
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  202  =
 
-vim +124 drivers/bus/mhi/ep/main.c
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  203  static int __lpass_=
+get_id(const struct snd_pcm_substream *substream,
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  204  				     struct snd=
+_soc_component *component)
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  205  {
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  206  	struct snd_soc_pcm=
+_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  207  	struct snd_soc_dai=
+ *cpu_dai =3D asoc_rtd_to_cpu(soc_runtime, 0);
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  208  	struct lpass_data =
+*drvdata =3D snd_soc_component_get_drvdata(component);
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  209  	struct snd_pcm_run=
+time *rt =3D substream->runtime;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  210  	struct lpass_pcm_d=
+ata *pcm_data =3D rt->private_data;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  211  	struct lpass_varia=
+nt *v =3D drvdata->variant;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  212  	int id;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  213  =
 
-6f7cb6e7883962 Manivannan Sadhasivam 2021-11-29  107  =
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  214  	switch (cpu_dai->d=
+river->id) {
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  215  	case MI2S_PRIMARY =
+... MI2S_QUINARY:
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  216  		if (substream->st=
+ream =3D=3D SNDRV_PCM_STREAM_PLAYBACK)
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  217  			id =3D pcm_data-=
+>dma_ch;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  218  		else
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  219  			id =3D pcm_data-=
+>dma_ch - v->wrdma_channel_start;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  220  		break;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  221  	case LPASS_DP_RX:
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  222  		id =3D pcm_data->=
+dma_ch;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  223  		break;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  224  	}
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  225  =
 
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  108  static void mhi_ep_st=
-ate_worker(struct work_struct *work)
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  109  {
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  110  	struct mhi_ep_cntrl =
-*mhi_cntrl =3D container_of(work, struct mhi_ep_cntrl, state_work);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  111  	struct device *dev =
-=3D &mhi_cntrl->mhi_dev->dev;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  112  	struct mhi_ep_state_=
-transition *itr, *tmp;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  113  	unsigned long flags;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  114  	LIST_HEAD(head);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  115  	int ret;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  116  =
-
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  117  	spin_lock_irqsave(&m=
-hi_cntrl->list_lock, flags);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  118  	list_splice_tail_ini=
-t(&mhi_cntrl->st_transition_list, &head);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  119  	spin_unlock_irqresto=
-re(&mhi_cntrl->list_lock, flags);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  120  =
-
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  121  	list_for_each_entry_=
-safe(itr, tmp, &head, node) {
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  122  		list_del(&itr->node=
-);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  123  		dev_dbg(dev, "Handl=
-ing MHI state transition to %s\n",
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29 @124  			 mhi_state_str(itr=
-->state));
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  125  =
-
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  126  		switch (itr->state)=
- {
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  127  		case MHI_STATE_M0:
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  128  			ret =3D mhi_ep_set=
-_m0_state(mhi_cntrl);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  129  			if (ret)
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  130  				dev_err(dev, "Fai=
-led to transition to M0 state\n");
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  131  			break;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  132  		case MHI_STATE_M3:
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  133  			ret =3D mhi_ep_set=
-_m3_state(mhi_cntrl);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  134  			if (ret)
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  135  				dev_err(dev, "Fai=
-led to transition to M3 state\n");
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  136  			break;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  137  		default:
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  138  			dev_err(dev, "Inva=
-lid MHI state transition: %d\n", itr->state);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  139  			break;
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  140  		}
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  141  		kfree(itr);
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  142  	}
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  143  }
-484e04faa8a048 Manivannan Sadhasivam 2021-11-29  144  =
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24 @226  	return id;
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  227  }
+16413d5c5a2ed8 Srinivasa Rao Mandadapu 2022-02-24  228  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3470825187697673507==--
+--===============9188905213625191211==--
 
