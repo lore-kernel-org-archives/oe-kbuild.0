@@ -1,385 +1,167 @@
-Content-Type: multipart/mixed; boundary="===============5163857327083426119=="
+Content-Type: multipart/mixed; boundary="===============3979423338358108783=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/i2c/busses/i2c-qcom-geni.c:683:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Tue, 29 Mar 2022 06:46:31 +0800
-Message-ID: <202203290647.tqKuUVRg-lkp@intel.com>
+Subject: Re: [PATCH mptcp-next v2 3/3] mptcp: listen diag dump support
+Date: Tue, 29 Mar 2022 04:33:59 +0800
+Message-ID: <202203290401.iBK94uHx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5163857327083426119==
+--===============3979423338358108783==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Vinod Koul <vkoul@kernel.org>
-CC: Wolfram Sang <wsa-dev@sang-engineering.com>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+In-Reply-To: <20220328124913.29768-4-fw@strlen.de>
+References: <20220328124913.29768-4-fw@strlen.de>
+TO: Florian Westphal <fw@strlen.de>
+TO: mptcp(a)lists.linux.dev
+CC: Florian Westphal <fw@strlen.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
-commit: d8703554f4dea9775417525b22b3d65ed1c6b16e i2c: qcom-geni: Add suppor=
-t for GPI DMA
-date:   4 weeks ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 weeks ago
-config: mips-randconfig-c004-20220328 (https://download.01.org/0day-ci/arch=
-ive/20220329/202203290647.tqKuUVRg-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
-01cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd8703554f4dea9775417525b22b3d65ed1c6b16e
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d8703554f4dea9775417525b22b3d65ed1c6b16e
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+Hi Florian,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on mptcp/export]
+[also build test WARNING on linus/master v5.17 next-20220328]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/mpt=
+cp-inet-diag-listen-dump-support/20220328-205028
+base:   https://github.com/multipath-tcp/mptcp_net-next.git export
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: i386-randconfig-m021-20220328 (https://download.01.org/0day-ci/arch=
+ive/20220329/202203290401.iBK94uHx-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+net/mptcp/mptcp_diag.c:121 mptcp_diag_dump_listeners() error: uninitialized=
+ symbol 'bc'.
+net/mptcp/mptcp_diag.c:122 mptcp_diag_dump_listeners() warn: inconsistent i=
+ndenting
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/i2c/busses/i2c-qcom-geni.c:683:3: warning: Value stored to 'ret'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D geni_i2c_gpi_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:683:3: note: Value stored to 'ret' is=
- never read
-                   ret =3D geni_i2c_gpi_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:685:3: warning: Value stored to 'ret'=
- is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D geni_i2c_fifo_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:685:3: note: Value stored to 'ret' is=
- never read
-                   ret =3D geni_i2c_fifo_xfer(gi2c, msgs, num);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/of/property.c:920:19: warning: Access to field 'full_name' resul=
-ts in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
-           ^
-   drivers/of/property.c:920:19: note: '?' condition is false
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
-                   is_of_node(__to_of_node_fwnode) ?                       \
-                   ^
-   drivers/of/property.c:920:19: note: Access to field 'full_name' results =
-in a dereference of a null pointer
-           return kbasename(to_of_node(fwnode)->full_name);
-                            ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
-           ^
-   drivers/of/property.c:926:7: warning: Access to field 'parent' results i=
-n a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           if (!to_of_node(fwnode)->parent)
-                ^
-   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
-           ({                                                              \
-           ^
-   drivers/of/property.c:926:7: note: '?' condition is false
-           if (!to_of_node(fwnode)->parent)
+vim +/bc +121 net/mptcp/mptcp_diag.c
 
-vim +/ret +683 drivers/i2c/busses/i2c-qcom-geni.c
+fedd1232547507 Florian Westphal 2022-03-28   75  =
 
-d8703554f4dea9 Vinod Koul                  2022-02-21  661  =
+6ef1c5326220cf Florian Westphal 2022-03-28   76  static void mptcp_diag_dum=
+p_listeners(struct sk_buff *skb, struct netlink_callback *cb,
+6ef1c5326220cf Florian Westphal 2022-03-28   77  				      const struct ine=
+t_diag_req_v2 *r,
+6ef1c5326220cf Florian Westphal 2022-03-28   78  				      bool net_admin)
+6ef1c5326220cf Florian Westphal 2022-03-28   79  {
+6ef1c5326220cf Florian Westphal 2022-03-28   80  	struct mptcp_diag_ctx *di=
+ag_ctx =3D (void *)cb->ctx;
+6ef1c5326220cf Florian Westphal 2022-03-28   81  	struct net *net =3D sock_=
+net(skb->sk);
+6ef1c5326220cf Florian Westphal 2022-03-28   82  	struct nlattr *bc;
+6ef1c5326220cf Florian Westphal 2022-03-28   83  	int i;
+6ef1c5326220cf Florian Westphal 2022-03-28   84  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  662  static int geni=
-_i2c_xfer(struct i2c_adapter *adap,
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  663  			 struct i2c_=
-msg msgs[],
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  664  			 int num)
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  665  {
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  666  	struct geni_i2=
-c_dev *gi2c =3D i2c_get_adapdata(adap);
-d8703554f4dea9 Vinod Koul                  2022-02-21  667  	int ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  668  =
+6ef1c5326220cf Florian Westphal 2022-03-28   85  	for (i =3D diag_ctx->l_sl=
+ot; i < INET_LHTABLE_SIZE; i++) {
+6ef1c5326220cf Florian Westphal 2022-03-28   86  		struct inet_listen_hashb=
+ucket *ilb;
+6ef1c5326220cf Florian Westphal 2022-03-28   87  		struct hlist_nulls_node =
+*node;
+6ef1c5326220cf Florian Westphal 2022-03-28   88  		struct sock *sk;
+6ef1c5326220cf Florian Westphal 2022-03-28   89  		int num =3D 0;
+6ef1c5326220cf Florian Westphal 2022-03-28   90  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  669  	gi2c->err =3D =
-0;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  670  	reinit_complet=
-ion(&gi2c->done);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  671  	ret =3D pm_run=
-time_get_sync(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  672  	if (ret < 0) {
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  673  		dev_err(gi2c-=
->se.dev, "error turning SE resources:%d\n", ret);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  674  		pm_runtime_pu=
-t_noidle(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  675  		/* Set device=
- in suspended since resume failed */
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  676  		pm_runtime_se=
-t_suspended(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  677  		return ret;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  678  	}
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  679  =
+6ef1c5326220cf Florian Westphal 2022-03-28   91  		ilb =3D &tcp_hashinfo.li=
+stening_hash[i];
+6ef1c5326220cf Florian Westphal 2022-03-28   92  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  680  	qcom_geni_i2c_=
-conf(gi2c);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  681  =
+6ef1c5326220cf Florian Westphal 2022-03-28   93  		rcu_read_lock();
+6ef1c5326220cf Florian Westphal 2022-03-28   94  		spin_lock(&ilb->lock);
+6ef1c5326220cf Florian Westphal 2022-03-28   95  		sk_nulls_for_each(sk, no=
+de, &ilb->nulls_head) {
+6ef1c5326220cf Florian Westphal 2022-03-28   96  			const struct mptcp_subf=
+low_context *ctx =3D mptcp_subflow_ctx(sk);
+6ef1c5326220cf Florian Westphal 2022-03-28   97  			struct inet_sock *inet =
+=3D inet_sk(sk);
+6ef1c5326220cf Florian Westphal 2022-03-28   98  			int ret;
+6ef1c5326220cf Florian Westphal 2022-03-28   99  =
 
-d8703554f4dea9 Vinod Koul                  2022-02-21  682  	if (gi2c->gpi_=
-mode)
-d8703554f4dea9 Vinod Koul                  2022-02-21 @683  		ret =3D geni_=
-i2c_gpi_xfer(gi2c, msgs, num);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  684  	else
-d8703554f4dea9 Vinod Koul                  2022-02-21  685  		ret =3D geni_=
-i2c_fifo_xfer(gi2c, msgs, num);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  686  =
+6ef1c5326220cf Florian Westphal 2022-03-28  100  			if (num < diag_ctx->l_n=
+um)
+6ef1c5326220cf Florian Westphal 2022-03-28  101  				goto next_listen;
+6ef1c5326220cf Florian Westphal 2022-03-28  102  =
 
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  687  	pm_runtime_mar=
-k_last_busy(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  688  	pm_runtime_put=
-_autosuspend(gi2c->se.dev);
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  689  	gi2c->cur =3D =
-NULL;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  690  	gi2c->err =3D =
-0;
-d8703554f4dea9 Vinod Koul                  2022-02-21  691  	return num;
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  692  }
-37692de5d52353 Karthikeyan Ramasubramanian 2018-07-30  693  =
+6ef1c5326220cf Florian Westphal 2022-03-28  103  			if (!ctx || strcmp(inet=
+_csk(sk)->icsk_ulp_ops->name, "mptcp"))
+6ef1c5326220cf Florian Westphal 2022-03-28  104  				goto next_listen;
+6ef1c5326220cf Florian Westphal 2022-03-28  105  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28  106  			sk =3D ctx->conn;
+6ef1c5326220cf Florian Westphal 2022-03-28  107  			if (!sk || !net_eq(sock=
+_net(sk), net))
+6ef1c5326220cf Florian Westphal 2022-03-28  108  				goto next_listen;
+6ef1c5326220cf Florian Westphal 2022-03-28  109  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28  110  			if (r->sdiag_family !=
+=3D AF_UNSPEC &&
+6ef1c5326220cf Florian Westphal 2022-03-28  111  			    sk->sk_family !=3D =
+r->sdiag_family)
+6ef1c5326220cf Florian Westphal 2022-03-28  112  				goto next_listen;
+6ef1c5326220cf Florian Westphal 2022-03-28  113  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28  114  			if (r->id.idiag_sport !=
+=3D inet->inet_sport &&
+6ef1c5326220cf Florian Westphal 2022-03-28  115  			    r->id.idiag_sport)
+6ef1c5326220cf Florian Westphal 2022-03-28  116  				goto next_listen;
+6ef1c5326220cf Florian Westphal 2022-03-28  117  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28  118  			if (!refcount_inc_not_z=
+ero(&sk->sk_refcnt))
+6ef1c5326220cf Florian Westphal 2022-03-28  119  				goto next_listen;
+6ef1c5326220cf Florian Westphal 2022-03-28  120  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28 @121  			ret =3D sk_diag_dump(sk=
+, skb, cb, r, bc, net_admin);
+6ef1c5326220cf Florian Westphal 2022-03-28 @122  					   sock_put(sk);
+6ef1c5326220cf Florian Westphal 2022-03-28  123  			if (ret < 0) {
+6ef1c5326220cf Florian Westphal 2022-03-28  124  				spin_unlock(&ilb->lock=
+);
+6ef1c5326220cf Florian Westphal 2022-03-28  125  				rcu_read_unlock();
+6ef1c5326220cf Florian Westphal 2022-03-28  126  				diag_ctx->l_slot =3D i;
+6ef1c5326220cf Florian Westphal 2022-03-28  127  				diag_ctx->l_num =3D nu=
+m;
+6ef1c5326220cf Florian Westphal 2022-03-28  128  				return;
+6ef1c5326220cf Florian Westphal 2022-03-28  129  			}
+6ef1c5326220cf Florian Westphal 2022-03-28  130  			diag_ctx->l_num =3D num=
+ + 1;
+6ef1c5326220cf Florian Westphal 2022-03-28  131  			num =3D 0;
+6ef1c5326220cf Florian Westphal 2022-03-28  132  next_listen:
+6ef1c5326220cf Florian Westphal 2022-03-28  133  			++num;
+6ef1c5326220cf Florian Westphal 2022-03-28  134  		}
+6ef1c5326220cf Florian Westphal 2022-03-28  135  		spin_unlock(&ilb->lock);
+6ef1c5326220cf Florian Westphal 2022-03-28  136  		rcu_read_unlock();
+6ef1c5326220cf Florian Westphal 2022-03-28  137  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28  138  		cond_resched();
+6ef1c5326220cf Florian Westphal 2022-03-28  139  		diag_ctx->l_num =3D 0;
+6ef1c5326220cf Florian Westphal 2022-03-28  140  	}
+6ef1c5326220cf Florian Westphal 2022-03-28  141  =
+
+6ef1c5326220cf Florian Westphal 2022-03-28  142  	diag_ctx->l_num =3D 0;
+6ef1c5326220cf Florian Westphal 2022-03-28  143  	diag_ctx->l_slot =3D i;
+6ef1c5326220cf Florian Westphal 2022-03-28  144  }
+6ef1c5326220cf Florian Westphal 2022-03-28  145  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5163857327083426119==--
+--===============3979423338358108783==--
 
