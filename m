@@ -1,308 +1,365 @@
-Content-Type: multipart/mixed; boundary="===============1950532240236463408=="
+Content-Type: multipart/mixed; boundary="===============5167390476409907633=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/nvme/target/fc.c:1024:65: warning: Parameter 'hosthandle' can be declared with const [constParameter]
-Date: Mon, 04 Apr 2022 02:53:54 +0800
-Message-ID: <202204040200.dIoBq1ZH-lkp@intel.com>
+Subject: fs/xfs/xfs_trans_ail.c:737:10: warning: Although the value stored to 'lip' is used in the enclosing expression, the value is never actually read from 'lip' [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 28 Mar 2022 16:10:11 +0800
+Message-ID: <202203281617.KuzeVElb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1950532240236463408==
+--===============5167390476409907633==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Amit Engel <amit.engel@dell.com>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Himanshu Madhani <himanshu.madhani@oracle.com>
-CC: James Smart <jsmart2021@gmail.com>
-CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+TO: Dave Chinner <dchinner@redhat.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
+CC: Chandan Babu R <chandan.babu@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   be2d3ecedd9911fbfd7e55cc9ceac5f8b79ae4cf
-commit: 0d8ddeea11d00010c8b0ecbe9d3b90811cd19867 nvmet-fc: simplify nvmet_f=
-c_alloc_hostport
-date:   12 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 12 months ago
-compiler: or1k-linux-gcc (GCC) 11.2.0
+head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
+commit: 941fbdfd6dd0f1d7961c28123b5460912f678cb5 xfs: xfs_ail_push_all_sync=
+() stalls when racing with updates
+date:   8 days ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20328/202203281617.KuzeVElb-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D941fbdfd6dd0f1d7961c28123b5460912f678cb5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 941fbdfd6dd0f1d7961c28123b5460912f678cb5
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
->> drivers/nvme/target/fcloop.c:1189:15: warning: Uninitialized variable: t=
-lport->localport [uninitvar]
-     if (tlport->localport->node_name =3D=3D nodename &&
-                 ^
-   drivers/nvme/target/fcloop.c:1183:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/nvme/target/fcloop.c:1189:15: note: Uninitialized variable: tlpo=
-rt->localport
-     if (tlport->localport->node_name =3D=3D nodename &&
-                 ^
->> drivers/nvme/target/fcloop.c:1384:16: warning: Uninitialized variable: t=
-mpport->node_name [uninitvar]
-     if (tmpport->node_name =3D=3D nodename &&
-                  ^
-   drivers/nvme/target/fcloop.c:1378:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/nvme/target/fcloop.c:1384:16: note: Uninitialized variable: tmpp=
-ort->node_name
-     if (tmpport->node_name =3D=3D nodename &&
-                  ^
-   drivers/nvme/target/fcloop.c:1482:16: warning: Uninitialized variable: t=
-mpport->node_name [uninitvar]
-     if (tmpport->node_name =3D=3D nodename &&
-                  ^
-   drivers/nvme/target/fcloop.c:1476:6: note: Assuming condition is false
-    if (ret)
-        ^
-   drivers/nvme/target/fcloop.c:1482:16: note: Uninitialized variable: tmpp=
-ort->node_name
-     if (tmpport->node_name =3D=3D nodename &&
-                  ^
---
->> drivers/nvme/target/fc.c:1024:65: warning: Parameter 'hosthandle' can be=
- declared with const [constParameter]
-   nvmet_fc_match_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthand=
-le)
-                                                                   ^
-   drivers/nvme/target/fc.c:1565:41: warning: Parameter 'ctrl' can be decla=
-red with const [constParameter]
-   nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   fs/xfs/xfs_trans_ail.c:473:2: note:  Execution continues on line 473
+           XFS_STATS_INC(mp, xs_push_ail);
+           ^
+   fs/xfs/xfs_stats.h:165:33: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->s.v++;   \
+                                          ^
+   fs/xfs/xfs_linux.h:104:25: note: expanded from macro 'current_cpu'
+   #define current_cpu()           (raw_smp_processor_id())
+                                    ^
+   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
+                                   ^
+   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
+read'
+   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
+_read_, pcp)
                                            ^
->> drivers/nvme/target/fc.c:970:32: warning: Uninitialized variable: assoc-=
->association_id [uninitvar]
-     if (association_id =3D=3D assoc->association_id) {
-                                  ^
-   drivers/nvme/target/fc.c:965:10: note: Assuming condition is false
-    if (qid > NVMET_NR_QUEUES)
-            ^
-   drivers/nvme/target/fc.c:970:32: note: Uninitialized variable: assoc->as=
-sociation_id
-     if (association_id =3D=3D assoc->association_id) {
-                                  ^
->> drivers/nvme/target/fc.c:1031:13: warning: Uninitialized variable: host-=
->hosthandle [uninitvar]
-     if (host->hosthandle =3D=3D hosthandle && !host->invalid) {
-               ^
-   drivers/nvme/target/fc.c:1253:32: warning: Uninitialized variable: assoc=
-->association_id [uninitvar]
-     if (association_id =3D=3D assoc->association_id) {
-                                  ^
->> drivers/nvme/target/fc.c:1332:48: warning: Uninitialized variable: pe->n=
-ode_name [uninitvar]
-     if (tgtport->fc_target_port.node_name =3D=3D pe->node_name &&
-                                                  ^
->> drivers/nvme/target/fc.c:1492:27: warning: Uninitialized variables: asso=
-c.association_id, assoc.a_id, assoc.terminating, assoc.tgtport, assoc.hostp=
-ort, assoc.rcv_disconn, assoc.a_list, assoc.ref, assoc.del_work, assoc.rcu =
-[uninitvar]
-     if (!nvmet_fc_tgt_a_get(assoc))
-                             ^
->> drivers/nvme/target/fc.c:1542:15: warning: Uninitialized variable: assoc=
-->hostport [uninitvar]
-     if (!assoc->hostport ||
-                 ^
->> drivers/nvme/target/fc.c:1577:29: warning: Uninitialized variables: tgtp=
-ort.fc_target_port, tgtport.tgt_list, tgtport.dev, tgtport.ops, tgtport.iod=
-, tgtport.lock, tgtport.ls_rcv_list, tgtport.ls_req_list, tgtport.ls_busyli=
-st, tgtport.assoc_list, tgtport.host_list, tgtport.assoc_cnt, tgtport.pe, t=
-gtport.ref, tgtport.max_sg_cnt [uninitvar]
-     if (!nvmet_fc_tgtport_get(tgtport))
-                               ^
-   drivers/nvme/target/fc.c:1585:28: warning: Uninitialized variables: asso=
-c.association_id, assoc.a_id, assoc.terminating, assoc.tgtport, assoc.hostp=
-ort, assoc.rcv_disconn, assoc.a_list, assoc.ref, assoc.del_work, assoc.rcu =
-[uninitvar]
-       if (nvmet_fc_tgt_a_get(assoc))
-                              ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
-     if (!nvmet_fc_tgtport_get(tgtport))
-         ^
-   drivers/nvme/target/fc.c:1585:28: note: Uninitialized variables: assoc.a=
-ssociation_id, assoc.a_id, assoc.terminating, assoc.tgtport, assoc.hostport=
-, assoc.rcv_disconn, assoc.a_list, assoc.ref, assoc.del_work, assoc.rcu
-       if (nvmet_fc_tgt_a_get(assoc))
-                              ^
+   include/linux/percpu-defs.h:323:42: note: expanded from macro '__pcpu_si=
+ze_call_return'
+           case 4: pscr_ret__ =3D stem##4(variable); break;                =
+  \
+                                                   ^
+   fs/xfs/xfs_trans_ail.c:473:2: note: Loop condition is false.  Exiting lo=
+op
+           XFS_STATS_INC(mp, xs_push_ail);
+           ^
+   fs/xfs/xfs_stats.h:166:2: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(mp->m_stats.xs_stats, current_cpu())->s.v++;        \
+           ^
+   include/linux/percpu-defs.h:235:2: note: expanded from macro 'per_cpu_pt=
+r'
+           __verify_pcpu_ptr(ptr);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   fs/xfs/xfs_trans_ail.c:473:2: note: Loop condition is false.  Exiting lo=
+op
+           XFS_STATS_INC(mp, xs_push_ail);
+           ^
+   fs/xfs/xfs_stats.h:166:36: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(mp->m_stats.xs_stats, current_cpu())->s.v++;        \
+                                             ^
+   fs/xfs/xfs_linux.h:104:25: note: expanded from macro 'current_cpu'
+   #define current_cpu()           (raw_smp_processor_id())
+                                    ^
+   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
+                                   ^
+   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
+read'
+   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
+_read_, pcp)
+                                           ^
+   include/linux/percpu-defs.h:319:2: note: expanded from macro '__pcpu_siz=
+e_call_return'
+           __verify_pcpu_ptr(&(variable));                                 \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   fs/xfs/xfs_trans_ail.c:473:2: note: Control jumps to 'case 4:'  at line =
+473
+           XFS_STATS_INC(mp, xs_push_ail);
+           ^
+   fs/xfs/xfs_stats.h:166:36: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(mp->m_stats.xs_stats, current_cpu())->s.v++;        \
+                                             ^
+   fs/xfs/xfs_linux.h:104:25: note: expanded from macro 'current_cpu'
+   #define current_cpu()           (raw_smp_processor_id())
+                                    ^
+   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
+                                   ^
+   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
+read'
+   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
+_read_, pcp)
+                                           ^
+   include/linux/percpu-defs.h:320:2: note: expanded from macro '__pcpu_siz=
+e_call_return'
+           switch(sizeof(variable)) {                                      \
+           ^
+   fs/xfs/xfs_trans_ail.c:473:2: note:  Execution continues on line 473
+           XFS_STATS_INC(mp, xs_push_ail);
+           ^
+   fs/xfs/xfs_stats.h:166:36: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(mp->m_stats.xs_stats, current_cpu())->s.v++;        \
+                                             ^
+   fs/xfs/xfs_linux.h:104:25: note: expanded from macro 'current_cpu'
+   #define current_cpu()           (raw_smp_processor_id())
+                                    ^
+   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
+ocessor_id'
+   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
+                                   ^
+   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
+read'
+   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
+_read_, pcp)
+                                           ^
+   include/linux/percpu-defs.h:323:42: note: expanded from macro '__pcpu_si=
+ze_call_return'
+           case 4: pscr_ret__ =3D stem##4(variable); break;                =
+  \
+                                                   ^
+   fs/xfs/xfs_trans_ail.c:473:2: note: Loop condition is false.  Exiting lo=
+op
+           XFS_STATS_INC(mp, xs_push_ail);
+           ^
+   fs/xfs/xfs_stats.h:163:34: note: expanded from macro 'XFS_STATS_INC'
+   #define XFS_STATS_INC(mp, v)                                    \
+                                                                   ^
+   fs/xfs/xfs_trans_ail.c:476:10: note: 2nd function call argument is an un=
+initialized value
+           while ((XFS_LSN_CMP(lip->li_lsn, target) <=3D 0)) {
+                   ^
+   fs/xfs/xfs_log.h:91:26: note: expanded from macro 'XFS_LSN_CMP'
+   #define XFS_LSN_CMP(x,y) _lsn_cmp(x,y)
+                            ^          ~
+>> fs/xfs/xfs_trans_ail.c:737:10: warning: Although the value stored to 'li=
+p' is used in the enclosing expression, the value is never actually read fr=
+om 'lip' [clang-analyzer-deadcode.DeadStores]
+           while ((lip =3D xfs_ail_max(ailp)) !=3D NULL) {
+                   ^     ~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_trans_ail.c:737:10: note: Although the value stored to 'lip' =
+is used in the enclosing expression, the value is never actually read from =
+'lip'
+           while ((lip =3D xfs_ail_max(ailp)) !=3D NULL) {
+                   ^     ~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   kernel/static_call.c:275:47: warning: Access to field 'func' results in =
+a dereference of a null pointer (loaded from variable 'key') [clang-analyze=
+r-core.NullDereference]
+                   arch_static_call_transform(site_addr, NULL, key->func,
+                                                               ^
+   kernel/static_call.c:500:16: note: Calling 'static_call_init'
+   early_initcall(static_call_init);
+                  ^
+   include/linux/init.h:269:47: note: expanded from macro 'early_initcall'
+   #define early_initcall(fn)              __define_initcall(fn, early)
+                                           ~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+   include/linux/init.h:262:54: note: expanded from macro '__define_initcal=
+l'
+   #define __define_initcall(fn, id) ___define_initcall(fn, id, .initcall##=
+id)
+                                     ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/init.h:260:20: note: expanded from macro '___define_initca=
+ll'
+           __unique_initcall(fn, id, __sec, __initcall_id(fn))
+           ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:254:22: note: expanded from macro '__unique_initcal=
+l'
+           ____define_initcall(fn,                                 \
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:241:33: note: expanded from macro '____define_initc=
+all'
+           __define_initcall_stub(__stub, fn)                      \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   include/linux/init.h:226:10: note: expanded from macro '__define_initcal=
+l_stub'
+                   return fn();                                    \
+                          ^~~~
+   kernel/static_call.c:478:6: note: Assuming 'static_call_initialized' is =
+false
+           if (static_call_initialized)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/static_call.c:478:2: note: Taking false branch
+           if (static_call_initialized)
+           ^
+   kernel/static_call.c:483:8: note: Calling '__static_call_init'
+           ret =3D __static_call_init(NULL, __start_static_call_sites,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/static_call.c:217:6: note: 'start' is not equal to 'stop'
+           if (start =3D=3D stop)
+               ^~~~~
+   kernel/static_call.c:217:2: note: Taking false branch
+           if (start =3D=3D stop)
+           ^
+   kernel/static_call.c:222:2: note: Loop condition is true.  Entering loop=
+ body
+           for (site =3D start; site < stop; site++) {
+           ^
+   kernel/static_call.c:225:8: note: 'mod' is null
+                   if ((mod && within_module_init((unsigned long)site_addr,=
+ mod)) ||
+                        ^~~
+   kernel/static_call.c:225:12: note: Left side of '&&' is false
+                   if ((mod && within_module_init((unsigned long)site_addr,=
+ mod)) ||
+                            ^
+   kernel/static_call.c:226:9: note: 'mod' is null
+                       (!mod && init_section_contains(site_addr, 1)))
+                         ^~~
+   kernel/static_call.c:226:8: note: Left side of '&&' is true
+                       (!mod && init_section_contains(site_addr, 1)))
+                        ^
+   kernel/static_call.c:225:3: note: Taking false branch
+                   if ((mod && within_module_init((unsigned long)site_addr,=
+ mod)) ||
+                   ^
+   kernel/static_call.c:229:3: note: Value assigned to 'key'
+                   key =3D static_call_key(site);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/static_call.c:230:7: note: Assuming 'key' is equal to 'prev_key'
+                   if (key !=3D prev_key) {
 
-vim +/hosthandle +1024 drivers/nvme/target/fc.c
+vim +737 fs/xfs/xfs_trans_ail.c
 
-c53432030d8642 James Smart   2016-12-02   955  =
+fd074841cfe01b0 Dave Chinner      2011-04-08  725  =
 
-c53432030d8642 James Smart   2016-12-02   956  static struct nvmet_fc_tgt_q=
-ueue *
-c53432030d8642 James Smart   2016-12-02   957  nvmet_fc_find_target_queue(s=
-truct nvmet_fc_tgtport *tgtport,
-c53432030d8642 James Smart   2016-12-02   958  				u64 connection_id)
-c53432030d8642 James Smart   2016-12-02   959  {
-c53432030d8642 James Smart   2016-12-02   960  	struct nvmet_fc_tgt_assoc *=
-assoc;
-c53432030d8642 James Smart   2016-12-02   961  	struct nvmet_fc_tgt_queue *=
-queue;
-c53432030d8642 James Smart   2016-12-02   962  	u64 association_id =3D nvme=
-t_fc_getassociationid(connection_id);
-c53432030d8642 James Smart   2016-12-02   963  	u16 qid =3D nvmet_fc_getque=
-ueid(connection_id);
-c53432030d8642 James Smart   2016-12-02   964  =
+211e4d434bd737b Christoph Hellwig 2012-04-23  726  /*
+211e4d434bd737b Christoph Hellwig 2012-04-23  727   * Push out all items in=
+ the AIL immediately and wait until the AIL is empty.
+211e4d434bd737b Christoph Hellwig 2012-04-23  728   */
+211e4d434bd737b Christoph Hellwig 2012-04-23  729  void
+211e4d434bd737b Christoph Hellwig 2012-04-23  730  xfs_ail_push_all_sync(
+211e4d434bd737b Christoph Hellwig 2012-04-23  731  	struct xfs_ail  *ailp)
+211e4d434bd737b Christoph Hellwig 2012-04-23  732  {
+211e4d434bd737b Christoph Hellwig 2012-04-23  733  	struct xfs_log_item	*li=
+p;
+211e4d434bd737b Christoph Hellwig 2012-04-23  734  	DEFINE_WAIT(wait);
+211e4d434bd737b Christoph Hellwig 2012-04-23  735  =
 
-0c319d3a144d4b James Smart   2017-09-19   965  	if (qid > NVMET_NR_QUEUES)
-0c319d3a144d4b James Smart   2017-09-19   966  		return NULL;
-0c319d3a144d4b James Smart   2017-09-19   967  =
+57e809561118a4d Matthew Wilcox    2018-03-07  736  	spin_lock(&ailp->ail_lo=
+ck);
+211e4d434bd737b Christoph Hellwig 2012-04-23 @737  	while ((lip =3D xfs_ail=
+_max(ailp)) !=3D NULL) {
+57e809561118a4d Matthew Wilcox    2018-03-07  738  		prepare_to_wait(&ailp-=
+>ail_empty, &wait, TASK_UNINTERRUPTIBLE);
+57e809561118a4d Matthew Wilcox    2018-03-07  739  		wake_up_process(ailp->=
+ail_task);
+57e809561118a4d Matthew Wilcox    2018-03-07  740  		spin_unlock(&ailp->ail=
+_lock);
+211e4d434bd737b Christoph Hellwig 2012-04-23  741  		schedule();
+57e809561118a4d Matthew Wilcox    2018-03-07  742  		spin_lock(&ailp->ail_l=
+ock);
+211e4d434bd737b Christoph Hellwig 2012-04-23  743  	}
+57e809561118a4d Matthew Wilcox    2018-03-07  744  	spin_unlock(&ailp->ail_=
+lock);
+211e4d434bd737b Christoph Hellwig 2012-04-23  745  =
 
-4e2f02bf77dac7 Leonid Ravich 2021-01-03   968  	rcu_read_lock();
-4e2f02bf77dac7 Leonid Ravich 2021-01-03   969  	list_for_each_entry_rcu(ass=
-oc, &tgtport->assoc_list, a_list) {
-c53432030d8642 James Smart   2016-12-02  @970  		if (association_id =3D=3D =
-assoc->association_id) {
-4e2f02bf77dac7 Leonid Ravich 2021-01-03   971  			queue =3D rcu_dereference=
-(assoc->queues[qid]);
-c53432030d8642 James Smart   2016-12-02   972  			if (queue &&
-c53432030d8642 James Smart   2016-12-02   973  			    (!atomic_read(&queue-=
->connected) ||
-c53432030d8642 James Smart   2016-12-02   974  			     !nvmet_fc_tgt_q_get(=
-queue)))
-c53432030d8642 James Smart   2016-12-02   975  				queue =3D NULL;
-4e2f02bf77dac7 Leonid Ravich 2021-01-03   976  			rcu_read_unlock();
-c53432030d8642 James Smart   2016-12-02   977  			return queue;
-c53432030d8642 James Smart   2016-12-02   978  		}
-c53432030d8642 James Smart   2016-12-02   979  	}
-4e2f02bf77dac7 Leonid Ravich 2021-01-03   980  	rcu_read_unlock();
-c53432030d8642 James Smart   2016-12-02   981  	return NULL;
-c53432030d8642 James Smart   2016-12-02   982  }
-c53432030d8642 James Smart   2016-12-02   983  =
+57e809561118a4d Matthew Wilcox    2018-03-07  746  	finish_wait(&ailp->ail_=
+empty, &wait);
+211e4d434bd737b Christoph Hellwig 2012-04-23  747  }
+211e4d434bd737b Christoph Hellwig 2012-04-23  748  =
 
-58ab8ff9dca214 James Smart   2020-03-31   984  static void
-58ab8ff9dca214 James Smart   2020-03-31   985  nvmet_fc_hostport_free(struc=
-t kref *ref)
-58ab8ff9dca214 James Smart   2020-03-31   986  {
-58ab8ff9dca214 James Smart   2020-03-31   987  	struct nvmet_fc_hostport *h=
-ostport =3D
-58ab8ff9dca214 James Smart   2020-03-31   988  		container_of(ref, struct n=
-vmet_fc_hostport, ref);
-58ab8ff9dca214 James Smart   2020-03-31   989  	struct nvmet_fc_tgtport *tg=
-tport =3D hostport->tgtport;
-58ab8ff9dca214 James Smart   2020-03-31   990  	unsigned long flags;
-58ab8ff9dca214 James Smart   2020-03-31   991  =
 
-58ab8ff9dca214 James Smart   2020-03-31   992  	spin_lock_irqsave(&tgtport-=
->lock, flags);
-58ab8ff9dca214 James Smart   2020-03-31   993  	list_del(&hostport->host_li=
-st);
-58ab8ff9dca214 James Smart   2020-03-31   994  	spin_unlock_irqrestore(&tgt=
-port->lock, flags);
-58ab8ff9dca214 James Smart   2020-03-31   995  	if (tgtport->ops->host_rele=
-ase && hostport->invalid)
-58ab8ff9dca214 James Smart   2020-03-31   996  		tgtport->ops->host_release=
-(hostport->hosthandle);
-58ab8ff9dca214 James Smart   2020-03-31   997  	kfree(hostport);
-58ab8ff9dca214 James Smart   2020-03-31   998  	nvmet_fc_tgtport_put(tgtpor=
-t);
-58ab8ff9dca214 James Smart   2020-03-31   999  }
-58ab8ff9dca214 James Smart   2020-03-31  1000  =
+:::::: The code at line 737 was first introduced by commit
+:::::: 211e4d434bd737be38aabad0247ce3da9964370e xfs: implement freezing by =
+emptying the AIL
 
-58ab8ff9dca214 James Smart   2020-03-31  1001  static void
-58ab8ff9dca214 James Smart   2020-03-31  1002  nvmet_fc_hostport_put(struct=
- nvmet_fc_hostport *hostport)
-58ab8ff9dca214 James Smart   2020-03-31  1003  {
-58ab8ff9dca214 James Smart   2020-03-31  1004  	kref_put(&hostport->ref, nv=
-met_fc_hostport_free);
-58ab8ff9dca214 James Smart   2020-03-31  1005  }
-58ab8ff9dca214 James Smart   2020-03-31  1006  =
-
-58ab8ff9dca214 James Smart   2020-03-31  1007  static int
-58ab8ff9dca214 James Smart   2020-03-31  1008  nvmet_fc_hostport_get(struct=
- nvmet_fc_hostport *hostport)
-58ab8ff9dca214 James Smart   2020-03-31  1009  {
-58ab8ff9dca214 James Smart   2020-03-31  1010  	return kref_get_unless_zero=
-(&hostport->ref);
-58ab8ff9dca214 James Smart   2020-03-31  1011  }
-58ab8ff9dca214 James Smart   2020-03-31  1012  =
-
-58ab8ff9dca214 James Smart   2020-03-31  1013  static void
-58ab8ff9dca214 James Smart   2020-03-31  1014  nvmet_fc_free_hostport(struc=
-t nvmet_fc_hostport *hostport)
-58ab8ff9dca214 James Smart   2020-03-31  1015  {
-58ab8ff9dca214 James Smart   2020-03-31  1016  	/* if LLDD not implemented,=
- leave as NULL */
-ddd3d1051797b9 James Smart   2020-09-22  1017  	if (!hostport || !hostport-=
->hosthandle)
-58ab8ff9dca214 James Smart   2020-03-31  1018  		return;
-58ab8ff9dca214 James Smart   2020-03-31  1019  =
-
-58ab8ff9dca214 James Smart   2020-03-31  1020  	nvmet_fc_hostport_put(hostp=
-ort);
-58ab8ff9dca214 James Smart   2020-03-31  1021  }
-58ab8ff9dca214 James Smart   2020-03-31  1022  =
-
-0d8ddeea11d000 Amit Engel    2021-03-22  1023  static struct nvmet_fc_hostp=
-ort *
-0d8ddeea11d000 Amit Engel    2021-03-22 @1024  nvmet_fc_match_hostport(stru=
-ct nvmet_fc_tgtport *tgtport, void *hosthandle)
-0d8ddeea11d000 Amit Engel    2021-03-22  1025  {
-0d8ddeea11d000 Amit Engel    2021-03-22  1026  	struct nvmet_fc_hostport *h=
-ost;
-0d8ddeea11d000 Amit Engel    2021-03-22  1027  =
-
-0d8ddeea11d000 Amit Engel    2021-03-22  1028  	lockdep_assert_held(&tgtpor=
-t->lock);
-0d8ddeea11d000 Amit Engel    2021-03-22  1029  =
-
-0d8ddeea11d000 Amit Engel    2021-03-22  1030  	list_for_each_entry(host, &=
-tgtport->host_list, host_list) {
-0d8ddeea11d000 Amit Engel    2021-03-22 @1031  		if (host->hosthandle =3D=
-=3D hosthandle && !host->invalid) {
-0d8ddeea11d000 Amit Engel    2021-03-22  1032  			if (nvmet_fc_hostport_get=
-(host))
-0d8ddeea11d000 Amit Engel    2021-03-22  1033  				return (host);
-0d8ddeea11d000 Amit Engel    2021-03-22  1034  		}
-0d8ddeea11d000 Amit Engel    2021-03-22  1035  	}
-0d8ddeea11d000 Amit Engel    2021-03-22  1036  =
-
-0d8ddeea11d000 Amit Engel    2021-03-22  1037  	return NULL;
-0d8ddeea11d000 Amit Engel    2021-03-22  1038  }
-0d8ddeea11d000 Amit Engel    2021-03-22  1039  =
-
+:::::: TO: Christoph Hellwig <hch@infradead.org>
+:::::: CC: Ben Myers <bpm@sgi.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1950532240236463408==--
+--===============5167390476409907633==--
 
