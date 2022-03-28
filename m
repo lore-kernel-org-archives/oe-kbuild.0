@@ -1,436 +1,213 @@
-Content-Type: multipart/mixed; boundary="===============3315002388452843607=="
+Content-Type: multipart/mixed; boundary="===============6410924777885618468=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/can/usb/etas_es58x/es58x_core.c:1158:23: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 28 Mar 2022 17:11:50 +0800
-Message-ID: <202203281704.jeXE0jwb-lkp@intel.com>
+Subject: drivers/hv/hv.c:215 hv_synic_enable_regs() warn: should 'simp.base_simp_gpa << 12' be a 64 bit type?
+Date: Mon, 28 Mar 2022 16:40:58 +0800
+Message-ID: <202203281658.ShCQqQl7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3315002388452843607==
+--===============6410924777885618468==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
-CC: Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>
+TO: Tianyu Lan <Tianyu.Lan@microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Michael Kelley <mikelley@microsoft.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
-commit: 8537257874e949a59c834cecfd5a063e11b64b0b can: etas_es58x: add core =
-support for ETAS ES58X CAN USB interfaces
-date:   12 months ago
+commit: faff44069ff538ccdfef187c4d7ec83d22dfb3a4 x86/hyperv: Add Write/Read=
+ MSR registers via ghcb page
+date:   5 months ago
 :::::: branch date: 7 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20220327 (https://download.01.org/0day-ci/arc=
-hive/20220328/202203281704.jeXE0jwb-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
-01cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8537257874e949a59c834cecfd5a063e11b64b0b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 8537257874e949a59c834cecfd5a063e11b64b0b
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-m001-20220328 (https://download.01.org/0day-ci/ar=
+chive/20220328/202203281658.ShCQqQl7-lkp(a)intel.com/config)
+compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/hv/hv.c:215 hv_synic_enable_regs() warn: should 'simp.base_simp_gpa=
+ << 12' be a 64 bit type?
+drivers/hv/hv.c:232 hv_synic_enable_regs() warn: should 'siefp.base_siefp_g=
+pa << 12' be a 64 bit type?
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   drivers/media/i2c/ov7670.c:1619:7: note: Assuming field 'val' is equal t=
-o V4L2_EXPOSURE_MANUAL
-                   if (ctrl->val =3D=3D V4L2_EXPOSURE_MANUAL) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov7670.c:1619:3: note: Taking true branch
-                   if (ctrl->val =3D=3D V4L2_EXPOSURE_MANUAL) {
-                   ^
-   drivers/media/i2c/ov7670.c:1621:11: note: Calling 'ov7670_s_exp'
-                           return ov7670_s_exp(sd, info->exposure->val);
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov7670.c:1519:34: note: 'aechh' declared without an in=
-itial value
-           unsigned char com1, com8, aech, aechh;
-                                           ^~~~~
-   drivers/media/i2c/ov7670.c:1523:3: note: Calling 'ov7670_read'
-                   ov7670_read(sd, REG_AECHH, &aechh);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov7670.c:565:12: note: Field 'use_smbus' is true
-           if (info->use_smbus)
-                     ^
-   drivers/media/i2c/ov7670.c:565:2: note: Taking true branch
-           if (info->use_smbus)
-           ^
-   drivers/media/i2c/ov7670.c:566:10: note: Calling 'ov7670_read_smbus'
-                   return ov7670_read_smbus(sd, reg, value);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov7670.c:485:6: note: Assuming 'ret' is < 0
-           if (ret >=3D 0) {
-               ^~~~~~~~
-   drivers/media/i2c/ov7670.c:485:2: note: Taking false branch
-           if (ret >=3D 0) {
-           ^
-   drivers/media/i2c/ov7670.c:489:2: note: Returning without writing to '*v=
-alue'
-           return ret;
-           ^
-   drivers/media/i2c/ov7670.c:566:10: note: Returning from 'ov7670_read_smb=
-us'
-                   return ov7670_read_smbus(sd, reg, value);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov7670.c:566:3: note: Returning without writing to '*v=
-alue'
-                   return ov7670_read_smbus(sd, reg, value);
-                   ^
-   drivers/media/i2c/ov7670.c:1523:3: note: Returning from 'ov7670_read'
-                   ov7670_read(sd, REG_AECHH, &aechh);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov7670.c:1524:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/ov7670.c:1524:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/ov7670.c:1529:17: note: The left operand of '&' is a g=
-arbage value
-           aechh =3D (aechh & 0xc0) | ((value >> 10) & 0x3f);
-                    ~~~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/net/can/usb/etas_es58x/es58x_core.c:839:28: warning: Dereference=
- of null pointer [clang-analyzer-core.NullDereference]
-           netdev->stats.rx_bytes +=3D cf->can_dlc;
-                                     ^~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:649:6: note: Assuming the co=
-ndition is false
-           if (!netif_running(netdev)) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:649:2: note: Taking false br=
-anch
-           if (!netif_running(netdev)) {
-           ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:657:6: note: Assuming 'error=
-' is not equal to ES58X_ERR_OK
-           if (error =3D=3D ES58X_ERR_OK && event =3D=3D ES58X_EVENT_OK) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:657:28: note: Left side of '=
-&&' is false
-           if (error =3D=3D ES58X_ERR_OK && event =3D=3D ES58X_EVENT_OK) {
-                                     ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:663:8: note: Value assigned =
-to 'cf'
-           skb =3D alloc_can_err_skb(netdev, &cf);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:665:2: note: Control jumps t=
-o 'case ES58X_ERR_PROT_UNSPEC:'  at line 727
-           switch (error) {
-           ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:728:7: note: Assuming the co=
-ndition is false
-                   if (net_ratelimit())
-                       ^~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:728:3: note: Taking false br=
-anch
-                   if (net_ratelimit())
-                   ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:730:7: note: Assuming 'cf' i=
-s null
-                   if (cf)
-                       ^~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:730:3: note: Taking false br=
-anch
-                   if (cf)
-                   ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:732:3: note:  Execution cont=
-inues on line 744
-                   break;
-                   ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:744:2: note: Control jumps t=
-o 'case ES58X_EVENT_OK:'  at line 745
-           switch (event) {
-           ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:746:3: note:  Execution cont=
-inues on line 838
-                   break;
-                   ^
-   drivers/net/can/usb/etas_es58x/es58x_core.c:839:28: note: Dereference of=
- null pointer
-           netdev->stats.rx_bytes +=3D cf->can_dlc;
-                                     ^~~~~~~~~~~
->> drivers/net/can/usb/etas_es58x/es58x_core.c:1158:23: warning: Value stor=
-ed to 'dev' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-           const struct device *dev =3D es58x_dev->dev;
-                                ^~~   ~~~~~~~~~~~~~~
-   drivers/net/can/usb/etas_es58x/es58x_core.c:1158:23: note: Value stored =
-to 'dev' during its initialization is never read
-           const struct device *dev =3D es58x_dev->dev;
-                                ^~~   ~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/dma-buf/dma-resv.c:507:26: warning: Array access (from variable =
-'shared') results in a null pointer dereference [clang-analyzer-core.NullDe=
-reference]
-                   shared[shared_count++] =3D fence_excl;
-                   ~~~~~~                 ^
-   drivers/dma-buf/dma-resv.c:437:2: note: 'shared' initialized to a null p=
-ointer value
-           struct dma_fence **shared =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/dma-buf/dma-resv.c:450:9: note: Loop condition is false. Executi=
-on continues on line 450
-                   seq =3D read_seqcount_begin(&obj->seq);
-                         ^
-   include/linux/seqlock.h:363:2: note: expanded from macro 'read_seqcount_=
-begin'
-           raw_read_seqcount_begin(s);                                     \
-           ^
-   include/linux/seqlock.h:348:18: note: expanded from macro 'raw_read_seqc=
-ount_begin'
-           unsigned _seq =3D __read_seqcount_begin(s);                     =
-  \
-                           ^
-   include/linux/seqlock.h:333:2: note: expanded from macro '__read_seqcoun=
-t_begin'
-           while ((__seq =3D seqprop_sequence(s)) & 1)                     =
-  \
-           ^
-   drivers/dma-buf/dma-resv.c:452:16: note: Left side of '||' is false
-                   fence_excl =3D rcu_dereference(obj->fence_excl);
-                                ^
-   include/linux/rcupdate.h:571:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:513:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:374:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/dma-buf/dma-resv.c:452:16: note: Left side of '||' is false
-                   fence_excl =3D rcu_dereference(obj->fence_excl);
-                                ^
-   include/linux/rcupdate.h:571:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:513:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:374:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/dma-buf/dma-resv.c:452:16: note: Left side of '||' is true
-                   fence_excl =3D rcu_dereference(obj->fence_excl);
-                                ^
-   include/linux/rcupdate.h:571:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:513:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:374:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+vim +215 drivers/hv/hv.c
 
-vim +/dev +1158 drivers/net/can/usb/etas_es58x/es58x_core.c
+2608fb65310341 drivers/hv/hv.c         Jason Wang         2013-06-19  192  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1132  =
+3e189519557978 drivers/staging/hv/Hv.c Hank Janssen       2010-03-04  193  =
+/*
+68cb8117132c0f drivers/hv/hv.c         Joe Perches        2018-03-04  194  =
+ * hv_synic_init - Initialize the Synthetic Interrupt Controller.
+0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  195  =
+ *
+0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  196  =
+ * If it is already initialized by another entity (ie x2v shim), we need to
+0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  197  =
+ * retrieve the initialized message and event pages.  Otherwise, we create =
+and
+0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  198  =
+ * initialize the message and event pages.
+0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  199  =
+ */
+dba61cda30469a drivers/hv/hv.c         Dexuan Cui         2019-09-05  200  =
+void hv_synic_enable_regs(unsigned int cpu)
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  201  {
+37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  202  =
+	struct hv_per_cpu_context *hv_cpu
+37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  203  =
+		=3D per_cpu_ptr(hv_context.cpu_context, cpu);
+eacb1b4d24c2a8 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-20  204  =
+	union hv_synic_simp simp;
+eacb1b4d24c2a8 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-20  205  =
+	union hv_synic_siefp siefp;
+b8dfb264f4f9e5 drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  206  =
+	union hv_synic_sint shared_sint;
+eacb1b4d24c2a8 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-20  207  =
+	union hv_synic_scontrol sctrl;
+a73e6b7c508f61 drivers/staging/hv/Hv.c Hank Janssen       2010-01-22  208  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1133  /**
-8537257874e949 Vincent Mailhol 2021-04-10  1134   * es58x_check_rx_urb() - =
-Check the length and format of the URB command.
-8537257874e949 Vincent Mailhol 2021-04-10  1135   * @es58x_dev: ES58X devic=
-e.
-8537257874e949 Vincent Mailhol 2021-04-10  1136   * @urb_cmd: The URB comma=
-nd received from the ES58X device, might not
-8537257874e949 Vincent Mailhol 2021-04-10  1137   *	be aligned.
-8537257874e949 Vincent Mailhol 2021-04-10  1138   * @urb_actual_len: The ac=
-tual length of the URB command.
-8537257874e949 Vincent Mailhol 2021-04-10  1139   *
-8537257874e949 Vincent Mailhol 2021-04-10  1140   * Check if the first mess=
-age of the received urb is valid, that is to
-8537257874e949 Vincent Mailhol 2021-04-10  1141   * say that both the heade=
-r and the length are coherent.
-8537257874e949 Vincent Mailhol 2021-04-10  1142   *
-8537257874e949 Vincent Mailhol 2021-04-10  1143   * Return:
-8537257874e949 Vincent Mailhol 2021-04-10  1144   * the length of the first=
- message of the URB on success.
-8537257874e949 Vincent Mailhol 2021-04-10  1145   *
-8537257874e949 Vincent Mailhol 2021-04-10  1146   * -ENODATA if the URB com=
-mand is incomplete (in which case, the URB
-8537257874e949 Vincent Mailhol 2021-04-10  1147   * command should be buffe=
-red and combined with the next URB to try to
-8537257874e949 Vincent Mailhol 2021-04-10  1148   * reconstitute the URB co=
-mmand).
-8537257874e949 Vincent Mailhol 2021-04-10  1149   *
-8537257874e949 Vincent Mailhol 2021-04-10  1150   * -EOVERFLOW if the lengt=
-h is bigger than the maximum expected one.
-8537257874e949 Vincent Mailhol 2021-04-10  1151   *
-8537257874e949 Vincent Mailhol 2021-04-10  1152   * -EBADRQC if the start o=
-f frame does not match the expected value.
-8537257874e949 Vincent Mailhol 2021-04-10  1153   */
-8537257874e949 Vincent Mailhol 2021-04-10  1154  static signed int es58x_ch=
-eck_rx_urb(struct es58x_device *es58x_dev,
-8537257874e949 Vincent Mailhol 2021-04-10  1155  				     const union es58x=
-_urb_cmd *urb_cmd,
-8537257874e949 Vincent Mailhol 2021-04-10  1156  				     u32 urb_actual_le=
-n)
-8537257874e949 Vincent Mailhol 2021-04-10  1157  {
-8537257874e949 Vincent Mailhol 2021-04-10 @1158  	const struct device *dev =
-=3D es58x_dev->dev;
-8537257874e949 Vincent Mailhol 2021-04-10  1159  	const struct es58x_parame=
-ters *param =3D es58x_dev->param;
-8537257874e949 Vincent Mailhol 2021-04-10  1160  	u16 sof, msg_len;
-8537257874e949 Vincent Mailhol 2021-04-10  1161  	signed int urb_cmd_len, r=
-et;
-8537257874e949 Vincent Mailhol 2021-04-10  1162  =
+454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  209  =
+	/* Setup the Synic's message page */
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  210  =
+	simp.as_uint64 =3D hv_get_register(HV_REGISTER_SIMP);
+f6feebe073db4c drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  211  =
+	simp.simp_enabled =3D 1;
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  212  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1163  	if (urb_actual_len < para=
-m->urb_cmd_header_len) {
-8537257874e949 Vincent Mailhol 2021-04-10  1164  		dev_vdbg(dev,
-8537257874e949 Vincent Mailhol 2021-04-10  1165  			 "%s: Received %d bytes=
- [%*ph]: header incomplete\n",
-8537257874e949 Vincent Mailhol 2021-04-10  1166  			 __func__, urb_actual_l=
-en, urb_actual_len,
-8537257874e949 Vincent Mailhol 2021-04-10  1167  			 urb_cmd->raw_cmd);
-8537257874e949 Vincent Mailhol 2021-04-10  1168  		return -ENODATA;
-8537257874e949 Vincent Mailhol 2021-04-10  1169  	}
-8537257874e949 Vincent Mailhol 2021-04-10  1170  =
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  213  =
+	if (hv_isolation_type_snp()) {
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  214  =
+		hv_cpu->synic_message_page
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25 @215  =
+			=3D memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  216  =
+				   HV_HYP_PAGE_SIZE, MEMREMAP_WB);
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  217  =
+		if (!hv_cpu->synic_message_page)
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  218  =
+			pr_err("Fail to map syinc message page.\n");
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  219  =
+	} else {
+37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  220  =
+		simp.base_simp_gpa =3D virt_to_phys(hv_cpu->synic_message_page)
+ef514d3e38edf3 drivers/hv/hv.c         Boqun Feng         2020-09-16  221  =
+			>> HV_HYP_PAGE_SHIFT;
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  222  =
+	}
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  223  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1171  	sof =3D get_unaligned_le1=
-6(&urb_cmd->sof);
-8537257874e949 Vincent Mailhol 2021-04-10  1172  	if (sof !=3D param->rx_st=
-art_of_frame) {
-8537257874e949 Vincent Mailhol 2021-04-10  1173  		dev_err_ratelimited(es58=
-x_dev->dev,
-8537257874e949 Vincent Mailhol 2021-04-10  1174  				    "%s: Expected sequ=
-ence 0x%04X for start of frame but got 0x%04X.\n",
-8537257874e949 Vincent Mailhol 2021-04-10  1175  				    __func__, param->r=
-x_start_of_frame, sof);
-8537257874e949 Vincent Mailhol 2021-04-10  1176  		return -EBADRQC;
-8537257874e949 Vincent Mailhol 2021-04-10  1177  	}
-8537257874e949 Vincent Mailhol 2021-04-10  1178  =
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  224  =
+	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  225  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1179  	msg_len =3D es58x_dev->op=
-s->get_msg_len(urb_cmd);
-8537257874e949 Vincent Mailhol 2021-04-10  1180  	urb_cmd_len =3D es58x_get=
-_urb_cmd_len(es58x_dev, msg_len);
-8537257874e949 Vincent Mailhol 2021-04-10  1181  	if (urb_cmd_len > param->=
-rx_urb_cmd_max_len) {
-8537257874e949 Vincent Mailhol 2021-04-10  1182  		dev_err_ratelimited(es58=
-x_dev->dev,
-8537257874e949 Vincent Mailhol 2021-04-10  1183  				    "%s: Biggest expec=
-ted size for rx urb_cmd is %u but receive a command of size %d\n",
-8537257874e949 Vincent Mailhol 2021-04-10  1184  				    __func__,
-8537257874e949 Vincent Mailhol 2021-04-10  1185  				    param->rx_urb_cmd_=
-max_len, urb_cmd_len);
-8537257874e949 Vincent Mailhol 2021-04-10  1186  		return -EOVERFLOW;
-8537257874e949 Vincent Mailhol 2021-04-10  1187  	} else if (urb_actual_len=
- < urb_cmd_len) {
-8537257874e949 Vincent Mailhol 2021-04-10  1188  		dev_vdbg(dev, "%s: Recei=
-ved %02d/%02d bytes\n",
-8537257874e949 Vincent Mailhol 2021-04-10  1189  			 __func__, urb_actual_l=
-en, urb_cmd_len);
-8537257874e949 Vincent Mailhol 2021-04-10  1190  		return -ENODATA;
-8537257874e949 Vincent Mailhol 2021-04-10  1191  	}
-8537257874e949 Vincent Mailhol 2021-04-10  1192  =
+454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  226  =
+	/* Setup the Synic's event page */
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  227  =
+	siefp.as_uint64 =3D hv_get_register(HV_REGISTER_SIEFP);
+f6feebe073db4c drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  228  =
+	siefp.siefp_enabled =3D 1;
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  229  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1193  	ret =3D es58x_check_crc(e=
-s58x_dev, urb_cmd, urb_cmd_len);
-8537257874e949 Vincent Mailhol 2021-04-10  1194  	if (ret)
-8537257874e949 Vincent Mailhol 2021-04-10  1195  		return ret;
-8537257874e949 Vincent Mailhol 2021-04-10  1196  =
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  230  =
+	if (hv_isolation_type_snp()) {
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  231  =
+		hv_cpu->synic_event_page =3D
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25 @232  =
+			memremap(siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT,
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  233  =
+				 HV_HYP_PAGE_SIZE, MEMREMAP_WB);
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  234  =
 
-8537257874e949 Vincent Mailhol 2021-04-10  1197  	return urb_cmd_len;
-8537257874e949 Vincent Mailhol 2021-04-10  1198  }
-8537257874e949 Vincent Mailhol 2021-04-10  1199  =
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  235  =
+		if (!hv_cpu->synic_event_page)
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  236  =
+			pr_err("Fail to map syinc event page.\n");
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  237  =
+	} else {
+37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  238  =
+		siefp.base_siefp_gpa =3D virt_to_phys(hv_cpu->synic_event_page)
+ef514d3e38edf3 drivers/hv/hv.c         Boqun Feng         2020-09-16  239  =
+			>> HV_HYP_PAGE_SHIFT;
+faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  240  =
+	}
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  241  =
+
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  242  =
+	hv_set_register(HV_REGISTER_SIEFP, siefp.as_uint64);
+0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  243  =
+
+454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  244  =
+	/* Setup the shared SINT. */
+d608715d4771cf drivers/hv/hv.c         Michael Kelley     2021-03-02  245  =
+	if (vmbus_irq !=3D -1)
+d608715d4771cf drivers/hv/hv.c         Michael Kelley     2021-03-02  246  =
+		enable_percpu_irq(vmbus_irq, 0);
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  247  =
+	shared_sint.as_uint64 =3D hv_get_register(HV_REGISTER_SINT0 +
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  248  =
+					VMBUS_MESSAGE_SINT);
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  249  =
+
+d608715d4771cf drivers/hv/hv.c         Michael Kelley     2021-03-02  250  =
+	shared_sint.vector =3D vmbus_interrupt;
+b8dfb264f4f9e5 drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  251  =
+	shared_sint.masked =3D false;
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  252  =
+
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  253  =
+	/*
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  254  =
+	 * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  255  =
+	 * it doesn't provide a recommendation flag and AEOI must be disabled.
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  256  =
+	 */
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  257  =
+#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  258  =
+	shared_sint.auto_eoi =3D
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  259  =
+			!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  260  =
+#else
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  261  =
+	shared_sint.auto_eoi =3D 0;
+946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  262  =
+#endif
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  263  =
+	hv_set_register(HV_REGISTER_SINT0 + VMBUS_MESSAGE_SINT,
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  264  =
+				shared_sint.as_uint64);
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  265  =
+
+454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  266  =
+	/* Enable the global synic bit */
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  267  =
+	sctrl.as_uint64 =3D hv_get_register(HV_REGISTER_SCONTROL);
+f6feebe073db4c drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  268  =
+	sctrl.enable =3D 1;
+3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  269  =
+
+f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  270  =
+	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
+dba61cda30469a drivers/hv/hv.c         Dexuan Cui         2019-09-05  271  }
+dba61cda30469a drivers/hv/hv.c         Dexuan Cui         2019-09-05  272  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3315002388452843607==--
+--===============6410924777885618468==--
 
