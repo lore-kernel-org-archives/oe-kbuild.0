@@ -1,478 +1,377 @@
-Content-Type: multipart/mixed; boundary="===============8130447534791114051=="
+Content-Type: multipart/mixed; boundary="===============0918460294584509668=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: passing a valid pointer to 'PTR_ERR'
-Date: Mon, 28 Mar 2022 10:44:01 +0800
-Message-ID: <202203281031.YIE41j3U-lkp@intel.com>
+Subject: Re: [PATCH 3/3] ipmi: msghandler: add a interface to clean message queue in sysfs
+Date: Mon, 28 Mar 2022 09:13:58 +0800
+Message-ID: <202203280935.qLHzaRMm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8130447534791114051==
+--===============0918460294584509668==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
+In-Reply-To: <tencent_4BC3A56F75CA5B8CE8D32E90FC61A78FFF05@qq.com>
+References: <tencent_4BC3A56F75CA5B8CE8D32E90FC61A78FFF05@qq.com>
+TO: Chen Guanqiao <chen.chenchacha@foxmail.com>
+TO: minyard(a)acm.org
+TO: openipmi-developer(a)lists.sourceforge.net
+TO: linux-kernel(a)vger.kernel.org
+CC: Chen Guanqiao <chen.chenchacha@foxmail.com>
 
-Hi Mauro,
+Hi Chen,
 
-First bad commit (maybe !=3D root cause):
+Thank you for the patch! Perhaps something to improve:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f82da161ea75dc4db21b2499e4b1facd36dab275
-commit: e7b8153e2a4f0c9c8d1450aa7328d54ea64fe8b2 media: platform: place stm=
-32/ and sti/ under st/ dir
-date:   10 days ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 10 days ago
-config: riscv-randconfig-m031-20220327 (https://download.01.org/0day-ci/arc=
-hive/20220328/202203281031.YIE41j3U-lkp(a)intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.2.0
+[auto build test WARNING on cminyard-ipmi/for-next]
+[also build test WARNING on v5.17 next-20220325]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Guanqiao/ipmi-m=
+sghandler-Get-the-number-of-user-through-sysfs/20220328-005308
+base:   https://github.com/cminyard/linux-ipmi for-next
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+config: arm-randconfig-c002-20220327 (https://download.01.org/0day-ci/archi=
+ve/20220328/202203280935.qLHzaRMm-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/56b9ec5a2846208cd82=
+155435eae0c15622057e5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Chen-Guanqiao/ipmi-msghandler-Get-=
+the-number-of-user-through-sysfs/20220328-005308
+        git checkout 56b9ec5a2846208cd82155435eae0c15622057e5
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:725 bdisp_g_fmt() warn: pa=
-ssing a valid pointer to 'PTR_ERR'
-drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c:852 bdisp_g_selection() wa=
-rn: passing a valid pointer to 'PTR_ERR'
-
-vim +/PTR_ERR +725 drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  716  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  717  static int bdisp_g_fmt(struct file *file, void *fh, stru=
-ct v4l2_format *f)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  718  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  719  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-bf3881707b6f63 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Colin Ian King=
-  2017-10-29  720  	struct v4l2_pix_format *pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  721  	struct bdisp_frame *frame  =3D ctx_get_frame(ctx, f->ty=
-pe);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  722  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  723  	if (IS_ERR(frame)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  724  		dev_err(ctx->bdisp_dev->dev, "Invalid frame (%p)\n", f=
-rame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12 @725  		return PTR_ERR(frame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  726  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  727  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  728  	pix =3D &f->fmt.pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  729  	pix->width =3D frame->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  730  	pix->height =3D frame->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  731  	pix->pixelformat =3D frame->fmt->pixelformat;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  732  	pix->field =3D frame->field;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  733  	pix->bytesperline =3D frame->bytesperline;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  734  	pix->sizeimage =3D frame->sizeimage;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  735  	pix->colorspace =3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO=
-_OUTPUT) ?
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  736  				frame->colorspace : bdisp_dflt_fmt.colorspace;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  737  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  738  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  739  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  740  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  741  static int bdisp_try_fmt(struct file *file, void *fh, st=
-ruct v4l2_format *f)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  742  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  743  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  744  	struct v4l2_pix_format *pix =3D &f->fmt.pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  745  	const struct bdisp_fmt *format;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  746  	u32 in_w, in_h;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  747  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  748  	format =3D bdisp_find_fmt(pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  749  	if (!format) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  750  		dev_dbg(ctx->bdisp_dev->dev, "Unknown format 0x%x\n",
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  751  			pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  752  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  753  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  754  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  755  	/* YUV420P only supported for VIDEO_OUTPUT */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  756  	if ((format->pixelformat =3D=3D V4L2_PIX_FMT_YUV420) &&
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  757  	    (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  758  		dev_dbg(ctx->bdisp_dev->dev, "No YU12 on capture\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  759  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  760  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  761  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  762  	/* Field (interlaced only supported on OUTPUT) */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  763  	if ((f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  764  	    (pix->field !=3D V4L2_FIELD_INTERLACED))
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  765  		pix->field =3D V4L2_FIELD_NONE;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  766  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  767  	/* Adjust width & height */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  768  	in_w =3D pix->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  769  	in_h =3D pix->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  770  	v4l_bound_align_image(&pix->width,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  771  			      BDISP_MIN_W, BDISP_MAX_W,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  772  			      ffs(format->w_align) - 1,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  773  			      &pix->height,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  774  			      BDISP_MIN_H, BDISP_MAX_H,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  775  			      ffs(format->h_align) - 1,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  776  			      0);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  777  	if ((pix->width !=3D in_w) || (pix->height !=3D in_h))
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  778  		dev_dbg(ctx->bdisp_dev->dev,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  779  			"%s size updated: %dx%d -> %dx%d\n", __func__,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  780  			in_w, in_h, pix->width, pix->height);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  781  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  782  	pix->bytesperline =3D (pix->width * format->bpp_plane0)=
- / 8;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  783  	pix->sizeimage =3D (pix->width * pix->height * format->=
-bpp) / 8;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  784  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  785  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  786  		pix->colorspace =3D bdisp_dflt_fmt.colorspace;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  787  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  788  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  789  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  790  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  791  static int bdisp_s_fmt(struct file *file, void *fh, stru=
-ct v4l2_format *f)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  792  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  793  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  794  	struct vb2_queue *vq;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  795  	struct bdisp_frame *frame;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  796  	struct v4l2_pix_format *pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  797  	int ret;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  798  	u32 state;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  799  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  800  	ret =3D bdisp_try_fmt(file, fh, f);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  801  	if (ret) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  802  		dev_err(ctx->bdisp_dev->dev, "Cannot set format\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  803  		return ret;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  804  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  805  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  806  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  807  	if (vb2_is_streaming(vq)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  808  		dev_err(ctx->bdisp_dev->dev, "queue (%d) busy\n", f->t=
-ype);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  809  		return -EBUSY;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  810  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  811  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  812  	frame =3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT) ?
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  813  			&ctx->src : &ctx->dst;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  814  	pix =3D &f->fmt.pix;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  815  	frame->fmt =3D bdisp_find_fmt(pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  816  	if (!frame->fmt) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  817  		dev_err(ctx->bdisp_dev->dev, "Unknown format 0x%x\n",
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  818  			pix->pixelformat);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  819  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  820  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  821  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  822  	frame->width =3D pix->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  823  	frame->height =3D pix->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  824  	frame->bytesperline =3D pix->bytesperline;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  825  	frame->sizeimage =3D pix->sizeimage;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  826  	frame->field =3D pix->field;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  827  	if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  828  		frame->colorspace =3D pix->colorspace;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  829  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  830  	frame->crop.width =3D frame->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  831  	frame->crop.height =3D frame->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  832  	frame->crop.left =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  833  	frame->crop.top =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  834  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  835  	state =3D BDISP_PARAMS;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  836  	state |=3D (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)=
- ?
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  837  			BDISP_DST_FMT : BDISP_SRC_FMT;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  838  	bdisp_ctx_state_lock_set(state, ctx);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  839  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  840  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  841  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  842  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  843  static int bdisp_g_selection(struct file *file, void *fh,
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  844  			     struct v4l2_selection *s)
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  845  {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  846  	struct bdisp_frame *frame;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  847  	struct bdisp_ctx *ctx =3D fh_to_ctx(fh);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  848  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  849  	frame =3D ctx_get_frame(ctx, s->type);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  850  	if (IS_ERR(frame)) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  851  		dev_err(ctx->bdisp_dev->dev, "Invalid frame (%p)\n", f=
-rame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12 @852  		return PTR_ERR(frame);
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  853  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  854  =
-
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  855  	switch (s->type) {
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  856  	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  857  		switch (s->target) {
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  858  		case V4L2_SEL_TGT_CROP:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  859  			/* cropped frame */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  860  			s->r =3D frame->crop;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  861  			break;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  862  		case V4L2_SEL_TGT_CROP_DEFAULT:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  863  		case V4L2_SEL_TGT_CROP_BOUNDS:
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  864  			/* complete frame */
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  865  			s->r.left =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  866  			s->r.top =3D 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  867  			s->r.width =3D frame->width;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  868  			s->r.height =3D frame->height;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  869  			break;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  870  		default:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  871  			dev_err(ctx->bdisp_dev->dev, "Invalid target\n");
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  872  			return -EINVAL;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  873  		}
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  874  		break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  875  =
-
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  876  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  877  		switch (s->target) {
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  878  		case V4L2_SEL_TGT_COMPOSE:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  879  		case V4L2_SEL_TGT_COMPOSE_PADDED:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  880  			/* composed (cropped) frame */
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  881  			s->r =3D frame->crop;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  882  			break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  883  		case V4L2_SEL_TGT_COMPOSE_DEFAULT:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  884  		case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  885  			/* complete frame */
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  886  			s->r.left =3D 0;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  887  			s->r.top =3D 0;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  888  			s->r.width =3D frame->width;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  889  			s->r.height =3D frame->height;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  890  			break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  891  		default:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  892  			dev_err(ctx->bdisp_dev->dev, "Invalid target\n");
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  893  			return -EINVAL;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  894  		}
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  895  		break;
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  896  =
-
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  897  	default:
-3d8bffe88316c0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-07-10  898  		dev_err(ctx->bdisp_dev->dev, "Invalid type\n");
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  899  		return -EINVAL;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  900  	}
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  901  =
-
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  902  	return 0;
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  903  }
-28ffeebbb7bdc0 drivers/media/platform/sti/bdisp/bdisp-v4l2.c Fabien Dessenn=
-e 2015-05-12  904  =
 
 
-:::::: The code at line 725 was first introduced by commit
-:::::: 28ffeebbb7bdc0dd7899286b63f3c359d43d0a1a [media] bdisp: 2D blitter d=
-river using v4l2 mem2mem framework
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/kref.h:65:3: note: Calling 'intf_free'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:721:2: note: Attempt to free release=
+d memory
+           kfree(intf);
+           ^~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2352:3: warning: Potential leak of m=
+emory pointed to by 'smi_msg' [clang-analyzer-unix.Malloc]
+                   ipmi_free_recv_msg(recv_msg);
+                   ^
+   drivers/char/ipmi/ipmi_msghandler.c:3638:6: note: Assuming field 'in_shu=
+tdown' is false
+           if (!intf->in_shutdown)
+               ^~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:3638:2: note: Taking true branch
+           if (!intf->in_shutdown)
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:3639:3: note: Calling 'bmc_get_devic=
+e_id'
+                   bmc_get_device_id(intf, NULL, NULL, NULL, NULL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2709:9: note: Calling '__bmc_get_dev=
+ice_id'
+           return __bmc_get_device_id(intf, bmc, id, guid_set, guid, -1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2578:18: note: 'intf' is not equal t=
+o NULL
+           bool intf_set =3D intf !=3D NULL;
+                           ^~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2580:7: note: 'intf' is non-null
+           if (!intf) {
+                ^~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2580:2: note: Taking false branch
+           if (!intf) {
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:2607:6: note: Assuming field 'in_bmc=
+_register' is false
+           if (intf->in_bmc_register ||
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2607:6: note: Left side of '||' is f=
+alse
+   drivers/char/ipmi/ipmi_msghandler.c:2608:7: note: Assuming field 'dyn_id=
+_set' is 0
+               (bmc->dyn_id_set && time_is_after_jiffies(bmc->dyn_id_expiry=
+)))
+                ^~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2608:23: note: Left side of '&&' is =
+false
+               (bmc->dyn_id_set && time_is_after_jiffies(bmc->dyn_id_expiry=
+)))
+                                ^
+   drivers/char/ipmi/ipmi_msghandler.c:2612:2: note: Calling '__get_guid'
+           __get_guid(intf);
+           ^~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:3459:7: note: Calling 'send_guid_cmd'
+           rv =3D send_guid_cmd(intf, 0);
+                ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:3403:9: note: Calling 'i_ipmi_reques=
+t'
+           return i_ipmi_request(NULL,
+                  ^~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2290:6: note: 'supplied_recv' is null
+           if (supplied_recv)
+               ^~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2290:2: note: Taking false branch
+           if (supplied_recv)
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:2294:7: note: 'recv_msg' is not equa=
+l to NULL
+                   if (recv_msg =3D=3D NULL) {
+                       ^~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2294:3: note: Taking false branch
+                   if (recv_msg =3D=3D NULL) {
+                   ^
+   drivers/char/ipmi/ipmi_msghandler.c:2301:6: note: 'supplied_smi' is null
+           if (supplied_smi)
+               ^~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2301:2: note: Taking false branch
+           if (supplied_smi)
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:2304:13: note: Calling 'ipmi_alloc_s=
+mi_msg'
+                   smi_msg =3D ipmi_alloc_smi_msg();
+                             ^~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:5204:7: note: Memory is allocated
+           rv =3D kmalloc(sizeof(struct ipmi_smi_msg), GFP_ATOMIC);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:5205:6: note: Assuming 'rv' is non-n=
+ull
+           if (rv) {
+               ^~
+   drivers/char/ipmi/ipmi_msghandler.c:5205:2: note: Taking true branch
+           if (rv) {
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:2304:13: note: Returned allocated me=
+mory
+                   smi_msg =3D ipmi_alloc_smi_msg();
+                             ^~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2305:7: note: 'smi_msg' is not equal=
+ to NULL
+                   if (smi_msg =3D=3D NULL) {
+                       ^~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2305:3: note: Taking false branch
+                   if (smi_msg =3D=3D NULL) {
+                   ^
+   drivers/char/ipmi/ipmi_msghandler.c:2314:6: note: Assuming field 'in_shu=
+tdown' is true
+           if (intf->in_shutdown) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2314:2: note: Taking true branch
+           if (intf->in_shutdown) {
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:2316:3: note: Control jumps to line =
+2351
+                   goto out_err;
+                   ^
+   drivers/char/ipmi/ipmi_msghandler.c:2352:3: note: Potential leak of memo=
+ry pointed to by 'smi_msg'
+                   ipmi_free_recv_msg(recv_msg);
+                   ^
+>> drivers/char/ipmi/ipmi_msghandler.c:2816:2: warning: Use of memory after=
+ it is freed [clang-analyzer-unix.Malloc]
+           list_for_each_entry_rcu(intf, &ipmi_interfaces, link) {
+           ^
+   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
+entry_rcu'
+                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
+ember))
+                         ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^
+   drivers/char/ipmi/ipmi_msghandler.c:3025:6: note: Assuming the condition=
+ is false
+           if (!sysfs_streq(buf, "1"))
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:3025:2: note: Taking false branch
+           if (!sysfs_streq(buf, "1"))
+           ^
+   drivers/char/ipmi/ipmi_msghandler.c:3028:2: note: Calling 'cleanup_msgs_=
+queue'
+           cleanup_msgs_queue();
+           ^~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:2816:2: note: Left side of '||' is f=
+alse
+           list_for_each_entry_rcu(intf, &ipmi_interfaces, link) {
+           ^
+   include/linux/rculist.h:391:13: note: expanded from macro 'list_for_each=
+_entry_rcu'
+                pos =3D list_entry_rcu((head)->next, typeof(*pos), member);=
+  \
+                      ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/char/ipmi/ipmi_msghandler.c:2816:2: note: Left side of '||' is f=
+alse
+           list_for_each_entry_rcu(intf, &ipmi_interfaces, link) {
+           ^
+   include/linux/rculist.h:391:13: note: expanded from macro 'list_for_each=
+_entry_rcu'
+                pos =3D list_entry_rcu((head)->next, typeof(*pos), member);=
+  \
+                      ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/char/ipmi/ipmi_msghandler.c:2816:2: note: Left side of '||' is t=
+rue
+           list_for_each_entry_rcu(intf, &ipmi_interfaces, link) {
+           ^
+   include/linux/rculist.h:391:13: note: expanded from macro 'list_for_each=
+_entry_rcu'
+                pos =3D list_entry_rcu((head)->next, typeof(*pos), member);=
+  \
+                      ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   drivers/char/ipmi/ipmi_msghandler.c:2816:2: note: Taking false branch
+           list_for_each_entry_rcu(intf, &ipmi_interfaces, link) {
+           ^
+   include/linux/rculist.h:391:13: note: expanded from macro 'list_for_each=
+_entry_rcu'
+                pos =3D list_entry_rcu((head)->next, typeof(*pos), member);=
+  \
+                      ^
+   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
+u'
+           container_of(READ_ONCE(ptr), type, member)
+                        ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/char/ipmi/ipmi_msghandler.c:2816:2: note: Loop condition is fals=
+e.  Exiting loop
 
-:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+vim +2816 drivers/char/ipmi/ipmi_msghandler.c
+
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2809  =
+
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2810  static void cleanup_msgs_que=
+ue(void)
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2811  {
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2812  	struct ipmi_smi *intf;
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2813  	int index;
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2814  =
+
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2815  	index =3D srcu_read_lock(&i=
+pmi_interfaces_srcu);
+56b9ec5a284620 Chen Guanqiao 2022-03-28 @2816  	list_for_each_entry_rcu(int=
+f, &ipmi_interfaces, link) {
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2817  		struct bmc_device *bmc =3D=
+ intf->bmc;
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2818  =
+
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2819  		kref_get(&intf->refcount);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2820  		mutex_lock(&intf->bmc_reg_=
+mutex);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2821  		mutex_lock(&bmc->dyn_mutex=
+);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2822  =
+
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2823  		__cleanup_msgs_queue(intf);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2824  =
+
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2825  		mutex_unlock(&bmc->dyn_mut=
+ex);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2826  		mutex_unlock(&intf->bmc_re=
+g_mutex);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2827  		kref_put(&intf->refcount, =
+intf_free);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2828  	}
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2829  	srcu_read_unlock(&ipmi_inte=
+rfaces_srcu, index);
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2830  }
+56b9ec5a284620 Chen Guanqiao 2022-03-28  2831  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8130447534791114051==--
+--===============0918460294584509668==--
 
