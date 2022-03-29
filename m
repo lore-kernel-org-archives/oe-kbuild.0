@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8584825166146049211=="
+Content-Type: multipart/mixed; boundary="===============0431180956531414940=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/test/iio-test-rescale.c:578:2: warning: Call to function 'strcpy' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments such as 'strlcpy'. CWE-...
-Date: Wed, 30 Mar 2022 05:51:42 +0800
-Message-ID: <202203300527.sDzBjoh9-lkp@intel.com>
+Subject: fs/exfat/file.c:369:17: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Wed, 30 Mar 2022 05:31:20 +0800
+Message-ID: <202203300544.xPLyDmy1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8584825166146049211==
+--===============0431180956531414940==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,38 +16,37 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Liam Beguin <liambeguin@gmail.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: Peter Rosin <peda@axentia.se>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+TO: Hyeongseok Kim <hyeongseok@gmail.com>
+CC: Namjae Jeon <namjae.jeon@samsung.com>
+CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1930a6e739c4b4a654a69164dbe39e554d228915
-commit: 8e74a48d17d509bf605e64252f38550b1a9cc376 iio: test: add basic tests=
- for the iio-rescale driver
-date:   4 weeks ago
+commit: 654762df2ec7d61b05acc788afbffaba52d658fe exfat: add support ioctl a=
+nd FITRIM function
+date:   11 months ago
 :::::: branch date: 21 hours ago
-:::::: commit date: 4 weeks ago
-config: arm-randconfig-c002-20220328 (https://download.01.org/0day-ci/archi=
-ve/20220330/202203300527.sDzBjoh9-lkp(a)intel.com/config)
+:::::: commit date: 11 months ago
+config: mips-randconfig-c004-20220328 (https://download.01.org/0day-ci/arch=
+ive/20220330/202203300544.xPLyDmy1-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
 01cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D8e74a48d17d509bf605e64252f38550b1a9cc376
+t/commit/?id=3D654762df2ec7d61b05acc788afbffaba52d658fe
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 8e74a48d17d509bf605e64252f38550b1a9cc376
+        git checkout 654762df2ec7d61b05acc788afbffaba52d658fe
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,273 +54,286 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           ^
-   fs/xfs/libxfs/xfs_defer.c:499:9: note: Left side of '||' is false
-           while (!list_empty(&dop_pending) || !list_empty(&(*tp)->t_dfops)=
-) {
-                  ^
-   fs/xfs/libxfs/xfs_defer.c:499:2: note: Loop condition is true.  Entering=
- loop body
-           while (!list_empty(&dop_pending) || !list_empty(&(*tp)->t_dfops)=
-) {
+           container_of(ptr, type, member)
            ^
-   fs/xfs/libxfs/xfs_defer.c:513:7: note: 'error' is 0
-                   if (error)
-                       ^~~~~
-   fs/xfs/libxfs/xfs_defer.c:513:3: note: Taking false branch
-                   if (error)
-                   ^
-   fs/xfs/libxfs/xfs_defer.c:518:7: note: 'error' is 0
-                   if (error)
-                       ^~~~~
-   fs/xfs/libxfs/xfs_defer.c:518:3: note: Taking false branch
-                   if (error)
-                   ^
-   fs/xfs/libxfs/xfs_defer.c:523:11: note: Calling 'xfs_defer_finish_one'
-                   error =3D xfs_defer_finish_one(*tp, dfp);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_defer.c:442:2: note: 'error' declared without an initi=
-al value
-           int                             error;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_defer.c:447:2: note: Loop condition is false. Executio=
-n continues on line 470
-           list_for_each_safe(li, n, &dfp->dfp_work) {
-           ^
-   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
-e'
-           for (pos =3D (head)->next, n =3D pos->next; \
-           ^
-   fs/xfs/libxfs/xfs_defer.c:473:6: note: Assuming field 'finish_cleanup' i=
-s null
-           if (ops->finish_cleanup)
-               ^~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_defer.c:473:2: note: Taking false branch
-           if (ops->finish_cleanup)
-           ^
-   fs/xfs/libxfs/xfs_defer.c:475:2: note: Undefined or garbage value return=
-ed to caller
-           return error;
-           ^      ~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   fs/jfs/jfs_types.h:61:33: warning: The left operand of '&' is a garbage =
-value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(~0xffffff)) |
-                                          ^
-   fs/jfs/inode.c:211:6: note: Assuming 'create' is not equal to 0
-           if (create)
-               ^~~~~~
-   fs/jfs/inode.c:211:2: note: Taking true branch
-           if (create)
-           ^
-   fs/jfs/inode.c:216:7: note: Assuming the condition is true
-           if (((lblock64 << ip->i_sb->s_blocksize_bits) < ip->i_size) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/inode.c:216:6: note: Left side of '&&' is true
-           if (((lblock64 << ip->i_sb->s_blocksize_bits) < ip->i_size) &&
-               ^
-   fs/jfs/inode.c:217:7: note: Assuming the condition is true
-               (!xtLookup(ip, lblock64, xlen, &xflag, &xaddr, &xlen, 0)) &&
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/inode.c:216:6: note: Left side of '&&' is true
-           if (((lblock64 << ip->i_sb->s_blocksize_bits) < ip->i_size) &&
-               ^
-   fs/jfs/inode.c:218:6: note: Assuming 'xaddr' is not equal to 0
-               xaddr) {
-               ^~~~~
-   fs/jfs/inode.c:216:2: note: Taking true branch
-           if (((lblock64 << ip->i_sb->s_blocksize_bits) < ip->i_size) &&
-           ^
-   fs/jfs/inode.c:219:7: note: Assuming the condition is true
-                   if (xflag & XAD_NOTRECORDED) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/inode.c:219:3: note: Taking true branch
-                   if (xflag & XAD_NOTRECORDED) {
-                   ^
-   fs/jfs/inode.c:220:9: note: 'create' is not equal to 0
-                           if (!create)
-                                ^~~~~~
-   fs/jfs/inode.c:220:4: note: Taking false branch
-                           if (!create)
-                           ^
-   fs/jfs/inode.c:228:4: note: Calling 'PXDlength'
-                           XADlength(&xad, xlen);
-                           ^
-   fs/jfs/jfs_xtree.h:38:34: note: expanded from macro 'XADlength'
-   #define XADlength(xad, length32) PXDlength(&(xad)->loc, length32)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_types.h:61:33: note: The left operand of '&' is a garbage val=
-ue
-           pxd->len_addr =3D (pxd->len_addr & cpu_to_le32(~0xffffff)) |
-                            ~~~~~~~~~~~~~ ^
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> drivers/iio/test/iio-test-rescale.c:578:2: warning: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.s=
-trcpy]
-           strcpy(desc, t->name);
-           ^~~~~~
-   drivers/iio/test/iio-test-rescale.c:578:2: note: Call to function 'strcp=
-y' is insecure as it does not provide bounding of the memory buffer. Replac=
-e unbounded copy functions with analogous functions that support length arg=
-uments such as 'strlcpy'. CWE-119
-           strcpy(desc, t->name);
-           ^~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   drivers/perf/arm-cmn.c:1252:25: warning: Value stored to 'nid' during it=
-s initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   struct arm_cmn_nodeid nid =3D arm_cmn_nid(cmn, nodeid);
-                                         ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/arm-cmn.c:1252:25: note: Value stored to 'nid' during its i=
-nitialization is never read
-                   struct arm_cmn_nodeid nid =3D arm_cmn_nid(cmn, nodeid);
-                                         ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/arm-cmn.c:1635:3: warning: Value stored to 'level' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   level =3D 0;
-                   ^       ~
-   drivers/perf/arm-cmn.c:1635:3: note: Value stored to 'level' is never re=
-ad
-                   level =3D 0;
-                   ^       ~
-   drivers/perf/arm-cmn.c:1637:3: warning: Value stored to 'level' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   level =3D 1;
-                   ^       ~
-   drivers/perf/arm-cmn.c:1637:3: note: Value stored to 'level' is never re=
-ad
-                   level =3D 1;
-                   ^       ~
-   drivers/perf/arm-cmn.c:1639:3: warning: Value stored to 'level' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   level =3D 2;
-                   ^       ~
-   drivers/perf/arm-cmn.c:1639:3: note: Value stored to 'level' is never re=
-ad
-                   level =3D 2;
-                   ^       ~
-   drivers/perf/arm-cmn.c:1823:29: warning: Division by zero [clang-analyze=
-r-core.DivideZero]
-           cmn->mesh_y =3D cmn->num_xps / cmn->mesh_x;
-                         ~~~~~~~~~~~~~^~~~~~~~~~~~~
-   drivers/perf/arm-cmn.c:1657:2: note: Calling 'arm_cmn_init_node_info'
-           arm_cmn_init_node_info(cmn, rgn_offset, &cfg);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/perf/arm-cmn.c:1628:15: note: Taking false branch
-           node->type =3D FIELD_GET(CMN_NI_NODE_TYPE, reg);
-                        ^
-   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-                   ^
-   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-                   ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/perf/arm-cmn.c:1628:15: note: Loop condition is false.  Exiting =
-loop
-           node->type =3D FIELD_GET(CMN_NI_NODE_TYPE, reg);
-                        ^
-   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-                   ^
-   include/linux/bitfield.h:62:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-                   ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   drivers/perf/arm-cmn.c:1628:15: note: Taking false branch
-           node->type =3D FIELD_GET(CMN_NI_NODE_TYPE, reg);
-                        ^
-   include/linux/bitfield.h:125:3: note: expanded from macro 'FIELD_GET'
-                   __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
+   drivers/virtio/virtio_balloon.c:266:2: note: Assigned value is garbage o=
+r undefined
+           list_for_each_entry_safe(page, next, pages, lru) {
+           ^
+   include/linux/list.h:716:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:708:2: note: expanded from macro 'container_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^              ~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   fs/exfat/nls.c:582:18: warning: Assigned value is garbage or undefined [=
+clang-analyzer-core.uninitialized.Assign]
+                                   *p_cstring++ =3D buf[j];
+                                                ^
+   fs/exfat/nls.c:635:6: note: Assuming field 'utf8' is 0
+           if (EXFAT_SB(sb)->options.utf8)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:635:2: note: Taking false branch
+           if (EXFAT_SB(sb)->options.utf8)
+           ^
+   fs/exfat/nls.c:638:9: note: Calling '__exfat_utf16_to_nls'
+           return __exfat_utf16_to_nls(sb, uniname, p_cstring, buflen);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:550:9: note: 'i' is < MAX_NAME_LENGTH
+           while (i < MAX_NAME_LENGTH && out_len < (buflen - 1)) {
+                  ^
+   fs/exfat/nls.c:550:9: note: Left side of '&&' is true
+   fs/exfat/nls.c:550:32: note: Assuming the condition is true
+           while (i < MAX_NAME_LENGTH && out_len < (buflen - 1)) {
+                                         ^~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:550:2: note: Loop condition is true.  Entering loop body
+           while (i < MAX_NAME_LENGTH && out_len < (buflen - 1)) {
+           ^
+   fs/exfat/nls.c:551:7: note: Assuming the condition is false
+                   if (*uniname =3D=3D '\0')
+                       ^~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:551:3: note: Taking false branch
+                   if (*uniname =3D=3D '\0')
                    ^
-   include/linux/bitfield.h:64:3: note: expanded from macro '__BF_FIELD_CHE=
-CK'
-                   BUILD_BUG_ON_MSG((_mask) =3D=3D 0, _pfx "mask is zero");=
-    \
+   fs/exfat/nls.c:553:7: note: Assuming the condition is false
+                   if ((*uniname & SURROGATE_MASK) !=3D SURROGATE_PAIR) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:553:3: note: Taking false branch
+                   if ((*uniname & SURROGATE_MASK) !=3D SURROGATE_PAIR) {
+                   ^
+   fs/exfat/nls.c:558:8: note: Assuming the condition is false
+                           if (!(*uniname & SURROGATE_LOW) &&
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:558:36: note: Left side of '&&' is false
+                           if (!(*uniname & SURROGATE_LOW) &&
+                                                           ^
+   fs/exfat/nls.c:576:7: note: Assuming the condition is true
+                   if (out_len + len >=3D buflen)
+                       ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/nls.c:576:3: note: Taking true branch
+                   if (out_len + len >=3D buflen)
+                   ^
+   fs/exfat/nls.c:580:7: note: 'len' is > 1
+                   if (len > 1) {
+                       ^~~
+   fs/exfat/nls.c:580:3: note: Taking true branch
+                   if (len > 1) {
+                   ^
+   fs/exfat/nls.c:581:4: note: Loop condition is true.  Entering loop body
+                           for (j =3D 0; j < len; j++)
+                           ^
+   fs/exfat/nls.c:581:25: note: The value 1 is assigned to 'j'
+                           for (j =3D 0; j < len; j++)
+                                                ^~~
+   fs/exfat/nls.c:581:4: note: Loop condition is true.  Entering loop body
+                           for (j =3D 0; j < len; j++)
+                           ^
+   fs/exfat/nls.c:582:18: note: Assigned value is garbage or undefined
+                                   *p_cstring++ =3D buf[j];
+                                                ^ ~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+>> fs/exfat/file.c:369:17: warning: Assigned value is garbage or undefined =
+[clang-analyzer-core.uninitialized.Assign]
+           range.minlen =3D max_t(unsigned int, range.minlen,
+                          ^
+   include/linux/minmax.h:118:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:37:3: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                   ^
+   fs/exfat/file.c:386:2: note: Control jumps to 'case 3222820985:'  at lin=
+e 387
+           switch (cmd) {
+           ^
+   fs/exfat/file.c:388:10: note: Calling 'exfat_ioctl_fitrim'
+                   return exfat_ioctl_fitrim(inode, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/file.c:360:6: note: Assuming the condition is false
+           if (!capable(CAP_SYS_ADMIN))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/file.c:360:2: note: Taking false branch
+           if (!capable(CAP_SYS_ADMIN))
+           ^
+   fs/exfat/file.c:363:6: note: Assuming the condition is false
+           if (!blk_queue_discard(q))
+               ^~~~~~~~~~~~~~~~~~~~~
+   fs/exfat/file.c:363:2: note: Taking false branch
+           if (!blk_queue_discard(q))
+           ^
+   fs/exfat/file.c:366:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&range, (struct fstrim_range __user *)arg, si=
+zeof(range)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Assuming the condition is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+   include/linux/uaccess.h:157:33: note: Assuming the condition is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                                          ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:616:2: note: Taking false branch
+           if (eva_kernel_access())
+           ^
+   arch/mips/include/asm/uaccess.h:619:3: note: Returning without writing t=
+o 'to->minlen'
+                   return __invoke_copy_from_user(to, from, n);
+                   ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->m=
+inlen'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->m=
+inlen'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   fs/exfat/file.c:366:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&range, (struct fstrim_range __user *)arg, si=
+zeof(range)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~
+   fs/exfat/file.c:366:2: note: Taking false branch
+           if (copy_from_user(&range, (struct fstrim_range __user *)arg, si=
+zeof(range)))
+           ^
+   fs/exfat/file.c:369:17: note: Assigned value is garbage or undefined
+           range.minlen =3D max_t(unsigned int, range.minlen,
+                          ^
+   include/linux/minmax.h:118:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
 
-vim +578 drivers/iio/test/iio-test-rescale.c
+vim +369 fs/exfat/file.c
 
-8e74a48d17d509 Liam Beguin 2022-02-12  575  =
+98d917047e8b7f4 Namjae Jeon    2020-03-02  353  =
 
-8e74a48d17d509 Liam Beguin 2022-02-12  576  static void case_to_desc(const =
-struct rescale_tc_data *t, char *desc)
-8e74a48d17d509 Liam Beguin 2022-02-12  577  {
-8e74a48d17d509 Liam Beguin 2022-02-12 @578  	strcpy(desc, t->name);
-8e74a48d17d509 Liam Beguin 2022-02-12  579  }
-8e74a48d17d509 Liam Beguin 2022-02-12  580  =
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  354  static int exfat_ioctl_fitr=
+im(struct inode *inode, unsigned long arg)
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  355  {
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  356  	struct request_queue *q =
+=3D bdev_get_queue(inode->i_sb->s_bdev);
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  357  	struct fstrim_range range;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  358  	int ret =3D 0;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  359  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  360  	if (!capable(CAP_SYS_ADMIN=
+))
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  361  		return -EPERM;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  362  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  363  	if (!blk_queue_discard(q))
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  364  		return -EOPNOTSUPP;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  365  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  366  	if (copy_from_user(&range,=
+ (struct fstrim_range __user *)arg, sizeof(range)))
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  367  		return -EFAULT;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  368  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04 @369  	range.minlen =3D max_t(uns=
+igned int, range.minlen,
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  370  				q->limits.discard_granu=
+larity);
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  371  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  372  	ret =3D exfat_trim_fs(inod=
+e, &range);
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  373  	if (ret < 0)
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  374  		return ret;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  375  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  376  	if (copy_to_user((struct f=
+strim_range __user *)arg, &range, sizeof(range)))
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  377  		return -EFAULT;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  378  =
+
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  379  	return 0;
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  380  }
+654762df2ec7d61 Hyeongseok Kim 2021-03-04  381  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8584825166146049211==--
+--===============0431180956531414940==--
 
