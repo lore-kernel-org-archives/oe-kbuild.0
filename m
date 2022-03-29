@@ -1,163 +1,267 @@
-Content-Type: multipart/mixed; boundary="===============2864255593964625369=="
+Content-Type: multipart/mixed; boundary="===============3283565929245314013=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/syscall.c:75 __do_sys_pciconfig_read() warn: ignoring unreachable code.
-Date: Tue, 29 Mar 2022 13:31:12 +0800
-Message-ID: <202203291326.byMfeBmk-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 106/1039] drivers/fpga/zynqmp-fpga.c:149 zynqmp_fpga_ops_write() error: uninitialized symbol 'status'.
+Date: Tue, 29 Mar 2022 13:31:02 +0800
+Message-ID: <202203291311.AwQlj8lt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2864255593964625369==
+--===============3283565929245314013==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Guo Ren <guoren@linux.alibaba.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Nava kishore Manne <nava.manne@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   1930a6e739c4b4a654a69164dbe39e554d228915
-commit: e58a41c2226847fb1446f3942dc1b55af8acfe02 csky: uaccess.h: Coding co=
-nvention with asm generic
-date:   11 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 11 months ago
-config: csky-randconfig-m031-20220327 (https://download.01.org/0day-ci/arch=
-ive/20220329/202203291326.byMfeBmk-lkp(a)intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
+head:   ea33365bd1a8cf667a122498e8f551df05609f92
+commit: 33504b3c89260e1ca21a73c8d71c5da814f62db8 [106/1039] firmware: xilin=
+x: Update the zynqmp_pm_fpga_load() API
+:::::: branch date: 4 days ago
+:::::: commit date: 8 weeks ago
+config: nios2-randconfig-m031-20220328 (https://download.01.org/0day-ci/arc=
+hive/20220329/202203291311.AwQlj8lt-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/pci/syscall.c:75 __do_sys_pciconfig_read() warn: ignoring unreachab=
-le code.
-drivers/pci/syscall.c:75 __do_sys_pciconfig_read() warn: ignoring unreachab=
-le code.
-drivers/pci/proc.c:73 proc_bus_pci_read() warn: ignoring unreachable code.
+smatch warnings:
+drivers/fpga/zynqmp-fpga.c:149 zynqmp_fpga_ops_write() error: uninitialized=
+ symbol 'status'.
+drivers/fpga/zynqmp-fpga.c:213 zynqmp_fpga_ops_write_sg() error: uninitiali=
+zed symbol 'status'.
 
-Old smatch warnings:
-drivers/pci/syscall.c:78 __do_sys_pciconfig_read() warn: ignoring unreachab=
-le code.
-drivers/pci/syscall.c:78 __do_sys_pciconfig_read() warn: ignoring unreachab=
-le code.
-arch/csky/include/asm/uaccess.h:202 __get_user_fn() error: uninitialized sy=
-mbol 'retval'.
-drivers/pci/proc.c:82 proc_bus_pci_read() warn: ignoring unreachable code.
-drivers/pci/proc.c:91 proc_bus_pci_read() warn: ignoring unreachable code.
-arch/csky/include/asm/uaccess.h:202 __get_user_fn() error: uninitialized sy=
-mbol 'retval'.
+vim +/status +149 drivers/fpga/zynqmp-fpga.c
 
-vim +75 drivers/pci/syscall.c
+c09f7471127e9d Nava kishore Manne           2019-04-15   97  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  14  =
+c09f7471127e9d Nava kishore Manne           2019-04-15   98  static int zyn=
+qmp_fpga_ops_write(struct fpga_manager *mgr,
+c09f7471127e9d Nava kishore Manne           2019-04-15   99  				 const cha=
+r *buf, size_t size)
+c09f7471127e9d Nava kishore Manne           2019-04-15  100  {
+c09f7471127e9d Nava kishore Manne           2019-04-15  101  	struct zynqmp=
+_fpga_priv *priv;
+17d80e71b14654 Nava kishore Manne           2020-09-29  102  	dma_addr_t dm=
+a_addr =3D 0;
+c09f7471127e9d Nava kishore Manne           2019-04-15  103  	u32 eemi_flag=
+s =3D 0;
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  104  	size_t dma_si=
+ze;
+33504b3c89260e Nava kishore Manne           2022-01-13  105  	u32 status;
+c09f7471127e9d Nava kishore Manne           2019-04-15  106  	char *kbuf;
+c09f7471127e9d Nava kishore Manne           2019-04-15  107  	int ret;
+c09f7471127e9d Nava kishore Manne           2019-04-15  108  =
 
-c4ea37c26a691a Heiko Carstens  2009-01-14  15  SYSCALL_DEFINE5(pciconfig_re=
-ad, unsigned long, bus, unsigned long, dfn,
-c4ea37c26a691a Heiko Carstens  2009-01-14  16  		unsigned long, off, unsign=
-ed long, len, void __user *, buf)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  17  {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  18  	struct pci_dev *dev;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  19  	u8 byte;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  20  	u16 word;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  21  	u32 dword;
-e4585da22ad04a Alan Cox        2007-04-23  22  	long err;
-ef9e4005cbaf02 Heiner Kallweit 2021-01-24  23  	int cfg_ret;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  24  =
+c09f7471127e9d Nava kishore Manne           2019-04-15  109  	priv =3D mgr-=
+>priv;
+c56dc0db37a37e Appana Durga Kedareswara rao 2019-12-31  110  	priv->size =
+=3D size;
+c09f7471127e9d Nava kishore Manne           2019-04-15  111  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  25  	if (!capable(CAP_SYS_ADMIN))
-e4585da22ad04a Alan Cox        2007-04-23  26  		return -EPERM;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  27  =
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  112  	if (priv->fla=
+gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  113  		dma_size =3D=
+ size + ENCRYPTED_KEY_LEN;
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  114  	else
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  115  		dma_size =3D=
+ size;
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  116  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  28  	err =3D -ENODEV;
-39c9465204e8f4 Sinan Kaya      2017-12-19  29  	dev =3D pci_get_domain_bus_=
-and_slot(0, bus, dfn);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  30  	if (!dev)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  31  		goto error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  32  =
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  117  	kbuf =3D dma_=
+alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_KERNEL);
+c09f7471127e9d Nava kishore Manne           2019-04-15  118  	if (!kbuf)
+c09f7471127e9d Nava kishore Manne           2019-04-15  119  		return -ENOM=
+EM;
+c09f7471127e9d Nava kishore Manne           2019-04-15  120  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  33  	switch (len) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  34  	case 1:
-e04b0ea2e0f9c1 Brian King      2005-09-27  35  		cfg_ret =3D pci_user_read_=
-config_byte(dev, off, &byte);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  36  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  37  	case 2:
-e04b0ea2e0f9c1 Brian King      2005-09-27  38  		cfg_ret =3D pci_user_read_=
-config_word(dev, off, &word);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  39  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  40  	case 4:
-e04b0ea2e0f9c1 Brian King      2005-09-27  41  		cfg_ret =3D pci_user_read_=
-config_dword(dev, off, &dword);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  42  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  43  	default:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  44  		err =3D -EINVAL;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  45  		goto error;
-f7625980f5820e Bjorn Helgaas   2013-11-14  46  	}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  47  =
+c09f7471127e9d Nava kishore Manne           2019-04-15  121  	memcpy(kbuf, =
+buf, size);
+c09f7471127e9d Nava kishore Manne           2019-04-15  122  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  48  	err =3D -EIO;
-ef9e4005cbaf02 Heiner Kallweit 2021-01-24  49  	if (cfg_ret)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  50  		goto error;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  51  =
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  123  	if (priv->fla=
+gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  124  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_USERKEY;
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  125  		memcpy(kbuf =
++ size, mgr->key, ENCRYPTED_KEY_LEN);
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  126  	} else if (pr=
+iv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  127  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_DEVKEY;
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  128  	}
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  129  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  52  	switch (len) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  53  	case 1:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  54  		err =3D put_user(byte, (un=
-signed char __user *)buf);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  55  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  56  	case 2:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  57  		err =3D put_user(word, (un=
-signed short __user *)buf);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  58  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  59  	case 4:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  60  		err =3D put_user(dword, (u=
-nsigned int __user *)buf);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  61  		break;
-e4585da22ad04a Alan Cox        2007-04-23  62  	}
-e4585da22ad04a Alan Cox        2007-04-23  63  	pci_dev_put(dev);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  64  	return err;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  65  =
+c09f7471127e9d Nava kishore Manne           2019-04-15  130  	wmb(); /* ens=
+ure all writes are done before initiate FW call */
+c09f7471127e9d Nava kishore Manne           2019-04-15  131  =
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  66  error:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  67  	/* ??? XFree86 doesn't even=
- check the return value.  They
-^1da177e4c3f41 Linus Torvalds  2005-04-16  68  	   just look for 0xffffffff=
- in the output, since that's what
-^1da177e4c3f41 Linus Torvalds  2005-04-16  69  	   they get instead of a ma=
-chine check on x86.  */
-^1da177e4c3f41 Linus Torvalds  2005-04-16  70  	switch (len) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  71  	case 1:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  72  		put_user(-1, (unsigned cha=
-r __user *)buf);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  73  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  74  	case 2:
-^1da177e4c3f41 Linus Torvalds  2005-04-16 @75  		put_user(-1, (unsigned sho=
-rt __user *)buf);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  76  		break;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  77  	case 4:
-^1da177e4c3f41 Linus Torvalds  2005-04-16  78  		put_user(-1, (unsigned int=
- __user *)buf);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  79  		break;
-e4585da22ad04a Alan Cox        2007-04-23  80  	}
-e4585da22ad04a Alan Cox        2007-04-23  81  	pci_dev_put(dev);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  82  	return err;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  83  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  84  =
+0a59c37a459937 Nava kishore Manne           2019-12-31  132  	if (priv->fla=
+gs & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
+0a59c37a459937 Nava kishore Manne           2019-12-31  133  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_DDR;
+0a59c37a459937 Nava kishore Manne           2019-12-31  134  	else if (priv=
+->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
+0a59c37a459937 Nava kishore Manne           2019-12-31  135  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_OCM;
+0a59c37a459937 Nava kishore Manne           2019-12-31  136  =
 
+c09f7471127e9d Nava kishore Manne           2019-04-15  137  	if (priv->fla=
+gs & FPGA_MGR_PARTIAL_RECONFIG)
+c09f7471127e9d Nava kishore Manne           2019-04-15  138  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_PARTIAL;
+c09f7471127e9d Nava kishore Manne           2019-04-15  139  =
 
-:::::: The code at line 75 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  140  	if (priv->fla=
+gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  141  		ret =3D zynq=
+mp_pm_fpga_load(dma_addr, dma_addr + size,
+33504b3c89260e Nava kishore Manne           2022-01-13  142  					  eemi_fl=
+ags, &status);
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  143  	else
+33504b3c89260e Nava kishore Manne           2022-01-13  144  		ret =3D zynq=
+mp_pm_fpga_load(dma_addr, size,
+33504b3c89260e Nava kishore Manne           2022-01-13  145  					  eemi_fl=
+ags, &status);
+c09f7471127e9d Nava kishore Manne           2019-04-15  146  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+c9c4634e0ae452 Nava kishore Manne           2019-12-31  147  	dma_free_cohe=
+rent(priv->dev, dma_size, kbuf, dma_addr);
+c09f7471127e9d Nava kishore Manne           2019-04-15  148  =
+
+33504b3c89260e Nava kishore Manne           2022-01-13 @149  	if (status)
+33504b3c89260e Nava kishore Manne           2022-01-13  150  		return statu=
+s;
+33504b3c89260e Nava kishore Manne           2022-01-13  151  =
+
+c09f7471127e9d Nava kishore Manne           2019-04-15  152  	return ret;
+c09f7471127e9d Nava kishore Manne           2019-04-15  153  }
+c09f7471127e9d Nava kishore Manne           2019-04-15  154  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  155  static unsigne=
+d long zynqmp_fpga_get_contiguous_size(struct sg_table *sgt)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  156  {
+8d02a7ff49398f Nava kishore Manne           2020-07-30  157  	dma_addr_t ex=
+pected =3D sg_dma_address(sgt->sgl);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  158  	unsigned long=
+ size =3D 0;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  159  	struct scatte=
+rlist *s;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  160  	unsigned int =
+i;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  161  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  162  	for_each_sg(s=
+gt->sgl, s, sgt->nents, i) {
+8d02a7ff49398f Nava kishore Manne           2020-07-30  163  		if (sg_dma_a=
+ddress(s) !=3D expected)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  164  			break;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  165  		expected =3D=
+ sg_dma_address(s) + sg_dma_len(s);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  166  		size +=3D sg=
+_dma_len(s);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  167  	}
+8d02a7ff49398f Nava kishore Manne           2020-07-30  168  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  169  	return size;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  170  }
+8d02a7ff49398f Nava kishore Manne           2020-07-30  171  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  172  static int zyn=
+qmp_fpga_ops_write_sg(struct fpga_manager *mgr,
+8d02a7ff49398f Nava kishore Manne           2020-07-30  173  				    struct=
+ sg_table *sgt)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  174  {
+8d02a7ff49398f Nava kishore Manne           2020-07-30  175  	dma_addr_t dm=
+a_addr, key_addr =3D 0;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  176  	struct zynqmp=
+_fpga_priv *priv;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  177  	unsigned long=
+ contig_size;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  178  	u32 eemi_flag=
+s =3D 0;
+33504b3c89260e Nava kishore Manne           2022-01-13  179  	u32 status;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  180  	char *kbuf;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  181  	int ret;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  182  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  183  	priv =3D mgr-=
+>priv;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  184  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  185  	dma_addr =3D =
+sg_dma_address(sgt->sgl);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  186  	contig_size =
+=3D zynqmp_fpga_get_contiguous_size(sgt);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  187  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  188  	if (priv->fla=
+gs & FPGA_MGR_PARTIAL_RECONFIG)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  189  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_PARTIAL;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  190  	if (priv->fla=
+gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  191  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_USERKEY;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  192  	else if (priv=
+->flags & FPGA_MGR_ENCRYPTED_BITSTREAM)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  193  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_DEVKEY;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  194  	if (priv->fla=
+gs & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  195  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_DDR;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  196  	else if (priv=
+->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  197  		eemi_flags |=
+=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_OCM;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  198  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  199  	if (priv->fla=
+gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
+8d02a7ff49398f Nava kishore Manne           2020-07-30  200  		kbuf =3D dma=
+_alloc_coherent(priv->dev, ENCRYPTED_KEY_LEN,
+8d02a7ff49398f Nava kishore Manne           2020-07-30  201  					  &key_ad=
+dr, GFP_KERNEL);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  202  		if (!kbuf)
+8d02a7ff49398f Nava kishore Manne           2020-07-30  203  			return -ENO=
+MEM;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  204  		memcpy(kbuf,=
+ mgr->key, ENCRYPTED_KEY_LEN);
+33504b3c89260e Nava kishore Manne           2022-01-13  205  		ret =3D zynq=
+mp_pm_fpga_load(dma_addr, key_addr,
+33504b3c89260e Nava kishore Manne           2022-01-13  206  					  eemi_fl=
+ags, &status);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  207  		dma_free_coh=
+erent(priv->dev, ENCRYPTED_KEY_LEN, kbuf, key_addr);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  208  	} else {
+33504b3c89260e Nava kishore Manne           2022-01-13  209  		ret =3D zynq=
+mp_pm_fpga_load(dma_addr, contig_size,
+33504b3c89260e Nava kishore Manne           2022-01-13  210  					  eemi_fl=
+ags, &status);
+8d02a7ff49398f Nava kishore Manne           2020-07-30  211  	}
+8d02a7ff49398f Nava kishore Manne           2020-07-30  212  =
+
+33504b3c89260e Nava kishore Manne           2022-01-13 @213  	if (status)
+33504b3c89260e Nava kishore Manne           2022-01-13  214  		return statu=
+s;
+33504b3c89260e Nava kishore Manne           2022-01-13  215  =
+
+8d02a7ff49398f Nava kishore Manne           2020-07-30  216  	return ret;
+8d02a7ff49398f Nava kishore Manne           2020-07-30  217  }
+8d02a7ff49398f Nava kishore Manne           2020-07-30  218  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============2864255593964625369==--
+--===============3283565929245314013==--
 
