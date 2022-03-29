@@ -1,267 +1,468 @@
-Content-Type: multipart/mixed; boundary="===============3283565929245314013=="
+Content-Type: multipart/mixed; boundary="===============8139387292201134670=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.15_LTS 106/1039] drivers/fpga/zynqmp-fpga.c:149 zynqmp_fpga_ops_write() error: uninitialized symbol 'status'.
-Date: Tue, 29 Mar 2022 13:31:02 +0800
-Message-ID: <202203291311.AwQlj8lt-lkp@intel.com>
+Subject: drivers/power/supply/ip5xxx_power.c:338:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 29 Mar 2022 13:10:08 +0800
+Message-ID: <202203291311.aqHTu3RU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3283565929245314013==
+--===============8139387292201134670==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Nava kishore Manne <nava.manne@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
+CC: linux-kernel(a)vger.kernel.org
+TO: Samuel Holland <samuel@sholland.org>
+CC: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.15_LTS
-head:   ea33365bd1a8cf667a122498e8f551df05609f92
-commit: 33504b3c89260e1ca21a73c8d71c5da814f62db8 [106/1039] firmware: xilin=
-x: Update the zynqmp_pm_fpga_load() API
-:::::: branch date: 4 days ago
-:::::: commit date: 8 weeks ago
-config: nios2-randconfig-m031-20220328 (https://download.01.org/0day-ci/arc=
-hive/20220329/202203291311.AwQlj8lt-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1930a6e739c4b4a654a69164dbe39e554d228915
+commit: 75853406fa27961044e7dc03c7dc8544477e81f5 power: supply: Add a drive=
+r for Injoinic power bank ICs
+date:   3 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-c001-20220328 (https://download.01.org/0day-ci/arch=
+ive/20220329/202203291311.aqHTu3RU-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D75853406fa27961044e7dc03c7dc8544477e81f5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 75853406fa27961044e7dc03c7dc8544477e81f5
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/fpga/zynqmp-fpga.c:149 zynqmp_fpga_ops_write() error: uninitialized=
- symbol 'status'.
-drivers/fpga/zynqmp-fpga.c:213 zynqmp_fpga_ops_write_sg() error: uninitiali=
-zed symbol 'status'.
 
-vim +/status +149 drivers/fpga/zynqmp-fpga.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
+           ^
+   drivers/gpu/drm/drm_debugfs.c:245:14: note: Assuming 'i' is < 'count'
+           for (i =3D 0; i < count; i++) {
+                       ^~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:245:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0; i < count; i++) {
+           ^
+   drivers/gpu/drm/drm_debugfs.c:246:22: note: Use of memory after it is fr=
+eed
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                                      ^
+   include/linux/list.h:607:31: note: expanded from macro 'list_for_each_sa=
+fe'
+           for (pos =3D (head)->next, n =3D pos->next; \
+                                        ^~~~~~~~~
+   include/linux/list.h:137:2: warning: Use of memory after it is freed [cl=
+ang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+           ^
+   drivers/gpu/drm/drm_debugfs.c:245:14: note: Assuming 'i' is < 'count'
+           for (i =3D 0; i < count; i++) {
+                       ^~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:245:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0; i < count; i++) {
+           ^
+   drivers/gpu/drm/drm_debugfs.c:246:3: note: Loop condition is true.  Ente=
+ring loop body
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                   ^
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
+           ^
+   drivers/gpu/drm/drm_debugfs.c:248:8: note: Assuming the condition is fal=
+se
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:248:4: note: Taking false branch
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                           ^
+   drivers/gpu/drm/drm_debugfs.c:246:3: note: Loop condition is true.  Ente=
+ring loop body
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                   ^
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
+           ^
+   drivers/gpu/drm/drm_debugfs.c:248:8: note: Assuming the condition is true
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:248:4: note: Taking true branch
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                           ^
+   drivers/gpu/drm/drm_debugfs.c:251:5: note: Memory is released
+                                   kfree(tmp);
+                                   ^~~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:246:3: note: Loop condition is false. Exec=
+ution continues on line 245
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                   ^
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
+           ^
+   drivers/gpu/drm/drm_debugfs.c:245:14: note: Assuming 'i' is < 'count'
+           for (i =3D 0; i < count; i++) {
+                       ^~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:245:2: note: Loop condition is true.  Ente=
+ring loop body
+           for (i =3D 0; i < count; i++) {
+           ^
+   drivers/gpu/drm/drm_debugfs.c:246:3: note: Loop condition is true.  Ente=
+ring loop body
+                   list_for_each_safe(pos, q, &minor->debugfs_list) {
+                   ^
+   include/linux/list.h:607:2: note: expanded from macro 'list_for_each_saf=
+e'
+           for (pos =3D (head)->next, n =3D pos->next; \
+           ^
+   drivers/gpu/drm/drm_debugfs.c:248:8: note: Assuming the condition is true
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_debugfs.c:248:4: note: Taking true branch
+                           if (tmp->info_ent =3D=3D &files[i]) {
+                           ^
+   drivers/gpu/drm/drm_debugfs.c:250:5: note: Calling 'list_del'
+                                   list_del(pos);
+                                   ^~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
+           ^
+   include/linux/list.h:137:2: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+           ^                       ~~~~~~~~~~~
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/power/supply/ip5xxx_power.c:338:3: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATVADC_D=
+AT0,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/power/supply/ip5xxx_power.c:338:3: note: Value stored to 'ret' i=
+s never read
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATVADC_D=
+AT0,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/power/supply/ip5xxx_power.c:341:49: warning: The left operand of=
+ '*' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw * 26855,=
+ 100);
+                                                                 ^
+   include/linux/math.h:87:18: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           typeof(x) __x =3D x;                              \
+                           ^
+   drivers/power/supply/ip5xxx_power.c:317:6: note: 'raw' declared without =
+an initial value
+           int raw, ret, vmax;
+               ^~~
+   drivers/power/supply/ip5xxx_power.c:320:8: note: Calling 'ip5xxx_initial=
+ize'
+           ret =3D ip5xxx_initialize(psy);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:119:6: note: Assuming field 'initial=
+ized' is true
+           if (ip5xxx->initialized)
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:119:2: note: Taking true branch
+           if (ip5xxx->initialized)
+           ^
+   drivers/power/supply/ip5xxx_power.c:120:3: note: Returning zero, which p=
+articipates in a condition later
+                   return 0;
+                   ^~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:320:8: note: Returning from 'ip5xxx_=
+initialize'
+           ret =3D ip5xxx_initialize(psy);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:321:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/power/supply/ip5xxx_power.c:321:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/power/supply/ip5xxx_power.c:324:2: note: Control jumps to 'case =
+POWER_SUPPLY_PROP_VOLTAGE_NOW:'  at line 337
+           switch (psp) {
+           ^
+   drivers/power/supply/ip5xxx_power.c:338:9: note: Calling 'ip5xxx_battery=
+_read_adc'
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATVADC_D=
+AT0,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/power/supply/ip5xxx_power.c:300:6: note: 'ret' is not equal to 0
+           if (ret)
+               ^~~
+   drivers/power/supply/ip5xxx_power.c:300:2: note: Taking true branch
+           if (ret)
+           ^
+   drivers/power/supply/ip5xxx_power.c:301:3: note: Returning without writi=
+ng to '*val'
+                   return ret;
+                   ^
+   drivers/power/supply/ip5xxx_power.c:338:9: note: Returning from 'ip5xxx_=
+battery_read_adc'
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATVADC_D=
+AT0,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/power/supply/ip5xxx_power.c:341:49: note: The left operand of '*=
+' is a garbage value
+                   val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw * 26855,=
+ 100);
+                                                                 ^
+   include/linux/math.h:87:18: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           typeof(x) __x =3D x;                              \
+                           ^
+   drivers/power/supply/ip5xxx_power.c:345:3: warning: Value stored to 'ret=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATOCV_DA=
+T0,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:345:3: note: Value stored to 'ret' i=
+s never read
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATOCV_DA=
+T0,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:348:49: warning: The left operand of=
+ '*' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   val->intval =3D 2600000 + DIV_ROUND_CLOSEST(raw * 26855,=
+ 100);
+                                                                 ^
+   include/linux/math.h:87:18: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           typeof(x) __x =3D x;                              \
+                           ^
+   drivers/power/supply/ip5xxx_power.c:317:6: note: 'raw' declared without =
+an initial value
+           int raw, ret, vmax;
+               ^~~
+   drivers/power/supply/ip5xxx_power.c:320:8: note: Calling 'ip5xxx_initial=
+ize'
+           ret =3D ip5xxx_initialize(psy);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:119:6: note: Assuming field 'initial=
+ized' is true
+           if (ip5xxx->initialized)
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:119:2: note: Taking true branch
+           if (ip5xxx->initialized)
+           ^
+   drivers/power/supply/ip5xxx_power.c:120:3: note: Returning zero, which p=
+articipates in a condition later
+                   return 0;
+                   ^~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:320:8: note: Returning from 'ip5xxx_=
+initialize'
+           ret =3D ip5xxx_initialize(psy);
+                 ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/ip5xxx_power.c:321:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/power/supply/ip5xxx_power.c:321:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/power/supply/ip5xxx_power.c:324:2: note: Control jumps to 'case =
+POWER_SUPPLY_PROP_VOLTAGE_OCV:'  at line 344
+           switch (psp) {
+           ^
+   drivers/power/supply/ip5xxx_power.c:345:9: note: Calling 'ip5xxx_battery=
+_read_adc'
+                   ret =3D ip5xxx_battery_read_adc(ip5xxx, IP5XXX_BATOCV_DA=
+T0,
 
-c09f7471127e9d Nava kishore Manne           2019-04-15   97  =
+vim +/ret +338 drivers/power/supply/ip5xxx_power.c
 
-c09f7471127e9d Nava kishore Manne           2019-04-15   98  static int zyn=
-qmp_fpga_ops_write(struct fpga_manager *mgr,
-c09f7471127e9d Nava kishore Manne           2019-04-15   99  				 const cha=
-r *buf, size_t size)
-c09f7471127e9d Nava kishore Manne           2019-04-15  100  {
-c09f7471127e9d Nava kishore Manne           2019-04-15  101  	struct zynqmp=
-_fpga_priv *priv;
-17d80e71b14654 Nava kishore Manne           2020-09-29  102  	dma_addr_t dm=
-a_addr =3D 0;
-c09f7471127e9d Nava kishore Manne           2019-04-15  103  	u32 eemi_flag=
-s =3D 0;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  104  	size_t dma_si=
-ze;
-33504b3c89260e Nava kishore Manne           2022-01-13  105  	u32 status;
-c09f7471127e9d Nava kishore Manne           2019-04-15  106  	char *kbuf;
-c09f7471127e9d Nava kishore Manne           2019-04-15  107  	int ret;
-c09f7471127e9d Nava kishore Manne           2019-04-15  108  =
+75853406fa2796 Samuel Holland 2022-02-13  311  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  109  	priv =3D mgr-=
->priv;
-c56dc0db37a37e Appana Durga Kedareswara rao 2019-12-31  110  	priv->size =
-=3D size;
-c09f7471127e9d Nava kishore Manne           2019-04-15  111  =
+75853406fa2796 Samuel Holland 2022-02-13  312  static int ip5xxx_battery_ge=
+t_property(struct power_supply *psy,
+75853406fa2796 Samuel Holland 2022-02-13  313  				       enum power_supply=
+_property psp,
+75853406fa2796 Samuel Holland 2022-02-13  314  				       union power_suppl=
+y_propval *val)
+75853406fa2796 Samuel Holland 2022-02-13  315  {
+75853406fa2796 Samuel Holland 2022-02-13  316  	struct ip5xxx *ip5xxx =3D p=
+ower_supply_get_drvdata(psy);
+75853406fa2796 Samuel Holland 2022-02-13  317  	int raw, ret, vmax;
+75853406fa2796 Samuel Holland 2022-02-13  318  	unsigned int rval;
+75853406fa2796 Samuel Holland 2022-02-13  319  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  112  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  113  		dma_size =3D=
- size + ENCRYPTED_KEY_LEN;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  114  	else
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  115  		dma_size =3D=
- size;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  116  =
+75853406fa2796 Samuel Holland 2022-02-13  320  	ret =3D ip5xxx_initialize(p=
+sy);
+75853406fa2796 Samuel Holland 2022-02-13  321  	if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  322  		return ret;
+75853406fa2796 Samuel Holland 2022-02-13  323  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  117  	kbuf =3D dma_=
-alloc_coherent(priv->dev, dma_size, &dma_addr, GFP_KERNEL);
-c09f7471127e9d Nava kishore Manne           2019-04-15  118  	if (!kbuf)
-c09f7471127e9d Nava kishore Manne           2019-04-15  119  		return -ENOM=
-EM;
-c09f7471127e9d Nava kishore Manne           2019-04-15  120  =
+75853406fa2796 Samuel Holland 2022-02-13  324  	switch (psp) {
+75853406fa2796 Samuel Holland 2022-02-13  325  	case POWER_SUPPLY_PROP_STAT=
+US:
+75853406fa2796 Samuel Holland 2022-02-13  326  		return ip5xxx_battery_get_=
+status(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  327  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  121  	memcpy(kbuf, =
-buf, size);
-c09f7471127e9d Nava kishore Manne           2019-04-15  122  =
+75853406fa2796 Samuel Holland 2022-02-13  328  	case POWER_SUPPLY_PROP_CHAR=
+GE_TYPE:
+75853406fa2796 Samuel Holland 2022-02-13  329  		return ip5xxx_battery_get_=
+charge_type(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  330  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  123  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  124  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_USERKEY;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  125  		memcpy(kbuf =
-+ size, mgr->key, ENCRYPTED_KEY_LEN);
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  126  	} else if (pr=
-iv->flags & FPGA_MGR_ENCRYPTED_BITSTREAM) {
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  127  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_DEVKEY;
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  128  	}
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  129  =
+75853406fa2796 Samuel Holland 2022-02-13  331  	case POWER_SUPPLY_PROP_HEAL=
+TH:
+75853406fa2796 Samuel Holland 2022-02-13  332  		return ip5xxx_battery_get_=
+health(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  333  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  130  	wmb(); /* ens=
-ure all writes are done before initiate FW call */
-c09f7471127e9d Nava kishore Manne           2019-04-15  131  =
+75853406fa2796 Samuel Holland 2022-02-13  334  	case POWER_SUPPLY_PROP_VOLT=
+AGE_MAX_DESIGN:
+75853406fa2796 Samuel Holland 2022-02-13  335  		return ip5xxx_battery_get_=
+voltage_max(ip5xxx, &val->intval);
+75853406fa2796 Samuel Holland 2022-02-13  336  =
 
-0a59c37a459937 Nava kishore Manne           2019-12-31  132  	if (priv->fla=
-gs & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-0a59c37a459937 Nava kishore Manne           2019-12-31  133  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_DDR;
-0a59c37a459937 Nava kishore Manne           2019-12-31  134  	else if (priv=
-->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-0a59c37a459937 Nava kishore Manne           2019-12-31  135  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_OCM;
-0a59c37a459937 Nava kishore Manne           2019-12-31  136  =
+75853406fa2796 Samuel Holland 2022-02-13  337  	case POWER_SUPPLY_PROP_VOLT=
+AGE_NOW:
+75853406fa2796 Samuel Holland 2022-02-13 @338  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATVADC_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  339  					      IP5XXX_BATVADC_DA=
+T1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  340  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  137  	if (priv->fla=
-gs & FPGA_MGR_PARTIAL_RECONFIG)
-c09f7471127e9d Nava kishore Manne           2019-04-15  138  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_PARTIAL;
-c09f7471127e9d Nava kishore Manne           2019-04-15  139  =
+75853406fa2796 Samuel Holland 2022-02-13  341  		val->intval =3D 2600000 + =
+DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa2796 Samuel Holland 2022-02-13  342  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  343  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  140  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  141  		ret =3D zynq=
-mp_pm_fpga_load(dma_addr, dma_addr + size,
-33504b3c89260e Nava kishore Manne           2022-01-13  142  					  eemi_fl=
-ags, &status);
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  143  	else
-33504b3c89260e Nava kishore Manne           2022-01-13  144  		ret =3D zynq=
-mp_pm_fpga_load(dma_addr, size,
-33504b3c89260e Nava kishore Manne           2022-01-13  145  					  eemi_fl=
-ags, &status);
-c09f7471127e9d Nava kishore Manne           2019-04-15  146  =
+75853406fa2796 Samuel Holland 2022-02-13  344  	case POWER_SUPPLY_PROP_VOLT=
+AGE_OCV:
+75853406fa2796 Samuel Holland 2022-02-13  345  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATOCV_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  346  					      IP5XXX_BATOCV_DAT=
+1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  347  =
 
-c9c4634e0ae452 Nava kishore Manne           2019-12-31  147  	dma_free_cohe=
-rent(priv->dev, dma_size, kbuf, dma_addr);
-c09f7471127e9d Nava kishore Manne           2019-04-15  148  =
+75853406fa2796 Samuel Holland 2022-02-13  348  		val->intval =3D 2600000 + =
+DIV_ROUND_CLOSEST(raw * 26855, 100);
+75853406fa2796 Samuel Holland 2022-02-13  349  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  350  =
 
-33504b3c89260e Nava kishore Manne           2022-01-13 @149  	if (status)
-33504b3c89260e Nava kishore Manne           2022-01-13  150  		return statu=
-s;
-33504b3c89260e Nava kishore Manne           2022-01-13  151  =
+75853406fa2796 Samuel Holland 2022-02-13  351  	case POWER_SUPPLY_PROP_CURR=
+ENT_NOW:
+75853406fa2796 Samuel Holland 2022-02-13  352  		ret =3D ip5xxx_battery_rea=
+d_adc(ip5xxx, IP5XXX_BATIADC_DAT0,
+75853406fa2796 Samuel Holland 2022-02-13  353  					      IP5XXX_BATIADC_DA=
+T1, &raw);
+75853406fa2796 Samuel Holland 2022-02-13  354  =
 
-c09f7471127e9d Nava kishore Manne           2019-04-15  152  	return ret;
-c09f7471127e9d Nava kishore Manne           2019-04-15  153  }
-c09f7471127e9d Nava kishore Manne           2019-04-15  154  =
+75853406fa2796 Samuel Holland 2022-02-13  355  		val->intval =3D DIV_ROUND_=
+CLOSEST(raw * 745985, 1000);
+75853406fa2796 Samuel Holland 2022-02-13  356  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  357  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  155  static unsigne=
-d long zynqmp_fpga_get_contiguous_size(struct sg_table *sgt)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  156  {
-8d02a7ff49398f Nava kishore Manne           2020-07-30  157  	dma_addr_t ex=
-pected =3D sg_dma_address(sgt->sgl);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  158  	unsigned long=
- size =3D 0;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  159  	struct scatte=
-rlist *s;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  160  	unsigned int =
-i;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  161  =
+75853406fa2796 Samuel Holland 2022-02-13  358  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_CURRENT:
+75853406fa2796 Samuel Holland 2022-02-13  359  		ret =3D ip5xxx_read(ip5xxx=
+, IP5XXX_CHG_CTL4A, &rval);
+75853406fa2796 Samuel Holland 2022-02-13  360  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  361  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  362  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  162  	for_each_sg(s=
-gt->sgl, s, sgt->nents, i) {
-8d02a7ff49398f Nava kishore Manne           2020-07-30  163  		if (sg_dma_a=
-ddress(s) !=3D expected)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  164  			break;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  165  		expected =3D=
- sg_dma_address(s) + sg_dma_len(s);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  166  		size +=3D sg=
-_dma_len(s);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  167  	}
-8d02a7ff49398f Nava kishore Manne           2020-07-30  168  =
+75853406fa2796 Samuel Holland 2022-02-13  363  		rval &=3D IP5XXX_CHG_CTL4A=
+_CONST_CUR_SEL;
+75853406fa2796 Samuel Holland 2022-02-13  364  		val->intval =3D 100000 * r=
+val;
+75853406fa2796 Samuel Holland 2022-02-13  365  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  366  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  169  	return size;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  170  }
-8d02a7ff49398f Nava kishore Manne           2020-07-30  171  =
+75853406fa2796 Samuel Holland 2022-02-13  367  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_CURRENT_MAX:
+75853406fa2796 Samuel Holland 2022-02-13  368  		val->intval =3D 100000 * 0=
+x1f;
+75853406fa2796 Samuel Holland 2022-02-13  369  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  370  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  172  static int zyn=
-qmp_fpga_ops_write_sg(struct fpga_manager *mgr,
-8d02a7ff49398f Nava kishore Manne           2020-07-30  173  				    struct=
- sg_table *sgt)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  174  {
-8d02a7ff49398f Nava kishore Manne           2020-07-30  175  	dma_addr_t dm=
-a_addr, key_addr =3D 0;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  176  	struct zynqmp=
-_fpga_priv *priv;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  177  	unsigned long=
- contig_size;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  178  	u32 eemi_flag=
-s =3D 0;
-33504b3c89260e Nava kishore Manne           2022-01-13  179  	u32 status;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  180  	char *kbuf;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  181  	int ret;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  182  =
+75853406fa2796 Samuel Holland 2022-02-13  371  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_VOLTAGE:
+75853406fa2796 Samuel Holland 2022-02-13  372  		ret =3D ip5xxx_battery_get=
+_voltage_max(ip5xxx, &vmax);
+75853406fa2796 Samuel Holland 2022-02-13  373  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  374  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  375  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  183  	priv =3D mgr-=
->priv;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  184  =
+75853406fa2796 Samuel Holland 2022-02-13  376  		ret =3D ip5xxx_read(ip5xxx=
+, IP5XXX_CHG_CTL2, &rval);
+75853406fa2796 Samuel Holland 2022-02-13  377  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  378  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  379  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  185  	dma_addr =3D =
-sg_dma_address(sgt->sgl);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  186  	contig_size =
-=3D zynqmp_fpga_get_contiguous_size(sgt);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  187  =
+75853406fa2796 Samuel Holland 2022-02-13  380  		rval &=3D IP5XXX_CHG_CTL2_=
+CONST_VOLT_SEL;
+75853406fa2796 Samuel Holland 2022-02-13  381  		val->intval =3D vmax + 140=
+00 * (rval >> 1);
+75853406fa2796 Samuel Holland 2022-02-13  382  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  383  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  188  	if (priv->fla=
-gs & FPGA_MGR_PARTIAL_RECONFIG)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  189  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_PARTIAL;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  190  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  191  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_USERKEY;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  192  	else if (priv=
-->flags & FPGA_MGR_ENCRYPTED_BITSTREAM)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  193  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_ENCRYPTION_DEVKEY;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  194  	if (priv->fla=
-gs & FPGA_MGR_DDR_MEM_AUTH_BITSTREAM)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  195  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_DDR;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  196  	else if (priv=
-->flags & FPGA_MGR_SECURE_MEM_AUTH_BITSTREAM)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  197  		eemi_flags |=
-=3D XILINX_ZYNQMP_PM_FPGA_AUTHENTICATION_OCM;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  198  =
+75853406fa2796 Samuel Holland 2022-02-13  384  	case POWER_SUPPLY_PROP_CONS=
+TANT_CHARGE_VOLTAGE_MAX:
+75853406fa2796 Samuel Holland 2022-02-13  385  		ret =3D ip5xxx_battery_get=
+_voltage_max(ip5xxx, &vmax);
+75853406fa2796 Samuel Holland 2022-02-13  386  		if (ret)
+75853406fa2796 Samuel Holland 2022-02-13  387  			return ret;
+75853406fa2796 Samuel Holland 2022-02-13  388  =
 
-8d02a7ff49398f Nava kishore Manne           2020-07-30  199  	if (priv->fla=
-gs & FPGA_MGR_USERKEY_ENCRYPTED_BITSTREAM) {
-8d02a7ff49398f Nava kishore Manne           2020-07-30  200  		kbuf =3D dma=
-_alloc_coherent(priv->dev, ENCRYPTED_KEY_LEN,
-8d02a7ff49398f Nava kishore Manne           2020-07-30  201  					  &key_ad=
-dr, GFP_KERNEL);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  202  		if (!kbuf)
-8d02a7ff49398f Nava kishore Manne           2020-07-30  203  			return -ENO=
-MEM;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  204  		memcpy(kbuf,=
- mgr->key, ENCRYPTED_KEY_LEN);
-33504b3c89260e Nava kishore Manne           2022-01-13  205  		ret =3D zynq=
-mp_pm_fpga_load(dma_addr, key_addr,
-33504b3c89260e Nava kishore Manne           2022-01-13  206  					  eemi_fl=
-ags, &status);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  207  		dma_free_coh=
-erent(priv->dev, ENCRYPTED_KEY_LEN, kbuf, key_addr);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  208  	} else {
-33504b3c89260e Nava kishore Manne           2022-01-13  209  		ret =3D zynq=
-mp_pm_fpga_load(dma_addr, contig_size,
-33504b3c89260e Nava kishore Manne           2022-01-13  210  					  eemi_fl=
-ags, &status);
-8d02a7ff49398f Nava kishore Manne           2020-07-30  211  	}
-8d02a7ff49398f Nava kishore Manne           2020-07-30  212  =
+75853406fa2796 Samuel Holland 2022-02-13  389  		val->intval =3D vmax + 140=
+00 * 3;
+75853406fa2796 Samuel Holland 2022-02-13  390  		return 0;
+75853406fa2796 Samuel Holland 2022-02-13  391  =
 
-33504b3c89260e Nava kishore Manne           2022-01-13 @213  	if (status)
-33504b3c89260e Nava kishore Manne           2022-01-13  214  		return statu=
-s;
-33504b3c89260e Nava kishore Manne           2022-01-13  215  =
-
-8d02a7ff49398f Nava kishore Manne           2020-07-30  216  	return ret;
-8d02a7ff49398f Nava kishore Manne           2020-07-30  217  }
-8d02a7ff49398f Nava kishore Manne           2020-07-30  218  =
+75853406fa2796 Samuel Holland 2022-02-13  392  	default:
+75853406fa2796 Samuel Holland 2022-02-13  393  		return -EINVAL;
+75853406fa2796 Samuel Holland 2022-02-13  394  	}
+75853406fa2796 Samuel Holland 2022-02-13  395  }
+75853406fa2796 Samuel Holland 2022-02-13  396  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3283565929245314013==--
+--===============8139387292201134670==--
 
