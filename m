@@ -1,123 +1,163 @@
-Content-Type: multipart/mixed; boundary="===============6175458700534685907=="
+Content-Type: multipart/mixed; boundary="===============2864255593964625369=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [gustavoars:testing/kspp-stringop-overflow 5/5] arch/x86/mm/pgtable.c:442 pgd_alloc() error: uninitialized symbol 'pmds'.
-Date: Tue, 29 Mar 2022 14:43:03 +0800
-Message-ID: <202203291451.bKVdLfSv-lkp@intel.com>
+Subject: drivers/pci/syscall.c:75 __do_sys_pciconfig_read() warn: ignoring unreachable code.
+Date: Tue, 29 Mar 2022 13:31:12 +0800
+Message-ID: <202203291326.byMfeBmk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6175458700534685907==
+--===============2864255593964625369==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-CC: LKML <linux-kernel@vger.kernel.org>
-TO: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Guo Ren <guoren@linux.alibaba.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.gi=
-t testing/kspp-stringop-overflow
-head:   d3becb16bbfe48ca524e4489b6c6c4fb1ccafa1a
-commit: d3becb16bbfe48ca524e4489b6c6c4fb1ccafa1a [5/5] mm/pgtable: Fix Wstr=
-ingop-overflow warnings in pgd_alloc()
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: i386-randconfig-m021-20220328 (https://download.01.org/0day-ci/arch=
-ive/20220329/202203291451.bKVdLfSv-lkp(a)intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1930a6e739c4b4a654a69164dbe39e554d228915
+commit: e58a41c2226847fb1446f3942dc1b55af8acfe02 csky: uaccess.h: Coding co=
+nvention with asm generic
+date:   11 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 11 months ago
+config: csky-randconfig-m031-20220327 (https://download.01.org/0day-ci/arch=
+ive/20220329/202203291326.byMfeBmk-lkp(a)intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-arch/x86/mm/pgtable.c:442 pgd_alloc() error: uninitialized symbol 'pmds'.
-arch/x86/mm/pgtable.c:445 pgd_alloc() error: uninitialized symbol 'u_pmds'.
+drivers/pci/syscall.c:75 __do_sys_pciconfig_read() warn: ignoring unreachab=
+le code.
+drivers/pci/syscall.c:75 __do_sys_pciconfig_read() warn: ignoring unreachab=
+le code.
+drivers/pci/proc.c:73 proc_bus_pci_read() warn: ignoring unreachable code.
 
 Old smatch warnings:
-arch/x86/mm/pgtable.c:281 pgd_mop_up_pmds() warn: we never enter this loop
+drivers/pci/syscall.c:78 __do_sys_pciconfig_read() warn: ignoring unreachab=
+le code.
+drivers/pci/syscall.c:78 __do_sys_pciconfig_read() warn: ignoring unreachab=
+le code.
+arch/csky/include/asm/uaccess.h:202 __get_user_fn() error: uninitialized sy=
+mbol 'retval'.
+drivers/pci/proc.c:82 proc_bus_pci_read() warn: ignoring unreachable code.
+drivers/pci/proc.c:91 proc_bus_pci_read() warn: ignoring unreachable code.
+arch/csky/include/asm/uaccess.h:202 __get_user_fn() error: uninitialized sy=
+mbol 'retval'.
 
-vim +/pmds +442 arch/x86/mm/pgtable.c
+vim +75 drivers/pci/syscall.c
 
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  434  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  14  =
 
-1db491f77b6ed0 Fenghua Yu          2015-01-15  435  	pgd =3D _pgd_alloc();
-1ec1fe73dfb711 Ingo Molnar         2008-03-19  436  =
+c4ea37c26a691a Heiko Carstens  2009-01-14  15  SYSCALL_DEFINE5(pciconfig_re=
+ad, unsigned long, bus, unsigned long, dfn,
+c4ea37c26a691a Heiko Carstens  2009-01-14  16  		unsigned long, off, unsign=
+ed long, len, void __user *, buf)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  17  {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  18  	struct pci_dev *dev;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  19  	u8 byte;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  20  	u16 word;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  21  	u32 dword;
+e4585da22ad04a Alan Cox        2007-04-23  22  	long err;
+ef9e4005cbaf02 Heiner Kallweit 2021-01-24  23  	int cfg_ret;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  24  =
 
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  437  	if (pgd =3D=3D NULL)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  438  		goto out;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  439  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  25  	if (!capable(CAP_SYS_ADMIN))
+e4585da22ad04a Alan Cox        2007-04-23  26  		return -EPERM;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  27  =
 
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  440  	mm->pgd =3D pgd;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  441  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  28  	err =3D -ENODEV;
+39c9465204e8f4 Sinan Kaya      2017-12-19  29  	dev =3D pci_get_domain_bus_=
+and_slot(0, bus, dfn);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  30  	if (!dev)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  31  		goto error;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  32  =
 
-f59dbe9ca6707e Joerg Roedel        2018-07-18 @442  	if (preallocate_pmds(m=
-m, pmds, PREALLOCATED_PMDS) !=3D 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  443  		goto out_free_pgd;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  444  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  33  	switch (len) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  34  	case 1:
+e04b0ea2e0f9c1 Brian King      2005-09-27  35  		cfg_ret =3D pci_user_read_=
+config_byte(dev, off, &byte);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  36  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  37  	case 2:
+e04b0ea2e0f9c1 Brian King      2005-09-27  38  		cfg_ret =3D pci_user_read_=
+config_word(dev, off, &word);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  39  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  40  	case 4:
+e04b0ea2e0f9c1 Brian King      2005-09-27  41  		cfg_ret =3D pci_user_read_=
+config_dword(dev, off, &dword);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  42  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  43  	default:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  44  		err =3D -EINVAL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  45  		goto error;
+f7625980f5820e Bjorn Helgaas   2013-11-14  46  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  47  =
 
-f59dbe9ca6707e Joerg Roedel        2018-07-18 @445  	if (preallocate_pmds(m=
-m, u_pmds, PREALLOCATED_USER_PMDS) !=3D 0)
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  446  		goto out_free_pmds;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  447  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  48  	err =3D -EIO;
+ef9e4005cbaf02 Heiner Kallweit 2021-01-24  49  	if (cfg_ret)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  50  		goto error;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  51  =
 
-f59dbe9ca6707e Joerg Roedel        2018-07-18  448  	if (paravirt_pgd_alloc=
-(mm) !=3D 0)
-f59dbe9ca6707e Joerg Roedel        2018-07-18  449  		goto out_free_user_pm=
-ds;
-f59dbe9ca6707e Joerg Roedel        2018-07-18  450  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  52  	switch (len) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  53  	case 1:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  54  		err =3D put_user(byte, (un=
+signed char __user *)buf);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  55  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  56  	case 2:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  57  		err =3D put_user(word, (un=
+signed short __user *)buf);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  58  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  59  	case 4:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  60  		err =3D put_user(dword, (u=
+nsigned int __user *)buf);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  61  		break;
+e4585da22ad04a Alan Cox        2007-04-23  62  	}
+e4585da22ad04a Alan Cox        2007-04-23  63  	pci_dev_put(dev);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  64  	return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  65  =
 
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  451  	/*
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  452  	 * Make sure that pre-=
-populating the pmds is atomic with
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  453  	 * respect to anything=
- walking the pgd_list, so that they
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  454  	 * never see a partial=
-ly populated pgd.
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  455  	 */
-a79e53d85683c6 Andrea Arcangeli    2011-02-16  456  	spin_lock(&pgd_lock);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  457  =
-
-617d34d9e5d832 Jeremy Fitzhardinge 2010-09-21  458  	pgd_ctor(mm, pgd);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  459  	pgd_prepopulate_pmd(mm=
-, pgd, pmds);
-f59dbe9ca6707e Joerg Roedel        2018-07-18  460  	pgd_prepopulate_user_p=
-md(mm, pgd, u_pmds);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  461  =
-
-a79e53d85683c6 Andrea Arcangeli    2011-02-16  462  	spin_unlock(&pgd_lock);
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  463  =
-
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  464  	return pgd;
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  465  =
-
-f59dbe9ca6707e Joerg Roedel        2018-07-18  466  out_free_user_pmds:
-f59dbe9ca6707e Joerg Roedel        2018-07-18  467  	free_pmds(mm, u_pmds, =
-PREALLOCATED_USER_PMDS);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  468  out_free_pmds:
-f59dbe9ca6707e Joerg Roedel        2018-07-18  469  	free_pmds(mm, pmds, PR=
-EALLOCATED_PMDS);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  470  out_free_pgd:
-1db491f77b6ed0 Fenghua Yu          2015-01-15  471  	_pgd_free(pgd);
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  472  out:
-d8d5900ef8afc5 Jeremy Fitzhardinge 2008-06-25  473  	return NULL;
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  474  }
-4f76cd382213b2 Jeremy Fitzhardinge 2008-03-17  475  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  66  error:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  67  	/* ??? XFree86 doesn't even=
+ check the return value.  They
+^1da177e4c3f41 Linus Torvalds  2005-04-16  68  	   just look for 0xffffffff=
+ in the output, since that's what
+^1da177e4c3f41 Linus Torvalds  2005-04-16  69  	   they get instead of a ma=
+chine check on x86.  */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  70  	switch (len) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  71  	case 1:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  72  		put_user(-1, (unsigned cha=
+r __user *)buf);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  73  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  74  	case 2:
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @75  		put_user(-1, (unsigned sho=
+rt __user *)buf);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  76  		break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  77  	case 4:
+^1da177e4c3f41 Linus Torvalds  2005-04-16  78  		put_user(-1, (unsigned int=
+ __user *)buf);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  79  		break;
+e4585da22ad04a Alan Cox        2007-04-23  80  	}
+e4585da22ad04a Alan Cox        2007-04-23  81  	pci_dev_put(dev);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  82  	return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  83  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  84  =
 
 
-:::::: The code at line 442 was first introduced by commit
-:::::: f59dbe9ca6707eb7ffd0e24359085651c2d7df48 x86/pgtable/pae: Use separa=
-te kernel PMDs for user page-table
+:::::: The code at line 75 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Joerg Roedel <jroedel@suse.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6175458700534685907==--
+--===============2864255593964625369==--
 
