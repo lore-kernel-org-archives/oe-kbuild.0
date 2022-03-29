@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0431180956531414940=="
+Content-Type: multipart/mixed; boundary="===============0854268717839973236=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/exfat/file.c:369:17: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Wed, 30 Mar 2022 05:31:20 +0800
-Message-ID: <202203300544.xPLyDmy1-lkp@intel.com>
+Subject: drivers/usb/gadget/udc/renesas_usb3.c:2496:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length argu...
+Date: Wed, 30 Mar 2022 03:49:27 +0800
+Message-ID: <202203300330.dXkjLkHw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0431180956531414940==
+--===============0854268717839973236==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,37 +16,40 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Hyeongseok Kim <hyeongseok@gmail.com>
-CC: Namjae Jeon <namjae.jeon@samsung.com>
-CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Alex Shi <alexs@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1930a6e739c4b4a654a69164dbe39e554d228915
-commit: 654762df2ec7d61b05acc788afbffaba52d658fe exfat: add support ioctl a=
-nd FITRIM function
-date:   11 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 11 months ago
-config: mips-randconfig-c004-20220328 (https://download.01.org/0day-ci/arch=
-ive/20220330/202203300544.xPLyDmy1-lkp(a)intel.com/config)
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
+11
+date:   2 weeks ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 2 weeks ago
+config: riscv-randconfig-c006-20220327 (https://download.01.org/0day-ci/arc=
+hive/20220330/202203300330.dXkjLkHw-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
 01cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D654762df2ec7d61b05acc788afbffaba52d658fe
+t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 654762df2ec7d61b05acc788afbffaba52d658fe
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,286 +57,430 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/virtio/virtio_balloon.c:266:2: note: Assigned value is garbage o=
-r undefined
-           list_for_each_entry_safe(page, next, pages, lru) {
-           ^
-   include/linux/list.h:716:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:708:2: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^              ~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:264:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(mgmt->bssid, sdata->vif.addr, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:264:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(mgmt->bssid, sdata->vif.addr, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:281:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(pos, target, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:281:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(pos, target, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:440:3: warning: Value stored to 'fresh_info' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   fresh_info =3D false;
+                   ^            ~~~~~
+   net/mac80211/mesh_hwmp.c:440:3: note: Value stored to 'fresh_info' is ne=
+ver read
+                   fresh_info =3D false;
+                   ^            ~~~~~
+   net/mac80211/mesh_hwmp.c:514:3: warning: Value stored to 'fresh_info' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+                   fresh_info =3D false;
+                   ^            ~~~~~
+   net/mac80211/mesh_hwmp.c:514:3: note: Value stored to 'fresh_info' is ne=
+ver read
+                   fresh_info =3D false;
+                   ^            ~~~~~
+   net/mac80211/mesh_hwmp.c:733:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(next_hop, next_hop_deref_protected(mpath)->sta.addr, ETH_=
+ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:733:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(next_hop, next_hop_deref_protected(mpath)->sta.addr, ETH_=
+ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:885:2: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(mpath->rann_snd_addr, mgmt->sa, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:885:2: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+           memcpy(mpath->rann_snd_addr, mgmt->sa, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1004:2: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(preq_node->dst, mpath->dst, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1004:2: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+           memcpy(preq_node->dst, mpath->dst, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1208:2: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(hdr->addr1, hdr->addr3, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1208:2: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+           memcpy(hdr->addr1, hdr->addr3, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1209:2: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(hdr->addr2, sdata->vif.addr, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1209:2: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+           memcpy(hdr->addr2, sdata->vif.addr, ETH_ALEN);
+           ^~~~~~
+   net/mac80211/mesh_hwmp.c:1250:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(hdr->addr1, next_hop->sta.addr, ETH_ALEN);
+                   ^~~~~~
+   net/mac80211/mesh_hwmp.c:1250:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(hdr->addr1, next_hop->sta.addr, ETH_ALEN);
+                   ^~~~~~
+   net/mac80211/mesh_hwmp.c:1251:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(hdr->addr2, sdata->vif.addr, ETH_ALEN);
+                   ^~~~~~
+   net/mac80211/mesh_hwmp.c:1251:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(hdr->addr2, sdata->vif.addr, ETH_ALEN);
+                   ^~~~~~
+   Suppressed 69 warnings (69 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   32 warnings generated.
+   drivers/usb/gadget/udc/m66592-udc.c:1603:3: warning: Call to function 's=
+nprintf' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'snprintf_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(clk_name, sizeof(clk_name), "usbf%d", pdev->id);
+                   ^~~~~~~~
+   drivers/usb/gadget/udc/m66592-udc.c:1603:3: note: Call to function 'snpr=
+intf' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'snprintf_s' in case of C11
+                   snprintf(clk_name, sizeof(clk_name), "usbf%d", pdev->id);
+                   ^~~~~~~~
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   drivers/usb/gadget/udc/r8a66597-udc.c:1524:2: warning: Value stored to '=
+tmp' is never read [clang-analyzer-deadcode.DeadStores]
+           tmp =3D r8a66597_read(r8a66597, SYSCFG0);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/r8a66597-udc.c:1524:2: note: Value stored to 'tmp=
+' is never read
+           tmp =3D r8a66597_read(r8a66597, SYSCFG0);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/r8a66597-udc.c:1880:3: warning: Call to function =
+'snprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'snprintf_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(clk_name, sizeof(clk_name), "usb%d", pdev->id);
+                   ^~~~~~~~
+   drivers/usb/gadget/udc/r8a66597-udc.c:1880:3: note: Call to function 'sn=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'snprintf_s' in case of C11
+                   snprintf(clk_name, sizeof(clk_name), "usb%d", pdev->id);
+                   ^~~~~~~~
+   Suppressed 31 warnings (31 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   50 warnings generated.
+   drivers/usb/gadget/udc/renesas_usb3.c:1580:3: warning: Call to function =
+'memcpy' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memcpy_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(usb3->ep0_buf, tx_data,
+                   ^~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:1580:3: note: Call to function 'me=
+mcpy' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(usb3->ep0_buf, tx_data,
+                   ^~~~~~
+>> drivers/usb/gadget/udc/renesas_usb3.c:2496:9: warning: Call to function =
+'sprintf' is insecure as it does not provide bounding of the memory buffer =
+or security checks introduced in the C11 standard. Replace with analogous f=
+unctions that support length arguments or provides boundary checks such as =
+'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedO=
+rUnsafeBufferHandling]
+           return sprintf(buf, "%s\n", usb3_is_host(usb3) ? "host" : "perip=
+heral");
+                  ^~~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2496:9: note: Call to function 'sp=
+rintf' is insecure as it does not provide bounding of the memory buffer or =
+security checks introduced in the C11 standard. Replace with analogous func=
+tions that support length arguments or provides boundary checks such as 'sp=
+rintf_s' in case of C11
+           return sprintf(buf, "%s\n", usb3_is_host(usb3) ? "host" : "perip=
+heral");
+                  ^~~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2608:3: warning: Call to function =
+'snprintf' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'snprintf_s' in case of C11 [cla=
+ng-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep=
+%d", i);
+                   ^~~~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2608:3: note: Call to function 'sn=
+printf' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'snprintf_s' in case of C11
+                   snprintf(usb3_ep->ep_name, sizeof(usb3_ep->ep_name), "ep=
+%d", i);
+                   ^~~~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2649:2: warning: Call to function =
+'memset' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(ramif, 0, sizeof(ramif));
+           ^~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2649:2: note: Call to function 'me=
+mset' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memset_s' in case of C11
+           memset(ramif, 0, sizeof(ramif));
+           ^~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2650:2: warning: Call to function =
+'memset' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memset_s' in case of C11 [clang-a=
+nalyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(basead, 0, sizeof(basead));
+           ^~~~~~
+   drivers/usb/gadget/udc/renesas_usb3.c:2650:2: note: Call to function 'me=
+mset' is insecure as it does not provide security checks introduced in the =
+C11 standard. Replace with analogous functions that support length argument=
+s or provides boundary checks such as 'memset_s' in case of C11
+           memset(basead, 0, sizeof(basead));
+           ^~~~~~
+   Suppressed 45 warnings (45 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   lib/kobject.c:156:3: warning: Call to function 'memcpy' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecure=
+API.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(path + length, kobject_name(parent), cur);
+                   ^~~~~~
+   lib/kobject.c:156:3: note: Call to function 'memcpy' is insecure as it d=
+oes not provide security checks introduced in the C11 standard. Replace wit=
+h analogous functions that support length arguments or provides boundary ch=
+ecks such as 'memcpy_s' in case of C11
+                   memcpy(path + length, kobject_name(parent), cur);
+                   ^~~~~~
+   lib/kobject.c:516:2: warning: Call to function 'sprintf' is insecure as =
+it does not provide bounding of the memory buffer or security checks introd=
+uced in the C11 standard. Replace with analogous functions that support len=
+gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
+1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(devpath_string, "DEVPATH_OLD=3D%s", devpath);
+           ^~~~~~~
+   lib/kobject.c:516:2: note: Call to function 'sprintf' is insecure as it =
+does not provide bounding of the memory buffer or security checks introduce=
+d in the C11 standard. Replace with analogous functions that support length=
+ arguments or provides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(devpath_string, "DEVPATH_OLD=3D%s", devpath);
+           ^~~~~~~
+   lib/kobject.c:582:2: warning: Call to function 'sprintf' is insecure as =
+it does not provide bounding of the memory buffer or security checks introd=
+uced in the C11 standard. Replace with analogous functions that support len=
+gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
+1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(devpath_string, "DEVPATH_OLD=3D%s", devpath);
+           ^~~~~~~
+   lib/kobject.c:582:2: note: Call to function 'sprintf' is insecure as it =
+does not provide bounding of the memory buffer or security checks introduce=
+d in the C11 standard. Replace with analogous functions that support length=
+ arguments or provides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(devpath_string, "DEVPATH_OLD=3D%s", devpath);
+           ^~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/comedi/drivers/ni_routes.c:141:2: warning: Call to function 'mem=
+set' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'memset_s' in case of C11 [clang-analy=
+zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(tables, 0, sizeof(struct ni_route_tables));
+           ^~~~~~
+   drivers/comedi/drivers/ni_routes.c:141:2: note: Call to function 'memset=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'memset_s' in case of C11
+           memset(tables, 0, sizeof(struct ni_route_tables));
+           ^~~~~~
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
-   fs/exfat/nls.c:582:18: warning: Assigned value is garbage or undefined [=
-clang-analyzer-core.uninitialized.Assign]
-                                   *p_cstring++ =3D buf[j];
-                                                ^
-   fs/exfat/nls.c:635:6: note: Assuming field 'utf8' is 0
-           if (EXFAT_SB(sb)->options.utf8)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:635:2: note: Taking false branch
-           if (EXFAT_SB(sb)->options.utf8)
-           ^
-   fs/exfat/nls.c:638:9: note: Calling '__exfat_utf16_to_nls'
-           return __exfat_utf16_to_nls(sb, uniname, p_cstring, buflen);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:550:9: note: 'i' is < MAX_NAME_LENGTH
-           while (i < MAX_NAME_LENGTH && out_len < (buflen - 1)) {
-                  ^
-   fs/exfat/nls.c:550:9: note: Left side of '&&' is true
-   fs/exfat/nls.c:550:32: note: Assuming the condition is true
-           while (i < MAX_NAME_LENGTH && out_len < (buflen - 1)) {
-                                         ^~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:550:2: note: Loop condition is true.  Entering loop body
-           while (i < MAX_NAME_LENGTH && out_len < (buflen - 1)) {
-           ^
-   fs/exfat/nls.c:551:7: note: Assuming the condition is false
-                   if (*uniname =3D=3D '\0')
-                       ^~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:551:3: note: Taking false branch
-                   if (*uniname =3D=3D '\0')
-                   ^
-   fs/exfat/nls.c:553:7: note: Assuming the condition is false
-                   if ((*uniname & SURROGATE_MASK) !=3D SURROGATE_PAIR) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:553:3: note: Taking false branch
-                   if ((*uniname & SURROGATE_MASK) !=3D SURROGATE_PAIR) {
-                   ^
-   fs/exfat/nls.c:558:8: note: Assuming the condition is false
-                           if (!(*uniname & SURROGATE_LOW) &&
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:558:36: note: Left side of '&&' is false
-                           if (!(*uniname & SURROGATE_LOW) &&
-                                                           ^
-   fs/exfat/nls.c:576:7: note: Assuming the condition is true
-                   if (out_len + len >=3D buflen)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/nls.c:576:3: note: Taking true branch
-                   if (out_len + len >=3D buflen)
-                   ^
-   fs/exfat/nls.c:580:7: note: 'len' is > 1
-                   if (len > 1) {
-                       ^~~
-   fs/exfat/nls.c:580:3: note: Taking true branch
-                   if (len > 1) {
-                   ^
-   fs/exfat/nls.c:581:4: note: Loop condition is true.  Entering loop body
-                           for (j =3D 0; j < len; j++)
-                           ^
-   fs/exfat/nls.c:581:25: note: The value 1 is assigned to 'j'
-                           for (j =3D 0; j < len; j++)
-                                                ^~~
-   fs/exfat/nls.c:581:4: note: Loop condition is true.  Entering loop body
-                           for (j =3D 0; j < len; j++)
-                           ^
-   fs/exfat/nls.c:582:18: note: Assigned value is garbage or undefined
-                                   *p_cstring++ =3D buf[j];
-                                                ^ ~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
->> fs/exfat/file.c:369:17: warning: Assigned value is garbage or undefined =
-[clang-analyzer-core.uninitialized.Assign]
-           range.minlen =3D max_t(unsigned int, range.minlen,
-                          ^
-   include/linux/minmax.h:118:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:37:3: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x =3D (x);               \
-                   ^
-   fs/exfat/file.c:386:2: note: Control jumps to 'case 3222820985:'  at lin=
-e 387
-           switch (cmd) {
-           ^
-   fs/exfat/file.c:388:10: note: Calling 'exfat_ioctl_fitrim'
-                   return exfat_ioctl_fitrim(inode, arg);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/file.c:360:6: note: Assuming the condition is false
-           if (!capable(CAP_SYS_ADMIN))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/file.c:360:2: note: Taking false branch
-           if (!capable(CAP_SYS_ADMIN))
-           ^
-   fs/exfat/file.c:363:6: note: Assuming the condition is false
-           if (!blk_queue_discard(q))
-               ^~~~~~~~~~~~~~~~~~~~~
-   fs/exfat/file.c:363:2: note: Taking false branch
-           if (!blk_queue_discard(q))
-           ^
-   fs/exfat/file.c:366:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&range, (struct fstrim_range __user *)arg, si=
-zeof(range)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Assuming the condition is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-   include/linux/uaccess.h:157:33: note: Assuming the condition is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                          ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:616:2: note: Taking false branch
-           if (eva_kernel_access())
-           ^
-   arch/mips/include/asm/uaccess.h:619:3: note: Returning without writing t=
-o 'to->minlen'
-                   return __invoke_copy_from_user(to, from, n);
-                   ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->m=
-inlen'
-           return res;
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->m=
-inlen'
-           return n;
-           ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   fs/exfat/file.c:366:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&range, (struct fstrim_range __user *)arg, si=
-zeof(range)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   fs/exfat/file.c:366:2: note: Taking false branch
-           if (copy_from_user(&range, (struct fstrim_range __user *)arg, si=
-zeof(range)))
-           ^
-   fs/exfat/file.c:369:17: note: Assigned value is garbage or undefined
-           range.minlen =3D max_t(unsigned int, range.minlen,
-                          ^
-   include/linux/minmax.h:118:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   74 warnings generated.
+   Suppressed 74 warnings (74 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   155 warnings generated.
+   net/core/filter.c:94:3: warning: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
+ureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(dst, 0, sizeof(*dst));
+                   ^~~~~~
+   net/core/filter.c:94:3: note: Call to function 'memset' is insecure as i=
+t does not provide security checks introduced in the C11 standard. Replace =
+with analogous functions that support length arguments or provides boundary=
+ checks such as 'memset_s' in case of C11
+                   memset(dst, 0, sizeof(*dst));
+                   ^~~~~~
+   net/core/filter.c:872:4: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(new_insn, tmp_insns,
+                           ^~~~~~
+   net/core/filter.c:872:4: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+                           memcpy(new_insn, tmp_insns,
+                           ^~~~~~
+   net/core/filter.c:919:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(masks, 0xff, flen * sizeof(*masks));
 
-vim +369 fs/exfat/file.c
+vim +2496 drivers/usb/gadget/udc/renesas_usb3.c
 
-98d917047e8b7f4 Namjae Jeon    2020-03-02  353  =
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2487  =
 
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  354  static int exfat_ioctl_fitr=
-im(struct inode *inode, unsigned long arg)
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  355  {
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  356  	struct request_queue *q =
-=3D bdev_get_queue(inode->i_sb->s_bdev);
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  357  	struct fstrim_range range;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  358  	int ret =3D 0;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  359  =
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2488  static ssize_t role_sho=
+w(struct device *dev, struct device_attribute *attr,
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2489  			 char *buf)
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2490  {
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2491  	struct renesas_usb3 *u=
+sb3 =3D dev_get_drvdata(dev);
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2492  =
 
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  360  	if (!capable(CAP_SYS_ADMIN=
-))
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  361  		return -EPERM;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  362  =
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2493  	if (!usb3->driver)
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2494  		return -ENODEV;
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2495  =
 
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  363  	if (!blk_queue_discard(q))
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  364  		return -EOPNOTSUPP;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  365  =
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31 @2496  	return sprintf(buf, "%=
+s\n", usb3_is_host(usb3) ? "host" : "peripheral");
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2497  }
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2498  static DEVICE_ATTR_RW(r=
+ole);
+cc995c9ec1184b9 Yoshihiro Shimoda 2017-03-31  2499  =
 
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  366  	if (copy_from_user(&range,=
- (struct fstrim_range __user *)arg, sizeof(range)))
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  367  		return -EFAULT;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  368  =
 
-654762df2ec7d61 Hyeongseok Kim 2021-03-04 @369  	range.minlen =3D max_t(uns=
-igned int, range.minlen,
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  370  				q->limits.discard_granu=
-larity);
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  371  =
+:::::: The code at line 2496 was first introduced by commit
+:::::: cc995c9ec1184b964ffdf8cf242250bb4319cd91 usb: gadget: udc: renesas_u=
+sb3: add support for usb role swap
 
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  372  	ret =3D exfat_trim_fs(inod=
-e, &range);
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  373  	if (ret < 0)
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  374  		return ret;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  375  =
-
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  376  	if (copy_to_user((struct f=
-strim_range __user *)arg, &range, sizeof(range)))
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  377  		return -EFAULT;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  378  =
-
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  379  	return 0;
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  380  }
-654762df2ec7d61 Hyeongseok Kim 2021-03-04  381  =
-
+:::::: TO: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+:::::: CC: Felipe Balbi <felipe.balbi@linux.intel.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0431180956531414940==--
+--===============0854268717839973236==--
 
