@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0650356931584824644=="
+Content-Type: multipart/mixed; boundary="===============5549835418182555487=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory pointed to by 'selem' [clang-analyzer-unix.Malloc]
-Date: Tue, 29 Mar 2022 11:27:24 +0800
-Message-ID: <202203291151.aUXJTqzs-lkp@intel.com>
+Subject: Re: [Intel-gfx] [topic/core-for-CI] dma-buf: Check for empty dma_fence_array
+Date: Tue, 29 Mar 2022 08:03:23 +0800
+Message-ID: <202203290823.r8fGtVdF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0650356931584824644==
+--===============5549835418182555487==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,49 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Joanne Koong <joannelkoong@gmail.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+In-Reply-To: <20220328102144.1374607-1-tejaskumarx.surendrakumar.upadhyay(a=
+)intel.com>
+References: <20220328102144.1374607-1-tejaskumarx.surendrakumar.upadhyay@=
+intel.com>
+TO: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+TO: intel-gfx(a)lists.freedesktop.org
+CC: Tejas Upadhyay <tejaskumarx.surendrakumar.upadhyay@intel.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
-commit: b00fa38a9c1cba044a32a601b49a55a18ed719d1 bpf: Enable non-atomic all=
-ocations in local storage
-date:   8 days ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 8 days ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-329/202203291151.aUXJTqzs-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 902f47=
-08fe1d03b0de7e5315ef875006a6adc319)
+Hi Tejas,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20220328]
+[cannot apply to linus/master v5.17 v5.17-rc8 v5.17-rc7 v5.17]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejas-Upadhyay/dma-b=
+uf-Check-for-empty-dma_fence_array/20220328-183641
+base:    8515d05bf6bcdc8873c576ae6a721985389a3bd1
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
+config: arm-randconfig-c002-20220327 (https://download.01.org/0day-ci/archi=
+ve/20220329/202203290823.r8fGtVdF-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db00fa38a9c1cba044a32a601b49a55a18ed719d1
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b00fa38a9c1cba044a32a601b49a55a18ed719d1
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/2a2ee3b19ec028a0682=
+7f5175120b326a466a822
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tejas-Upadhyay/dma-buf-Check-for-e=
+mpty-dma_fence_array/20220328-183641
+        git checkout 2a2ee3b19ec028a06827f5175120b326a466a822
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,489 +65,481 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/ext4/mballoc.c:3353:7: note: Left side of '&&' is true
-                   if ((sb->s_flags & SB_ACTIVE) && !err &&
-                       ^
-   fs/ext4/mballoc.c:3353:37: note: 'err' is 0
-                   if ((sb->s_flags & SB_ACTIVE) && !err &&
-                                                     ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/ext4/mballoc.c:3353:7: note: Left side of '&&' is true
-                   if ((sb->s_flags & SB_ACTIVE) && !err &&
-                       ^
-   fs/ext4/mballoc.c:3353:3: note: '?' condition is true
-                   if ((sb->s_flags & SB_ACTIVE) && !err &&
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/ext4/mballoc.c:3353:3: note: Taking true branch
-                   if ((sb->s_flags & SB_ACTIVE) && !err &&
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/ext4/mballoc.c:3356:8: note: Assuming 'grp' is equal to 'load_grp'
-                           if (grp !=3D load_grp) {
-                               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/ext4/mballoc.c:3356:4: note: '?' condition is false
-                           if (grp !=3D load_grp) {
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/ext4/mballoc.c:3356:8: note: 'grp' is equal to 'load_grp'
-                           if (grp !=3D load_grp) {
-                               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/ext4/mballoc.c:3356:4: note: '?' condition is false
-                           if (grp !=3D load_grp) {
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/ext4/mballoc.c:3356:4: note: Taking false branch
-                           if (grp !=3D load_grp) {
-                           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/ext4/mballoc.c:3371:4: note: Calling 'ext4_try_to_trim_range'
-                           ext4_try_to_trim_range(sb, &e4b, fd->efd_start_c=
-luster,
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   fs/ext4/mballoc.c:6307:9: note: Assigned value is garbage or undefined
-           bitmap =3D e4b->bd_bitmap;
-                  ^ ~~~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   44 warnings generated.
+   drivers/gpu/drm/drm_mipi_dsi.c:536:2: warning: Call to function 'memset'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(packet, 0, sizeof(*packet));
+           ^~~~~~
+   drivers/gpu/drm/drm_mipi_dsi.c:536:2: note: Call to function 'memset' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memset_s' in case of C11
+           memset(packet, 0, sizeof(*packet));
+           ^~~~~~
+   drivers/gpu/drm/drm_mipi_dsi.c:846:3: warning: Call to function 'memcpy'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(&tx[1], data, len);
+                   ^~~~~~
+   drivers/gpu/drm/drm_mipi_dsi.c:846:3: note: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(&tx[1], data, len);
+                   ^~~~~~
+   Suppressed 42 warnings (42 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> kernel/bpf/bpf_local_storage.c:473:2: warning: Potential leak of memory =
-pointed to by 'selem' [clang-analyzer-unix.Malloc]
-           raw_spin_unlock_irqrestore(&local_storage->lock, flags);
-           ^
-   include/linux/spinlock.h:279:13: note: expanded from macro 'raw_spin_unl=
-ock_irqrestore'
-                   typecheck(unsigned long, flags);                \
-                             ^
-   kernel/bpf/bpf_local_storage.c:363:15: note: Assuming the condition is f=
-alse
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   49 warnings generated.
+   drivers/leds/leds-88pm860x.c:167:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(data->name, 0, MFD_NAME_SIZE);
+           ^~~~~~
+   drivers/leds/leds-88pm860x.c:167:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(data->name, 0, MFD_NAME_SIZE);
+           ^~~~~~
+   drivers/leds/leds-88pm860x.c:171:3: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(data->name, "led0-red");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:171:3: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(data->name, "led0-red");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:175:3: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(data->name, "led0-green");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:175:3: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(data->name, "led0-green");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:179:3: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(data->name, "led0-blue");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:179:3: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(data->name, "led0-blue");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:183:3: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(data->name, "led1-red");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:183:3: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(data->name, "led1-red");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:187:3: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(data->name, "led1-green");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:187:3: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(data->name, "led1-green");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:191:3: warning: Call to function 'sprintf' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
+security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(data->name, "led1-blue");
+                   ^~~~~~~
+   drivers/leds/leds-88pm860x.c:191:3: note: Call to function 'sprintf' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(data->name, "led1-blue");
+                   ^~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   drivers/gpu/drm/selftests/test-drm_buddy.c:523:7: warning: Value stored =
+to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                                                   err =3D 0;
+                                                   ^     ~
+   drivers/gpu/drm/selftests/test-drm_buddy.c:523:7: note: Value stored to =
+'err' is never read
+                                                   err =3D 0;
+                                                   ^     ~
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   drivers/gpu/drm/drm_cache.c:219:3: warning: Call to function 'memcpy' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
+urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dst->vaddr, src->vaddr, len);
+                   ^~~~~~
+   drivers/gpu/drm/drm_cache.c:219:3: note: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(dst->vaddr, src->vaddr, len);
+                   ^~~~~~
+   Suppressed 44 warnings (44 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   29 warnings generated.
+   Suppressed 29 warnings (29 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   24 warnings generated.
+>> drivers/dma-buf/dma-fence-array.c:193:34: warning: Array access (from va=
+riable 'fences') results in a null pointer dereference [clang-analyzer-core=
+.NullDereference]
+                   WARN_ON(dma_fence_is_container(fences[num_fences]));
+                                                  ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
   \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:16: note: Assuming the condition is t=
-rue
-               unlikely((map_flags & BPF_F_LOCK) &&
-                         ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
+                                  ^~~~~~~~~
+   drivers/dma-buf/dma-fence-array.c:162:10: note: Assuming 'num_fences' is=
+ not equal to 0
+           WARN_ON(!num_fences || !fences);
+                   ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
   \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+                                  ^~~~~~~~~
+   drivers/dma-buf/dma-fence-array.c:162:10: note: Left side of '||' is fal=
+se
+           WARN_ON(!num_fences || !fences);
+                   ^
+   drivers/dma-buf/dma-fence-array.c:162:25: note: Assuming 'fences' is null
+           WARN_ON(!num_fences || !fences);
+                                  ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/dma-buf/dma-fence-array.c:166:10: note: Calling 'kzalloc'
+           array =3D kzalloc(size, GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:714:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:569:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/bpf/bpf_local_storage.c:363:6: note: Left side of '||' is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
-               ^
-   include/linux/compiler.h:48:23: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                           ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-               unlikely((map_flags & BPF_F_LOCK) &&
-                        ^
-   kernel/bpf/bpf_local_storage.c:365:15: note: Left side of '&&' is true
-   kernel/bpf/bpf_local_storage.c:363:2: note: '?' condition is false
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+   include/linux/slab.h:586:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:714:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:714:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-fence-array.c:166:10: note: Returning from 'kzalloc'
+           array =3D kzalloc(size, GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma-buf/dma-fence-array.c:167:6: note: Assuming 'array' is non-n=
+ull
+           if (!array)
+               ^~~~~~
+   drivers/dma-buf/dma-fence-array.c:167:2: note: Taking false branch
+           if (!array)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   drivers/dma-buf/dma-fence-array.c:170:2: note: Loop condition is false. =
+ Exiting loop
+           spin_lock_init(&array->lock);
            ^
-   kernel/bpf/bpf_local_storage.c:363:2: note: Taking false branch
-           if (unlikely((map_flags & ~BPF_F_LOCK) > BPF_EXIST) ||
+   include/linux/spinlock.h:344:34: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(_lock)                  \
+                                                   ^
+   drivers/dma-buf/dma-fence-array.c:176:34: note: Assuming 'signal_on_any'=
+ is true
+           atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences);
+                                           ^~~~~~~~~~~~~
+   drivers/dma-buf/dma-fence-array.c:176:34: note: '?' condition is true
+   drivers/dma-buf/dma-fence-array.c:192:2: note: Loop condition is true.  =
+Entering loop body
+           while (num_fences--)
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/bpf/bpf_local_storage.c:369:6: note: Assuming the condition is tr=
-ue
-           if (gfp_flags =3D=3D GFP_KERNEL && (map_flags & ~BPF_F_LOCK) !=
-=3D BPF_NOEXIST)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/bpf/bpf_local_storage.c:369:6: note: Left side of '&&' is true
-           if (gfp_flags =3D=3D GFP_KERNEL && (map_flags & ~BPF_F_LOCK) !=
-=3D BPF_NOEXIST)
-               ^
-   kernel/bpf/bpf_local_storage.c:369:33: note: Assuming the condition is f=
-alse
-           if (gfp_flags =3D=3D GFP_KERNEL && (map_flags & ~BPF_F_LOCK) !=
-=3D BPF_NOEXIST)
-                                          ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
+   drivers/dma-buf/dma-fence-array.c:193:34: note: Array access (from varia=
+ble 'fences') results in a null pointer dereference
+                   WARN_ON(dma_fence_is_container(fences[num_fences]));
+                                                  ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   Suppressed 23 warnings (23 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   45 warnings generated.
+   mm/slab_common.c:1062:2: warning: Call to function 'memset' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memset_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&sinfo, 0, sizeof(sinfo));
+           ^~~~~~
+   mm/slab_common.c:1062:2: note: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11
+           memset(&sinfo, 0, sizeof(sinfo));
+           ^~~~~~
+   mm/slab_common.c:1188:3: warning: Call to function 'memcpy' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.inse=
+cureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(ret, kasan_reset_tag(p), ks);
+                   ^~~~~~
+   mm/slab_common.c:1188:3: note: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11
+                   memcpy(ret, kasan_reset_tag(p), ks);
+                   ^~~~~~
+   Suppressed 43 warnings (43 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   42 warnings generated.
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/mux/mmio.c:93:15: warning: 1st function call argument is an unin=
+itialized value [clang-analyzer-core.CallAndMessage]
+                   field.msb =3D fls(mask) - 1;
+                               ^   ~~~~
+   drivers/mux/mmio.c:47:6: note: Assuming the condition is true
+           if (of_device_is_compatible(np, "mmio-mux"))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mux/mmio.c:47:2: note: Taking true branch
 
-vim +/selem +473 kernel/bpf/bpf_local_storage.c
+vim +/fences +193 drivers/dma-buf/dma-fence-array.c
 
-450af8d0f6be2e7 KP Singh     2020-08-25  346  =
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  134  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  347  /* sk cannot be going away be=
-cause it is linking new elem
-450af8d0f6be2e7 KP Singh     2020-08-25  348   * to sk->sk_bpf_storage. (i.=
-e. sk->sk_refcnt cannot be 0).
-450af8d0f6be2e7 KP Singh     2020-08-25  349   * Otherwise, it will become =
-a leak (and other memory issues
-450af8d0f6be2e7 KP Singh     2020-08-25  350   * during map destruction).
-450af8d0f6be2e7 KP Singh     2020-08-25  351   */
-450af8d0f6be2e7 KP Singh     2020-08-25  352  struct bpf_local_storage_data=
- *
-450af8d0f6be2e7 KP Singh     2020-08-25  353  bpf_local_storage_update(void=
- *owner, struct bpf_local_storage_map *smap,
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  354  			 void *value, u64 map_flag=
-s, gfp_t gfp_flags)
-450af8d0f6be2e7 KP Singh     2020-08-25  355  {
-450af8d0f6be2e7 KP Singh     2020-08-25  356  	struct bpf_local_storage_dat=
-a *old_sdata =3D NULL;
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  357  	struct bpf_local_storage_ele=
-m *selem =3D NULL;
-450af8d0f6be2e7 KP Singh     2020-08-25  358  	struct bpf_local_storage *lo=
-cal_storage;
-a10787e6d58c24b Song Liu     2021-02-25  359  	unsigned long flags;
-450af8d0f6be2e7 KP Singh     2020-08-25  360  	int err;
-450af8d0f6be2e7 KP Singh     2020-08-25  361  =
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  135  /**
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  136   * dma_fence_array_create - Create a custom fence array
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  137   * @num_fences:		[in]	number of fences to add in the array
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  138   * @fences:		[in]	array containing the fences
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  139   * @context:		[in]	fence context to use
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  140   * @seqno:		[in]	sequence number to use
+68acb6afb6f56d drivers/dma-buf/fence-array.c     Randy Dunlap    2016-08-16=
+  141   * @signal_on_any:	[in]	signal on any fence in the array
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  142   *
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  143   * Allocate a dma_fence_array object and initialize the base fence w=
+ith
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  144   * dma_fence_init().
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  145   * In case of error it returns NULL.
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  146   *
+68acb6afb6f56d drivers/dma-buf/fence-array.c     Randy Dunlap    2016-08-16=
+  147   * The caller should allocate the fences array with num_fences size
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  148   * and fill it with the fences it wants to add to the object. Owners=
+hip of this
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  149   * array is taken and dma_fence_put() is used on each fence on relea=
+se.
+f71045689656e3 drivers/dma-buf/fence-array.c     Christian K=C3=B6nig 2016-=
+06-01  150   *
+f71045689656e3 drivers/dma-buf/fence-array.c     Christian K=C3=B6nig 2016-=
+06-01  151   * If @signal_on_any is true the fence array signals if any fen=
+ce in the array
+f71045689656e3 drivers/dma-buf/fence-array.c     Christian K=C3=B6nig 2016-=
+06-01  152   * signals, otherwise it signals when all fences in the array s=
+ignal.
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  153   */
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  154  struct dma_fence_array *dma_fence_array_create(int num_fences,
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  155  					       struct dma_fence **fences,
+f71045689656e3 drivers/dma-buf/fence-array.c     Christian K=C3=B6nig 2016-=
+06-01  156  					       u64 context, unsigned seqno,
+f71045689656e3 drivers/dma-buf/fence-array.c     Christian K=C3=B6nig 2016-=
+06-01  157  					       bool signal_on_any)
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  158  {
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  159  	struct dma_fence_array *array;
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  160  	size_t size =3D sizeof(*array);
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  161  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  362  	/* BPF_EXIST and BPF_NOEXIST=
- cannot be both set */
-450af8d0f6be2e7 KP Singh     2020-08-25  363  	if (unlikely((map_flags & ~B=
-PF_F_LOCK) > BPF_EXIST) ||
-450af8d0f6be2e7 KP Singh     2020-08-25  364  	    /* BPF_F_LOCK can only b=
-e used in a value with spin_lock */
-450af8d0f6be2e7 KP Singh     2020-08-25  365  	    unlikely((map_flags & BP=
-F_F_LOCK) &&
-450af8d0f6be2e7 KP Singh     2020-08-25  366  		     !map_value_has_spin_lo=
-ck(&smap->map)))
-450af8d0f6be2e7 KP Singh     2020-08-25  367  		return ERR_PTR(-EINVAL);
-450af8d0f6be2e7 KP Singh     2020-08-25  368  =
+2a2ee3b19ec028 drivers/dma-buf/dma-fence-array.c Tejas Upadhyay  2022-03-28=
+  162  	WARN_ON(!num_fences || !fences);
+2a2ee3b19ec028 drivers/dma-buf/dma-fence-array.c Tejas Upadhyay  2022-03-28=
+  163  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  369  	if (gfp_flags =3D=3D GFP_KER=
-NEL && (map_flags & ~BPF_F_LOCK) !=3D BPF_NOEXIST)
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  370  		return ERR_PTR(-EINVAL);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  371  =
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  164  	/* Allocate the callback structures behind the array. */
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  165  	size +=3D num_fences * sizeof(struct dma_fence_array_cb);
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  166  	array =3D kzalloc(size, GFP_KERNEL);
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  167  	if (!array)
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  168  		return NULL;
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  169  =
 
-0fe4b381a59ebc5 KP Singh     2021-12-24  372  	local_storage =3D rcu_derefe=
-rence_check(*owner_storage(smap, owner),
-0fe4b381a59ebc5 KP Singh     2021-12-24  373  					      bpf_rcu_lock_held(=
-));
-450af8d0f6be2e7 KP Singh     2020-08-25  374  	if (!local_storage || hlist_=
-empty(&local_storage->list)) {
-450af8d0f6be2e7 KP Singh     2020-08-25  375  		/* Very first elem for the =
-owner */
-450af8d0f6be2e7 KP Singh     2020-08-25  376  		err =3D check_flags(NULL, m=
-ap_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  377  		if (err)
-450af8d0f6be2e7 KP Singh     2020-08-25  378  			return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  379  =
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  170  	spin_lock_init(&array->lock);
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  171  	dma_fence_init(&array->base, &dma_fence_array_ops, &array->lock,
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  172  		       context, seqno);
+03e4e0a9e02cf7 drivers/dma-buf/dma-fence-array.c Chris Wilson    2017-11-14=
+  173  	init_irq_work(&array->work, irq_dma_fence_array_work);
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  174  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  380  		selem =3D bpf_selem_alloc(s=
-map, owner, value, true, gfp_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  381  		if (!selem)
-450af8d0f6be2e7 KP Singh     2020-08-25  382  			return ERR_PTR(-ENOMEM);
-450af8d0f6be2e7 KP Singh     2020-08-25  383  =
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  175  	array->num_fences =3D num_fences;
+f71045689656e3 drivers/dma-buf/fence-array.c     Christian K=C3=B6nig 2016-=
+06-01  176  	atomic_set(&array->num_pending, signal_on_any ? 1 : num_fences=
+);
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  177  	array->fences =3D fences;
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  178  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  384  		err =3D bpf_local_storage_a=
-lloc(owner, smap, selem, gfp_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  385  		if (err) {
-450af8d0f6be2e7 KP Singh     2020-08-25  386  			kfree(selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  387  			mem_uncharge(smap, owner, =
-smap->elem_size);
-450af8d0f6be2e7 KP Singh     2020-08-25  388  			return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  389  		}
-450af8d0f6be2e7 KP Singh     2020-08-25  390  =
+1f70b8b812f36c drivers/dma-buf/dma-fence-array.c Chris Wilson    2019-08-11=
+  179  	array->base.error =3D PENDING_ERROR;
+1f70b8b812f36c drivers/dma-buf/dma-fence-array.c Chris Wilson    2019-08-11=
+  180  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  391  		return SDATA(selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  392  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  393  =
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  181  	/*
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  182  	 * dma_fence_array objects should never contain any other fence
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  183  	 * containers or otherwise we run into recursion and potential=
+ kernel
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  184  	 * stack overflow on operations on the dma_fence_array.
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  185  	 *
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  186  	 * The correct way of handling this is to flatten out the arra=
+y by the
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  187  	 * caller instead.
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  188  	 *
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  189  	 * Enforce this here by checking that we don't create a dma_fe=
+nce_array
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  190  	 * with any container inside.
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  191  	 */
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  192  	while (num_fences--)
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19 @193  		WARN_ON(dma_fence_is_container(fences[num_fences]));
+0fd9803b985e5d drivers/dma-buf/dma-fence-array.c Christian K=C3=B6nig 2022-=
+01-19  194  =
 
-450af8d0f6be2e7 KP Singh     2020-08-25  394  	if ((map_flags & BPF_F_LOCK)=
- && !(map_flags & BPF_NOEXIST)) {
-450af8d0f6be2e7 KP Singh     2020-08-25  395  		/* Hoping to find an old_sd=
-ata to do inline update
-450af8d0f6be2e7 KP Singh     2020-08-25  396  		 * such that it can avoid t=
-aking the local_storage->lock
-450af8d0f6be2e7 KP Singh     2020-08-25  397  		 * and changing the lists.
-450af8d0f6be2e7 KP Singh     2020-08-25  398  		 */
-450af8d0f6be2e7 KP Singh     2020-08-25  399  		old_sdata =3D
-450af8d0f6be2e7 KP Singh     2020-08-25  400  			bpf_local_storage_lookup(l=
-ocal_storage, smap, false);
-450af8d0f6be2e7 KP Singh     2020-08-25  401  		err =3D check_flags(old_sda=
-ta, map_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  402  		if (err)
-450af8d0f6be2e7 KP Singh     2020-08-25  403  			return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  404  		if (old_sdata && selem_link=
-ed_to_storage(SELEM(old_sdata))) {
-450af8d0f6be2e7 KP Singh     2020-08-25  405  			copy_map_value_locked(&sma=
-p->map, old_sdata->data,
-450af8d0f6be2e7 KP Singh     2020-08-25  406  					      value, false);
-450af8d0f6be2e7 KP Singh     2020-08-25  407  			return old_sdata;
-450af8d0f6be2e7 KP Singh     2020-08-25  408  		}
-450af8d0f6be2e7 KP Singh     2020-08-25  409  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  410  =
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  195  	return array;
+b3dfbdf261e076 drivers/dma-buf/fence-array.c     Gustavo Padovan 2016-06-01=
+  196  }
+f54d1867005c33 drivers/dma-buf/dma-fence-array.c Chris Wilson    2016-10-25=
+  197  EXPORT_SYMBOL(dma_fence_array_create);
+d5b72a2123dfaf drivers/dma-buf/dma-fence-array.c Philipp Zabel   2017-03-17=
+  198  =
 
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  411  	if (gfp_flags =3D=3D GFP_KER=
-NEL) {
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  412  		selem =3D bpf_selem_alloc(s=
-map, owner, value, true, gfp_flags);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  413  		if (!selem)
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  414  			return ERR_PTR(-ENOMEM);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  415  	}
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  416  =
-
-a10787e6d58c24b Song Liu     2021-02-25  417  	raw_spin_lock_irqsave(&local=
-_storage->lock, flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  418  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  419  	/* Recheck local_storage->li=
-st under local_storage->lock */
-450af8d0f6be2e7 KP Singh     2020-08-25  420  	if (unlikely(hlist_empty(&lo=
-cal_storage->list))) {
-450af8d0f6be2e7 KP Singh     2020-08-25  421  		/* A parallel del is happen=
-ing and local_storage is going
-450af8d0f6be2e7 KP Singh     2020-08-25  422  		 * away.  It has just been =
-checked before, so very
-450af8d0f6be2e7 KP Singh     2020-08-25  423  		 * unlikely.  Return instea=
-d of retry to keep things
-450af8d0f6be2e7 KP Singh     2020-08-25  424  		 * simple.
-450af8d0f6be2e7 KP Singh     2020-08-25  425  		 */
-450af8d0f6be2e7 KP Singh     2020-08-25  426  		err =3D -EAGAIN;
-450af8d0f6be2e7 KP Singh     2020-08-25  427  		goto unlock_err;
-450af8d0f6be2e7 KP Singh     2020-08-25  428  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  429  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  430  	old_sdata =3D bpf_local_stor=
-age_lookup(local_storage, smap, false);
-450af8d0f6be2e7 KP Singh     2020-08-25  431  	err =3D check_flags(old_sdat=
-a, map_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  432  	if (err)
-450af8d0f6be2e7 KP Singh     2020-08-25  433  		goto unlock_err;
-450af8d0f6be2e7 KP Singh     2020-08-25  434  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  435  	if (old_sdata && (map_flags =
-& BPF_F_LOCK)) {
-450af8d0f6be2e7 KP Singh     2020-08-25  436  		copy_map_value_locked(&smap=
-->map, old_sdata->data, value,
-450af8d0f6be2e7 KP Singh     2020-08-25  437  				      false);
-450af8d0f6be2e7 KP Singh     2020-08-25  438  		selem =3D SELEM(old_sdata);
-450af8d0f6be2e7 KP Singh     2020-08-25  439  		goto unlock;
-450af8d0f6be2e7 KP Singh     2020-08-25  440  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  441  =
-
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  442  	if (gfp_flags !=3D GFP_KERNE=
-L) {
-450af8d0f6be2e7 KP Singh     2020-08-25  443  		/* local_storage->lock is h=
-eld.  Hence, we are sure
-450af8d0f6be2e7 KP Singh     2020-08-25  444  		 * we can unlink and unchar=
-ge the old_sdata successfully
-450af8d0f6be2e7 KP Singh     2020-08-25  445  		 * later.  Hence, instead o=
-f charging the new selem now
-450af8d0f6be2e7 KP Singh     2020-08-25  446  		 * and then uncharge the ol=
-d selem later (which may cause
-450af8d0f6be2e7 KP Singh     2020-08-25  447  		 * a potential but unnecess=
-ary charge failure),  avoid taking
-450af8d0f6be2e7 KP Singh     2020-08-25  448  		 * a charge at all here (th=
-e "!old_sdata" check) and the
-450af8d0f6be2e7 KP Singh     2020-08-25  449  		 * old_sdata will not be un=
-charged later during
-450af8d0f6be2e7 KP Singh     2020-08-25  450  		 * bpf_selem_unlink_storage=
-_nolock().
-450af8d0f6be2e7 KP Singh     2020-08-25  451  		 */
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  452  		selem =3D bpf_selem_alloc(s=
-map, owner, value, !old_sdata, gfp_flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  453  		if (!selem) {
-450af8d0f6be2e7 KP Singh     2020-08-25  454  			err =3D -ENOMEM;
-450af8d0f6be2e7 KP Singh     2020-08-25  455  			goto unlock_err;
-450af8d0f6be2e7 KP Singh     2020-08-25  456  		}
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  457  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  458  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  459  	/* First, link the new selem=
- to the map */
-450af8d0f6be2e7 KP Singh     2020-08-25  460  	bpf_selem_link_map(smap, sel=
-em);
-450af8d0f6be2e7 KP Singh     2020-08-25  461  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  462  	/* Second, link (and publish=
-) the new selem to local_storage */
-450af8d0f6be2e7 KP Singh     2020-08-25  463  	bpf_selem_link_storage_noloc=
-k(local_storage, selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  464  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  465  	/* Third, remove old selem, =
-SELEM(old_sdata) */
-450af8d0f6be2e7 KP Singh     2020-08-25  466  	if (old_sdata) {
-450af8d0f6be2e7 KP Singh     2020-08-25  467  		bpf_selem_unlink_map(SELEM(=
-old_sdata));
-450af8d0f6be2e7 KP Singh     2020-08-25  468  		bpf_selem_unlink_storage_no=
-lock(local_storage, SELEM(old_sdata),
-450af8d0f6be2e7 KP Singh     2020-08-25  469  						false);
-450af8d0f6be2e7 KP Singh     2020-08-25  470  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  471  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  472  unlock:
-a10787e6d58c24b Song Liu     2021-02-25 @473  	raw_spin_unlock_irqrestore(&=
-local_storage->lock, flags);
-450af8d0f6be2e7 KP Singh     2020-08-25  474  	return SDATA(selem);
-450af8d0f6be2e7 KP Singh     2020-08-25  475  =
-
-450af8d0f6be2e7 KP Singh     2020-08-25  476  unlock_err:
-a10787e6d58c24b Song Liu     2021-02-25  477  	raw_spin_unlock_irqrestore(&=
-local_storage->lock, flags);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  478  	if (selem) {
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  479  		mem_uncharge(smap, owner, s=
-map->elem_size);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  480  		kfree(selem);
-b00fa38a9c1cba0 Joanne Koong 2022-03-17  481  	}
-450af8d0f6be2e7 KP Singh     2020-08-25  482  	return ERR_PTR(err);
-450af8d0f6be2e7 KP Singh     2020-08-25  483  }
-450af8d0f6be2e7 KP Singh     2020-08-25  484  =
-
-
-:::::: The code at line 473 was first introduced by commit
-:::::: a10787e6d58c24b51e91c19c6d16c5da89fcaa4b bpf: Enable task local stor=
-age for tracing programs
-
-:::::: TO: Song Liu <songliubraving@fb.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0650356931584824644==--
+--===============5549835418182555487==--
 
