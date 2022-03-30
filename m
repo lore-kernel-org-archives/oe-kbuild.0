@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5975164173336706527=="
+Content-Type: multipart/mixed; boundary="===============8398922854219647544=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: lib/test_scanf.c:41:8: warning: Call to function 'vsscanf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides bound...
-Date: Wed, 30 Mar 2022 16:56:03 +0800
-Message-ID: <202203301618.s9w2CHCf-lkp@intel.com>
+Subject: drivers/usb/storage/sddr09.c:1156:2: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or ...
+Date: Wed, 30 Mar 2022 16:55:55 +0800
+Message-ID: <202203301630.PtkyuGLo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5975164173336706527==
+--===============8398922854219647544==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -31,8 +31,8 @@ commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
 date:   2 weeks ago
 :::::: branch date: 7 hours ago
 :::::: commit date: 2 weeks ago
-config: arm-randconfig-c002-20220327 (https://download.01.org/0day-ci/archi=
-ve/20220330/202203301618.s9w2CHCf-lkp(a)intel.com/config)
+config: arm-randconfig-c002-20220329 (https://download.01.org/0day-ci/archi=
+ve/20220330/202203301630.PtkyuGLo-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
 01cf49ce02937099350d08f20c4af86f3d)
 reproduce (this is a W=3D1 build):
@@ -57,2048 +57,573 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/notify/fsnotify.c:204:18: note: Calling 'fsnotify_event_needs_parent'
-           parent_needed =3D fsnotify_event_needs_parent(inode, mnt, mask);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/notify/fsnotify.c:152:6: note: Assuming the condition is true
-           if (mask & FS_ISDIR)
-               ^~~~~~~~~~~~~~~
-   fs/notify/fsnotify.c:152:2: note: Taking true branch
-           if (mask & FS_ISDIR)
+                   status =3D mos7840_calc_baud_rate_divisor(port, baudRate=
+, &divisor,
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/usb/serial/mos7840.c:1202:2: warning: Value stored to 'lData' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           lData =3D LCR_BITS_8;
            ^
-   fs/notify/fsnotify.c:153:3: note: Returning zero, which participates in =
-a condition later
-                   return false;
-                   ^~~~~~~~~~~~
-   fs/notify/fsnotify.c:204:18: note: Returning from 'fsnotify_event_needs_=
-parent'
-           parent_needed =3D fsnotify_event_needs_parent(inode, mnt, mask);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/notify/fsnotify.c:205:6: note: Assuming 'parent_watched' is true
-           if (!parent_watched && !parent_needed)
-               ^~~~~~~~~~~~~~~
-   fs/notify/fsnotify.c:205:22: note: Left side of '&&' is false
-           if (!parent_watched && !parent_needed)
-                               ^
-   fs/notify/fsnotify.c:212:15: note: 'parent_watched' is true
-           if (unlikely(parent_watched && !p_mask))
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/notify/fsnotify.c:212:15: note: Left side of '&&' is true
-           if (unlikely(parent_watched && !p_mask))
-                        ^
-   fs/notify/fsnotify.c:212:33: note: Assuming 'p_mask' is not equal to 0
-           if (unlikely(parent_watched && !p_mask))
-                                          ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/notify/fsnotify.c:212:2: note: Taking false branch
-           if (unlikely(parent_watched && !p_mask))
+   drivers/usb/serial/mos7840.c:1202:2: note: Value stored to 'lData' is ne=
+ver read
+   drivers/usb/serial/mos7840.c:1203:2: warning: Value stored to 'lStop' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           lStop =3D LCR_STOP_1;
            ^
-   fs/notify/fsnotify.c:220:6: note: 'parent_needed' is false
-           if (parent_needed || parent_interested) {
-               ^~~~~~~~~~~~~
-   fs/notify/fsnotify.c:220:6: note: Left side of '||' is false
-   fs/notify/fsnotify.c:220:23: note: Assuming 'parent_interested' is true
-           if (parent_needed || parent_interested) {
-                                ^~~~~~~~~~~~~~~~~
-   fs/notify/fsnotify.c:220:2: note: Taking true branch
-           if (parent_needed || parent_interested) {
-           ^
-   fs/notify/fsnotify.c:222:45: note: Passing null pointer value via 1st pa=
-rameter 'data'
-                   WARN_ON_ONCE(inode !=3D fsnotify_data_inode(data, data_t=
-ype));
-                                                             ^
-   include/asm-generic/bug.h:179:41: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   fs/notify/fsnotify.c:222:25: note: Calling 'fsnotify_data_inode'
-                   WARN_ON_ONCE(inode !=3D fsnotify_data_inode(data, data_t=
-ype));
-                                         ^
-   include/asm-generic/bug.h:179:41: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   include/linux/fsnotify_backend.h:273:2: note: Control jumps to 'case FSN=
-OTIFY_EVENT_PATH:'  at line 278
-           switch (data_type) {
-           ^
-   include/linux/fsnotify_backend.h:279:18: note: Access to field 'dentry' =
-results in a dereference of a null pointer (loaded from variable 'data')
-                   return d_inode(((const struct path *)data)->dentry);
-                                  ^                     ~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   fs/fuse/xattr.c:25:2: warning: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
-eAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/xattr.c:25:2: note: Call to function 'memset' is insecure as it =
-does not provide security checks introduced in the C11 standard. Replace wi=
-th analogous functions that support length arguments or provides boundary c=
-hecks such as 'memset_s' in case of C11
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/xattr.c:63:2: warning: Call to function 'memset' is insecure as =
-it does not provide security checks introduced in the C11 standard. Replace=
- with analogous functions that support length arguments or provides boundar=
-y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
-eAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/xattr.c:63:2: note: Call to function 'memset' is insecure as it =
-does not provide security checks introduced in the C11 standard. Replace wi=
-th analogous functions that support length arguments or provides boundary c=
-hecks such as 'memset_s' in case of C11
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/xattr.c:127:2: warning: Call to function 'memset' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
-reAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   fs/fuse/xattr.c:127:2: note: Call to function 'memset' is insecure as it=
- does not provide security checks introduced in the C11 standard. Replace w=
-ith analogous functions that support length arguments or provides boundary =
-checks such as 'memset_s' in case of C11
-           memset(&inarg, 0, sizeof(inarg));
-           ^~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   160 warnings generated.
->> lib/test_scanf.c:41:8: warning: Call to function 'vsscanf' is insecure a=
-s it does not provide bounding of the memory buffer or security checks intr=
-oduced in the C11 standard. Replace with analogous functions that support l=
-ength arguments or provides boundary checks such as 'vsscanf_s' in case of =
-C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           ret =3D vsscanf(string, fmt, ap_copy);
-                 ^~~~~~~
-   lib/test_scanf.c:41:8: note: Call to function 'vsscanf' is insecure as i=
-t does not provide bounding of the memory buffer or security checks introdu=
-ced in the C11 standard. Replace with analogous functions that support leng=
-th arguments or provides boundary checks such as 'vsscanf_s' in case of C11
-           ret =3D vsscanf(string, fmt, ap_copy);
-                 ^~~~~~~
-   lib/test_scanf.c:219:2: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           simple_numbers_loop(unsigned long long, "%llu",   "llu", check_u=
-ll);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:219:2: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-           simple_numbers_loop(unsigned long long, "%llu",   "llu", check_u=
-ll);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:220:2: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           simple_numbers_loop(long long,          "%lld",   "lld", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:220:2: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-           simple_numbers_loop(long long,          "%lld",   "lld", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:221:2: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           simple_numbers_loop(long long,          "%lld",   "lli", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:221:2: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-           simple_numbers_loop(long long,          "%lld",   "lli", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:222:2: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           simple_numbers_loop(unsigned long long, "%llx",   "llx", check_u=
-ll);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:222:2: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-           simple_numbers_loop(unsigned long long, "%llx",   "llx", check_u=
-ll);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:223:2: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           simple_numbers_loop(long long,          "%llx",   "llx", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:223:2: note: Call to function 'snprintf' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'snprintf_s' in case of C11
-           simple_numbers_loop(long long,          "%llx",   "llx", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_scanf.c:198:2: note: expanded from macro 'test_one_number'
-           snprintf(test_buffer, BUF_SIZE, gen_fmt, expect_val);           \
-           ^~~~~~~~
-   lib/test_scanf.c:224:2: warning: Call to function 'snprintf' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-           simple_numbers_loop(long long,          "0x%llx", "lli", check_l=
-l);
-           ^
-   lib/test_scanf.c:208:4: note: expanded from macro 'simple_numbers_loop'
-                           test_one_number(T, gen_fmt, scan_fmt,           \
---
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   drivers/gpio/gpio-adnp.c:385:28: warning: The result of the left shift i=
-s undefined due to shifting by '4294967292', which is greater or equal to t=
-he width of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           unsigned int num_regs =3D 1 << adnp->reg_shift, i;
-                                     ^
-   drivers/gpio/gpio-adnp.c:497:6: note: 'err' is >=3D 0
-           if (err < 0)
-               ^~~
-   drivers/gpio/gpio-adnp.c:497:2: note: Taking false branch
-           if (err < 0)
-           ^
-   drivers/gpio/gpio-adnp.c:501:6: note: Assuming field 'irq' is not equal =
-to 0
-           if (!client->irq)
-               ^~~~~~~~~~~~
-   drivers/gpio/gpio-adnp.c:501:2: note: Taking false branch
-           if (!client->irq)
-           ^
-   drivers/gpio/gpio-adnp.c:505:6: note: Assuming 'adnp' is non-null
-           if (!adnp)
-               ^~~~~
-   drivers/gpio/gpio-adnp.c:505:2: note: Taking false branch
-           if (!adnp)
-           ^
-   drivers/gpio/gpio-adnp.c:508:2: note: Loop condition is false.  Exiting =
-loop
-           mutex_init(&adnp->i2c_lock);
-           ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/gpio/gpio-adnp.c:511:8: note: Calling 'adnp_gpio_setup'
-           err =3D adnp_gpio_setup(adnp, num_gpios,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-adnp.c:446:2: note: The value 4294967292 is assigned t=
-o field 'reg_shift'
-           adnp->reg_shift =3D get_count_order(num_gpios) - 3;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-adnp.c:454:2: note: Taking true branch
-           if (IS_ENABLED(CONFIG_DEBUG_FS))
-           ^
-   drivers/gpio/gpio-adnp.c:463:6: note: 'is_irq_controller' is true
-           if (is_irq_controller) {
-               ^~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-adnp.c:463:2: note: Taking true branch
-           if (is_irq_controller) {
-           ^
-   drivers/gpio/gpio-adnp.c:466:9: note: Calling 'adnp_irq_setup'
-                   err =3D adnp_irq_setup(adnp);
-                         ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-adnp.c:385:28: note: The result of the left shift is u=
-ndefined due to shifting by '4294967292', which is greater or equal to the =
-width of type 'int'
-           unsigned int num_regs =3D 1 << adnp->reg_shift, i;
-                                     ^  ~~~~~~~~~~~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   29 warnings generated.
-   Suppressed 29 warnings (29 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   39 warnings generated.
->> drivers/bus/fsl-mc/fsl-mc-bus.c:159:9: warning: Call to function 'sprint=
-f' is insecure as it does not provide bounding of the memory buffer or secu=
-rity checks introduced in the C11 standard. Replace with analogous function=
-s that support length arguments or provides boundary checks such as 'sprint=
-f_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafe=
-BufferHandling]
-           return sprintf(buf, "fsl-mc:v%08Xd%s\n", mc_dev->obj_desc.vendor,
-                  ^~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:159:9: note: Call to function 'sprintf' =
-is insecure as it does not provide bounding of the memory buffer or securit=
-y checks introduced in the C11 standard. Replace with analogous functions t=
-hat support length arguments or provides boundary checks such as 'sprintf_s=
-' in case of C11
-           return sprintf(buf, "fsl-mc:v%08Xd%s\n", mc_dev->obj_desc.vendor,
-                  ^~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:203:9: warning: Call to function 'snprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'snprintf_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return snprintf(buf, PAGE_SIZE, "%s\n", mc_dev->driver_override);
-                  ^~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:203:9: note: Call to function 'snprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'snprintf_s' in case of C11
-           return snprintf(buf, PAGE_SIZE, "%s\n", mc_dev->driver_override);
-                  ^~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:281:2: warning: Call to function 'sprint=
-f' is insecure as it does not provide security checks introduced in the C11=
- standard. Replace with analogous functions that support length arguments o=
-r provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(buf, "%d\n", get_dprc_irq_state(root_mc_dev));
-           ^~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:281:2: note: Call to function 'sprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'sprintf_s' in case of C11
-           sprintf(buf, "%d\n", get_dprc_irq_state(root_mc_dev));
-           ^~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:599:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(attr, 0, sizeof(struct dprc_attributes));
-           ^~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:599:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(attr, 0, sizeof(struct dprc_attributes));
-           ^~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:871:18: warning: Access to field 'icid' =
-results in a dereference of a null pointer (loaded from variable 'parent_mc=
-_dev') [clang-analyzer-core.NullDereference]
-                   mc_dev->icid =3D parent_mc_dev->icid;
-                                  ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1120:6: note: Assuming 'mc' is non-null
-           if (!mc)
-               ^~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1120:2: note: Taking false branch
-           if (!mc)
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1126:6: note: Assuming 'plat_res' is null
-           if (plat_res) {
-               ^~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1126:2: note: Taking false branch
-           if (plat_res) {
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1132:6: note: Assuming field 'fsl_mc_reg=
-s' is null
-           if (mc->fsl_mc_regs) {
-               ^~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1132:2: note: Taking false branch
-           if (mc->fsl_mc_regs) {
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1178:6: note: Assuming 'error' is >=3D 0
-           if (error < 0)
-               ^~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1178:2: note: Taking false branch
-           if (error < 0)
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1182:6: note: 'error' is equal to 0
-           if (error !=3D 0) {
-               ^~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1182:2: note: Taking false branch
-           if (error !=3D 0) {
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1188:2: note: Loop condition is false.  =
-Exiting loop
-           dev_info(&pdev->dev, "MC firmware version: %u.%u.%u\n",
-           ^
-   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
-           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
-#__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1191:6: note: Assuming the condition is =
-false
-           if (dev_of_node(&pdev->dev)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1191:2: note: Taking false branch
-           if (dev_of_node(&pdev->dev)) {
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1200:6: note: Assuming 'error' is >=3D 0
-           if (error < 0) {
-               ^~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1200:2: note: Taking false branch
-           if (error < 0) {
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1210:6: note: Assuming 'error' is >=3D 0
-           if (error < 0)
-               ^~~~~~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1210:2: note: Taking false branch
-           if (error < 0)
-           ^
-   drivers/bus/fsl-mc/fsl-mc-bus.c:1219:10: note: Calling 'fsl_mc_device_ad=
-d'
-           error =3D fsl_mc_device_add(&obj_desc, mc_io, &pdev->dev, &mc_bu=
-s_dev);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/bus/fsl-mc/fsl-mc-bus.c:793:6: note: Assuming the condition is f=
-alse
-           if (dev_is_fsl_mc(parent_dev))
-               ^
-   include/linux/fsl/mc.h:353:30: note: expanded from macro 'dev_is_fsl_mc'
-   #define dev_is_fsl_mc(_dev) ((_dev)->bus =3D=3D &fsl_mc_bus_type)
---
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:31: note: expanded from macro '__LOCK=
-_IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-                                 ^
-   include/linux/spinlock_api_up.h:31:3: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-     ^
-   drivers/crypto/img-hash.c:504:2: note: Loop condition is false.  Exiting=
- loop
-           spin_lock_irqsave(&hdev->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:3: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-     ^
-   drivers/crypto/img-hash.c:504:2: note: Loop condition is false.  Exiting=
- loop
-           spin_lock_irqsave(&hdev->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:262:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/crypto/img-hash.c:504:2: note: Loop condition is false.  Exiting=
- loop
-           spin_lock_irqsave(&hdev->lock, flags);
-           ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/crypto/img-hash.c:506:6: note: 'req' is non-null
-           if (req)
-               ^~~
-   drivers/crypto/img-hash.c:506:2: note: Taking true branch
-           if (req)
-           ^
-   drivers/crypto/img-hash.c:509:26: note: Access to field 'flags' results =
-in a dereference of a null pointer (loaded from variable 'hdev')
-           if (DRIVER_FLAGS_BUSY & hdev->flags) {
-                                   ^~~~
+   drivers/usb/serial/mos7840.c:1203:2: note: Value stored to 'lStop' is ne=
+ver read
+   drivers/usb/serial/mos7840.c:1306:2: warning: Value stored to 'status' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           status =3D mos7840_send_cmd_write_baud_rate(mos7840_port, baud);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/mos7840.c:1306:2: note: Value stored to 'status' is n=
+ever read
+           status =3D mos7840_send_cmd_write_baud_rate(mos7840_port, baud);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/mos7840.c:1387:26: warning: Value stored to 'port' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct usb_serial_port *port =3D tty->driver_data;
+                                   ^~~~   ~~~~~~~~~~~~~~~~
+   drivers/usb/serial/mos7840.c:1387:26: note: Value stored to 'port' durin=
+g its initialization is never read
+           struct usb_serial_port *port =3D tty->driver_data;
+                                   ^~~~   ~~~~~~~~~~~~~~~~
+   drivers/usb/serial/mos7840.c:1516:17: warning: Value stored to 'dev' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &serial->interface->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/serial/mos7840.c:1516:17: note: Value stored to 'dev' during=
+ its initialization is never read
+           struct device *dev =3D &serial->interface->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~
    Suppressed 31 warnings (31 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/dma/qcom/bam_dma.c:638:2: warning: Call to function 'memcpy' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&bchan->slave, cfg, sizeof(*cfg));
-           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:638:2: note: Call to function 'memcpy' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&bchan->slave, cfg, sizeof(*cfg));
-           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:1092:4: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&fifo[bchan->tail], desc,
-                           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:1092:4: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&fifo[bchan->tail], desc,
-                           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:1094:4: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(fifo, &desc[partial],
-                           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:1094:4: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(fifo, &desc[partial],
-                           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:1098:4: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&fifo[bchan->tail], desc,
-                           ^~~~~~
-   drivers/dma/qcom/bam_dma.c:1098:4: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&fifo[bchan->tail], desc,
-                           ^~~~~~
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   40 warnings generated.
-   drivers/usb/usbip/stub_main.c:36:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(busid_table, 0, sizeof(busid_table));
-           ^~~~~~
-   drivers/usb/usbip/stub_main.c:36:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(busid_table, 0, sizeof(busid_table));
-           ^~~~~~
-   drivers/usb/usbip/stub_main.c:136:3: warning: Call to function 'memset' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(busid_table[idx].name, 0, BUSID_SIZE);
-                   ^~~~~~
-   drivers/usb/usbip/stub_main.c:136:3: note: Call to function 'memset' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'memset_s' in case of C11
-                   memset(busid_table[idx].name, 0, BUSID_SIZE);
-                   ^~~~~~
->> drivers/usb/usbip/stub_main.c:158:11: warning: Call to function 'sprintf=
-' is insecure as it does not provide bounding of the memory buffer or secur=
-ity checks introduced in the C11 standard. Replace with analogous functions=
- that support length arguments or provides boundary checks such as 'sprintf=
-_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeB=
-ufferHandling]
-                           out +=3D sprintf(out, "%s ", busid_table[i].name=
-);
-                                  ^~~~~~~
-   drivers/usb/usbip/stub_main.c:158:11: note: Call to function 'sprintf' i=
-s insecure as it does not provide bounding of the memory buffer or security=
- checks introduced in the C11 standard. Replace with analogous functions th=
-at support length arguments or provides boundary checks such as 'sprintf_s'=
- in case of C11
-                           out +=3D sprintf(out, "%s ", busid_table[i].name=
-);
-                                  ^~~~~~~
-   drivers/usb/usbip/stub_main.c:162:9: warning: Call to function 'sprintf'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           out +=3D sprintf(out, "\n");
-                  ^~~~~~~
-   drivers/usb/usbip/stub_main.c:162:9: note: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11
-           out +=3D sprintf(out, "\n");
-                  ^~~~~~~
-   Suppressed 36 warnings (36 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   32 warnings generated.
-   drivers/mailbox/mailbox-test.c:178:9: warning: Call to function 'snprint=
+   44 warnings generated.
+   drivers/usb/storage/onetouch.c:213:3: warning: Call to function 'snprint=
 f' is insecure as it does not provide security checks introduced in the C11=
  standard. Replace with analogous functions that support length arguments o=
 r provides boundary checks such as 'snprintf_s' in case of C11 [clang-analy=
 zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   ret =3D snprintf(touser, 20, "<NO RX CAPABILITY>\n");
-                         ^~~~~~~~
-   drivers/mailbox/mailbox-test.c:178:9: note: Call to function 'snprintf' =
+                   snprintf(onetouch->name, sizeof(onetouch->name),
+                   ^~~~~~~~
+   drivers/usb/storage/onetouch.c:213:3: note: Call to function 'snprintf' =
 is insecure as it does not provide security checks introduced in the C11 st=
 andard. Replace with analogous functions that support length arguments or p=
 rovides boundary checks such as 'snprintf_s' in case of C11
-                   ret =3D snprintf(touser, 20, "<NO RX CAPABILITY>\n");
-                         ^~~~~~~~
-   drivers/mailbox/mailbox-test.c:220:2: warning: Call to function 'memset'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(tdev->rx_buffer, 0, MBOX_MAX_MSG_LEN);
-           ^~~~~~
-   drivers/mailbox/mailbox-test.c:220:2: note: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11
-           memset(tdev->rx_buffer, 0, MBOX_MAX_MSG_LEN);
-           ^~~~~~
-   drivers/mailbox/mailbox-test.c:289:3: warning: Call to function 'memcpy'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(tdev->rx_buffer, message, MBOX_MAX_MSG_LEN);
-                   ^~~~~~
-   drivers/mailbox/mailbox-test.c:289:3: note: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(tdev->rx_buffer, message, MBOX_MAX_MSG_LEN);
-                   ^~~~~~
-   Suppressed 29 warnings (29 in non-user code).
+                   snprintf(onetouch->name, sizeof(onetouch->name),
+                   ^~~~~~~~
+   Suppressed 43 warnings (43 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   drivers/mailbox/mtk-cmdq-mailbox.c:429:2: warning: Use of memory after i=
-t is freed [clang-analyzer-unix.Malloc]
-           list_for_each_entry_safe(task, tmp, &thread->task_busy_list,
-           ^
-   include/linux/list.h:726:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   drivers/mailbox/mtk-cmdq-mailbox.c:418:2: note: Loop condition is false.=
-  Exiting loop
-           spin_lock_irqsave(&thread->chan->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:244:36: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                        ^
-   include/linux/irqflags.h:176:2: note: expanded from macro 'raw_local_irq=
-_save'
-           do {                                            \
-           ^
-   drivers/mailbox/mtk-cmdq-mailbox.c:418:2: note: Loop condition is false.=
-  Exiting loop
-           spin_lock_irqsave(&thread->chan->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:244:31: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                   ^
-   drivers/mailbox/mtk-cmdq-mailbox.c:418:2: note: Loop condition is false.=
-  Exiting loop
-           spin_lock_irqsave(&thread->chan->lock, flags);
---
-                                                          ^~~
-   include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk=
-_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                           ^~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   52 warnings generated.
-   fs/quota/quota.c:134:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&uinfo, 0, sizeof(uinfo));
-           ^~~~~~
-   fs/quota/quota.c:134:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(&uinfo, 0, sizeof(uinfo));
-           ^~~~~~
-   fs/quota/quota.c:158:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&qinfo, 0, sizeof(qinfo));
-           ^~~~~~
-   fs/quota/quota.c:158:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(&qinfo, 0, sizeof(qinfo));
-           ^~~~~~
-   fs/quota/quota.c:189:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(dst, 0, sizeof(*dst));
-           ^~~~~~
-   fs/quota/quota.c:189:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(dst, 0, sizeof(*dst));
-           ^~~~~~
-   fs/quota/quota.c:360:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&state, 0, sizeof (struct qc_state));
-           ^~~~~~
-   fs/quota/quota.c:360:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(&state, 0, sizeof (struct qc_state));
-           ^~~~~~
-   fs/quota/quota.c:365:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(fqs, 0, sizeof(*fqs));
-           ^~~~~~
-   fs/quota/quota.c:365:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(fqs, 0, sizeof(*fqs));
-           ^~~~~~
-   fs/quota/quota.c:458:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&state, 0, sizeof (struct qc_state));
-           ^~~~~~
-   fs/quota/quota.c:458:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(&state, 0, sizeof (struct qc_state));
-           ^~~~~~
-   fs/quota/quota.c:463:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(fqs, 0, sizeof(*fqs));
-           ^~~~~~
-   fs/quota/quota.c:463:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(fqs, 0, sizeof(*fqs));
-           ^~~~~~
-   fs/quota/quota.c:505:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&fqs, 0, sizeof(fqs));
-           ^~~~~~
-   fs/quota/quota.c:505:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(&fqs, 0, sizeof(fqs));
-           ^~~~~~
-   fs/quota/quota.c:603:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(dst, 0, sizeof(*dst));
-           ^~~~~~
-   fs/quota/quota.c:603:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(dst, 0, sizeof(*dst));
-           ^~~~~~
-   fs/quota/quota.c:673:2: warning: Call to function 'memset' is insecure a=
-s it does not provide security checks introduced in the C11 standard. Repla=
-ce with analogous functions that support length arguments or provides bound=
-ary checks such as 'memset_s' in case of C11 [clang-analyzer-security.insec=
-ureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(dst, 0, sizeof(*dst));
-           ^~~~~~
-   fs/quota/quota.c:673:2: note: Call to function 'memset' is insecure as i=
-t does not provide security checks introduced in the C11 standard. Replace =
-with analogous functions that support length arguments or provides boundary=
- checks such as 'memset_s' in case of C11
-           memset(dst, 0, sizeof(*dst));
-           ^~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   drivers/iio/adc/mcp3422.c:277:10: warning: Call to function 'sprintf' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   return sprintf(buf, "240 60 15\n");
-                          ^~~~~~~
-   drivers/iio/adc/mcp3422.c:277:10: note: Call to function 'sprintf' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'sprintf_s' in case of C11
-                   return sprintf(buf, "240 60 15\n");
-                          ^~~~~~~
-   drivers/iio/adc/mcp3422.c:279:9: warning: Call to function 'sprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "240 60 15 3\n");
-                  ^~~~~~~
-   drivers/iio/adc/mcp3422.c:279:9: note: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "240 60 15 3\n");
-                  ^~~~~~~
-   drivers/iio/adc/mcp3422.c:288:9: warning: Call to function 'sprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "0.%09u 0.%09u 0.%09u 0.%09u\n",
-                  ^~~~~~~
-   drivers/iio/adc/mcp3422.c:288:9: note: Call to function 'sprintf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "0.%09u 0.%09u 0.%09u 0.%09u\n",
-                  ^~~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
-   drivers/usb/musb/musb_dsps.c:351:6: warning: Value stored to 'devctl' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   u8 devctl =3D musb_readb(mregs, MUSB_DEVCTL);
-                      ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/musb/musb_dsps.c:351:6: note: Value stored to 'devctl' durin=
-g its initialization is never read
-                   u8 devctl =3D musb_readb(mregs, MUSB_DEVCTL);
-                      ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/musb/musb_dsps.c:414:2: warning: Call to function 'sprintf' =
-is insecure as it does not provide bounding of the memory buffer or securit=
-y checks introduced in the C11 standard. Replace with analogous functions t=
-hat support length arguments or provides boundary checks such as 'sprintf_s=
-' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBuf=
-ferHandling]
-           sprintf(buf, "%s.dsps", dev_name(musb->controller));
-           ^~~~~~~
-   drivers/usb/musb/musb_dsps.c:414:2: note: Call to function 'sprintf' is =
-insecure as it does not provide bounding of the memory buffer or security c=
-hecks introduced in the C11 standard. Replace with analogous functions that=
- support length arguments or provides boundary checks such as 'sprintf_s' i=
-n case of C11
-           sprintf(buf, "%s.dsps", dev_name(musb->controller));
-           ^~~~~~~
-   drivers/usb/musb/musb_dsps.c:637:3: warning: Call to function 'memcpy' i=
+   63 warnings generated.
+   drivers/usb/storage/sddr09.c:240:2: warning: Call to function 'memcpy' i=
 s insecure as it does not provide security checks introduced in the C11 sta=
 ndard. Replace with analogous functions that support length arguments or pr=
 ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
 curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(dst, &val, len);
-                   ^~~~~~
-   drivers/usb/musb/musb_dsps.c:637:3: note: Call to function 'memcpy' is i=
+           memcpy(data, ecc, 3);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:240:2: note: Call to function 'memcpy' is i=
 nsecure as it does not provide security checks introduced in the C11 standa=
 rd. Replace with analogous functions that support length arguments or provi=
 des boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(dst, &val, len);
-                   ^~~~~~
-   drivers/usb/musb/musb_dsps.c:735:2: warning: Call to function 'memset' i=
+           memcpy(data, ecc, 3);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:352:2: warning: Call to function 'memset' i=
 s insecure as it does not provide security checks introduced in the C11 sta=
 ndard. Replace with analogous functions that support length arguments or pr=
 ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
 curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(resources, 0, sizeof(resources));
+           memset(command, 0, 12);
            ^~~~~~
-   drivers/usb/musb/musb_dsps.c:735:2: note: Call to function 'memset' is i=
+   drivers/usb/storage/sddr09.c:352:2: note: Call to function 'memset' is i=
 nsecure as it does not provide security checks introduced in the C11 standa=
 rd. Replace with analogous functions that support length arguments or provi=
 des boundary checks such as 'memset_s' in case of C11
-           memset(resources, 0, sizeof(resources));
+           memset(command, 0, 12);
            ^~~~~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   52 warnings generated.
-   drivers/usb/musb/tusb6010.c:185:4: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(&val, buf, 4);
+   drivers/usb/storage/sddr09.c:528:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(command, 0, 12);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:528:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(command, 0, 12);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:717:2: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(command, 0, 12);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:717:2: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+           memset(command, 0, 12);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:796:4: warning: Call to function 'memset' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memset(buffer, 0, len);
                            ^~~~~~
-   drivers/usb/musb/tusb6010.c:185:4: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(&val, buf, 4);
+   drivers/usb/storage/sddr09.c:796:4: note: Call to function 'memset' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memset_s' in case of C11
+                           memset(buffer, 0, len);
                            ^~~~~~
-   drivers/usb/musb/tusb6010.c:194:3: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(&val, buf, len);
+   drivers/usb/storage/sddr09.c:922:3: warning: Call to function 'memcpy' i=
+s insecure as it does not provide security checks introduced in the C11 sta=
+ndard. Replace with analogous functions that support length arguments or pr=
+ovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-se=
+curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(bptr, xptr, info->pagesize);
                    ^~~~~~
-   drivers/usb/musb/tusb6010.c:194:3: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(&val, buf, len);
+   drivers/usb/storage/sddr09.c:922:3: note: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(bptr, xptr, info->pagesize);
                    ^~~~~~
-   drivers/usb/musb/tusb6010.c:208:4: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(buf, &val, 4);
-                           ^~~~~~
-   drivers/usb/musb/tusb6010.c:208:4: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(buf, &val, 4);
-                           ^~~~~~
-   drivers/usb/musb/tusb6010.c:216:3: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(buf, &val, len);
-                   ^~~~~~
-   drivers/usb/musb/tusb6010.c:216:3: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(buf, &val, len);
-                   ^~~~~~
-   drivers/usb/musb/tusb6010.c:222:15: warning: Value stored to 'musb' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct musb *musb =3D hw_ep->musb;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/usb/musb/tusb6010.c:222:15: note: Value stored to 'musb' during =
-its initialization is never read
-           struct musb *musb =3D hw_ep->musb;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/usb/musb/tusb6010.c:272:15: warning: Value stored to 'musb' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct musb *musb =3D hw_ep->musb;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/usb/musb/tusb6010.c:272:15: note: Value stored to 'musb' during =
-its initialization is never read
-           struct musb *musb =3D hw_ep->musb;
-                        ^~~~   ~~~~~~~~~~~
-   drivers/usb/musb/tusb6010.c:633:2: warning: Value stored to 'otg_stat' i=
+   drivers/usb/storage/sddr09.c:1076:2: warning: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(command, 0, 12);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:1076:2: note: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11
+           memset(command, 0, 12);
+           ^~~~~~
+   drivers/usb/storage/sddr09.c:1106:3: warning: Value stored to 'wp_fmt' i=
 s never read [clang-analyzer-deadcode.DeadStores]
-           otg_stat =3D musb_readl(tbase, TUSB_DEV_OTG_STAT);
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/musb/tusb6010.c:633:2: note: Value stored to 'otg_stat' is n=
+                   wp_fmt =3D " WP";
+                   ^        ~~~~~
+   drivers/usb/storage/sddr09.c:1106:3: note: Value stored to 'wp_fmt' is n=
 ever read
-           otg_stat =3D musb_readl(tbase, TUSB_DEV_OTG_STAT);
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/musb/tusb6010.c:1226:2: warning: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-se=
-curity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(musb_resources, 0x00, sizeof(*musb_resources) *
-           ^~~~~~
-   drivers/usb/musb/tusb6010.c:1226:2: note: Call to function 'memset' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memset_s' in case of C11
-           memset(musb_resources, 0x00, sizeof(*musb_resources) *
-           ^~~~~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
-   drivers/gpu/drm/bridge/tc358767.c:308:2: warning: Call to function 'memc=
-py' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(auxwdata, data, size);
-           ^~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:308:2: note: Call to function 'memcpy'=
+                   wp_fmt =3D " WP";
+                   ^        ~~~~~
+   drivers/usb/storage/sddr09.c:1108:3: warning: Value stored to 'wp_fmt' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   wp_fmt =3D "";
+                   ^        ~~
+   drivers/usb/storage/sddr09.c:1108:3: note: Value stored to 'wp_fmt' is n=
+ever read
+                   wp_fmt =3D "";
+                   ^        ~~
+   drivers/usb/storage/sddr09.c:1153:2: warning: Call to function 'sprintf'=
  is insecure as it does not provide security checks introduced in the C11 s=
 tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(auxwdata, data, size);
-           ^~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:326:2: warning: Call to function 'memc=
-py' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyz=
-er-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(data, auxrdata, size);
-           ^~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:326:2: note: Call to function 'memcpy'=
- is insecure as it does not provide security checks introduced in the C11 s=
-tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(data, auxrdata, size);
-           ^~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:678:2: warning: Value stored to 'revis=
-ion' is never read [clang-analyzer-deadcode.DeadStores]
-           revision =3D tc->link.dpcd[DP_DPCD_REV];
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:678:2: note: Value stored to 'revision=
-' is never read
-           revision =3D tc->link.dpcd[DP_DPCD_REV];
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:820:2: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_write(tc->regmap, DP0_VIDSYNCDELAY,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:820:2: note: Value stored to 'ret' is =
-never read
-           ret =3D regmap_write(tc->regmap, DP0_VIDSYNCDELAY,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:946:2: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/bridge/tc358767.c:946:2: note: Value stored to 'ret' is =
-never read
-           ret =3D regmap_write(tc->regmap, DP_PHY_CTRL, dp_phy_ctrl);
---
-           ^~~~~~
-   drivers/staging/fieldbus/anybuss/host.c:854:2: warning: Call to function=
- 'memcpy' is insecure as it does not provide security checks introduced in =
-the C11 standard. Replace with analogous functions that support length argu=
-ments or provides boundary checks such as 'memcpy_s' in case of C11 [clang-=
-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(msg_in, pd->msg, msg_in_sz);
-           ^~~~~~
-   drivers/staging/fieldbus/anybuss/host.c:854:2: note: Call to function 'm=
-emcpy' is insecure as it does not provide security checks introduced in the=
- C11 standard. Replace with analogous functions that support length argumen=
-ts or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(msg_in, pd->msg, msg_in_sz);
-           ^~~~~~
-   drivers/staging/fieldbus/anybuss/host.c:1074:2: warning: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11 [clang=
--analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, t->area_pd.buf, count);
-           ^~~~~~
-   drivers/staging/fieldbus/anybuss/host.c:1074:2: note: Call to function '=
-memcpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(buf, t->area_pd.buf, count);
-           ^~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   35 warnings generated.
-   drivers/iio/accel/adxl372.c:606:2: warning: Call to function 'memset' is=
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(blurbtxt, "sddr09: Found Flash card, ID =3D %4ph", devic=
+eID);
+           ^~~~~~~
+   drivers/usb/storage/sddr09.c:1153:2: note: Call to function 'sprintf' is=
  insecure as it does not provide security checks introduced in the C11 stan=
 dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(axis_sample, 0, 3 * sizeof(__be16));
-           ^~~~~~
-   drivers/iio/accel/adxl372.c:606:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(axis_sample, 0, 3 * sizeof(__be16));
-           ^~~~~~
-   drivers/iio/accel/adxl372.c:614:2: warning: Call to function 'memcpy' is=
+vides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(blurbtxt, "sddr09: Found Flash card, ID =3D %4ph", devic=
+eID);
+           ^~~~~~~
+>> drivers/usb/storage/sddr09.c:1156:2: warning: Call to function 'sprintf'=
+ is insecure as it does not provide bounding of the memory buffer or securi=
+ty checks introduced in the C11 standard. Replace with analogous functions =
+that support length arguments or provides boundary checks such as 'sprintf_=
+s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBu=
+fferHandling]
+           sprintf(blurbtxt + strlen(blurbtxt),
+           ^~~~~~~
+   drivers/usb/storage/sddr09.c:1156:2: note: Call to function 'sprintf' is=
+ insecure as it does not provide bounding of the memory buffer or security =
+checks introduced in the C11 standard. Replace with analogous functions tha=
+t support length arguments or provides boundary checks such as 'sprintf_s' =
+in case of C11
+           sprintf(blurbtxt + strlen(blurbtxt),
+           ^~~~~~~
+   drivers/usb/storage/sddr09.c:1168:3: warning: Call to function 'sprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1168:3: note: Call to function 'sprintf' is=
  insecure as it does not provide security checks introduced in the C11 stan=
 dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(sample, axis_sample, 3 * sizeof(__be16));
-           ^~~~~~
-   drivers/iio/accel/adxl372.c:614:2: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-           memcpy(sample, axis_sample, 3 * sizeof(__be16));
-           ^~~~~~
-   drivers/iio/accel/adxl372.c:988:9: warning: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", st->fifo_mode);
-                  ^~~~~~~
-   drivers/iio/accel/adxl372.c:988:9: note: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", st->fifo_mode);
-                  ^~~~~~~
-   drivers/iio/accel/adxl372.c:998:9: warning: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", st->watermark);
-                  ^~~~~~~
-   drivers/iio/accel/adxl372.c:998:9: note: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", st->watermark);
-                  ^~~~~~~
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   31 warnings generated.
-   Suppressed 31 warnings (31 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   50 warnings generated.
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:114:2: warning: Call=
- to function 'memset' is insecure as it does not provide security checks in=
-troduced in the C11 standard. Replace with analogous functions that support=
- length arguments or provides boundary checks such as 'memset_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(cet, 0, sizeof(struct ce_task));
-           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:114:2: note: Call to=
- function 'memset' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(cet, 0, sizeof(struct ce_task));
-           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:169:3: warning: Call=
- to function 'memcpy' is insecure as it does not provide security checks in=
-troduced in the C11 standard. Replace with analogous functions that support=
- length arguments or provides boundary checks such as 'memcpy_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(rctx->bounce_iv, areq->iv, ivsize);
-                   ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:169:3: note: Call to=
- function 'memcpy' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(rctx->bounce_iv, areq->iv, ivsize);
-                   ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:259:4: warning: Call=
- to function 'memcpy' is insecure as it does not provide security checks in=
-troduced in the C11 standard. Replace with analogous functions that support=
- length arguments or provides boundary checks such as 'memcpy_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(areq->iv, rctx->backup_iv, ivsize);
-                           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:259:4: note: Call to=
- function 'memcpy' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(areq->iv, rctx->backup_iv, ivsize);
-                           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:322:4: warning: Call=
- to function 'memcpy' is insecure as it does not provide security checks in=
-troduced in the C11 standard. Replace with analogous functions that support=
- length arguments or provides boundary checks such as 'memcpy_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(areq->iv, rctx->backup_iv, ivsize);
-                           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:322:4: note: Call to=
- function 'memcpy' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(areq->iv, rctx->backup_iv, ivsize);
-                           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:383:2: warning: Call=
- to function 'memset' is insecure as it does not provide security checks in=
-troduced in the C11 standard. Replace with analogous functions that support=
- length arguments or provides boundary checks such as 'memset_s' in case of=
- C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(op, 0, sizeof(struct sun8i_cipher_tfm_ctx));
-           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:383:2: note: Call to=
- function 'memset' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'memset_s' in case of C11
-           memset(op, 0, sizeof(struct sun8i_cipher_tfm_ctx));
-           ^~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:431:23: warning: Val=
-ue stored to 'ce' during its initialization is never read [clang-analyzer-d=
-eadcode.DeadStores]
-           struct sun8i_ce_dev *ce =3D op->ce;
-                                ^~   ~~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:431:23: note: Value =
-stored to 'ce' during its initialization is never read
-           struct sun8i_ce_dev *ce =3D op->ce;
-                                ^~   ~~~~~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
->> drivers/usb/mtu3/mtu3_debugfs.c:135:2: warning: Call to function 'sprint=
-f' is insecure as it does not provide bounding of the memory buffer or secu=
-rity checks introduced in the C11 standard. Replace with analogous function=
-s that support length arguments or provides boundary checks such as 'sprint=
-f_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafe=
-BufferHandling]
-           sprintf(mregs->name, "%s", name);
-           ^~~~~~~
-   drivers/usb/mtu3/mtu3_debugfs.c:135:2: note: Call to function 'sprintf' =
-is insecure as it does not provide bounding of the memory buffer or securit=
-y checks introduced in the C11 standard. Replace with analogous functions t=
-hat support length arguments or provides boundary checks such as 'sprintf_s=
-' in case of C11
-           sprintf(mregs->name, "%s", name);
-           ^~~~~~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   56 warnings generated.
-   include/linux/log2.h:67:13: warning: The result of the left shift is und=
-efined due to shifting by '4294967295', which is greater or equal to the wi=
-dth of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorRes=
-ult]
-           return 1UL << (fls_long(n) - 1);
-                      ^
-   drivers/usb/host/ehci-hcd.c:888:2: note: Control jumps to the 'default' =
-case@line 897
-           switch (usb_pipetype (urb->pipe)) {
-           ^
-   drivers/usb/host/ehci-hcd.c:898:3: note: Taking false branch
-                   if (!qh_urb_transaction (ehci, urb, &qtd_list, mem_flags=
-))
-                   ^
-   drivers/usb/host/ehci-hcd.c:900:10: note: Calling 'submit_async'
-                   return submit_async(ehci, urb, &qtd_list, mem_flags);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/ehci-q.c:1128:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_irqsave (&ehci->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:244:36: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                        ^
-   include/linux/irqflags.h:176:2: note: expanded from macro 'raw_local_irq=
-_save'
-           do {                                            \
-           ^
-   drivers/usb/host/ehci-q.c:1128:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_irqsave (&ehci->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:244:31: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                   ^
-   drivers/usb/host/ehci-q.c:1128:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_irqsave (&ehci->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:31: note: expanded from macro '__LOCK=
-_IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-                                 ^
-   include/linux/spinlock_api_up.h:31:27: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-                             ^
-   include/linux/spinlock_api_up.h:28:3: note: expanded from macro '___LOCK'
-     do { __acquire(lock); (void)(lock); } while (0)
-     ^
-   drivers/usb/host/ehci-q.c:1128:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_irqsave (&ehci->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:69:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:31: note: expanded from macro '__LOCK=
-_IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-                                 ^
-   include/linux/spinlock_api_up.h:31:3: note: expanded from macro '__LOCK'
-     do { preempt_disable(); ___LOCK(lock); } while (0)
-     ^
-   drivers/usb/host/ehci-q.c:1128:2: note: Loop condition is false.  Exitin=
-g loop
-           spin_lock_irqsave (&ehci->lock, flags);
---
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2111:17: note: Value stored to 'dev' duri=
-ng its initialization is never read
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2119:2: warning: Call to function 'memcpy=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(ctx->ctr_nonce, key + keylen, 4);
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2119:2: note: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(ctx->ctr_nonce, key + keylen, 4);
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2128:17: warning: Value stored to 'dev' d=
-uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2128:17: note: Value stored to 'dev' duri=
-ng its initialization is never read
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2136:2: warning: Call to function 'memcpy=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(ctx->ctr_nonce, key + keylen, 4);
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2136:2: note: Call to function 'memcpy' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(ctx->ctr_nonce, key + keylen, 4);
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2164:17: warning: Value stored to 'dev' d=
-uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2164:17: note: Value stored to 'dev' duri=
-ng its initialization is never read
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2184:17: warning: Value stored to 'dev' d=
-uring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2184:17: note: Value stored to 'dev' duri=
-ng its initialization is never read
-           struct device *dev =3D drvdata_to_dev(ctx->drvdata);
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2203:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2203:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2227:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2227:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2254:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2254:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2278:2: warning: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2278:2: note: Call to function 'memset' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'memset_s' in case of C11
-           memset(areq_ctx, 0, sizeof(*areq_ctx));
-           ^~~~~~
-   drivers/crypto/ccree/cc_aead.c:2572:2: warning: Call to function 'snprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'snprintf_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(alg->base.cra_name, CRYPTO_MAX_ALG_NAME, "%s", tmpl->na=
-me);
-           ^~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2572:2: note: Call to function 'snprintf'=
+vides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1171:3: warning: Call to function 'sprintf'=
  is insecure as it does not provide security checks introduced in the C11 s=
 tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(alg->base.cra_name, CRYPTO_MAX_ALG_NAME, "%s", tmpl->na=
-me);
-           ^~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2573:2: warning: Call to function 'snprin=
-tf' is insecure as it does not provide security checks introduced in the C1=
-1 standard. Replace with analogous functions that support length arguments =
-or provides boundary checks such as 'snprintf_s' in case of C11 [clang-anal=
-yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(alg->base.cra_driver_name, CRYPTO_MAX_ALG_NAME, "%s",
-           ^~~~~~~~
-   drivers/crypto/ccree/cc_aead.c:2573:2: note: Call to function 'snprintf'=
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1171:3: note: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1177:3: warning: Call to function 'sprintf'=
  is insecure as it does not provide security checks introduced in the C11 s=
 tandard. Replace with analogous functions that support length arguments or =
-provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(alg->base.cra_driver_name, CRYPTO_MAX_ALG_NAME, "%s",
-           ^~~~~~~~
-   Suppressed 67 warnings (67 in non-user code).
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1177:3: note: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1183:3: warning: Call to function 'sprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1183:3: note: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1188:3: warning: Call to function 'sprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1188:3: note: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(blurbtxt + strlen(blurbtxt),
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1563:3: warning: Call to function 'memset' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(ptr, 0, 18);
+                   ^~~~~~
+   drivers/usb/storage/sddr09.c:1563:3: note: Call to function 'memset' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memset_s' in case of C11
+                   memset(ptr, 0, 18);
+                   ^~~~~~
+   drivers/usb/storage/sddr09.c:1581:3: warning: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(ptr, inquiry_response, 8);
+                   ^~~~~~
+   drivers/usb/storage/sddr09.c:1581:3: note: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(ptr, inquiry_response, 8);
+                   ^~~~~~
+   drivers/usb/storage/sddr09.c:1639:4: warning: Call to function 'memcpy' =
+is insecure as it does not provide security checks introduced in the C11 st=
+andard. Replace with analogous functions that support length arguments or p=
+rovides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-s=
+ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                           memcpy(ptr, mode_page_01, sizeof(mode_page_01));
+                           ^~~~~~
+   drivers/usb/storage/sddr09.c:1639:4: note: Call to function 'memcpy' is =
+insecure as it does not provide security checks introduced in the C11 stand=
+ard. Replace with analogous functions that support length arguments or prov=
+ides boundary checks such as 'memcpy_s' in case of C11
+                           memcpy(ptr, mode_page_01, sizeof(mode_page_01));
+                           ^~~~~~
+   drivers/usb/storage/sddr09.c:1705:3: warning: Call to function 'sprintf'=
+ is insecure as it does not provide security checks introduced in the C11 s=
+tandard. Replace with analogous functions that support length arguments or =
+provides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer=
+-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   sprintf(ptr+strlen(ptr), "%02X ", srb->cmnd[i]);
+                   ^~~~~~~
+   drivers/usb/storage/sddr09.c:1705:3: note: Call to function 'sprintf' is=
+ insecure as it does not provide security checks introduced in the C11 stan=
+dard. Replace with analogous functions that support length arguments or pro=
+vides boundary checks such as 'sprintf_s' in case of C11
+                   sprintf(ptr+strlen(ptr), "%02X ", srb->cmnd[i]);
+                   ^~~~~~~
+   Suppressed 43 warnings (43 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
+   43 warnings generated.
+   Suppressed 43 warnings (43 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   drivers/input/touchscreen/cy8ctmg110_ts.c:71:2: warning: Call to functio=
-n 'memcpy' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'memcpy_s' in case of C11 [clang=
--analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(i2c_data + 1, value, len);
+   44 warnings generated.
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:48:2: warning: Call to f=
+unction 'memset' is insecure as it does not provide security checks introdu=
+ced in the C11 standard. Replace with analogous functions that support leng=
+th arguments or provides boundary checks such as 'memset_s' in case of C11 =
+[clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&evts, 0, sizeof(evts));
            ^~~~~~
-   drivers/input/touchscreen/cy8ctmg110_ts.c:71:2: note: Call to function '=
-memcpy' is insecure as it does not provide security checks introduced in th=
-e C11 standard. Replace with analogous functions that support length argume=
-nts or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(i2c_data + 1, value, len);
-           ^~~~~~
-   drivers/input/touchscreen/cy8ctmg110_ts.c:115:2: warning: Call to functi=
-on 'memset' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memset_s' in case of C11 [clan=
-g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(reg_p, 0, CY8CTMG110_REG_MAX);
-           ^~~~~~
-   drivers/input/touchscreen/cy8ctmg110_ts.c:115:2: note: Call to function =
-'memset' is insecure as it does not provide security checks introduced in t=
-he C11 standard. Replace with analogous functions that support length argum=
-ents or provides boundary checks such as 'memset_s' in case of C11
-           memset(reg_p, 0, CY8CTMG110_REG_MAX);
-           ^~~~~~
-   drivers/input/touchscreen/cy8ctmg110_ts.c:193:2: warning: Call to functi=
-on 'snprintf' is insecure as it does not provide security checks introduced=
+   drivers/gpu/drm/arm/display/komeda/komeda_kms.c:48:2: note: Call to func=
+tion 'memset' is insecure as it does not provide security checks introduced=
  in the C11 standard. Replace with analogous functions that support length =
-arguments or provides boundary checks such as 'snprintf_s' in case of C11 [=
-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(ts->phys, sizeof(ts->phys),
-           ^~~~~~~~
-   drivers/input/touchscreen/cy8ctmg110_ts.c:193:2: note: Call to function =
-'snprintf' is insecure as it does not provide security checks introduced in=
- the C11 standard. Replace with analogous functions that support length arg=
-uments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(ts->phys, sizeof(ts->phys),
-           ^~~~~~~~
-   Suppressed 42 warnings (42 in non-user code).
+arguments or provides boundary checks such as 'memset_s' in case of C11
+           memset(&evts, 0, sizeof(evts));
+           ^~~~~~
+   Suppressed 43 warnings (43 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   45 warnings generated.
->> drivers/staging/fieldbus/anybuss/arcx-anybus.c:169:9: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide bounding of the memory=
- buffer or security checks introduced in the C11 standard. Replace with ana=
-logous functions that support length arguments or provides boundary checks =
-such as 'sprintf_s' in case of C11 [clang-analyzer-security.insecureAPI.Dep=
-recatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%s\n", cd->version);
-                  ^~~~~~~
-   drivers/staging/fieldbus/anybuss/arcx-anybus.c:169:9: note: Call to func=
-tion 'sprintf' is insecure as it does not provide bounding of the memory bu=
-ffer or security checks introduced in the C11 standard. Replace with analog=
-ous functions that support length arguments or provides boundary checks suc=
-h as 'sprintf_s' in case of C11
-           return sprintf(buf, "%s\n", cd->version);
-                  ^~~~~~~
-   drivers/staging/fieldbus/anybuss/arcx-anybus.c:178:9: warning: Call to f=
-unction 'sprintf' is insecure as it does not provide security checks introd=
-uced in the C11 standard. Replace with analogous functions that support len=
-gth arguments or provides boundary checks such as 'sprintf_s' in case of C1=
-1 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buf, "%d\n", cd->design_no);
-                  ^~~~~~~
-   drivers/staging/fieldbus/anybuss/arcx-anybus.c:178:9: note: Call to func=
-tion 'sprintf' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'sprintf_s' in case of C11
-           return sprintf(buf, "%d\n", cd->design_no);
-                  ^~~~~~~
-   drivers/staging/fieldbus/anybuss/arcx-anybus.c:256:2: warning: Call to f=
-unction 'snprintf' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'snprintf_s' in case of =
+   43 warnings generated.
+   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:581:4: warning: Call to=
+ function 'sprintf' is insecure as it does not provide security checks intr=
+oduced in the C11 standard. Replace with analogous functions that support l=
+ength arguments or provides boundary checks such as 'sprintf_s' in case of =
 C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(cd->version, sizeof(cd->version), "%c%d",
-           ^~~~~~~~
-   drivers/staging/fieldbus/anybuss/arcx-anybus.c:256:2: note: Call to func=
-tion 'snprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(cd->version, sizeof(cd->version), "%c%d",
-           ^~~~~~~~
-   Suppressed 42 warnings (42 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   30 warnings generated.
-   drivers/staging/fieldbus/anybuss/hms-profinet.c:69:9: warning: Call to f=
-unction 'snprintf' is insecure as it does not provide security checks intro=
-duced in the C11 standard. Replace with analogous functions that support le=
-ngth arguments or provides boundary checks such as 'snprintf_s' in case of =
+                           sprintf(str, "pipe-%d", crtc->slave->id);
+                           ^~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:581:4: note: Call to fu=
+nction 'sprintf' is insecure as it does not provide security checks introdu=
+ced in the C11 standard. Replace with analogous functions that support leng=
+th arguments or provides boundary checks such as 'sprintf_s' in case of C11
+                           sprintf(str, "pipe-%d", crtc->slave->id);
+                           ^~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:583:4: warning: Call to=
+ function 'sprintf' is insecure as it does not provide security checks intr=
+oduced in the C11 standard. Replace with analogous functions that support l=
+ength arguments or provides boundary checks such as 'sprintf_s' in case of =
 C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return snprintf(buf, max_size, "%pM\n", response.addr);
-                  ^~~~~~~~
-   drivers/staging/fieldbus/anybuss/hms-profinet.c:69:9: note: Call to func=
-tion 'snprintf' is insecure as it does not provide security checks introduc=
-ed in the C11 standard. Replace with analogous functions that support lengt=
-h arguments or provides boundary checks such as 'snprintf_s' in case of C11
-           return snprintf(buf, max_size, "%pM\n", response.addr);
-                  ^~~~~~~~
-   Suppressed 29 warnings (29 in non-user code).
+                           sprintf(str, "None");
+                           ^~~~~~~
+   drivers/gpu/drm/arm/display/komeda/komeda_crtc.c:583:4: note: Call to fu=
+nction 'sprintf' is insecure as it does not provide security checks introdu=
+ced in the C11 standard. Replace with analogous functions that support leng=
+th arguments or provides boundary checks such as 'sprintf_s' in case of C11
+                           sprintf(str, "None");
+                           ^~~~~~~
+   Suppressed 41 warnings (41 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   42 warnings generated.
-   Suppressed 42 warnings (42 in non-user code).
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   103 warnings generated.
-   net/ipv4/fib_frontend.c:474:2: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(cfg, 0, sizeof(*cfg));
-           ^~~~~~
-   net/ipv4/fib_frontend.c:474:2: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-           memset(cfg, 0, sizeof(*cfg));
-           ^~~~~~
-   net/ipv4/fib_frontend.c:735:2: warning: Call to function 'memset' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(cfg, 0, sizeof(*cfg));
-           ^~~~~~
-   net/ipv4/fib_frontend.c:735:2: note: Call to function 'memset' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memset_s' in case of C11
-           memset(cfg, 0, sizeof(*cfg));
-           ^~~~~~
-   net/ipv4/fib_frontend.c:1021:5: warning: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11 [clang-analyzer-securi=
-ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   memset(&cb->args[2], 0, sizeof(cb->args)=
- -
-                                   ^~~~~~
-   net/ipv4/fib_frontend.c:1021:5: note: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11
-                                   memset(&cb->args[2], 0, sizeof(cb->args)=
- -
-                                   ^~~~~~
-   Suppressed 100 warnings (99 in non-user code, 1 with check filters).
+   41 warnings generated.
+   Suppressed 41 warnings (41 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   103 warnings generated.
-   include/linux/list.h:88:24: warning: Access to field 'next' results in a=
- dereference of a null pointer (loaded from variable 'head') [clang-analyze=
-r-core.NullDereference]
-           __list_add(new, head, head->next);
-                                 ^
-   net/ipv4/fib_semantics.c:1395:2: note: 'nh' initialized to a null pointe=
-r value
-           struct nexthop *nh =3D NULL;
-           ^~~~~~~~~~~~~~~~~~
-   net/ipv4/fib_semantics.c:1400:6: note: Assuming the condition is false
-           if (cfg->fc_type > RTN_MAX)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/fib_semantics.c:1400:2: note: Taking false branch
-           if (cfg->fc_type > RTN_MAX)
-           ^
-   net/ipv4/fib_semantics.c:1404:6: note: Assuming field 'scope' is <=3D fi=
-eld 'fc_scope'
-           if (fib_props[cfg->fc_type].scope > cfg->fc_scope) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/fib_semantics.c:1404:2: note: Taking false branch
-           if (fib_props[cfg->fc_type].scope > cfg->fc_scope) {
-           ^
-   net/ipv4/fib_semantics.c:1409:6: note: Assuming the condition is false
-           if (cfg->fc_flags & (RTNH_F_DEAD | RTNH_F_LINKDOWN)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/fib_semantics.c:1409:2: note: Taking false branch
-           if (cfg->fc_flags & (RTNH_F_DEAD | RTNH_F_LINKDOWN)) {
-           ^
-   net/ipv4/fib_semantics.c:1415:6: note: Assuming field 'fc_nh_id' is 0
-           if (cfg->fc_nh_id) {
-               ^~~~~~~~~~~~~
-   net/ipv4/fib_semantics.c:1415:2: note: Taking false branch
-           if (cfg->fc_nh_id) {
-           ^
-   net/ipv4/fib_semantics.c:1433:6: note: Assuming field 'fc_mp' is null
-           if (cfg->fc_mp) {
-               ^~~~~~~~~~
-   net/ipv4/fib_semantics.c:1433:2: note: Taking false branch
-           if (cfg->fc_mp) {
-           ^
-   net/ipv4/fib_semantics.c:1443:6: note: Left side of '||' is false
-           if (READ_ONCE(fib_info_cnt) >=3D fib_info_hash_size) {
-               ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
+   44 warnings generated.
+   block/blk-map.c:32:2: warning: Call to function 'memcpy' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(bmd->iov, data->iov, sizeof(struct iovec) * data->nr_segs=
+);
+           ^~~~~~
+   block/blk-map.c:32:2: note: Call to function 'memcpy' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memcpy_s' in case of C11
+           memcpy(bmd->iov, data->iov, sizeof(struct iovec) * data->nr_segs=
+);
 
-vim +41 lib/test_scanf.c
+vim +1156 drivers/usb/storage/sddr09.c
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  26  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1092  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  27  typedef int (*check_fn)(c=
-onst void *check_data, const char *string,
-50f530e176eac8 Richard Fitzgerald 2021-05-14  28  			const char *fmt, int n=
-_args, va_list ap);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  29  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1093  static int
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1094  sddr09_get_wp(struct us_da=
+ta *us, struct sddr09_card_info *info) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1095  	int result;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1096  	unsigned char status;
+ef976ea33b4c44 Victor Dodon    2016-02-17  1097  	const char *wp_fmt;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1098  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  30  static void __scanf(4, 6)=
- __init
-50f530e176eac8 Richard Fitzgerald 2021-05-14  31  _test(check_fn fn, const =
-void *check_data, const char *string, const char *fmt,
-50f530e176eac8 Richard Fitzgerald 2021-05-14  32  	int n_args, ...)
-50f530e176eac8 Richard Fitzgerald 2021-05-14  33  {
-50f530e176eac8 Richard Fitzgerald 2021-05-14  34  	va_list ap, ap_copy;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  35  	int ret;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  36  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1099  	result =3D sddr09_read_st=
+atus(us, &status);
+0dc08a357538de Matthew Dharm   2005-12-04  1100  	if (result) {
+191648d03d2022 Joe Perches     2013-04-19  1101  		usb_stor_dbg(us, "read_s=
+tatus fails\n");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1102  		return result;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1103  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1104  	if ((status & 0x80) =3D=
+=3D 0) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1105  		info->flags |=3D SDDR09_=
+WP;	/* write protected */
+ef976ea33b4c44 Victor Dodon    2016-02-17  1106  		wp_fmt =3D " WP";
+ef976ea33b4c44 Victor Dodon    2016-02-17  1107  	} else {
+ef976ea33b4c44 Victor Dodon    2016-02-17 @1108  		wp_fmt =3D "";
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1109  	}
+ef976ea33b4c44 Victor Dodon    2016-02-17  1110  	usb_stor_dbg(us, "status =
+0x%02X%s%s%s%s\n", status, wp_fmt,
+ef976ea33b4c44 Victor Dodon    2016-02-17  1111  		     status & 0x40 ? " R=
+eady" : "",
+ef976ea33b4c44 Victor Dodon    2016-02-17  1112  		     status & LUNBITS ? =
+" Suspended" : "",
+ef976ea33b4c44 Victor Dodon    2016-02-17  1113  		     status & 0x01 ? " E=
+rror" : "");
+ef976ea33b4c44 Victor Dodon    2016-02-17  1114  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  37  	total_tests++;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  38  =
+0dc08a357538de Matthew Dharm   2005-12-04  1115  	return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1116  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1117  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  39  	va_start(ap, n_args);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  40  	va_copy(ap_copy, ap);
-50f530e176eac8 Richard Fitzgerald 2021-05-14 @41  	ret =3D vsscanf(string, =
-fmt, ap_copy);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  42  	va_end(ap_copy);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  43  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1118  #if 0
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1119  /*
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1120   * Reset Command: 12 bytes.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1121   * byte 0: opcode: EB
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1122   */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1123  static int
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1124  sddr09_reset(struct us_dat=
+a *us) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1125  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  44  	if (ret !=3D n_args) {
-50f530e176eac8 Richard Fitzgerald 2021-05-14  45  		pr_warn("vsscanf(\"%s\"=
-, \"%s\", ...) returned %d expected %d\n",
-50f530e176eac8 Richard Fitzgerald 2021-05-14  46  			string, fmt, ret, n_ar=
-gs);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  47  		goto fail;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  48  	}
-50f530e176eac8 Richard Fitzgerald 2021-05-14  49  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1126  	unsigned char *command =
+=3D us->iobuf;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1127  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  50  	ret =3D (*fn)(check_data=
-, string, fmt, n_args, ap);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  51  	if (ret)
-50f530e176eac8 Richard Fitzgerald 2021-05-14  52  		goto fail;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  53  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1128  	memset(command, 0, 12);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1129  	command[0] =3D 0xEB;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1130  	command[1] =3D LUNBITS;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1131  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  54  	va_end(ap);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  55  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1132  	return sddr09_send_scsi_c=
+ommand(us, command, 12);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1133  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1134  #endif
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1135  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  56  	return;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  57  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1136  static struct nand_flash_d=
+ev *
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1137  sddr09_get_cardinfo(struct=
+ us_data *us, unsigned char flags) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1138  	struct nand_flash_dev *ca=
+rdinfo;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1139  	unsigned char deviceID[4];
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1140  	char blurbtxt[256];
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1141  	int result;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1142  =
 
-50f530e176eac8 Richard Fitzgerald 2021-05-14  58  fail:
-50f530e176eac8 Richard Fitzgerald 2021-05-14  59  	failed_tests++;
-50f530e176eac8 Richard Fitzgerald 2021-05-14  60  	va_end(ap);
-50f530e176eac8 Richard Fitzgerald 2021-05-14  61  }
-50f530e176eac8 Richard Fitzgerald 2021-05-14  62  =
+191648d03d2022 Joe Perches     2013-04-19  1143  	usb_stor_dbg(us, "Reading=
+ capacity...\n");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1144  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1145  	result =3D sddr09_read_de=
+viceID(us, deviceID);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1146  =
+
+0dc08a357538de Matthew Dharm   2005-12-04  1147  	if (result) {
+191648d03d2022 Joe Perches     2013-04-19  1148  		usb_stor_dbg(us, "Result=
+ of read_deviceID is %d\n", result);
+6f8aa65b520371 Frank Seidel    2009-02-05  1149  		printk(KERN_WARNING "sdd=
+r09: could not read card info\n");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1150  		return NULL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1151  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1152  =
+
+7adce46784a099 Andy Shevchenko 2014-09-05  1153  	sprintf(blurbtxt, "sddr09=
+: Found Flash card, ID =3D %4ph", deviceID);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1154  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1155  	/* Byte 0 is the manufact=
+urer */
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @1156  	sprintf(blurbtxt + strlen=
+(blurbtxt),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1157  		": Manuf. %s",
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1158  		nand_flash_manufacturer(=
+deviceID[0]));
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1159  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1160  	/* Byte 1 is the device t=
+ype */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1161  	cardinfo =3D nand_find_id=
+(deviceID[1]);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1162  	if (cardinfo) {
+f0183a338e4f90 Felipe Balbi    2016-04-18  1163  		/*
+f0183a338e4f90 Felipe Balbi    2016-04-18  1164  		 * MB or MiB? It is neit=
+her. A 16 MB card has
+f0183a338e4f90 Felipe Balbi    2016-04-18  1165  		 * 17301504 raw bytes, o=
+f which 16384000 are
+f0183a338e4f90 Felipe Balbi    2016-04-18  1166  		 * usable for user data.
+f0183a338e4f90 Felipe Balbi    2016-04-18  1167  		 */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1168  		sprintf(blurbtxt + strle=
+n(blurbtxt),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1169  			", %d MB", 1<<(cardinfo=
+->chipshift - 20));
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1170  	} else {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1171  		sprintf(blurbtxt + strle=
+n(blurbtxt),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1172  			", type unrecognized");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1173  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1174  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1175  	/* Byte 2 is code to sign=
+al availability of 128-bit ID */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1176  	if (deviceID[2] =3D=3D 0x=
+a5) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1177  		sprintf(blurbtxt + strle=
+n(blurbtxt),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1178  			", 128-bit ID");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1179  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1180  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1181  	/* Byte 3 announces the a=
+vailability of another read ID command */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1182  	if (deviceID[3] =3D=3D 0x=
+c0) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1183  		sprintf(blurbtxt + strle=
+n(blurbtxt),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1184  			", extra cmd");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1185  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1186  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1187  	if (flags & SDDR09_WP)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1188  		sprintf(blurbtxt + strle=
+n(blurbtxt),
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1189  			", WP");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1190  =
+
+6f8aa65b520371 Frank Seidel    2009-02-05  1191  	printk(KERN_WARNING "%s\n=
+", blurbtxt);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1192  =
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1193  	return cardinfo;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1194  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  1195  =
 
 
-:::::: The code at line 41 was first introduced by commit
-:::::: 50f530e176eac808e64416732e54c0686ce2c39b lib: test_scanf: Add tests =
-for sscanf number conversion
+:::::: The code at line 1156 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Richard Fitzgerald <rf@opensource.cirrus.com>
-:::::: CC: Petr Mladek <pmladek@suse.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5975164173336706527==--
+--===============8398922854219647544==--
 
