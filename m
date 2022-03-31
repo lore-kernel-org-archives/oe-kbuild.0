@@ -1,76 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============3263261895368815239=="
+Content-Type: multipart/mixed; boundary="===============2880426747680364080=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:swiotlb-init-cleanup 13/15] arch/x86/kernel/pci-dma.c:79:27: warning: syntax error: 0 |= [syntaxError]
-Date: Mon, 04 Apr 2022 18:19:05 +0800
-Message-ID: <202204041803.GCdH6wkU-lkp@intel.com>
+Subject: [esmil:visionfive 28/62] drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant because platform_get_irq() already prints an error
+Date: Thu, 31 Mar 2022 14:21:02 +0800
+Message-ID: <202203311416.FRqOJZon-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3263261895368815239==
+--===============2880426747680364080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Huan Feng <huan.feng@starfivetech.com>
+CC: Emil Renner Berthing <kernel@esmil.dk>
 
-tree:   git://git.infradead.org/users/hch/misc.git swiotlb-init-cleanup
-head:   bb1b904265495d29a0d2e237e5eac699af7d4e7f
-commit: 7c35e9690b5d0a90a03bbf21a45ad0ae19c07cfa [13/15] swiotlb: merge swi=
-otlb-xen initialization into swiotlb
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+tree:   https://github.com/esmil/linux visionfive
+head:   6c7cd35771680c033c40b4af48cbe7e3093eab3d
+commit: 1d3f42fdd786e76c5138aff9663180a7f17c68bd [28/62] drivers/hw_random:=
+ Add StarFive JH7100 Random Number Generator driver
+:::::: branch date: 14 hours ago
+:::::: commit date: 9 days ago
+config: nios2-randconfig-c003-20220331 (https://download.01.org/0day-ci/arc=
+hive/20220331/202203311416.FRqOJZon-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> drivers/char/hw_random/starfive-vic-rng.c:209:2-9: line 209 is redundant=
+ because platform_get_irq() already prints an error
 
->> arch/x86/kernel/pci-dma.c:79:27: warning: syntax error: 0 |=3D [syntaxEr=
-ror]
-    x86_swiotlb_enable =3D true;
-                             ^
-
-vim +79 arch/x86/kernel/pci-dma.c
-
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  73  =
-
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  74  #ifdef CONFIG_SWIOTLB_XEN
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  75  static void __init pci_xen=
-_swiotlb_init(void)
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  76  {
-c3dd04d912572e Christoph Hellwig 2022-03-29  77  	if (!xen_initial_domain()=
- && !x86_swiotlb_enable)
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  78  		return;
-cc9bec08f990a7 Christoph Hellwig 2022-02-14 @79  	x86_swiotlb_enable =3D tr=
-ue;
-7c35e9690b5d0a Christoph Hellwig 2022-03-14  80  	x86_swiotlb_flags |=3D SW=
-IOTLB_ANY;
-7c35e9690b5d0a Christoph Hellwig 2022-03-14  81  	swiotlb_init_remap(true, =
-x86_swiotlb_flags, xen_swiotlb_fixup);
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  82  	dma_ops =3D &xen_swiotlb_=
-dma_ops;
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  83  	if (IS_ENABLED(CONFIG_PCI=
-))
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  84  		pci_request_acs();
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  85  }
-cc9bec08f990a7 Christoph Hellwig 2022-02-14  86  =
-
-
-:::::: The code at line 79 was first introduced by commit
-:::::: cc9bec08f990a7014c7c824608ac4efe7f5dd712 x86: remove the IOMMU table=
- infrastructure
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Christoph Hellwig <hch@lst.de>
+Please review and possibly fold the followup patch.
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3263261895368815239==--
+--===============2880426747680364080==--
 
