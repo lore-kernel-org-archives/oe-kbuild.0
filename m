@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6174323796575308438=="
+Content-Type: multipart/mixed; boundary="===============7903178718513227665=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/boot/compressed/../string.h:15:23: warning: '__builtin_memcpy' reading 52 bytes from a region of size 0
-Date: Fri, 01 Apr 2022 03:37:34 +0800
-Message-ID: <202204010318.cvt0HPzm-lkp@intel.com>
+Subject: mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size, s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.ctor, s.list [uninitvar]
+Date: Fri, 01 Apr 2022 01:25:39 +0800
+Message-ID: <202204010106.GYW0TlgK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6174323796575308438==
+--===============7903178718513227665==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,76 +15,142 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Arvind Sankar <nivedita@alum.mit.edu>
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Roman Gushchin <guro@fb.com>
+CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   787af64d05cd528aac9ad16752d11bb1c6061bb9
-commit: 394b19d6cb58ae292c0e1ad6b893fed8ece477ce x86/boot/compressed: Use b=
-uiltin mem functions for decompressor
-date:   1 year, 7 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 1 year, 7 months ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-401/202204010318.cvt0HPzm-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D394b19d6cb58ae292c0e1ad6b893fed8ece477ce
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 394b19d6cb58ae292c0e1ad6b893fed8ece477ce
-        # save the config file to linux build tree
-         =
-
+commit: 401fb12c68c257b9c9116b1475c0ac26b646fcc0 mm/sl*b: Differentiate str=
+uct slab fields by sl*b implementations
+date:   3 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 months ago
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/boot/compressed/misc.c:18:
-   In function 'parse_elf',
-       inlined from 'extract_kernel' at arch/x86/boot/compressed/misc.c:442=
-:2:
->> arch/x86/boot/compressed/../string.h:15:23: warning: '__builtin_memcpy' =
-reading 52 bytes from a region of size 0 [-Wstringop-overread]
-      15 | #define memcpy(d,s,l) __builtin_memcpy(d,s,l)
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/boot/compressed/misc.c:283:9: note: in expansion of macro 'memc=
-py'
-     283 |         memcpy(&ehdr, output, sizeof(ehdr));
-         |         ^~~~~~
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+   mm/slab_common.c:187:48: warning: Parameter 'ctor' can be declared with =
+const [constParameter]
+     slab_flags_t flags, const char *name, void (*ctor)(void *))
+                                                  ^
+>> mm/slab_common.c:443:24: warning: Uninitialized variables: s.object_size=
+, s.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s=
+.ctor, s.list [uninitvar]
+     debugfs_slab_release(s);
+                          ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:437:16: note: Assuming condition is false
+    if (list_empty(&to_destroy))
+                  ^
+   mm/slab_common.c:443:24: note: Uninitialized variables: s.object_size, s=
+.size, s.align, s.flags, s.useroffset, s.usersize, s.name, s.refcount, s.ct=
+or, s.list
+     debugfs_slab_release(s);
+                          ^
+
+vim +443 mm/slab_common.c
+
+3965fc36522446 Vladimir Davydov    2014-01-23  418  =
+
+657dc2f9722092 Tejun Heo           2017-02-22  419  static void slab_caches=
+_to_rcu_destroy_workfn(struct work_struct *work)
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  420  {
+657dc2f9722092 Tejun Heo           2017-02-22  421  	LIST_HEAD(to_destroy);
+657dc2f9722092 Tejun Heo           2017-02-22  422  	struct kmem_cache *s, =
+*s2;
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  423  =
+
+657dc2f9722092 Tejun Heo           2017-02-22  424  	/*
+5f0d5a3ae7cff0 Paul E. McKenney    2017-01-18  425  	 * On destruction, SLA=
+B_TYPESAFE_BY_RCU kmem_caches are put on the
+657dc2f9722092 Tejun Heo           2017-02-22  426  	 * @slab_caches_to_rcu=
+_destroy list.  The slab pages are freed
+081a06fa299066 Randy Dunlap        2020-08-11  427  	 * through RCU and the=
+ associated kmem_cache are dereferenced
+657dc2f9722092 Tejun Heo           2017-02-22  428  	 * while freeing the p=
+ages, so the kmem_caches should be freed only
+657dc2f9722092 Tejun Heo           2017-02-22  429  	 * after the pending R=
+CU operations are finished.  As rcu_barrier()
+657dc2f9722092 Tejun Heo           2017-02-22  430  	 * is a pretty slow op=
+eration, we batch all pending destructions
+657dc2f9722092 Tejun Heo           2017-02-22  431  	 * asynchronously.
+657dc2f9722092 Tejun Heo           2017-02-22  432  	 */
+657dc2f9722092 Tejun Heo           2017-02-22  433  	mutex_lock(&slab_mutex=
+);
+657dc2f9722092 Tejun Heo           2017-02-22  434  	list_splice_init(&slab=
+_caches_to_rcu_destroy, &to_destroy);
+657dc2f9722092 Tejun Heo           2017-02-22  435  	mutex_unlock(&slab_mut=
+ex);
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  436  =
+
+657dc2f9722092 Tejun Heo           2017-02-22  437  	if (list_empty(&to_des=
+troy))
+657dc2f9722092 Tejun Heo           2017-02-22  438  		return;
+657dc2f9722092 Tejun Heo           2017-02-22  439  =
+
+657dc2f9722092 Tejun Heo           2017-02-22  440  	rcu_barrier();
+657dc2f9722092 Tejun Heo           2017-02-22  441  =
+
+657dc2f9722092 Tejun Heo           2017-02-22  442  	list_for_each_entry_sa=
+fe(s, s2, &to_destroy, list) {
+64dd68497be76a Faiyaz Mohammed     2021-06-28 @443  		debugfs_slab_release(=
+s);
+d3fb45f370d927 Alexander Potapenko 2021-02-25  444  		kfence_shutdown_cache=
+(s);
+657dc2f9722092 Tejun Heo           2017-02-22  445  #ifdef SLAB_SUPPORTS_SY=
+SFS
+657dc2f9722092 Tejun Heo           2017-02-22  446  		sysfs_slab_release(s);
+657dc2f9722092 Tejun Heo           2017-02-22  447  #else
+657dc2f9722092 Tejun Heo           2017-02-22  448  		slab_kmem_cache_relea=
+se(s);
+657dc2f9722092 Tejun Heo           2017-02-22  449  #endif
+657dc2f9722092 Tejun Heo           2017-02-22  450  	}
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  451  }
+d5b3cf7139b877 Vladimir Davydov    2015-02-10  452  =
 
 
-vim +/__builtin_memcpy +15 arch/x86/boot/compressed/../string.h
+:::::: The code at line 443 was first introduced by commit
+:::::: 64dd68497be76ab4e237cca06f5324e220d0f050 mm: slub: move sysfs slab a=
+lloc/free interfaces to debugfs
 
-c041b5ad8640dd Vivek Goyal   2014-03-18  13  =
-
-394b19d6cb58ae Arvind Sankar 2020-08-04  14  /* Access builtin version by d=
-efault. */
-c041b5ad8640dd Vivek Goyal   2014-03-18 @15  #define memcpy(d,s,l) __builti=
-n_memcpy(d,s,l)
-c041b5ad8640dd Vivek Goyal   2014-03-18  16  #define memset(d,c,l) __builti=
-n_memset(d,c,l)
-fb4cac573ef6dc Vivek Goyal   2014-03-18  17  #define memcmp	__builtin_memcmp
-c041b5ad8640dd Vivek Goyal   2014-03-18  18  =
-
-
-:::::: The code at line 15 was first introduced by commit
-:::::: c041b5ad8640dd89ccf1411cd2636ef7c1cfee92 x86, boot: Create a separat=
-e string.h file to provide standard string functions
-
-:::::: TO: Vivek Goyal <vgoyal@redhat.com>
-:::::: CC: H. Peter Anvin <hpa@linux.intel.com>
+:::::: TO: Faiyaz Mohammed <faiyazm@codeaurora.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6174323796575308438==--
+--===============7903178718513227665==--
 
