@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5702914822117416007=="
+Content-Type: multipart/mixed; boundary="===============7029121236054208269=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:525 dbgfs_init_regions_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Thu, 31 Mar 2022 21:30:42 +0800
-Message-ID: <202203312110.1I6NoFQu-lkp@intel.com>
+Subject: drivers/clk/clk-lmk04832.c:357:15: warning: Variable 'pll2_p' can be declared with const [constVariable]
+Date: Thu, 31 Mar 2022 20:28:58 +0800
+Message-ID: <202203312017.5YW13Jr4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5702914822117416007==
+--===============7029121236054208269==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,79 +15,99 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Liam Beguin <lvb@xiphos.com>
+CC: Stephen Boyd <sboyd@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   787af64d05cd528aac9ad16752d11bb1c6061bb9
-commit: 90bebce9fcd6488ba6b010af3a16a0a0d7e44cb6 mm/damon/dbgfs: allow user=
-s to set initial monitoring target regions
-date:   5 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 5 months ago
-config: arc-randconfig-m031-20220331 (https://download.01.org/0day-ci/archi=
-ve/20220331/202203312110.1I6NoFQu-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
+commit: 3bc61cfd6f4a57de32132075b15b0ac8987ced1d clk: add support for the l=
+mk04832
+date:   9 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 9 months ago
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/damon/dbgfs.c:525 dbgfs_init_regions_write() warn: passing a valid point=
-er to 'PTR_ERR'
 
-vim +/PTR_ERR +525 mm/damon/dbgfs.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-90bebce9fcd648 SeongJae Park 2021-11-05  513  =
+>> drivers/clk/clk-lmk04832.c:357:15: warning: Variable 'pll2_p' can be dec=
+lared with const [constVariable]
+    unsigned int pll2_p[] =3D {8, 2, 2, 3, 4, 5, 6, 7};
+                 ^
 
-90bebce9fcd648 SeongJae Park 2021-11-05  514  static ssize_t dbgfs_init_reg=
-ions_write(struct file *file,
-90bebce9fcd648 SeongJae Park 2021-11-05  515  					  const char __user *buf=
-, size_t count,
-90bebce9fcd648 SeongJae Park 2021-11-05  516  					  loff_t *ppos)
-90bebce9fcd648 SeongJae Park 2021-11-05  517  {
-90bebce9fcd648 SeongJae Park 2021-11-05  518  	struct damon_ctx *ctx =3D fi=
-le->private_data;
-90bebce9fcd648 SeongJae Park 2021-11-05  519  	char *kbuf;
-90bebce9fcd648 SeongJae Park 2021-11-05  520  	ssize_t ret =3D count;
-90bebce9fcd648 SeongJae Park 2021-11-05  521  	int err;
-90bebce9fcd648 SeongJae Park 2021-11-05  522  =
+vim +/pll2_p +357 drivers/clk/clk-lmk04832.c
 
-90bebce9fcd648 SeongJae Park 2021-11-05  523  	kbuf =3D user_input_str(buf,=
- count, ppos);
-90bebce9fcd648 SeongJae Park 2021-11-05  524  	if (IS_ERR(kbuf))
-90bebce9fcd648 SeongJae Park 2021-11-05 @525  		return PTR_ERR(kbuf);
-90bebce9fcd648 SeongJae Park 2021-11-05  526  =
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  352  =
 
-90bebce9fcd648 SeongJae Park 2021-11-05  527  	mutex_lock(&ctx->kdamond_loc=
-k);
-90bebce9fcd648 SeongJae Park 2021-11-05  528  	if (ctx->kdamond) {
-90bebce9fcd648 SeongJae Park 2021-11-05  529  		ret =3D -EBUSY;
-90bebce9fcd648 SeongJae Park 2021-11-05  530  		goto unlock_out;
-90bebce9fcd648 SeongJae Park 2021-11-05  531  	}
-90bebce9fcd648 SeongJae Park 2021-11-05  532  =
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  353  static unsigned long lmk04832_=
+vco_recalc_rate(struct clk_hw *hw,
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  354  					      unsigned long prate)
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  355  {
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  356  	struct lmk04832 *lmk =3D cont=
+ainer_of(hw, struct lmk04832, vco);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22 @357  	unsigned int pll2_p[] =3D {8,=
+ 2, 2, 3, 4, 5, 6, 7};
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  358  	unsigned int pll2_n, p, pll2_=
+r;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  359  	unsigned int pll2_misc;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  360  	unsigned long vco_rate;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  361  	u8 tmp[3];
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  362  	int ret;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  363  =
 
-90bebce9fcd648 SeongJae Park 2021-11-05  533  	err =3D set_init_regions(ctx=
-, kbuf, ret);
-90bebce9fcd648 SeongJae Park 2021-11-05  534  	if (err)
-90bebce9fcd648 SeongJae Park 2021-11-05  535  		ret =3D err;
-90bebce9fcd648 SeongJae Park 2021-11-05  536  =
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  364  	ret =3D regmap_read(lmk->regm=
+ap, LMK04832_REG_PLL2_MISC, &pll2_misc);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  365  	if (ret)
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  366  		return ret;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  367  =
 
-90bebce9fcd648 SeongJae Park 2021-11-05  537  unlock_out:
-90bebce9fcd648 SeongJae Park 2021-11-05  538  	mutex_unlock(&ctx->kdamond_l=
-ock);
-90bebce9fcd648 SeongJae Park 2021-11-05  539  	kfree(kbuf);
-90bebce9fcd648 SeongJae Park 2021-11-05  540  	return ret;
-90bebce9fcd648 SeongJae Park 2021-11-05  541  }
-90bebce9fcd648 SeongJae Park 2021-11-05  542  =
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  368  	p =3D FIELD_GET(LMK04832_BIT_=
+PLL2_MISC_P, pll2_misc);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  369  =
+
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  370  	ret =3D regmap_bulk_read(lmk-=
+>regmap, LMK04832_REG_PLL2_N_0, &tmp, 3);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  371  	if (ret)
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  372  		return ret;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  373  =
+
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  374  	pll2_n =3D FIELD_PREP(0x03000=
+0, tmp[0]) |
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  375  		 FIELD_PREP(0x00ff00, tmp[1]=
+) |
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  376  		 FIELD_PREP(0x0000ff, tmp[2]=
+);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  377  =
+
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  378  	ret =3D regmap_bulk_read(lmk-=
+>regmap, LMK04832_REG_PLL2_R_MSB, &tmp, 2);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  379  	if (ret)
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  380  		return ret;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  381  =
+
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  382  	pll2_r =3D FIELD_PREP(0x0f00,=
+ tmp[0]) |
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  383  		 FIELD_PREP(0x00ff, tmp[1]);
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  384  =
+
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  385  	vco_rate =3D (prate << FIELD_=
+GET(LMK04832_BIT_PLL2_MISC_REF_2X_EN,
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  386  				       pll2_misc)) * pll2_=
+n * pll2_p[p] / pll2_r;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  387  =
+
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  388  	return vco_rate;
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  389  };
+3bc61cfd6f4a57d Liam Beguin 2021-04-22  390  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5702914822117416007==--
+--===============7029121236054208269==--
 
