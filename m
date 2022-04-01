@@ -1,224 +1,378 @@
-Content-Type: multipart/mixed; boundary="===============0364704880429839283=="
+Content-Type: multipart/mixed; boundary="===============5712314965433099803=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ALSA: jack: Access input_dev under mutex
-Date: Sat, 02 Apr 2022 00:16:19 +0800
-Message-ID: <202204020033.S4YFojPq-lkp@intel.com>
+Subject: [linux-next:pending-fixes 8096/13747] drivers/nvme/host/core.c:305:23: warning: Value stored to 'nr' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 01 Apr 2022 18:41:46 +0800
+Message-ID: <202204011816.zeTSMq91-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0364704880429839283==
+--===============5712314965433099803==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220401122931.4181700-1-amadeuszx.slawinski@linux.intel.co=
-m>
-References: <20220401122931.4181700-1-amadeuszx.slawinski@linux.intel.com>
-TO: "Amadeusz S=C5=82awi=C5=84ski" <amadeuszx.slawinski@linux.intel.com>
-TO: Takashi Iwai <tiwai@suse.com>
-CC: alsa-devel(a)alsa-project.org
-CC: "Amadeusz S=C5=82awi=C5=84ski" <amadeuszx.slawinski@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alan Adamson <alan.adamson@oracle.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Chaitanya Kulkarni <kch@nvidia.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Himanshu Madhani <himanshu.madhani@oracle.com>
+CC: Keith Busch <kbusch@kernel.org>
 
-Hi "Amadeusz,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ pending-fixes
+head:   412036f22f464f3889fa2c2a8fc0ee1ba9e205d6
+commit: bd83fe6f2cd2133beaac7c423fd36c3515048fc8 [8096/13747] nvme: add ver=
+bose error logging
+:::::: branch date: 2 days ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20220328 (https://download.01.org/0day-ci/archi=
+ve/20220401/202204011816.zeTSMq91-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dbd83fe6f2cd2133beaac7c423fd36c3515048fc8
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next pending-fixes
+        git checkout bd83fe6f2cd2133beaac7c423fd36c3515048fc8
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on v5.17 next-20220401]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amadeusz-S-awi-ski/A=
-LSA-jack-Access-input_dev-under-mutex/20220401-203645
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for=
--next
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-config: powerpc-randconfig-c024-20220331 (https://download.01.org/0day-ci/a=
-rchive/20220402/202204020033.S4YFojPq-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> sound/core/jack.c:535:2-12: second lock on line 572
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   drivers/spi/spi-bcm-qspi.c:840:7: note: Assuming field 'bits_per_word' i=
+s > 8
+                   if (tp.trans->bits_per_word <=3D 8) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:840:3: note: Taking false branch
+                   if (tp.trans->bits_per_word <=3D 8) {
+                   ^
+   drivers/spi/spi-bcm-qspi.c:847:14: note: Assuming field 'bits_per_word' =
+is > 16
+                   } else if (tp.trans->bits_per_word <=3D 16) {
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:847:10: note: Taking false branch
+                   } else if (tp.trans->bits_per_word <=3D 16) {
+                          ^
+   drivers/spi/spi-bcm-qspi.c:855:14: note: Assuming field 'bits_per_word' =
+is > 32
+                   } else if (tp.trans->bits_per_word <=3D 32) {
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:855:10: note: Taking false branch
+                   } else if (tp.trans->bits_per_word <=3D 32) {
+                          ^
+   drivers/spi/spi-bcm-qspi.c:864:14: note: Assuming field 'bits_per_word' =
+is > 64
+                   } else if (tp.trans->bits_per_word <=3D 64) {
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:864:10: note: Taking false branch
+                   } else if (tp.trans->bits_per_word <=3D 64) {
+                          ^
+   drivers/spi/spi-bcm-qspi.c:839:2: note: Loop condition is false. Executi=
+on continues on line 880
+           for (slot =3D 0; slot < slots; slot++) {
+           ^
+   drivers/spi/spi-bcm-qspi.c:880:2: note: The value of 'tp' is assigned to=
+ field 'trans_pos'
+           qspi->trans_pos =3D tp;
+           ^~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:1143:3: note: Returning from 'read_from_hw'
+                   read_from_hw(qspi, slots);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:1134:9: note: Assuming field 'byte' is < fiel=
+d 'len'
+           while (qspi->trans_pos.byte < trans->len) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:1134:2: note: Loop condition is true.  Enteri=
+ng loop body
+           while (qspi->trans_pos.byte < trans->len) {
+           ^
+   drivers/spi/spi-bcm-qspi.c:1137:11: note: Calling 'write_to_hw'
+                   slots =3D write_to_hw(qspi, spi);
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:943:2: note: Null pointer value stored to 'tp=
+.trans'
+           tp =3D qspi->trans_pos;
+           ^~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:944:35: note: Passing null pointer value via =
+3rd parameter 'trans'
+           bcm_qspi_update_parms(qspi, spi, tp.trans);
+                                            ^~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:944:2: note: Calling 'bcm_qspi_update_parms'
+           bcm_qspi_update_parms(qspi, spi, tp.trans);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/spi/spi-bcm-qspi.c:699:16: note: Access to field 'speed_hz' resu=
+lts in a dereference of a null pointer (loaded from variable 'trans')
+           xp.speed_hz =3D trans->speed_hz;
+                         ^~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (7 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (6 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (6 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> drivers/nvme/host/core.c:305:23: warning: Value stored to 'nr' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct nvme_request *nr =3D nvme_req(req);
+                                ^~   ~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:305:23: note: Value stored to 'nr' during its i=
+nitialization is never read
+           struct nvme_request *nr =3D nvme_req(req);
+                                ^~   ~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:3988:3: warning: Use of memory after it is free=
+d [clang-analyzer-unix.Malloc]
+                   nvme_put_ns(ns);
+                   ^
+   drivers/nvme/host/core.c:4178:6: note: Assuming field 'state' is equal t=
+o NVME_CTRL_LIVE
+           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:4178:6: note: Left side of '||' is false
+   drivers/nvme/host/core.c:4178:39: note: Assuming field 'tagset' is non-n=
+ull
+           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
+                                                ^~~~~~~~~~~~~
+   drivers/nvme/host/core.c:4178:2: note: Taking false branch
+           if (ctrl->state !=3D NVME_CTRL_LIVE || !ctrl->tagset)
+           ^
+   drivers/nvme/host/core.c:4181:6: note: '?' condition is true
+           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
+)) {
+               ^
+   arch/arm/include/asm/bitops.h:193:34: note: expanded from macro 'test_an=
+d_clear_bit'
+   #define test_and_clear_bit(nr,p)        ATOMIC_BITOP(test_and_clear_bit,=
+nr,p)
+                                           ^
+   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
+ITOP'
+           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
+r,p))
+            ^
+   drivers/nvme/host/core.c:4181:6: note: Assuming the condition is false
+           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
+)) {
+               ^
+   arch/arm/include/asm/bitops.h:193:34: note: expanded from macro 'test_an=
+d_clear_bit'
+   #define test_and_clear_bit(nr,p)        ATOMIC_BITOP(test_and_clear_bit,=
+nr,p)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
+ITOP'
+           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
+r,p))
+            ^~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:4181:2: note: Taking false branch
+           if (test_and_clear_bit(NVME_AER_NOTICE_NS_CHANGED, &ctrl->events=
+)) {
+           ^
+   drivers/nvme/host/core.c:4187:6: note: Calling 'nvme_scan_ns_list'
+           if (nvme_scan_ns_list(ctrl) !=3D 0)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:4092:2: note: Taking false branch
+           if (nvme_ctrl_limited_cns(ctrl))
+           ^
+   drivers/nvme/host/core.c:4096:6: note: Assuming 'ns_list' is non-null
+           if (!ns_list)
+               ^~~~~~~~
+   drivers/nvme/host/core.c:4096:2: note: Taking false branch
+           if (!ns_list)
+           ^
+   drivers/nvme/host/core.c:4099:2: note: Loop condition is true.  Entering=
+ loop body
+           for (;;) {
+           ^
+   drivers/nvme/host/core.c:4108:7: note: Assuming 'ret' is 0
+                   if (ret) {
+                       ^~~
+   drivers/nvme/host/core.c:4108:3: note: Taking false branch
+                   if (ret) {
+                   ^
+   drivers/nvme/host/core.c:4114:3: note: Loop condition is true.  Entering=
+ loop body
+                   for (i =3D 0; i < nr_entries; i++) {
+                   ^
+   drivers/nvme/host/core.c:4117:8: note: Assuming 'nsid' is not equal to 0
+                           if (!nsid)      /* end of the list? */
+                               ^~~~~
+   drivers/nvme/host/core.c:4117:4: note: Taking false branch
+                           if (!nsid)      /* end of the list? */
+                           ^
+   drivers/nvme/host/core.c:4120:11: note: Assuming the condition is true
+                           while (++prev < nsid)
+                                  ^~~~~~~~~~~~~
+   drivers/nvme/host/core.c:4120:4: note: Loop condition is true.  Entering=
+ loop body
+                           while (++prev < nsid)
+                           ^
+   drivers/nvme/host/core.c:4121:5: note: Calling 'nvme_ns_remove_by_nsid'
+                                   nvme_ns_remove_by_nsid(ctrl, prev);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:3986:6: note: 'ns' is non-null
+           if (ns) {
+               ^~
+   drivers/nvme/host/core.c:3986:2: note: Taking true branch
+           if (ns) {
+           ^
+   drivers/nvme/host/core.c:3987:3: note: Calling 'nvme_ns_remove'
+                   nvme_ns_remove(ns);
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:3946:6: note: '?' condition is true
+           if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+               ^
+   arch/arm/include/asm/bitops.h:192:33: note: expanded from macro 'test_an=
+d_set_bit'
+   #define test_and_set_bit(nr,p)          ATOMIC_BITOP(test_and_set_bit,nr=
+,p)
+                                           ^
+   arch/arm/include/asm/bitops.h:181:3: note: expanded from macro 'ATOMIC_B=
+ITOP'
+           (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(n=
+r,p))
+            ^
+   drivers/nvme/host/core.c:3946:6: note: Assuming the condition is false
+           if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+               ^
+   arch/arm/include/asm/bitops.h:192:33: note: expanded from macro 'test_an=
+d_set_bit'
 
-vim +535 sound/core/jack.c
+vim +/nr +305 drivers/nvme/host/core.c
 
-9058cbe1eed293 Jie Yang           2015-04-27  482  =
+49cd84b6f8b677e Keith Busch  2018-11-27  301  =
 
-e76d8ceaaff9d7 Mark Brown         2008-07-28  483  /**
-e76d8ceaaff9d7 Mark Brown         2008-07-28  484   * snd_jack_new - Create=
- a new jack
-e76d8ceaaff9d7 Mark Brown         2008-07-28  485   * @card:  the card inst=
-ance
-e76d8ceaaff9d7 Mark Brown         2008-07-28  486   * @id:    an identifyin=
-g string for this jack
-e76d8ceaaff9d7 Mark Brown         2008-07-28  487   * @type:  a bitmask of =
-enum snd_jack_type values that can be detected by
-e76d8ceaaff9d7 Mark Brown         2008-07-28  488   *         this jack
-e76d8ceaaff9d7 Mark Brown         2008-07-28  489   * @jjack: Used to provi=
-de the allocated jack object to the caller.
-4e3f0dc65883ca Jie Yang           2015-04-27  490   * @initial_kctl: if tru=
-e, create a kcontrol and add it to the jack list.
-4e3f0dc65883ca Jie Yang           2015-04-27  491   * @phantom_jack: Don't =
-create a input device for phantom jacks.
-e76d8ceaaff9d7 Mark Brown         2008-07-28  492   *
-e76d8ceaaff9d7 Mark Brown         2008-07-28  493   * Creates a new jack ob=
-ject.
-e76d8ceaaff9d7 Mark Brown         2008-07-28  494   *
-eb7c06e8e9c93b Yacine Belkadi     2013-03-11  495   * Return: Zero if succe=
-ssful, or a negative error code on failure.
-eb7c06e8e9c93b Yacine Belkadi     2013-03-11  496   * On success @jjack wil=
-l be initialised.
-e76d8ceaaff9d7 Mark Brown         2008-07-28  497   */
-e76d8ceaaff9d7 Mark Brown         2008-07-28  498  int snd_jack_new(struct =
-snd_card *card, const char *id, int type,
-4e3f0dc65883ca Jie Yang           2015-04-27  499  		 struct snd_jack **jja=
-ck, bool initial_kctl, bool phantom_jack)
-e76d8ceaaff9d7 Mark Brown         2008-07-28  500  {
-e76d8ceaaff9d7 Mark Brown         2008-07-28  501  	struct snd_jack *jack;
-4e3f0dc65883ca Jie Yang           2015-04-27  502  	struct snd_jack_kctl *j=
-ack_kctl =3D NULL;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  503  	int err;
-f15ee210cdb87f Takashi Iwai       2020-01-03  504  	static const struct snd=
-_device_ops ops =3D {
-e76d8ceaaff9d7 Mark Brown         2008-07-28  505  		.dev_free =3D snd_jack=
-_dev_free,
-fe0d128c57bf92 Takashi Iwai       2016-02-17  506  #ifdef CONFIG_SND_JACK_I=
-NPUT_DEV
-e76d8ceaaff9d7 Mark Brown         2008-07-28  507  		.dev_register =3D snd_=
-jack_dev_register,
-32b8544296b944 Takashi Iwai       2013-11-14  508  		.dev_disconnect =3D sn=
-d_jack_dev_disconnect,
-fe0d128c57bf92 Takashi Iwai       2016-02-17  509  #endif /* CONFIG_SND_JAC=
-K_INPUT_DEV */
-e76d8ceaaff9d7 Mark Brown         2008-07-28  510  	};
-e76d8ceaaff9d7 Mark Brown         2008-07-28  511  =
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  302  static void nvme_log_error(st=
+ruct request *req)
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  303  {
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  304  	struct nvme_ns *ns =3D req->=
+q->queuedata;
+bd83fe6f2cd2133 Alan Adamson 2022-02-03 @305  	struct nvme_request *nr =3D =
+nvme_req(req);
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  306  =
 
-4e3f0dc65883ca Jie Yang           2015-04-27  512  	if (initial_kctl) {
-4e3f0dc65883ca Jie Yang           2015-04-27  513  		jack_kctl =3D snd_jack=
-_kctl_new(card, id, type);
-4e3f0dc65883ca Jie Yang           2015-04-27  514  		if (!jack_kctl)
-4e3f0dc65883ca Jie Yang           2015-04-27  515  			return -ENOMEM;
-4e3f0dc65883ca Jie Yang           2015-04-27  516  	}
-4e3f0dc65883ca Jie Yang           2015-04-27  517  =
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  307  	if (ns) {
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  308  		pr_err_ratelimited("%s: %s(=
+0x%x) @ LBA %llu, %llu blocks, %s (sct 0x%x / sc 0x%x) %s%s\n",
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  309  		       ns->disk ? ns->disk-=
+>disk_name : "?",
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  310  		       nvme_get_opcode_str(=
+nr->cmd->common.opcode),
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  311  		       nr->cmd->common.opco=
+de,
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  312  		       (unsigned long long)=
+nvme_sect_to_lba(ns, blk_rq_pos(req)),
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  313  		       (unsigned long long)=
+blk_rq_bytes(req) >> ns->lba_shift,
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  314  		       nvme_get_error_statu=
+s_str(nr->status),
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  315  		       nr->status >> 8 & 7,=
+	/* Status Code Type */
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  316  		       nr->status & 0xff,	/=
+* Status Code */
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  317  		       nr->status & NVME_SC=
+_MORE ? "MORE " : "",
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  318  		       nr->status & NVME_SC=
+_DNR  ? "DNR "  : "");
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  319  		return;
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  320  	}
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  321  =
 
-e76d8ceaaff9d7 Mark Brown         2008-07-28  518  	jack =3D kzalloc(sizeof=
-(struct snd_jack), GFP_KERNEL);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  519  	if (jack =3D=3D NULL)
-e76d8ceaaff9d7 Mark Brown         2008-07-28  520  		return -ENOMEM;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  521  =
-
-282cd76ffca781 Matt Ranostay      2008-10-25  522  	jack->id =3D kstrdup(id=
-, GFP_KERNEL);
-c01c1db1dc632e Xiaoke Wang        2021-12-13  523  	if (jack->id =3D=3D NUL=
-L) {
-c01c1db1dc632e Xiaoke Wang        2021-12-13  524  		kfree(jack);
-c01c1db1dc632e Xiaoke Wang        2021-12-13  525  		return -ENOMEM;
-c01c1db1dc632e Xiaoke Wang        2021-12-13  526  	}
-e76d8ceaaff9d7 Mark Brown         2008-07-28  527  =
-
-fe0d128c57bf92 Takashi Iwai       2016-02-17  528  #ifdef CONFIG_SND_JACK_I=
-NPUT_DEV
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  529  	mutex_init(&j=
-ack->input_dev_lock);
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  530  =
-
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  531  	/* don't crea=
-te input device for phantom jack */
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  532  	if (!phantom_=
-jack) {
-fe0d128c57bf92 Takashi Iwai       2016-02-17  533  		int i;
-fe0d128c57bf92 Takashi Iwai       2016-02-17  534  =
-
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01 @535  		mutex_lock(&=
-jack->input_dev_lock);
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  536  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  537  		jack->input_dev =3D in=
-put_allocate_device();
-e76d8ceaaff9d7 Mark Brown         2008-07-28  538  		if (jack->input_dev =
-=3D=3D NULL) {
-e76d8ceaaff9d7 Mark Brown         2008-07-28  539  			err =3D -ENOMEM;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  540  			goto fail_input;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  541  		}
-e76d8ceaaff9d7 Mark Brown         2008-07-28  542  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  543  		jack->input_dev->phys =
-=3D "ALSA";
-e76d8ceaaff9d7 Mark Brown         2008-07-28  544  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  545  		jack->type =3D type;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  546  =
-
-53803aead010a3 Mark Brown         2012-02-07  547  		for (i =3D 0; i < SND_=
-JACK_SWITCH_TYPES; i++)
-bd8a71a7b0f50d Mark Brown         2009-01-03  548  			if (type & (1 << i))
-e76d8ceaaff9d7 Mark Brown         2008-07-28  549  				input_set_capability=
-(jack->input_dev, EV_SW,
-1c6e555c3a66af Mark Brown         2010-03-17  550  						     jack_switch_t=
-ypes[i]);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  551  =
-
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  552  		mutex_unlock=
-(&jack->input_dev_lock);
-4e3f0dc65883ca Jie Yang           2015-04-27  553  	}
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  554  #endif /* CONF=
-IG_SND_JACK_INPUT_DEV */
-4e3f0dc65883ca Jie Yang           2015-04-27  555  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  556  	err =3D snd_device_new(=
-card, SNDRV_DEV_JACK, jack, &ops);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  557  	if (err < 0)
-e76d8ceaaff9d7 Mark Brown         2008-07-28  558  		goto fail_input;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  559  =
-
-9058cbe1eed293 Jie Yang           2015-04-27  560  	jack->card =3D card;
-9058cbe1eed293 Jie Yang           2015-04-27  561  	INIT_LIST_HEAD(&jack->k=
-ctl_list);
-9058cbe1eed293 Jie Yang           2015-04-27  562  =
-
-4e3f0dc65883ca Jie Yang           2015-04-27  563  	if (initial_kctl)
-4e3f0dc65883ca Jie Yang           2015-04-27  564  		snd_jack_kctl_add(jack=
-, jack_kctl);
-4e3f0dc65883ca Jie Yang           2015-04-27  565  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  566  	*jjack =3D jack;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  567  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  568  	return 0;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  569  =
-
-e76d8ceaaff9d7 Mark Brown         2008-07-28  570  fail_input:
-fe0d128c57bf92 Takashi Iwai       2016-02-17  571  #ifdef CONFIG_SND_JACK_I=
-NPUT_DEV
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01 @572  	mutex_lock(&j=
-ack->input_dev_lock);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  573  	input_free_device(jack-=
->input_dev);
-ddb977b25cdc65 Amadeusz S=C5=82awi=C5=84ski 2022-04-01  574  	mutex_unlock(=
-&jack->input_dev_lock);
-fe0d128c57bf92 Takashi Iwai       2016-02-17  575  #endif
-eeda276bef3602 Lu Guanqun         2011-02-21  576  	kfree(jack->id);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  577  	kfree(jack);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  578  	return err;
-e76d8ceaaff9d7 Mark Brown         2008-07-28  579  }
-e76d8ceaaff9d7 Mark Brown         2008-07-28  580  EXPORT_SYMBOL(snd_jack_n=
-ew);
-e76d8ceaaff9d7 Mark Brown         2008-07-28  581  =
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  322  	pr_err_ratelimited("%s: %s(0=
+x%x), %s (sct 0x%x / sc 0x%x) %s%s\n",
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  323  			   dev_name(nr->ctrl->devi=
+ce),
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  324  			   nvme_get_admin_opcode_s=
+tr(nr->cmd->common.opcode),
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  325  			   nr->cmd->common.opcode,
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  326  			   nvme_get_error_status_s=
+tr(nr->status),
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  327  			   nr->status >> 8 & 7,	/*=
+ Status Code Type */
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  328  			   nr->status & 0xff,	/* S=
+tatus Code */
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  329  			   nr->status & NVME_SC_MO=
+RE ? "MORE " : "",
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  330  			   nr->status & NVME_SC_DN=
+R  ? "DNR "  : "");
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  331  }
+bd83fe6f2cd2133 Alan Adamson 2022-02-03  332  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0364704880429839283==--
+--===============5712314965433099803==--
 
