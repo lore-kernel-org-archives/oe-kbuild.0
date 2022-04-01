@@ -1,387 +1,111 @@
-Content-Type: multipart/mixed; boundary="===============1067532972363371584=="
+Content-Type: multipart/mixed; boundary="===============7283904020560335244=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/nvme/host/ioctl.c:193:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Sat, 02 Apr 2022 03:29:26 +0800
-Message-ID: <202204020315.xc7GLwtS-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 7267/7390] drivers/gpu/drm/img-rogue/1.13/mem_utils.c:322:31: sparse: sparse: cannot dereference this type
+Date: Sat, 02 Apr 2022 01:37:30 +0800
+Message-ID: <202204020158.wOx6rlLr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1067532972363371584==
+--===============7283904020560335244==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>
-CC: "Javier Gonz=C3=A1lez" <javier.gonz@samsung.com>
-CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e8b767f5e04097aaedcd6e06e2270f9fe5282696
-commit: 2405252a680e2151046f4f256d706c3ca92fedef nvme: move the ioctl code =
-to a separate file
-date:   12 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 12 months ago
-config: mips-randconfig-c004-20220328 (https://download.01.org/0day-ci/arch=
-ive/20220402/202204020315.xc7GLwtS-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
-01cf49ce02937099350d08f20c4af86f3d)
-reproduce (this is a W=3D1 build):
+Hi Luigi,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.15
+head:   eedd65d2f3214b74707f45e6ea23dd7390cd721f
+commit: 1426cb6d787cf4d1835ac9996e86d26484cf142b [7267/7390] CHROMIUM: drm:=
+ add img-rogue to the drm build system
+:::::: branch date: 4 hours ago
+:::::: commit date: 8 days ago
+config: arm64-randconfig-s031-20220401 (https://download.01.org/0day-ci/arc=
+hive/20220402/202204020158.wOx6rlLr-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2405252a680e2151046f4f256d706c3ca92fedef
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2405252a680e2151046f4f256d706c3ca92fedef
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        git remote add chrome-os https://chromium.googlesource.com/chromium=
+os/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 1426cb6d787cf4d1835ac9996e86d26484cf142b
         # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
-
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
+rm64 SHELL=3D/bin/bash drivers/gpu/drm/img-rogue/1.13/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                                    ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/axp20x_adc.c:37:35: note: expanded from macro 'AXP20X_AD=
-C_RATE_HZ'
-   #define AXP20X_ADC_RATE_HZ(x)                   ((ilog2((x) / 25) << 6) =
-& AXP20X_ADC_RATE_MASK)
-                                                     ^~~~~~~~~~~~~~~
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   drivers/iio/adc/axp20x_adc.c:594:6: note: The result of the left shift i=
-s undefined because the left operand is negative
-                                    AXP813_ADC_RATE_HZ(rate));
-                                    ^
-   drivers/iio/adc/axp20x_adc.c:41:34: note: expanded from macro 'AXP813_AD=
-C_RATE_HZ'
-   #define AXP813_ADC_RATE_HZ(x)                   (AXP20X_ADC_RATE_HZ(x) |=
- AXP813_V_I_ADC_RATE_HZ(x))
-                                                    ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/axp20x_adc.c:37:51: note: expanded from macro 'AXP20X_AD=
-C_RATE_HZ'
-   #define AXP20X_ADC_RATE_HZ(x)                   ((ilog2((x) / 25) << 6) =
-& AXP20X_ADC_RATE_MASK)
-                                                     ~~~~~~~~~~~~~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   include/linux/hid.h:999:9: warning: Access to field 'name' results in a =
-dereference of a null pointer (loaded from variable 'input') [clang-analyze=
-r-core.NullDereference]
-                                       input->name, c, type);
-                                       ^
-   drivers/hid/hid-ezkey.c:29:6: note: Assuming the condition is false
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-ezkey.c:29:2: note: Taking false branch
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
-           ^
-   drivers/hid/hid-ezkey.c:32:2: note: Control jumps to 'case 562:'  at lin=
-e 40
-           switch (usage->hid & HID_USAGE) {
-           ^
-   drivers/hid/hid-ezkey.c:40:14: note: Calling 'hid_map_usage'
-           case 0x232: ez_map_rel(REL_HWHEEL);     break;
-                       ^
-   drivers/hid/hid-ezkey.c:22:23: note: expanded from macro 'ez_map_rel'
-   #define ez_map_rel(c)   hid_map_usage(hi, usage, bit, max, EV_REL, (c))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:974:2: note: 'input' initialized here
-           struct input_dev *input =3D hidinput->input;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:978:2: note: Control jumps to 'case 2:'  at line 983
-           switch (type) {
-           ^
-   include/linux/hid.h:986:3: note:  Execution continues on line 997
-                   break;
-                   ^
-   include/linux/hid.h:997:15: note: 'c' is <=3D 'limit'
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:997:15: note: Left side of '||' is false
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/hid.h:997:28: note: Assuming 'bmap' is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:997:2: note: Taking true branch
-           if (unlikely(c > limit || !bmap)) {
-           ^
-   include/linux/hid.h:998:3: note: Assuming the condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:511:6: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-               ^~~~~~~~~~~~~~~~~
-   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
-limit'
-   #define __ratelimit(state) ___ratelimit(state, __func__)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:998:3: note: Taking true branch
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-           ^
-   include/linux/hid.h:999:9: note: Access to field 'name' results in a der=
-eference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:528:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:512:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/nvme/host/ioctl.c:193:6: warning: Branch condition evaluates to =
-a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (cmd.flags)
-               ^
-   drivers/nvme/host/ioctl.c:437:2: note: Control jumps to 'case 3225964097=
-:'  at line 438
-           switch (cmd) {
-           ^
-   drivers/nvme/host/ioctl.c:439:10: note: Calling 'nvme_user_cmd'
-                   return nvme_user_cmd(ctrl, NULL, argp);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:189:6: note: Assuming the condition is false
-           if (!capable(CAP_SYS_ADMIN))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:189:2: note: Taking false branch
-           if (!capable(CAP_SYS_ADMIN))
-           ^
-   drivers/nvme/host/ioctl.c:191:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Assuming the condition is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-   include/linux/uaccess.h:157:33: note: Assuming the condition is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                          ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:616:2: note: Taking false branch
-           if (eva_kernel_access())
-           ^
-   arch/mips/include/asm/uaccess.h:619:3: note: Returning without writing t=
-o 'to->flags'
-                   return __invoke_copy_from_user(to, from, n);
-                   ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
-           ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->f=
-lags'
-           return res;
-           ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->f=
-lags'
-           return n;
-           ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   drivers/nvme/host/ioctl.c:191:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:191:2: note: Taking false branch
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-           ^
-   drivers/nvme/host/ioctl.c:193:6: note: Branch condition evaluates to a g=
-arbage value
-           if (cmd.flags)
-               ^~~~~~~~~
-   drivers/nvme/host/ioctl.c:224:7: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   if (put_user(result, &ucmd->result))
-                       ^
-   arch/mips/include/asm/uaccess.h:154:2: note: expanded from macro 'put_us=
-er'
-           __put_user_check((x), (ptr), sizeof(*(ptr)))
-           ^
-   arch/mips/include/asm/uaccess.h:441:2: note: expanded from macro '__put_=
-user_check'
-           __typeof__(*(ptr)) __pu_val =3D (x);                            =
-  \
-           ^
-   drivers/nvme/host/ioctl.c:355:2: note: Taking true branch
-           if (is_ctrl_ioctl(cmd))
-           ^
-   drivers/nvme/host/ioctl.c:356:10: note: Calling 'nvme_ctrl_ioctl'
-                   return nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:293:2: note: Control jumps to 'case 3225964097=
-:'  at line 294
-           switch (cmd) {
-           ^
-   drivers/nvme/host/ioctl.c:295:10: note: Calling 'nvme_user_cmd'
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/img-rogue/1.13/mem_utils.c:322:31: sparse: sparse: canno=
+t dereference this type
 
-vim +193 drivers/nvme/host/ioctl.c
+vim +322 drivers/gpu/drm/img-rogue/1.13/mem_utils.c
 
-2405252a680e21 Christoph Hellwig 2021-04-10  179  =
+425cbd2feb4569 Luigi Santivetti 2022-03-16  307  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  180  static int nvme_user_cmd(=
-struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-2405252a680e21 Christoph Hellwig 2021-04-10  181  			struct nvme_passthru_c=
-md __user *ucmd)
-2405252a680e21 Christoph Hellwig 2021-04-10  182  {
-2405252a680e21 Christoph Hellwig 2021-04-10  183  	struct nvme_passthru_cmd=
- cmd;
-2405252a680e21 Christoph Hellwig 2021-04-10  184  	struct nvme_command c;
-2405252a680e21 Christoph Hellwig 2021-04-10  185  	unsigned timeout =3D 0;
-2405252a680e21 Christoph Hellwig 2021-04-10  186  	u64 result;
-2405252a680e21 Christoph Hellwig 2021-04-10  187  	int status;
-2405252a680e21 Christoph Hellwig 2021-04-10  188  =
+425cbd2feb4569 Luigi Santivetti 2022-03-16  308  #if defined(DEVICE_MEMSETC=
+PY_NON_VECTOR_KM)
+425cbd2feb4569 Luigi Santivetti 2022-03-16  309  		BLK_t bValue =3D 0;
+425cbd2feb4569 Luigi Santivetti 2022-03-16  310  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  189  	if (!capable(CAP_SYS_ADM=
-IN))
-2405252a680e21 Christoph Hellwig 2021-04-10  190  		return -EACCES;
-2405252a680e21 Christoph Hellwig 2021-04-10  191  	if (copy_from_user(&cmd,=
- ucmd, sizeof(cmd)))
-2405252a680e21 Christoph Hellwig 2021-04-10  192  		return -EFAULT;
-2405252a680e21 Christoph Hellwig 2021-04-10 @193  	if (cmd.flags)
-2405252a680e21 Christoph Hellwig 2021-04-10  194  		return -EINVAL;
-2405252a680e21 Christoph Hellwig 2021-04-10  195  	if (ns && cmd.nsid !=3D =
-ns->head->ns_id) {
-2405252a680e21 Christoph Hellwig 2021-04-10  196  		dev_err(ctrl->device,
-2405252a680e21 Christoph Hellwig 2021-04-10  197  			"%s: nsid (%u) in cmd =
-does not match nsid (%u) of namespace\n",
-2405252a680e21 Christoph Hellwig 2021-04-10  198  			current->comm, cmd.nsi=
-d, ns->head->ns_id);
-2405252a680e21 Christoph Hellwig 2021-04-10  199  		return -EINVAL;
-2405252a680e21 Christoph Hellwig 2021-04-10  200  	}
-2405252a680e21 Christoph Hellwig 2021-04-10  201  =
+425cbd2feb4569 Luigi Santivetti 2022-03-16  311  		uBlockSize =3D sizeof(BL=
+K_t) / sizeof(ui8Value);
+425cbd2feb4569 Luigi Santivetti 2022-03-16  312  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  202  	memset(&c, 0, sizeof(c));
-2405252a680e21 Christoph Hellwig 2021-04-10  203  	c.common.opcode =3D cmd.=
-opcode;
-2405252a680e21 Christoph Hellwig 2021-04-10  204  	c.common.flags =3D cmd.f=
-lags;
-2405252a680e21 Christoph Hellwig 2021-04-10  205  	c.common.nsid =3D cpu_to=
-_le32(cmd.nsid);
-2405252a680e21 Christoph Hellwig 2021-04-10  206  	c.common.cdw2[0] =3D cpu=
-_to_le32(cmd.cdw2);
-2405252a680e21 Christoph Hellwig 2021-04-10  207  	c.common.cdw2[1] =3D cpu=
-_to_le32(cmd.cdw3);
-2405252a680e21 Christoph Hellwig 2021-04-10  208  	c.common.cdw10 =3D cpu_t=
-o_le32(cmd.cdw10);
-2405252a680e21 Christoph Hellwig 2021-04-10  209  	c.common.cdw11 =3D cpu_t=
-o_le32(cmd.cdw11);
-2405252a680e21 Christoph Hellwig 2021-04-10  210  	c.common.cdw12 =3D cpu_t=
-o_le32(cmd.cdw12);
-2405252a680e21 Christoph Hellwig 2021-04-10  211  	c.common.cdw13 =3D cpu_t=
-o_le32(cmd.cdw13);
-2405252a680e21 Christoph Hellwig 2021-04-10  212  	c.common.cdw14 =3D cpu_t=
-o_le32(cmd.cdw14);
-2405252a680e21 Christoph Hellwig 2021-04-10  213  	c.common.cdw15 =3D cpu_t=
-o_le32(cmd.cdw15);
-2405252a680e21 Christoph Hellwig 2021-04-10  214  =
+425cbd2feb4569 Luigi Santivetti 2022-03-16  313  		for (i =3D 0; i < uBlock=
+Size; i++)
+425cbd2feb4569 Luigi Santivetti 2022-03-16  314  		{
+425cbd2feb4569 Luigi Santivetti 2022-03-16  315  			bValue |=3D (BLK_t)ui8V=
+alue << ((uBlockSize - i - 1) * BITS_PER_BYTE);
+425cbd2feb4569 Luigi Santivetti 2022-03-16  316  		}
+425cbd2feb4569 Luigi Santivetti 2022-03-16  317  #else
+425cbd2feb4569 Luigi Santivetti 2022-03-16  318  		BLK_t bValue =3D {0};
+425cbd2feb4569 Luigi Santivetti 2022-03-16  319  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  215  	if (cmd.timeout_ms)
-2405252a680e21 Christoph Hellwig 2021-04-10  216  		timeout =3D msecs_to_ji=
-ffies(cmd.timeout_ms);
-2405252a680e21 Christoph Hellwig 2021-04-10  217  =
+425cbd2feb4569 Luigi Santivetti 2022-03-16  320  		uBlockSize =3D sizeof(bV=
+alue) / sizeof(unsigned int);
+425cbd2feb4569 Luigi Santivetti 2022-03-16  321  		for (i =3D 0; i < uBlock=
+Size; i++)
+425cbd2feb4569 Luigi Santivetti 2022-03-16 @322  			bValue[i] =3D ui8Value =
+<< 24U |
+425cbd2feb4569 Luigi Santivetti 2022-03-16  323  			            ui8Value <<=
+ 16U |
+425cbd2feb4569 Luigi Santivetti 2022-03-16  324  			            ui8Value <<=
+  8U |
+425cbd2feb4569 Luigi Santivetti 2022-03-16  325  			            ui8Value;
+425cbd2feb4569 Luigi Santivetti 2022-03-16  326  #endif /* defined(DEVICE_M=
+EMSETCPY_NON_VECTOR_KM) */
+425cbd2feb4569 Luigi Santivetti 2022-03-16  327  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  218  	status =3D nvme_submit_u=
-ser_cmd(ns ? ns->queue : ctrl->admin_q, &c,
-2405252a680e21 Christoph Hellwig 2021-04-10  219  			nvme_to_user_ptr(cmd.a=
-ddr), cmd.data_len,
-2405252a680e21 Christoph Hellwig 2021-04-10  220  			nvme_to_user_ptr(cmd.m=
-etadata), cmd.metadata_len,
-2405252a680e21 Christoph Hellwig 2021-04-10  221  			0, &result, timeout);
-2405252a680e21 Christoph Hellwig 2021-04-10  222  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  223  	if (status >=3D 0) {
-2405252a680e21 Christoph Hellwig 2021-04-10  224  		if (put_user(result, &u=
-cmd->result))
-2405252a680e21 Christoph Hellwig 2021-04-10  225  			return -EFAULT;
-2405252a680e21 Christoph Hellwig 2021-04-10  226  	}
-2405252a680e21 Christoph Hellwig 2021-04-10  227  =
+:::::: The code@line 322 was first introduced by commit
+:::::: 425cbd2feb456937b3e6d9c9351a2064d6ddcd74 CHROMIUM: drm/img-rogue: Ad=
+d 1.13 IMG PowerVR Rogue driver
 
-2405252a680e21 Christoph Hellwig 2021-04-10  228  	return status;
-2405252a680e21 Christoph Hellwig 2021-04-10  229  }
-2405252a680e21 Christoph Hellwig 2021-04-10  230  =
-
+:::::: TO: Luigi Santivetti <luigi.santivetti@imagination.corp-partner.go=
+ogle.com>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserv=
+iceaccount.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1067532972363371584==--
+--===============7283904020560335244==--
 
