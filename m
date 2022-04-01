@@ -1,370 +1,387 @@
-Content-Type: multipart/mixed; boundary="===============3687811757724090308=="
+Content-Type: multipart/mixed; boundary="===============1067532972363371584=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jimc:dyndbg-next 6/9] lib/dynamic_debug.c:182:13: warning: Uninitialized variable: dt->classes [uninitvar]
-Date: Sat, 02 Apr 2022 08:23:45 +0800
-Message-ID: <202204020817.JPgR9StA-lkp@intel.com>
+Subject: drivers/nvme/host/ioctl.c:193:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sat, 02 Apr 2022 03:29:26 +0800
+Message-ID: <202204020315.xc7GLwtS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3687811757724090308==
+--===============1067532972363371584==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Jim Cromie <jim.cromie@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Keith Busch <kbusch@kernel.org>
+CC: "Javier Gonz=C3=A1lez" <javier.gonz@samsung.com>
+CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
-Hi Jim,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e8b767f5e04097aaedcd6e06e2270f9fe5282696
+commit: 2405252a680e2151046f4f256d706c3ca92fedef nvme: move the ioctl code =
+to a separate file
+date:   12 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 12 months ago
+config: mips-randconfig-c004-20220328 (https://download.01.org/0day-ci/arch=
+ive/20220402/202204020315.xc7GLwtS-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 0f6d95=
+01cf49ce02937099350d08f20c4af86f3d)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D2405252a680e2151046f4f256d706c3ca92fedef
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2405252a680e2151046f4f256d706c3ca92fedef
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dmips clang-analyzer =
 
-First bad commit (maybe !=3D root cause):
-
-tree:   https://github.com/jimc/linux.git dyndbg-next
-head:   cbf7619d7b351330a112a46e892e6ebf0f185c0f
-commit: 5c2ca6a45a6773cd282c54025857370789d02927 [6/9] dyndbg: remove "clas=
-s <number>" query support
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
-
-   lib/dynamic_debug.c:1265:14: warning: Comparing pointers that point to d=
-ifferent objects [comparePointers]
-    for (; iter < __stop___dyndbg; iter++) {
-                ^
-   lib/dynamic_debug.c:42:23: note: Variable declared here.
-   extern struct _ddebug __start___dyndbg[];
-                         ^
-   lib/dynamic_debug.c:1262:9: note: Array decayed to pointer here.
-    iter =3D __start___dyndbg;
+clang-analyzer warnings: (new ones prefixed by >>)
+                                                    ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/axp20x_adc.c:37:35: note: expanded from macro 'AXP20X_AD=
+C_RATE_HZ'
+   #define AXP20X_ADC_RATE_HZ(x)                   ((ilog2((x) / 25) << 6) =
+& AXP20X_ADC_RATE_MASK)
+                                                     ^~~~~~~~~~~~~~~
+   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
+           __ilog2_u32(n) :                \
+           ^~~~~~~~~~~~~~
+   drivers/iio/adc/axp20x_adc.c:594:6: note: The result of the left shift i=
+s undefined because the left operand is negative
+                                    AXP813_ADC_RATE_HZ(rate));
+                                    ^
+   drivers/iio/adc/axp20x_adc.c:41:34: note: expanded from macro 'AXP813_AD=
+C_RATE_HZ'
+   #define AXP813_ADC_RATE_HZ(x)                   (AXP20X_ADC_RATE_HZ(x) |=
+ AXP813_V_I_ADC_RATE_HZ(x))
+                                                    ^~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/axp20x_adc.c:37:51: note: expanded from macro 'AXP20X_AD=
+C_RATE_HZ'
+   #define AXP20X_ADC_RATE_HZ(x)                   ((ilog2((x) / 25) << 6) =
+& AXP20X_ADC_RATE_MASK)
+                                                     ~~~~~~~~~~~~~~~ ^
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   include/linux/hid.h:999:9: warning: Access to field 'name' results in a =
+dereference of a null pointer (loaded from variable 'input') [clang-analyze=
+r-core.NullDereference]
+                                       input->name, c, type);
+                                       ^
+   drivers/hid/hid-ezkey.c:29:6: note: Assuming the condition is false
+           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-ezkey.c:29:2: note: Taking false branch
+           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
            ^
-   lib/dynamic_debug.c:43:23: note: Variable declared here.
-   extern struct _ddebug __stop___dyndbg[];
-                         ^
-   lib/dynamic_debug.c:1265:16: note: Array decayed to pointer here.
-    for (; iter < __stop___dyndbg; iter++) {
-                  ^
-   lib/dynamic_debug.c:1265:14: note: Comparing pointers that point to diff=
-erent objects
-    for (; iter < __stop___dyndbg; iter++) {
-                ^
-   lib/dynamic_debug.c:957:60: warning: Parameter 'pos' can be declared wit=
-h const [constParameter]
-   static void *ddebug_proc_start(struct seq_file *m, loff_t *pos)
-                                                              ^
-   lib/dynamic_debug.c:980:57: warning: Parameter 'p' can be declared with =
-const [constParameter]
-   static void *ddebug_proc_next(struct seq_file *m, void *p, loff_t *pos)
-                                                           ^
->> lib/dynamic_debug.c:182:13: warning: Uninitialized variable: dt->classes=
- [uninitvar]
-      if (!dt->classes)
-               ^
-   lib/dynamic_debug.c:170:21: note: Assuming condition is false
-     if (query->module &&
+   drivers/hid/hid-ezkey.c:32:2: note: Control jumps to 'case 562:'  at lin=
+e 40
+           switch (usage->hid & HID_USAGE) {
+           ^
+   drivers/hid/hid-ezkey.c:40:14: note: Calling 'hid_map_usage'
+           case 0x232: ez_map_rel(REL_HWHEEL);     break;
                        ^
-   lib/dynamic_debug.c:182:13: note: Uninitialized variable: dt->classes
-      if (!dt->classes)
+   drivers/hid/hid-ezkey.c:22:23: note: expanded from macro 'ez_map_rel'
+   #define ez_map_rel(c)   hid_map_usage(hi, usage, bit, max, EV_REL, (c))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:974:2: note: 'input' initialized here
+           struct input_dev *input =3D hidinput->input;
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:978:2: note: Control jumps to 'case 2:'  at line 983
+           switch (type) {
+           ^
+   include/linux/hid.h:986:3: note:  Execution continues on line 997
+                   break;
+                   ^
+   include/linux/hid.h:997:15: note: 'c' is <=3D 'limit'
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:997:15: note: Left side of '||' is false
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/hid.h:997:28: note: Assuming 'bmap' is null
+           if (unlikely(c > limit || !bmap)) {
+                                     ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:997:2: note: Taking true branch
+           if (unlikely(c > limit || !bmap)) {
+           ^
+   include/linux/hid.h:998:3: note: Assuming the condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:511:6: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+               ^~~~~~~~~~~~~~~~~
+   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
+limit'
+   #define __ratelimit(state) ___ratelimit(state, __func__)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:998:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/hid.h:999:9: note: Access to field 'name' results in a der=
+eference of a null pointer (loaded from variable 'input')
+                                       input->name, c, type);
+                                       ^
+   include/linux/printk.h:528:49: note: expanded from macro 'pr_warn_rateli=
+mited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+                                                          ^~~~~~~~~~~
+   include/linux/printk.h:512:17: note: expanded from macro 'printk_ratelim=
+ited'
+                   printk(fmt, ##__VA_ARGS__);                             \
+                                 ^~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/nvme/host/ioctl.c:193:6: warning: Branch condition evaluates to =
+a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (cmd.flags)
                ^
->> lib/dynamic_debug.c:1081:12: warning: Uninitialized variable: dt->mod_na=
-me [uninitvar]
-      if (dt->mod_name =3D=3D map->mod->name) {
-              ^
-   lib/dynamic_debug.c:1196:11: warning: Uninitialized variable: dt->mod_na=
-me [uninitvar]
-     if (dt->mod_name =3D=3D mod_name) {
-             ^
->> lib/dynamic_debug.c:105:12: warning: Using argument fb that points at un=
-initialized variable flags [ctuuninitvar]
-    char *p =3D fb->buf;
-              ^
-   lib/dynamic_debug.c:1014:27: note: Calling function ddebug_describe_flag=
-s, 2nd argument is uninitialized
-        ddebug_describe_flags(dp->flags, &flags));
-                             ^
-   lib/dynamic_debug.c:105:12: note: Using argument fb
-    char *p =3D fb->buf;
-              ^
+   drivers/nvme/host/ioctl.c:437:2: note: Control jumps to 'case 3225964097=
+:'  at line 438
+           switch (cmd) {
+           ^
+   drivers/nvme/host/ioctl.c:439:10: note: Calling 'nvme_user_cmd'
+                   return nvme_user_cmd(ctrl, NULL, argp);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/ioctl.c:189:6: note: Assuming the condition is false
+           if (!capable(CAP_SYS_ADMIN))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/ioctl.c:189:2: note: Taking false branch
+           if (!capable(CAP_SYS_ADMIN))
+           ^
+   drivers/nvme/host/ioctl.c:191:6: note: Calling 'copy_from_user'
+           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Assuming the condition is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+   include/linux/uaccess.h:157:33: note: Assuming the condition is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                                          ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:616:2: note: Taking false branch
+           if (eva_kernel_access())
+           ^
+   arch/mips/include/asm/uaccess.h:619:3: note: Returning without writing t=
+o 'to->flags'
+                   return __invoke_copy_from_user(to, from, n);
+                   ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
+           ^
+   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->f=
+lags'
+           return res;
+           ^
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->f=
+lags'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   drivers/nvme/host/ioctl.c:191:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/ioctl.c:191:2: note: Taking false branch
+           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+           ^
+   drivers/nvme/host/ioctl.c:193:6: note: Branch condition evaluates to a g=
+arbage value
+           if (cmd.flags)
+               ^~~~~~~~~
+   drivers/nvme/host/ioctl.c:224:7: warning: Assigned value is garbage or u=
+ndefined [clang-analyzer-core.uninitialized.Assign]
+                   if (put_user(result, &ucmd->result))
+                       ^
+   arch/mips/include/asm/uaccess.h:154:2: note: expanded from macro 'put_us=
+er'
+           __put_user_check((x), (ptr), sizeof(*(ptr)))
+           ^
+   arch/mips/include/asm/uaccess.h:441:2: note: expanded from macro '__put_=
+user_check'
+           __typeof__(*(ptr)) __pu_val =3D (x);                            =
+  \
+           ^
+   drivers/nvme/host/ioctl.c:355:2: note: Taking true branch
+           if (is_ctrl_ioctl(cmd))
+           ^
+   drivers/nvme/host/ioctl.c:356:10: note: Calling 'nvme_ctrl_ioctl'
+                   return nvme_ctrl_ioctl(ns->ctrl, cmd, argp);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/ioctl.c:293:2: note: Control jumps to 'case 3225964097=
+:'  at line 294
+           switch (cmd) {
+           ^
+   drivers/nvme/host/ioctl.c:295:10: note: Calling 'nvme_user_cmd'
 
-vim +182 lib/dynamic_debug.c
+vim +193 drivers/nvme/host/ioctl.c
 
-f678ce8cc3cb2ad Jim Cromie      2020-07-19  101  =
+2405252a680e21 Christoph Hellwig 2021-04-10  179  =
 
-e9d376f0fa66bd6 Jason Baron     2009-02-05  102  /* format a string into bu=
-f[] which describes the _ddebug's flags */
-f678ce8cc3cb2ad Jim Cromie      2020-07-19  103  static char *ddebug_descri=
-be_flags(unsigned int flags, struct flagsbuf *fb)
-e9d376f0fa66bd6 Jason Baron     2009-02-05  104  {
-f678ce8cc3cb2ad Jim Cromie      2020-07-19 @105  	char *p =3D fb->buf;
-8ba6ebf583f12da Bart Van Assche 2011-01-23  106  	int i;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  107  =
+2405252a680e21 Christoph Hellwig 2021-04-10  180  static int nvme_user_cmd(=
+struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+2405252a680e21 Christoph Hellwig 2021-04-10  181  			struct nvme_passthru_c=
+md __user *ucmd)
+2405252a680e21 Christoph Hellwig 2021-04-10  182  {
+2405252a680e21 Christoph Hellwig 2021-04-10  183  	struct nvme_passthru_cmd=
+ cmd;
+2405252a680e21 Christoph Hellwig 2021-04-10  184  	struct nvme_command c;
+2405252a680e21 Christoph Hellwig 2021-04-10  185  	unsigned timeout =3D 0;
+2405252a680e21 Christoph Hellwig 2021-04-10  186  	u64 result;
+2405252a680e21 Christoph Hellwig 2021-04-10  187  	int status;
+2405252a680e21 Christoph Hellwig 2021-04-10  188  =
 
-8ba6ebf583f12da Bart Van Assche 2011-01-23  108  	for (i =3D 0; i < ARRAY_S=
-IZE(opt_array); ++i)
-f678ce8cc3cb2ad Jim Cromie      2020-07-19  109  		if (flags & opt_array[i]=
-.flag)
-8ba6ebf583f12da Bart Van Assche 2011-01-23  110  			*p++ =3D opt_array[i].o=
-pt_char;
-f678ce8cc3cb2ad Jim Cromie      2020-07-19  111  	if (p =3D=3D fb->buf)
-5ca7d2a6c5e4f24 Jim Cromie      2011-12-19  112  		*p++ =3D '_';
-e9d376f0fa66bd6 Jason Baron     2009-02-05  113  	*p =3D '\0';
-e9d376f0fa66bd6 Jason Baron     2009-02-05  114  =
+2405252a680e21 Christoph Hellwig 2021-04-10  189  	if (!capable(CAP_SYS_ADM=
+IN))
+2405252a680e21 Christoph Hellwig 2021-04-10  190  		return -EACCES;
+2405252a680e21 Christoph Hellwig 2021-04-10  191  	if (copy_from_user(&cmd,=
+ ucmd, sizeof(cmd)))
+2405252a680e21 Christoph Hellwig 2021-04-10  192  		return -EFAULT;
+2405252a680e21 Christoph Hellwig 2021-04-10 @193  	if (cmd.flags)
+2405252a680e21 Christoph Hellwig 2021-04-10  194  		return -EINVAL;
+2405252a680e21 Christoph Hellwig 2021-04-10  195  	if (ns && cmd.nsid !=3D =
+ns->head->ns_id) {
+2405252a680e21 Christoph Hellwig 2021-04-10  196  		dev_err(ctrl->device,
+2405252a680e21 Christoph Hellwig 2021-04-10  197  			"%s: nsid (%u) in cmd =
+does not match nsid (%u) of namespace\n",
+2405252a680e21 Christoph Hellwig 2021-04-10  198  			current->comm, cmd.nsi=
+d, ns->head->ns_id);
+2405252a680e21 Christoph Hellwig 2021-04-10  199  		return -EINVAL;
+2405252a680e21 Christoph Hellwig 2021-04-10  200  	}
+2405252a680e21 Christoph Hellwig 2021-04-10  201  =
 
-f678ce8cc3cb2ad Jim Cromie      2020-07-19  115  	return fb->buf;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  116  }
-e9d376f0fa66bd6 Jason Baron     2009-02-05  117  =
+2405252a680e21 Christoph Hellwig 2021-04-10  202  	memset(&c, 0, sizeof(c));
+2405252a680e21 Christoph Hellwig 2021-04-10  203  	c.common.opcode =3D cmd.=
+opcode;
+2405252a680e21 Christoph Hellwig 2021-04-10  204  	c.common.flags =3D cmd.f=
+lags;
+2405252a680e21 Christoph Hellwig 2021-04-10  205  	c.common.nsid =3D cpu_to=
+_le32(cmd.nsid);
+2405252a680e21 Christoph Hellwig 2021-04-10  206  	c.common.cdw2[0] =3D cpu=
+_to_le32(cmd.cdw2);
+2405252a680e21 Christoph Hellwig 2021-04-10  207  	c.common.cdw2[1] =3D cpu=
+_to_le32(cmd.cdw3);
+2405252a680e21 Christoph Hellwig 2021-04-10  208  	c.common.cdw10 =3D cpu_t=
+o_le32(cmd.cdw10);
+2405252a680e21 Christoph Hellwig 2021-04-10  209  	c.common.cdw11 =3D cpu_t=
+o_le32(cmd.cdw11);
+2405252a680e21 Christoph Hellwig 2021-04-10  210  	c.common.cdw12 =3D cpu_t=
+o_le32(cmd.cdw12);
+2405252a680e21 Christoph Hellwig 2021-04-10  211  	c.common.cdw13 =3D cpu_t=
+o_le32(cmd.cdw13);
+2405252a680e21 Christoph Hellwig 2021-04-10  212  	c.common.cdw14 =3D cpu_t=
+o_le32(cmd.cdw14);
+2405252a680e21 Christoph Hellwig 2021-04-10  213  	c.common.cdw15 =3D cpu_t=
+o_le32(cmd.cdw15);
+2405252a680e21 Christoph Hellwig 2021-04-10  214  =
 
-481c0e33f1e71a7 Jim Cromie      2020-07-19  118  #define vnpr_info(lvl, fmt=
-, ...)				\
-574b3725e327531 Jim Cromie      2011-12-19  119  do {								\
-481c0e33f1e71a7 Jim Cromie      2020-07-19  120  	if (verbose >=3D lvl)				=
-	\
-f657fd21e16e3ab Joe Perches     2012-12-05  121  		pr_info(fmt, ##__VA_ARGS=
-__);			\
-574b3725e327531 Jim Cromie      2011-12-19  122  } while (0)
-574b3725e327531 Jim Cromie      2011-12-19  123  =
+2405252a680e21 Christoph Hellwig 2021-04-10  215  	if (cmd.timeout_ms)
+2405252a680e21 Christoph Hellwig 2021-04-10  216  		timeout =3D msecs_to_ji=
+ffies(cmd.timeout_ms);
+2405252a680e21 Christoph Hellwig 2021-04-10  217  =
 
-481c0e33f1e71a7 Jim Cromie      2020-07-19  124  #define vpr_info(fmt, ...)=
-	vnpr_info(1, fmt, ##__VA_ARGS__)
-481c0e33f1e71a7 Jim Cromie      2020-07-19  125  #define v2pr_info(fmt, ...=
-)	vnpr_info(2, fmt, ##__VA_ARGS__)
-09ee10ff804ec4b Jim Cromie      2021-10-19  126  #define v3pr_info(fmt, ...=
-)	vnpr_info(3, fmt, ##__VA_ARGS__)
-09ee10ff804ec4b Jim Cromie      2021-10-19  127  #define v4pr_info(fmt, ...=
-)	vnpr_info(4, fmt, ##__VA_ARGS__)
-481c0e33f1e71a7 Jim Cromie      2020-07-19  128  =
+2405252a680e21 Christoph Hellwig 2021-04-10  218  	status =3D nvme_submit_u=
+ser_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+2405252a680e21 Christoph Hellwig 2021-04-10  219  			nvme_to_user_ptr(cmd.a=
+ddr), cmd.data_len,
+2405252a680e21 Christoph Hellwig 2021-04-10  220  			nvme_to_user_ptr(cmd.m=
+etadata), cmd.metadata_len,
+2405252a680e21 Christoph Hellwig 2021-04-10  221  			0, &result, timeout);
+2405252a680e21 Christoph Hellwig 2021-04-10  222  =
 
-f657fd21e16e3ab Joe Perches     2012-12-05  129  static void vpr_info_dq(co=
-nst struct ddebug_query *query, const char *msg)
-f657fd21e16e3ab Joe Perches     2012-12-05  130  {
-f657fd21e16e3ab Joe Perches     2012-12-05  131  	/* trim any trailing newl=
-ines */
-f657fd21e16e3ab Joe Perches     2012-12-05  132  	int fmtlen =3D 0;
-f657fd21e16e3ab Joe Perches     2012-12-05  133  =
+2405252a680e21 Christoph Hellwig 2021-04-10  223  	if (status >=3D 0) {
+2405252a680e21 Christoph Hellwig 2021-04-10  224  		if (put_user(result, &u=
+cmd->result))
+2405252a680e21 Christoph Hellwig 2021-04-10  225  			return -EFAULT;
+2405252a680e21 Christoph Hellwig 2021-04-10  226  	}
+2405252a680e21 Christoph Hellwig 2021-04-10  227  =
 
-f657fd21e16e3ab Joe Perches     2012-12-05  134  	if (query->format) {
-f657fd21e16e3ab Joe Perches     2012-12-05  135  		fmtlen =3D strlen(query-=
->format);
-f657fd21e16e3ab Joe Perches     2012-12-05  136  		while (fmtlen && query->=
-format[fmtlen - 1] =3D=3D '\n')
-f657fd21e16e3ab Joe Perches     2012-12-05  137  			fmtlen--;
-f657fd21e16e3ab Joe Perches     2012-12-05  138  	}
-f657fd21e16e3ab Joe Perches     2012-12-05  139  =
+2405252a680e21 Christoph Hellwig 2021-04-10  228  	return status;
+2405252a680e21 Christoph Hellwig 2021-04-10  229  }
+2405252a680e21 Christoph Hellwig 2021-04-10  230  =
 
-f5fcce134ef6f2b Jim Cromie      2022-03-31  140  	v3pr_info("%s: func=3D\"%=
-s\" file=3D\"%s\" module=3D\"%s\" format=3D\"%.*s\" lineno=3D%u-%u class=3D=
-%s\n",
-f657fd21e16e3ab Joe Perches     2012-12-05  141  		  msg,
-f62fc08fdc51d18 Jim Cromie      2020-07-19  142  		  query->function ?: "",
-f62fc08fdc51d18 Jim Cromie      2020-07-19  143  		  query->filename ?: "",
-f62fc08fdc51d18 Jim Cromie      2020-07-19  144  		  query->module ?: "",
-f62fc08fdc51d18 Jim Cromie      2020-07-19  145  		  fmtlen, query->format =
-?: "",
-f5fcce134ef6f2b Jim Cromie      2022-03-31  146  		  query->first_lineno, q=
-uery->last_lineno, query->class_string);
-f657fd21e16e3ab Joe Perches     2012-12-05  147  }
-f657fd21e16e3ab Joe Perches     2012-12-05  148  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  149  /*
-85f7f6c0edb8414 Jim Cromie      2011-12-19  150   * Search the tables for _=
-ddebug's which match the given `query' and
-85f7f6c0edb8414 Jim Cromie      2011-12-19  151   * apply the `flags' and `=
-mask' to them.  Returns number of matching
-85f7f6c0edb8414 Jim Cromie      2011-12-19  152   * callsites, normally the=
- same as number of changes.  If verbose,
-85f7f6c0edb8414 Jim Cromie      2011-12-19  153   * logs the changes.  Take=
-s ddebug_lock.
-e9d376f0fa66bd6 Jason Baron     2009-02-05  154   */
-85f7f6c0edb8414 Jim Cromie      2011-12-19  155  static int ddebug_change(c=
-onst struct ddebug_query *query,
-84da83a6ffc0b73 Jim Cromie      2020-07-19  156  			 struct flag_settings *=
-modifiers)
-e9d376f0fa66bd6 Jason Baron     2009-02-05  157  {
-e9d376f0fa66bd6 Jason Baron     2009-02-05  158  	int i;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  159  	struct ddebug_table *dt;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  160  	unsigned int newflags;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  161  	unsigned int nfound =3D 0;
-a24be0adb0f355e Jim Cromie      2022-01-31  162  	struct flagsbuf fbuf, nbu=
-f;
-594522fe41b7214 Jim Cromie      2021-07-28  163  	int query_class;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  164  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  165  	/* search for matching dd=
-ebugs */
-e9d376f0fa66bd6 Jason Baron     2009-02-05  166  	mutex_lock(&ddebug_lock);
-e9d376f0fa66bd6 Jason Baron     2009-02-05  167  	list_for_each_entry(dt, &=
-ddebug_tables, link) {
-e9d376f0fa66bd6 Jason Baron     2009-02-05  168  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  169  		/* match against the mod=
-ule name */
-578b1e0701af34f Changbin Du     2014-01-23  170  		if (query->module &&
-578b1e0701af34f Changbin Du     2014-01-23  171  		    !match_wildcard(quer=
-y->module, dt->mod_name))
-e9d376f0fa66bd6 Jason Baron     2009-02-05  172  			continue;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  173  =
-
-f5fcce134ef6f2b Jim Cromie      2022-03-31  174  		/* validate class-string=
- against module's known classes */
-f5fcce134ef6f2b Jim Cromie      2022-03-31  175  		query_class =3D _DPRINTK=
-_CLASS_DFLT;
-f5fcce134ef6f2b Jim Cromie      2022-03-31  176  		if (query->class_string)=
- {
-f5fcce134ef6f2b Jim Cromie      2022-03-31  177  			int idx;
-f5fcce134ef6f2b Jim Cromie      2022-03-31  178  			/*
-f5fcce134ef6f2b Jim Cromie      2022-03-31  179  			 * XXX single list will=
- need to be a for-list
-f5fcce134ef6f2b Jim Cromie      2022-03-31  180  			 * so that modules can =
-have 2 sets of class-decls
-f5fcce134ef6f2b Jim Cromie      2022-03-31  181  			 */
-f5fcce134ef6f2b Jim Cromie      2022-03-31 @182  			if (!dt->classes)
-f5fcce134ef6f2b Jim Cromie      2022-03-31  183  				continue;
-f5fcce134ef6f2b Jim Cromie      2022-03-31  184  =
-
-f5fcce134ef6f2b Jim Cromie      2022-03-31  185  			idx =3D match_string(dt=
-->classes->classes,
-f5fcce134ef6f2b Jim Cromie      2022-03-31  186  					   _DPRINTK_CLASS_DFL=
-T, query->class_string);
-f5fcce134ef6f2b Jim Cromie      2022-03-31  187  			if (idx < 0)
-f5fcce134ef6f2b Jim Cromie      2022-03-31  188  				continue;
-f5fcce134ef6f2b Jim Cromie      2022-03-31  189  			else
-f5fcce134ef6f2b Jim Cromie      2022-03-31  190  				query_class =3D idx; /=
-* XXX: + dt->classes->base */
-f5fcce134ef6f2b Jim Cromie      2022-03-31  191  		}
-f5fcce134ef6f2b Jim Cromie      2022-03-31  192  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  193  		for (i =3D 0; i < dt->nu=
-m_ddebugs; i++) {
-e9d376f0fa66bd6 Jason Baron     2009-02-05  194  			struct _ddebug *dp =3D =
-&dt->ddebugs[i];
-e9d376f0fa66bd6 Jason Baron     2009-02-05  195  =
-
-f5fcce134ef6f2b Jim Cromie      2022-03-31  196  			/* match against query-=
-class, either given-&-validated or default */
-f5fcce134ef6f2b Jim Cromie      2022-03-31  197  			if (query_class !=3D dp=
-->class_id)
-594522fe41b7214 Jim Cromie      2021-07-28  198  				continue;
-594522fe41b7214 Jim Cromie      2021-07-28  199  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  200  			/* match against the so=
-urce filename */
-d6a238d25014d0f Jim Cromie      2011-12-19  201  			if (query->filename &&
-578b1e0701af34f Changbin Du     2014-01-23  202  			    !match_wildcard(que=
-ry->filename, dp->filename) &&
-578b1e0701af34f Changbin Du     2014-01-23  203  			    !match_wildcard(que=
-ry->filename,
-578b1e0701af34f Changbin Du     2014-01-23  204  					   kbasename(dp->file=
-name)) &&
-578b1e0701af34f Changbin Du     2014-01-23  205  			    !match_wildcard(que=
-ry->filename,
-578b1e0701af34f Changbin Du     2014-01-23  206  					   trim_prefix(dp->fi=
-lename)))
-e9d376f0fa66bd6 Jason Baron     2009-02-05  207  				continue;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  208  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  209  			/* match against the fu=
-nction */
-d6a238d25014d0f Jim Cromie      2011-12-19  210  			if (query->function &&
-578b1e0701af34f Changbin Du     2014-01-23  211  			    !match_wildcard(que=
-ry->function, dp->function))
-e9d376f0fa66bd6 Jason Baron     2009-02-05  212  				continue;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  213  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  214  			/* match against the fo=
-rmat */
-4b334484fa7f44b Jim Cromie      2020-07-19  215  			if (query->format) {
-4b334484fa7f44b Jim Cromie      2020-07-19  216  				if (*query->format =3D=
-=3D '^') {
-4b334484fa7f44b Jim Cromie      2020-07-19  217  					char *p;
-4b334484fa7f44b Jim Cromie      2020-07-19  218  					/* anchored search. m=
-atch must be at beginning */
-4b334484fa7f44b Jim Cromie      2020-07-19  219  					p =3D strstr(dp->form=
-at, query->format+1);
-4b334484fa7f44b Jim Cromie      2020-07-19  220  					if (p !=3D dp->format)
-4b334484fa7f44b Jim Cromie      2020-07-19  221  						continue;
-4b334484fa7f44b Jim Cromie      2020-07-19  222  				} else if (!strstr(dp-=
->format, query->format))
-e9d376f0fa66bd6 Jason Baron     2009-02-05  223  					continue;
-4b334484fa7f44b Jim Cromie      2020-07-19  224  			}
-e9d376f0fa66bd6 Jason Baron     2009-02-05  225  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  226  			/* match against the li=
-ne number range */
-e9d376f0fa66bd6 Jason Baron     2009-02-05  227  			if (query->first_lineno=
- &&
-e9d376f0fa66bd6 Jason Baron     2009-02-05  228  			    dp->lineno < query-=
->first_lineno)
-e9d376f0fa66bd6 Jason Baron     2009-02-05  229  				continue;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  230  			if (query->last_lineno =
-&&
-e9d376f0fa66bd6 Jason Baron     2009-02-05  231  			    dp->lineno > query-=
->last_lineno)
-e9d376f0fa66bd6 Jason Baron     2009-02-05  232  				continue;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  233  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  234  			nfound++;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  235  =
-
-84da83a6ffc0b73 Jim Cromie      2020-07-19  236  			newflags =3D (dp->flags=
- & modifiers->mask) | modifiers->flags;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  237  			if (newflags =3D=3D dp-=
->flags)
-e9d376f0fa66bd6 Jason Baron     2009-02-05  238  				continue;
-e9666d10a5677a4 Masahiro Yamada 2018-12-31  239  #ifdef CONFIG_JUMP_LABEL
-9049fc745300c5e Jason Baron     2016-08-03  240  			if (dp->flags & _DPRINT=
-K_FLAGS_PRINT) {
-b4deead228e6b6d Jim Cromie      2022-01-31  241  				if (!(newflags & _DPRI=
-NTK_FLAGS_PRINT))
-9049fc745300c5e Jason Baron     2016-08-03  242  					static_branch_disable=
-(&dp->key.dd_key_true);
-b4deead228e6b6d Jim Cromie      2022-01-31  243  			} else if (newflags & _=
-DPRINTK_FLAGS_PRINT) {
-9049fc745300c5e Jason Baron     2016-08-03  244  				static_branch_enable(&=
-dp->key.dd_key_true);
-b4deead228e6b6d Jim Cromie      2022-01-31  245  			}
-9049fc745300c5e Jason Baron     2016-08-03  246  #endif
-a24be0adb0f355e Jim Cromie      2022-01-31  247  			v4pr_info("changed %s:%=
-d [%s]%s %s -> %s\n",
-2b6783191da7211 Jim Cromie      2011-12-19  248  				  trim_prefix(dp->file=
-name), dp->lineno,
-e9d376f0fa66bd6 Jason Baron     2009-02-05  249  				  dt->mod_name, dp->fu=
-nction,
-a24be0adb0f355e Jim Cromie      2022-01-31  250  				  ddebug_describe_flag=
-s(dp->flags, &fbuf),
-a24be0adb0f355e Jim Cromie      2022-01-31  251  				  ddebug_describe_flag=
-s(newflags, &nbuf));
-a24be0adb0f355e Jim Cromie      2022-01-31  252  			dp->flags =3D newflags;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  253  		}
-e9d376f0fa66bd6 Jason Baron     2009-02-05  254  	}
-e9d376f0fa66bd6 Jason Baron     2009-02-05  255  	mutex_unlock(&ddebug_lock=
-);
-e9d376f0fa66bd6 Jason Baron     2009-02-05  256  =
-
-e9d376f0fa66bd6 Jason Baron     2009-02-05  257  	if (!nfound && verbose)
-4ad275e5cb576fa Joe Perches     2011-08-11  258  		pr_info("no matches for =
-query\n");
-85f7f6c0edb8414 Jim Cromie      2011-12-19  259  =
-
-85f7f6c0edb8414 Jim Cromie      2011-12-19  260  	return nfound;
-e9d376f0fa66bd6 Jason Baron     2009-02-05  261  }
-e9d376f0fa66bd6 Jason Baron     2009-02-05  262  =
-
-
-:::::: The code at line 182 was first introduced by commit
-:::::: f5fcce134ef6f2b57fb835b118fdb60cb9e1a983 squash-w-next
-
-:::::: TO: Jim Cromie <jim.cromie@gmail.com>
-:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============3687811757724090308==--
+--===============1067532972363371584==--
 
