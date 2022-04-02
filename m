@@ -1,28 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============0755453872716148664=="
+Content-Type: multipart/mixed; boundary="===============9047258714200781967=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [sashal-stable:pending-5.17 23/787] drivers/bus/mhi/core/init.c:87:16: warning: Uninitialized variable: index [uninitvar]
-Date: Sun, 03 Apr 2022 06:18:55 +0800
-Message-ID: <202204030620.N5bZbI9W-lkp@intel.com>
+Subject: drivers/base/memory.c:1057:32: warning: Parameter 'excluded' can be declared with const [constParameter]
+Date: Sun, 03 Apr 2022 05:17:25 +0800
+Message-ID: <202204030532.SMZyX0Om-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0755453872716148664==
+--===============9047258714200781967==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Sasha Levin <sashal@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: David Hildenbrand <david@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable=
-.git pending-5.17
-head:   910f479048304416d2f70a98fb84a9466e56c169
-commit: b7a792309fd10eaabb0476bc2f1c632d8383c0b9 [23/787] bus: mhi: Fix pm_=
-state conversion to string
-:::::: branch date: 21 hours ago
-:::::: commit date: 34 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6f34f8c3d6178527d4c02aa3a53c370cc70cb91e
+commit: 3fcebf90209a7f52d384ad7701425aa91be309ab mm/memory_hotplug: improve=
+d dynamic memory group aware "auto-movable" online policy
+date:   7 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 months ago
 compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -31,47 +35,36 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/bus/mhi/core/init.c:87:16: warning: Uninitialized variable: inde=
-x [uninitvar]
-    if (!state || index >=3D ARRAY_SIZE(mhi_pm_state_str))
-                  ^
-   drivers/bus/mhi/core/init.c:84:6: note: Assuming condition is false
-    if (state)
-        ^
-   drivers/bus/mhi/core/init.c:87:16: note: Uninitialized variable: index
-    if (!state || index >=3D ARRAY_SIZE(mhi_pm_state_str))
-                  ^
+>> drivers/base/memory.c:1057:32: warning: Parameter 'excluded' can be decl=
+ared with const [constParameter]
+             struct memory_group *excluded, void *arg)
+                                  ^
+--
+>> drivers/bus/mhi/core/pm.c:748:4: warning: Uninitialized variable: itr->s=
+tate [uninitvar]
+      TO_DEV_STATE_TRANS_STR(itr->state));
+      ^
 
-vim +87 drivers/bus/mhi/core/init.c
+vim +/excluded +1057 drivers/base/memory.c
 
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  79  =
+3fcebf90209a7f David Hildenbrand 2021-09-07  1050  =
 
-b7a792309fd10e Paul Davey            2022-03-01  80  const char *to_mhi_pm_=
-state_str(u32 state)
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  81  {
-b7a792309fd10e Paul Davey            2022-03-01  82  	int index;
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  83  =
-
-b7a792309fd10e Paul Davey            2022-03-01  84  	if (state)
-b7a792309fd10e Paul Davey            2022-03-01  85  		index =3D __fls(stat=
-e);
-b7a792309fd10e Paul Davey            2022-03-01  86  =
-
-b7a792309fd10e Paul Davey            2022-03-01 @87  	if (!state || index >=
-=3D ARRAY_SIZE(mhi_pm_state_str))
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  88  		return "Invalid Stat=
-e";
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  89  =
-
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  90  	return mhi_pm_state_s=
-tr[index];
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  91  }
-a6e2e3522f2914 Manivannan Sadhasivam 2020-02-20  92  =
-
+3fcebf90209a7f David Hildenbrand 2021-09-07  1051  /*
+3fcebf90209a7f David Hildenbrand 2021-09-07  1052   * This is an internal h=
+elper only to be used in core memory hotplug code to
+3fcebf90209a7f David Hildenbrand 2021-09-07  1053   * walk all dynamic memo=
+ry groups excluding a given memory group, either
+3fcebf90209a7f David Hildenbrand 2021-09-07  1054   * belonging to a specif=
+ic node, or belonging to any node.
+3fcebf90209a7f David Hildenbrand 2021-09-07  1055   */
+3fcebf90209a7f David Hildenbrand 2021-09-07  1056  int walk_dynamic_memory_=
+groups(int nid, walk_memory_groups_func_t func,
+3fcebf90209a7f David Hildenbrand 2021-09-07 @1057  			       struct memory_=
+group *excluded, void *arg)
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0755453872716148664==--
+--===============9047258714200781967==--
 
