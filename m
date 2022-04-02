@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9047258714200781967=="
+Content-Type: multipart/mixed; boundary="===============1960553559047645640=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/base/memory.c:1057:32: warning: Parameter 'excluded' can be declared with const [constParameter]
-Date: Sun, 03 Apr 2022 05:17:25 +0800
-Message-ID: <202204030532.SMZyX0Om-lkp@intel.com>
+Subject: block/holder.c:10:72: warning: Parameter 'bdev' can be declared with const [constParameter]
+Date: Sun, 03 Apr 2022 03:44:52 +0800
+Message-ID: <202204030348.htSSUVTN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9047258714200781967==
+--===============1960553559047645640==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,19 +15,18 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: Jens Axboe <axboe@kernel.dk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   6f34f8c3d6178527d4c02aa3a53c370cc70cb91e
-commit: 3fcebf90209a7f52d384ad7701425aa91be309ab mm/memory_hotplug: improve=
-d dynamic memory group aware "auto-movable" online policy
-date:   7 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 months ago
-compiler: s390-linux-gcc (GCC) 11.2.0
+head:   88e6c0207623874922712e162e25d9dafd39661e
+commit: 0dbcfe247f22a6d73302dfa691c48b3c14d31c4c block: look up holders by =
+bdev
+date:   8 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 8 months ago
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -35,36 +34,45 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/base/memory.c:1057:32: warning: Parameter 'excluded' can be decl=
-ared with const [constParameter]
-             struct memory_group *excluded, void *arg)
-                                  ^
---
->> drivers/bus/mhi/core/pm.c:748:4: warning: Uninitialized variable: itr->s=
-tate [uninitvar]
-      TO_DEV_STATE_TRANS_STR(itr->state));
-      ^
+>> block/holder.c:10:72: warning: Parameter 'bdev' can be declared with con=
+st [constParameter]
+   static struct bd_holder_disk *bd_find_holder_disk(struct block_device *b=
+dev,
+                                                                          ^
 
-vim +/excluded +1057 drivers/base/memory.c
+vim +/bdev +10 block/holder.c
 
-3fcebf90209a7f David Hildenbrand 2021-09-07  1050  =
+c66fd019713e9c Christoph Hellwig 2021-08-04   9  =
 
-3fcebf90209a7f David Hildenbrand 2021-09-07  1051  /*
-3fcebf90209a7f David Hildenbrand 2021-09-07  1052   * This is an internal h=
-elper only to be used in core memory hotplug code to
-3fcebf90209a7f David Hildenbrand 2021-09-07  1053   * walk all dynamic memo=
-ry groups excluding a given memory group, either
-3fcebf90209a7f David Hildenbrand 2021-09-07  1054   * belonging to a specif=
-ic node, or belonging to any node.
-3fcebf90209a7f David Hildenbrand 2021-09-07  1055   */
-3fcebf90209a7f David Hildenbrand 2021-09-07  1056  int walk_dynamic_memory_=
-groups(int nid, walk_memory_groups_func_t func,
-3fcebf90209a7f David Hildenbrand 2021-09-07 @1057  			       struct memory_=
-group *excluded, void *arg)
+c66fd019713e9c Christoph Hellwig 2021-08-04 @10  static struct bd_holder_di=
+sk *bd_find_holder_disk(struct block_device *bdev,
+c66fd019713e9c Christoph Hellwig 2021-08-04  11  						  struct gendisk *di=
+sk)
+c66fd019713e9c Christoph Hellwig 2021-08-04  12  {
+c66fd019713e9c Christoph Hellwig 2021-08-04  13  	struct bd_holder_disk *ho=
+lder;
+c66fd019713e9c Christoph Hellwig 2021-08-04  14  =
+
+0dbcfe247f22a6 Christoph Hellwig 2021-08-04  15  	list_for_each_entry(holde=
+r, &disk->slave_bdevs, list)
+0dbcfe247f22a6 Christoph Hellwig 2021-08-04  16  		if (holder->bdev =3D=3D =
+bdev)
+c66fd019713e9c Christoph Hellwig 2021-08-04  17  			return holder;
+c66fd019713e9c Christoph Hellwig 2021-08-04  18  	return NULL;
+c66fd019713e9c Christoph Hellwig 2021-08-04  19  }
+c66fd019713e9c Christoph Hellwig 2021-08-04  20  =
+
+
+:::::: The code at line 10 was first introduced by commit
+:::::: c66fd019713e9cf7d6f1243c378cd177d01fe18a block: make the block holde=
+r code optional
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============9047258714200781967==--
+--===============1960553559047645640==--
 
