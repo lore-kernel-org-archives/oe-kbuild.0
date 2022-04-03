@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0151295555869478432=="
+Content-Type: multipart/mixed; boundary="===============0989824079625031888=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mani-mhi:mhi-next 15/18] drivers/bus/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring [uninitvar]
-Date: Mon, 04 Apr 2022 21:55:38 +0800
-Message-ID: <202204042132.0r2sxjSZ-lkp@intel.com>
+Subject: drivers/md/dm.c:1695:21: warning: Uninitialized variables: io.magic, io.flags, io.io_count, io.md, io.orig_bio, io.status, io.lock, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.tio [uninitvar]
+Date: Mon, 04 Apr 2022 00:20:26 +0800
+Message-ID: <202204040035.yUkgOaoH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0151295555869478432==
+--===============0989824079625031888==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,136 +15,177 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: Alex Elder <elder@linaro.org>
+TO: Mike Snitzer <snitzer@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-ne=
-xt
-head:   5d4be19cbe6aadfad0a5f40df91bd478cedd8344
-commit: 494a6f63937744d447630c9ab2f4a58f105b69f5 [15/18] bus: mhi: ep: Add =
-support for processing channel rings
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-compiler: alpha-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   be2d3ecedd9911fbfd7e55cc9ceac5f8b79ae4cf
+commit: 4d7bca13dd9a5033174b0735056c5658cb893e76 dm: consolidate spinlocks =
+in dm_io struct
+date:   13 days ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 13 days ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
+cppcheck warnings: (new ones prefixed by >>)
+   drivers/md/dm.c:1026:25: warning: Local variable 'md' shadows outer vari=
+able [shadowVariable]
+     struct mapped_device *md =3D io->md;
+                           ^
+   drivers/md/dm.c:981:24: note: Shadowed declaration
+    struct mapped_device *md =3D tio->io->md;
+                          ^
+   drivers/md/dm.c:1026:25: note: Shadow variable
+     struct mapped_device *md =3D io->md;
+                           ^
+
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/bus/mhi/ep/main.c:641:33: warning: Uninitialized variable: ring =
-[uninitvar]
-     ret =3D mhi_ep_update_wr_offset(ring);
-                                   ^
-   drivers/bus/mhi/ep/main.c:638:13: note: Assignment 'ring=3Ditr->ring', a=
-ssigned value is <Uninit>
-     ring =3D itr->ring;
-               ^
-   drivers/bus/mhi/ep/main.c:641:33: note: Uninitialized variable: ring
-     ret =3D mhi_ep_update_wr_offset(ring);
-                                   ^
-   drivers/bus/mhi/ep/main.c:689:24: warning: Uninitialized variable: itr->=
-state [uninitvar]
-       mhi_state_str(itr->state));
-                          ^
+   drivers/md/dm.c:1398:2: warning: Address of local auto-variable assigned=
+ to a function parameter. [autoVariables]
+    ci->bio =3D &flush_bio;
+    ^
+>> drivers/md/dm.c:1695:21: warning: Uninitialized variables: io.magic, io.=
+flags, io.io_count, io.md, io.orig_bio, io.status, io.lock, io.start_time, =
+io.data, io.node, io.map_task, io.stats_aux, io.tio [uninitvar]
+     if (dm_poll_dm_io(io, iob, flags)) {
+                       ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1676:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1695:21: note: Uninitialized variables: io.magic, io.fla=
+gs, io.io_count, io.md, io.orig_bio, io.status, io.lock, io.start_time, io.=
+data, io.node, io.map_task, io.stats_aux, io.tio
+     if (dm_poll_dm_io(io, iob, flags)) {
+                       ^
 
-vim +641 drivers/bus/mhi/ep/main.c
+vim +1695 drivers/md/dm.c
 
-2b231a40e9073a Manivannan Sadhasivam 2022-02-12  618  =
+b99fdcdc36369d Ming Lei 2022-03-04  1666  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  619  static void mhi_ep_ch=
-_ring_worker(struct work_struct *work)
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  620  {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  621  	struct mhi_ep_cntrl =
-*mhi_cntrl =3D container_of(work, struct mhi_ep_cntrl, ch_ring_work);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  622  	struct device *dev =
-=3D &mhi_cntrl->mhi_dev->dev;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  623  	struct mhi_ep_ring_i=
-tem *itr, *tmp;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  624  	struct mhi_ring_elem=
-ent *el;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  625  	struct mhi_ep_ring *=
-ring;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  626  	struct mhi_ep_chan *=
-chan;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  627  	unsigned long flags;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  628  	LIST_HEAD(head);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  629  	int ret;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  630  =
+b99fdcdc36369d Ming Lei 2022-03-04  1667  static int dm_poll_bio(struct bio=
+ *bio, struct io_comp_batch *iob,
+b99fdcdc36369d Ming Lei 2022-03-04  1668  		       unsigned int flags)
+b99fdcdc36369d Ming Lei 2022-03-04  1669  {
+b99fdcdc36369d Ming Lei 2022-03-04  1670  	struct hlist_head *head =3D dm_g=
+et_bio_hlist_head(bio);
+b99fdcdc36369d Ming Lei 2022-03-04  1671  	struct hlist_head tmp =3D HLIST_=
+HEAD_INIT;
+b99fdcdc36369d Ming Lei 2022-03-04  1672  	struct hlist_node *next;
+b99fdcdc36369d Ming Lei 2022-03-04  1673  	struct dm_io *io;
+b99fdcdc36369d Ming Lei 2022-03-04  1674  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  631  	spin_lock_irqsave(&m=
-hi_cntrl->list_lock, flags);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  632  	list_splice_tail_ini=
-t(&mhi_cntrl->ch_db_list, &head);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  633  	spin_unlock_irqresto=
-re(&mhi_cntrl->list_lock, flags);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  634  =
+b99fdcdc36369d Ming Lei 2022-03-04  1675  	/* Only poll normal bio which wa=
+s marked as REQ_DM_POLL_LIST */
+b99fdcdc36369d Ming Lei 2022-03-04  1676  	if (!(bio->bi_opf & REQ_DM_POLL_=
+LIST))
+b99fdcdc36369d Ming Lei 2022-03-04  1677  		return 0;
+b99fdcdc36369d Ming Lei 2022-03-04  1678  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  635  	/* Process each queu=
-ed channel ring. In case of an error, just process next element. */
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  636  	list_for_each_entry_=
-safe(itr, tmp, &head, node) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  637  		list_del(&itr->node=
-);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  638  		ring =3D itr->ring;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  639  =
+b99fdcdc36369d Ming Lei 2022-03-04  1679  	WARN_ON_ONCE(hlist_empty(head));
+b99fdcdc36369d Ming Lei 2022-03-04  1680  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  640  		/* Update the write=
- offset for the ring */
-494a6f63937744 Manivannan Sadhasivam 2022-02-12 @641  		ret =3D mhi_ep_upda=
-te_wr_offset(ring);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  642  		if (ret) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  643  			dev_err(dev, "Erro=
-r updating write offset for ring\n");
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  644  			kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  645  			continue;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  646  		}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  647  =
+b99fdcdc36369d Ming Lei 2022-03-04  1681  	hlist_move_list(head, &tmp);
+b99fdcdc36369d Ming Lei 2022-03-04  1682  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  648  		/* Sanity check to =
-make sure there are elements in the ring */
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  649  		if (ring->rd_offset=
- =3D=3D ring->wr_offset) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  650  			kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  651  			continue;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  652  		}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  653  =
+b99fdcdc36369d Ming Lei 2022-03-04  1683  	/*
+b99fdcdc36369d Ming Lei 2022-03-04  1684  	 * Restore .bi_private before po=
+ssibly completing dm_io.
+b99fdcdc36369d Ming Lei 2022-03-04  1685  	 *
+b99fdcdc36369d Ming Lei 2022-03-04  1686  	 * bio_poll() is only possible o=
+nce @bio has been completely
+b99fdcdc36369d Ming Lei 2022-03-04  1687  	 * submitted via submit_bio_noac=
+ct()'s depth-first submission.
+b99fdcdc36369d Ming Lei 2022-03-04  1688  	 * So there is no dm_queue_poll_=
+io() race associated with
+b99fdcdc36369d Ming Lei 2022-03-04  1689  	 * clearing REQ_DM_POLL_LIST her=
+e.
+b99fdcdc36369d Ming Lei 2022-03-04  1690  	 */
+b99fdcdc36369d Ming Lei 2022-03-04  1691  	bio->bi_opf &=3D ~REQ_DM_POLL_LI=
+ST;
+b99fdcdc36369d Ming Lei 2022-03-04  1692  	bio->bi_private =3D hlist_entry(=
+tmp.first, struct dm_io, node)->data;
+b99fdcdc36369d Ming Lei 2022-03-04  1693  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  654  		el =3D &ring->ring_=
-cache[ring->rd_offset];
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  655  		chan =3D &mhi_cntrl=
-->mhi_chan[ring->ch_id];
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  656  =
+b99fdcdc36369d Ming Lei 2022-03-04  1694  	hlist_for_each_entry_safe(io, ne=
+xt, &tmp, node) {
+b99fdcdc36369d Ming Lei 2022-03-04 @1695  		if (dm_poll_dm_io(io, iob, flag=
+s)) {
+b99fdcdc36369d Ming Lei 2022-03-04  1696  			hlist_del_init(&io->node);
+b99fdcdc36369d Ming Lei 2022-03-04  1697  			/*
+b99fdcdc36369d Ming Lei 2022-03-04  1698  			 * clone_endio() has already o=
+ccurred, so passing
+b99fdcdc36369d Ming Lei 2022-03-04  1699  			 * error as 0 here doesn't ove=
+rride io->status
+b99fdcdc36369d Ming Lei 2022-03-04  1700  			 */
+b99fdcdc36369d Ming Lei 2022-03-04  1701  			dm_io_dec_pending(io, 0);
+b99fdcdc36369d Ming Lei 2022-03-04  1702  		}
+b99fdcdc36369d Ming Lei 2022-03-04  1703  	}
+b99fdcdc36369d Ming Lei 2022-03-04  1704  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  657  		mutex_lock(&chan->l=
-ock);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  658  		dev_dbg(dev, "Proce=
-ssing the ring for channel (%u)\n", ring->ch_id);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  659  		ret =3D mhi_ep_proc=
-ess_ch_ring(ring, el);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  660  		if (ret) {
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  661  			dev_err(dev, "Erro=
-r processing ring for channel (%u): %d\n",
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  662  				ring->ch_id, ret);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  663  			mutex_unlock(&chan=
-->lock);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  664  			kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  665  			continue;
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  666  		}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  667  =
+b99fdcdc36369d Ming Lei 2022-03-04  1705  	/* Not done? */
+b99fdcdc36369d Ming Lei 2022-03-04  1706  	if (!hlist_empty(&tmp)) {
+b99fdcdc36369d Ming Lei 2022-03-04  1707  		bio->bi_opf |=3D REQ_DM_POLL_LI=
+ST;
+b99fdcdc36369d Ming Lei 2022-03-04  1708  		/* Reset bio->bi_private to dm_=
+io list head */
+b99fdcdc36369d Ming Lei 2022-03-04  1709  		hlist_move_list(&tmp, head);
+b99fdcdc36369d Ming Lei 2022-03-04  1710  		return 0;
+b99fdcdc36369d Ming Lei 2022-03-04  1711  	}
+b99fdcdc36369d Ming Lei 2022-03-04  1712  	return 1;
+b99fdcdc36369d Ming Lei 2022-03-04  1713  }
+b99fdcdc36369d Ming Lei 2022-03-04  1714  =
 
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  668  		mutex_unlock(&chan-=
->lock);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  669  		kfree(itr);
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  670  	}
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  671  }
-494a6f63937744 Manivannan Sadhasivam 2022-02-12  672  =
 
+:::::: The code at line 1695 was first introduced by commit
+:::::: b99fdcdc36369d2a3a26bf44736d420eb629d8b7 dm: support bio polling
+
+:::::: TO: Ming Lei <ming.lei@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0151295555869478432==--
+--===============0989824079625031888==--
 
