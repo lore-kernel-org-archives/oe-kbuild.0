@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6410924777885618468=="
+Content-Type: multipart/mixed; boundary="===============1950532240236463408=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hv/hv.c:215 hv_synic_enable_regs() warn: should 'simp.base_simp_gpa << 12' be a 64 bit type?
-Date: Mon, 28 Mar 2022 16:40:58 +0800
-Message-ID: <202203281658.ShCQqQl7-lkp@intel.com>
+Subject: drivers/nvme/target/fc.c:1024:65: warning: Parameter 'hosthandle' can be declared with const [constParameter]
+Date: Mon, 04 Apr 2022 02:53:54 +0800
+Message-ID: <202204040200.dIoBq1ZH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6410924777885618468==
+--===============1950532240236463408==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,199 +15,294 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Tianyu Lan <Tianyu.Lan@microsoft.com>
-CC: Wei Liu <wei.liu@kernel.org>
-CC: Michael Kelley <mikelley@microsoft.com>
+TO: Amit Engel <amit.engel@dell.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Himanshu Madhani <himanshu.madhani@oracle.com>
+CC: James Smart <jsmart2021@gmail.com>
+CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
-commit: faff44069ff538ccdfef187c4d7ec83d22dfb3a4 x86/hyperv: Add Write/Read=
- MSR registers via ghcb page
-date:   5 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-m001-20220328 (https://download.01.org/0day-ci/ar=
-chive/20220328/202203281658.ShCQqQl7-lkp(a)intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
+head:   be2d3ecedd9911fbfd7e55cc9ceac5f8b79ae4cf
+commit: 0d8ddeea11d00010c8b0ecbe9d3b90811cd19867 nvmet-fc: simplify nvmet_f=
+c_alloc_hostport
+date:   12 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 12 months ago
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/hv/hv.c:215 hv_synic_enable_regs() warn: should 'simp.base_simp_gpa=
- << 12' be a 64 bit type?
-drivers/hv/hv.c:232 hv_synic_enable_regs() warn: should 'siefp.base_siefp_g=
-pa << 12' be a 64 bit type?
 
-vim +215 drivers/hv/hv.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-2608fb65310341 drivers/hv/hv.c         Jason Wang         2013-06-19  192  =
+>> drivers/nvme/target/fcloop.c:1189:15: warning: Uninitialized variable: t=
+lport->localport [uninitvar]
+     if (tlport->localport->node_name =3D=3D nodename &&
+                 ^
+   drivers/nvme/target/fcloop.c:1183:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/nvme/target/fcloop.c:1189:15: note: Uninitialized variable: tlpo=
+rt->localport
+     if (tlport->localport->node_name =3D=3D nodename &&
+                 ^
+>> drivers/nvme/target/fcloop.c:1384:16: warning: Uninitialized variable: t=
+mpport->node_name [uninitvar]
+     if (tmpport->node_name =3D=3D nodename &&
+                  ^
+   drivers/nvme/target/fcloop.c:1378:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/nvme/target/fcloop.c:1384:16: note: Uninitialized variable: tmpp=
+ort->node_name
+     if (tmpport->node_name =3D=3D nodename &&
+                  ^
+   drivers/nvme/target/fcloop.c:1482:16: warning: Uninitialized variable: t=
+mpport->node_name [uninitvar]
+     if (tmpport->node_name =3D=3D nodename &&
+                  ^
+   drivers/nvme/target/fcloop.c:1476:6: note: Assuming condition is false
+    if (ret)
+        ^
+   drivers/nvme/target/fcloop.c:1482:16: note: Uninitialized variable: tmpp=
+ort->node_name
+     if (tmpport->node_name =3D=3D nodename &&
+                  ^
+--
+>> drivers/nvme/target/fc.c:1024:65: warning: Parameter 'hosthandle' can be=
+ declared with const [constParameter]
+   nvmet_fc_match_hostport(struct nvmet_fc_tgtport *tgtport, void *hosthand=
+le)
+                                                                   ^
+   drivers/nvme/target/fc.c:1565:41: warning: Parameter 'ctrl' can be decla=
+red with const [constParameter]
+   nvmet_fc_delete_ctrl(struct nvmet_ctrl *ctrl)
+                                           ^
+>> drivers/nvme/target/fc.c:970:32: warning: Uninitialized variable: assoc-=
+>association_id [uninitvar]
+     if (association_id =3D=3D assoc->association_id) {
+                                  ^
+   drivers/nvme/target/fc.c:965:10: note: Assuming condition is false
+    if (qid > NVMET_NR_QUEUES)
+            ^
+   drivers/nvme/target/fc.c:970:32: note: Uninitialized variable: assoc->as=
+sociation_id
+     if (association_id =3D=3D assoc->association_id) {
+                                  ^
+>> drivers/nvme/target/fc.c:1031:13: warning: Uninitialized variable: host-=
+>hosthandle [uninitvar]
+     if (host->hosthandle =3D=3D hosthandle && !host->invalid) {
+               ^
+   drivers/nvme/target/fc.c:1253:32: warning: Uninitialized variable: assoc=
+->association_id [uninitvar]
+     if (association_id =3D=3D assoc->association_id) {
+                                  ^
+>> drivers/nvme/target/fc.c:1332:48: warning: Uninitialized variable: pe->n=
+ode_name [uninitvar]
+     if (tgtport->fc_target_port.node_name =3D=3D pe->node_name &&
+                                                  ^
+>> drivers/nvme/target/fc.c:1492:27: warning: Uninitialized variables: asso=
+c.association_id, assoc.a_id, assoc.terminating, assoc.tgtport, assoc.hostp=
+ort, assoc.rcv_disconn, assoc.a_list, assoc.ref, assoc.del_work, assoc.rcu =
+[uninitvar]
+     if (!nvmet_fc_tgt_a_get(assoc))
+                             ^
+>> drivers/nvme/target/fc.c:1542:15: warning: Uninitialized variable: assoc=
+->hostport [uninitvar]
+     if (!assoc->hostport ||
+                 ^
+>> drivers/nvme/target/fc.c:1577:29: warning: Uninitialized variables: tgtp=
+ort.fc_target_port, tgtport.tgt_list, tgtport.dev, tgtport.ops, tgtport.iod=
+, tgtport.lock, tgtport.ls_rcv_list, tgtport.ls_req_list, tgtport.ls_busyli=
+st, tgtport.assoc_list, tgtport.host_list, tgtport.assoc_cnt, tgtport.pe, t=
+gtport.ref, tgtport.max_sg_cnt [uninitvar]
+     if (!nvmet_fc_tgtport_get(tgtport))
+                               ^
+   drivers/nvme/target/fc.c:1585:28: warning: Uninitialized variables: asso=
+c.association_id, assoc.a_id, assoc.terminating, assoc.tgtport, assoc.hostp=
+ort, assoc.rcv_disconn, assoc.a_list, assoc.ref, assoc.del_work, assoc.rcu =
+[uninitvar]
+       if (nvmet_fc_tgt_a_get(assoc))
+                              ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1577:7: note: Assuming condition is false
+     if (!nvmet_fc_tgtport_get(tgtport))
+         ^
+   drivers/nvme/target/fc.c:1585:28: note: Uninitialized variables: assoc.a=
+ssociation_id, assoc.a_id, assoc.terminating, assoc.tgtport, assoc.hostport=
+, assoc.rcv_disconn, assoc.a_list, assoc.ref, assoc.del_work, assoc.rcu
+       if (nvmet_fc_tgt_a_get(assoc))
+                              ^
 
-3e189519557978 drivers/staging/hv/Hv.c Hank Janssen       2010-03-04  193  =
-/*
-68cb8117132c0f drivers/hv/hv.c         Joe Perches        2018-03-04  194  =
- * hv_synic_init - Initialize the Synthetic Interrupt Controller.
-0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  195  =
- *
-0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  196  =
- * If it is already initialized by another entity (ie x2v shim), we need to
-0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  197  =
- * retrieve the initialized message and event pages.  Otherwise, we create =
-and
-0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  198  =
- * initialize the message and event pages.
-0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  199  =
- */
-dba61cda30469a drivers/hv/hv.c         Dexuan Cui         2019-09-05  200  =
-void hv_synic_enable_regs(unsigned int cpu)
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  201  {
-37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  202  =
-	struct hv_per_cpu_context *hv_cpu
-37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  203  =
-		=3D per_cpu_ptr(hv_context.cpu_context, cpu);
-eacb1b4d24c2a8 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-20  204  =
-	union hv_synic_simp simp;
-eacb1b4d24c2a8 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-20  205  =
-	union hv_synic_siefp siefp;
-b8dfb264f4f9e5 drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  206  =
-	union hv_synic_sint shared_sint;
-eacb1b4d24c2a8 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-20  207  =
-	union hv_synic_scontrol sctrl;
-a73e6b7c508f61 drivers/staging/hv/Hv.c Hank Janssen       2010-01-22  208  =
+vim +/hosthandle +1024 drivers/nvme/target/fc.c
 
-454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  209  =
-	/* Setup the Synic's message page */
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  210  =
-	simp.as_uint64 =3D hv_get_register(HV_REGISTER_SIMP);
-f6feebe073db4c drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  211  =
-	simp.simp_enabled =3D 1;
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  212  =
+c53432030d8642 James Smart   2016-12-02   955  =
 
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  213  =
-	if (hv_isolation_type_snp()) {
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  214  =
-		hv_cpu->synic_message_page
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25 @215  =
-			=3D memremap(simp.base_simp_gpa << HV_HYP_PAGE_SHIFT,
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  216  =
-				   HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  217  =
-		if (!hv_cpu->synic_message_page)
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  218  =
-			pr_err("Fail to map syinc message page.\n");
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  219  =
-	} else {
-37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  220  =
-		simp.base_simp_gpa =3D virt_to_phys(hv_cpu->synic_message_page)
-ef514d3e38edf3 drivers/hv/hv.c         Boqun Feng         2020-09-16  221  =
-			>> HV_HYP_PAGE_SHIFT;
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  222  =
-	}
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  223  =
+c53432030d8642 James Smart   2016-12-02   956  static struct nvmet_fc_tgt_q=
+ueue *
+c53432030d8642 James Smart   2016-12-02   957  nvmet_fc_find_target_queue(s=
+truct nvmet_fc_tgtport *tgtport,
+c53432030d8642 James Smart   2016-12-02   958  				u64 connection_id)
+c53432030d8642 James Smart   2016-12-02   959  {
+c53432030d8642 James Smart   2016-12-02   960  	struct nvmet_fc_tgt_assoc *=
+assoc;
+c53432030d8642 James Smart   2016-12-02   961  	struct nvmet_fc_tgt_queue *=
+queue;
+c53432030d8642 James Smart   2016-12-02   962  	u64 association_id =3D nvme=
+t_fc_getassociationid(connection_id);
+c53432030d8642 James Smart   2016-12-02   963  	u16 qid =3D nvmet_fc_getque=
+ueid(connection_id);
+c53432030d8642 James Smart   2016-12-02   964  =
 
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  224  =
-	hv_set_register(HV_REGISTER_SIMP, simp.as_uint64);
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  225  =
+0c319d3a144d4b James Smart   2017-09-19   965  	if (qid > NVMET_NR_QUEUES)
+0c319d3a144d4b James Smart   2017-09-19   966  		return NULL;
+0c319d3a144d4b James Smart   2017-09-19   967  =
 
-454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  226  =
-	/* Setup the Synic's event page */
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  227  =
-	siefp.as_uint64 =3D hv_get_register(HV_REGISTER_SIEFP);
-f6feebe073db4c drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  228  =
-	siefp.siefp_enabled =3D 1;
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  229  =
+4e2f02bf77dac7 Leonid Ravich 2021-01-03   968  	rcu_read_lock();
+4e2f02bf77dac7 Leonid Ravich 2021-01-03   969  	list_for_each_entry_rcu(ass=
+oc, &tgtport->assoc_list, a_list) {
+c53432030d8642 James Smart   2016-12-02  @970  		if (association_id =3D=3D =
+assoc->association_id) {
+4e2f02bf77dac7 Leonid Ravich 2021-01-03   971  			queue =3D rcu_dereference=
+(assoc->queues[qid]);
+c53432030d8642 James Smart   2016-12-02   972  			if (queue &&
+c53432030d8642 James Smart   2016-12-02   973  			    (!atomic_read(&queue-=
+>connected) ||
+c53432030d8642 James Smart   2016-12-02   974  			     !nvmet_fc_tgt_q_get(=
+queue)))
+c53432030d8642 James Smart   2016-12-02   975  				queue =3D NULL;
+4e2f02bf77dac7 Leonid Ravich 2021-01-03   976  			rcu_read_unlock();
+c53432030d8642 James Smart   2016-12-02   977  			return queue;
+c53432030d8642 James Smart   2016-12-02   978  		}
+c53432030d8642 James Smart   2016-12-02   979  	}
+4e2f02bf77dac7 Leonid Ravich 2021-01-03   980  	rcu_read_unlock();
+c53432030d8642 James Smart   2016-12-02   981  	return NULL;
+c53432030d8642 James Smart   2016-12-02   982  }
+c53432030d8642 James Smart   2016-12-02   983  =
 
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  230  =
-	if (hv_isolation_type_snp()) {
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  231  =
-		hv_cpu->synic_event_page =3D
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25 @232  =
-			memremap(siefp.base_siefp_gpa << HV_HYP_PAGE_SHIFT,
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  233  =
-				 HV_HYP_PAGE_SIZE, MEMREMAP_WB);
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  234  =
+58ab8ff9dca214 James Smart   2020-03-31   984  static void
+58ab8ff9dca214 James Smart   2020-03-31   985  nvmet_fc_hostport_free(struc=
+t kref *ref)
+58ab8ff9dca214 James Smart   2020-03-31   986  {
+58ab8ff9dca214 James Smart   2020-03-31   987  	struct nvmet_fc_hostport *h=
+ostport =3D
+58ab8ff9dca214 James Smart   2020-03-31   988  		container_of(ref, struct n=
+vmet_fc_hostport, ref);
+58ab8ff9dca214 James Smart   2020-03-31   989  	struct nvmet_fc_tgtport *tg=
+tport =3D hostport->tgtport;
+58ab8ff9dca214 James Smart   2020-03-31   990  	unsigned long flags;
+58ab8ff9dca214 James Smart   2020-03-31   991  =
 
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  235  =
-		if (!hv_cpu->synic_event_page)
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  236  =
-			pr_err("Fail to map syinc event page.\n");
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  237  =
-	} else {
-37cdd991fac810 drivers/hv/hv.c         Stephen Hemminger  2017-02-11  238  =
-		siefp.base_siefp_gpa =3D virt_to_phys(hv_cpu->synic_event_page)
-ef514d3e38edf3 drivers/hv/hv.c         Boqun Feng         2020-09-16  239  =
-			>> HV_HYP_PAGE_SHIFT;
-faff44069ff538 drivers/hv/hv.c         Tianyu Lan         2021-10-25  240  =
-	}
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  241  =
+58ab8ff9dca214 James Smart   2020-03-31   992  	spin_lock_irqsave(&tgtport-=
+>lock, flags);
+58ab8ff9dca214 James Smart   2020-03-31   993  	list_del(&hostport->host_li=
+st);
+58ab8ff9dca214 James Smart   2020-03-31   994  	spin_unlock_irqrestore(&tgt=
+port->lock, flags);
+58ab8ff9dca214 James Smart   2020-03-31   995  	if (tgtport->ops->host_rele=
+ase && hostport->invalid)
+58ab8ff9dca214 James Smart   2020-03-31   996  		tgtport->ops->host_release=
+(hostport->hosthandle);
+58ab8ff9dca214 James Smart   2020-03-31   997  	kfree(hostport);
+58ab8ff9dca214 James Smart   2020-03-31   998  	nvmet_fc_tgtport_put(tgtpor=
+t);
+58ab8ff9dca214 James Smart   2020-03-31   999  }
+58ab8ff9dca214 James Smart   2020-03-31  1000  =
 
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  242  =
-	hv_set_register(HV_REGISTER_SIEFP, siefp.as_uint64);
-0831ad041fd361 drivers/staging/hv/Hv.c Greg Kroah-Hartman 2009-08-31  243  =
+58ab8ff9dca214 James Smart   2020-03-31  1001  static void
+58ab8ff9dca214 James Smart   2020-03-31  1002  nvmet_fc_hostport_put(struct=
+ nvmet_fc_hostport *hostport)
+58ab8ff9dca214 James Smart   2020-03-31  1003  {
+58ab8ff9dca214 James Smart   2020-03-31  1004  	kref_put(&hostport->ref, nv=
+met_fc_hostport_free);
+58ab8ff9dca214 James Smart   2020-03-31  1005  }
+58ab8ff9dca214 James Smart   2020-03-31  1006  =
 
-454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  244  =
-	/* Setup the shared SINT. */
-d608715d4771cf drivers/hv/hv.c         Michael Kelley     2021-03-02  245  =
-	if (vmbus_irq !=3D -1)
-d608715d4771cf drivers/hv/hv.c         Michael Kelley     2021-03-02  246  =
-		enable_percpu_irq(vmbus_irq, 0);
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  247  =
-	shared_sint.as_uint64 =3D hv_get_register(HV_REGISTER_SINT0 +
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  248  =
-					VMBUS_MESSAGE_SINT);
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  249  =
+58ab8ff9dca214 James Smart   2020-03-31  1007  static int
+58ab8ff9dca214 James Smart   2020-03-31  1008  nvmet_fc_hostport_get(struct=
+ nvmet_fc_hostport *hostport)
+58ab8ff9dca214 James Smart   2020-03-31  1009  {
+58ab8ff9dca214 James Smart   2020-03-31  1010  	return kref_get_unless_zero=
+(&hostport->ref);
+58ab8ff9dca214 James Smart   2020-03-31  1011  }
+58ab8ff9dca214 James Smart   2020-03-31  1012  =
 
-d608715d4771cf drivers/hv/hv.c         Michael Kelley     2021-03-02  250  =
-	shared_sint.vector =3D vmbus_interrupt;
-b8dfb264f4f9e5 drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  251  =
-	shared_sint.masked =3D false;
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  252  =
+58ab8ff9dca214 James Smart   2020-03-31  1013  static void
+58ab8ff9dca214 James Smart   2020-03-31  1014  nvmet_fc_free_hostport(struc=
+t nvmet_fc_hostport *hostport)
+58ab8ff9dca214 James Smart   2020-03-31  1015  {
+58ab8ff9dca214 James Smart   2020-03-31  1016  	/* if LLDD not implemented,=
+ leave as NULL */
+ddd3d1051797b9 James Smart   2020-09-22  1017  	if (!hostport || !hostport-=
+>hosthandle)
+58ab8ff9dca214 James Smart   2020-03-31  1018  		return;
+58ab8ff9dca214 James Smart   2020-03-31  1019  =
 
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  253  =
-	/*
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  254  =
-	 * On architectures where Hyper-V doesn't support AEOI (e.g., ARM64),
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  255  =
-	 * it doesn't provide a recommendation flag and AEOI must be disabled.
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  256  =
-	 */
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  257  =
-#ifdef HV_DEPRECATING_AEOI_RECOMMENDED
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  258  =
-	shared_sint.auto_eoi =3D
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  259  =
-			!(ms_hyperv.hints & HV_DEPRECATING_AEOI_RECOMMENDED);
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  260  =
-#else
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  261  =
-	shared_sint.auto_eoi =3D 0;
-946f4b8680b8ad drivers/hv/hv.c         Michael Kelley     2021-03-02  262  =
-#endif
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  263  =
-	hv_set_register(HV_REGISTER_SINT0 + VMBUS_MESSAGE_SINT,
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  264  =
-				shared_sint.as_uint64);
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  265  =
+58ab8ff9dca214 James Smart   2020-03-31  1020  	nvmet_fc_hostport_put(hostp=
+ort);
+58ab8ff9dca214 James Smart   2020-03-31  1021  }
+58ab8ff9dca214 James Smart   2020-03-31  1022  =
 
-454f18a963cf65 drivers/staging/hv/Hv.c Bill Pemberton     2009-07-27  266  =
-	/* Enable the global synic bit */
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  267  =
-	sctrl.as_uint64 =3D hv_get_register(HV_REGISTER_SCONTROL);
-f6feebe073db4c drivers/staging/hv/hv.c Haiyang Zhang      2010-11-08  268  =
-	sctrl.enable =3D 1;
-3e7ee4902fe699 drivers/staging/hv/Hv.c Hank Janssen       2009-07-13  269  =
+0d8ddeea11d000 Amit Engel    2021-03-22  1023  static struct nvmet_fc_hostp=
+ort *
+0d8ddeea11d000 Amit Engel    2021-03-22 @1024  nvmet_fc_match_hostport(stru=
+ct nvmet_fc_tgtport *tgtport, void *hosthandle)
+0d8ddeea11d000 Amit Engel    2021-03-22  1025  {
+0d8ddeea11d000 Amit Engel    2021-03-22  1026  	struct nvmet_fc_hostport *h=
+ost;
+0d8ddeea11d000 Amit Engel    2021-03-22  1027  =
 
-f3c5e63c3690fc drivers/hv/hv.c         Michael Kelley     2021-03-02  270  =
-	hv_set_register(HV_REGISTER_SCONTROL, sctrl.as_uint64);
-dba61cda30469a drivers/hv/hv.c         Dexuan Cui         2019-09-05  271  }
-dba61cda30469a drivers/hv/hv.c         Dexuan Cui         2019-09-05  272  =
+0d8ddeea11d000 Amit Engel    2021-03-22  1028  	lockdep_assert_held(&tgtpor=
+t->lock);
+0d8ddeea11d000 Amit Engel    2021-03-22  1029  =
+
+0d8ddeea11d000 Amit Engel    2021-03-22  1030  	list_for_each_entry(host, &=
+tgtport->host_list, host_list) {
+0d8ddeea11d000 Amit Engel    2021-03-22 @1031  		if (host->hosthandle =3D=
+=3D hosthandle && !host->invalid) {
+0d8ddeea11d000 Amit Engel    2021-03-22  1032  			if (nvmet_fc_hostport_get=
+(host))
+0d8ddeea11d000 Amit Engel    2021-03-22  1033  				return (host);
+0d8ddeea11d000 Amit Engel    2021-03-22  1034  		}
+0d8ddeea11d000 Amit Engel    2021-03-22  1035  	}
+0d8ddeea11d000 Amit Engel    2021-03-22  1036  =
+
+0d8ddeea11d000 Amit Engel    2021-03-22  1037  	return NULL;
+0d8ddeea11d000 Amit Engel    2021-03-22  1038  }
+0d8ddeea11d000 Amit Engel    2021-03-22  1039  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6410924777885618468==--
+--===============1950532240236463408==--
 
