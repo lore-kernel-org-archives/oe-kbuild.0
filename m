@@ -1,160 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============5969469516620855768=="
+Content-Type: multipart/mixed; boundary="===============8092086433403943619=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6 12/18] KVM: arm64: Support SDEI event injection, delivery
-Date: Mon, 04 Apr 2022 20:43:22 +0800
-Message-ID: <202204042058.SDC4Q1mB-lkp@intel.com>
+Subject: [sailus-media-tree:master 39/56] drivers/media/v4l2-core/v4l2-async.c:293:23-30: ERROR: PTR_ERR applied after initialization to constant on line 281
+Date: Sun, 03 Apr 2022 17:32:11 +0800
+Message-ID: <202204031757.LLPa3mNo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5969469516620855768==
+--===============8092086433403943619==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220403153911.12332-13-gshan@redhat.com>
-References: <20220403153911.12332-13-gshan@redhat.com>
-TO: Gavin Shan <gshan@redhat.com>
-TO: kvmarm(a)lists.cs.columbia.edu
 CC: linux-kernel(a)vger.kernel.org
-CC: eauger(a)redhat.com
-CC: oupton(a)google.com
-CC: Jonathan.Cameron(a)huawei.com
-CC: vkuznets(a)redhat.com
-CC: will(a)kernel.org
-CC: shannon.zhaosl(a)gmail.com
-CC: james.morse(a)arm.com
-CC: mark.rutland(a)arm.com
-CC: maz(a)kernel.org
-CC: pbonzini(a)redhat.com
-CC: shan.gavin(a)gmail.com
+TO: Daniel Scally <djrscally@gmail.com>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: "Jean-Michel Hautbois" <jeanmichel.hautbois@ideasonboard.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Hi Gavin,
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   2052fcce377325e5662418ec65a1fabe59e4cfbf
+commit: d3ced079f8da4b6d9e6b72d8ba00f9d14701ffc6 [39/56] media: v4l2-async:=
+ Create links during v4l2_async_match_notify()
+:::::: branch date: 4 days ago
+:::::: commit date: 11 days ago
+config: microblaze-randconfig-c024-20220403 (https://download.01.org/0day-c=
+i/archive/20220403/202204031757.LLPa3mNo-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tre=
+e.git
+        git fetch --no-tags sailus-media-tree master
+        git checkout d3ced079f8da4b6d9e6b72d8ba00f9d14701ffc6
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ ARCH=3Dmicroblaze =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.18-rc1 next-20220404]
-[cannot apply to kvmarm/next kvm/master linux/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gavin-Shan/Support-S=
-DEI-Virtualization/20220403-234350
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-be2d3ecedd9911fbfd7e55cc9ceac5f8b79ae4cf
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: arm64-randconfig-c004-20220404 (https://download.01.org/0day-ci/arc=
-hive/20220404/202204042058.SDC4Q1mB-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
+All errors (new ones prefixed by >>):
+
+   microblaze-linux-ld: net/core/sock.o: in function `sk_destruct':
+>> (.text+0x3c7c): undefined reference to `__sk_defer_free_flush'
+
 
 cocci warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/sdei.c:530:3-9: preceding lock on line 500
+>> drivers/media/v4l2-core/v4l2-async.c:293:23-30: ERROR: PTR_ERR applied a=
+fter initialization to constant on line 281
 
-vim +530 arch/arm64/kvm/sdei.c
+vim +293 drivers/media/v4l2-core/v4l2-async.c
 
-4a1a288d49e756 Gavin Shan 2022-04-03  479  =
+2cab00bb076b9f Sakari Ailus  2017-09-24  277  =
 
-2c24bc7163ddb2 Gavin Shan 2022-04-03  480  int kvm_sdei_inject_event(struct=
- kvm_vcpu *vcpu,
-2c24bc7163ddb2 Gavin Shan 2022-04-03  481  			  unsigned int num,
-2c24bc7163ddb2 Gavin Shan 2022-04-03  482  			  bool immediate)
-2c24bc7163ddb2 Gavin Shan 2022-04-03  483  {
-2c24bc7163ddb2 Gavin Shan 2022-04-03  484  	struct kvm_sdei_vcpu *vsdei =3D=
- vcpu->arch.sdei;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  485  	struct kvm_sdei_exposed_event *=
-exposed_event;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  486  	struct kvm_sdei_event *event;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  487  	unsigned long event_count =3D 0;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  488  	int ret =3D 0;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  489  =
+d3ced079f8da4b Daniel Scally 2022-03-02  278  static int v4l2_async_create_=
+ancillary_links(struct v4l2_async_notifier *n,
+d3ced079f8da4b Daniel Scally 2022-03-02  279  					     struct v4l2_subdev =
+*sd)
+d3ced079f8da4b Daniel Scally 2022-03-02  280  {
+d3ced079f8da4b Daniel Scally 2022-03-02 @281  	struct media_link *link =3D =
+NULL;
+d3ced079f8da4b Daniel Scally 2022-03-02  282  =
 
-2c24bc7163ddb2 Gavin Shan 2022-04-03  490  	if (!vsdei) {
-2c24bc7163ddb2 Gavin Shan 2022-04-03  491  		ret =3D -EPERM;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  492  		goto out;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  493  	}
-2c24bc7163ddb2 Gavin Shan 2022-04-03  494  =
+d3ced079f8da4b Daniel Scally 2022-03-02  283  #if IS_ENABLED(CONFIG_MEDIA_C=
+ONTROLLER)
+d3ced079f8da4b Daniel Scally 2022-03-02  284  =
 
-2c24bc7163ddb2 Gavin Shan 2022-04-03  495  	if (!kvm_sdei_is_supported(num)=
-) {
-2c24bc7163ddb2 Gavin Shan 2022-04-03  496  		ret =3D -EINVAL;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  497  		goto out;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  498  	}
-2c24bc7163ddb2 Gavin Shan 2022-04-03  499  =
+d3ced079f8da4b Daniel Scally 2022-03-02  285  	if (sd->entity.function !=3D=
+ MEDIA_ENT_F_LENS &&
+d3ced079f8da4b Daniel Scally 2022-03-02  286  	    sd->entity.function !=3D=
+ MEDIA_ENT_F_FLASH)
+d3ced079f8da4b Daniel Scally 2022-03-02  287  		return 0;
+d3ced079f8da4b Daniel Scally 2022-03-02  288  =
 
-2c24bc7163ddb2 Gavin Shan 2022-04-03 @500  	spin_lock(&vsdei->lock);
-2c24bc7163ddb2 Gavin Shan 2022-04-03  501  =
+d3ced079f8da4b Daniel Scally 2022-03-02  289  	link =3D media_create_ancill=
+ary_link(&n->sd->entity, &sd->entity);
+d3ced079f8da4b Daniel Scally 2022-03-02  290  =
 
-2c24bc7163ddb2 Gavin Shan 2022-04-03  502  	/* Check if the vcpu has been m=
-asked */
-2c24bc7163ddb2 Gavin Shan 2022-04-03  503  	if (vsdei->masked) {
-2c24bc7163ddb2 Gavin Shan 2022-04-03  504  		ret =3D -EPERM;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  505  		goto unlock;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  506  	}
-2c24bc7163ddb2 Gavin Shan 2022-04-03  507  =
+d3ced079f8da4b Daniel Scally 2022-03-02  291  #endif
+d3ced079f8da4b Daniel Scally 2022-03-02  292  =
 
-2c24bc7163ddb2 Gavin Shan 2022-04-03  508  	/* Check if the event exists */
-2c24bc7163ddb2 Gavin Shan 2022-04-03  509  	event =3D find_event(vcpu, num);
-2c24bc7163ddb2 Gavin Shan 2022-04-03  510  	if (!event) {
-2c24bc7163ddb2 Gavin Shan 2022-04-03  511  		ret =3D -ENOENT;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  512  		goto unlock;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  513  	}
-2c24bc7163ddb2 Gavin Shan 2022-04-03  514  =
-
-2c24bc7163ddb2 Gavin Shan 2022-04-03  515  	/*
-2c24bc7163ddb2 Gavin Shan 2022-04-03  516  	 * In some cases, the injected =
-event is expected to be delivered
-2c24bc7163ddb2 Gavin Shan 2022-04-03  517  	 * immediately. However, there =
-are two cases the injected event
-2c24bc7163ddb2 Gavin Shan 2022-04-03  518  	 * can't be delivered immediate=
-ly: (a) the injected event is a
-2c24bc7163ddb2 Gavin Shan 2022-04-03  519  	 * critical one, but we already=
- have pending critical events for
-2c24bc7163ddb2 Gavin Shan 2022-04-03  520  	 * delivery. (b) the injected e=
-vent is a normal one, but we have
-2c24bc7163ddb2 Gavin Shan 2022-04-03  521  	 * pending events for delivery,=
- regardless of their priorities.
-2c24bc7163ddb2 Gavin Shan 2022-04-03  522  	 */
-2c24bc7163ddb2 Gavin Shan 2022-04-03  523  	if (immediate) {
-2c24bc7163ddb2 Gavin Shan 2022-04-03  524  		exposed_event =3D event->expos=
-ed_event;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  525  		event_count =3D vsdei->critica=
-l_event_count;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  526  		if (kvm_sdei_is_normal(exposed=
-_event->priority))
-2c24bc7163ddb2 Gavin Shan 2022-04-03  527  			event_count +=3D vsdei->norma=
-l_event_count;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  528  =
-
-2c24bc7163ddb2 Gavin Shan 2022-04-03  529  		if (event_count > 0)
-2c24bc7163ddb2 Gavin Shan 2022-04-03 @530  			return -ENOSPC;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  531  	}
-2c24bc7163ddb2 Gavin Shan 2022-04-03  532  =
-
-2c24bc7163ddb2 Gavin Shan 2022-04-03  533  	ret =3D inject_event(vcpu, even=
-t);
-2c24bc7163ddb2 Gavin Shan 2022-04-03  534  =
-
-2c24bc7163ddb2 Gavin Shan 2022-04-03  535  unlock:
-2c24bc7163ddb2 Gavin Shan 2022-04-03  536  	spin_unlock(&vsdei->lock);
-2c24bc7163ddb2 Gavin Shan 2022-04-03  537  out:
-2c24bc7163ddb2 Gavin Shan 2022-04-03  538  	return ret;
-2c24bc7163ddb2 Gavin Shan 2022-04-03  539  }
-2c24bc7163ddb2 Gavin Shan 2022-04-03  540  =
+d3ced079f8da4b Daniel Scally 2022-03-02 @293  	return IS_ERR(link) ? PTR_ER=
+R(link) : 0;
+d3ced079f8da4b Daniel Scally 2022-03-02  294  }
+d3ced079f8da4b Daniel Scally 2022-03-02  295  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5969469516620855768==--
+--===============8092086433403943619==--
 
