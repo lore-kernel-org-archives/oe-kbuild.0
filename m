@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4264617984778989706=="
+Content-Type: multipart/mixed; boundary="===============9029807549262551453=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/scheduler/sched_main.c:914:3: warning: There is an unknown macro here somewhere. Configuration is required. If list_for_each_entry is a macro then please configure it. [unknownMacro]
-Date: Tue, 05 Apr 2022 05:21:29 +0800
-Message-ID: <202204050538.kBjGR26S-lkp@intel.com>
+Subject: arch/powerpc/lib/sstep.c:329:1: warning: Label 'Efault' is not used. There is #if in function body so the label might be used in code that is removed by the preprocessor. [unusedLabelConfiguration]
+Date: Tue, 05 Apr 2022 03:09:46 +0800
+Message-ID: <202204050334.lEEI2pYI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4264617984778989706==
+--===============9029807549262551453==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,18 +15,18 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: Michael Ellerman <mpe@ellerman.id.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3123109284176b1532874591f7c81f3837bbdc17
-commit: c61cdbdbffc169dc7f1e6fe94dfffaf574fe672a drm/scheduler: Fix hang wh=
-en sched_entity released
-date:   11 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 11 months ago
-compiler: hppa-linux-gcc (GCC) 11.2.0
+commit: e28d0b675056d072f1f11fa644d0efbb016bb7ce powerpc/lib/sstep: Don't u=
+se __{get/put}_user() on kernel addresses
+date:   6 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 6 months ago
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -34,119 +34,112 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpu/drm/scheduler/sched_main.c:914:3: warning: There is an unkno=
-wn macro here somewhere. Configuration is required. If list_for_each_entry =
-is a macro then please configure it. [unknownMacro]
-     list_for_each_entry(s_entity, &rq->entities, list)
+>> drivers/edac/edac_mc.c:502:62: warning: Parameter 'dev' can be declared =
+with const [constParameter]
+   static struct mem_ctl_info *__find_mci_by_dev(struct device *dev)
+                                                                ^
+>> drivers/edac/edac_mc.c:703:3: warning: There is an unknown macro here so=
+mewhere. Configuration is required. If mci_for_each_dimm is a macro then pl=
+ease configure it. [unknownMacro]
+     mci_for_each_dimm(mci, dimm)
      ^
+--
+>> drivers/base/power/wakeup.c:413:2: warning: There is an unknown macro he=
+re somewhere. Configuration is required. If list_for_each_entry_rcu is a ma=
+cro then please configure it. [unknownMacro]
+    list_for_each_entry_rcu_locked(ws, &wakeup_sources, entry)
+    ^
+--
+   arch/powerpc/lib/sstep.c:1635:9: warning: Shifting a negative value is t=
+echnically undefined behaviour [shiftNegativeLHS]
+     imm =3D MASK32(mb, me);
+           ^
+   arch/powerpc/lib/sstep.c:1643:31: warning: Shifting a negative value is =
+technically undefined behaviour [shiftNegativeLHS]
+     op->val =3D ROTATE(val, rb) & MASK32(mb, me);
+                                 ^
+   arch/powerpc/lib/sstep.c:1651:31: warning: Shifting a negative value is =
+technically undefined behaviour [shiftNegativeLHS]
+     op->val =3D ROTATE(val, rb) & MASK32(mb, me);
+                                 ^
+>> arch/powerpc/lib/sstep.c:329:1: warning: Label 'Efault' is not used. The=
+re is #if in function body so the label might be used in code that is remov=
+ed by the preprocessor. [unusedLabelConfiguration]
+   Efault:
+   ^
+   arch/powerpc/lib/sstep.c:386:1: warning: Label 'Efault' is not used. The=
+re is #if in function body so the label might be used in code that is remov=
+ed by the preprocessor. [unusedLabelConfiguration]
+   Efault:
+   ^
+   arch/powerpc/lib/sstep.c:465:1: warning: Label 'Efault' is not used. The=
+re is #if in function body so the label might be used in code that is remov=
+ed by the preprocessor. [unusedLabelConfiguration]
+   Efault:
+   ^
+   arch/powerpc/lib/sstep.c:522:1: warning: Label 'Efault' is not used. The=
+re is #if in function body so the label might be used in code that is remov=
+ed by the preprocessor. [unusedLabelConfiguration]
+   Efault:
+   ^
+   arch/powerpc/lib/sstep.c:656:8: warning: Overlapping read/write of union=
+ is undefined behavior [overlappingWriteUnion]
+      u.u =3D u.l[0];
+          ^
+   arch/powerpc/lib/sstep.c:2232:33: warning: Unsigned expression '63-sh' c=
+an't be negative so it is unnecessary to test it. [unsignedPositive]
+       op->val =3D ROTATE(val, sh) & MASK64(0, 63 - sh);
+                                   ^
+   arch/powerpc/lib/sstep.c:2201:19: warning: Shifting signed 64-bit value =
+by 63 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+      op->val =3D ival >> (sh < 64 ? sh : 63);
+                     ^
 
-vim +914 drivers/gpu/drm/scheduler/sched_main.c
+vim +/Efault +329 arch/powerpc/lib/sstep.c
 
-f49565982194d6 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Christian K=C3=
-=B6nig   2015-08-20  891  =
+d955189ae42796 Paul Mackerras   2017-08-30  304  =
 
-a72ce6f84109c1 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Jammy Zhou    =
-    2015-05-22  892  /**
-2d33948e4e00b5 drivers/gpu/drm/scheduler/gpu_scheduler.c     Nayan Deshmukh=
-    2018-05-29  893   * drm_sched_fini - Destroy a gpu scheduler
-2d33948e4e00b5 drivers/gpu/drm/scheduler/gpu_scheduler.c     Nayan Deshmukh=
-    2018-05-29  894   *
-2d33948e4e00b5 drivers/gpu/drm/scheduler/gpu_scheduler.c     Nayan Deshmukh=
-    2018-05-29  895   * @sched: scheduler instance
-a72ce6f84109c1 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Jammy Zhou    =
-    2015-05-22  896   *
-2d33948e4e00b5 drivers/gpu/drm/scheduler/gpu_scheduler.c     Nayan Deshmukh=
-    2018-05-29  897   * Tears down and cleans up the scheduler.
-a72ce6f84109c1 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Jammy Zhou    =
-    2015-05-22  898   */
-1b1f42d8fde4fe drivers/gpu/drm/scheduler/gpu_scheduler.c     Lucas Stach   =
-    2017-12-06  899  void drm_sched_fini(struct drm_gpu_scheduler *sched)
-a72ce6f84109c1 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Jammy Zhou    =
-    2015-05-22  900  {
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  901  	struct drm_sched_entity *s_entity;
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  902  	int i;
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  903  =
+e28d0b675056d0 Christophe Leroy 2021-09-16  305  static __always_inline int
+e28d0b675056d0 Christophe Leroy 2021-09-16  306  __read_mem_aligned(unsigne=
+d long *dest, unsigned long ea, int nb, struct pt_regs *regs)
+0016a4cf558241 Paul Mackerras   2010-06-15  307  {
+0016a4cf558241 Paul Mackerras   2010-06-15  308  	unsigned long x =3D 0;
+0016a4cf558241 Paul Mackerras   2010-06-15  309  =
 
-32544d021515f7 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Dave Airlie   =
-    2015-11-03  904  	if (sched->thread)
-a72ce6f84109c1 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Jammy Zhou    =
-    2015-05-22  905  		kthread_stop(sched->thread);
-faf6e1a87e0742 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2018-10-18  906  =
+0016a4cf558241 Paul Mackerras   2010-06-15  310  	switch (nb) {
+0016a4cf558241 Paul Mackerras   2010-06-15  311  	case 1:
+e28d0b675056d0 Christophe Leroy 2021-09-16  312  		unsafe_get_user(x, (unsi=
+gned char __user *)ea, Efault);
+0016a4cf558241 Paul Mackerras   2010-06-15  313  		break;
+0016a4cf558241 Paul Mackerras   2010-06-15  314  	case 2:
+e28d0b675056d0 Christophe Leroy 2021-09-16  315  		unsafe_get_user(x, (unsi=
+gned short __user *)ea, Efault);
+0016a4cf558241 Paul Mackerras   2010-06-15  316  		break;
+0016a4cf558241 Paul Mackerras   2010-06-15  317  	case 4:
+e28d0b675056d0 Christophe Leroy 2021-09-16  318  		unsafe_get_user(x, (unsi=
+gned int __user *)ea, Efault);
+0016a4cf558241 Paul Mackerras   2010-06-15  319  		break;
+0016a4cf558241 Paul Mackerras   2010-06-15  320  #ifdef __powerpc64__
+0016a4cf558241 Paul Mackerras   2010-06-15  321  	case 8:
+e28d0b675056d0 Christophe Leroy 2021-09-16  322  		unsafe_get_user(x, (unsi=
+gned long __user *)ea, Efault);
+0016a4cf558241 Paul Mackerras   2010-06-15  323  		break;
+0016a4cf558241 Paul Mackerras   2010-06-15  324  #endif
+0016a4cf558241 Paul Mackerras   2010-06-15  325  	}
+0016a4cf558241 Paul Mackerras   2010-06-15  326  	*dest =3D x;
+e28d0b675056d0 Christophe Leroy 2021-09-16  327  	return 0;
+e28d0b675056d0 Christophe Leroy 2021-09-16  328  =
 
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  907  	for (i =3D DRM_SCHED_PRIORITY_COUNT - 1; i >=3D DRM_S=
-CHED_PRIORITY_MIN; i--) {
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  908  		struct drm_sched_rq *rq =3D &sched->sched_rq[i];
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  909  =
-
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  910  		if (!rq)
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  911  			continue;
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  912  =
-
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  913  		spin_lock(&rq->lock);
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12 @914  		list_for_each_entry(s_entity, &rq->entities, list)
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  915  			/*
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  916  			 * Prevents reinsertion and marks job_queue as idle,
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  917  			 * it will removed from rq in drm_sched_entity_fini
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  918  			 * eventually
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  919  			 */
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  920  			s_entity->stopped =3D true;
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  921  		spin_unlock(&rq->lock);
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  922  =
-
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  923  	}
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  924  =
-
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  925  	/* Wakeup everyone stuck in drm_sched_entity_flush fo=
-r this scheduler */
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  926  	wake_up_all(&sched->job_scheduled);
-c61cdbdbffc169 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-05-12  927  =
-
-e582951baabba3 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-01-18  928  	/* Confirm no work left behind accessing device struc=
-tures */
-e582951baabba3 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-01-18  929  	cancel_delayed_work_sync(&sched->work_tdr);
-e582951baabba3 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2021-01-18  930  =
-
-faf6e1a87e0742 drivers/gpu/drm/scheduler/sched_main.c        Andrey Grodzov=
-sky 2018-10-18  931  	sched->ready =3D false;
-a72ce6f84109c1 drivers/gpu/drm/amd/scheduler/gpu_scheduler.c Jammy Zhou    =
-    2015-05-22  932  }
-1b1f42d8fde4fe drivers/gpu/drm/scheduler/gpu_scheduler.c     Lucas Stach   =
-    2017-12-06  933  EXPORT_SYMBOL(drm_sched_fini);
-e6c6338f393b74 drivers/gpu/drm/scheduler/sched_main.c        Jack Zhang    =
-    2021-03-08  934  =
+e28d0b675056d0 Christophe Leroy 2021-09-16 @329  Efault:
+e28d0b675056d0 Christophe Leroy 2021-09-16  330  	regs->dar =3D ea;
+e28d0b675056d0 Christophe Leroy 2021-09-16  331  	return -EFAULT;
+e28d0b675056d0 Christophe Leroy 2021-09-16  332  }
+e28d0b675056d0 Christophe Leroy 2021-09-16  333  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4264617984778989706==--
+--===============9029807549262551453==--
 
