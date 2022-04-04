@@ -1,79 +1,126 @@
-Content-Type: multipart/mixed; boundary="===============5441453481142828389=="
+Content-Type: multipart/mixed; boundary="===============8148257159558224367=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 192/396] fs/xfs/xfs_swapext_item.c:56:5-24: atomic_dec_and_test variation before object free at line 57.
-Date: Wed, 13 Apr 2022 15:46:58 +0800
-Message-ID: <202204131524.M9rRVHoK-lkp@intel.com>
+Subject: fs/btrfs/zoned.c:2039:15: warning: Uninitialized variable: device->zone_info [uninitvar]
+Date: Mon, 04 Apr 2022 22:46:35 +0800
+Message-ID: <202204042205.t0d76Ejf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5441453481142828389==
+--===============8148257159558224367==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+TO: Naohiro Aota <naohiro.aota@wdc.com>
+CC: David Sterba <dsterba@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t vectorized-scrub
-head:   bd756ef7af68274b79308166ee64949d288be861
-commit: a15a0bd61ce19d35585a45930a3ab5a84256bf3e [192/396] xfs: introduce a=
- swap-extent log intent item
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: i386-randconfig-c021 (https://download.01.org/0day-ci/archive/20220=
-413/202204131524.M9rRVHoK-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3123109284176b1532874591f7c81f3837bbdc17
+commit: 16beac87e95e2fb278b552397c8260637f8a63f7 btrfs: zoned: cache report=
+ed zone during mount
+date:   3 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 3 months ago
+compiler: riscv32-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_swapext_item.c:56:5-24: atomic_dec_and_test variation before =
-object free at line 57.
+cppcheck warnings: (new ones prefixed by >>)
+   fs/btrfs/zoned.c:117:7: warning: Local variable 'i' shadows outer variab=
+le [shadowVariable]
+     int i;
+         ^
+   fs/btrfs/zoned.c:83:6: note: Shadowed declaration
+    int i;
+        ^
+   fs/btrfs/zoned.c:117:7: note: Shadow variable
+     int i;
+         ^
 
-vim +56 fs/xfs/xfs_swapext_item.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  43  =
+   fs/btrfs/zoned.c:658:14: warning: Redundant initialization for 'zone_inf=
+o'. The initialized value is overwritten before it is read. [redundantIniti=
+alization]
+      zone_info =3D device->zone_info;
+                ^
+   fs/btrfs/zoned.c:655:46: note: zone_info is initialized
+      struct btrfs_zoned_device_info *zone_info =3D
+                                                ^
+   fs/btrfs/zoned.c:658:14: note: zone_info is overwritten
+      zone_info =3D device->zone_info;
+                ^
+   fs/btrfs/zoned.c:336:16: warning: Uninitialized variable: device->bdev [=
+uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:330:6: note: Assuming condition is false
+    if (!btrfs_fs_incompat(fs_info, ZONED))
+        ^
+   fs/btrfs/zoned.c:336:16: note: Uninitialized variable: device->bdev
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:642:16: warning: Uninitialized variable: device->bdev [=
+uninitvar]
+     if (!device->bdev)
+                  ^
+   fs/btrfs/zoned.c:661:17: warning: Uninitialized variable: zone_info [uni=
+nitvar]
+       zone_size =3D zone_info->zone_size;
+                   ^
+   fs/btrfs/zoned.c:642:7: note: Assuming condition is false
+     if (!device->bdev)
+         ^
+   fs/btrfs/zoned.c:658:22: note: Assignment 'zone_info=3Ddevice->zone_info=
+', assigned value is <Uninit>
+      zone_info =3D device->zone_info;
+                        ^
+   fs/btrfs/zoned.c:661:17: note: Uninitialized variable: zone_info
+       zone_size =3D zone_info->zone_size;
+                   ^
+>> fs/btrfs/zoned.c:2039:15: warning: Uninitialized variable: device->zone_=
+info [uninitvar]
+     if (device->zone_info) {
+                 ^
+   fs/btrfs/zoned.c:2034:6: note: Assuming condition is false
+    if (!btrfs_is_zoned(fs_info))
+        ^
+   fs/btrfs/zoned.c:2039:15: note: Uninitialized variable: device->zone_info
+     if (device->zone_info) {
+                 ^
 
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  44  /*
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  45   * Freeing the SXI requires =
-that we remove it from the AIL if it has already
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  46   * been placed there. Howeve=
-r, the SXI may not yet have been placed in the AIL
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  47   * when called by xfs_sxi_re=
-lease() from SXD processing due to the ordering of
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  48   * committed vs unpin operat=
-ions in bulk insert operations. Hence the reference
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  49   * count to ensure only the =
-last caller frees the SXI.
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  50   */
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  51  STATIC void
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  52  xfs_sxi_release(
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  53  	struct xfs_sxi_log_item	*sx=
-i_lip)
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  54  {
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  55  	ASSERT(atomic_read(&sxi_lip=
-->sxi_refcount) > 0);
-a15a0bd61ce19d Darrick J. Wong 2022-01-06 @56  	if (atomic_dec_and_test(&sx=
-i_lip->sxi_refcount)) {
-a15a0bd61ce19d Darrick J. Wong 2022-01-06 @57  		xfs_trans_ail_delete(&sxi_=
-lip->sxi_item, SHUTDOWN_LOG_IO_ERROR);
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  58  		xfs_sxi_item_free(sxi_lip);
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  59  	}
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  60  }
-a15a0bd61ce19d Darrick J. Wong 2022-01-06  61  =
+vim +2039 fs/btrfs/zoned.c
 
+16beac87e95e2f Naohiro Aota 2021-11-11  2028  =
+
+16beac87e95e2f Naohiro Aota 2021-11-11  2029  void btrfs_free_zone_cache(st=
+ruct btrfs_fs_info *fs_info)
+16beac87e95e2f Naohiro Aota 2021-11-11  2030  {
+16beac87e95e2f Naohiro Aota 2021-11-11  2031  	struct btrfs_fs_devices *fs_=
+devices =3D fs_info->fs_devices;
+16beac87e95e2f Naohiro Aota 2021-11-11  2032  	struct btrfs_device *device;
+16beac87e95e2f Naohiro Aota 2021-11-11  2033  =
+
+16beac87e95e2f Naohiro Aota 2021-11-11  2034  	if (!btrfs_is_zoned(fs_info))
+16beac87e95e2f Naohiro Aota 2021-11-11  2035  		return;
+16beac87e95e2f Naohiro Aota 2021-11-11  2036  =
+
+16beac87e95e2f Naohiro Aota 2021-11-11  2037  	mutex_lock(&fs_devices->devi=
+ce_list_mutex);
+16beac87e95e2f Naohiro Aota 2021-11-11  2038  	list_for_each_entry(device, =
+&fs_devices->devices, dev_list) {
+16beac87e95e2f Naohiro Aota 2021-11-11 @2039  		if (device->zone_info) {
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5441453481142828389==--
+--===============8148257159558224367==--
 
