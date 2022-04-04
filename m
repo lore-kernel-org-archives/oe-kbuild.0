@@ -1,57 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============7721416000040741005=="
+Content-Type: multipart/mixed; boundary="===============2472625040803566494=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v9 07/11] ACPI/IORT: Add a helper to retrieve RMR info directly
-Date: Tue, 05 Apr 2022 06:32:46 +0800
-Message-ID: <202204050605.ws3dZryq-lkp@intel.com>
+Subject: drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declared with const [constParameter]
+Date: Tue, 05 Apr 2022 05:41:45 +0800
+Message-ID: <202204050507.iKUvFqte-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7721416000040741005==
+--===============2472625040803566494==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220404124209.1086-8-shameerali.kolothum.thodi@huawei.com>
-References: <20220404124209.1086-8-shameerali.kolothum.thodi@huawei.com>
-TO: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-TO: linux-arm-kernel(a)lists.infradead.org
-TO: linux-acpi(a)vger.kernel.org
-TO: iommu(a)lists.linux-foundation.org
-CC: linuxarm(a)huawei.com
-CC: lorenzo.pieralisi(a)arm.com
-CC: joro(a)8bytes.org
-CC: robin.murphy(a)arm.com
-CC: will(a)kernel.org
-CC: wanghuiqiang(a)huawei.com
-CC: guohanjun(a)huawei.com
-CC: steven.price(a)arm.com
-CC: Sami.Mujawar(a)arm.com
-CC: jon(a)solid-run.com
-CC: eric.auger(a)redhat.com
-CC: laurentiu.tudor(a)nxp.com
-CC: yangyicong(a)huawei.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Dan Williams <dan.j.williams@intel.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-Hi Shameer,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on joro-iommu/next]
-[also build test WARNING on rafael-pm/linux-next arm/for-next soc/for-next =
-arm64/for-next/core linus/master v5.18-rc1 next-20220404]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shameer-Kolothum/ACP=
-I-IORT-Support-for-IORT-RMR-node/20220404-204553
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git next
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3123109284176b1532874591f7c81f3837bbdc17
+commit: 4faf31b43468c58e2c8c91cc5fa26f08a6b733be cxl/mbox: Move mailbox and=
+ other non-PCI specific infrastructure to the core
+date:   7 months ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 7 months ago
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -59,53 +34,62 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpio/gpio-pl061.c:225:3: warning: There is an unknown macro here=
- somewhere. Configuration is required. If for_each_set_bit is a macro then =
-please configure it. [unknownMacro]
-     for_each_set_bit(offset, &pending, PL061_GPIO_NR)
-     ^
---
->> drivers/acpi/arm64/iort.c:1429:2: warning: There is an unknown macro her=
-e somewhere. Configuration is required. If list_for_each_entry_safe is a ma=
-cro then please configure it. [unknownMacro]
-    list_for_each_entry_safe(entry, next, head, list)
-    ^
+>> drivers/cxl/core/mbox.c:478:55: warning: Parameter 'uuid' can be declare=
+d with const [constParameter]
+   static int cxl_xfer_log(struct cxl_mem *cxlm, uuid_t *uuid, u32 size, u8=
+ *out)
+                                                         ^
 
-vim +1429 drivers/acpi/arm64/iort.c
+vim +/uuid +478 drivers/cxl/core/mbox.c
 
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1417  =
+4faf31b43468c5 Dan Williams 2021-09-08  477  =
 
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1418  /**
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1419   * iort_put_rmr_sids - Fr=
-ee all the memory allocated for RMR reserved regions.
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1420   * @iommu_fwnode: fwnode =
-associated with IOMMU
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1421   * @head: Resereved regio=
-n list
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1422   */
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1423  void iort_put_rmr_sids(st=
-ruct fwnode_handle *iommu_fwnode,
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1424  		       struct list_head=
- *head)
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1425  {
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1426  	struct iommu_resv_region=
- *entry, *next;
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1427  =
+4faf31b43468c5 Dan Williams 2021-09-08 @478  static int cxl_xfer_log(struct=
+ cxl_mem *cxlm, uuid_t *uuid, u32 size, u8 *out)
+4faf31b43468c5 Dan Williams 2021-09-08  479  {
+4faf31b43468c5 Dan Williams 2021-09-08  480  	u32 remaining =3D size;
+4faf31b43468c5 Dan Williams 2021-09-08  481  	u32 offset =3D 0;
+4faf31b43468c5 Dan Williams 2021-09-08  482  =
 
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1428  	iort_iommu_put_resv_regi=
-ons(NULL, head);
-6a2c7db7318962 Shameer Kolothum 2022-04-04 @1429  	list_for_each_entry_safe=
-(entry, next, head, list)
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1430  		kfree(entry);
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1431  }
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1432  EXPORT_SYMBOL_GPL(iort_pu=
-t_rmr_sids);
-6a2c7db7318962 Shameer Kolothum 2022-04-04  1433  =
+4faf31b43468c5 Dan Williams 2021-09-08  483  	while (remaining) {
+4faf31b43468c5 Dan Williams 2021-09-08  484  		u32 xfer_size =3D min_t(u32,=
+ remaining, cxlm->payload_size);
+4faf31b43468c5 Dan Williams 2021-09-08  485  		struct cxl_mbox_get_log {
+4faf31b43468c5 Dan Williams 2021-09-08  486  			uuid_t uuid;
+4faf31b43468c5 Dan Williams 2021-09-08  487  			__le32 offset;
+4faf31b43468c5 Dan Williams 2021-09-08  488  			__le32 length;
+4faf31b43468c5 Dan Williams 2021-09-08  489  		} __packed log =3D {
+4faf31b43468c5 Dan Williams 2021-09-08  490  			.uuid =3D *uuid,
+4faf31b43468c5 Dan Williams 2021-09-08  491  			.offset =3D cpu_to_le32(off=
+set),
+4faf31b43468c5 Dan Williams 2021-09-08  492  			.length =3D cpu_to_le32(xfe=
+r_size)
+4faf31b43468c5 Dan Williams 2021-09-08  493  		};
+4faf31b43468c5 Dan Williams 2021-09-08  494  		int rc;
+4faf31b43468c5 Dan Williams 2021-09-08  495  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  496  		rc =3D cxl_mem_mbox_send_cmd=
+(cxlm, CXL_MBOX_OP_GET_LOG, &log,
+4faf31b43468c5 Dan Williams 2021-09-08  497  					   sizeof(log), out, xfer=
+_size);
+4faf31b43468c5 Dan Williams 2021-09-08  498  		if (rc < 0)
+4faf31b43468c5 Dan Williams 2021-09-08  499  			return rc;
+4faf31b43468c5 Dan Williams 2021-09-08  500  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  501  		out +=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  502  		remaining -=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  503  		offset +=3D xfer_size;
+4faf31b43468c5 Dan Williams 2021-09-08  504  	}
+4faf31b43468c5 Dan Williams 2021-09-08  505  =
+
+4faf31b43468c5 Dan Williams 2021-09-08  506  	return 0;
+4faf31b43468c5 Dan Williams 2021-09-08  507  }
+4faf31b43468c5 Dan Williams 2021-09-08  508  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7721416000040741005==--
+--===============2472625040803566494==--
 
