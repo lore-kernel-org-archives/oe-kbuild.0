@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7924515248362866974=="
+Content-Type: multipart/mixed; boundary="===============3470825187697673507=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/mtd/cfi.h:62:2: sparse: sparse: No CONFIG_MTD_CFI_Ix selected. No NOR chip support can work.
-Date: Mon, 28 Mar 2022 18:53:47 +0800
-Message-ID: <202203281855.0hd6bzRE-lkp@intel.com>
+Subject: [mani-mhi:mhi-next 7/18] drivers/bus/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->state [uninitvar]
+Date: Mon, 04 Apr 2022 20:43:26 +0800
+Message-ID: <202204042051.UDNU94jF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7924515248362866974==
+--===============3470825187697673507==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,75 +15,101 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Mauro Lima <mauro.lima@eclypsium.com>
-CC: Boris Brezillon <bbrezillon@kernel.org>
-CC: Tudor Ambarus <tudor.ambarus@microchip.com>
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Alex Elder <elder@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ae085d7f9365de7da27ab5c0d16b12d51ea7fca9
-commit: e23e5a05d1fd9479586c40ffbcc056b3e34ef816 mtd: spi-nor: intel-spi: C=
-onvert to SPI MEM
-date:   6 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 6 weeks ago
-config: i386-randconfig-s002-20220328 (https://download.01.org/0day-ci/arch=
-ive/20220328/202203281855.0hd6bzRE-lkp(a)intel.com/config)
-compiler: gcc-9 (Ubuntu 9.4.0-1ubuntu1~20.04.1) 9.4.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De23e5a05d1fd9479586c40ffbcc056b3e34ef816
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e23e5a05d1fd9479586c40ffbcc056b3e34ef816
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Di386 SHELL=3D/bin/bash arch/x86/ drivers/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-ne=
+xt
+head:   5d4be19cbe6aadfad0a5f40df91bd478cedd8344
+commit: 484e04faa8a0487843808a08ff8b11e0684972f5 [7/18] bus: mhi: ep: Add s=
+upport for managing MHI state machine
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/spi/spi-intel.c: note: in included file (through include/linux/m=
-td/spi-nor.h):
->> include/linux/mtd/cfi.h:62:2: sparse: sparse: No CONFIG_MTD_CFI_Ix selec=
-ted. No NOR chip support can work.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +62 include/linux/mtd/cfi.h
+>> drivers/cxl/pmem.c:383:1: warning: There is an unknown macro here somewh=
+ere. Configuration is required. If __stringify is a macro then please confi=
+gure it. [unknownMacro]
+   MODULE_ALIAS_CXL(CXL_DEVICE_NVDIMM_BRIDGE);
+   ^
+--
+>> drivers/bus/mhi/ep/main.c:124:24: warning: Uninitialized variable: itr->=
+state [uninitvar]
+       mhi_state_str(itr->state));
+                          ^
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  60  =
+vim +124 drivers/bus/mhi/ep/main.c
 
-241651d04d672f David Woodhouse 2007-09-06  61  #ifndef cfi_interleave
-241651d04d672f David Woodhouse 2007-09-06 @62  #warning No CONFIG_MTD_CFI_I=
-x selected. No NOR chip support can work.
-241651d04d672f David Woodhouse 2007-09-06  63  static inline int cfi_interl=
-eave(void *cfi)
-241651d04d672f David Woodhouse 2007-09-06  64  {
-241651d04d672f David Woodhouse 2007-09-06  65  	BUG();
-241651d04d672f David Woodhouse 2007-09-06  66  	return 0;
-241651d04d672f David Woodhouse 2007-09-06  67  }
-241651d04d672f David Woodhouse 2007-09-06  68  #endif
-241651d04d672f David Woodhouse 2007-09-06  69  =
+6f7cb6e7883962 Manivannan Sadhasivam 2021-11-29  107  =
 
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  108  static void mhi_ep_st=
+ate_worker(struct work_struct *work)
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  109  {
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  110  	struct mhi_ep_cntrl =
+*mhi_cntrl =3D container_of(work, struct mhi_ep_cntrl, state_work);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  111  	struct device *dev =
+=3D &mhi_cntrl->mhi_dev->dev;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  112  	struct mhi_ep_state_=
+transition *itr, *tmp;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  113  	unsigned long flags;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  114  	LIST_HEAD(head);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  115  	int ret;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  116  =
 
-:::::: The code at line 62 was first introduced by commit
-:::::: 241651d04d672fb685b2874707016cbbf95931e5 [MTD] Fix CFI build error w=
-hen no map width or interleave supported
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  117  	spin_lock_irqsave(&m=
+hi_cntrl->list_lock, flags);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  118  	list_splice_tail_ini=
+t(&mhi_cntrl->st_transition_list, &head);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  119  	spin_unlock_irqresto=
+re(&mhi_cntrl->list_lock, flags);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  120  =
 
-:::::: TO: David Woodhouse <dwmw2@infradead.org>
-:::::: CC: David Woodhouse <dwmw2@infradead.org>
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  121  	list_for_each_entry_=
+safe(itr, tmp, &head, node) {
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  122  		list_del(&itr->node=
+);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  123  		dev_dbg(dev, "Handl=
+ing MHI state transition to %s\n",
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29 @124  			 mhi_state_str(itr=
+->state));
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  125  =
+
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  126  		switch (itr->state)=
+ {
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  127  		case MHI_STATE_M0:
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  128  			ret =3D mhi_ep_set=
+_m0_state(mhi_cntrl);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  129  			if (ret)
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  130  				dev_err(dev, "Fai=
+led to transition to M0 state\n");
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  131  			break;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  132  		case MHI_STATE_M3:
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  133  			ret =3D mhi_ep_set=
+_m3_state(mhi_cntrl);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  134  			if (ret)
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  135  				dev_err(dev, "Fai=
+led to transition to M3 state\n");
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  136  			break;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  137  		default:
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  138  			dev_err(dev, "Inva=
+lid MHI state transition: %d\n", itr->state);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  139  			break;
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  140  		}
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  141  		kfree(itr);
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  142  	}
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  143  }
+484e04faa8a048 Manivannan Sadhasivam 2021-11-29  144  =
+
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7924515248362866974==--
+--===============3470825187697673507==--
 
