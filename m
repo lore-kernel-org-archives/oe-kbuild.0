@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0752537396189741662=="
+Content-Type: multipart/mixed; boundary="===============6374792558262348938=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:493 sja1105_init_l2_forwarding_params() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwarding_params_entry'? 0
-Date: Wed, 06 Apr 2022 05:15:25 +0800
-Message-ID: <202204060508.NkMJaUJI-lkp@intel.com>
+Subject: drivers/infiniband/core/cm.c:297:2: warning: There is an unknown macro here somewhere. Configuration is required. If rdma_for_each_port is a macro then please configure it. [unknownMacro]
+Date: Wed, 06 Apr 2022 05:15:22 +0800
+Message-ID: <202204060541.hmfcwFbF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0752537396189741662==
+--===============6374792558262348938==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,100 +15,90 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+TO: Mark Zhang <markzhang@nvidia.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leonro@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: 1bf658eefe38cc26801b5861bbb6dbf3259ba8c1 net: dsa: sja1105: allow t=
-he frame buffer size to be customized
-date:   11 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 11 months ago
-config: mips-randconfig-m031-20220405 (https://download.01.org/0day-ci/arch=
-ive/20220406/202204060508.NkMJaUJI-lkp(a)intel.com/config)
-compiler: mips64-linux-gcc (GCC) 11.2.0
+commit: 76039ac9095f5ee5ec7fb95ccb6a5460d5f8c3a2 IB/cm: Protect cm_dev, cm_=
+ports and mad_agent with kref and lock
+date:   10 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 10 months ago
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:493 sja1105_init_l2_forwarding_param=
-s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
-g_params_entry'? 0
 
-Old smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:193 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:196 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:202 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:207 sja1105_init_mii_settings() warn=
-: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
-drivers/net/dsa/sja1105/sja1105_main.c:634 sja1105_init_avb_params() warn: =
-is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +493 drivers/net/dsa/sja1105/sja1105_main.c
+>> drivers/infiniband/core/cma_configfs.c:146:15: warning: syntax error [sy=
+ntaxError]
+   CONFIGFS_ATTR(, default_roce_mode);
+                 ^
+--
+   In file included from drivers/infiniband/core/sa_query.c:
+>> drivers/infiniband/core/sa_query.c:902:16: warning: Uninitialized variab=
+les: wait_query.callback, wait_query.release, wait_query.client, wait_query=
+.port, wait_query.mad_buf, wait_query.sm_ah, wait_query.id, wait_query.flag=
+s, wait_query.list, wait_query.seq, wait_query.timeout, wait_query.path_use=
+ [uninitvar]
+     if (query =3D=3D wait_query) {
+                  ^
+>> drivers/infiniband/core/sa_query.c:1107:32: warning: Uninitialized varia=
+ble: query->seq [uninitvar]
+     if (nlh->nlmsg_seq =3D=3D query->seq) {
+                                  ^
+   drivers/infiniband/core/sa_query.c:1097:41: note: Assuming condition is =
+false
+    if ((nlh->nlmsg_flags & NLM_F_REQUEST) ||
+                                           ^
+   drivers/infiniband/core/sa_query.c:1107:32: note: Uninitialized variable=
+: query->seq
+     if (nlh->nlmsg_seq =3D=3D query->seq) {
+                                  ^
+--
+>> drivers/infiniband/core/device.c:1016:2: warning: There is an unknown ma=
+cro here somewhere. Configuration is required. If xa_for_each is a macro th=
+en please configure it. [unknownMacro]
+    xa_for_each (&device->compat_devs, index, cdev)
+    ^
+--
+>> drivers/infiniband/core/cm.c:297:2: warning: There is an unknown macro h=
+ere somewhere. Configuration is required. If rdma_for_each_port is a macro =
+then please configure it. [unknownMacro]
+    rdma_for_each_port(cm_dev->ib_device, i)
+    ^
 
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  469  =
+vim +297 drivers/infiniband/core/cm.c
 
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  470  static int sja1105_init_l2=
-_forwarding_params(struct sja1105_private *priv)
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  471  {
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24  472  	struct sja1105_l2_forward=
-ing_params_entry *l2fwd_params;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  473  	struct sja1105_table *tab=
-le;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  474  =
+a977049dacdef6a Hal Rosenstock 2005-07-27  291  =
 
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  475  	table =3D &priv->static_c=
-onfig.tables[BLK_IDX_L2_FORWARDING_PARAMS];
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  476  =
+76039ac9095f5ee Mark Zhang     2021-06-02  292  static void cm_dev_release(=
+struct kref *kref)
+76039ac9095f5ee Mark Zhang     2021-06-02  293  {
+76039ac9095f5ee Mark Zhang     2021-06-02  294  	struct cm_device *cm_dev =
+=3D container_of(kref, struct cm_device, kref);
+76039ac9095f5ee Mark Zhang     2021-06-02  295  	u32 i;
+76039ac9095f5ee Mark Zhang     2021-06-02  296  =
 
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  477  	if (table->entry_count) {
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  478  		kfree(table->entries);
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  479  		table->entry_count =3D 0;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  480  	}
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  481  =
+76039ac9095f5ee Mark Zhang     2021-06-02 @297  	rdma_for_each_port(cm_dev-=
+>ib_device, i)
+76039ac9095f5ee Mark Zhang     2021-06-02  298  		kfree(cm_dev->port[i - 1]=
+);
+76039ac9095f5ee Mark Zhang     2021-06-02  299  =
 
-fd6f2c257b0bc0c Vladimir Oltean 2021-05-24  482  	table->entries =3D kcallo=
-c(table->ops->max_entry_count,
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  483  				 table->ops->unpacked_=
-entry_size, GFP_KERNEL);
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  484  	if (!table->entries)
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  485  		return -ENOMEM;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  486  =
-
-fd6f2c257b0bc0c Vladimir Oltean 2021-05-24  487  	table->entry_count =3D ta=
-ble->ops->max_entry_count;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  488  =
-
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  489  	/* This table only has a =
-single entry */
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24  490  	l2fwd_params =3D table->e=
-ntries;
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24  491  =
-
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24  492  	/* Disallow dynamic recon=
-figuration of vlan_pmap */
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24 @493  	l2fwd_params->max_dynp =
-=3D 0;
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24  494  	/* Use a single memory pa=
-rtition for all ingress queues */
-1bf658eefe38cc2 Vladimir Oltean 2021-05-24  495  	l2fwd_params->part_spc[0]=
- =3D priv->info->max_frame_mem;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  496  =
-
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  497  	return 0;
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  498  }
-8aa9ebccae87621 Vladimir Oltean 2019-05-02  499  =
+76039ac9095f5ee Mark Zhang     2021-06-02  300  	kfree(cm_dev);
+76039ac9095f5ee Mark Zhang     2021-06-02  301  }
+76039ac9095f5ee Mark Zhang     2021-06-02  302  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0752537396189741662==--
+--===============6374792558262348938==--
 
