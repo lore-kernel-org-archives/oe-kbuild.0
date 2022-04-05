@@ -1,71 +1,90 @@
-Content-Type: multipart/mixed; boundary="===============8340730269178705818=="
+Content-Type: multipart/mixed; boundary="===============2856086201257471960=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/bluetooth/hci_h5.c:1087:2: warning: There is an unknown macro here somewhere. Configuration is required. If SET_SYSTEM_SLEEP_PM_OPS is a macro then please configure it. [unknownMacro]
-Date: Tue, 05 Apr 2022 14:21:48 +0800
-Message-ID: <202204051401.OCf6h8ML-lkp@intel.com>
+Subject: [ammarfaizi2-block:dhowells/linux-fs/netfs-maple 26/40] fs/netfs/crypto.c:43 netfs_alloc_buffer() error: uninitialized symbol 'ret'.
+Date: Tue, 05 Apr 2022 13:40:45 +0800
+Message-ID: <202204051340.At3NtdJb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8340730269178705818==
+--===============2856086201257471960==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: Archie Pusaka <apusaka@chromium.org>
-CC: Marcel Holtmann <marcel@holtmann.org>
-CC: "Abhishek Pandit-Subedi" <abhishekpandit@chromium.org>
-CC: Hilda Wu <hildawu@realtek.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3123109284176b1532874591f7c81f3837bbdc17
-commit: d9dd833cf6d29695682ec7e7924c0d0992b906bc Bluetooth: hci_h5: Add run=
-time suspend
-date:   9 months ago
-:::::: branch date: 33 hours ago
-:::::: commit date: 9 months ago
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/netfs-=
+maple
+head:   674eea41fc70a740ff83ec590f9833f805852464
+commit: fc693b2e39df6567a0312f21bb9004e1d7983286 [26/40] netfs: Perform con=
+tent encryption
+:::::: branch date: 13 hours ago
+:::::: commit date: 14 hours ago
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/202=
+20405/202204051340.At3NtdJb-lkp(a)intel.com/config)
+compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/netfs/crypto.c:43 netfs_alloc_buffer() error: uninitialized symbol 'ret'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/ret +43 fs/netfs/crypto.c
 
->> drivers/bluetooth/hci_h5.c:1087:2: warning: There is an unknown macro he=
-re somewhere. Configuration is required. If SET_SYSTEM_SLEEP_PM_OPS is a ma=
-cro then please configure it. [unknownMacro]
-    SET_SYSTEM_SLEEP_PM_OPS(h5_serdev_suspend, h5_serdev_resume)
-    ^
+fc693b2e39df65 David Howells 2021-07-01  14  =
 
-vim +1087 drivers/bluetooth/hci_h5.c
+fc693b2e39df65 David Howells 2021-07-01  15  /*
+fc693b2e39df65 David Howells 2021-07-01  16   * Allocate a bunch of pages a=
+nd add them into the xarray buffer starting at
+fc693b2e39df65 David Howells 2021-07-01  17   * the given index.
+fc693b2e39df65 David Howells 2021-07-01  18   */
+fc693b2e39df65 David Howells 2021-07-01  19  int netfs_alloc_buffer(struct =
+xarray *xa, pgoff_t index, unsigned int nr_pages)
+fc693b2e39df65 David Howells 2021-07-01  20  {
+fc693b2e39df65 David Howells 2021-07-01  21  	struct page *page;
+fc693b2e39df65 David Howells 2021-07-01  22  	unsigned int n;
+fc693b2e39df65 David Howells 2021-07-01  23  	int ret;
+fc693b2e39df65 David Howells 2021-07-01  24  	LIST_HEAD(list);
+fc693b2e39df65 David Howells 2021-07-01  25  =
 
-b825d7c4052643 Jeremy Cline  2018-08-02  1085  =
+fc693b2e39df65 David Howells 2021-07-01  26  	n =3D alloc_pages_bulk_list(G=
+FP_NOIO, nr_pages, &list);
+fc693b2e39df65 David Howells 2021-07-01  27  	if (n < nr_pages) {
+fc693b2e39df65 David Howells 2021-07-01  28  		ret =3D -ENOMEM;
+fc693b2e39df65 David Howells 2021-07-01  29  	}
+fc693b2e39df65 David Howells 2021-07-01  30  =
 
-28a75e4c813c7a Hans de Goede 2018-10-30  1086  static const struct dev_pm_o=
-ps h5_serdev_pm_ops =3D {
-28a75e4c813c7a Hans de Goede 2018-10-30 @1087  	SET_SYSTEM_SLEEP_PM_OPS(h5_=
-serdev_suspend, h5_serdev_resume)
-d9dd833cf6d296 Archie Pusaka 2021-07-23  1088  	SET_RUNTIME_PM_OPS(h5_serde=
-v_suspend, h5_serdev_resume, NULL)
-28a75e4c813c7a Hans de Goede 2018-10-30  1089  };
-28a75e4c813c7a Hans de Goede 2018-10-30  1090  =
+fc693b2e39df65 David Howells 2021-07-01  31  	while ((page =3D list_first_e=
+ntry_or_null(&list, struct page, lru))) {
+fc693b2e39df65 David Howells 2021-07-01  32  		list_del(&page->lru);
+fc693b2e39df65 David Howells 2021-07-01  33  		page->index =3D index;
+fc693b2e39df65 David Howells 2021-07-01  34  		ret =3D xa_insert(xa, index+=
++, page, GFP_NOIO);
+fc693b2e39df65 David Howells 2021-07-01  35  		if (ret < 0)
+fc693b2e39df65 David Howells 2021-07-01  36  			break;
+fc693b2e39df65 David Howells 2021-07-01  37  	}
+fc693b2e39df65 David Howells 2021-07-01  38  =
 
+fc693b2e39df65 David Howells 2021-07-01  39  	while ((page =3D list_first_e=
+ntry_or_null(&list, struct page, lru))) {
+fc693b2e39df65 David Howells 2021-07-01  40  		list_del(&page->lru);
+fc693b2e39df65 David Howells 2021-07-01  41  		__free_page(page);
+fc693b2e39df65 David Howells 2021-07-01  42  	}
+fc693b2e39df65 David Howells 2021-07-01 @43  	return ret;
+fc693b2e39df65 David Howells 2021-07-01  44  }
+fc693b2e39df65 David Howells 2021-07-01  45  =
 
-:::::: The code at line 1087 was first introduced by commit
-:::::: 28a75e4c813c7ae7de5b4baf4c29369769247cc6 Bluetooth: hci_h5: Add susp=
-end / resume ops
-
-:::::: TO: Hans de Goede <hdegoede@redhat.com>
-:::::: CC: Marcel Holtmann <marcel@holtmann.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8340730269178705818==--
+--===============2856086201257471960==--
 
