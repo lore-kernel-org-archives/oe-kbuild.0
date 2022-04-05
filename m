@@ -1,178 +1,114 @@
-Content-Type: multipart/mixed; boundary="===============4187185457023540404=="
+Content-Type: multipart/mixed; boundary="===============0752537396189741662=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 914/1999] drivers/md/dm.c:1685:21: warning: Uninitialized variables: io.magic, io.lock, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.flags, io.status, io.io_count, io.md, io.orig_bio, io.tio [uninitvar]
-Date: Wed, 06 Apr 2022 06:47:28 +0800
-Message-ID: <202204060620.uJo237vq-lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:493 sja1105_init_l2_forwarding_params() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwarding_params_entry'? 0
+Date: Wed, 06 Apr 2022 05:15:25 +0800
+Message-ID: <202204060508.NkMJaUJI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4187185457023540404==
+--===============0752537396189741662==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Mike Snitzer <snitzer@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   3ccc916812598a88b427859679ffd1641e67d4a2
-commit: e1c4ab4fd11b5a5c5c59216be5ada04f1fdc87e4 [914/1999] dm: move hot dm=
-_io members to same cacheline as dm_target_io
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 days ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
+commit: 1bf658eefe38cc26801b5861bbb6dbf3259ba8c1 net: dsa: sja1105: allow t=
+he frame buffer size to be customized
+date:   11 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 11 months ago
+config: mips-randconfig-m031-20220405 (https://download.01.org/0day-ci/arch=
+ive/20220406/202204060508.NkMJaUJI-lkp(a)intel.com/config)
+compiler: mips64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:493 sja1105_init_l2_forwarding_param=
+s() warn: is 'table->entries' large enough for 'struct sja1105_l2_forwardin=
+g_params_entry'? 0
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/net/dsa/sja1105/sja1105_main.c:193 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:196 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:202 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:207 sja1105_init_mii_settings() warn=
+: is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 0
+drivers/net/dsa/sja1105/sja1105_main.c:634 sja1105_init_avb_params() warn: =
+is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 0
 
-   drivers/md/dm.c:1384:2: warning: Address of local auto-variable assigned=
- to a function parameter. [autoVariables]
-    ci->bio =3D &flush_bio;
-    ^
->> drivers/md/dm.c:1685:21: warning: Uninitialized variables: io.magic, io.=
-lock, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.flags,=
- io.status, io.io_count, io.md, io.orig_bio, io.tio [uninitvar]
-     if (dm_poll_dm_io(io, iob, flags)) {
-                       ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1666:6: note: Assuming condition is false
-    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
-        ^
-   drivers/md/dm.c:1685:21: note: Uninitialized variables: io.magic, io.loc=
-k, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.flags, io=
-.status, io.io_count, io.md, io.orig_bio, io.tio
-     if (dm_poll_dm_io(io, iob, flags)) {
-                       ^
+vim +493 drivers/net/dsa/sja1105/sja1105_main.c
 
-vim +1685 drivers/md/dm.c
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  469  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1656  =
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  470  static int sja1105_init_l2=
+_forwarding_params(struct sja1105_private *priv)
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  471  {
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24  472  	struct sja1105_l2_forward=
+ing_params_entry *l2fwd_params;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  473  	struct sja1105_table *tab=
+le;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  474  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1657  static int dm_poll_bio(struct bi=
-o *bio, struct io_comp_batch *iob,
-b99fdcdc36369d2 Ming Lei 2022-03-04  1658  		       unsigned int flags)
-b99fdcdc36369d2 Ming Lei 2022-03-04  1659  {
-b99fdcdc36369d2 Ming Lei 2022-03-04  1660  	struct hlist_head *head =3D dm_=
-get_bio_hlist_head(bio);
-b99fdcdc36369d2 Ming Lei 2022-03-04  1661  	struct hlist_head tmp =3D HLIST=
-_HEAD_INIT;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1662  	struct hlist_node *next;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1663  	struct dm_io *io;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1664  =
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  475  	table =3D &priv->static_c=
+onfig.tables[BLK_IDX_L2_FORWARDING_PARAMS];
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  476  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1665  	/* Only poll normal bio which w=
-as marked as REQ_DM_POLL_LIST */
-b99fdcdc36369d2 Ming Lei 2022-03-04  1666  	if (!(bio->bi_opf & REQ_DM_POLL=
-_LIST))
-b99fdcdc36369d2 Ming Lei 2022-03-04  1667  		return 0;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1668  =
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  477  	if (table->entry_count) {
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  478  		kfree(table->entries);
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  479  		table->entry_count =3D 0;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  480  	}
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  481  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1669  	WARN_ON_ONCE(hlist_empty(head));
-b99fdcdc36369d2 Ming Lei 2022-03-04  1670  =
+fd6f2c257b0bc0c Vladimir Oltean 2021-05-24  482  	table->entries =3D kcallo=
+c(table->ops->max_entry_count,
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  483  				 table->ops->unpacked_=
+entry_size, GFP_KERNEL);
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  484  	if (!table->entries)
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  485  		return -ENOMEM;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  486  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1671  	hlist_move_list(head, &tmp);
-b99fdcdc36369d2 Ming Lei 2022-03-04  1672  =
+fd6f2c257b0bc0c Vladimir Oltean 2021-05-24  487  	table->entry_count =3D ta=
+ble->ops->max_entry_count;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  488  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1673  	/*
-b99fdcdc36369d2 Ming Lei 2022-03-04  1674  	 * Restore .bi_private before p=
-ossibly completing dm_io.
-b99fdcdc36369d2 Ming Lei 2022-03-04  1675  	 *
-b99fdcdc36369d2 Ming Lei 2022-03-04  1676  	 * bio_poll() is only possible =
-once @bio has been completely
-b99fdcdc36369d2 Ming Lei 2022-03-04  1677  	 * submitted via submit_bio_noa=
-cct()'s depth-first submission.
-b99fdcdc36369d2 Ming Lei 2022-03-04  1678  	 * So there is no dm_queue_poll=
-_io() race associated with
-b99fdcdc36369d2 Ming Lei 2022-03-04  1679  	 * clearing REQ_DM_POLL_LIST he=
-re.
-b99fdcdc36369d2 Ming Lei 2022-03-04  1680  	 */
-b99fdcdc36369d2 Ming Lei 2022-03-04  1681  	bio->bi_opf &=3D ~REQ_DM_POLL_L=
-IST;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1682  	bio->bi_private =3D hlist_entry=
-(tmp.first, struct dm_io, node)->data;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1683  =
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  489  	/* This table only has a =
+single entry */
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24  490  	l2fwd_params =3D table->e=
+ntries;
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24  491  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1684  	hlist_for_each_entry_safe(io, n=
-ext, &tmp, node) {
-b99fdcdc36369d2 Ming Lei 2022-03-04 @1685  		if (dm_poll_dm_io(io, iob, fla=
-gs)) {
-b99fdcdc36369d2 Ming Lei 2022-03-04  1686  			hlist_del_init(&io->node);
-b99fdcdc36369d2 Ming Lei 2022-03-04  1687  			/*
-b99fdcdc36369d2 Ming Lei 2022-03-04  1688  			 * clone_endio() has already =
-occurred, so passing
-b99fdcdc36369d2 Ming Lei 2022-03-04  1689  			 * error as 0 here doesn't ov=
-erride io->status
-b99fdcdc36369d2 Ming Lei 2022-03-04  1690  			 */
-b99fdcdc36369d2 Ming Lei 2022-03-04  1691  			dm_io_dec_pending(io, 0);
-b99fdcdc36369d2 Ming Lei 2022-03-04  1692  		}
-b99fdcdc36369d2 Ming Lei 2022-03-04  1693  	}
-b99fdcdc36369d2 Ming Lei 2022-03-04  1694  =
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24  492  	/* Disallow dynamic recon=
+figuration of vlan_pmap */
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24 @493  	l2fwd_params->max_dynp =
+=3D 0;
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24  494  	/* Use a single memory pa=
+rtition for all ingress queues */
+1bf658eefe38cc2 Vladimir Oltean 2021-05-24  495  	l2fwd_params->part_spc[0]=
+ =3D priv->info->max_frame_mem;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  496  =
 
-b99fdcdc36369d2 Ming Lei 2022-03-04  1695  	/* Not done? */
-b99fdcdc36369d2 Ming Lei 2022-03-04  1696  	if (!hlist_empty(&tmp)) {
-b99fdcdc36369d2 Ming Lei 2022-03-04  1697  		bio->bi_opf |=3D REQ_DM_POLL_L=
-IST;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1698  		/* Reset bio->bi_private to dm=
-_io list head */
-b99fdcdc36369d2 Ming Lei 2022-03-04  1699  		hlist_move_list(&tmp, head);
-b99fdcdc36369d2 Ming Lei 2022-03-04  1700  		return 0;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1701  	}
-b99fdcdc36369d2 Ming Lei 2022-03-04  1702  	return 1;
-b99fdcdc36369d2 Ming Lei 2022-03-04  1703  }
-b99fdcdc36369d2 Ming Lei 2022-03-04  1704  =
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  497  	return 0;
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  498  }
+8aa9ebccae87621 Vladimir Oltean 2019-05-02  499  =
 
-
-:::::: The code at line 1685 was first introduced by commit
-:::::: b99fdcdc36369d2a3a26bf44736d420eb629d8b7 dm: support bio polling
-
-:::::: TO: Ming Lei <ming.lei@redhat.com>
-:::::: CC: Mike Snitzer <snitzer@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4187185457023540404==--
+--===============0752537396189741662==--
 
