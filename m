@@ -1,104 +1,104 @@
-Content-Type: multipart/mixed; boundary="===============6374792558262348938=="
+Content-Type: multipart/mixed; boundary="===============6173671480120914291=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/infiniband/core/cm.c:297:2: warning: There is an unknown macro here somewhere. Configuration is required. If rdma_for_each_port is a macro then please configure it. [unknownMacro]
-Date: Wed, 06 Apr 2022 05:15:22 +0800
-Message-ID: <202204060541.hmfcwFbF-lkp@intel.com>
+Subject: [cxl:pending 3/13] drivers/cxl/core/mbox.c:223 cxl_mbox_cmd_ctor() warn: passing zero to 'PTR_ERR'
+Date: Wed, 06 Apr 2022 05:05:05 +0800
+Message-ID: <202204060533.8RYu7zFU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6374792558262348938==
+--===============6173671480120914291==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
+CC: Alison Schofield <alison.schofield@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: Ben Widawsky <ben.widawsky@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Zhang <markzhang@nvidia.com>
-CC: Jason Gunthorpe <jgg@ziepe.ca>
-CC: Leon Romanovsky <leonro@nvidia.com>
+TO: Alison Schofield <alison.schofield@intel.com>
+CC: Dan Williams <dan.j.williams@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: 76039ac9095f5ee5ec7fb95ccb6a5460d5f8c3a2 IB/cm: Protect cm_dev, cm_=
-ports and mad_agent with kref and lock
-date:   10 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git pending
+head:   7dc1d11d7abae52aada5340fb98885f0ddbb7c37
+commit: be0d0ce77aa3b93c40e2f72bbcab5df883bc0cb6 [3/13] cxl/mbox: Move buil=
+d of user mailbox cmd to a helper functions
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20220=
+406/202204060533.8RYu7zFU-lkp(a)intel.com/config)
 compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/cxl/core/mbox.c:223 cxl_mbox_cmd_ctor() warn: passing zero to 'PTR_=
+ERR'
+drivers/cxl/core/mbox.c:227 cxl_mbox_cmd_ctor() warn: unsigned 'out_size' i=
+s never less than zero.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +/PTR_ERR +223 drivers/cxl/core/mbox.c
 
->> drivers/infiniband/core/cma_configfs.c:146:15: warning: syntax error [sy=
-ntaxError]
-   CONFIGFS_ATTR(, default_roce_mode);
-                 ^
---
-   In file included from drivers/infiniband/core/sa_query.c:
->> drivers/infiniband/core/sa_query.c:902:16: warning: Uninitialized variab=
-les: wait_query.callback, wait_query.release, wait_query.client, wait_query=
-.port, wait_query.mad_buf, wait_query.sm_ah, wait_query.id, wait_query.flag=
-s, wait_query.list, wait_query.seq, wait_query.timeout, wait_query.path_use=
- [uninitvar]
-     if (query =3D=3D wait_query) {
-                  ^
->> drivers/infiniband/core/sa_query.c:1107:32: warning: Uninitialized varia=
-ble: query->seq [uninitvar]
-     if (nlh->nlmsg_seq =3D=3D query->seq) {
-                                  ^
-   drivers/infiniband/core/sa_query.c:1097:41: note: Assuming condition is =
-false
-    if ((nlh->nlmsg_flags & NLM_F_REQUEST) ||
-                                           ^
-   drivers/infiniband/core/sa_query.c:1107:32: note: Uninitialized variable=
-: query->seq
-     if (nlh->nlmsg_seq =3D=3D query->seq) {
-                                  ^
---
->> drivers/infiniband/core/device.c:1016:2: warning: There is an unknown ma=
-cro here somewhere. Configuration is required. If xa_for_each is a macro th=
-en please configure it. [unknownMacro]
-    xa_for_each (&device->compat_devs, index, cdev)
-    ^
---
->> drivers/infiniband/core/cm.c:297:2: warning: There is an unknown macro h=
-ere somewhere. Configuration is required. If rdma_for_each_port is a macro =
-then please configure it. [unknownMacro]
-    rdma_for_each_port(cm_dev->ib_device, i)
-    ^
+4faf31b43468c58 Dan Williams     2021-09-08  209  =
 
-vim +297 drivers/infiniband/core/cm.c
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  210  static int cxl_mbox_cmd_c=
+tor(struct cxl_mbox_cmd *mbox,
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  211  			     struct cxl_dev_st=
+ate *cxlds, u16 opcode,
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  212  			     size_t in_size, s=
+ize_t out_size, u64 in_payload)
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  213  {
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  214  	*mbox =3D (struct cxl_mb=
+ox_cmd) {
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  215  		.opcode =3D opcode,
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  216  		.size_in =3D in_size,
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  217  	};
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  218  =
 
-a977049dacdef6a Hal Rosenstock 2005-07-27  291  =
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  219  	if (in_size) {
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  220  		mbox->payload_in =3D vm=
+emdup_user(u64_to_user_ptr(in_payload),
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  221  						in_size);
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  222  		if (!mbox->payload_in)
+be0d0ce77aa3b93 Alison Schofield 2022-03-30 @223  			return PTR_ERR(mbox->p=
+ayload_in);
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  224  	}
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  225  =
 
-76039ac9095f5ee Mark Zhang     2021-06-02  292  static void cm_dev_release(=
-struct kref *kref)
-76039ac9095f5ee Mark Zhang     2021-06-02  293  {
-76039ac9095f5ee Mark Zhang     2021-06-02  294  	struct cm_device *cm_dev =
-=3D container_of(kref, struct cm_device, kref);
-76039ac9095f5ee Mark Zhang     2021-06-02  295  	u32 i;
-76039ac9095f5ee Mark Zhang     2021-06-02  296  =
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  226  	/* Prepare to handle a f=
+ull payload for variable sized output */
+be0d0ce77aa3b93 Alison Schofield 2022-03-30 @227  	if (out_size < 0)
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  228  		mbox->size_out =3D cxld=
+s->payload_size;
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  229  	else
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  230  		mbox->size_out =3D out_=
+size;
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  231  =
 
-76039ac9095f5ee Mark Zhang     2021-06-02 @297  	rdma_for_each_port(cm_dev-=
->ib_device, i)
-76039ac9095f5ee Mark Zhang     2021-06-02  298  		kfree(cm_dev->port[i - 1]=
-);
-76039ac9095f5ee Mark Zhang     2021-06-02  299  =
-
-76039ac9095f5ee Mark Zhang     2021-06-02  300  	kfree(cm_dev);
-76039ac9095f5ee Mark Zhang     2021-06-02  301  }
-76039ac9095f5ee Mark Zhang     2021-06-02  302  =
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  232  	if (mbox->size_out) {
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  233  		mbox->payload_out =3D k=
+vzalloc(mbox->size_out, GFP_KERNEL);
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  234  		if (!mbox->payload_out)=
+ {
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  235  			kvfree(mbox->payload_i=
+n);
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  236  			return -ENOMEM;
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  237  		}
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  238  	}
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  239  	return 0;
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  240  }
+be0d0ce77aa3b93 Alison Schofield 2022-03-30  241  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6374792558262348938==--
+--===============6173671480120914291==--
 
