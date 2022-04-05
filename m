@@ -1,34 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============1812071218528148790=="
+Content-Type: multipart/mixed; boundary="===============8011732818312199837=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/base/power/domain.c:1040:2: warning: There is an unknown macro here somewhere. Configuration is required. If list_for_each_entry is a macro then please configure it. [unknownMacro]
-Date: Tue, 05 Apr 2022 10:46:19 +0800
-Message-ID: <202204051006.vaIwVaWF-lkp@intel.com>
+Subject: [linux-next:master 951/1176] drivers/md/dm.c:1685:21: warning: Uninitialized variables: io.magic, io.lock, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.flags, io.status, io.io_count, io.md, io.orig_bio, io.tio [uninitvar]
+Date: Tue, 05 Apr 2022 10:05:54 +0800
+Message-ID: <202204051036.uwchgLt6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1812071218528148790==
+--===============8011732818312199837==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
-CC: Charles Keepax <ckeepax@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Mike Snitzer <snitzer@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3123109284176b1532874591f7c81f3837bbdc17
-commit: 951cd3a0866d29cb9c01ebc1d9c17590e598226e firmware: include drivers/=
-firmware/Kconfig unconditionally
-date:   6 months ago
-:::::: branch date: 30 hours ago
-:::::: commit date: 6 months ago
-compiler: arc-elf-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   696206280c5e5c028caf9fd259999cb72b1f6127
+commit: e1c4ab4fd11b5a5c5c59216be5ada04f1fdc87e4 [951/1176] dm: move hot dm=
+_io members to same cacheline as dm_target_io
+:::::: branch date: 23 hours ago
+:::::: commit date: 3 days ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -36,65 +32,147 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/base/power/domain.c:1040:2: warning: There is an unknown macro h=
-ere somewhere. Configuration is required. If list_for_each_entry is a macro=
- then please configure it. [unknownMacro]
-    list_for_each_entry(genpd, &gpd_list, gpd_list_node)
+   drivers/md/dm.c:1384:2: warning: Address of local auto-variable assigned=
+ to a function parameter. [autoVariables]
+    ci->bio =3D &flush_bio;
     ^
+>> drivers/md/dm.c:1685:21: warning: Uninitialized variables: io.magic, io.=
+lock, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.flags,=
+ io.status, io.io_count, io.md, io.orig_bio, io.tio [uninitvar]
+     if (dm_poll_dm_io(io, iob, flags)) {
+                       ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1666:6: note: Assuming condition is false
+    if (!(bio->bi_opf & REQ_DM_POLL_LIST))
+        ^
+   drivers/md/dm.c:1685:21: note: Uninitialized variables: io.magic, io.loc=
+k, io.start_time, io.data, io.node, io.map_task, io.stats_aux, io.flags, io=
+.status, io.io_count, io.md, io.orig_bio, io.tio
+     if (dm_poll_dm_io(io, iob, flags)) {
+                       ^
 
-vim +1040 drivers/base/power/domain.c
+vim +1685 drivers/md/dm.c
 
-39ac5ba51b69a7 Tushar Behera     2014-03-28  1025  =
+b99fdcdc36369d Ming Lei 2022-03-04  1656  =
 
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1026  /**
-86e12eac1f7f84 Ulf Hansson       2016-12-08  1027   * genpd_power_off_unuse=
-d - Power off all PM domains with no devices in use.
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1028   */
-86e12eac1f7f84 Ulf Hansson       2016-12-08  1029  static int __init genpd_=
-power_off_unused(void)
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1030  {
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1031  	struct generic_pm_domai=
-n *genpd;
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1032  =
+b99fdcdc36369d Ming Lei 2022-03-04  1657  static int dm_poll_bio(struct bio=
+ *bio, struct io_comp_batch *iob,
+b99fdcdc36369d Ming Lei 2022-03-04  1658  		       unsigned int flags)
+b99fdcdc36369d Ming Lei 2022-03-04  1659  {
+b99fdcdc36369d Ming Lei 2022-03-04  1660  	struct hlist_head *head =3D dm_g=
+et_bio_hlist_head(bio);
+b99fdcdc36369d Ming Lei 2022-03-04  1661  	struct hlist_head tmp =3D HLIST_=
+HEAD_INIT;
+b99fdcdc36369d Ming Lei 2022-03-04  1662  	struct hlist_node *next;
+b99fdcdc36369d Ming Lei 2022-03-04  1663  	struct dm_io *io;
+b99fdcdc36369d Ming Lei 2022-03-04  1664  =
 
-39ac5ba51b69a7 Tushar Behera     2014-03-28  1033  	if (pd_ignore_unused) {
-39ac5ba51b69a7 Tushar Behera     2014-03-28  1034  		pr_warn("genpd: Not di=
-sabling unused power domains\n");
-bb4b72fc63d4c1 Ulf Hansson       2015-10-06  1035  		return 0;
-39ac5ba51b69a7 Tushar Behera     2014-03-28  1036  	}
-39ac5ba51b69a7 Tushar Behera     2014-03-28  1037  =
+b99fdcdc36369d Ming Lei 2022-03-04  1665  	/* Only poll normal bio which wa=
+s marked as REQ_DM_POLL_LIST */
+b99fdcdc36369d Ming Lei 2022-03-04  1666  	if (!(bio->bi_opf & REQ_DM_POLL_=
+LIST))
+b99fdcdc36369d Ming Lei 2022-03-04  1667  		return 0;
+b99fdcdc36369d Ming Lei 2022-03-04  1668  =
 
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1038  	mutex_lock(&gpd_list_lo=
-ck);
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1039  =
+b99fdcdc36369d Ming Lei 2022-03-04  1669  	WARN_ON_ONCE(hlist_empty(head));
+b99fdcdc36369d Ming Lei 2022-03-04  1670  =
 
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14 @1040  	list_for_each_entry(gen=
-pd, &gpd_list, gpd_list_node)
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1041  		genpd_queue_power_off_=
-work(genpd);
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1042  =
+b99fdcdc36369d Ming Lei 2022-03-04  1671  	hlist_move_list(head, &tmp);
+b99fdcdc36369d Ming Lei 2022-03-04  1672  =
 
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1043  	mutex_unlock(&gpd_list_=
-lock);
-17f2ae7f677f02 Rafael J. Wysocki 2011-08-14  1044  =
+b99fdcdc36369d Ming Lei 2022-03-04  1673  	/*
+b99fdcdc36369d Ming Lei 2022-03-04  1674  	 * Restore .bi_private before po=
+ssibly completing dm_io.
+b99fdcdc36369d Ming Lei 2022-03-04  1675  	 *
+b99fdcdc36369d Ming Lei 2022-03-04  1676  	 * bio_poll() is only possible o=
+nce @bio has been completely
+b99fdcdc36369d Ming Lei 2022-03-04  1677  	 * submitted via submit_bio_noac=
+ct()'s depth-first submission.
+b99fdcdc36369d Ming Lei 2022-03-04  1678  	 * So there is no dm_queue_poll_=
+io() race associated with
+b99fdcdc36369d Ming Lei 2022-03-04  1679  	 * clearing REQ_DM_POLL_LIST her=
+e.
+b99fdcdc36369d Ming Lei 2022-03-04  1680  	 */
+b99fdcdc36369d Ming Lei 2022-03-04  1681  	bio->bi_opf &=3D ~REQ_DM_POLL_LI=
+ST;
+b99fdcdc36369d Ming Lei 2022-03-04  1682  	bio->bi_private =3D hlist_entry(=
+tmp.first, struct dm_io, node)->data;
+b99fdcdc36369d Ming Lei 2022-03-04  1683  =
 
-2fe71dcdfd10d3 Ulf Hansson       2014-09-03  1045  	return 0;
-2fe71dcdfd10d3 Ulf Hansson       2014-09-03  1046  }
-86e12eac1f7f84 Ulf Hansson       2016-12-08  1047  late_initcall(genpd_powe=
-r_off_unused);
-2fe71dcdfd10d3 Ulf Hansson       2014-09-03  1048  =
+b99fdcdc36369d Ming Lei 2022-03-04  1684  	hlist_for_each_entry_safe(io, ne=
+xt, &tmp, node) {
+b99fdcdc36369d Ming Lei 2022-03-04 @1685  		if (dm_poll_dm_io(io, iob, flag=
+s)) {
+b99fdcdc36369d Ming Lei 2022-03-04  1686  			hlist_del_init(&io->node);
+b99fdcdc36369d Ming Lei 2022-03-04  1687  			/*
+b99fdcdc36369d Ming Lei 2022-03-04  1688  			 * clone_endio() has already o=
+ccurred, so passing
+b99fdcdc36369d Ming Lei 2022-03-04  1689  			 * error as 0 here doesn't ove=
+rride io->status
+b99fdcdc36369d Ming Lei 2022-03-04  1690  			 */
+b99fdcdc36369d Ming Lei 2022-03-04  1691  			dm_io_dec_pending(io, 0);
+b99fdcdc36369d Ming Lei 2022-03-04  1692  		}
+b99fdcdc36369d Ming Lei 2022-03-04  1693  	}
+b99fdcdc36369d Ming Lei 2022-03-04  1694  =
+
+b99fdcdc36369d Ming Lei 2022-03-04  1695  	/* Not done? */
+b99fdcdc36369d Ming Lei 2022-03-04  1696  	if (!hlist_empty(&tmp)) {
+b99fdcdc36369d Ming Lei 2022-03-04  1697  		bio->bi_opf |=3D REQ_DM_POLL_LI=
+ST;
+b99fdcdc36369d Ming Lei 2022-03-04  1698  		/* Reset bio->bi_private to dm_=
+io list head */
+b99fdcdc36369d Ming Lei 2022-03-04  1699  		hlist_move_list(&tmp, head);
+b99fdcdc36369d Ming Lei 2022-03-04  1700  		return 0;
+b99fdcdc36369d Ming Lei 2022-03-04  1701  	}
+b99fdcdc36369d Ming Lei 2022-03-04  1702  	return 1;
+b99fdcdc36369d Ming Lei 2022-03-04  1703  }
+b99fdcdc36369d Ming Lei 2022-03-04  1704  =
 
 
-:::::: The code at line 1040 was first introduced by commit
-:::::: 17f2ae7f677f023997e02fd2ebabd90ea2a0390d PM / Domains: Fix build for=
- CONFIG_PM_RUNTIME unset
+:::::: The code at line 1685 was first introduced by commit
+:::::: b99fdcdc36369d2a3a26bf44736d420eb629d8b7 dm: support bio polling
 
-:::::: TO: Rafael J. Wysocki <rjw@sisk.pl>
-:::::: CC: Rafael J. Wysocki <rjw@sisk.pl>
+:::::: TO: Ming Lei <ming.lei@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@redhat.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1812071218528148790==--
+--===============8011732818312199837==--
 
