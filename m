@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7677624037543419754=="
+Content-Type: multipart/mixed; boundary="===============6338692407825622389=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:359:11: warning: Array access (from variable 'pids') results in a null pointer dereference [clang-analyzer-core.NullDereference]
-Date: Thu, 07 Apr 2022 20:31:02 +0800
-Message-ID: <202204072022.rlztvkxW-lkp@intel.com>
+Subject: sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Thu, 07 Apr 2022 20:30:09 +0800
+Message-ID: <202204072046.fGtVLP42-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7677624037543419754==
+--===============6338692407825622389==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,35 +16,38 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: 1971bd630452e943380429336a851c55b027eed1 mm/damon: remove the targe=
-t id concept
-date:   2 weeks ago
+commit: b62c4e5fba2f910bc9f23ae152d11627e4c2f00f ASoC: qcom: lpass-sc7280: =
+Add platform driver for lpass audio
+date:   6 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-c007-20220404 (https://download.01.org/0day-ci/ar=
-chive/20220407/202204072022.rlztvkxW-lkp(a)intel.com/config)
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20220406 (https://download.01.org/0day-ci/archi=
+ve/20220407/202204072046.fGtVLP42-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
 7d0979e7ff20d7d541af666d822d66b566)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D1971bd630452e943380429336a851c55b027eed1
+t/commit/?id=3Db62c4e5fba2f910bc9f23ae152d11627e4c2f00f
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 1971bd630452e943380429336a851c55b027eed1
+        git checkout b62c4e5fba2f910bc9f23ae152d11627e4c2f00f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,258 +55,315 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           __SYS_STUBx(x64, sys##name,                                     \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
-'__SYS_STUBx'
-                   return __se_##name(__VA_ARGS__);                        \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   fs/pipe.c:1031:1: note: Calling '__do_sys_pipe'
-   SYSCALL_DEFINE1(pipe, int __user *, fildes)
+   drivers/fsi/fsi-scom.c:219:6: note: Assuming the condition is true
+           if (addr & XSCOM_ADDR_IND_FLAG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:219:2: note: Taking true branch
+           if (addr & XSCOM_ADDR_IND_FLAG) {
+           ^
+   drivers/fsi/fsi-scom.c:220:7: note: Assuming the condition is true
+                   if (addr & XSCOM_ADDR_INF_FORM1)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:220:3: note: Taking true branch
+                   if (addr & XSCOM_ADDR_INF_FORM1)
+                   ^
+   drivers/fsi/fsi-scom.c:221:11: note: Calling 'put_indirect_scom_form1'
+                           return put_indirect_scom_form1(scom, value, addr=
+, status);
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/fsi/fsi-scom.c:179:6: note: Assuming the condition is true
+           if (value & ~XSCOM_DATA_IND_FORM1_DATA)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:179:2: note: Taking true branch
+           if (value & ~XSCOM_DATA_IND_FORM1_DATA)
+           ^
+   drivers/fsi/fsi-scom.c:180:3: note: Returning without writing to '*statu=
+s'
+                   return -EINVAL;
+                   ^
+   drivers/fsi/fsi-scom.c:221:11: note: Returning from 'put_indirect_scom_f=
+orm1'
+                           return put_indirect_scom_form1(scom, value, addr=
+, status);
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   drivers/fsi/fsi-scom.c:221:4: note: Returning without writing to '*statu=
+s'
+                           return put_indirect_scom_form1(scom, value, addr=
+, status);
+                           ^
+   drivers/fsi/fsi-scom.c:291:7: note: Returning from 'raw_put_scom'
+           rc =3D raw_put_scom(scom, value, addr, &status);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:292:2: note: Taking false branch
+           if (rc =3D=3D -ENODEV)
+           ^
+   drivers/fsi/fsi-scom.c:295:7: note: 2nd function call argument is an uni=
+nitialized value
+           rc =3D handle_fsi2pib_status(scom, status);
+                ^                           ~~~~~~
+   drivers/fsi/fsi-scom.c:314:7: warning: 2nd function call argument is an =
+uninitialized value [clang-analyzer-core.CallAndMessage]
+           rc =3D handle_fsi2pib_status(scom, status);
+                ^
+   drivers/fsi/fsi-scom.c:331:6: note: Assuming the condition is false
+           if (len !=3D sizeof(uint64_t))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:331:2: note: Taking false branch
+           if (len !=3D sizeof(uint64_t))
+           ^
+   drivers/fsi/fsi-scom.c:335:6: note: Assuming field 'dead' is false
+           if (scom->dead)
+               ^~~~~~~~~~
+   drivers/fsi/fsi-scom.c:335:2: note: Taking false branch
+           if (scom->dead)
+           ^
+   drivers/fsi/fsi-scom.c:338:8: note: Calling 'get_scom'
+                   rc =3D get_scom(scom, &val, *offset);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:307:2: note: 'status' declared without an initial=
+ value
+           uint32_t status;
+           ^~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:310:7: note: Calling 'raw_get_scom'
+           rc =3D raw_get_scom(scom, value, addr, &status);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:231:6: note: Assuming the condition is true
+           if (addr & XSCOM_ADDR_IND_FLAG) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:231:2: note: Taking true branch
+           if (addr & XSCOM_ADDR_IND_FLAG) {
+           ^
+   drivers/fsi/fsi-scom.c:232:7: note: Assuming the condition is true
+                   if (addr & XSCOM_ADDR_INF_FORM1)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:232:3: note: Taking true branch
+                   if (addr & XSCOM_ADDR_INF_FORM1)
+                   ^
+   drivers/fsi/fsi-scom.c:233:4: note: Returning without writing to '*statu=
+s'
+                           return -ENXIO;
+                           ^
+   drivers/fsi/fsi-scom.c:310:7: note: Returning from 'raw_get_scom'
+           rc =3D raw_get_scom(scom, value, addr, &status);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:311:2: note: Taking false branch
+           if (rc =3D=3D -ENODEV)
+           ^
+   drivers/fsi/fsi-scom.c:314:7: note: 2nd function call argument is an uni=
+nitialized value
+           rc =3D handle_fsi2pib_status(scom, status);
+                ^                           ~~~~~~
+   drivers/fsi/fsi-scom.c:327:17: warning: Value stored to 'dev' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &scom->fsi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:327:17: note: Value stored to 'dev' during its in=
+itialization is never read
+           struct device *dev =3D &scom->fsi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:357:17: warning: Value stored to 'dev' during its=
+ initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &scom->fsi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/fsi/fsi-scom.c:357:17: note: Value stored to 'dev' during its in=
+itialization is never read
+           struct device *dev =3D &scom->fsi_dev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+>> sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluate=
+s to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (!dmactl)
+                       ^~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:261:2: note: 'dmactl' declared without an=
+ initial value
+           struct lpaif_dmactl *dmactl;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:264:2: note: Control jumps to 'case 3:'  =
+at line 272
+           switch (cmd) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Calling '__lpass_get_dmactl_=
+handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:43:2: note: Control jumps to the 'default=
+' case at line 56
+           switch (dai_id) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Loop condition is false.  Exi=
+ting loop
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   sound/soc/qcom/lpass-cdc-dma.c:58:3: note:  Execution continues on line =
+57
+                   break;
+                   ^
+   sound/soc/qcom/lpass-cdc-dma.c:60:1: note: Returning without writing to =
+'*dmactl'
+   }
    ^
-   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFI=
-NE1'
-   #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:235:14: note: expanded from macro=
- '__SYSCALL_DEFINEx'
-                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
-_));\
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   fs/pipe.c:1033:9: note: Calling 'do_pipe2'
-           return do_pipe2(fildes, 0);
-                  ^~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:1010:10: note: Calling '__do_pipe_flags'
-           error =3D __do_pipe_flags(fd, files, flags);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:959:2: note: Taking false branch
-           if (flags & ~(O_CLOEXEC | O_NONBLOCK | O_DIRECT | O_NOTIFICATION=
-_PIPE))
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Returning from '__lpass_get_=
+dmactl_handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:274:7: note: Branch condition evaluates t=
+o a garbage value
+                   if (!dmactl)
+                       ^~~~~~~
+   1 warning generated.
+   fs/xfs/libxfs/xfs_rmap.c:244:2: warning: 4th function call argument is a=
+n uninitialized value [clang-analyzer-core.CallAndMessage]
+           xfs_warn(mp,
            ^
-   fs/pipe.c:962:10: note: Calling 'create_pipe_files'
-           error =3D create_pipe_files(files, flags);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:917:7: note: 'inode' is non-null
-           if (!inode)
-                ^~~~~
-   fs/pipe.c:917:2: note: Taking false branch
-           if (!inode)
+   fs/xfs/libxfs/xfs_rmap.c:2677:9: note: Assuming the condition is false
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+                  ^
+   fs/xfs/libxfs/xfs_format.h:1433:43: note: expanded from macro 'XFS_RMAP_=
+NON_INODE_OWNER'
+   #define XFS_RMAP_NON_INODE_OWNER(owner) (!!((owner) & (1ULL << 63)))
+                                             ^
+   fs/xfs/xfs_linux.h:208:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ~~~~~~~^~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:41: note: Left side of '||' is true
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
+                                                  ^
+   fs/xfs/libxfs/xfs_rmap.c:2677:2: note: '?' condition is true
+           ASSERT(XFS_RMAP_NON_INODE_OWNER(owner) ||
            ^
-   fs/pipe.c:920:2: note: Taking false branch
-           if (flags & O_NOTIFICATION_PIPE) {
-           ^
-   fs/pipe.c:932:2: note: Taking false branch
-           if (IS_ERR(f)) {
-           ^
-   fs/pipe.c:942:2: note: Taking true branch
-           if (IS_ERR(res[0])) {
-           ^
-   fs/pipe.c:962:10: note: Returning from 'create_pipe_files'
-           error =3D create_pipe_files(files, flags);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:963:6: note: Assuming 'error' is 0
+   fs/xfs/xfs_linux.h:208:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_rmap.c:2682:6: note: Assuming 'error' is 0
            if (error)
                ^~~~~
-   fs/pipe.c:963:2: note: Taking false branch
+   fs/xfs/libxfs/xfs_rmap.c:2682:2: note: Taking false branch
            if (error)
            ^
-   fs/pipe.c:967:6: note: Assuming 'error' is >=3D 0
-           if (error < 0)
-               ^~~~~~~~~
-   fs/pipe.c:967:2: note: Taking false branch
-           if (error < 0)
+   fs/xfs/libxfs/xfs_rmap.c:2684:6: note: Assuming 'has_record' is not equa=
+l to 0
+           if (!has_record) {
+               ^~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:2684:2: note: Taking false branch
+           if (!has_record) {
            ^
-   fs/pipe.c:972:6: note: Assuming 'error' is >=3D 0
-           if (error < 0)
-               ^~~~~~~~~
-   fs/pipe.c:972:2: note: Taking false branch
-           if (error < 0)
+   fs/xfs/libxfs/xfs_rmap.c:2689:10: note: Calling 'xfs_rmap_get_rec'
+           error =3D xfs_rmap_get_rec(cur, &irec, &has_record);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Assuming 'error' is 0
+           if (error || !*stat)
+               ^~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:6: note: Left side of '||' is false
+   fs/xfs/libxfs/xfs_rmap.c:209:15: note: Assuming the condition is false
+           if (error || !*stat)
+                        ^~~~~~
+   fs/xfs/libxfs/xfs_rmap.c:209:2: note: Taking false branch
+           if (error || !*stat)
            ^
-   fs/pipe.c:979:2: note: Returning zero, which participates in a condition=
- later
-           return 0;
-           ^~~~~~~~
-   fs/pipe.c:1010:10: note: Returning from '__do_pipe_flags'
-           error =3D __do_pipe_flags(fd, files, flags);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:1011:7: note: 'error' is 0
-           if (!error) {
-                ^~~~~
-   fs/pipe.c:1011:2: note: Taking true branch
-           if (!error) {
-           ^
-   fs/pipe.c:1012:7: note: Assuming the condition is true
-                   if (unlikely(copy_to_user(fildes, fd, sizeof(fd)))) {
-                       ^
-   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                             ^~~~
-   fs/pipe.c:1012:3: note: Taking false branch
-                   if (unlikely(copy_to_user(fildes, fd, sizeof(fd)))) {
-                   ^
-   fs/pipe.c:1020:4: note: 2nd function call argument is an uninitialized v=
-alue
-                           fd_install(fd[1], files[1]);
-                           ^                 ~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> mm/damon/dbgfs.c:359:11: warning: Array access (from variable 'pids') re=
-sults in a null pointer dereference [clang-analyzer-core.NullDereference]
-                   put_pid(pids[i]);
-                           ^
-   mm/damon/dbgfs.c:446:2: note: 'target_pids' initialized to a null pointe=
-r value
-           struct pid **target_pids =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/dbgfs.c:451:6: note: Calling 'IS_ERR'
-           if (IS_ERR(kbuf))
-               ^~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/dbgfs.c:451:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(kbuf))
-               ^~~~~~~~~~~~
-   mm/damon/dbgfs.c:451:2: note: Taking false branch
-           if (IS_ERR(kbuf))
-           ^
-   mm/damon/dbgfs.c:454:2: note: Taking true branch
-           if (!strncmp(kbuf, "paddr\n", count)) {
-           ^
-   mm/damon/dbgfs.c:459:6: note: 'id_is_pid' is false
-           if (id_is_pid) {
-               ^~~~~~~~~
-   mm/damon/dbgfs.c:459:2: note: Taking false branch
-           if (id_is_pid) {
-           ^
-   mm/damon/dbgfs.c:468:6: note: Assuming field 'kdamond' is null
-           if (ctx->kdamond) {
-               ^~~~~~~~~~~~
-   mm/damon/dbgfs.c:468:2: note: Taking false branch
-           if (ctx->kdamond) {
-           ^
-   mm/damon/dbgfs.c:479:6: note: 'id_is_pid' is false
-           if (id_is_pid)
-               ^~~~~~~~~
-   mm/damon/dbgfs.c:479:2: note: Taking false branch
-           if (id_is_pid)
-           ^
-   mm/damon/dbgfs.c:484:43: note: Passing null pointer value via 3rd parame=
-ter 'pids'
-           ret =3D dbgfs_set_targets(ctx, nr_targets, target_pids);
-                                                    ^~~~~~~~~~~
-   mm/damon/dbgfs.c:484:8: note: Calling 'dbgfs_set_targets'
-           ret =3D dbgfs_set_targets(ctx, nr_targets, target_pids);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/dbgfs.c:417:2: note: Loop condition is false. Execution continu=
-es on line 423
-           damon_for_each_target_safe(t, next, ctx) {
-           ^
-   include/linux/damon.h:442:2: note: expanded from macro 'damon_for_each_t=
-arget_safe'
-           list_for_each_entry_safe(t, next, &(ctx)->adaptive_targets, list)
-           ^
-   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-           ^
-   mm/damon/dbgfs.c:423:2: note: Loop condition is true.  Entering loop body
-           for (i =3D 0; i < nr_targets; i++) {
-           ^
-   mm/damon/dbgfs.c:425:7: note: Assuming 't' is null
-                   if (!t) {
-                       ^~
-   mm/damon/dbgfs.c:425:3: note: Taking true branch
-                   if (!t) {
-                   ^
-   mm/damon/dbgfs.c:426:4: note: Loop condition is false. Execution continu=
-es on line 428
-                           damon_for_each_target_safe(t, next, ctx)
-                           ^
-   include/linux/damon.h:442:2: note: expanded from macro 'damon_for_each_t=
-arget_safe'
-           list_for_each_entry_safe(t, next, &(ctx)->adaptive_targets, list)
-           ^
-   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-           ^
-   mm/damon/dbgfs.c:428:8: note: Assuming the condition is true
-                           if (target_has_pid(ctx))
-                               ^~~~~~~~~~~~~~~~~~~
-   mm/damon/dbgfs.c:428:4: note: Taking true branch
-                           if (target_has_pid(ctx))
-                           ^
-   mm/damon/dbgfs.c:429:20: note: Passing null pointer value via 1st parame=
-ter 'pids'
-                                   dbgfs_put_pids(pids, nr_targets);
-                                                  ^~~~
-   mm/damon/dbgfs.c:429:5: note: Calling 'dbgfs_put_pids'
-                                   dbgfs_put_pids(pids, nr_targets);
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/damon/dbgfs.c:358:2: note: Loop condition is true.  Entering loop body
-           for (i =3D 0; i < nr_pids; i++)
-           ^
-   mm/damon/dbgfs.c:359:11: note: Array access (from variable 'pids') resul=
-ts in a null pointer dereference
-                   put_pid(pids[i]);
-                           ^~~~
-   mm/damon/dbgfs.c:433:13: warning: Array access (from variable 'pids') re=
-sults in a null pointer dereference [clang-analyzer-core.NullDereference]
-                           t->pid =3D pids[i];
+   fs/xfs/libxfs/xfs_rmap.c:212:6: note: Calling 'xfs_rmap_btrec_to_irec'
+           if (xfs_rmap_btrec_to_irec(rec, irec))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/pids +359 mm/damon/dbgfs.c
+vim +274 sound/soc/qcom/lpass-cdc-dma.c
 
-4bc05954d007665 SeongJae Park 2021-09-07  353  =
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  256  =
 
-1971bd630452e94 SeongJae Park 2022-03-22  354  static void dbgfs_put_pids(s=
-truct pid **pids, int nr_pids)
-4bc05954d007665 SeongJae Park 2021-09-07  355  {
-4bc05954d007665 SeongJae Park 2021-09-07  356  	int i;
-4bc05954d007665 SeongJae Park 2021-09-07  357  =
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  257  static int lpass_c=
+dc_dma_daiops_trigger(struct snd_pcm_substream *substream,
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  258  				    int cmd, s=
+truct snd_soc_dai *dai)
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  259  {
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  260  	struct snd_soc_pc=
+m_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  261  	struct lpaif_dmac=
+tl *dmactl;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  262  	int ret =3D 0, id;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  263  =
 
-1971bd630452e94 SeongJae Park 2022-03-22  358  	for (i =3D 0; i < nr_pids; =
-i++)
-1971bd630452e94 SeongJae Park 2022-03-22 @359  		put_pid(pids[i]);
-1971bd630452e94 SeongJae Park 2022-03-22  360  }
-1971bd630452e94 SeongJae Park 2022-03-22  361  =
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  264  	switch (cmd) {
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  265  	case SNDRV_PCM_TR=
+IGGER_START:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  266  	case SNDRV_PCM_TR=
+IGGER_RESUME:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  267  	case SNDRV_PCM_TR=
+IGGER_PAUSE_RELEASE:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  268  		__lpass_platform=
+_codec_intf_init(dai, substream);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  269  		break;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  270  	case SNDRV_PCM_TR=
+IGGER_STOP:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  271  	case SNDRV_PCM_TR=
+IGGER_SUSPEND:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  272  	case SNDRV_PCM_TR=
+IGGER_PAUSE_PUSH:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  273  		__lpass_get_dmac=
+tl_handle(substream, dai, &dmactl, &id);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24 @274  		if (!dmactl)
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  275  			return -EINVAL;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  276  =
 
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  277  		ret =3D regmap_f=
+ields_write(dmactl->codec_enable, id, LPAIF_DMACTL_ENABLE_OFF);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  278  		if (ret) {
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  279  			dev_err(soc_run=
+time->dev,
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  280  				"error writing=
+ to dmactl codec_enable reg: %d\n", ret);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  281  			return ret;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  282  		}
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  283  		break;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  284  	default:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  285  		ret =3D -EINVAL;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  286  		dev_err(soc_runt=
+ime->dev, "%s: invalid %d interface\n", __func__, cmd);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  287  		break;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  288  	}
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  289  	return ret;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  290  }
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  291  =
+
+
+:::::: The code at line 274 was first introduced by commit
+:::::: b81af585ea54ee9f749391e594ee9cbd44061eae ASoC: qcom: Add lpass CPU d=
+river for codec dma control
+
+:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7677624037543419754==--
+--===============6338692407825622389==--
 
