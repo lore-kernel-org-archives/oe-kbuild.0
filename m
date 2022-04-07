@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8323583100743572857=="
+Content-Type: multipart/mixed; boundary="===============8548179752191411342=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 07 Apr 2022 20:51:38 +0800
-Message-ID: <202204072054.8OocMxHK-lkp@intel.com>
+Subject: drivers/acpi/pfr_telemetry.c:176:3: warning: Value stored to 'ext_status' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 07 Apr 2022 20:51:34 +0800
+Message-ID: <202204072043.hq2zqj94-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8323583100743572857==
+--===============8548179752191411342==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,39 +16,34 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Jacopo Mondi <jacopo+renesas@jmondi.org>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Chen Yu <yu.c.chen@intel.com>
+CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0 media: atmel: atmel-isc: s=
-plit the clock code into separate source file
-date:   2 months ago
+commit: b0013e037a8b07772c74ce24f1ae4743b30fc3cf ACPI: Introduce Platform F=
+irmware Runtime Telemetry driver
+date:   3 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 months ago
-config: arm-randconfig-c002-20220407 (https://download.01.org/0day-ci/archi=
-ve/20220407/202204072054.8OocMxHK-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6b3062=
-33f78876a1d197ed6e1f05785505de7c63)
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-c007-20220404 (https://download.01.org/0day-ci/ar=
+chive/20220407/202204072043.hq2zqj94-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
+7d0979e7ff20d7d541af666d822d66b566)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
+t/commit/?id=3Db0013e037a8b07772c74ce24f1ae4743b30fc3cf
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
+        git checkout b0013e037a8b07772c74ce24f1ae4743b30fc3cf
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -56,369 +51,320 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/jump_label.h:420:2: note: expanded from macro 'static_key_=
+enabled'
+           static_key_count((struct static_key *)x) > 0;                   =
+        \
+           ^
+   include/linux/compiler.h:80:39: note: expanded from macro 'unlikely_notr=
+ace'
+   # define unlikely_notrace(x)    unlikely(x)
+                                   ~~~~~~~~~^~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   drivers/iommu/dma-iommu.c:988:2: note: Taking false branch
+           if (static_branch_unlikely(&iommu_deferred_attach_enabled)) {
+           ^
+   drivers/iommu/dma-iommu.c:994:6: note: Calling 'dev_use_swiotlb'
+           if (dev_use_swiotlb(dev))
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:315:9: note: Left side of '&&' is true
+           return IS_ENABLED(CONFIG_SWIOTLB) && dev_is_untrusted(dev);
+                  ^
+   include/linux/kconfig.h:73:28: note: expanded from macro 'IS_ENABLED'
+   #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
+                              ^
+   include/linux/kconfig.h:24:22: note: expanded from macro '__or'
+   #define __or(x, y)                      ___or(x, y)
+                                           ^
+   include/linux/kconfig.h:25:23: note: expanded from macro '___or'
+   #define ___or(x, y)                     ____or(__ARG_PLACEHOLDER_##x, y)
+                                           ^
+   include/linux/kconfig.h:26:65: note: expanded from macro '____or'
+   #define ____or(arg1_or_junk, y)         __take_second_arg(arg1_or_junk 1=
+, y)
+                                                                          ^
+   drivers/iommu/dma-iommu.c:315:2: note: Returning zero, which participate=
+s in a condition later
+           return IS_ENABLED(CONFIG_SWIOTLB) && dev_is_untrusted(dev);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:994:6: note: Returning from 'dev_use_swiotlb'
+           if (dev_use_swiotlb(dev))
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:994:2: note: Taking false branch
+           if (dev_use_swiotlb(dev))
+           ^
+   drivers/iommu/dma-iommu.c:997:6: note: Assuming the condition is false
+           if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:997:2: note: Taking false branch
+           if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
+           ^
+   drivers/iommu/dma-iommu.c:1006:28: note: Assuming 'i' is < 'nents'
+           for_each_sg(sg, s, nents, i) {
+                                     ^
+   include/linux/scatterlist.h:152:31: note: expanded from macro 'for_each_=
+sg'
+           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
+xt(sg))
+                                        ^~~~~~~~~~
+   drivers/iommu/dma-iommu.c:1006:2: note: Loop condition is true.  Enterin=
+g loop body
+           for_each_sg(sg, s, nents, i) {
+           ^
+   include/linux/scatterlist.h:152:2: note: expanded from macro 'for_each_s=
+g'
+           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
+xt(sg))
+           ^
+   drivers/iommu/dma-iommu.c:1030:7: note: Assuming 'pad_len' is not equal =
+to 0
+                   if (pad_len && pad_len < s_length - 1) {
+                       ^~~~~~~
+   drivers/iommu/dma-iommu.c:1030:7: note: Left side of '&&' is true
+   drivers/iommu/dma-iommu.c:1030:18: note: Assuming the condition is true
+                   if (pad_len && pad_len < s_length - 1) {
+                                  ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:1030:3: note: Taking true branch
+                   if (pad_len && pad_len < s_length - 1) {
+                   ^
+   drivers/iommu/dma-iommu.c:1031:17: note: Access to field 'length' result=
+s in a dereference of a null pointer (loaded from variable 'prev')
+                           prev->length +=3D pad_len;
+                           ~~~~         ^
+   drivers/iommu/dma-iommu.c:1149:7: warning: Value stored to 'coherent' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           bool coherent =3D dev_is_dma_coherent(dev);
+                ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/dma-iommu.c:1149:7: note: Value stored to 'coherent' durin=
+g its initialization is never read
+           bool coherent =3D dev_is_dma_coherent(dev);
+                ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   drivers/iio/adc/ti-ads8688.c:64:8: warning: Excessive padding in 'struct=
- ads8688_state' (44 padding bytes, where 12 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   chip_info, =
-
-   spi, =
-
-   reg, =
-
-   vref_mv, =
-
-   lock, =
-
-   range, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ads8688_state {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/iio/adc/ti-ads8688.c:64:8: note: Excessive padding in 'struct ad=
-s8688_state' (44 padding bytes, where 12 is optimal). Optimal fields order:=
- data, chip_info, spi, reg, vref_mv, lock, range, consider reordering the f=
-ields or adding explicit padding members
-   struct ads8688_state {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/iio/adc/twl6030-gpadc.c:911:2: warning: Value stored to 'ret' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D devm_request_threaded_irq(dev, irq, NULL,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/twl6030-gpadc.c:911:2: note: Value stored to 'ret' is ne=
-ver read
-           ret =3D devm_request_threaded_irq(dev, irq, NULL,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   net/strparser/strparser.c:161:5: warning: Value stored to 'head' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                                   head =3D skb;
-                                   ^      ~~~
-   net/strparser/strparser.c:161:5: note: Value stored to 'head' is never r=
-ead
-                                   head =3D skb;
-                                   ^      ~~~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   fs/ext4/page-io.c:325:11: warning: Value stored to 'bi_sector' during it=
-s initialization is never read [clang-analyzer-deadcode.DeadStores]
-           sector_t bi_sector =3D bio->bi_iter.bi_sector;
-                    ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext4/page-io.c:325:11: note: Value stored to 'bi_sector' during its i=
-nitialization is never read
-           sector_t bi_sector =3D bio->bi_iter.bi_sector;
-                    ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/iio/proximity/vcnl3020.c:76:8: warning: Excessive padding in 'st=
-ruct vcnl3020_data' (57 padding bytes, where 25 is optimal). =
-
-   Optimal fields order: =
-
-   buf, =
-
-   rev, =
-
-   regmap, =
-
-   dev, =
-
-   lock, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct vcnl3020_data {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/iio/proximity/vcnl3020.c:76:8: note: Excessive padding in 'struc=
-t vcnl3020_data' (57 padding bytes, where 25 is optimal). Optimal fields or=
-der: buf, rev, regmap, dev, lock, consider reordering the fields or adding =
-explicit padding members
-   struct vcnl3020_data {
-   ~~~~~~~^~~~~~~~~~~~~~~
    5 warnings generated.
-   Suppressed 5 warnings (1 in non-user code, 4 with check filters).
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   net/unix/af_unix.c:1684:3: warning: Value stored to 'err' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   err =3D 0;
-                   ^     ~
-   net/unix/af_unix.c:1684:3: note: Value stored to 'err' is never read
-                   err =3D 0;
-                   ^     ~
-   net/unix/af_unix.c:2689:3: warning: Value stored to 'err' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   err =3D -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   net/unix/af_unix.c:2689:3: note: Value stored to 'err' is never read
-                   err =3D -EOPNOTSUPP;
-                   ^     ~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
->> drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stor=
-ed to 'isc_clk' during its initialization is never read [clang-analyzer-dea=
-dcode.DeadStores]
-           struct isc_clk *isc_clk =3D to_isc_clk(hw);
-                           ^~~~~~~
-   drivers/media/platform/atmel/atmel-isc-clk.c:125:18: note: Value stored =
-to 'isc_clk' during its initialization is never read
-           struct isc_clk *isc_clk =3D to_isc_clk(hw);
-                           ^~~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   net/ieee802154/nl-mac.c:529:2: warning: Value stored to 'rc' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-           rc =3D ops->set_mac_params(dev, &params);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ieee802154/nl-mac.c:529:2: note: Value stored to 'rc' is never read
-           rc =3D ops->set_mac_params(dev, &params);
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   3 warnings generated.
-   net/ipv4/udp.c:742:2: warning: Value stored to 'err' is never read [clan=
-g-analyzer-deadcode.DeadStores]
-           err =3D 0;
-           ^     ~
-   net/ipv4/udp.c:742:2: note: Value stored to 'err' is never read
-           err =3D 0;
-           ^     ~
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   drivers/iio/potentiometer/ad5272.c:49:8: warning: Excessive padding in '=
-struct ad5272_data' (58 padding bytes, where 26 is optimal). =
-
-   Optimal fields order: =
-
-   buf, =
-
-   client, =
-
-   cfg, =
-
-   lock, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad5272_data {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/iio/potentiometer/ad5272.c:49:8: note: Excessive padding in 'str=
-uct ad5272_data' (58 padding bytes, where 26 is optimal). Optimal fields or=
-der: buf, client, cfg, lock, consider reordering the fields or adding expli=
-cit padding members
-   struct ad5272_data {
-   ~~~~~~~^~~~~~~~~~~~~
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   4 warnings generated.
-   net/ipv4/route.c:879:2: warning: Value stored to 'log_martians' is never=
+   6 warnings generated.
+   drivers/acpi/acpi_dbg.c:634:4: warning: Value stored to 'count' is never=
  read [clang-analyzer-deadcode.DeadStores]
-           log_martians =3D IN_DEV_LOG_MARTIANS(in_dev);
-           ^
-   net/ipv4/route.c:879:2: note: Value stored to 'log_martians' is never re=
+                           count -=3D ret;
+                           ^        ~~~
+   drivers/acpi/acpi_dbg.c:634:4: note: Value stored to 'count' is never re=
 ad
-   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+                           count -=3D ret;
+                           ^        ~~~
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   2 warnings generated.
-   net/ipv4/ip_fragment.c:619:3: warning: Argument to kfree() is the addres=
-s of the global variable 'ip4_frags_ns_ctl_table', which is not memory allo=
-cated by malloc() [clang-analyzer-unix.Malloc]
-                   kfree(table);
-                   ^
-   net/ipv4/ip_fragment.c:657:6: note: Assuming 'res' is >=3D 0
-           if (res < 0)
-               ^~~~~~~
-   net/ipv4/ip_fragment.c:657:2: note: Taking false branch
-           if (res < 0)
-           ^
-   net/ipv4/ip_fragment.c:684:8: note: Calling 'ip4_frags_ns_ctl_register'
-           res =3D ip4_frags_ns_ctl_register(net);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/ip_fragment.c:597:6: note: Assuming the condition is false
-           if (!net_eq(net, &init_net)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/ip_fragment.c:597:2: note: Taking false branch
-           if (!net_eq(net, &init_net)) {
-           ^
-   net/ipv4/ip_fragment.c:611:6: note: Assuming 'hdr' is null
-           if (!hdr)
-               ^~~~
-   net/ipv4/ip_fragment.c:611:2: note: Taking true branch
-           if (!hdr)
-           ^
-   net/ipv4/ip_fragment.c:612:3: note: Control jumps to line 618
-                   goto err_reg;
-                   ^
-   net/ipv4/ip_fragment.c:618:6: note: Assuming the condition is true
-           if (!net_eq(net, &init_net))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/ip_fragment.c:618:2: note: Taking true branch
-           if (!net_eq(net, &init_net))
-           ^
-   net/ipv4/ip_fragment.c:619:3: note: Argument to kfree() is the address o=
-f the global variable 'ip4_frags_ns_ctl_table', which is not memory allocat=
-ed by malloc()
-                   kfree(table);
-                   ^     ~~~~~
-   Suppressed 1 warnings (1 with check filters).
-   14 warnings generated.
-   Suppressed 14 warnings (1 in non-user code, 13 with check filters).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/acpi/pfr_telemetry.c:176:3: warning: Value stored to 'ext_status=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ext_status =3D obj->integer.value;
+                   ^            ~~~~~~~~~~~~~~~~~~
+   drivers/acpi/pfr_telemetry.c:176:3: note: Value stored to 'ext_status' i=
+s never read
+                   ext_status =3D obj->integer.value;
+                   ^            ~~~~~~~~~~~~~~~~~~
+   drivers/acpi/pfr_telemetry.c:207:3: warning: Value stored to 'ext_status=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                   ext_status =3D obj->integer.value;
+                   ^            ~~~~~~~~~~~~~~~~~~
+   drivers/acpi/pfr_telemetry.c:207:3: note: Value stored to 'ext_status' i=
+s never read
+                   ext_status =3D obj->integer.value;
+                   ^            ~~~~~~~~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/acpi/apei/apei-base.c:377:2: warning: Assigned value is garbage =
+or undefined [clang-analyzer-core.uninitialized.Assign]
+           list_for_each_entry_safe(res, resn, res_list, list) {
+           ^
+   include/linux/list.h:717:13: note: expanded from macro 'list_for_each_en=
+try_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+                      ^
+   include/linux/list.h:524:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
+of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+           ^
+   drivers/acpi/apei/apei-base.c:473:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   drivers/acpi/apei/apei-base.c:473:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/acpi/apei/apei-base.c:483:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   drivers/acpi/apei/apei-base.c:483:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/acpi/apei/apei-base.c:486:6: note: Assuming 'rc' is 0
+           if (rc)
+               ^~
+   drivers/acpi/apei/apei-base.c:486:2: note: Taking false branch
+           if (rc)
+           ^
+   drivers/acpi/apei/apei-base.c:489:6: note: Assuming 'arch_apei_filter_ad=
+dr' is null
+           if (arch_apei_filter_addr) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/apei/apei-base.c:489:2: note: Taking false branch
+           if (arch_apei_filter_addr) {
+           ^
+   drivers/acpi/apei/apei-base.c:500:2: note: Loop condition is false. Exec=
+ution continues on line 513
+           list_for_each_entry(res, &resources->iomem, list) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/acpi/apei/apei-base.c:513:2: note: Loop condition is false. Exec=
+ution continues on line 525
+           list_for_each_entry(res, &resources->ioport, list) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/acpi/apei/apei-base.c:526:6: note: 'rc' is not equal to 0
+           if (rc) {
+               ^~
+   drivers/acpi/apei/apei-base.c:526:2: note: Taking true branch
+           if (rc) {
+           ^
+   drivers/acpi/apei/apei-base.c:527:3: note: Loop condition is false.  Exi=
+ting loop
+                   pr_err(APEI_PFX "Fail to merge resources!\n");
+                   ^
+   include/linux/printk.h:493:2: note: expanded from macro 'pr_err'
+           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:450:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:396:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/acpi/apei/apei-base.c:528:3: note: Control jumps to line 534
+                   goto err_unmap_ioport;
+                   ^
+   drivers/acpi/apei/apei-base.c:534:2: note: Loop condition is false. Exec=
+ution continues on line 539
+           list_for_each_entry(res, &resources->ioport, list) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/acpi/apei/apei-base.c:541:2: note: Loop condition is false. Exec=
+ution continues on line 547
+           list_for_each_entry(res, &resources->iomem, list) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
 
-vim +/isc_clk +125 drivers/media/platform/atmel/atmel-isc-clk.c
+vim +/ext_status +176 drivers/acpi/pfr_telemetry.c
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  121  =
+b0013e037a8b077 Chen Yu 2021-12-22  150  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  122  static int isc_clk_determine_=
-rate(struct clk_hw *hw,
-118bf76a35bc2e Eugen Hristev 2021-12-13  123  				  struct clk_rate_request=
- *req)
-118bf76a35bc2e Eugen Hristev 2021-12-13  124  {
-118bf76a35bc2e Eugen Hristev 2021-12-13 @125  	struct isc_clk *isc_clk =3D =
-to_isc_clk(hw);
-118bf76a35bc2e Eugen Hristev 2021-12-13  126  	long best_rate =3D -EINVAL;
-118bf76a35bc2e Eugen Hristev 2021-12-13  127  	int best_diff =3D -1;
-118bf76a35bc2e Eugen Hristev 2021-12-13  128  	unsigned int i, div;
-118bf76a35bc2e Eugen Hristev 2021-12-13  129  =
+b0013e037a8b077 Chen Yu 2021-12-22  151  static int set_pfrt_log_level(int =
+level, struct pfrt_log_device *pfrt_log_dev)
+b0013e037a8b077 Chen Yu 2021-12-22  152  {
+b0013e037a8b077 Chen Yu 2021-12-22  153  	acpi_handle handle =3D ACPI_HANDL=
+E(pfrt_log_dev->parent_dev);
+b0013e037a8b077 Chen Yu 2021-12-22  154  	union acpi_object *out_obj, *obj,=
+ in_obj, in_buf;
+b0013e037a8b077 Chen Yu 2021-12-22  155  	enum pfru_dsm_status status, ext_=
+status;
+b0013e037a8b077 Chen Yu 2021-12-22  156  	int ret =3D 0;
+b0013e037a8b077 Chen Yu 2021-12-22  157  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  130  	for (i =3D 0; i < clk_hw_get=
-_num_parents(hw); i++) {
-118bf76a35bc2e Eugen Hristev 2021-12-13  131  		struct clk_hw *parent;
-118bf76a35bc2e Eugen Hristev 2021-12-13  132  		unsigned long parent_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  133  =
+b0013e037a8b077 Chen Yu 2021-12-22  158  	memset(&in_obj, 0, sizeof(in_obj)=
+);
+b0013e037a8b077 Chen Yu 2021-12-22  159  	memset(&in_buf, 0, sizeof(in_buf)=
+);
+b0013e037a8b077 Chen Yu 2021-12-22  160  	in_obj.type =3D ACPI_TYPE_PACKAGE;
+b0013e037a8b077 Chen Yu 2021-12-22  161  	in_obj.package.count =3D 1;
+b0013e037a8b077 Chen Yu 2021-12-22  162  	in_obj.package.elements =3D &in_b=
+uf;
+b0013e037a8b077 Chen Yu 2021-12-22  163  	in_buf.type =3D ACPI_TYPE_INTEGER;
+b0013e037a8b077 Chen Yu 2021-12-22  164  	in_buf.integer.value =3D level;
+b0013e037a8b077 Chen Yu 2021-12-22  165  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  134  		parent =3D clk_hw_get_paren=
-t_by_index(hw, i);
-118bf76a35bc2e Eugen Hristev 2021-12-13  135  		if (!parent)
-118bf76a35bc2e Eugen Hristev 2021-12-13  136  			continue;
-118bf76a35bc2e Eugen Hristev 2021-12-13  137  =
+b0013e037a8b077 Chen Yu 2021-12-22  166  	out_obj =3D acpi_evaluate_dsm_typ=
+ed(handle, &pfrt_log_guid,
+b0013e037a8b077 Chen Yu 2021-12-22  167  					  pfrt_log_dev->info.log_revi=
+d, PFRT_FUNC_SET_LEV,
+b0013e037a8b077 Chen Yu 2021-12-22  168  					  &in_obj, ACPI_TYPE_PACKAGE);
+b0013e037a8b077 Chen Yu 2021-12-22  169  	if (!out_obj)
+b0013e037a8b077 Chen Yu 2021-12-22  170  		return -EINVAL;
+b0013e037a8b077 Chen Yu 2021-12-22  171  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  138  		parent_rate =3D clk_hw_get_=
-rate(parent);
-118bf76a35bc2e Eugen Hristev 2021-12-13  139  		if (!parent_rate)
-118bf76a35bc2e Eugen Hristev 2021-12-13  140  			continue;
-118bf76a35bc2e Eugen Hristev 2021-12-13  141  =
+b0013e037a8b077 Chen Yu 2021-12-22  172  	obj =3D &out_obj->package.element=
+s[0];
+b0013e037a8b077 Chen Yu 2021-12-22  173  	status =3D obj->integer.value;
+b0013e037a8b077 Chen Yu 2021-12-22  174  	if (status !=3D DSM_SUCCEED) {
+b0013e037a8b077 Chen Yu 2021-12-22  175  		obj =3D &out_obj->package.elemen=
+ts[1];
+b0013e037a8b077 Chen Yu 2021-12-22 @176  		ext_status =3D obj->integer.valu=
+e;
+b0013e037a8b077 Chen Yu 2021-12-22  177  		dev_dbg(pfrt_log_dev->parent_dev=
+, "Error Status:%d\n", status);
+b0013e037a8b077 Chen Yu 2021-12-22  178  		dev_dbg(pfrt_log_dev->parent_dev=
+, "Error Extend Status:%d\n", ext_status);
+b0013e037a8b077 Chen Yu 2021-12-22  179  		ret =3D -EBUSY;
+b0013e037a8b077 Chen Yu 2021-12-22  180  	}
+b0013e037a8b077 Chen Yu 2021-12-22  181  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  142  		for (div =3D 1; div < ISC_C=
-LK_MAX_DIV + 2; div++) {
-118bf76a35bc2e Eugen Hristev 2021-12-13  143  			unsigned long rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  144  			int diff;
-118bf76a35bc2e Eugen Hristev 2021-12-13  145  =
+b0013e037a8b077 Chen Yu 2021-12-22  182  	kfree(out_obj);
+b0013e037a8b077 Chen Yu 2021-12-22  183  =
 
-118bf76a35bc2e Eugen Hristev 2021-12-13  146  			rate =3D DIV_ROUND_CLOSEST=
-(parent_rate, div);
-118bf76a35bc2e Eugen Hristev 2021-12-13  147  			diff =3D abs(req->rate - r=
-ate);
-118bf76a35bc2e Eugen Hristev 2021-12-13  148  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  149  			if (best_diff < 0 || best_=
-diff > diff) {
-118bf76a35bc2e Eugen Hristev 2021-12-13  150  				best_rate =3D rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  151  				best_diff =3D diff;
-118bf76a35bc2e Eugen Hristev 2021-12-13  152  				req->best_parent_rate =3D=
- parent_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  153  				req->best_parent_hw =3D p=
-arent;
-118bf76a35bc2e Eugen Hristev 2021-12-13  154  			}
-118bf76a35bc2e Eugen Hristev 2021-12-13  155  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  156  			if (!best_diff || rate < r=
-eq->rate)
-118bf76a35bc2e Eugen Hristev 2021-12-13  157  				break;
-118bf76a35bc2e Eugen Hristev 2021-12-13  158  		}
-118bf76a35bc2e Eugen Hristev 2021-12-13  159  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  160  		if (!best_diff)
-118bf76a35bc2e Eugen Hristev 2021-12-13  161  			break;
-118bf76a35bc2e Eugen Hristev 2021-12-13  162  	}
-118bf76a35bc2e Eugen Hristev 2021-12-13  163  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  164  	dev_dbg(isc_clk->dev,
-118bf76a35bc2e Eugen Hristev 2021-12-13  165  		"ISC CLK: %s, best_rate =3D=
- %ld, parent clk: %s @ %ld\n",
-118bf76a35bc2e Eugen Hristev 2021-12-13  166  		__func__, best_rate,
-118bf76a35bc2e Eugen Hristev 2021-12-13  167  		__clk_get_name((req->best_p=
-arent_hw)->clk),
-118bf76a35bc2e Eugen Hristev 2021-12-13  168  		req->best_parent_rate);
-118bf76a35bc2e Eugen Hristev 2021-12-13  169  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  170  	if (best_rate < 0)
-118bf76a35bc2e Eugen Hristev 2021-12-13  171  		return best_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  172  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  173  	req->rate =3D best_rate;
-118bf76a35bc2e Eugen Hristev 2021-12-13  174  =
-
-118bf76a35bc2e Eugen Hristev 2021-12-13  175  	return 0;
-118bf76a35bc2e Eugen Hristev 2021-12-13  176  }
-118bf76a35bc2e Eugen Hristev 2021-12-13  177  =
+b0013e037a8b077 Chen Yu 2021-12-22  184  	return ret;
+b0013e037a8b077 Chen Yu 2021-12-22  185  }
+b0013e037a8b077 Chen Yu 2021-12-22  186  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8323583100743572857==--
+--===============8548179752191411342==--
 
