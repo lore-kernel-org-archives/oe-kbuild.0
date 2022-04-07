@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8548179752191411342=="
+Content-Type: multipart/mixed; boundary="===============7677624037543419754=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/acpi/pfr_telemetry.c:176:3: warning: Value stored to 'ext_status' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 07 Apr 2022 20:51:34 +0800
-Message-ID: <202204072043.hq2zqj94-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:359:11: warning: Array access (from variable 'pids') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Thu, 07 Apr 2022 20:31:02 +0800
+Message-ID: <202204072022.rlztvkxW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8548179752191411342==
+--===============7677624037543419754==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,19 +16,20 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Chen Yu <yu.c.chen@intel.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: b0013e037a8b07772c74ce24f1ae4743b30fc3cf ACPI: Introduce Platform F=
-irmware Runtime Telemetry driver
-date:   3 months ago
+commit: 1971bd630452e943380429336a851c55b027eed1 mm/damon: remove the targe=
+t id concept
+date:   2 weeks ago
 :::::: branch date: 2 days ago
-:::::: commit date: 3 months ago
+:::::: commit date: 2 weeks ago
 config: x86_64-randconfig-c007-20220404 (https://download.01.org/0day-ci/ar=
-chive/20220407/202204072043.hq2zqj94-lkp(a)intel.com/config)
+chive/20220407/202204072022.rlztvkxW-lkp(a)intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
 7d0979e7ff20d7d541af666d822d66b566)
 reproduce (this is a W=3D1 build):
@@ -36,11 +37,11 @@ reproduce (this is a W=3D1 build):
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db0013e037a8b07772c74ce24f1ae4743b30fc3cf
+t/commit/?id=3D1971bd630452e943380429336a851c55b027eed1
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout b0013e037a8b07772c74ce24f1ae4743b30fc3cf
+        git checkout 1971bd630452e943380429336a851c55b027eed1
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -51,320 +52,258 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/jump_label.h:420:2: note: expanded from macro 'static_key_=
-enabled'
-           static_key_count((struct static_key *)x) > 0;                   =
-        \
+           __SYS_STUBx(x64, sys##name,                                     \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
+'__SYS_STUBx'
+                   return __se_##name(__VA_ARGS__);                        \
+                          ^~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   fs/pipe.c:1031:1: note: Calling '__do_sys_pipe'
+   SYSCALL_DEFINE1(pipe, int __user *, fildes)
+   ^
+   include/linux/syscalls.h:217:36: note: expanded from macro 'SYSCALL_DEFI=
+NE1'
+   #define SYSCALL_DEFINE1(name, ...) SYSCALL_DEFINEx(1, _##name, __VA_ARGS=
+__)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
+Ex'
+           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:235:14: note: expanded from macro=
+ '__SYSCALL_DEFINEx'
+                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
+_));\
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   note: expanded from here
+   fs/pipe.c:1033:9: note: Calling 'do_pipe2'
+           return do_pipe2(fildes, 0);
+                  ^~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:1010:10: note: Calling '__do_pipe_flags'
+           error =3D __do_pipe_flags(fd, files, flags);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:959:2: note: Taking false branch
+           if (flags & ~(O_CLOEXEC | O_NONBLOCK | O_DIRECT | O_NOTIFICATION=
+_PIPE))
            ^
-   include/linux/compiler.h:80:39: note: expanded from macro 'unlikely_notr=
-ace'
-   # define unlikely_notrace(x)    unlikely(x)
-                                   ~~~~~~~~~^~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   fs/pipe.c:962:10: note: Calling 'create_pipe_files'
+           error =3D create_pipe_files(files, flags);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:917:7: note: 'inode' is non-null
+           if (!inode)
+                ^~~~~
+   fs/pipe.c:917:2: note: Taking false branch
+           if (!inode)
+           ^
+   fs/pipe.c:920:2: note: Taking false branch
+           if (flags & O_NOTIFICATION_PIPE) {
+           ^
+   fs/pipe.c:932:2: note: Taking false branch
+           if (IS_ERR(f)) {
+           ^
+   fs/pipe.c:942:2: note: Taking true branch
+           if (IS_ERR(res[0])) {
+           ^
+   fs/pipe.c:962:10: note: Returning from 'create_pipe_files'
+           error =3D create_pipe_files(files, flags);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:963:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/pipe.c:963:2: note: Taking false branch
+           if (error)
+           ^
+   fs/pipe.c:967:6: note: Assuming 'error' is >=3D 0
+           if (error < 0)
+               ^~~~~~~~~
+   fs/pipe.c:967:2: note: Taking false branch
+           if (error < 0)
+           ^
+   fs/pipe.c:972:6: note: Assuming 'error' is >=3D 0
+           if (error < 0)
+               ^~~~~~~~~
+   fs/pipe.c:972:2: note: Taking false branch
+           if (error < 0)
+           ^
+   fs/pipe.c:979:2: note: Returning zero, which participates in a condition=
+ later
+           return 0;
+           ^~~~~~~~
+   fs/pipe.c:1010:10: note: Returning from '__do_pipe_flags'
+           error =3D __do_pipe_flags(fd, files, flags);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/pipe.c:1011:7: note: 'error' is 0
+           if (!error) {
+                ^~~~~
+   fs/pipe.c:1011:2: note: Taking true branch
+           if (!error) {
+           ^
+   fs/pipe.c:1012:7: note: Assuming the condition is true
+                   if (unlikely(copy_to_user(fildes, fd, sizeof(fd)))) {
+                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
    # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/iommu/dma-iommu.c:988:2: note: Taking false branch
-           if (static_branch_unlikely(&iommu_deferred_attach_enabled)) {
-           ^
-   drivers/iommu/dma-iommu.c:994:6: note: Calling 'dev_use_swiotlb'
-           if (dev_use_swiotlb(dev))
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/dma-iommu.c:315:9: note: Left side of '&&' is true
-           return IS_ENABLED(CONFIG_SWIOTLB) && dev_is_untrusted(dev);
-                  ^
-   include/linux/kconfig.h:73:28: note: expanded from macro 'IS_ENABLED'
-   #define IS_ENABLED(option) __or(IS_BUILTIN(option), IS_MODULE(option))
-                              ^
-   include/linux/kconfig.h:24:22: note: expanded from macro '__or'
-   #define __or(x, y)                      ___or(x, y)
-                                           ^
-   include/linux/kconfig.h:25:23: note: expanded from macro '___or'
-   #define ___or(x, y)                     ____or(__ARG_PLACEHOLDER_##x, y)
-                                           ^
-   include/linux/kconfig.h:26:65: note: expanded from macro '____or'
-   #define ____or(arg1_or_junk, y)         __take_second_arg(arg1_or_junk 1=
-, y)
-                                                                          ^
-   drivers/iommu/dma-iommu.c:315:2: note: Returning zero, which participate=
-s in a condition later
-           return IS_ENABLED(CONFIG_SWIOTLB) && dev_is_untrusted(dev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/dma-iommu.c:994:6: note: Returning from 'dev_use_swiotlb'
-           if (dev_use_swiotlb(dev))
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/dma-iommu.c:994:2: note: Taking false branch
-           if (dev_use_swiotlb(dev))
-           ^
-   drivers/iommu/dma-iommu.c:997:6: note: Assuming the condition is false
-           if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/dma-iommu.c:997:2: note: Taking false branch
-           if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-           ^
-   drivers/iommu/dma-iommu.c:1006:28: note: Assuming 'i' is < 'nents'
-           for_each_sg(sg, s, nents, i) {
-                                     ^
-   include/linux/scatterlist.h:152:31: note: expanded from macro 'for_each_=
-sg'
-           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
-xt(sg))
-                                        ^~~~~~~~~~
-   drivers/iommu/dma-iommu.c:1006:2: note: Loop condition is true.  Enterin=
-g loop body
-           for_each_sg(sg, s, nents, i) {
-           ^
-   include/linux/scatterlist.h:152:2: note: expanded from macro 'for_each_s=
-g'
-           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
-xt(sg))
-           ^
-   drivers/iommu/dma-iommu.c:1030:7: note: Assuming 'pad_len' is not equal =
-to 0
-                   if (pad_len && pad_len < s_length - 1) {
-                       ^~~~~~~
-   drivers/iommu/dma-iommu.c:1030:7: note: Left side of '&&' is true
-   drivers/iommu/dma-iommu.c:1030:18: note: Assuming the condition is true
-                   if (pad_len && pad_len < s_length - 1) {
-                                  ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/dma-iommu.c:1030:3: note: Taking true branch
-                   if (pad_len && pad_len < s_length - 1) {
+                                             ^~~~
+   fs/pipe.c:1012:3: note: Taking false branch
+                   if (unlikely(copy_to_user(fildes, fd, sizeof(fd)))) {
                    ^
-   drivers/iommu/dma-iommu.c:1031:17: note: Access to field 'length' result=
-s in a dereference of a null pointer (loaded from variable 'prev')
-                           prev->length +=3D pad_len;
-                           ~~~~         ^
-   drivers/iommu/dma-iommu.c:1149:7: warning: Value stored to 'coherent' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           bool coherent =3D dev_is_dma_coherent(dev);
-                ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/dma-iommu.c:1149:7: note: Value stored to 'coherent' durin=
-g its initialization is never read
-           bool coherent =3D dev_is_dma_coherent(dev);
-                ^~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
+   fs/pipe.c:1020:4: note: 2nd function call argument is an uninitialized v=
+alue
+                           fd_install(fd[1], files[1]);
+                           ^                 ~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
    6 warnings generated.
-   drivers/acpi/acpi_dbg.c:634:4: warning: Value stored to 'count' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                           count -=3D ret;
-                           ^        ~~~
-   drivers/acpi/acpi_dbg.c:634:4: note: Value stored to 'count' is never re=
-ad
-                           count -=3D ret;
-                           ^        ~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/acpi/pfr_telemetry.c:176:3: warning: Value stored to 'ext_status=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   ext_status =3D obj->integer.value;
-                   ^            ~~~~~~~~~~~~~~~~~~
-   drivers/acpi/pfr_telemetry.c:176:3: note: Value stored to 'ext_status' i=
-s never read
-                   ext_status =3D obj->integer.value;
-                   ^            ~~~~~~~~~~~~~~~~~~
-   drivers/acpi/pfr_telemetry.c:207:3: warning: Value stored to 'ext_status=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   ext_status =3D obj->integer.value;
-                   ^            ~~~~~~~~~~~~~~~~~~
-   drivers/acpi/pfr_telemetry.c:207:3: note: Value stored to 'ext_status' i=
-s never read
-                   ext_status =3D obj->integer.value;
-                   ^            ~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/acpi/apei/apei-base.c:377:2: warning: Assigned value is garbage =
-or undefined [clang-analyzer-core.uninitialized.Assign]
-           list_for_each_entry_safe(res, resn, res_list, list) {
+>> mm/damon/dbgfs.c:359:11: warning: Array access (from variable 'pids') re=
+sults in a null pointer dereference [clang-analyzer-core.NullDereference]
+                   put_pid(pids[i]);
+                           ^
+   mm/damon/dbgfs.c:446:2: note: 'target_pids' initialized to a null pointe=
+r value
+           struct pid **target_pids =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/dbgfs.c:451:6: note: Calling 'IS_ERR'
+           if (IS_ERR(kbuf))
+               ^~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/dbgfs.c:451:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(kbuf))
+               ^~~~~~~~~~~~
+   mm/damon/dbgfs.c:451:2: note: Taking false branch
+           if (IS_ERR(kbuf))
            ^
-   include/linux/list.h:717:13: note: expanded from macro 'list_for_each_en=
-try_safe'
+   mm/damon/dbgfs.c:454:2: note: Taking true branch
+           if (!strncmp(kbuf, "paddr\n", count)) {
+           ^
+   mm/damon/dbgfs.c:459:6: note: 'id_is_pid' is false
+           if (id_is_pid) {
+               ^~~~~~~~~
+   mm/damon/dbgfs.c:459:2: note: Taking false branch
+           if (id_is_pid) {
+           ^
+   mm/damon/dbgfs.c:468:6: note: Assuming field 'kdamond' is null
+           if (ctx->kdamond) {
+               ^~~~~~~~~~~~
+   mm/damon/dbgfs.c:468:2: note: Taking false branch
+           if (ctx->kdamond) {
+           ^
+   mm/damon/dbgfs.c:479:6: note: 'id_is_pid' is false
+           if (id_is_pid)
+               ^~~~~~~~~
+   mm/damon/dbgfs.c:479:2: note: Taking false branch
+           if (id_is_pid)
+           ^
+   mm/damon/dbgfs.c:484:43: note: Passing null pointer value via 3rd parame=
+ter 'pids'
+           ret =3D dbgfs_set_targets(ctx, nr_targets, target_pids);
+                                                    ^~~~~~~~~~~
+   mm/damon/dbgfs.c:484:8: note: Calling 'dbgfs_set_targets'
+           ret =3D dbgfs_set_targets(ctx, nr_targets, target_pids);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/dbgfs.c:417:2: note: Loop condition is false. Execution continu=
+es on line 423
+           damon_for_each_target_safe(t, next, ctx) {
+           ^
+   include/linux/damon.h:442:2: note: expanded from macro 'damon_for_each_t=
+arget_safe'
+           list_for_each_entry_safe(t, next, &(ctx)->adaptive_targets, list)
+           ^
+   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
            for (pos =3D list_first_entry(head, typeof(*pos), member),      =
   \
-                      ^
-   include/linux/list.h:524:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
            ^
-   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   mm/damon/dbgfs.c:423:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < nr_targets; i++) {
            ^
-   include/linux/container_of.h:18:2: note: expanded from macro 'container_=
-of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^
-   drivers/acpi/apei/apei-base.c:473:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/acpi/apei/apei-base.c:473:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/acpi/apei/apei-base.c:483:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/acpi/apei/apei-base.c:483:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/acpi/apei/apei-base.c:486:6: note: Assuming 'rc' is 0
-           if (rc)
-               ^~
-   drivers/acpi/apei/apei-base.c:486:2: note: Taking false branch
-           if (rc)
-           ^
-   drivers/acpi/apei/apei-base.c:489:6: note: Assuming 'arch_apei_filter_ad=
-dr' is null
-           if (arch_apei_filter_addr) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/apei/apei-base.c:489:2: note: Taking false branch
-           if (arch_apei_filter_addr) {
-           ^
-   drivers/acpi/apei/apei-base.c:500:2: note: Loop condition is false. Exec=
-ution continues on line 513
-           list_for_each_entry(res, &resources->iomem, list) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/acpi/apei/apei-base.c:513:2: note: Loop condition is false. Exec=
-ution continues on line 525
-           list_for_each_entry(res, &resources->ioport, list) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/acpi/apei/apei-base.c:526:6: note: 'rc' is not equal to 0
-           if (rc) {
-               ^~
-   drivers/acpi/apei/apei-base.c:526:2: note: Taking true branch
-           if (rc) {
-           ^
-   drivers/acpi/apei/apei-base.c:527:3: note: Loop condition is false.  Exi=
-ting loop
-                   pr_err(APEI_PFX "Fail to merge resources!\n");
+   mm/damon/dbgfs.c:425:7: note: Assuming 't' is null
+                   if (!t) {
+                       ^~
+   mm/damon/dbgfs.c:425:3: note: Taking true branch
+                   if (!t) {
                    ^
-   include/linux/printk.h:493:2: note: expanded from macro 'pr_err'
-           printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+   mm/damon/dbgfs.c:426:4: note: Loop condition is false. Execution continu=
+es on line 428
+                           damon_for_each_target_safe(t, next, ctx)
+                           ^
+   include/linux/damon.h:442:2: note: expanded from macro 'damon_for_each_t=
+arget_safe'
+           list_for_each_entry_safe(t, next, &(ctx)->adaptive_targets, list)
            ^
-   include/linux/printk.h:450:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:421:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:396:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/acpi/apei/apei-base.c:528:3: note: Control jumps to line 534
-                   goto err_unmap_ioport;
-                   ^
-   drivers/acpi/apei/apei-base.c:534:2: note: Loop condition is false. Exec=
-ution continues on line 539
-           list_for_each_entry(res, &resources->ioport, list) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+   include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
   \
            ^
-   drivers/acpi/apei/apei-base.c:541:2: note: Loop condition is false. Exec=
-ution continues on line 547
-           list_for_each_entry(res, &resources->iomem, list) {
+   mm/damon/dbgfs.c:428:8: note: Assuming the condition is true
+                           if (target_has_pid(ctx))
+                               ^~~~~~~~~~~~~~~~~~~
+   mm/damon/dbgfs.c:428:4: note: Taking true branch
+                           if (target_has_pid(ctx))
+                           ^
+   mm/damon/dbgfs.c:429:20: note: Passing null pointer value via 1st parame=
+ter 'pids'
+                                   dbgfs_put_pids(pids, nr_targets);
+                                                  ^~~~
+   mm/damon/dbgfs.c:429:5: note: Calling 'dbgfs_put_pids'
+                                   dbgfs_put_pids(pids, nr_targets);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/damon/dbgfs.c:358:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < nr_pids; i++)
            ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
+   mm/damon/dbgfs.c:359:11: note: Array access (from variable 'pids') resul=
+ts in a null pointer dereference
+                   put_pid(pids[i]);
+                           ^~~~
+   mm/damon/dbgfs.c:433:13: warning: Array access (from variable 'pids') re=
+sults in a null pointer dereference [clang-analyzer-core.NullDereference]
+                           t->pid =3D pids[i];
 
-vim +/ext_status +176 drivers/acpi/pfr_telemetry.c
+vim +/pids +359 mm/damon/dbgfs.c
 
-b0013e037a8b077 Chen Yu 2021-12-22  150  =
+4bc05954d007665 SeongJae Park 2021-09-07  353  =
 
-b0013e037a8b077 Chen Yu 2021-12-22  151  static int set_pfrt_log_level(int =
-level, struct pfrt_log_device *pfrt_log_dev)
-b0013e037a8b077 Chen Yu 2021-12-22  152  {
-b0013e037a8b077 Chen Yu 2021-12-22  153  	acpi_handle handle =3D ACPI_HANDL=
-E(pfrt_log_dev->parent_dev);
-b0013e037a8b077 Chen Yu 2021-12-22  154  	union acpi_object *out_obj, *obj,=
- in_obj, in_buf;
-b0013e037a8b077 Chen Yu 2021-12-22  155  	enum pfru_dsm_status status, ext_=
-status;
-b0013e037a8b077 Chen Yu 2021-12-22  156  	int ret =3D 0;
-b0013e037a8b077 Chen Yu 2021-12-22  157  =
+1971bd630452e94 SeongJae Park 2022-03-22  354  static void dbgfs_put_pids(s=
+truct pid **pids, int nr_pids)
+4bc05954d007665 SeongJae Park 2021-09-07  355  {
+4bc05954d007665 SeongJae Park 2021-09-07  356  	int i;
+4bc05954d007665 SeongJae Park 2021-09-07  357  =
 
-b0013e037a8b077 Chen Yu 2021-12-22  158  	memset(&in_obj, 0, sizeof(in_obj)=
-);
-b0013e037a8b077 Chen Yu 2021-12-22  159  	memset(&in_buf, 0, sizeof(in_buf)=
-);
-b0013e037a8b077 Chen Yu 2021-12-22  160  	in_obj.type =3D ACPI_TYPE_PACKAGE;
-b0013e037a8b077 Chen Yu 2021-12-22  161  	in_obj.package.count =3D 1;
-b0013e037a8b077 Chen Yu 2021-12-22  162  	in_obj.package.elements =3D &in_b=
-uf;
-b0013e037a8b077 Chen Yu 2021-12-22  163  	in_buf.type =3D ACPI_TYPE_INTEGER;
-b0013e037a8b077 Chen Yu 2021-12-22  164  	in_buf.integer.value =3D level;
-b0013e037a8b077 Chen Yu 2021-12-22  165  =
-
-b0013e037a8b077 Chen Yu 2021-12-22  166  	out_obj =3D acpi_evaluate_dsm_typ=
-ed(handle, &pfrt_log_guid,
-b0013e037a8b077 Chen Yu 2021-12-22  167  					  pfrt_log_dev->info.log_revi=
-d, PFRT_FUNC_SET_LEV,
-b0013e037a8b077 Chen Yu 2021-12-22  168  					  &in_obj, ACPI_TYPE_PACKAGE);
-b0013e037a8b077 Chen Yu 2021-12-22  169  	if (!out_obj)
-b0013e037a8b077 Chen Yu 2021-12-22  170  		return -EINVAL;
-b0013e037a8b077 Chen Yu 2021-12-22  171  =
-
-b0013e037a8b077 Chen Yu 2021-12-22  172  	obj =3D &out_obj->package.element=
-s[0];
-b0013e037a8b077 Chen Yu 2021-12-22  173  	status =3D obj->integer.value;
-b0013e037a8b077 Chen Yu 2021-12-22  174  	if (status !=3D DSM_SUCCEED) {
-b0013e037a8b077 Chen Yu 2021-12-22  175  		obj =3D &out_obj->package.elemen=
-ts[1];
-b0013e037a8b077 Chen Yu 2021-12-22 @176  		ext_status =3D obj->integer.valu=
-e;
-b0013e037a8b077 Chen Yu 2021-12-22  177  		dev_dbg(pfrt_log_dev->parent_dev=
-, "Error Status:%d\n", status);
-b0013e037a8b077 Chen Yu 2021-12-22  178  		dev_dbg(pfrt_log_dev->parent_dev=
-, "Error Extend Status:%d\n", ext_status);
-b0013e037a8b077 Chen Yu 2021-12-22  179  		ret =3D -EBUSY;
-b0013e037a8b077 Chen Yu 2021-12-22  180  	}
-b0013e037a8b077 Chen Yu 2021-12-22  181  =
-
-b0013e037a8b077 Chen Yu 2021-12-22  182  	kfree(out_obj);
-b0013e037a8b077 Chen Yu 2021-12-22  183  =
-
-b0013e037a8b077 Chen Yu 2021-12-22  184  	return ret;
-b0013e037a8b077 Chen Yu 2021-12-22  185  }
-b0013e037a8b077 Chen Yu 2021-12-22  186  =
+1971bd630452e94 SeongJae Park 2022-03-22  358  	for (i =3D 0; i < nr_pids; =
+i++)
+1971bd630452e94 SeongJae Park 2022-03-22 @359  		put_pid(pids[i]);
+1971bd630452e94 SeongJae Park 2022-03-22  360  }
+1971bd630452e94 SeongJae Park 2022-03-22  361  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8548179752191411342==--
+--===============7677624037543419754==--
 
