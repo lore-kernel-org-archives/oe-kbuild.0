@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8061843471274456642=="
+Content-Type: multipart/mixed; boundary="===============1019865608193573392=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/codecs/wm_adsp.c:1100:13: warning: Uninitialized variable: tmp->name [uninitvar]
-Date: Thu, 07 Apr 2022 13:30:00 +0800
-Message-ID: <202204071322.HhSrMIVT-lkp@intel.com>
+Subject: arch/powerpc/platforms/pseries/lpar.c:1106:54: warning: Parameter 'slot' can be declared with const [constParameter]
+Date: Thu, 07 Apr 2022 13:09:22 +0800
+Message-ID: <202204071335.O5KePXaT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8061843471274456642==
+--===============1019865608193573392==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,22 +15,26 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Simon Trimmer <simont@opensource.cirrus.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Charles Keepax <ckeepax@opensource.cirrus.com>
+TO: Hans de Goede <hdegoede@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+
+Hi Hans,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: f6bc909e7673c30abcbdb329e7d0aa2e83c103d7 firmware: cs_dsp: add driv=
-er to support firmware loading on Cirrus Logic DSPs
-date:   6 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-compiler: arc-elf-gcc (GCC) 11.2.0
+commit: ae62fbe299629d3b2fa61d4cf5146258c4d99fdf proc: make the proc_create=
+[_data]() stubs static inlines
+date:   3 months ago
+:::::: branch date: 35 hours ago
+:::::: commit date: 3 months ago
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout f6bc909e7673c30abcbdb329e7d0aa2e83c103d7
+        git checkout ae62fbe299629d3b2fa61d4cf5146258c4d99fdf
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -40,75 +44,100 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> sound/soc/codecs/wm_adsp.c:1100:13: warning: Uninitialized variable: tmp=
-->name [uninitvar]
-     if (!tmp->name || !strcmp(compr->name, tmp->name)) {
-               ^
-   sound/soc/codecs/wm_adsp.c:1096:16: note: Assuming condition is false
-    if (compr->dsp->fatal_error)
-                  ^
-   sound/soc/codecs/wm_adsp.c:1100:13: note: Uninitialized variable: tmp->n=
-ame
-     if (!tmp->name || !strcmp(compr->name, tmp->name)) {
-               ^
->> sound/soc/codecs/wm_adsp.c:1550:29: warning: Uninitialized variable: buf=
-->compr [uninitvar]
-     wm_adsp_compr_detach(buf->compr);
-                               ^
->> sound/soc/codecs/wm_adsp.c:1930:14: warning: Uninitialized variable: com=
-pr->stream [uninitvar]
-     if (compr->stream)
-                ^
+>> arch/powerpc/platforms/pseries/lpar.c:1106:54: warning: Parameter 'slot'=
+ can be declared with const [constParameter]
+   static void hugepage_block_invalidate(unsigned long *slot, unsigned long=
+ *vpn,
+                                                        ^
 
-vim +1100 sound/soc/codecs/wm_adsp.c
+vim +/slot +1106 arch/powerpc/platforms/pseries/lpar.c
 
-edd713509ae46f Charles Keepax   2016-05-04  1091  =
+1a5272866f87d7 Aneesh Kumar K.V 2013-06-20  1105  =
 
-edd713509ae46f Charles Keepax   2016-05-04  1092  static int wm_adsp_compr_=
-attach(struct wm_adsp_compr *compr)
-edd713509ae46f Charles Keepax   2016-05-04  1093  {
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1094  	struct wm_adsp_compr_buf=
- *buf =3D NULL, *tmp;
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1095  =
+ba2dd8a26baa7e Laurent Dufour   2018-08-20 @1106  static void hugepage_bloc=
+k_invalidate(unsigned long *slot, unsigned long *vpn,
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1107  				      int count, int =
+psize, int ssize)
+1a5272866f87d7 Aneesh Kumar K.V 2013-06-20  1108  {
+05af40e8859550 Laurent Dufour   2016-10-06  1109  	unsigned long param[PLPA=
+R_HCALL9_BUFSIZE];
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1110  	unsigned long shift, cur=
+rent_vpgb, vpgb;
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1111  	int i, pix =3D 0;
+1a5272866f87d7 Aneesh Kumar K.V 2013-06-20  1112  =
 
-a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1096  	if (compr->dsp->fatal_er=
-ror)
-a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1097  		return -EINVAL;
-a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1098  =
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1113  	shift =3D mmu_psize_defs=
+[psize].shift;
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1114  =
 
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1099  	list_for_each_entry(tmp,=
- &compr->dsp->buffer_list, list) {
-4f2d4eabf57718 Stuart Henderson 2019-02-22 @1100  		if (!tmp->name || !strc=
-mp(compr->name, tmp->name)) {
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1101  			buf =3D tmp;
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1102  			break;
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1103  		}
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1104  	}
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1105  =
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1115  	for (i =3D 0; i < count;=
+ i++) {
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1116  		/*
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1117  		 * Shifting 3 bits more=
+ on the right to get a
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1118  		 * 8 pages aligned virt=
+ual addresse.
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1119  		 */
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1120  		vpgb =3D (vpn[i] >> (sh=
+ift - VPN_SHIFT + 3));
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1121  		if (!pix || vpgb !=3D c=
+urrent_vpgb) {
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1122  			/*
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1123  			 * Need to start a new=
+ 8 pages block, flush
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1124  			 * the current one if =
+needed.
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1125  			 */
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1126  			if (pix)
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1127  				(void)call_block_remo=
+ve(pix, param, true);
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1128  			current_vpgb =3D vpgb;
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1129  			param[0] =3D hpte_enco=
+de_avpn(vpn[i], psize, ssize);
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1130  			pix =3D 1;
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1131  		}
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1132  =
 
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1106  	if (!buf)
-edd713509ae46f Charles Keepax   2016-05-04  1107  		return -EINVAL;
-edd713509ae46f Charles Keepax   2016-05-04  1108  =
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1133  		param[pix++] =3D HBR_RE=
+QUEST | HBLKR_AVPN | slot[i];
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1134  		if (pix =3D=3D PLPAR_HC=
+ALL9_BUFSIZE) {
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1135  			pix =3D call_block_rem=
+ove(pix, param, false);
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1136  			/*
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1137  			 * pix =3D 0 means tha=
+t all the entries were
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1138  			 * removed, we can sta=
+rt a new block.
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1139  			 * Otherwise, this mea=
+ns that there are entries
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1140  			 * to retry, and pix p=
+oints to latest one, so
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1141  			 * we should increment=
+ it and try to continue
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1142  			 * the same block.
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1143  			 */
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1144  			if (pix)
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1145  				pix++;
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1146  		}
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1147  	}
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1148  	if (pix)
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1149  		(void)call_block_remove=
+(pix, param, true);
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1150  }
+ba2dd8a26baa7e Laurent Dufour   2018-08-20  1151  =
 
-4f2d4eabf57718 Stuart Henderson 2019-02-22  1109  	compr->buf =3D buf;
-789b930a8f0de6 Charles Keepax   2019-04-02  1110  	buf->compr =3D compr;
-edd713509ae46f Charles Keepax   2016-05-04  1111  =
 
-edd713509ae46f Charles Keepax   2016-05-04  1112  	return 0;
-edd713509ae46f Charles Keepax   2016-05-04  1113  }
-edd713509ae46f Charles Keepax   2016-05-04  1114  =
+:::::: The code at line 1106 was first introduced by commit
+:::::: ba2dd8a26baa7e140555746d396e32952709c42d powerpc/pseries/mm: call H_=
+BLOCK_REMOVE
 
-
-:::::: The code at line 1100 was first introduced by commit
-:::::: 4f2d4eabf57718875b97363a3bd35de490f354c5 ASoC: wm_adsp: Add support =
-for multiple compressed buffers
-
-:::::: TO: Stuart Henderson <stuarth@opensource.cirrus.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Laurent Dufour <ldufour@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============8061843471274456642==--
+--===============1019865608193573392==--
 
