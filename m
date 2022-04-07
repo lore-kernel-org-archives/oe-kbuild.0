@@ -1,40 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============1617821652379076672=="
+Content-Type: multipart/mixed; boundary="===============4672030775616826512=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jani-drm:edid-hfeeodb 51/63] drivers/gpu/drm/drm_edid.c:5158:20: warning: Array access (from variable 'name') results in a null pointer dereference [clang-analyzer-core.NullDereference]
-Date: Thu, 14 Apr 2022 01:47:29 +0800
-Message-ID: <202204140102.i06YgMsq-lkp@intel.com>
+Subject: sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Fri, 08 Apr 2022 05:22:48 +0800
+Message-ID: <202204080500.DekgLkn3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1617821652379076672==
+--===============4672030775616826512==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-TO: Jani Nikula <jani.nikula@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-tree:   git://people.freedesktop.org/~jani/drm edid-hfeeodb
-head:   06dad405a39456891fce7cc9e26d45177d56edc1
-commit: 59d0e7c2f8dff534ac72b7a2baea89dc23c61d66 [51/63] drm/edid: convert =
-get_monitor_name() to drm_edid
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
-config: arm-randconfig-c002-20220413 (https://download.01.org/0day-ci/archi=
-ve/20220414/202204140102.i06YgMsq-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project fe2478=
-d44e4f7f191c43fef629ac7a23d0251e72)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   42e7a03d3badebd4e70aea5362d6914dfc7c220b
+commit: b62c4e5fba2f910bc9f23ae152d11627e4c2f00f ASoC: qcom: lpass-sc7280: =
+Add platform driver for lpass audio
+date:   6 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20220406 (https://download.01.org/0day-ci/archi=
+ve/20220408/202204080500.DekgLkn3-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
+7d0979e7ff20d7d541af666d822d66b566)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        git remote add jani-drm git://people.freedesktop.org/~jani/drm
-        git fetch --no-tags jani-drm edid-hfeeodb
-        git checkout 59d0e7c2f8dff534ac72b7a2baea89dc23c61d66
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db62c4e5fba2f910bc9f23ae152d11627e4c2f00f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b62c4e5fba2f910bc9f23ae152d11627e4c2f00f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -45,443 +55,358 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^~~~~~
-   drivers/usb/core/config.c:314:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&endpoint->desc, d, n);
-           ^~~~~~
-   drivers/usb/core/config.c:544:2: warning: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&alt->desc, d, USB_DT_INTERFACE_SIZE);
-           ^~~~~~
-   drivers/usb/core/config.c:544:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&alt->desc, d, USB_DT_INTERFACE_SIZE);
-           ^~~~~~
-   drivers/usb/core/config.c:621:2: warning: Call to function 'memcpy' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
-ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&config->desc, buffer, USB_DT_CONFIG_SIZE);
-           ^~~~~~
-   drivers/usb/core/config.c:621:2: note: Call to function 'memcpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&config->desc, buffer, USB_DT_CONFIG_SIZE);
-           ^~~~~~
-   Suppressed 30 warnings (30 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   47 warnings generated.
-   fs/exec.c:644:3: warning: Call to function 'memcpy' is insecure as it do=
-es not provide security checks introduced in the C11 standard. Replace with=
- analogous functions that support length arguments or provides boundary che=
-cks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI.=
-DeprecatedOrUnsafeBufferHandling]
-                   memcpy(kaddr + offset_in_page(pos), arg, bytes_to_copy);
-                   ^~~~~~
-   fs/exec.c:644:3: note: Call to function 'memcpy' is insecure as it does =
-not provide security checks introduced in the C11 standard. Replace with an=
-alogous functions that support length arguments or provides boundary checks=
- such as 'memcpy_s' in case of C11
-                   memcpy(kaddr + offset_in_page(pos), arg, bytes_to_copy);
-                   ^~~~~~
-   fs/exec.c:1199:3: warning: Call to function 'memcpy' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecureAPI=
-.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(newsighand->action, oldsighand->action,
-                   ^~~~~~
-   fs/exec.c:1199:3: note: Call to function 'memcpy' is insecure as it does=
- not provide security checks introduced in the C11 standard. Replace with a=
-nalogous functions that support length arguments or provides boundary check=
-s such as 'memcpy_s' in case of C11
-                   memcpy(newsighand->action, oldsighand->action,
-                   ^~~~~~
-   fs/exec.c:1655:2: warning: Call to function 'memset' is insecure as it d=
-oes not provide security checks introduced in the C11 standard. Replace wit=
-h analogous functions that support length arguments or provides boundary ch=
-ecks such as 'memset_s' in case of C11 [clang-analyzer-security.insecureAPI=
-.DeprecatedOrUnsafeBufferHandling]
-           memset(bprm->buf, 0, BINPRM_BUF_SIZE);
-           ^~~~~~
-   fs/exec.c:1655:2: note: Call to function 'memset' is insecure as it does=
- not provide security checks introduced in the C11 standard. Replace with a=
-nalogous functions that support length arguments or provides boundary check=
-s such as 'memset_s' in case of C11
-           memset(bprm->buf, 0, BINPRM_BUF_SIZE);
-           ^~~~~~
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   58 warnings generated.
-   drivers/gpu/drm/drm_edid.c:1636:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1636:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1659:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1659:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1669:2: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(edid, edid_header, sizeof(edid_header));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1669:2: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-           memcpy(edid, edid_header, sizeof(edid_header));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1879:3: warning: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(prefix, "\t[%02x] ZERO ", block_num);
-                   ^~~~~~~
-   drivers/gpu/drm/drm_edid.c:1879:3: note: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(prefix, "\t[%02x] ZERO ", block_num);
-                   ^~~~~~~
-   drivers/gpu/drm/drm_edid.c:1881:3: warning: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(prefix, "\t[%02x] BAD  ", block_num);
-                   ^~~~~~~
-   drivers/gpu/drm/drm_edid.c:1881:3: note: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(prefix, "\t[%02x] BAD  ", block_num);
-                   ^~~~~~~
-   drivers/gpu/drm/drm_edid.c:1883:3: warning: Call to function 'sprintf' i=
-s insecure as it does not provide security checks introduced in the C11 sta=
-ndard. Replace with analogous functions that support length arguments or pr=
-ovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-s=
-ecurity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   sprintf(prefix, "\t[%02x] GOOD ", block_num);
-                   ^~~~~~~
-   drivers/gpu/drm/drm_edid.c:1883:3: note: Call to function 'sprintf' is i=
-nsecure as it does not provide security checks introduced in the C11 standa=
-rd. Replace with analogous functions that support length arguments or provi=
-des boundary checks such as 'sprintf_s' in case of C11
-                   sprintf(prefix, "\t[%02x] GOOD ", block_num);
-                   ^~~~~~~
-   drivers/gpu/drm/drm_edid.c:1994:4: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(dest_block++, block, EDID_LENGTH);
-                           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:1994:4: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                           memcpy(dest_block++, block, EDID_LENGTH);
-                           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:4705:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:4705:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:4830:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:4830:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(iter, 0, sizeof(*iter));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5155:3: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(name, buf, name_length);
-                   ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5155:3: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                   memcpy(name, buf, name_length);
-                   ^~~~~~
->> drivers/gpu/drm/drm_edid.c:5158:20: warning: Array access (from variable=
- 'name') results in a null pointer dereference [clang-analyzer-core.NullDer=
-eference]
-           name[name_length] =3D '\0';
-           ~~~~              ^
-   drivers/gpu/drm/drm_edid.c:5144:6: note: Assuming 'bufsize' is > 0
-           if (bufsize <=3D 0)
-               ^~~~~~~~~~~~
-   drivers/gpu/drm/drm_edid.c:5144:2: note: Taking false branch
-           if (bufsize <=3D 0)
+   sound/soc/sh/rcar/rsnd.h:818:41: note: expanded from macro 'rsnd_src_get=
+_out_rate'
+   #define rsnd_src_get_out_rate(priv, io) rsnd_src_get_rate(priv, io, 0)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/src.c:117:29: note: RSND_MOD_SRC is < RSND_MOD_MAX
+           struct rsnd_mod *src_mod =3D rsnd_io_to_mod_src(io);
+                                      ^
+   sound/soc/sh/rcar/rsnd.h:521:32: note: expanded from macro 'rsnd_io_to_m=
+od_src'
+   #define rsnd_io_to_mod_src(io)  rsnd_io_to_mod((io), RSND_MOD_SRC)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/rsnd.h:517:32: note: expanded from macro 'rsnd_io_to_m=
+od'
+   #define rsnd_io_to_mod(io, i)   ((i) < RSND_MOD_MAX ? (io)->mod[(i)] : N=
+ULL)
+                                    ^~~
+   sound/soc/sh/rcar/src.c:117:29: note: '?' condition is true
+           struct rsnd_mod *src_mod =3D rsnd_io_to_mod_src(io);
+                                      ^
+   sound/soc/sh/rcar/rsnd.h:521:32: note: expanded from macro 'rsnd_io_to_m=
+od_src'
+   #define rsnd_io_to_mod_src(io)  rsnd_io_to_mod((io), RSND_MOD_SRC)
+                                   ^
+   sound/soc/sh/rcar/rsnd.h:517:32: note: expanded from macro 'rsnd_io_to_m=
+od'
+   #define rsnd_io_to_mod(io, i)   ((i) < RSND_MOD_MAX ? (io)->mod[(i)] : N=
+ULL)
+                                    ^
+   sound/soc/sh/rcar/src.c:118:36: note: Field 'substream' is non-null
+           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
+                                             ^
+   sound/soc/sh/rcar/rsnd.h:529:39: note: expanded from macro 'rsnd_io_to_r=
+untime'
+   #define rsnd_io_to_runtime(io) ((io)->substream ? \
+                                         ^
+   sound/soc/sh/rcar/src.c:118:36: note: '?' condition is true
+           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
+                                             ^
+   sound/soc/sh/rcar/rsnd.h:529:33: note: expanded from macro 'rsnd_io_to_r=
+untime'
+   #define rsnd_io_to_runtime(io) ((io)->substream ? \
+                                   ^
+   sound/soc/sh/rcar/src.c:130:6: note: Assuming 'is_play' is equal to 'is_=
+in'
+           if (is_play =3D=3D is_in)
+               ^~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/src.c:130:2: note: Taking true branch
+           if (is_play =3D=3D is_in)
            ^
-   drivers/gpu/drm/drm_edid.c:5147:6: note: Assuming 'edid' is non-null
-           if (edid && name) {
-               ^~~~
-   drivers/gpu/drm/drm_edid.c:5147:6: note: Left side of '&&' is true
-   drivers/gpu/drm/drm_edid.c:5147:14: note: Assuming 'name' is null
-           if (edid && name) {
-                       ^~~~
-   drivers/gpu/drm/drm_edid.c:5147:6: note: Assuming pointer value is null
-           if (edid && name) {
-               ^~~~~~~~~~~~
-   drivers/gpu/drm/drm_edid.c:5147:2: note: Taking false branch
-           if (edid && name) {
+   sound/soc/sh/rcar/src.c:131:3: note: Returning zero
+                   return runtime->rate;
+                   ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/src.c:222:9: note: Returning from 'rsnd_src_get_rate'
+           fout =3D rsnd_src_get_out_rate(priv, io);
+                  ^
+   sound/soc/sh/rcar/rsnd.h:818:41: note: expanded from macro 'rsnd_src_get=
+_out_rate'
+   #define rsnd_src_get_out_rate(priv, io) rsnd_src_get_rate(priv, io, 0)
+                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/src.c:222:2: note: The value 0 is assigned to 'fout'
+           fout =3D rsnd_src_get_out_rate(priv, io);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/src.c:227:6: note: 'fin' is equal to 'fout'
+           if (fin =3D=3D fout)
+               ^~~
+   sound/soc/sh/rcar/src.c:227:2: note: Taking true branch
+           if (fin =3D=3D fout)
            ^
-   drivers/gpu/drm/drm_edid.c:5158:20: note: Array access (from variable 'n=
-ame') results in a null pointer dereference
-           name[name_length] =3D '\0';
-           ~~~~              ^
-   drivers/gpu/drm/drm_edid.c:5164:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(connector->eld, 0, sizeof(connector->eld));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5164:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(connector->eld, 0, sizeof(connector->eld));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5221:5: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                                   memcpy(&eld[DRM_ELD_CEA_SAD(mnl, total_s=
-ad_count)],
-                                   ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5221:5: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-                                   memcpy(&eld[DRM_ELD_CEA_SAD(mnl, total_s=
-ad_count)],
-                                   ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5937:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&info->hdmi, 0, sizeof(info->hdmi));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5937:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(&info->hdmi, 0, sizeof(info->hdmi));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5943:2: warning: Call to function 'memset' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memset_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&info->monitor_range, 0, sizeof(info->monitor_range));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:5943:2: note: Call to function 'memset' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memset_s' in case of C11
-           memset(&info->monitor_range, 0, sizeof(info->monitor_range));
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:6434:2: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&frame->display_primaries,
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:6434:2: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&frame->display_primaries,
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:6438:2: warning: Call to function 'memcpy' is=
- insecure as it does not provide security checks introduced in the C11 stan=
-dard. Replace with analogous functions that support length arguments or pro=
-vides boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-sec=
-urity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(&frame->white_point,
-           ^~~~~~
-   drivers/gpu/drm/drm_edid.c:6438:2: note: Call to function 'memcpy' is in=
-secure as it does not provide security checks introduced in the C11 standar=
-d. Replace with analogous functions that support length arguments or provid=
-es boundary checks such as 'memcpy_s' in case of C11
-           memcpy(&frame->white_point,
-           ^~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c:123:2: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(data, &offset, 1);
-           ^~~~~~
-   drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c:123:2: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(data, &offset, 1);
-           ^~~~~~
-   drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c:124:2: warning: Call to fun=
-ction 'memcpy' is insecure as it does not provide security checks introduce=
-d in the C11 standard. Replace with analogous functions that support length=
- arguments or provides boundary checks such as 'memcpy_s' in case of C11 [c=
-lang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(data + 1, buffer, size);
-           ^~~~~~
-   drivers/gpu/drm/dp/drm_dp_dual_mode_helper.c:124:2: note: Call to functi=
-on 'memcpy' is insecure as it does not provide security checks introduced i=
-n the C11 standard. Replace with analogous functions that support length ar=
-guments or provides boundary checks such as 'memcpy_s' in case of C11
-           memcpy(data + 1, buffer, size);
-           ^~~~~~
-   Suppressed 41 warnings (41 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   drivers/video/backlight/pwm_bl.c:206:12: warning: Division by zero [clan=
-g-analyzer-core.DivideZero]
-                   min((int)DIV_ROUND_UP(period, fls(period)), 4096);
-                            ^
-   include/linux/math.h:37:22: note: expanded from macro 'DIV_ROUND_UP'
-   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
-                        ^
-   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
-V_ROUND_UP'
-   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
-                                                        ^
-   drivers/video/backlight/pwm_bl.c:464:6: note: Assuming 'data' is non-null
-           if (!data) {
+   sound/soc/sh/rcar/src.c:234:6: note: 'ratio' is <=3D 600
+           if (ratio > 600) {
                ^~~~~
-   drivers/video/backlight/pwm_bl.c:464:2: note: Taking false branch
-           if (!data) {
+   sound/soc/sh/rcar/src.c:234:2: note: Taking false branch
+           if (ratio > 600) {
            ^
-   drivers/video/backlight/pwm_bl.c:474:6: note: Assuming field 'init' is n=
-ull
-           if (data->init) {
-               ^~~~~~~~~~
-   drivers/video/backlight/pwm_bl.c:474:2: note: Taking false branch
+   sound/soc/sh/rcar/src.c:251:6: note: Assuming 'use_src' is not equal to 0
+           if (use_src) {
+               ^~~~~~~
+   sound/soc/sh/rcar/src.c:251:2: note: Taking true branch
+           if (use_src) {
+           ^
+   sound/soc/sh/rcar/src.c:256:3: note: '__base' initialized to 0
+                   do_div(n, fout);
+                   ^
+   include/asm-generic/div64.h:220:2: note: expanded from macro 'do_div'
+           uint32_t __base =3D (base);                       \
+           ^~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/src.c:256:3: note: Left side of '&&' is false
+                   do_div(n, fout);
+                   ^
+   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
+           if (__builtin_constant_p(__base) &&             \
+                                            ^
+   sound/soc/sh/rcar/src.c:256:3: note: Left side of '&&' is false
+                   do_div(n, fout);
+                   ^
+   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
+           } else if (__builtin_constant_p(__base) &&      \
+                                                   ^
+   sound/soc/sh/rcar/src.c:256:3: note: Taking true branch
+                   do_div(n, fout);
+                   ^
+   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
+                  ^
+   sound/soc/sh/rcar/src.c:256:3: note: Division by zero
+                   do_div(n, fout);
+                   ^
+   include/asm-generic/div64.h:235:25: note: expanded from macro 'do_div'
+                   __rem =3D (uint32_t)(n) % __base;         \
+                           ~~~~~~~~~~~~~~^~~~~~~~
+   1 warning generated.
+>> sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluate=
+s to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (!dmactl)
+                       ^~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:261:2: note: 'dmactl' declared without an=
+ initial value
+           struct lpaif_dmactl *dmactl;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:264:2: note: Control jumps to 'case 3:'  =
+at line 272
+           switch (cmd) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Calling '__lpass_get_dmactl_=
+handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:43:2: note: Control jumps to the 'default=
+' case at line 56
+           switch (dai_id) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Loop condition is false.  Exi=
+ting loop
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   sound/soc/qcom/lpass-cdc-dma.c:58:3: note:  Execution continues on line =
+57
+                   break;
+                   ^
+   sound/soc/qcom/lpass-cdc-dma.c:60:1: note: Returning without writing to =
+'*dmactl'
+   }
+   ^
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Returning from '__lpass_get_=
+dmactl_handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:274:7: note: Branch condition evaluates t=
+o a garbage value
+                   if (!dmactl)
+                       ^~~~~~~
+   1 warning generated.
+   drivers/iio/gyro/fxas21002c_core.c:137:8: warning: Excessive padding in =
+'struct fxas21002c_data' (51 padding bytes, where 19 is optimal). =
 
-vim +/name +5158 drivers/gpu/drm/drm_edid.c
+   Optimal fields order: =
 
-59f7c0fa325e56 Jim Bride   2016-04-14  5132  =
+   buffer, =
 
-59f7c0fa325e56 Jim Bride   2016-04-14  5133  /**
-59f7c0fa325e56 Jim Bride   2016-04-14  5134   * drm_edid_get_monitor_name -=
- fetch the monitor name from the edid
-59f7c0fa325e56 Jim Bride   2016-04-14  5135   * @edid: monitor EDID informa=
-tion
-59f7c0fa325e56 Jim Bride   2016-04-14  5136   * @name: pointer to a charact=
-er array to hold the name of the monitor
-59f7c0fa325e56 Jim Bride   2016-04-14  5137   * @bufsize: The size of the n=
-ame buffer (should be at least 14 chars.)
-59f7c0fa325e56 Jim Bride   2016-04-14  5138   *
-59f7c0fa325e56 Jim Bride   2016-04-14  5139   */
-f4e558ec9d9fb9 Jani Nikula 2022-03-28  5140  void drm_edid_get_monitor_name=
-(const struct edid *edid, char *name, int bufsize)
-59f7c0fa325e56 Jim Bride   2016-04-14  5141  {
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5142  	int name_length =3D 0;
-59f7c0fa325e56 Jim Bride   2016-04-14  5143  =
+   timestamp, =
 
-59f7c0fa325e56 Jim Bride   2016-04-14  5144  	if (bufsize <=3D 0)
-59f7c0fa325e56 Jim Bride   2016-04-14  5145  		return;
-59f7c0fa325e56 Jim Bride   2016-04-14  5146  =
+   mode, =
 
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5147  	if (edid && name) {
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5148  		char buf[13];
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5149  		struct drm_edid drm_edid =3D=
- {
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5150  			.edid =3D edid,
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5151  			.size =3D edid_size(edid),
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5152  		};
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5153  =
+   prev_mode, =
 
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5154  		name_length =3D min(get_moni=
-tor_name(&drm_edid, buf), bufsize - 1);
-59f7c0fa325e56 Jim Bride   2016-04-14  5155  		memcpy(name, buf, name_lengt=
-h);
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5156  	}
-59d0e7c2f8dff5 Jani Nikula 2022-04-12  5157  =
+   regmap, =
 
-59f7c0fa325e56 Jim Bride   2016-04-14 @5158  	name[name_length] =3D '\0';
-59f7c0fa325e56 Jim Bride   2016-04-14  5159  }
-59f7c0fa325e56 Jim Bride   2016-04-14  5160  EXPORT_SYMBOL(drm_edid_get_mon=
-itor_name);
-59f7c0fa325e56 Jim Bride   2016-04-14  5161  =
+   dready_trig, =
+
+   irq, =
+
+   vdd, =
+
+   vddio, =
+
+   lock, =
+
+   regmap_fields, =
+
+   chip_id, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct fxas21002c_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~
+   drivers/iio/gyro/fxas21002c_core.c:137:8: note: Excessive padding in 'st=
+ruct fxas21002c_data' (51 padding bytes, where 19 is optimal). Optimal fiel=
+ds order: buffer, timestamp, mode, prev_mode, regmap, dready_trig, irq, vdd=
+, vddio, lock, regmap_fields, chip_id, consider reordering the fields or ad=
+ding explicit padding members
+   struct fxas21002c_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/iio/frequency/adf4371.c:157:8: warning: Excessive padding in 'st=
+ruct adf4371_state' (42 padding bytes, where 10 is optimal). =
+
+   Optimal fields order: =
+
+   buf, =
+
+   spi, =
+
+   regmap, =
+
+   clkin, =
+
+   chip_info, =
+
+   clkin_freq, =
+
+   fpfd, =
+
+   integer, =
+
+   fract1, =
+
+   fract2, =
+
+   mod2, =
+
+   rf_div_sel, =
+
+   ref_div_factor, =
+
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct adf4371_state {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/frequency/adf4371.c:157:8: note: Excessive padding in 'struc=
+t adf4371_state' (42 padding bytes, where 10 is optimal). Optimal fields or=
+der: buf, spi, regmap, clkin, chip_info, clkin_freq, fpfd, integer, fract1,=
+ fract2, mod2, rf_div_sel, ref_div_factor, lock, consider reordering the fi=
+elds or adding explicit padding members
+   struct adf4371_state {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/iio/frequency/admv1013.c:93:8: warning: Excessive padding in 'st=
+ruct admv1013_state' (32 padding bytes, where 0 is optimal). =
+
+   Optimal fields order: =
+
+   data, =
+
+   det_en, =
+
+   spi, =
+
+   clkin, =
+
+   reg, =
+
+   input_mode, =
+
+   quad_se_mode, =
+
+   nb, =
+
+   lock, =
 
 
-:::::: The code@line 5158 was first introduced by commit
-:::::: 59f7c0fa325e5661188a174a435ea4925543985b drm/edid: Add drm_edid_get_=
-monitor_name()
+vim +274 sound/soc/qcom/lpass-cdc-dma.c
 
-:::::: TO: Jim Bride <jim.bride@linux.intel.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  256  =
+
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  257  static int lpass_c=
+dc_dma_daiops_trigger(struct snd_pcm_substream *substream,
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  258  				    int cmd, s=
+truct snd_soc_dai *dai)
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  259  {
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  260  	struct snd_soc_pc=
+m_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  261  	struct lpaif_dmac=
+tl *dmactl;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  262  	int ret =3D 0, id;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  263  =
+
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  264  	switch (cmd) {
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  265  	case SNDRV_PCM_TR=
+IGGER_START:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  266  	case SNDRV_PCM_TR=
+IGGER_RESUME:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  267  	case SNDRV_PCM_TR=
+IGGER_PAUSE_RELEASE:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  268  		__lpass_platform=
+_codec_intf_init(dai, substream);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  269  		break;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  270  	case SNDRV_PCM_TR=
+IGGER_STOP:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  271  	case SNDRV_PCM_TR=
+IGGER_SUSPEND:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  272  	case SNDRV_PCM_TR=
+IGGER_PAUSE_PUSH:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  273  		__lpass_get_dmac=
+tl_handle(substream, dai, &dmactl, &id);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24 @274  		if (!dmactl)
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  275  			return -EINVAL;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  276  =
+
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  277  		ret =3D regmap_f=
+ields_write(dmactl->codec_enable, id, LPAIF_DMACTL_ENABLE_OFF);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  278  		if (ret) {
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  279  			dev_err(soc_run=
+time->dev,
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  280  				"error writing=
+ to dmactl codec_enable reg: %d\n", ret);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  281  			return ret;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  282  		}
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  283  		break;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  284  	default:
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  285  		ret =3D -EINVAL;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  286  		dev_err(soc_runt=
+ime->dev, "%s: invalid %d interface\n", __func__, cmd);
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  287  		break;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  288  	}
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  289  	return ret;
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  290  }
+b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  291  =
+
+
+:::::: The code at line 274 was first introduced by commit
+:::::: b81af585ea54ee9f749391e594ee9cbd44061eae ASoC: qcom: Add lpass CPU d=
+river for codec dma control
+
+:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1617821652379076672==--
+--===============4672030775616826512==--
 
