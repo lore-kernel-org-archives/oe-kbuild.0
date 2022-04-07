@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4356655369963282087=="
+Content-Type: multipart/mixed; boundary="===============8061843471274456642=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm64/kernel/patching.c:74:8: warning: Redundant initialization for 'waddr'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Thu, 07 Apr 2022 13:40:20 +0800
-Message-ID: <202204071347.JzveAhdA-lkp@intel.com>
+Subject: sound/soc/codecs/wm_adsp.c:1100:13: warning: Uninitialized variable: tmp->name [uninitvar]
+Date: Thu, 07 Apr 2022 13:30:00 +0800
+Message-ID: <202204071322.HhSrMIVT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4356655369963282087==
+--===============8061843471274456642==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,22 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Julien Thierry <jthierry@redhat.com>
-CC: Will Deacon <will@kernel.org>
+TO: Simon Trimmer <simont@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Charles Keepax <ckeepax@opensource.cirrus.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
-commit: 5f154c4e20d7edd38bddec78f3e0a7628057ef76 arm64: Move patching utili=
-ties out of instruction encoding/decoding
-date:   11 months ago
+commit: f6bc909e7673c30abcbdb329e7d0aa2e83c103d7 firmware: cs_dsp: add driv=
+er to support firmware loading on Cirrus Logic DSPs
+date:   6 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+:::::: commit date: 6 months ago
+compiler: arc-elf-gcc (GCC) 11.2.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 5f154c4e20d7edd38bddec78f3e0a7628057ef76
+        git checkout f6bc909e7673c30abcbdb329e7d0aa2e83c103d7
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -39,53 +40,75 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> arch/arm64/kernel/patching.c:74:8: warning: Redundant initialization for=
- 'waddr'. The initialized value is overwritten before it is read. [redundan=
-tInitialization]
-    waddr =3D patch_map(addr, FIX_TEXT_POKE0);
-          ^
-   arch/arm64/kernel/patching.c:69:14: note: waddr is initialized
-    void *waddr =3D addr;
+>> sound/soc/codecs/wm_adsp.c:1100:13: warning: Uninitialized variable: tmp=
+->name [uninitvar]
+     if (!tmp->name || !strcmp(compr->name, tmp->name)) {
+               ^
+   sound/soc/codecs/wm_adsp.c:1096:16: note: Assuming condition is false
+    if (compr->dsp->fatal_error)
+                  ^
+   sound/soc/codecs/wm_adsp.c:1100:13: note: Uninitialized variable: tmp->n=
+ame
+     if (!tmp->name || !strcmp(compr->name, tmp->name)) {
+               ^
+>> sound/soc/codecs/wm_adsp.c:1550:29: warning: Uninitialized variable: buf=
+->compr [uninitvar]
+     wm_adsp_compr_detach(buf->compr);
+                               ^
+>> sound/soc/codecs/wm_adsp.c:1930:14: warning: Uninitialized variable: com=
+pr->stream [uninitvar]
+     if (compr->stream)
                 ^
-   arch/arm64/kernel/patching.c:74:8: note: waddr is overwritten
-    waddr =3D patch_map(addr, FIX_TEXT_POKE0);
-          ^
 
-vim +/waddr +74 arch/arm64/kernel/patching.c
+vim +1100 sound/soc/codecs/wm_adsp.c
 
-5f154c4e20d7ed Julien Thierry 2021-03-03  66  =
+edd713509ae46f Charles Keepax   2016-05-04  1091  =
 
-5f154c4e20d7ed Julien Thierry 2021-03-03  67  static int __kprobes __aarch6=
-4_insn_write(void *addr, __le32 insn)
-5f154c4e20d7ed Julien Thierry 2021-03-03  68  {
-5f154c4e20d7ed Julien Thierry 2021-03-03  69  	void *waddr =3D addr;
-5f154c4e20d7ed Julien Thierry 2021-03-03  70  	unsigned long flags =3D 0;
-5f154c4e20d7ed Julien Thierry 2021-03-03  71  	int ret;
-5f154c4e20d7ed Julien Thierry 2021-03-03  72  =
+edd713509ae46f Charles Keepax   2016-05-04  1092  static int wm_adsp_compr_=
+attach(struct wm_adsp_compr *compr)
+edd713509ae46f Charles Keepax   2016-05-04  1093  {
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1094  	struct wm_adsp_compr_buf=
+ *buf =3D NULL, *tmp;
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1095  =
 
-5f154c4e20d7ed Julien Thierry 2021-03-03  73  	raw_spin_lock_irqsave(&patch=
-_lock, flags);
-5f154c4e20d7ed Julien Thierry 2021-03-03 @74  	waddr =3D patch_map(addr, FI=
-X_TEXT_POKE0);
-5f154c4e20d7ed Julien Thierry 2021-03-03  75  =
+a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1096  	if (compr->dsp->fatal_er=
+ror)
+a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1097  		return -EINVAL;
+a2bcbc1b9ac2f9 Charles Keepax   2019-03-19  1098  =
 
-5f154c4e20d7ed Julien Thierry 2021-03-03  76  	ret =3D copy_to_kernel_nofau=
-lt(waddr, &insn, AARCH64_INSN_SIZE);
-5f154c4e20d7ed Julien Thierry 2021-03-03  77  =
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1099  	list_for_each_entry(tmp,=
+ &compr->dsp->buffer_list, list) {
+4f2d4eabf57718 Stuart Henderson 2019-02-22 @1100  		if (!tmp->name || !strc=
+mp(compr->name, tmp->name)) {
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1101  			buf =3D tmp;
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1102  			break;
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1103  		}
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1104  	}
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1105  =
 
-5f154c4e20d7ed Julien Thierry 2021-03-03  78  	patch_unmap(FIX_TEXT_POKE0);
-5f154c4e20d7ed Julien Thierry 2021-03-03  79  	raw_spin_unlock_irqrestore(&=
-patch_lock, flags);
-5f154c4e20d7ed Julien Thierry 2021-03-03  80  =
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1106  	if (!buf)
+edd713509ae46f Charles Keepax   2016-05-04  1107  		return -EINVAL;
+edd713509ae46f Charles Keepax   2016-05-04  1108  =
 
-5f154c4e20d7ed Julien Thierry 2021-03-03  81  	return ret;
-5f154c4e20d7ed Julien Thierry 2021-03-03  82  }
-5f154c4e20d7ed Julien Thierry 2021-03-03  83  =
+4f2d4eabf57718 Stuart Henderson 2019-02-22  1109  	compr->buf =3D buf;
+789b930a8f0de6 Charles Keepax   2019-04-02  1110  	buf->compr =3D compr;
+edd713509ae46f Charles Keepax   2016-05-04  1111  =
 
+edd713509ae46f Charles Keepax   2016-05-04  1112  	return 0;
+edd713509ae46f Charles Keepax   2016-05-04  1113  }
+edd713509ae46f Charles Keepax   2016-05-04  1114  =
+
+
+:::::: The code at line 1100 was first introduced by commit
+:::::: 4f2d4eabf57718875b97363a3bd35de490f354c5 ASoC: wm_adsp: Add support =
+for multiple compressed buffers
+
+:::::: TO: Stuart Henderson <stuarth@opensource.cirrus.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4356655369963282087==--
+--===============8061843471274456642==--
 
