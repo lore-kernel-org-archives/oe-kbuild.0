@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4672030775616826512=="
+Content-Type: multipart/mixed; boundary="===============5774120788063655155=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Fri, 08 Apr 2022 05:22:48 +0800
-Message-ID: <202204080500.DekgLkn3-lkp@intel.com>
+Subject: Re: [PATCH 5/8] crypto: skcipher - avoid rounding up request size to DMA alignment
+Date: Fri, 08 Apr 2022 03:00:11 +0800
+Message-ID: <202204080201.rcMuCSVx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4672030775616826512==
+--===============5774120788063655155==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,47 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20220406142715.2270256-6-ardb@kernel.org>
+References: <20220406142715.2270256-6-ardb@kernel.org>
+TO: Ard Biesheuvel <ardb@kernel.org>
+TO: linux-crypto(a)vger.kernel.org
+CC: herbert(a)gondor.apana.org.au
+CC: keescook(a)chromium.org
+CC: Ard Biesheuvel <ardb@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   42e7a03d3badebd4e70aea5362d6914dfc7c220b
-commit: b62c4e5fba2f910bc9f23ae152d11627e4c2f00f ASoC: qcom: lpass-sc7280: =
-Add platform driver for lpass audio
-date:   6 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 weeks ago
+Hi Ard,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master sunxi/sunxi/for-next =
+v5.18-rc1 next-20220407]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ard-Biesheuvel/crypt=
+o-avoid-DMA-padding-for-request-structures/20220407-010855
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
+.6.git master
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
 config: arm-randconfig-c002-20220406 (https://download.01.org/0day-ci/archi=
-ve/20220408/202204080500.DekgLkn3-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
-7d0979e7ff20d7d541af666d822d66b566)
+ve/20220408/202204080201.rcMuCSVx-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6b3062=
+33f78876a1d197ed6e1f05785505de7c63)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db62c4e5fba2f910bc9f23ae152d11627e4c2f00f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b62c4e5fba2f910bc9f23ae152d11627e4c2f00f
+        # https://github.com/intel-lab-lkp/linux/commit/9ee3fae5a9cb824bb1a=
+8a7f0cc52910bb5a186ad
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ard-Biesheuvel/crypto-avoid-DMA-pa=
+dding-for-request-structures/20220407-010855
+        git checkout 9ee3fae5a9cb824bb1a8a7f0cc52910bb5a186ad
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -55,358 +66,272 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/sh/rcar/rsnd.h:818:41: note: expanded from macro 'rsnd_src_get=
-_out_rate'
-   #define rsnd_src_get_out_rate(priv, io) rsnd_src_get_rate(priv, io, 0)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/src.c:117:29: note: RSND_MOD_SRC is < RSND_MOD_MAX
-           struct rsnd_mod *src_mod =3D rsnd_io_to_mod_src(io);
-                                      ^
-   sound/soc/sh/rcar/rsnd.h:521:32: note: expanded from macro 'rsnd_io_to_m=
-od_src'
-   #define rsnd_io_to_mod_src(io)  rsnd_io_to_mod((io), RSND_MOD_SRC)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/rsnd.h:517:32: note: expanded from macro 'rsnd_io_to_m=
-od'
-   #define rsnd_io_to_mod(io, i)   ((i) < RSND_MOD_MAX ? (io)->mod[(i)] : N=
-ULL)
-                                    ^~~
-   sound/soc/sh/rcar/src.c:117:29: note: '?' condition is true
-           struct rsnd_mod *src_mod =3D rsnd_io_to_mod_src(io);
-                                      ^
-   sound/soc/sh/rcar/rsnd.h:521:32: note: expanded from macro 'rsnd_io_to_m=
-od_src'
-   #define rsnd_io_to_mod_src(io)  rsnd_io_to_mod((io), RSND_MOD_SRC)
-                                   ^
-   sound/soc/sh/rcar/rsnd.h:517:32: note: expanded from macro 'rsnd_io_to_m=
-od'
-   #define rsnd_io_to_mod(io, i)   ((i) < RSND_MOD_MAX ? (io)->mod[(i)] : N=
-ULL)
-                                    ^
-   sound/soc/sh/rcar/src.c:118:36: note: Field 'substream' is non-null
-           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
-                                             ^
-   sound/soc/sh/rcar/rsnd.h:529:39: note: expanded from macro 'rsnd_io_to_r=
-untime'
-   #define rsnd_io_to_runtime(io) ((io)->substream ? \
-                                         ^
-   sound/soc/sh/rcar/src.c:118:36: note: '?' condition is true
-           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
-                                             ^
-   sound/soc/sh/rcar/rsnd.h:529:33: note: expanded from macro 'rsnd_io_to_r=
-untime'
-   #define rsnd_io_to_runtime(io) ((io)->substream ? \
-                                   ^
-   sound/soc/sh/rcar/src.c:130:6: note: Assuming 'is_play' is equal to 'is_=
-in'
-           if (is_play =3D=3D is_in)
-               ^~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/src.c:130:2: note: Taking true branch
-           if (is_play =3D=3D is_in)
+   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
+CE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
            ^
-   sound/soc/sh/rcar/src.c:131:3: note: Returning zero
-                   return runtime->rate;
-                   ^~~~~~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/src.c:222:9: note: Returning from 'rsnd_src_get_rate'
-           fout =3D rsnd_src_get_out_rate(priv, io);
-                  ^
-   sound/soc/sh/rcar/rsnd.h:818:41: note: expanded from macro 'rsnd_src_get=
-_out_rate'
-   #define rsnd_src_get_out_rate(priv, io) rsnd_src_get_rate(priv, io, 0)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/src.c:222:2: note: The value 0 is assigned to 'fout'
-           fout =3D rsnd_src_get_out_rate(priv, io);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/src.c:227:6: note: 'fin' is equal to 'fout'
-           if (fin =3D=3D fout)
-               ^~~
-   sound/soc/sh/rcar/src.c:227:2: note: Taking true branch
-           if (fin =3D=3D fout)
+   include/linux/tracepoint.h:343:4: note: expanded from macro '__DECLARE_T=
+RACE'
+           { }                                                             \
+             ^
+   fs/erofs/data.c:120:2: note: Returning from 'trace_erofs_map_blocks_ente=
+r'
+           trace_erofs_map_blocks_enter(inode, map, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/data.c:122:6: note: Assuming field 'm_la' is < field 'i_size'
+           if (map->m_la >=3D inode->i_size) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/data.c:122:2: note: Taking false branch
+           if (map->m_la >=3D inode->i_size) {
            ^
-   sound/soc/sh/rcar/src.c:234:6: note: 'ratio' is <=3D 600
-           if (ratio > 600) {
-               ^~~~~
-   sound/soc/sh/rcar/src.c:234:2: note: Taking false branch
-           if (ratio > 600) {
+   fs/erofs/data.c:129:6: note: Assuming field 'datalayout' is equal to ERO=
+FS_INODE_CHUNK_BASED
+           if (vi->datalayout !=3D EROFS_INODE_CHUNK_BASED) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/data.c:129:2: note: Taking false branch
+           if (vi->datalayout !=3D EROFS_INODE_CHUNK_BASED) {
            ^
-   sound/soc/sh/rcar/src.c:251:6: note: Assuming 'use_src' is not equal to 0
-           if (use_src) {
-               ^~~~~~~
-   sound/soc/sh/rcar/src.c:251:2: note: Taking true branch
-           if (use_src) {
+   fs/erofs/data.c:134:6: note: Assuming the condition is false
+           if (vi->chunkformat & EROFS_CHUNK_FORMAT_INDEXES)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/data.c:134:2: note: Taking false branch
+           if (vi->chunkformat & EROFS_CHUNK_FORMAT_INDEXES)
            ^
-   sound/soc/sh/rcar/src.c:256:3: note: '__base' initialized to 0
-                   do_div(n, fout);
+   fs/erofs/data.c:144:2: note: Taking true branch
+           if (IS_ERR(kaddr)) {
+           ^
+   fs/erofs/data.c:146:3: note: Control jumps to line 180
+                   goto out;
                    ^
-   include/asm-generic/div64.h:220:2: note: expanded from macro 'do_div'
-           uint32_t __base =3D (base);                       \
-           ^~~~~~~~~~~~~~~
-   sound/soc/sh/rcar/src.c:256:3: note: Left side of '&&' is false
-                   do_div(n, fout);
-                   ^
-   include/asm-generic/div64.h:223:35: note: expanded from macro 'do_div'
-           if (__builtin_constant_p(__base) &&             \
-                                            ^
-   sound/soc/sh/rcar/src.c:256:3: note: Left side of '&&' is false
-                   do_div(n, fout);
-                   ^
-   include/asm-generic/div64.h:227:42: note: expanded from macro 'do_div'
-           } else if (__builtin_constant_p(__base) &&      \
-                                                   ^
-   sound/soc/sh/rcar/src.c:256:3: note: Taking true branch
-                   do_div(n, fout);
-                   ^
-   include/asm-generic/div64.h:234:9: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
-                  ^
-   sound/soc/sh/rcar/src.c:256:3: note: Division by zero
-                   do_div(n, fout);
-                   ^
-   include/asm-generic/div64.h:235:25: note: expanded from macro 'do_div'
-                   __rem =3D (uint32_t)(n) % __base;         \
-                           ~~~~~~~~~~~~~~^~~~~~~~
-   1 warning generated.
->> sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluate=
-s to a garbage value [clang-analyzer-core.uninitialized.Branch]
-                   if (!dmactl)
-                       ^~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:261:2: note: 'dmactl' declared without an=
- initial value
-           struct lpaif_dmactl *dmactl;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:264:2: note: Control jumps to 'case 3:'  =
-at line 272
-           switch (cmd) {
+   fs/erofs/data.c:180:7: note: 'err' is not equal to 0
+           if (!err)
+                ^~~
+   fs/erofs/data.c:180:2: note: Taking false branch
+           if (!err)
            ^
-   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Calling '__lpass_get_dmactl_=
-handle'
-                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:43:2: note: Control jumps to the 'default=
-' case at line 56
-           switch (dai_id) {
-           ^
-   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Loop condition is false.  Exi=
-ting loop
-                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
-d\n", dai_id);
-                   ^
-   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
-_VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   sound/soc/qcom/lpass-cdc-dma.c:58:3: note:  Execution continues on line =
-57
-                   break;
-                   ^
-   sound/soc/qcom/lpass-cdc-dma.c:60:1: note: Returning without writing to =
-'*dmactl'
-   }
+   fs/erofs/data.c:182:2: note: Calling 'trace_erofs_map_blocks_exit'
+           trace_erofs_map_blocks_exit(inode, map, flags, 0);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/trace/events/erofs.h:224:1: note: Returning without writing to '=
+map->m_flags'
+   DEFINE_EVENT(erofs__map_blocks_exit, erofs_map_blocks_exit,
    ^
-   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Returning from '__lpass_get_=
-dmactl_handle'
-                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/qcom/lpass-cdc-dma.c:274:7: note: Branch condition evaluates t=
-o a garbage value
-                   if (!dmactl)
-                       ^~~~~~~
+   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
+T'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
+CE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^
+   include/linux/tracepoint.h:343:4: note: expanded from macro '__DECLARE_T=
+RACE'
+           { }                                                             \
+             ^
+   fs/erofs/data.c:182:2: note: Returning from 'trace_erofs_map_blocks_exit'
+           trace_erofs_map_blocks_exit(inode, map, flags, 0);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/data.c:183:2: note: Returning without writing to 'map->m_flags'
+           return err;
+           ^
+   fs/erofs/data.c:242:8: note: Returning from 'erofs_map_blocks'
+           ret =3D erofs_map_blocks(inode, &map, EROFS_GET_BLOCKS_RAW);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/data.c:243:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   fs/erofs/data.c:243:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   fs/erofs/data.c:251:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   fs/erofs/data.c:251:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/erofs/data.c:255:2: note: Taking false branch
+           if (flags & IOMAP_DAX) {
+           ^
+   fs/erofs/data.c:265:20: note: The left operand of '&' is a garbage value
+           if (!(map.m_flags & EROFS_MAP_MAPPED)) {
+                 ~~~~~~~~~~~ ^
    1 warning generated.
-   drivers/iio/gyro/fxas21002c_core.c:137:8: warning: Excessive padding in =
-'struct fxas21002c_data' (51 padding bytes, where 19 is optimal). =
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+>> crypto/ctr.c:23:8: warning: Excessive padding in 'struct crypto_rfc3686_=
+req_ctx' (40 padding bytes, where 8 is optimal). =
 
    Optimal fields order: =
 
-   buffer, =
+   subreq, =
 
-   timestamp, =
-
-   mode, =
-
-   prev_mode, =
-
-   regmap, =
-
-   dready_trig, =
-
-   irq, =
-
-   vdd, =
-
-   vddio, =
-
-   lock, =
-
-   regmap_fields, =
-
-   chip_id, =
+   iv, =
 
    consider reordering the fields or adding explicit padding members [clang=
 -analyzer-optin.performance.Padding]
-   struct fxas21002c_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
-   drivers/iio/gyro/fxas21002c_core.c:137:8: note: Excessive padding in 'st=
-ruct fxas21002c_data' (51 padding bytes, where 19 is optimal). Optimal fiel=
-ds order: buffer, timestamp, mode, prev_mode, regmap, dready_trig, irq, vdd=
-, vddio, lock, regmap_fields, chip_id, consider reordering the fields or ad=
-ding explicit padding members
-   struct fxas21002c_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~
+   struct crypto_rfc3686_req_ctx {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   crypto/ctr.c:23:8: note: Excessive padding in 'struct crypto_rfc3686_req=
+_ctx' (40 padding bytes, where 8 is optimal). Optimal fields order: subreq,=
+ iv, consider reordering the fields or adding explicit padding members
+   struct crypto_rfc3686_req_ctx {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
    1 warning generated.
-   drivers/iio/frequency/adf4371.c:157:8: warning: Excessive padding in 'st=
-ruct adf4371_state' (42 padding bytes, where 10 is optimal). =
-
-   Optimal fields order: =
-
-   buf, =
-
-   spi, =
-
-   regmap, =
-
-   clkin, =
-
-   chip_info, =
-
-   clkin_freq, =
-
-   fpfd, =
-
-   integer, =
-
-   fract1, =
-
-   fract2, =
-
-   mod2, =
-
-   rf_div_sel, =
-
-   ref_div_factor, =
-
-   lock, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct adf4371_state {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/iio/frequency/adf4371.c:157:8: note: Excessive padding in 'struc=
-t adf4371_state' (42 padding bytes, where 10 is optimal). Optimal fields or=
-der: buf, spi, regmap, clkin, chip_info, clkin_freq, fpfd, integer, fract1,=
- fract2, mod2, rf_div_sel, ref_div_factor, lock, consider reordering the fi=
-elds or adding explicit padding members
-   struct adf4371_state {
-   ~~~~~~~^~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    1 warning generated.
-   drivers/iio/frequency/admv1013.c:93:8: warning: Excessive padding in 'st=
-ruct admv1013_state' (32 padding bytes, where 0 is optimal). =
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/mfd/tps65010.c:650:5: warning: Value stored to 'status' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                                   status =3D 0;
+                                   ^        ~
+   drivers/mfd/tps65010.c:650:5: note: Value stored to 'status' is never re=
+ad
+                                   status =3D 0;
+                                   ^        ~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/iio/industrialio-buffer.c:854:2: warning: Dereference of null po=
+inter [clang-analyzer-core.NullDereference]
+           list_for_each_entry(buffer, &iio_dev_opaque->buffer_list, buffer=
+_list) {
+           ^
+   include/linux/list.h:640:13: note: expanded from macro 'list_for_each_en=
+try'
+                pos =3D list_next_entry(pos, member))
+                      ^
+   include/linux/list.h:564:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^
+   drivers/iio/industrialio-buffer.c:1303:8: note: Calling 'strtobool'
+           ret =3D strtobool(buf, &requested_state);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kstrtox.h:152:9: note: Value assigned to 'requested_state'=
+, which participates in a condition later
+           return kstrtobool(s, res);
+                  ^~~~~~~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:1303:8: note: Returning from 'strtoboo=
+l'
+           ret =3D strtobool(buf, &requested_state);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:1304:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/iio/industrialio-buffer.c:1304:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   drivers/iio/industrialio-buffer.c:1312:6: note: Assuming 'inlist' is not=
+ equal to 'requested_state'
+           if (inlist =3D=3D requested_state)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:1312:2: note: Taking false branch
+           if (inlist =3D=3D requested_state)
+           ^
+   drivers/iio/industrialio-buffer.c:1315:6: note: Assuming 'requested_stat=
+e' is true
+           if (requested_state)
+               ^~~~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:1315:2: note: Taking true branch
+           if (requested_state)
+           ^
+   drivers/iio/industrialio-buffer.c:1316:9: note: Calling '__iio_update_bu=
+ffers'
+                   ret =3D __iio_update_buffers(indio_dev, buffer, NULL);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:1197:8: note: Calling 'iio_verify_upda=
+te'
+           ret =3D iio_verify_update(indio_dev, insert_buffer, remove_buffe=
+r,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:834:6: note: 'insert_buffer' is non-nu=
+ll
+           if (insert_buffer &&
+               ^~~~~~~~~~~~~
+   drivers/iio/industrialio-buffer.c:834:6: note: Left side of '&&' is true
+   drivers/iio/industrialio-buffer.c:835:6: note: Calling 'bitmap_empty'
+               bitmap_empty(insert_buffer->scan_mask, indio_dev->masklength=
+)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitmap.h:385:6: note: Left side of '&&' is false
+           if (small_const_nbits(nbits))
+               ^
+   include/asm-generic/bitsperlong.h:36:31: note: expanded from macro 'smal=
+l_const_nbits'
 
-   Optimal fields order: =
+vim +23 crypto/ctr.c
 
-   data, =
+23e353c8a681cc3 Joy Latten      2007-10-23  22  =
 
-   det_en, =
+69d3150cfc2075d Jussi Kivilinna 2012-12-28 @23  struct crypto_rfc3686_req_c=
+tx {
+69d3150cfc2075d Jussi Kivilinna 2012-12-28  24  	u8 iv[CTR_RFC3686_BLOCK_SI=
+ZE];
+b2b39c2f976bc7b Herbert Xu      2016-07-12  25  	struct skcipher_request su=
+breq CRYPTO_MINALIGN_ATTR;
+69d3150cfc2075d Jussi Kivilinna 2012-12-28  26  };
+69d3150cfc2075d Jussi Kivilinna 2012-12-28  27  =
 
-   spi, =
-
-   clkin, =
-
-   reg, =
-
-   input_mode, =
-
-   quad_se_mode, =
-
-   nb, =
-
-   lock, =
-
-
-vim +274 sound/soc/qcom/lpass-cdc-dma.c
-
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  256  =
-
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  257  static int lpass_c=
-dc_dma_daiops_trigger(struct snd_pcm_substream *substream,
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  258  				    int cmd, s=
-truct snd_soc_dai *dai)
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  259  {
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  260  	struct snd_soc_pc=
-m_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  261  	struct lpaif_dmac=
-tl *dmactl;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  262  	int ret =3D 0, id;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  263  =
-
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  264  	switch (cmd) {
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  265  	case SNDRV_PCM_TR=
-IGGER_START:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  266  	case SNDRV_PCM_TR=
-IGGER_RESUME:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  267  	case SNDRV_PCM_TR=
-IGGER_PAUSE_RELEASE:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  268  		__lpass_platform=
-_codec_intf_init(dai, substream);
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  269  		break;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  270  	case SNDRV_PCM_TR=
-IGGER_STOP:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  271  	case SNDRV_PCM_TR=
-IGGER_SUSPEND:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  272  	case SNDRV_PCM_TR=
-IGGER_PAUSE_PUSH:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  273  		__lpass_get_dmac=
-tl_handle(substream, dai, &dmactl, &id);
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24 @274  		if (!dmactl)
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  275  			return -EINVAL;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  276  =
-
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  277  		ret =3D regmap_f=
-ields_write(dmactl->codec_enable, id, LPAIF_DMACTL_ENABLE_OFF);
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  278  		if (ret) {
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  279  			dev_err(soc_run=
-time->dev,
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  280  				"error writing=
- to dmactl codec_enable reg: %d\n", ret);
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  281  			return ret;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  282  		}
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  283  		break;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  284  	default:
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  285  		ret =3D -EINVAL;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  286  		dev_err(soc_runt=
-ime->dev, "%s: invalid %d interface\n", __func__, cmd);
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  287  		break;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  288  	}
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  289  	return ret;
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  290  }
-b81af585ea54ee9 Srinivasa Rao Mandadapu 2022-02-24  291  =
-
-
-:::::: The code at line 274 was first introduced by commit
-:::::: b81af585ea54ee9f749391e594ee9cbd44061eae ASoC: qcom: Add lpass CPU d=
-river for codec dma control
-
-:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============4672030775616826512==--
+--===============5774120788063655155==--
 
