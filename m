@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1078191343440467960=="
+Content-Type: multipart/mixed; boundary="===============8323583100743572857=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ammarfaizi2-block:dhowells/linux-fs/rxrpc-ringless 4/9] net/rxrpc/call_event.c:258:14: warning: Value stored to 'hard_ack' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 07 Apr 2022 22:24:36 +0800
-Message-ID: <202204072207.x7C35wpP-lkp@intel.com>
+Subject: drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stored to 'isc_clk' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 07 Apr 2022 20:51:38 +0800
+Message-ID: <202204072054.8OocMxHK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1078191343440467960==
+--===============8323583100743572857==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,40 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: "GNU/Weeb Mailing List" <gwml@vger.gnuweeb.org>
 CC: linux-kernel(a)vger.kernel.org
-TO: David Howells <dhowells@redhat.com>
+TO: Eugen Hristev <eugen.hristev@microchip.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Jacopo Mondi <jacopo+renesas@jmondi.org>
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
-tree:   https://github.com/ammarfaizi2/linux-block dhowells/linux-fs/rxrpc-=
-ringless
-head:   a4b855ffcf1d116e65df68fa6f5df04878bc0083
-commit: 569092d7590362c7148ac768a923783886248c3b [4/9] rxrpc: Don't use a r=
-ing buffer for call Tx queue
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3e732ebf7316ac83e8562db7e64cc68aec390a18
+commit: 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0 media: atmel: atmel-isc: s=
+plit the clock code into separate source file
+date:   2 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20407/202204072207.x7C35wpP-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
-7d0979e7ff20d7d541af666d822d66b566)
+:::::: commit date: 2 months ago
+config: arm-randconfig-c002-20220407 (https://download.01.org/0day-ci/archi=
+ve/20220407/202204072054.8OocMxHK-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 6b3062=
+33f78876a1d197ed6e1f05785505de7c63)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/569092d7590362c=
-7148ac768a923783886248c3b
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/lin=
-ux-block
-        git fetch --no-tags ammarfaizi2-block dhowells/linux-fs/rxrpc-ringl=
-ess
-        git checkout 569092d7590362c7148ac768a923783886248c3b
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 118bf76a35bc2ed061cd1454fe5e57d1c7bcd8d0
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,286 +56,369 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   memcpy(dev->broadcast, real_dev->broadcast, dev->addr_le=
-n);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   net/8021q/vlan_dev.c:593:3: note: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11
-                   memcpy(dev->broadcast, real_dev->broadcast, dev->addr_le=
-n);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 74 warnings (74 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   71 warnings generated.
-   Suppressed 71 warnings (71 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   71 warnings generated.
-   Suppressed 71 warnings (71 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   108 warnings generated.
-   Suppressed 108 warnings (108 in non-user code).
+   2 warnings generated.
+   drivers/iio/adc/ti-ads8688.c:64:8: warning: Excessive padding in 'struct=
+ ads8688_state' (44 padding bytes, where 12 is optimal). =
+
+   Optimal fields order: =
+
+   data, =
+
+   chip_info, =
+
+   spi, =
+
+   reg, =
+
+   vref_mv, =
+
+   lock, =
+
+   range, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ads8688_state {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/adc/ti-ads8688.c:64:8: note: Excessive padding in 'struct ad=
+s8688_state' (44 padding bytes, where 12 is optimal). Optimal fields order:=
+ data, chip_info, spi, reg, vref_mv, lock, range, consider reordering the f=
+ields or adding explicit padding members
+   struct ads8688_state {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   drivers/iio/adc/twl6030-gpadc.c:911:2: warning: Value stored to 'ret' is=
+ never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D devm_request_threaded_irq(dev, irq, NULL,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/adc/twl6030-gpadc.c:911:2: note: Value stored to 'ret' is ne=
+ver read
+           ret =3D devm_request_threaded_irq(dev, irq, NULL,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   80 warnings generated.
-   Suppressed 80 warnings (80 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
+   3 warnings generated.
+   net/strparser/strparser.c:161:5: warning: Value stored to 'head' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                                   head =3D skb;
+                                   ^      ~~~
+   net/strparser/strparser.c:161:5: note: Value stored to 'head' is never r=
+ead
+                                   head =3D skb;
+                                   ^      ~~~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
+   3 warnings generated.
+   fs/ext4/page-io.c:325:11: warning: Value stored to 'bi_sector' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           sector_t bi_sector =3D bio->bi_iter.bi_sector;
+                    ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+   fs/ext4/page-io.c:325:11: note: Value stored to 'bi_sector' during its i=
+nitialization is never read
+           sector_t bi_sector =3D bio->bi_iter.bi_sector;
+                    ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   91 warnings generated.
-   net/rxrpc/output.c:578:2: warning: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11 [clang-analyzer-security.ins=
-ecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&whdr, 0, sizeof(whdr));
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   drivers/iio/proximity/vcnl3020.c:76:8: warning: Excessive padding in 'st=
+ruct vcnl3020_data' (57 padding bytes, where 25 is optimal). =
+
+   Optimal fields order: =
+
+   buf, =
+
+   rev, =
+
+   regmap, =
+
+   dev, =
+
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct vcnl3020_data {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/proximity/vcnl3020.c:76:8: note: Excessive padding in 'struc=
+t vcnl3020_data' (57 padding bytes, where 25 is optimal). Optimal fields or=
+der: buf, rev, regmap, dev, lock, consider reordering the fields or adding =
+explicit padding members
+   struct vcnl3020_data {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   5 warnings generated.
+   Suppressed 5 warnings (1 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   3 warnings generated.
+   net/unix/af_unix.c:1684:3: warning: Value stored to 'err' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   err =3D 0;
+                   ^     ~
+   net/unix/af_unix.c:1684:3: note: Value stored to 'err' is never read
+                   err =3D 0;
+                   ^     ~
+   net/unix/af_unix.c:2689:3: warning: Value stored to 'err' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   err =3D -EOPNOTSUPP;
+                   ^     ~~~~~~~~~~~
+   net/unix/af_unix.c:2689:3: note: Value stored to 'err' is never read
+                   err =3D -EOPNOTSUPP;
+                   ^     ~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+>> drivers/media/platform/atmel/atmel-isc-clk.c:125:18: warning: Value stor=
+ed to 'isc_clk' during its initialization is never read [clang-analyzer-dea=
+dcode.DeadStores]
+           struct isc_clk *isc_clk =3D to_isc_clk(hw);
+                           ^~~~~~~
+   drivers/media/platform/atmel/atmel-isc-clk.c:125:18: note: Value stored =
+to 'isc_clk' during its initialization is never read
+           struct isc_clk *isc_clk =3D to_isc_clk(hw);
+                           ^~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   net/ieee802154/nl-mac.c:529:2: warning: Value stored to 'rc' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           rc =3D ops->set_mac_params(dev, &params);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ieee802154/nl-mac.c:529:2: note: Value stored to 'rc' is never read
+           rc =3D ops->set_mac_params(dev, &params);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   3 warnings generated.
+   net/ipv4/udp.c:742:2: warning: Value stored to 'err' is never read [clan=
+g-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   net/ipv4/udp.c:742:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   drivers/iio/potentiometer/ad5272.c:49:8: warning: Excessive padding in '=
+struct ad5272_data' (58 padding bytes, where 26 is optimal). =
+
+   Optimal fields order: =
+
+   buf, =
+
+   client, =
+
+   cfg, =
+
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ad5272_data {
+   ~~~~~~~^~~~~~~~~~~~~
+   drivers/iio/potentiometer/ad5272.c:49:8: note: Excessive padding in 'str=
+uct ad5272_data' (58 padding bytes, where 26 is optimal). Optimal fields or=
+der: buf, client, cfg, lock, consider reordering the fields or adding expli=
+cit padding members
+   struct ad5272_data {
+   ~~~~~~~^~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   4 warnings generated.
+   net/ipv4/route.c:879:2: warning: Value stored to 'log_martians' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+           log_martians =3D IN_DEV_LOG_MARTIANS(in_dev);
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   net/rxrpc/output.c:578:2: note: Call to function 'memset' is insecure as=
- it does not provide security checks introduced in the C11 standard. Replac=
-e with analogous functions that support length arguments or provides bounda=
-ry checks such as 'memset_s' in case of C11
-           memset(&whdr, 0, sizeof(whdr));
+   net/ipv4/route.c:879:2: note: Value stored to 'log_martians' is never re=
+ad
+   Suppressed 3 warnings (1 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+   net/ipv4/ip_fragment.c:619:3: warning: Argument to kfree() is the addres=
+s of the global variable 'ip4_frags_ns_ctl_table', which is not memory allo=
+cated by malloc() [clang-analyzer-unix.Malloc]
+                   kfree(table);
+                   ^
+   net/ipv4/ip_fragment.c:657:6: note: Assuming 'res' is >=3D 0
+           if (res < 0)
+               ^~~~~~~
+   net/ipv4/ip_fragment.c:657:2: note: Taking false branch
+           if (res < 0)
            ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   63 warnings generated.
-   Suppressed 63 warnings (63 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   95 warnings generated.
-   Suppressed 95 warnings (95 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   95 warnings generated.
-   Suppressed 95 warnings (95 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   96 warnings generated.
-   net/netfilter/nf_nat_amanda.c:65:2: warning: Call to function 'sprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-=
-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           sprintf(buffer, "%u", port);
-           ^~~~~~~
-   net/netfilter/nf_nat_amanda.c:65:2: note: Call to function 'sprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sprintf_s' in case of C11
-           sprintf(buffer, "%u", port);
-           ^~~~~~~
-   Suppressed 95 warnings (95 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   44 warnings generated.
-   Suppressed 44 warnings (44 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   38 warnings generated.
-   Suppressed 38 warnings (38 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   91 warnings generated.
->> net/rxrpc/call_event.c:258:14: warning: Value stored to 'hard_ack' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           rxrpc_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
-                       ^~~~~~~~
-   net/rxrpc/call_event.c:258:14: note: Value stored to 'hard_ack' during i=
-ts initialization is never read
-           rxrpc_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
-                       ^~~~~~~~
-   Suppressed 90 warnings (90 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   90 warnings generated.
-   Suppressed 90 warnings (89 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   85 warnings generated.
-   Suppressed 85 warnings (85 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   48 warnings generated.
-   Suppressed 48 warnings (48 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   81 warnings generated.
-   net/mac80211/debugfs_sta.c:299:6: warning: Call to function 'sscanf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           if (sscanf(buf, "limit %u %u %u", &ac, &q_limit_l, &q_limit_h)
-               ^~~~~~
-   net/mac80211/debugfs_sta.c:299:6: note: Call to function 'sscanf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sscanf_s' in case of C11
-           if (sscanf(buf, "limit %u %u %u", &ac, &q_limit_l, &q_limit_h)
-               ^~~~~~
-   net/mac80211/debugfs_sta.c:412:6: warning: Call to function 'sscanf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'sscanf_s' in case of C11 [clang-analyzer-secu=
-rity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           if (sscanf(buf, "timeout=3D%d", &timeout) =3D=3D 1) {
-               ^~~~~~
-   net/mac80211/debugfs_sta.c:412:6: note: Call to function 'sscanf' is ins=
-ecure as it does not provide security checks introduced in the C11 standard=
-. Replace with analogous functions that support length arguments or provide=
-s boundary checks such as 'sscanf_s' in case of C11
-           if (sscanf(buf, "timeout=3D%d", &timeout) =3D=3D 1) {
-               ^~~~~~
-   net/mac80211/debugfs_sta.c:1033:2: warning: Call to function 'snprintf' =
-is insecure as it does not provide security checks introduced in the C11 st=
-andard. Replace with analogous functions that support length arguments or p=
-rovides boundary checks such as 'snprintf_s' in case of C11 [clang-analyzer=
--security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           snprintf(mac, sizeof(mac), "%pM", sta->sta.addr);
-           ^~~~~~~~
-   net/mac80211/debugfs_sta.c:1033:2: note: Call to function 'snprintf' is =
-insecure as it does not provide security checks introduced in the C11 stand=
-ard. Replace with analogous functions that support length arguments or prov=
-ides boundary checks such as 'snprintf_s' in case of C11
-           snprintf(mac, sizeof(mac), "%pM", sta->sta.addr);
-           ^~~~~~~~
-   Suppressed 78 warnings (78 in non-user code).
+   net/ipv4/ip_fragment.c:684:8: note: Calling 'ip4_frags_ns_ctl_register'
+           res =3D ip4_frags_ns_ctl_register(net);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/ip_fragment.c:597:6: note: Assuming the condition is false
+           if (!net_eq(net, &init_net)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/ip_fragment.c:597:2: note: Taking false branch
+           if (!net_eq(net, &init_net)) {
+           ^
+   net/ipv4/ip_fragment.c:611:6: note: Assuming 'hdr' is null
+           if (!hdr)
+               ^~~~
+   net/ipv4/ip_fragment.c:611:2: note: Taking true branch
+           if (!hdr)
+           ^
+   net/ipv4/ip_fragment.c:612:3: note: Control jumps to line 618
+                   goto err_reg;
+                   ^
+   net/ipv4/ip_fragment.c:618:6: note: Assuming the condition is true
+           if (!net_eq(net, &init_net))
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/ip_fragment.c:618:2: note: Taking true branch
+           if (!net_eq(net, &init_net))
+           ^
+   net/ipv4/ip_fragment.c:619:3: note: Argument to kfree() is the address o=
+f the global variable 'ip4_frags_ns_ctl_table', which is not memory allocat=
+ed by malloc()
+                   kfree(table);
+                   ^     ~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   14 warnings generated.
+   Suppressed 14 warnings (1 in non-user code, 13 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
 
-vim +/hard_ack +258 net/rxrpc/call_event.c
+vim +/isc_clk +125 drivers/media/platform/atmel/atmel-isc-clk.c
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  251  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  121  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  252  /*
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  253   * Shr=
-ink the transmit queue.
-2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  254   */
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  255  void r=
-xrpc_shrink_call_tx_queue(struct rxrpc_call *call)
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  256  {
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  257  	struc=
-t rxrpc_txbuf *txb;
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31 @258  	rxrpc=
-_seq_t hard_ack =3D smp_load_acquire(&call->acks_hard_ack);
-2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  259  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  122  static int isc_clk_determine_=
+rate(struct clk_hw *hw,
+118bf76a35bc2e Eugen Hristev 2021-12-13  123  				  struct clk_rate_request=
+ *req)
+118bf76a35bc2e Eugen Hristev 2021-12-13  124  {
+118bf76a35bc2e Eugen Hristev 2021-12-13 @125  	struct isc_clk *isc_clk =3D =
+to_isc_clk(hw);
+118bf76a35bc2e Eugen Hristev 2021-12-13  126  	long best_rate =3D -EINVAL;
+118bf76a35bc2e Eugen Hristev 2021-12-13  127  	int best_diff =3D -1;
+118bf76a35bc2e Eugen Hristev 2021-12-13  128  	unsigned int i, div;
+118bf76a35bc2e Eugen Hristev 2021-12-13  129  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  260  	_ente=
-r("%x/%x/%x", call->tx_bottom, call->acks_hard_ack, call->tx_top);
-2ad6691d988c0c net/rxrpc/call_event.c David Howells 2020-06-11  261  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  130  	for (i =3D 0; i < clk_hw_get=
+_num_parents(hw); i++) {
+118bf76a35bc2e Eugen Hristev 2021-12-13  131  		struct clk_hw *parent;
+118bf76a35bc2e Eugen Hristev 2021-12-13  132  		unsigned long parent_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  133  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  262  	for (=
-;;) {
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  263  		spin=
-_lock(&call->tx_lock);
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  264  		txb =
-=3D list_first_entry_or_null(&call->tx_queue,
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  265  					 =
-      struct rxrpc_txbuf, call_link);
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  266  		if (=
-!txb)
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  267  			bre=
-ak;
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  268  		hard=
-_ack =3D smp_load_acquire(&call->acks_hard_ack);
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  269  		if (=
-before(hard_ack, txb->hdr.seq))
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  270  			bre=
-ak;
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  271  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  134  		parent =3D clk_hw_get_paren=
+t_by_index(hw, i);
+118bf76a35bc2e Eugen Hristev 2021-12-13  135  		if (!parent)
+118bf76a35bc2e Eugen Hristev 2021-12-13  136  			continue;
+118bf76a35bc2e Eugen Hristev 2021-12-13  137  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  272  		ASSE=
-RTCMP(txb->hdr.seq, =3D=3D, call->tx_bottom + 1);
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  273  		call=
-->tx_bottom++;
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  274  		list=
-_del_rcu(&txb->call_link);
-224711df5c00f7 net/rxrpc/ar-ack.c     David Howells 2007-05-04  275  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  138  		parent_rate =3D clk_hw_get_=
+rate(parent);
+118bf76a35bc2e Eugen Hristev 2021-12-13  139  		if (!parent_rate)
+118bf76a35bc2e Eugen Hristev 2021-12-13  140  			continue;
+118bf76a35bc2e Eugen Hristev 2021-12-13  141  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  276  		trac=
-e_rxrpc_txqueue(call, rxrpc_txqueue_dequeue);
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  277  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  142  		for (div =3D 1; div < ISC_C=
+LK_MAX_DIV + 2; div++) {
+118bf76a35bc2e Eugen Hristev 2021-12-13  143  			unsigned long rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  144  			int diff;
+118bf76a35bc2e Eugen Hristev 2021-12-13  145  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  278  		spin=
-_unlock(&call->tx_lock);
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  279  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  146  			rate =3D DIV_ROUND_CLOSEST=
+(parent_rate, div);
+118bf76a35bc2e Eugen Hristev 2021-12-13  147  			diff =3D abs(req->rate - r=
+ate);
+118bf76a35bc2e Eugen Hristev 2021-12-13  148  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  280  		rxrp=
-c_put_txbuf(txb, rxrpc_txbuf_put_rotated);
-dfa7d9204054b0 net/rxrpc/call_event.c David Howells 2016-09-17  281  	}
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  282  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  149  			if (best_diff < 0 || best_=
+diff > diff) {
+118bf76a35bc2e Eugen Hristev 2021-12-13  150  				best_rate =3D rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  151  				best_diff =3D diff;
+118bf76a35bc2e Eugen Hristev 2021-12-13  152  				req->best_parent_rate =3D=
+ parent_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  153  				req->best_parent_hw =3D p=
+arent;
+118bf76a35bc2e Eugen Hristev 2021-12-13  154  			}
+118bf76a35bc2e Eugen Hristev 2021-12-13  155  =
 
-569092d7590362 net/rxrpc/call_event.c David Howells 2022-03-31  283  	spin_=
-unlock(&call->tx_lock);
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  284  }
-17926a79320afa net/rxrpc/ar-ack.c     David Howells 2007-04-26  285  =
+118bf76a35bc2e Eugen Hristev 2021-12-13  156  			if (!best_diff || rate < r=
+eq->rate)
+118bf76a35bc2e Eugen Hristev 2021-12-13  157  				break;
+118bf76a35bc2e Eugen Hristev 2021-12-13  158  		}
+118bf76a35bc2e Eugen Hristev 2021-12-13  159  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  160  		if (!best_diff)
+118bf76a35bc2e Eugen Hristev 2021-12-13  161  			break;
+118bf76a35bc2e Eugen Hristev 2021-12-13  162  	}
+118bf76a35bc2e Eugen Hristev 2021-12-13  163  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  164  	dev_dbg(isc_clk->dev,
+118bf76a35bc2e Eugen Hristev 2021-12-13  165  		"ISC CLK: %s, best_rate =3D=
+ %ld, parent clk: %s @ %ld\n",
+118bf76a35bc2e Eugen Hristev 2021-12-13  166  		__func__, best_rate,
+118bf76a35bc2e Eugen Hristev 2021-12-13  167  		__clk_get_name((req->best_p=
+arent_hw)->clk),
+118bf76a35bc2e Eugen Hristev 2021-12-13  168  		req->best_parent_rate);
+118bf76a35bc2e Eugen Hristev 2021-12-13  169  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  170  	if (best_rate < 0)
+118bf76a35bc2e Eugen Hristev 2021-12-13  171  		return best_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  172  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  173  	req->rate =3D best_rate;
+118bf76a35bc2e Eugen Hristev 2021-12-13  174  =
+
+118bf76a35bc2e Eugen Hristev 2021-12-13  175  	return 0;
+118bf76a35bc2e Eugen Hristev 2021-12-13  176  }
+118bf76a35bc2e Eugen Hristev 2021-12-13  177  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1078191343440467960==--
+--===============8323583100743572857==--
 
