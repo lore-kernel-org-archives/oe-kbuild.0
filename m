@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6055193825953199103=="
+Content-Type: multipart/mixed; boundary="===============7159630283474772644=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH net-next] tcp: add accessors to read/set tp->snd_cwnd
-Date: Fri, 08 Apr 2022 23:53:52 +0800
-Message-ID: <202204082321.zN7WNaI9-lkp@intel.com>
+Subject: Re: [PATCH] w1: Fix warning on module removal
+Date: Fri, 08 Apr 2022 23:02:47 +0800
+Message-ID: <202204082223.4Kn7NaeV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6055193825953199103==
+--===============7159630283474772644==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,43 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-In-Reply-To: <20220405233538.947344-1-eric.dumazet@gmail.com>
-References: <20220405233538.947344-1-eric.dumazet@gmail.com>
-TO: Eric Dumazet <eric.dumazet@gmail.com>
+In-Reply-To: <20220408031849.897248-1-zheyuma97@gmail.com>
+References: <20220408031849.897248-1-zheyuma97@gmail.com>
+TO: Zheyu Ma <zheyuma97@gmail.com>
+TO: zbr(a)ioremap.net
+CC: linux-kernel(a)vger.kernel.org
+CC: Zheyu Ma <zheyuma97@gmail.com>
 
-Hi Eric,
+Hi Zheyu,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on net-next/master]
+[auto build test WARNING on linus/master]
+[also build test WARNING on linux/master v5.18-rc1 next-20220408]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Dumazet/tcp-add=
--accessors-to-read-set-tp-snd_cwnd/20220406-161903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-89695196f0ba78a17453f9616355f2ca6b293402
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+url:    https://github.com/intel-lab-lkp/linux/commits/Zheyu-Ma/w1-Fix-warn=
+ing-on-module-removal/20220408-112108
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+42e7a03d3badebd4e70aea5362d6914dfc7c220b
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
 config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-408/202204082321.zN7WNaI9-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
-7d0979e7ff20d7d541af666d822d66b566)
+408/202204082223.4Kn7NaeV-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c29a51=
+b3a257908aebc01cd7c4655665db317d66)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a1c4e7b0b591c2203bb=
-d899b37c3ca442559734a
+        # https://github.com/intel-lab-lkp/linux/commit/9bfdffbf234145d0e21=
+1a6f37bfda74e2cb290ea
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Eric-Dumazet/tcp-add-accessors-to-=
-read-set-tp-snd_cwnd/20220406-161903
-        git checkout a1c4e7b0b591c2203bbd899b37c3ca442559734a
+        git fetch --no-tags linux-review Zheyu-Ma/w1-Fix-warning-on-module-=
+removal/20220408-112108
+        git checkout 9bfdffbf234145d0e211a6f37bfda74e2cb290ea
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Di386 clang-analyzer =
@@ -55,8 +62,228 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   sound/soc/soc-dapm.c:1655:2: note: '?' condition is false
-           if (power_up)
+                   ^~~~~~~
+   drivers/w1/w1.c:363:10: note: Call to function 'sprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'sprintf_s' in case of C11
+           count =3D sprintf(buf, "%d\n", md->slave_count);
+                   ^~~~~~~
+   drivers/w1/w1.c:381:8: warning: Call to function 'snprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   c -=3D snprintf(buf + PAGE_SIZE - c, c, "%s\n", sl->name=
+);
+                        ^~~~~~~~
+   drivers/w1/w1.c:381:8: note: Call to function 'snprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'snprintf_s' in case of C11
+                   c -=3D snprintf(buf + PAGE_SIZE - c, c, "%s\n", sl->name=
+);
+                        ^~~~~~~~
+   drivers/w1/w1.c:384:8: warning: Call to function 'snprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+                   c -=3D snprintf(buf + PAGE_SIZE - c, c, "not found.\n");
+                        ^~~~~~~~
+   drivers/w1/w1.c:384:8: note: Call to function 'snprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'snprintf_s' in case of C11
+                   c -=3D snprintf(buf + PAGE_SIZE - c, c, "not found.\n");
+                        ^~~~~~~~
+   drivers/w1/w1.c:395:7: warning: Call to function 'snprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           c -=3D snprintf(buf+PAGE_SIZE - c, c,
+                ^~~~~~~~
+   drivers/w1/w1.c:395:7: note: Call to function 'snprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'snprintf_s' in case of C11
+           c -=3D snprintf(buf+PAGE_SIZE - c, c,
+                ^~~~~~~~
+   drivers/w1/w1.c:420:6: warning: Call to function 'sscanf' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'sscanf_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           i =3D sscanf(buf, "%02x-%012llx", &family, &id);
+               ^~~~~~
+   drivers/w1/w1.c:420:6: note: Call to function 'sscanf' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'sscanf_s' in case of C11
+           i =3D sscanf(buf, "%02x-%012llx", &family, &id);
+               ^~~~~~
+   drivers/w1/w1.c:492:7: warning: Call to function 'snprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           c -=3D snprintf(buf+PAGE_SIZE - c, c,
+                ^~~~~~~~
+   drivers/w1/w1.c:492:7: note: Call to function 'snprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'snprintf_s' in case of C11
+           c -=3D snprintf(buf+PAGE_SIZE - c, c,
+                ^~~~~~~~
+   drivers/w1/w1.c:689:2: warning: Call to function 'snprintf' is insecure =
+as it does not provide security checks introduced in the C11 standard. Repl=
+ace with analogous functions that support length arguments or provides boun=
+dary checks such as 'snprintf_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           snprintf(&sl->name[0], sizeof(sl->name),
+           ^~~~~~~~
+   drivers/w1/w1.c:689:2: note: Call to function 'snprintf' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'snprintf_s' in case of C11
+           snprintf(&sl->name[0], sizeof(sl->name),
+           ^~~~~~~~
+   drivers/w1/w1.c:740:2: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(&msg, 0, sizeof(msg));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:740:2: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+           memset(&msg, 0, sizeof(msg));
+           ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:741:2: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&sl->reg_num, rn, sizeof(sl->reg_num));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:741:2: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+           memcpy(&sl->reg_num, rn, sizeof(sl->reg_num));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:779:2: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(msg.id.id, rn, sizeof(msg.id));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:779:2: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+           memcpy(msg.id.id, rn, sizeof(msg.id));
+           ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:800:3: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&msg, 0, sizeof(msg));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:800:3: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+                   memset(&msg, 0, sizeof(msg));
+                   ^
+   arch/x86/include/asm/string_32.h:195:29: note: expanded from macro 'mems=
+et'
+   #define memset(s, c, count) __builtin_memset(s, c, count)
+                               ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:801:3: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(msg.id.id, &sl->reg_num, sizeof(msg.id));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+   drivers/w1/w1.c:801:3: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+                   memcpy(msg.id.id, &sl->reg_num, sizeof(msg.id));
+                   ^
+   arch/x86/include/asm/string_32.h:150:25: note: expanded from macro 'memc=
+py'
+   #define memcpy(t, f, n) __builtin_memcpy(t, f, n)
+                           ^~~~~~~~~~~~~~~~
+>> drivers/w1/w1.c:821:14: warning: Use of memory after it is freed [clang-=
+analyzer-unix.Malloc]
+           mutex_lock(&sl->master->list_mutex);
+                       ^
+   drivers/w1/w1.c:884:2: note: Loop condition is true.  Entering loop body
+           list_for_each_entry(dev, &w1_masters, w1_master_entry) {
+           ^
+   include/linux/list.h:638:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/w1/w1.c:885:3: note: '?' condition is false
+                   dev_dbg(&dev->dev, "Reconnecting slaves in device %s "
+                   ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
            ^
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
@@ -66,25 +293,23 @@ r'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
 ace_if_value(cond))
                                  ^
-   sound/soc/soc-dapm.c:1655:6: note: 'power_up' is true
-           if (power_up)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/soc/soc-dapm.c:1655:2: note: '?' condition is true
-           if (power_up)
+   drivers/w1/w1.c:885:3: note: '?' condition is false
+                   dev_dbg(&dev->dev, "Reconnecting slaves in device %s "
+                   ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
            ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
    include/linux/compiler.h:56:28: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
@@ -97,24 +322,60 @@ ace_if_value(cond))
 ue'
            (cond) ?                                        \
            ^
-   sound/soc/soc-dapm.c:1655:2: note: Taking true branch
-           if (power_up)
+   drivers/w1/w1.c:885:3: note: Taking false branch
+                   dev_dbg(&dev->dev, "Reconnecting slaves in device %s "
+                   ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
            ^
    include/linux/compiler.h:56:23: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   sound/soc/soc-dapm.c:1660:2: note: Loop condition is false. Execution co=
-ntinues on line 1729
-           list_for_each_entry_safe(w, n, list, power_list) {
+   drivers/w1/w1.c:885:3: note: Loop condition is false.  Exiting loop
+                   dev_dbg(&dev->dev, "Reconnecting slaves in device %s "
+                   ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
            ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
+ic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   drivers/w1/w1.c:889:3: note: Loop condition is true.  Entering loop body
+                   list_for_each_entry_safe(sl, sln, &dev->slist, w1_slave_=
+entry) {
+                   ^
    include/linux/list.h:725:2: note: expanded from macro 'list_for_each_ent=
 ry_safe'
            for (pos =3D list_first_entry(head, typeof(*pos), member),      =
   \
            ^
-   sound/soc/soc-dapm.c:1729:6: note: Assuming the condition is false
-           if (!list_empty(&pending))
-               ^
+   drivers/w1/w1.c:895:9: note: Assuming 'attach' is 0
+                           if ((attach && sl->family->fid =3D=3D W1_FAMILY_=
+DEFAULT
+                                ^
    include/linux/compiler.h:56:47: note: expanded from macro 'if'
    #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                                                  ^~~~
@@ -123,222 +384,40 @@ r'
    #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
 ace_if_value(cond))
                                                       ^~~~
-   sound/soc/soc-dapm.c:1729:2: note: '?' condition is false
-           if (!list_empty(&pending))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/soc/soc-dapm.c:1729:6: note: Assuming the condition is true
-           if (!list_empty(&pending))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/soc/soc-dapm.c:1729:2: note: '?' condition is true
-           if (!list_empty(&pending))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   sound/soc/soc-dapm.c:1729:2: note: Taking true branch
-           if (!list_empty(&pending))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/soc/soc-dapm.c:1730:3: note: Calling 'dapm_seq_run_coalesced'
-                   dapm_seq_run_coalesced(card, &pending);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/soc-dapm.c:1594:6: note: Assigned value is garbage or undefined
-           reg =3D w->reg;
-               ^ ~~~~~~
-   1 warning generated.
->> net/ipv4/tcp_cong.c:418:32: warning: Division by zero [clang-analyzer-co=
-re.DivideZero]
-                   u32 delta =3D tp->snd_cwnd_cnt / w;
-                                                ^
-   net/ipv4/tcp_cong.c:438:2: note: '?' condition is false
-           if (!tcp_is_cwnd_limited(sk))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/ipv4/tcp_cong.c:438:2: note: '?' condition is false
-           if (!tcp_is_cwnd_limited(sk))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/ipv4/tcp_cong.c:438:2: note: Taking false branch
-           if (!tcp_is_cwnd_limited(sk))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/ipv4/tcp_cong.c:442:2: note: '?' condition is false
-           if (tcp_in_slow_start(tp)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/ipv4/tcp_cong.c:442:2: note: '?' condition is true
-           if (tcp_in_slow_start(tp)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/ipv4/tcp_cong.c:442:2: note: Taking true branch
-           if (tcp_in_slow_start(tp)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/ipv4/tcp_cong.c:443:11: note: Calling 'tcp_slow_start'
-                   acked =3D tcp_slow_start(tp, acked);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/tcp_cong.c:396:13: note: Assuming '__UNIQUE_ID___x541' is >=3D =
-'__UNIQUE_ID___y542'
-           u32 cwnd =3D min(tcp_snd_cwnd(tp) + acked, tp->snd_ssthresh);
-                      ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   net/ipv4/tcp_cong.c:396:13: note: '?' condition is false
-           u32 cwnd =3D min(tcp_snd_cwnd(tp) + acked, tp->snd_ssthresh);
-                      ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   net/ipv4/tcp_cong.c:399:23: note: Assuming '__UNIQUE_ID___x543' is >=3D =
-'__UNIQUE_ID___y544'
-           tcp_snd_cwnd_set(tp, min(cwnd, tp->snd_cwnd_clamp));
-                                ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
+   drivers/w1/w1.c:895:16: note: Left side of '&&' is false
 
-vim +418 net/ipv4/tcp_cong.c
+vim +821 drivers/w1/w1.c
 
-40efc6fa179f44 Stephen Hemminger 2006-01-03  404  =
+9fcbbac5ded489 David Fries    2014-01-15  816  =
 
-814d488c612605 Neal Cardwell     2015-01-28  405  /* In theory this is tp->=
-snd_cwnd +=3D 1 / tp->snd_cwnd (or alternative w),
-814d488c612605 Neal Cardwell     2015-01-28  406   * for every packet that =
-was ACKed.
-814d488c612605 Neal Cardwell     2015-01-28  407   */
-e73ebb0881ea55 Neal Cardwell     2015-01-28  408  void tcp_cong_avoid_ai(st=
-ruct tcp_sock *tp, u32 w, u32 acked)
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  409  {
-9949afa42be0b7 Neal Cardwell     2015-03-10  410  	/* If credits accumulate=
-d at a higher w, apply them gently now. */
-9949afa42be0b7 Neal Cardwell     2015-03-10  411  	if (tp->snd_cwnd_cnt >=
-=3D w) {
-9949afa42be0b7 Neal Cardwell     2015-03-10  412  		tp->snd_cwnd_cnt =3D 0;
-a1c4e7b0b591c2 Eric Dumazet      2022-04-05  413  		tcp_snd_cwnd_set(tp, tc=
-p_snd_cwnd(tp) + 1);
-9949afa42be0b7 Neal Cardwell     2015-03-10  414  	}
-9949afa42be0b7 Neal Cardwell     2015-03-10  415  =
+9fcbbac5ded489 David Fries    2014-01-15  817  int w1_slave_detach(struct w=
+1_slave *sl)
+9fcbbac5ded489 David Fries    2014-01-15  818  {
+9fcbbac5ded489 David Fries    2014-01-15  819  	/* Only detach a slave once=
+ as it decreases the refcnt each time. */
+9fcbbac5ded489 David Fries    2014-01-15  820  	int destroy_now;
+9fcbbac5ded489 David Fries    2014-01-15 @821  	mutex_lock(&sl->master->lis=
+t_mutex);
+9fcbbac5ded489 David Fries    2014-01-15  822  	destroy_now =3D !test_bit(W=
+1_SLAVE_DETACH, &sl->flags);
+9fcbbac5ded489 David Fries    2014-01-15  823  	set_bit(W1_SLAVE_DETACH, &s=
+l->flags);
+9fcbbac5ded489 David Fries    2014-01-15  824  	mutex_unlock(&sl->master->l=
+ist_mutex);
+9fcbbac5ded489 David Fries    2014-01-15  825  =
 
-e73ebb0881ea55 Neal Cardwell     2015-01-28  416  	tp->snd_cwnd_cnt +=3D ac=
-ked;
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  417  	if (tp->snd_cwnd_cn=
-t >=3D w) {
-814d488c612605 Neal Cardwell     2015-01-28 @418  		u32 delta =3D tp->snd_c=
-wnd_cnt / w;
-814d488c612605 Neal Cardwell     2015-01-28  419  =
-
-814d488c612605 Neal Cardwell     2015-01-28  420  		tp->snd_cwnd_cnt -=3D d=
-elta * w;
-a1c4e7b0b591c2 Eric Dumazet      2022-04-05  421  		tcp_snd_cwnd_set(tp, tc=
-p_snd_cwnd(tp) + delta);
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  422  	}
-a1c4e7b0b591c2 Eric Dumazet      2022-04-05  423  	tcp_snd_cwnd_set(tp, min=
-(tcp_snd_cwnd(tp), tp->snd_cwnd_clamp));
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  424  }
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  425  EXPORT_SYMBOL_GPL(tc=
-p_cong_avoid_ai);
-758ce5c8d11d6f Ilpo J=C3=A4rvinen     2009-02-28  426  =
+9fcbbac5ded489 David Fries    2014-01-15  826  	if (destroy_now)
+9fcbbac5ded489 David Fries    2014-01-15  827  		destroy_now =3D !w1_unref_=
+slave(sl);
+9fcbbac5ded489 David Fries    2014-01-15  828  	return destroy_now ? 0 : -E=
+BUSY;
+9fcbbac5ded489 David Fries    2014-01-15  829  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  830  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============6055193825953199103==--
+--===============7159630283474772644==--
 
