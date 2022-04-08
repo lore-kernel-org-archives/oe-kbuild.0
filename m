@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7081473851258049565=="
+Content-Type: multipart/mixed; boundary="===============5273420653885280529=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [avpatel:riscv_kvm_aia_v1 25/29] arch/riscv/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared with const [constParameter]
-Date: Fri, 08 Apr 2022 15:17:54 +0800
-Message-ID: <202204081547.AaMLLC6s-lkp@intel.com>
+Subject: drivers/net/dsa/mt7530.c:1857:17: warning: Local variable 'irq' shadows outer argument [shadowArgument]
+Date: Fri, 08 Apr 2022 14:16:24 +0800
+Message-ID: <202204081406.KpLUoSwl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7081473851258049565==
+--===============5273420653885280529==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,18 +15,23 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Anup Patel <apatel@ventanamicro.com>
+TO: DENG Qingfang <dqfext@gmail.com>
+CC: Andrew Lunn <andrew@lunn.ch>
+CC: Florian Fainelli <f.fainelli@gmail.com>
+CC: Vladimir Oltean <olteanv@gmail.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_kvm_aia_v1
-head:   dab41b5c8f55fb8e864a5e10fd181dd0d4443778
-commit: 74de87a8890ab0c58f3e5142ff49d219872a0eb5 [25/29] RISC-V: KVM: Imple=
-ment guest external interrupt line management
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   42e7a03d3badebd4e70aea5362d6914dfc7c220b
+commit: ba751e28d44255744a30190faad0ca09b455c44d net: dsa: mt7530: add inte=
+rrupt support
+date:   11 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 11 months ago
 compiler: riscv64-linux-gcc (GCC) 11.2.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout 74de87a8890ab0c58f3e5142ff49d219872a0eb5
+        git checkout ba751e28d44255744a30190faad0ca09b455c44d
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -36,97 +41,76 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/irqchip/irq-riscv-imsic.c:895:26: warning: Local variable 'paren=
-t' shadows outer argument [shadowArgument]
-     struct of_phandle_args parent;
+>> drivers/net/dsa/mt7530.c:1857:17: warning: Local variable 'irq' shadows =
+outer argument [shadowArgument]
+      unsigned int irq;
+                   ^
+   drivers/net/dsa/mt7530.c:1843:26: note: Shadowed declaration
+   mt7530_irq_thread_fn(int irq, void *dev_id)
                             ^
-   drivers/irqchip/irq-riscv-imsic.c:711:29: note: Shadowed declaration
-           struct device_node *parent)
-                               ^
-   drivers/irqchip/irq-riscv-imsic.c:895:26: note: Shadow variable
-     struct of_phandle_args parent;
-                            ^
->> arch/riscv/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared w=
-ith const [constParameter]
-   static int aia_find_hgei(struct kvm_vcpu *owner)
-                                             ^
---
->> arch/riscv/kvm/vcpu_exit.c:516:9: warning: Expression '-(20-2)' can have=
- a negative value. That is converted to an unsigned value and used in an un=
-signed calculation. [signConversion]
-    data =3D GET_RS2(insn, &vcpu->arch.guest_context);
-           ^
-   arch/riscv/kvm/vcpu_exit.c:540:12: warning: Expression '0-2' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data32 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_exit.c:516:9: warning: Expression '-(20-3)' can have=
- a negative value. That is converted to an unsigned value and used in an un=
-signed calculation. [signConversion]
-    data =3D GET_RS2(insn, &vcpu->arch.guest_context);
-           ^
-   arch/riscv/kvm/vcpu_exit.c:532:12: warning: Expression '0-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data64 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_exit.c:536:12: warning: Expression '2-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data64 =3D GET_RS2C(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_exit.c:540:12: warning: Expression '0-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data32 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
-              ^
-   arch/riscv/kvm/vcpu_exit.c:544:12: warning: Expression '2-3' can have a =
-negative value. That is converted to an unsigned value and used in an unsig=
-ned calculation. [signConversion]
-     data32 =3D GET_RS2C(insn, &vcpu->arch.guest_context);
-              ^
+   drivers/net/dsa/mt7530.c:1857:17: note: Shadow variable
+      unsigned int irq;
+                   ^
+   drivers/net/dsa/mt7530.c:1199:23: warning: Parameter 'bridge' can be dec=
+lared with const [constParameter]
+      struct net_device *bridge)
+                         ^
+   drivers/net/dsa/mt7530.c:1305:24: warning: Parameter 'bridge' can be dec=
+lared with const [constParameter]
+       struct net_device *bridge)
+                          ^
+>> drivers/net/dsa/mt7530.c:1009:31: warning: Signed integer overflow for e=
+xpression '((~0)&0xff)<<24'. [integerOverflow]
+    mt7530_rmw(priv, MT7530_MFC, BC_FFP_MASK | UNM_FFP_MASK | UNU_FFP_MASK,
+                                 ^
 
-vim +/owner +31 arch/riscv/kvm/aia.c
+vim +/irq +1857 drivers/net/dsa/mt7530.c
 
-362960efc54f42 Anup Patel 2022-01-19  30  =
+429a0edeefd88c DENG Qingfang 2021-01-25  1841  =
 
-74de87a8890ab0 Anup Patel 2022-01-19 @31  static int aia_find_hgei(struct k=
-vm_vcpu *owner)
-74de87a8890ab0 Anup Patel 2022-01-19  32  {
-74de87a8890ab0 Anup Patel 2022-01-19  33  	int i, hgei;
-74de87a8890ab0 Anup Patel 2022-01-19  34  	unsigned long flags;
-74de87a8890ab0 Anup Patel 2022-01-19  35  	struct aia_hgei_control *hgctrl =
-=3D this_cpu_ptr(&aia_hgei);
-74de87a8890ab0 Anup Patel 2022-01-19  36  =
+ba751e28d44255 DENG Qingfang 2021-05-19  1842  static irqreturn_t
+ba751e28d44255 DENG Qingfang 2021-05-19  1843  mt7530_irq_thread_fn(int irq=
+, void *dev_id)
+ba751e28d44255 DENG Qingfang 2021-05-19  1844  {
+ba751e28d44255 DENG Qingfang 2021-05-19  1845  	struct mt7530_priv *priv =
+=3D dev_id;
+ba751e28d44255 DENG Qingfang 2021-05-19  1846  	bool handled =3D false;
+ba751e28d44255 DENG Qingfang 2021-05-19  1847  	u32 val;
+ba751e28d44255 DENG Qingfang 2021-05-19  1848  	int p;
+ba751e28d44255 DENG Qingfang 2021-05-19  1849  =
 
-74de87a8890ab0 Anup Patel 2022-01-19  37  	raw_spin_lock_irqsave(&hgctrl->l=
-ock, flags);
-74de87a8890ab0 Anup Patel 2022-01-19  38  =
+ba751e28d44255 DENG Qingfang 2021-05-19  1850  	mutex_lock_nested(&priv->bu=
+s->mdio_lock, MDIO_MUTEX_NESTED);
+ba751e28d44255 DENG Qingfang 2021-05-19  1851  	val =3D mt7530_mii_read(pri=
+v, MT7530_SYS_INT_STS);
+ba751e28d44255 DENG Qingfang 2021-05-19  1852  	mt7530_mii_write(priv, MT75=
+30_SYS_INT_STS, val);
+ba751e28d44255 DENG Qingfang 2021-05-19  1853  	mutex_unlock(&priv->bus->md=
+io_lock);
+ba751e28d44255 DENG Qingfang 2021-05-19  1854  =
 
-74de87a8890ab0 Anup Patel 2022-01-19  39  	hgei =3D -1;
-74de87a8890ab0 Anup Patel 2022-01-19  40  	for (i =3D 1; i <=3D kvm_riscv_a=
-ia_nr_hgei; i++) {
-74de87a8890ab0 Anup Patel 2022-01-19  41  		if (hgctrl->owners[i] =3D=3D ow=
-ner) {
-74de87a8890ab0 Anup Patel 2022-01-19  42  			hgei =3D i;
-74de87a8890ab0 Anup Patel 2022-01-19  43  			break;
-74de87a8890ab0 Anup Patel 2022-01-19  44  		}
-74de87a8890ab0 Anup Patel 2022-01-19  45  	}
-74de87a8890ab0 Anup Patel 2022-01-19  46  =
+ba751e28d44255 DENG Qingfang 2021-05-19  1855  	for (p =3D 0; p < MT7530_NU=
+M_PHYS; p++) {
+ba751e28d44255 DENG Qingfang 2021-05-19  1856  		if (BIT(p) & val) {
+ba751e28d44255 DENG Qingfang 2021-05-19 @1857  			unsigned int irq;
+ba751e28d44255 DENG Qingfang 2021-05-19  1858  =
 
-74de87a8890ab0 Anup Patel 2022-01-19  47  	raw_spin_unlock_irqrestore(&hgct=
-rl->lock, flags);
-74de87a8890ab0 Anup Patel 2022-01-19  48  =
+ba751e28d44255 DENG Qingfang 2021-05-19  1859  			irq =3D irq_find_mapping(=
+priv->irq_domain, p);
+ba751e28d44255 DENG Qingfang 2021-05-19  1860  			handle_nested_irq(irq);
+ba751e28d44255 DENG Qingfang 2021-05-19  1861  			handled =3D true;
+ba751e28d44255 DENG Qingfang 2021-05-19  1862  		}
+ba751e28d44255 DENG Qingfang 2021-05-19  1863  	}
+ba751e28d44255 DENG Qingfang 2021-05-19  1864  =
 
-74de87a8890ab0 Anup Patel 2022-01-19  49  	return hgei;
-74de87a8890ab0 Anup Patel 2022-01-19  50  }
-74de87a8890ab0 Anup Patel 2022-01-19  51  =
+ba751e28d44255 DENG Qingfang 2021-05-19  1865  	return IRQ_RETVAL(handled);
+ba751e28d44255 DENG Qingfang 2021-05-19  1866  }
+ba751e28d44255 DENG Qingfang 2021-05-19  1867  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7081473851258049565==--
+--===============5273420653885280529==--
 
