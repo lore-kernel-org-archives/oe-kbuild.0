@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5331704191929746535=="
+Content-Type: multipart/mixed; boundary="===============7081473851258049565=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/frequency/admv1014.c:703:22: sparse: sparse: dubious: x & !y
-Date: Fri, 08 Apr 2022 15:38:44 +0800
-Message-ID: <202204081535.zDodkkZJ-lkp@intel.com>
+Subject: [avpatel:riscv_kvm_aia_v1 25/29] arch/riscv/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared with const [constParameter]
+Date: Fri, 08 Apr 2022 15:17:54 +0800
+Message-ID: <202204081547.AaMLLC6s-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5331704191929746535==
+--===============7081473851258049565==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,213 +15,118 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Antoniu Miclaus <antoniu.miclaus@analog.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Anup Patel <apatel@ventanamicro.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   1831fed559732b132aef0ea8261ac77e73f7eadf
-commit: f4eb9ac7842ff22370e262b8440edada40b1680a iio: frequency: admv1014: =
-add support for ADMV1014
-date:   7 weeks ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 7 weeks ago
-config: parisc-randconfig-s032-20220408 (https://download.01.org/0day-ci/ar=
-chive/20220408/202204081535.zDodkkZJ-lkp(a)intel.com/config)
-compiler: hppa64-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df4eb9ac7842ff22370e262b8440edada40b1680a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f4eb9ac7842ff22370e262b8440edada40b1680a
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-arisc64 SHELL=3D/bin/bash drivers/iio/frequency/ lib/xz/
+tree:   https://github.com/avpatel/linux.git riscv_kvm_aia_v1
+head:   dab41b5c8f55fb8e864a5e10fd181dd0d4443778
+commit: 74de87a8890ab0c58f3e5142ff49d219872a0eb5 [25/29] RISC-V: KVM: Imple=
+ment guest external interrupt line management
+:::::: branch date: 4 days ago
+:::::: commit date: 4 days ago
+compiler: riscv64-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 74de87a8890ab0c58f3e5142ff49d219872a0eb5
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/frequency/admv1014.c:703:22: sparse: sparse: dubious: x & !y
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +703 drivers/iio/frequency/admv1014.c
+>> drivers/irqchip/irq-riscv-imsic.c:895:26: warning: Local variable 'paren=
+t' shadows outer argument [shadowArgument]
+     struct of_phandle_args parent;
+                            ^
+   drivers/irqchip/irq-riscv-imsic.c:711:29: note: Shadowed declaration
+           struct device_node *parent)
+                               ^
+   drivers/irqchip/irq-riscv-imsic.c:895:26: note: Shadow variable
+     struct of_phandle_args parent;
+                            ^
+>> arch/riscv/kvm/aia.c:31:43: warning: Parameter 'owner' can be declared w=
+ith const [constParameter]
+   static int aia_find_hgei(struct kvm_vcpu *owner)
+                                             ^
+--
+>> arch/riscv/kvm/vcpu_exit.c:516:9: warning: Expression '-(20-2)' can have=
+ a negative value. That is converted to an unsigned value and used in an un=
+signed calculation. [signConversion]
+    data =3D GET_RS2(insn, &vcpu->arch.guest_context);
+           ^
+   arch/riscv/kvm/vcpu_exit.c:540:12: warning: Expression '0-2' can have a =
+negative value. That is converted to an unsigned value and used in an unsig=
+ned calculation. [signConversion]
+     data32 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
+              ^
+   arch/riscv/kvm/vcpu_exit.c:516:9: warning: Expression '-(20-3)' can have=
+ a negative value. That is converted to an unsigned value and used in an un=
+signed calculation. [signConversion]
+    data =3D GET_RS2(insn, &vcpu->arch.guest_context);
+           ^
+   arch/riscv/kvm/vcpu_exit.c:532:12: warning: Expression '0-3' can have a =
+negative value. That is converted to an unsigned value and used in an unsig=
+ned calculation. [signConversion]
+     data64 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
+              ^
+   arch/riscv/kvm/vcpu_exit.c:536:12: warning: Expression '2-3' can have a =
+negative value. That is converted to an unsigned value and used in an unsig=
+ned calculation. [signConversion]
+     data64 =3D GET_RS2C(insn, &vcpu->arch.guest_context);
+              ^
+   arch/riscv/kvm/vcpu_exit.c:540:12: warning: Expression '0-3' can have a =
+negative value. That is converted to an unsigned value and used in an unsig=
+ned calculation. [signConversion]
+     data32 =3D GET_RS2S(insn, &vcpu->arch.guest_context);
+              ^
+   arch/riscv/kvm/vcpu_exit.c:544:12: warning: Expression '2-3' can have a =
+negative value. That is converted to an unsigned value and used in an unsig=
+ned calculation. [signConversion]
+     data32 =3D GET_RS2C(insn, &vcpu->arch.guest_context);
+              ^
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  608  =
+vim +/owner +31 arch/riscv/kvm/aia.c
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  609  static int admv1014_init(st=
-ruct admv1014_state *st)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  610  {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  611  	unsigned int chip_id, enab=
-le_reg, enable_reg_msk;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  612  	struct spi_device *spi =3D=
- st->spi;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  613  	int ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  614  =
+362960efc54f42 Anup Patel 2022-01-19  30  =
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  615  	ret =3D regulator_bulk_ena=
-ble(ADMV1014_NUM_REGULATORS, st->regulators);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  616  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  617  		dev_err(&spi->dev, "Faile=
-d to enable regulators");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  618  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  619  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  620  =
+74de87a8890ab0 Anup Patel 2022-01-19 @31  static int aia_find_hgei(struct k=
+vm_vcpu *owner)
+74de87a8890ab0 Anup Patel 2022-01-19  32  {
+74de87a8890ab0 Anup Patel 2022-01-19  33  	int i, hgei;
+74de87a8890ab0 Anup Patel 2022-01-19  34  	unsigned long flags;
+74de87a8890ab0 Anup Patel 2022-01-19  35  	struct aia_hgei_control *hgctrl =
+=3D this_cpu_ptr(&aia_hgei);
+74de87a8890ab0 Anup Patel 2022-01-19  36  =
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  621  	ret =3D devm_add_action_or=
-_reset(&spi->dev, admv1014_reg_disable, st->regulators);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  622  	if (ret)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  623  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  624  =
+74de87a8890ab0 Anup Patel 2022-01-19  37  	raw_spin_lock_irqsave(&hgctrl->l=
+ock, flags);
+74de87a8890ab0 Anup Patel 2022-01-19  38  =
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  625  	ret =3D clk_prepare_enable=
-(st->clkin);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  626  	if (ret)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  627  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  628  =
+74de87a8890ab0 Anup Patel 2022-01-19  39  	hgei =3D -1;
+74de87a8890ab0 Anup Patel 2022-01-19  40  	for (i =3D 1; i <=3D kvm_riscv_a=
+ia_nr_hgei; i++) {
+74de87a8890ab0 Anup Patel 2022-01-19  41  		if (hgctrl->owners[i] =3D=3D ow=
+ner) {
+74de87a8890ab0 Anup Patel 2022-01-19  42  			hgei =3D i;
+74de87a8890ab0 Anup Patel 2022-01-19  43  			break;
+74de87a8890ab0 Anup Patel 2022-01-19  44  		}
+74de87a8890ab0 Anup Patel 2022-01-19  45  	}
+74de87a8890ab0 Anup Patel 2022-01-19  46  =
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  629  	ret =3D devm_add_action_or=
-_reset(&spi->dev, admv1014_clk_disable, st->clkin);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  630  	if (ret)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  631  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  632  =
+74de87a8890ab0 Anup Patel 2022-01-19  47  	raw_spin_unlock_irqrestore(&hgct=
+rl->lock, flags);
+74de87a8890ab0 Anup Patel 2022-01-19  48  =
 
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  633  	st->nb.notifier_call =3D a=
-dmv1014_freq_change;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  634  	ret =3D devm_clk_notifier_=
-register(&spi->dev, st->clkin, &st->nb);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  635  	if (ret)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  636  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  637  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  638  	ret =3D devm_add_action_or=
-_reset(&spi->dev, admv1014_powerdown, st);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  639  	if (ret)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  640  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  641  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  642  	/* Perform a software rese=
-t */
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  643  	ret =3D __admv1014_spi_upd=
-ate_bits(st, ADMV1014_REG_SPI_CONTROL,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  644  					 ADMV1014_SPI_SOFT_RES=
-ET_MSK,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  645  					 FIELD_PREP(ADMV1014_S=
-PI_SOFT_RESET_MSK, 1));
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  646  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  647  		dev_err(&spi->dev, "ADMV1=
-014 SPI software reset failed.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  648  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  649  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  650  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  651  	ret =3D __admv1014_spi_upd=
-ate_bits(st, ADMV1014_REG_SPI_CONTROL,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  652  					 ADMV1014_SPI_SOFT_RES=
-ET_MSK,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  653  					 FIELD_PREP(ADMV1014_S=
-PI_SOFT_RESET_MSK, 0));
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  654  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  655  		dev_err(&spi->dev, "ADMV1=
-014 SPI software reset disable failed.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  656  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  657  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  658  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  659  	ret =3D __admv1014_spi_wri=
-te(st, ADMV1014_REG_VVA_TEMP_COMP, 0x727C);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  660  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  661  		dev_err(&spi->dev, "Writi=
-ng default Temperature Compensation value failed.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  662  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  663  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  664  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  665  	ret =3D __admv1014_spi_rea=
-d(st, ADMV1014_REG_SPI_CONTROL, &chip_id);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  666  	if (ret)
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  667  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  668  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  669  	chip_id =3D FIELD_GET(ADMV=
-1014_CHIP_ID_MSK, chip_id);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  670  	if (chip_id !=3D ADMV1014_=
-CHIP_ID) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  671  		dev_err(&spi->dev, "Inval=
-id Chip ID.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  672  		ret =3D -EINVAL;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  673  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  674  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  675  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  676  	ret =3D __admv1014_spi_upd=
-ate_bits(st, ADMV1014_REG_QUAD,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  677  					 ADMV1014_QUAD_SE_MODE=
-_MSK,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  678  					 FIELD_PREP(ADMV1014_Q=
-UAD_SE_MODE_MSK,
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  679  						    st->quad_se_mode)=
-);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  680  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  681  		dev_err(&spi->dev, "Writi=
-ng Quad SE Mode failed.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  682  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  683  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  684  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  685  	ret =3D admv1014_update_qu=
-ad_filters(st);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  686  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  687  		dev_err(&spi->dev, "Updat=
-e Quad Filters failed.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  688  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  689  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  690  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  691  	ret =3D admv1014_update_vc=
-m_settings(st);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  692  	if (ret) {
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  693  		dev_err(&spi->dev, "Updat=
-e VCM Settings failed.\n");
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  694  		return ret;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  695  	}
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  696  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  697  	enable_reg_msk =3D ADMV101=
-4_P1DB_COMPENSATION_MSK |
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  698  			 ADMV1014_IF_AMP_PD_MSK |
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  699  			 ADMV1014_BB_AMP_PD_MSK |
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  700  			 ADMV1014_DET_EN_MSK;
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  701  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  702  	enable_reg =3D FIELD_PREP(=
-ADMV1014_P1DB_COMPENSATION_MSK, st->p1db_comp ? 3 : 0) |
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15 @703  		     FIELD_PREP(ADMV1014_=
-IF_AMP_PD_MSK, !(st->input_mode)) |
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  704  		     FIELD_PREP(ADMV1014_=
-BB_AMP_PD_MSK, st->input_mode) |
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  705  		     FIELD_PREP(ADMV1014_=
-DET_EN_MSK, st->det_en);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  706  =
-
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  707  	return __admv1014_spi_upda=
-te_bits(st, ADMV1014_REG_ENABLE, enable_reg_msk, enable_reg);
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  708  }
-f4eb9ac7842ff2 Antoniu Miclaus 2022-02-15  709  =
+74de87a8890ab0 Anup Patel 2022-01-19  49  	return hgei;
+74de87a8890ab0 Anup Patel 2022-01-19  50  }
+74de87a8890ab0 Anup Patel 2022-01-19  51  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5331704191929746535==--
+--===============7081473851258049565==--
 
