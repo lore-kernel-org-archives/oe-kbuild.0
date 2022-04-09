@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7110861837966490300=="
+Content-Type: multipart/mixed; boundary="===============3546627697817073902=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [l1k:smsc95xx_5.17 15/201] kernel/printk/printk.c:2900:2: warning: Value stored to 'seq' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 10 Apr 2022 08:00:19 +0800
-Message-ID: <202204100705.ZlwSIlL5-lkp@intel.com>
+Subject: [morse:mpam/snapshot/v5.17 63/137] fs/resctrl/rdtgroup.c:2611:12: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 10 Apr 2022 07:09:23 +0800
+Message-ID: <202204100709.CMFUgt7V-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7110861837966490300==
+--===============3546627697817073902==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,34 +16,32 @@ CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: John Ogness <john.ogness@linutronix.de>
-CC: Lukas Wunner <lukas@wunner.de>
-CC: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+TO: James Morse <james.morse@arm.com>
 
-tree:   https://github.com/l1k/linux smsc95xx_5.17
-head:   240f56c27361c195cd502d95aba51c6b8e5b808c
-commit: 3d78fbbbe0e517f040f53e18d3df78070682d3a6 [15/201] printk: add infra=
-stucture for atomic consoles
-:::::: branch date: 33 hours ago
-:::::: commit date: 11 days ago
-config: riscv-randconfig-c006-20220408 (https://download.01.org/0day-ci/arc=
-hive/20220410/202204100705.ZlwSIlL5-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 893e1c=
-18b98d8bbc7b8d7d22cc2c348f65c72ad9)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpa=
+m/snapshot/v5.17
+head:   fb7499c2de17b6b98e0e3ac5b7b023bfc5a6f3a4
+commit: 89c48a135b8af444d91c5d577030e063c6b9ec85 [63/137] x86/resctrl: Move=
+ resctrl to /fs
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
+20410/202204100709.CMFUgt7V-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 9fdd25=
+848a79892eaacc5414d5aef18555b79919)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/l1k/linux/commit/3d78fbbbe0e517f040f53e18d3df7=
-8070682d3a6
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k smsc95xx_5.17
-        git checkout 3d78fbbbe0e517f040f53e18d3df78070682d3a6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/c=
+ommit/?id=3D89c48a135b8af444d91c5d577030e063c6b9ec85
+        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/morse/linux.git
+        git fetch --no-tags morse mpam/snapshot/v5.17
+        git checkout 89c48a135b8af444d91c5d577030e063c6b9ec85
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,506 +49,517 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                                         ^
-   include/linux/thread_info.h:221:15: note: Left side of '&&' is true
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                        ^
-   include/linux/thread_info.h:221:26: note: Assuming 'sz' is < 'bytes', wh=
-ich participates in a condition later
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                                   ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/thread_info.h:221:15: note: 'sz' is >=3D 0
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                        ^
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
-k__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   include/linux/thread_info.h:221:15: note: Left side of '&&' is true
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                        ^
-   include/linux/thread_info.h:221:26: note: 'sz' is < 'bytes', which parti=
-cipates in a condition later
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                                   ^
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
-k__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   include/linux/thread_info.h:221:2: note: Taking true branch
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-           ^
-   include/linux/thread_info.h:222:3: note: Taking true branch
-                   if (!__builtin_constant_p(bytes))
-                   ^
-   include/linux/uaccess.h:191:13: note: Returning from 'check_copy_size'
-           if (likely(check_copy_size(to, n, false)))
-                      ^
-   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/uaccess.h:191:2: note: Taking false branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:193:2: note: Returning value (loaded from 'n'), =
-which participates in a condition later
-           return n;
-           ^~~~~~~~
-   drivers/remoteproc/remoteproc_debugfs.c:82:8: note: Returning from 'copy=
-_from_user'
-           ret =3D copy_from_user(buf, user_buf, count);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/remoteproc/remoteproc_debugfs.c:83:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/remoteproc/remoteproc_debugfs.c:83:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/remoteproc/remoteproc_debugfs.c:87:21: note: The left operand of=
- '=3D=3D' is a garbage value due to array index out of bounds
-           if (buf[count - 1] =3D=3D '\n')
-               ~~~~~~~~~~~~~~ ^
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+                   ^        ~~~~~~
+   lib/assoc_array.c:409:3: note: Value stored to 'cursor' is never read
+                   cursor =3D parent;
+                   ^        ~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
-   kernel/printk/printk.c:157:3: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(devkmsg_log_str, "on");
-                   ^~~~~~
-   kernel/printk/printk.c:157:3: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                   strcpy(devkmsg_log_str, "on");
-                   ^~~~~~
-   kernel/printk/printk.c:159:3: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(devkmsg_log_str, "off");
-                   ^~~~~~
-   kernel/printk/printk.c:159:3: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                   strcpy(devkmsg_log_str, "off");
-                   ^~~~~~
->> kernel/printk/printk.c:2900:2: warning: Value stored to 'seq' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           seq =3D read_console_seq(con);
-           ^     ~~~~~~~~~~~~~~~~~~~~~
-   kernel/printk/printk.c:2900:2: note: Value stored to 'seq' is never read
-           seq =3D read_console_seq(con);
-           ^     ~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   drivers/of/device.c:59:29: warning: Value stored to 'of_node' during its=
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *node, *of_node =3D dev->of_node;
-                                      ^~~~~~~   ~~~~~~~~~~~~
-   drivers/of/device.c:59:29: note: Value stored to 'of_node' during its in=
-itialization is never read
-           struct device_node *node, *of_node =3D dev->of_node;
-                                      ^~~~~~~   ~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   6 warnings generated.
+   drivers/acpi/battery.c:1191:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(acpi_device_name(device), ACPI_BATTERY_DEVICE_NAME);
+           ^~~~~~
+   drivers/acpi/battery.c:1191:2: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+           strcpy(acpi_device_name(device), ACPI_BATTERY_DEVICE_NAME);
+           ^~~~~~
+   drivers/acpi/battery.c:1192:2: warning: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(acpi_device_class(device), ACPI_BATTERY_CLASS);
+           ^~~~~~
+   drivers/acpi/battery.c:1192:2: note: Call to function 'strcpy' is insecu=
+re as it does not provide bounding of the memory buffer. Replace unbounded =
+copy functions with analogous functions that support length arguments such =
+as 'strlcpy'. CWE-119
+           strcpy(acpi_device_class(device), ACPI_BATTERY_CLASS);
+           ^~~~~~
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/media/i2c/tvp7002.c:637:37: warning: The right operand of '&' is=
- a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           lpfr =3D lpf_lsb | ((TVP7002_CL_MASK & lpf_msb) << TVP7002_CL_SH=
-IFT);
-                                              ^
-   drivers/media/i2c/tvp7002.c:753:2: note: Calling 'tvp7002_query_dv'
-           tvp7002_query_dv(sd, &detected);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/tvp7002.c:616:2: note: 'lpf_msb' declared without an i=
-nitial value
-           u8 lpf_msb;
-           ^~~~~~~~~~
-   drivers/media/i2c/tvp7002.c:625:2: note: Calling 'tvp7002_read_err'
-           tvp7002_read_err(sd, TVP7002_L_FRAME_STAT_MSBS, &lpf_msb, &error=
-);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/tvp7002.c:475:6: note: Assuming the condition is false
-           if (!*err)
-               ^~~~~
-   drivers/media/i2c/tvp7002.c:475:2: note: Taking false branch
-           if (!*err)
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/acpi/acpica/dbexec.c:390:2: warning: Call to function 'strcpy' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(name_string, name);
+           ^~~~~~
+   drivers/acpi/acpica/dbexec.c:390:2: note: Call to function 'strcpy' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcpy'. CWE-119
+           strcpy(name_string, name);
+           ^~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/acpi/acpica/dbhistry.c:73:2: warning: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(acpi_gbl_history_buffer[acpi_gbl_next_history_index].comm=
+and,
+           ^~~~~~
+   drivers/acpi/acpica/dbhistry.c:73:2: note: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119
+           strcpy(acpi_gbl_history_buffer[acpi_gbl_next_history_index].comm=
+and,
+           ^~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> fs/resctrl/rdtgroup.c:2611:12: warning: Assigned value is garbage or und=
+efined [clang-analyzer-core.uninitialized.Assign]
+                   *dest_kn =3D kn;
+                            ^
+   fs/resctrl/rdtgroup.c:2160:6: note: Assuming 'resctrl_mounted' is false
+           if (resctrl_mounted) {
+               ^~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2160:2: note: Taking false branch
+           if (resctrl_mounted) {
            ^
-   drivers/media/i2c/tvp7002.c:477:1: note: Returning without writing to '*=
-dst'
-   }
-   ^
-   drivers/media/i2c/tvp7002.c:625:2: note: Returning from 'tvp7002_read_er=
-r'
-           tvp7002_read_err(sd, TVP7002_L_FRAME_STAT_MSBS, &lpf_msb, &error=
+   fs/resctrl/rdtgroup.c:2166:6: note: 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~
+   fs/resctrl/rdtgroup.c:2166:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   fs/resctrl/rdtgroup.c:2169:8: note: Calling 'schemata_list_create'
+           ret =3D schemata_list_create();
+                 ^~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is true.  Entering lo=
+op body
+           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
+           ^
+   fs/resctrl/rdtgroup.c:2118:7: note: Assuming field 'alloc_capable' is fa=
+lse
+                   if (!r->alloc_capable)
+                       ^~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2118:3: note: Taking true branch
+                   if (!r->alloc_capable)
+                   ^
+   fs/resctrl/rdtgroup.c:2119:4: note:  Execution continues on line 2116
+                           continue;
+                           ^
+   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is true.  Entering lo=
+op body
+           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
+           ^
+   fs/resctrl/rdtgroup.c:2118:7: note: Assuming field 'alloc_capable' is fa=
+lse
+                   if (!r->alloc_capable)
+                       ^~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2118:3: note: Taking true branch
+                   if (!r->alloc_capable)
+                   ^
+   fs/resctrl/rdtgroup.c:2119:4: note:  Execution continues on line 2116
+                           continue;
+                           ^
+   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is true.  Entering lo=
+op body
+           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
+           ^
+   fs/resctrl/rdtgroup.c:2118:7: note: Assuming field 'alloc_capable' is fa=
+lse
+                   if (!r->alloc_capable)
+                       ^~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2118:3: note: Taking true branch
+                   if (!r->alloc_capable)
+                   ^
+   fs/resctrl/rdtgroup.c:2119:4: note:  Execution continues on line 2116
+                           continue;
+                           ^
+   fs/resctrl/rdtgroup.c:2116:2: note: Loop condition is false. Execution c=
+ontinues on line 2135
+           for (i =3D 0; i < RDT_NUM_RESOURCES; i++) {
+           ^
+   fs/resctrl/rdtgroup.c:2135:2: note: Returning zero (loaded from 'ret'), =
+which participates in a condition later
+           return ret;
+           ^~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2169:8: note: Returning from 'schemata_list_create'
+           ret =3D schemata_list_create();
+                 ^~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2170:6: note: 'ret' is 0
+           if (ret) {
+               ^~~
+   fs/resctrl/rdtgroup.c:2170:2: note: Taking false branch
+           if (ret) {
+           ^
+   fs/resctrl/rdtgroup.c:2178:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   fs/resctrl/rdtgroup.c:2178:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   fs/resctrl/rdtgroup.c:2181:6: note: Assuming the condition is true
+           if (resctrl_arch_mon_capable()) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2181:2: note: Taking true branch
+           if (resctrl_arch_mon_capable()) {
+           ^
+   fs/resctrl/rdtgroup.c:2182:9: note: Calling 'mongroup_create_dir'
+                   ret =3D mongroup_create_dir(rdtgroup_default.kn,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:1839:7: note: Calling 'kernfs_create_dir'
+           kn =3D kernfs_create_dir(parent_kn, name, parent_kn->mode, prgrp=
 );
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/tvp7002.c:627:6: note: Assuming 'error' is >=3D 0
-           if (error < 0)
-               ^~~~~~~~~
-   drivers/media/i2c/tvp7002.c:627:2: note: Taking false branch
-           if (error < 0)
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kernfs.h:566:9: note: Value assigned to 'kn_mondata', whic=
+h participates in a condition later
+           return kernfs_create_dir_ns(parent, name, mode,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:1839:7: note: Returning from 'kernfs_create_dir'
+           kn =3D kernfs_create_dir(parent_kn, name, parent_kn->mode, prgrp=
+);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:1840:2: note: Taking true branch
+           if (IS_ERR(kn))
+           ^
+   fs/resctrl/rdtgroup.c:2182:9: note: Returning from 'mongroup_create_dir'
+                   ret =3D mongroup_create_dir(rdtgroup_default.kn,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2185:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   fs/resctrl/rdtgroup.c:2185:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   fs/resctrl/rdtgroup.c:2188:9: note: Calling 'mkdir_mondata_all'
+                   ret =3D mkdir_mondata_all(rdtgroup_default.kn,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2600:2: note: 'kn' declared without an initial val=
+ue
+           struct kernfs_node *kn;
+           ^~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2606:8: note: Calling 'mongroup_create_dir'
+           ret =3D mongroup_create_dir(parent_kn, prgrp, "mon_data", &kn);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:1840:2: note: Taking true branch
+           if (IS_ERR(kn))
+           ^
+   fs/resctrl/rdtgroup.c:1841:3: note: Returning without writing to '*dest_=
+kn'
+                   return PTR_ERR(kn);
+                   ^
+   fs/resctrl/rdtgroup.c:1841:3: note: Returning value, which participates =
+in a condition later
+                   return PTR_ERR(kn);
+                   ^~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2606:8: note: Returning from 'mongroup_create_dir'
+           ret =3D mongroup_create_dir(parent_kn, prgrp, "mon_data", &kn);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2607:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   fs/resctrl/rdtgroup.c:2607:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/resctrl/rdtgroup.c:2610:6: note: 'dest_kn' is non-null
+           if (dest_kn)
+               ^~~~~~~
+   fs/resctrl/rdtgroup.c:2610:2: note: Taking true branch
+           if (dest_kn)
+           ^
+   fs/resctrl/rdtgroup.c:2611:12: note: Assigned value is garbage or undefi=
+ned
+                   *dest_kn =3D kn;
+                            ^ ~~
+>> fs/resctrl/rdtgroup.c:2919:10: warning: Use of memory after it is freed =
+[clang-analyzer-unix.Malloc]
+           prgrp =3D rdtgrp->mon.parent;
+                   ^
+   fs/resctrl/rdtgroup.c:3047:6: note: Assuming the condition is false
+           if (strchr(name, '\n'))
+               ^~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:3047:2: note: Taking false branch
+           if (strchr(name, '\n'))
+           ^
+   fs/resctrl/rdtgroup.c:3055:6: note: Assuming the condition is false
+           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
+fault.kn)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:3055:35: note: Left side of '&&' is false
+           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
+fault.kn)
+                                            ^
+   fs/resctrl/rdtgroup.c:3062:6: note: Assuming the condition is true
+           if (resctrl_arch_mon_capable() && is_mon_groups(parent_kn, name))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:3062:6: note: Left side of '&&' is true
+   fs/resctrl/rdtgroup.c:3062:36: note: Assuming the condition is true
+           if (resctrl_arch_mon_capable() && is_mon_groups(parent_kn, name))
+                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:3062:2: note: Taking true branch
+           if (resctrl_arch_mon_capable() && is_mon_groups(parent_kn, name))
+           ^
+   fs/resctrl/rdtgroup.c:3063:10: note: Calling 'rdtgroup_mkdir_mon'
+                   return rdtgroup_mkdir_mon(parent_kn, name, mode);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2915:8: note: Calling 'mkdir_rdt_prepare'
+           ret =3D mkdir_rdt_prepare(parent_kn, name, mode, RDTMON_GROUP, &=
+rdtgrp);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   fs/resctrl/rdtgroup.c:2831:7: note: 'prdtgrp' is non-null
+           if (!prdtgrp) {
+                ^~~~~~~
+   fs/resctrl/rdtgroup.c:2831:2: note: Taking false branch
+           if (!prdtgrp) {
+           ^
+   fs/resctrl/rdtgroup.c:2836:6: note: 'rtype' is equal to RDTMON_GROUP
+           if (rtype =3D=3D RDTMON_GROUP &&
+               ^~~~~
+   fs/resctrl/rdtgroup.c:2836:6: note: Left side of '&&' is true
+   fs/resctrl/rdtgroup.c:2837:7: note: Assuming field 'mode' is not equal t=
+o RDT_MODE_PSEUDO_LOCKSETUP
+               (prdtgrp->mode =3D=3D RDT_MODE_PSEUDO_LOCKSETUP ||
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2837:7: note: Left side of '||' is false
+   fs/resctrl/rdtgroup.c:2838:7: note: Assuming field 'mode' is not equal t=
+o RDT_MODE_PSEUDO_LOCKED
+                prdtgrp->mode =3D=3D RDT_MODE_PSEUDO_LOCKED)) {
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2836:2: note: Taking false branch
+           if (rtype =3D=3D RDTMON_GROUP &&
+           ^
+   fs/resctrl/rdtgroup.c:2846:6: note: Assuming 'rdtgrp' is non-null
+           if (!rdtgrp) {
+               ^~~~~~~
+   fs/resctrl/rdtgroup.c:2846:2: note: Taking false branch
+           if (!rdtgrp) {
+           ^
+   fs/resctrl/rdtgroup.c:2858:2: note: Taking true branch
+           if (IS_ERR(kn)) {
+           ^
+   fs/resctrl/rdtgroup.c:2861:3: note: Control jumps to line 2897
+                   goto out_free_rgrp;
+                   ^
+   fs/resctrl/rdtgroup.c:2897:2: note: Memory is released
+           kfree(rdtgrp);
+           ^~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2915:8: note: Returning; memory was released via 5=
+th parameter
+           ret =3D mkdir_rdt_prepare(parent_kn, name, mode, RDTMON_GROUP, &=
+rdtgrp);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   fs/resctrl/rdtgroup.c:2916:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   fs/resctrl/rdtgroup.c:2916:2: note: Taking false branch
+           if (ret)
+           ^
+   fs/resctrl/rdtgroup.c:2919:10: note: Use of memory after it is freed
+           prgrp =3D rdtgrp->mon.parent;
+                   ^~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2971:7: warning: Use of memory after it is freed [=
+clang-analyzer-unix.Malloc]
+           kn =3D rdtgrp->kn;
+                ^
+   fs/resctrl/rdtgroup.c:3047:6: note: Assuming the condition is false
+           if (strchr(name, '\n'))
+               ^~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:3047:2: note: Taking false branch
+           if (strchr(name, '\n'))
+           ^
+   fs/resctrl/rdtgroup.c:3055:6: note: Assuming the condition is true
+           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
+fault.kn)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:3055:6: note: Left side of '&&' is true
+   fs/resctrl/rdtgroup.c:3055:38: note: Assuming 'parent_kn' is equal to fi=
+eld 'kn'
+           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
+fault.kn)
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/resctrl/rdtgroup.c:3055:2: note: Taking true branch
+           if (resctrl_arch_alloc_capable() && parent_kn =3D=3D rdtgroup_de=
+fault.kn)
+           ^
+   fs/resctrl/rdtgroup.c:3056:10: note: Calling 'rdtgroup_mkdir_ctrl_mon'
+                   return rdtgroup_mkdir_ctrl_mon(parent_kn, name, mode);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/resctrl/rdtgroup.c:2967:8: note: Calling 'mkdir_rdt_prepare'
 
-vim +/seq +2900 kernel/printk/printk.c
+vim +2611 fs/resctrl/rdtgroup.c
 
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-858  =
+89c48a135b8af4 James Morse 2021-09-06  2576  =
 
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-859  /*
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-860   * Print one record for the given console. The record printed is whate=
-ver
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-861   * record is the next available record for the given console.
-^1da177e4c3f41 kernel/printk.c        Linus Torvalds          2005-04-16  2=
-862   *
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-863   * @text is a buffer of size CONSOLE_LOG_MAX.
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-864   *
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-865   * If extended messages should be printed, @ext_text is a buffer of si=
-ze
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-866   * CONSOLE_EXT_LOG_MAX. Otherwise @ext_text must be NULL.
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-867   *
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-868   * If dropped messages should be printed, @dropped_text is a buffer of=
- size
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-869   * DROPPED_TEXT_MAX. Otherwise @dropped_text must be NULL.
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-870   *
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-871   * @atomic_printing specifies if atomic printing should be used.
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-872   *
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-873   * Requires the console_lock.
-^1da177e4c3f41 kernel/printk.c        Linus Torvalds          2005-04-16  2=
-874   *
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-875   * Returns false if the given console has no next record to print, oth=
-erwise
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-876   * true.
-^1da177e4c3f41 kernel/printk.c        Linus Torvalds          2005-04-16  2=
-877   *
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-878   * @handover will be set to true if a printk waiter has taken over the
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-879   * console_lock, in which case the caller is no longer holding the
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-880   * console_lock. Otherwise it is set to false. A NULL pointer may be p=
-rovided
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-881   * to disable allowing the console_lock to be taken over by a printk w=
-aiter.
-^1da177e4c3f41 kernel/printk.c        Linus Torvalds          2005-04-16  2=
-882   */
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-883  static bool console_emit_next_record(struct console *con, char *text, =
-char *ext_text,
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-884  				     char *dropped_text, bool atomic_printing,
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-885  				     bool *handover)
-^1da177e4c3f41 kernel/printk.c        Linus Torvalds          2005-04-16  2=
-886  {
-896fbe20b4e233 kernel/printk/printk.c John Ogness             2020-07-09  2=
-887  	struct printk_info info;
-896fbe20b4e233 kernel/printk/printk.c John Ogness             2020-07-09  2=
-888  	struct printk_record r;
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-889  	unsigned long flags;
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-890  	bool allow_handover;
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-891  	char *write_text;
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-892  	size_t len;
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-893  	u64 seq;
-78944e549d3667 kernel/printk.c        Antonino A. Daplas      2006-08-05  2=
-894  =
+89c48a135b8af4 James Morse 2021-09-06  2577  /*
+89c48a135b8af4 James Morse 2021-09-06  2578   * This creates a directory mo=
+n_data which contains the monitored data.
+89c48a135b8af4 James Morse 2021-09-06  2579   *
+89c48a135b8af4 James Morse 2021-09-06  2580   * mon_data has one directory =
+for each domain which are named
+89c48a135b8af4 James Morse 2021-09-06  2581   * in the format mon_<domain_n=
+ame>_<domain_id>. For ex: A mon_data
+89c48a135b8af4 James Morse 2021-09-06  2582   * with L3 domain looks as bel=
+ow:
+89c48a135b8af4 James Morse 2021-09-06  2583   * ./mon_data:
+89c48a135b8af4 James Morse 2021-09-06  2584   * mon_L3_00
+89c48a135b8af4 James Morse 2021-09-06  2585   * mon_L3_01
+89c48a135b8af4 James Morse 2021-09-06  2586   * mon_L3_02
+89c48a135b8af4 James Morse 2021-09-06  2587   * ...
+89c48a135b8af4 James Morse 2021-09-06  2588   *
+89c48a135b8af4 James Morse 2021-09-06  2589   * Each domain directory has o=
+ne file per event:
+89c48a135b8af4 James Morse 2021-09-06  2590   * ./mon_L3_00/:
+89c48a135b8af4 James Morse 2021-09-06  2591   * llc_occupancy
+89c48a135b8af4 James Morse 2021-09-06  2592   *
+89c48a135b8af4 James Morse 2021-09-06  2593   */
+89c48a135b8af4 James Morse 2021-09-06  2594  static int mkdir_mondata_all(s=
+truct kernfs_node *parent_kn,
+89c48a135b8af4 James Morse 2021-09-06  2595  			     struct rdtgroup *prgrp,
+89c48a135b8af4 James Morse 2021-09-06  2596  			     struct kernfs_node **d=
+est_kn)
+89c48a135b8af4 James Morse 2021-09-06  2597  {
+89c48a135b8af4 James Morse 2021-09-06  2598  	enum resctrl_res_level i;
+89c48a135b8af4 James Morse 2021-09-06  2599  	struct rdt_resource *r;
+89c48a135b8af4 James Morse 2021-09-06  2600  	struct kernfs_node *kn;
+89c48a135b8af4 James Morse 2021-09-06  2601  	int ret;
+89c48a135b8af4 James Morse 2021-09-06  2602  =
 
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-895  	prb_rec_init_rd(&r, &info, text, CONSOLE_LOG_MAX);
-896fbe20b4e233 kernel/printk/printk.c John Ogness             2020-07-09  2=
-896  =
+89c48a135b8af4 James Morse 2021-09-06  2603  	/*
+89c48a135b8af4 James Morse 2021-09-06  2604  	 * Create the mon_data direct=
+ory first.
+89c48a135b8af4 James Morse 2021-09-06  2605  	 */
+89c48a135b8af4 James Morse 2021-09-06  2606  	ret =3D mongroup_create_dir(p=
+arent_kn, prgrp, "mon_data", &kn);
+89c48a135b8af4 James Morse 2021-09-06  2607  	if (ret)
+89c48a135b8af4 James Morse 2021-09-06  2608  		return ret;
+89c48a135b8af4 James Morse 2021-09-06  2609  =
 
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-897  	if (handover)
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-898  		*handover =3D false;
-7ff9554bb578ba kernel/printk.c        Kay Sievers             2012-05-03  2=
-899  =
+89c48a135b8af4 James Morse 2021-09-06  2610  	if (dest_kn)
+89c48a135b8af4 James Morse 2021-09-06 @2611  		*dest_kn =3D kn;
+89c48a135b8af4 James Morse 2021-09-06  2612  =
 
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04 @2=
-900  	seq =3D read_console_seq(con);
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-901  =
+89c48a135b8af4 James Morse 2021-09-06  2613  	/*
+89c48a135b8af4 James Morse 2021-09-06  2614  	 * Create the subdirectories =
+for each domain. Note that all events
+89c48a135b8af4 James Morse 2021-09-06  2615  	 * in a domain like L3 are gr=
+ouped into a resource whose domain is L3
+89c48a135b8af4 James Morse 2021-09-06  2616  	 */
+89c48a135b8af4 James Morse 2021-09-06  2617  	for (i =3D 0; i < RDT_NUM_RES=
+OURCES; i++) {
+89c48a135b8af4 James Morse 2021-09-06  2618  		r =3D resctrl_arch_get_resou=
+rce(i);
+89c48a135b8af4 James Morse 2021-09-06  2619  		if (!r->mon_capable)
+89c48a135b8af4 James Morse 2021-09-06  2620  			continue;
+89c48a135b8af4 James Morse 2021-09-06  2621  =
 
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-902  	if (!prb_read_valid(prb, seq, &r))
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-903  		return false;
-7ff9554bb578ba kernel/printk.c        Kay Sievers             2012-05-03  2=
-904  =
+89c48a135b8af4 James Morse 2021-09-06  2622  		ret =3D mkdir_mondata_subdir=
+_alldom(kn, r, prgrp);
+89c48a135b8af4 James Morse 2021-09-06  2623  		if (ret)
+89c48a135b8af4 James Morse 2021-09-06  2624  			goto out_destroy;
+89c48a135b8af4 James Morse 2021-09-06  2625  	}
+89c48a135b8af4 James Morse 2021-09-06  2626  =
 
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-905  	if (seq !=3D r.info->seq) {
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-906  		atomic_long_add((unsigned long)(r.info->seq - seq), &con->dropped);
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-907  		write_console_seq(con, r.info->seq, atomic_printing);
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-908  		seq =3D r.info->seq;
-896fbe20b4e233 kernel/printk/printk.c John Ogness             2020-07-09  2=
-909  	}
-896fbe20b4e233 kernel/printk/printk.c John Ogness             2020-07-09  2=
-910  =
+89c48a135b8af4 James Morse 2021-09-06  2627  	return 0;
+89c48a135b8af4 James Morse 2021-09-06  2628  =
 
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-911  	/* Skip record that has level above the console loglevel. */
-896fbe20b4e233 kernel/printk/printk.c John Ogness             2020-07-09  2=
-912  	if (suppress_message_printing(r.info->level)) {
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-913  		write_console_seq(con, seq + 1, atomic_printing);
-084681d14e429c kernel/printk.c        Kay Sievers             2012-06-28  2=
-914  		goto skip;
-084681d14e429c kernel/printk.c        Kay Sievers             2012-06-28  2=
-915  	}
-649e6ee33f73ba kernel/printk.c        Kay Sievers             2012-05-10  2=
-916  =
-
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-917  	if (ext_text) {
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-918  		write_text =3D ext_text;
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-919  		len =3D info_print_ext_header(ext_text, CONSOLE_EXT_LOG_MAX, r.info);
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-920  		len +=3D msg_print_ext_body(ext_text + len, CONSOLE_EXT_LOG_MAX - le=
-n,
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-921  					  &r.text_buf[0], r.info->text_len, &r.info->dev_info);
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-922  	} else {
-00e59e6f86fa55 kernel/printk/printk.c John Ogness             2022-02-07  2=
-923  		write_text =3D text;
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-924  		len =3D record_print_text(&r, console_msg_format & MSG_FORMAT_SYSLOG=
-, printk_time);
-6fe29354befe4c kernel/printk/printk.c Tejun Heo               2015-06-25  2=
-925  	}
-7ff9554bb578ba kernel/printk.c        Kay Sievers             2012-05-03  2=
-926  =
-
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-927  	/* Handovers may only happen between trylock contexts. */
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-928  	allow_handover =3D (handover && atomic_read(&console_lock_count) =3D=
-=3D -1);
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-929  =
-
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-930  	if (allow_handover) {
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-931) 		/*
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-932) 		 * While actively printing out messages, if another printk()
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-933) 		 * were to occur on another CPU, it may wait for this one to
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-934) 		 * finish. This task can not be preempted if there is a
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-935) 		 * waiter waiting to take over.
-93d102f094be9b kernel/printk/printk.c John Ogness             2021-07-15  2=
-936  		 *
-93d102f094be9b kernel/printk/printk.c John Ogness             2021-07-15  2=
-937  		 * Interrupts are disabled because the hand over to a waiter
-93d102f094be9b kernel/printk/printk.c John Ogness             2021-07-15  2=
-938  		 * must not be interrupted until the hand over is completed
-93d102f094be9b kernel/printk/printk.c John Ogness             2021-07-15  2=
-939  		 * (@console_waiter is cleared).
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-940) 		 */
-93d102f094be9b kernel/printk/printk.c John Ogness             2021-07-15  2=
-941  		printk_safe_enter_irqsave(flags);
-c162d5b4338d72 kernel/printk/printk.c Petr Mladek             2018-01-12  2=
-942  		console_lock_spinning_enable();
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-943  	}
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-944) =
-
-81d68a96a39844 kernel/printk.c        Steven Rostedt          2008-05-12  2=
-945  	stop_critical_timings();	/* don't trace print latency */
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-946  	call_console_driver(con, write_text, len, dropped_text, atomic_printi=
-ng);
-81d68a96a39844 kernel/printk.c        Steven Rostedt          2008-05-12  2=
-947  	start_critical_timings();
-dbdda842fe96f8 kernel/printk/printk.c Steven Rostedt (VMware  2018-01-10  2=
-948) =
-
-3d78fbbbe0e517 kernel/printk/printk.c John Ogness             2022-02-04  2=
-949  	write_console_seq(con, seq + 1, atomic_printing);
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-950  =
-
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-951  	if (allow_handover) {
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-952  		*handover =3D console_lock_spinning_disable_and_check();
-c162d5b4338d72 kernel/printk/printk.c Petr Mladek             2018-01-12  2=
-953  		printk_safe_exit_irqrestore(flags);
-905897bc823b80 kernel/printk/printk.c John Ogness             2022-02-07  2=
-954  	}
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-955  =
-
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-956  	printk_delay(r.info->level);
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-957  skip:
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-958  	return true;
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-959  }
-6b43079079e51c kernel/printk/printk.c John Ogness             2022-02-07  2=
-960  =
+89c48a135b8af4 James Morse 2021-09-06  2629  out_destroy:
+89c48a135b8af4 James Morse 2021-09-06  2630  	kernfs_remove(kn);
+89c48a135b8af4 James Morse 2021-09-06  2631  	return ret;
+89c48a135b8af4 James Morse 2021-09-06  2632  }
+89c48a135b8af4 James Morse 2021-09-06  2633  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7110861837966490300==--
+--===============3546627697817073902==--
 
