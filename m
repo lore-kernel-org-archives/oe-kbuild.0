@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0954983393766353581=="
+Content-Type: multipart/mixed; boundary="===============7608712692069727320=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/scsi/ufs/ufshcd.c:4346:23: warning: Signed integer overflow for expression '(0xD041&0xFFFF)<<16'. [integerOverflow]
-Date: Sat, 09 Apr 2022 16:35:45 +0800
-Message-ID: <202204091648.FPM6CPdm-lkp@intel.com>
+Subject: [krzk-github:n/qcom-ufs-opp-v2 14/16] drivers/opp/core.c:1740:39: warning: Uninitialized variables: opp.node, opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, opp.pstate, opp.rate, opp.level, opp.rates, opp.supplies, opp.bandwidth, opp.clock_latency_ns, opp.required_...
+Date: Sat, 09 Apr 2022 15:24:30 +0800
+Message-ID: <202204091553.7jhIlJFk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0954983393766353581==
+--===============7608712692069727320==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,22 +15,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Bart Van Assche <bvanassche@google.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Jaegeuk Kim <jaegeuk@kernel.org>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f1b45d8ccb9839b48e5884664470e54520e17f4c
-commit: edc0596cc04bf0ac3a69c66e994d3ff8b650ff71 scsi: ufs: core: Stop clea=
-ring UNIT ATTENTIONS
-date:   6 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 6 months ago
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://github.com/krzk/linux n/qcom-ufs-opp-v2
+head:   a75f8b79ea63e60950b6a52fdab3564d90b42839
+commit: a67d7c4895d92ab2c8327828551caae31c061472 [14/16] PM wip
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
+compiler: sparc64-linux-gcc (GCC) 11.2.0
 reproduce (cppcheck warning):
         # apt-get install cppcheck
-        git checkout edc0596cc04bf0ac3a69c66e994d3ff8b650ff71
+        git checkout a67d7c4895d92ab2c8327828551caae31c061472
         cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
 e=3Dgcc FILE
 
@@ -40,219 +35,230 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   drivers/scsi/ufs/ufshcd.c:7721:5: warning: Variable 'gran_to_us_table' c=
-an be declared with const [constVariable]
-    u8 gran_to_us_table[] =3D {1, 4, 8, 16, 32, 100};
-       ^
-   drivers/scsi/ufs/ufshcd.c:5378:67: warning: Parameter 'other_mask' can b=
-e declared with const [constParameter]
-   int ufshcd_update_ee_control(struct ufs_hba *hba, u16 *mask, u16 *other_=
-mask,
-                                                                     ^
->> drivers/scsi/ufs/ufshcd.c:4346:23: warning: Signed integer overflow for =
-expression '(0xD041&0xFFFF)<<16'. [integerOverflow]
-     ufshcd_dme_set(hba, UIC_ARG_MIB(DME_LocalFC0ProtectionTimeOutVal),
-                         ^
->> drivers/scsi/ufs/ufshcd.c:4348:23: warning: Signed integer overflow for =
-expression '(0xD042&0xFFFF)<<16'. [integerOverflow]
-     ufshcd_dme_set(hba, UIC_ARG_MIB(DME_LocalTC0ReplayTimeOutVal),
-                         ^
->> drivers/scsi/ufs/ufshcd.c:4350:23: warning: Signed integer overflow for =
-expression '(0xD043&0xFFFF)<<16'. [integerOverflow]
-     ufshcd_dme_set(hba, UIC_ARG_MIB(DME_LocalAFC0ReqTimeOutVal),
-                         ^
->> drivers/scsi/ufs/ufshcd.c:410:43: warning: Uninitialized variable: clki-=
->min_freq [uninitvar]
-     if (!IS_ERR_OR_NULL(clki->clk) && clki->min_freq &&
-                                             ^
-   drivers/scsi/ufs/ufshcd.c:406:16: note: Assuming condition is false
-    if (list_empty(head))
-                  ^
-   drivers/scsi/ufs/ufshcd.c:410:43: note: Uninitialized variable: clki->mi=
-n_freq
-     if (!IS_ERR_OR_NULL(clki->clk) && clki->min_freq &&
-                                             ^
-   drivers/scsi/ufs/ufshcd.c:1049:26: warning: Uninitialized variable: clki=
-->max_freq [uninitvar]
-      if (scale_up && clki->max_freq) {
+   drivers/opp/core.c:2625:27: warning: Parameter 'src_opp' can be declared=
+ with const [constParameter]
+          struct dev_pm_opp *src_opp)
+                             ^
+   drivers/opp/core.c:60:26: warning: Uninitialized variables: opp_table.no=
+de, opp_table.lazy, opp_table.head, opp_table.dev_list, opp_table.opp_list,=
+ opp_table.kref, opp_table.lock, opp_table.np, opp_table.clock_latency_ns_m=
+ax, opp_table.voltage_tolerance_v1, opp_table.parsed_static_opps, opp_table=
+.shared_opp, opp_table.version, opp_table.current_rate, opp_table.current_o=
+pp, opp_table.suspend_opp, opp_table.genpd_virt_dev_lock, opp_table.genpd_v=
+irt_devs, opp_table.required_opp_tables, opp_table.required_opp_count, opp_=
+table.supported_hw, opp_table.supported_hw_count, opp_table.prop_name, opp_=
+table.clks, opp_table.clk_count, opp_table.regulators, opp_table.regulator_=
+count, opp_table.paths, opp_table.path_count, opp_table.enabled, opp_table.=
+genpd_performance_state, opp_table.is_genpd, opp_table.set_opp, opp_table.s=
+od_supplies, opp_table.set_opp_data [uninitvar]
+     if (_find_opp_dev(dev, opp_table)) {
                             ^
-   drivers/scsi/ufs/ufshcd.c:1044:16: note: Assuming condition is false
-    if (list_empty(head))
+   drivers/opp/core.c:380:12: warning: Uninitialized variable: opp->availab=
+le [uninitvar]
+     if (opp->available)
+              ^
+   drivers/opp/core.c:457:17: warning: Uninitialized variable: temp_opp->av=
+ailable [uninitvar]
+     if (temp_opp->available =3D=3D available &&
+                   ^
+   drivers/opp/core.c:447:12: note: Assuming condition is false
+    if (IS_ERR(opp_table)) {
+              ^
+   drivers/opp/core.c:457:17: note: Uninitialized variable: temp_opp->avail=
+able
+     if (temp_opp->available =3D=3D available &&
+                   ^
+   drivers/opp/core.c:506:17: warning: Uninitialized variable: temp_opp->le=
+vel [uninitvar]
+     if (temp_opp->level =3D=3D level) {
+                   ^
+   drivers/opp/core.c:496:12: note: Assuming condition is false
+    if (IS_ERR(opp_table)) {
+              ^
+   drivers/opp/core.c:506:17: note: Uninitialized variable: temp_opp->level
+     if (temp_opp->level =3D=3D level) {
+                   ^
+   drivers/opp/core.c:554:17: warning: Uninitialized variable: temp_opp->av=
+ailable [uninitvar]
+     if (temp_opp->available && temp_opp->level >=3D *level) {
+                   ^
+   drivers/opp/core.c:544:12: note: Assuming condition is false
+    if (IS_ERR(opp_table)) {
+              ^
+   drivers/opp/core.c:554:17: note: Uninitialized variable: temp_opp->avail=
+able
+     if (temp_opp->available && temp_opp->level >=3D *level) {
+                   ^
+   drivers/opp/core.c:579:17: warning: Uninitialized variable: temp_opp->av=
+ailable [uninitvar]
+     if (temp_opp->available && temp_opp->rate >=3D *freq) {
+                   ^
+   drivers/opp/core.c:1558:12: warning: Uninitialized variable: opp->rate [=
+uninitvar]
+     if (opp->rate =3D=3D freq) {
+              ^
+   drivers/opp/core.c:1552:12: note: Assuming condition is false
+    if (IS_ERR(opp_table))
+              ^
+   drivers/opp/core.c:1558:12: note: Uninitialized variable: opp->rate
+     if (opp->rate =3D=3D freq) {
+              ^
+   drivers/opp/core.c:1592:14: warning: Uninitialized variable: temp->remov=
+ed [uninitvar]
+     if (!temp->removed && dynamic =3D=3D temp->dynamic) {
+                ^
+>> drivers/opp/core.c:1740:39: warning: Uninitialized variables: opp.node, =
+opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, =
+opp.pstate, opp.rate, opp.level, opp.rates, opp.supplies, opp.bandwidth, op=
+p.clock_latency_ns, opp.required_opps, opp.opp_table, opp.np [uninitvar]
+     opp_cmp =3D _opp_compare_key(new_opp, opp);
+                                         ^
+   drivers/opp/core.c:2798:16: warning: Uninitialized variable: tmp_opp->ra=
+te [uninitvar]
+     if (tmp_opp->rate =3D=3D freq) {
                   ^
-   drivers/scsi/ufs/ufshcd.c:1049:26: note: Uninitialized variable: clki->m=
-ax_freq
-      if (scale_up && clki->max_freq) {
+   drivers/opp/core.c:2788:12: note: Assuming condition is false
+    if (IS_ERR(opp_table)) {
+              ^
+   drivers/opp/core.c:2798:16: note: Uninitialized variable: tmp_opp->rate
+     if (tmp_opp->rate =3D=3D freq) {
+                  ^
+   drivers/opp/core.c:2869:16: warning: Uninitialized variable: tmp_opp->ra=
+te [uninitvar]
+     if (tmp_opp->rate =3D=3D freq) {
+                  ^
+   drivers/opp/core.c:2859:12: note: Assuming condition is false
+    if (IS_ERR(opp_table)) {
+              ^
+   drivers/opp/core.c:2869:16: note: Uninitialized variable: tmp_opp->rate
+     if (tmp_opp->rate =3D=3D freq) {
+                  ^
+   drivers/opp/core.c:60:26: warning: Uninitialized variables: opp_table.no=
+de, opp_table.lazy, opp_table.head, opp_table.dev_list, opp_table.opp_list,=
+ opp_table.kref, opp_table.lock, opp_table.np, opp_table.clock_latency_ns_m=
+ax, opp_table.voltage_tolerance_v1, opp_table.parsed_static_opps, opp_table=
+.shared_opp, opp_table.version, opp_table.current_rate, opp_table.current_o=
+pp, opp_table.suspend_opp, opp_table.genpd_virt_dev_lock, opp_table.genpd_v=
+irt_devs, opp_table.required_opp_tables, opp_table.required_opp_count, opp_=
+table.supported_hw, opp_table.supported_hw_count, opp_table.prop_name, opp_=
+table.clks, opp_table.clk_count, opp_table.regulators, opp_table.regulator_=
+count, opp_table.paths, opp_table.path_count, opp_table.enabled, opp_table.=
+genpd_performance_state, opp_table.is_genpd, opp_table.set_opp, opp_table.s=
+od_supplies, opp_table.set_opp_data, opp_table.dentry [uninitvar]
+     if (_find_opp_dev(dev, opp_table)) {
                             ^
+   drivers/opp/core.c:1740:39: warning: Uninitialized variables: opp.node, =
+opp.kref, opp.available, opp.dynamic, opp.turbo, opp.suspend, opp.removed, =
+opp.pstate, opp.rate, opp.level, opp.rates, opp.supplies, opp.bandwidth, op=
+p.clock_latency_ns, opp.required_opps, opp.opp_table, opp.np, opp.dentry, o=
+pp.of_name [uninitvar]
+     opp_cmp =3D _opp_compare_key(new_opp, opp);
+                                         ^
 
-vim +4346 drivers/scsi/ufs/ufshcd.c
+vim +1740 drivers/opp/core.c
 
-7eb584db73bebb Dolev Raviv   2014-09-25  4282  =
+6c591eec67cbb4d drivers/opp/core.c            Saravana Kannan 2020-05-12  1=
+723  =
 
-7eb584db73bebb Dolev Raviv   2014-09-25  4283  static int ufshcd_change_pow=
-er_mode(struct ufs_hba *hba,
-7eb584db73bebb Dolev Raviv   2014-09-25  4284  			     struct ufs_pa_layer_=
-attr *pwr_mode)
-7eb584db73bebb Dolev Raviv   2014-09-25  4285  {
-7eb584db73bebb Dolev Raviv   2014-09-25  4286  	int ret;
-7eb584db73bebb Dolev Raviv   2014-09-25  4287  =
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+724  static int _opp_is_duplicate(struct device *dev, struct dev_pm_opp *ne=
+w_opp,
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+725  			     struct opp_table *opp_table,
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+726  			     struct list_head **head)
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+727  {
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+728  	struct dev_pm_opp *opp;
+6c591eec67cbb4d drivers/opp/core.c            Saravana Kannan 2020-05-12  1=
+729  	int opp_cmp;
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+730  =
 
-7eb584db73bebb Dolev Raviv   2014-09-25  4288  	/* if already configured to=
- the requested pwr_mode */
-2355b66ed20ce4 Can Guo       2020-08-24  4289  	if (!hba->force_pmc &&
-2355b66ed20ce4 Can Guo       2020-08-24  4290  	    pwr_mode->gear_rx =3D=
-=3D hba->pwr_info.gear_rx &&
-7eb584db73bebb Dolev Raviv   2014-09-25  4291  	    pwr_mode->gear_tx =3D=
-=3D hba->pwr_info.gear_tx &&
-7eb584db73bebb Dolev Raviv   2014-09-25  4292  	    pwr_mode->lane_rx =3D=
-=3D hba->pwr_info.lane_rx &&
-7eb584db73bebb Dolev Raviv   2014-09-25  4293  	    pwr_mode->lane_tx =3D=
-=3D hba->pwr_info.lane_tx &&
-7eb584db73bebb Dolev Raviv   2014-09-25  4294  	    pwr_mode->pwr_rx =3D=3D=
- hba->pwr_info.pwr_rx &&
-7eb584db73bebb Dolev Raviv   2014-09-25  4295  	    pwr_mode->pwr_tx =3D=3D=
- hba->pwr_info.pwr_tx &&
-7eb584db73bebb Dolev Raviv   2014-09-25  4296  	    pwr_mode->hs_rate =3D=
-=3D hba->pwr_info.hs_rate) {
-7eb584db73bebb Dolev Raviv   2014-09-25  4297  		dev_dbg(hba->dev, "%s: pow=
-er already configured\n", __func__);
-7eb584db73bebb Dolev Raviv   2014-09-25  4298  		return 0;
-d3e89bac715534 Seungwon Jeon 2013-08-31  4299  	}
-d3e89bac715534 Seungwon Jeon 2013-08-31  4300  =
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+731  	/*
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+732  	 * Insert new OPP in order of increasing frequency and discard if
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+733  	 * already present.
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+734  	 *
+2c2709dc6921c5d drivers/base/power/opp/core.c Viresh Kumar    2016-02-16  1=
+735  	 * Need to use &opp_table->opp_list in the condition part of the 'for'
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+736  	 * loop, don't replace it with head otherwise it will become an infin=
+ite
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+737  	 * loop.
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+738  	 */
+052c6f19141dd13 drivers/base/power/opp/core.c Viresh Kumar    2017-01-23  1=
+739  	list_for_each_entry(opp, &opp_table->opp_list, node) {
+6c591eec67cbb4d drivers/opp/core.c            Saravana Kannan 2020-05-12 @1=
+740  		opp_cmp =3D _opp_compare_key(new_opp, opp);
+6c591eec67cbb4d drivers/opp/core.c            Saravana Kannan 2020-05-12  1=
+741  		if (opp_cmp > 0) {
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+742  			*head =3D &opp->node;
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+743  			continue;
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+744  		}
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+745  =
 
-d3e89bac715534 Seungwon Jeon 2013-08-31  4301  	/*
-d3e89bac715534 Seungwon Jeon 2013-08-31  4302  	 * Configure attributes for=
- power mode change with below.
-d3e89bac715534 Seungwon Jeon 2013-08-31  4303  	 * - PA_RXGEAR, PA_ACTIVERX=
-DATALANES, PA_RXTERMINATION,
-d3e89bac715534 Seungwon Jeon 2013-08-31  4304  	 * - PA_TXGEAR, PA_ACTIVETX=
-DATALANES, PA_TXTERMINATION,
-d3e89bac715534 Seungwon Jeon 2013-08-31  4305  	 * - PA_HSSERIES
-d3e89bac715534 Seungwon Jeon 2013-08-31  4306  	 */
-7eb584db73bebb Dolev Raviv   2014-09-25  4307  	ufshcd_dme_set(hba, UIC_ARG=
-_MIB(PA_RXGEAR), pwr_mode->gear_rx);
-7eb584db73bebb Dolev Raviv   2014-09-25  4308  	ufshcd_dme_set(hba, UIC_ARG=
-_MIB(PA_ACTIVERXDATALANES),
-7eb584db73bebb Dolev Raviv   2014-09-25  4309  			pwr_mode->lane_rx);
-7eb584db73bebb Dolev Raviv   2014-09-25  4310  	if (pwr_mode->pwr_rx =3D=3D=
- FASTAUTO_MODE ||
-7eb584db73bebb Dolev Raviv   2014-09-25  4311  			pwr_mode->pwr_rx =3D=3D F=
-AST_MODE)
-d3e89bac715534 Seungwon Jeon 2013-08-31  4312  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_RXTERMINATION), TRUE);
-7eb584db73bebb Dolev Raviv   2014-09-25  4313  	else
-7eb584db73bebb Dolev Raviv   2014-09-25  4314  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_RXTERMINATION), FALSE);
-d3e89bac715534 Seungwon Jeon 2013-08-31  4315  =
+6c591eec67cbb4d drivers/opp/core.c            Saravana Kannan 2020-05-12  1=
+746  		if (opp_cmp < 0)
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+747  			return 0;
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+748  =
 
-7eb584db73bebb Dolev Raviv   2014-09-25  4316  	ufshcd_dme_set(hba, UIC_ARG=
-_MIB(PA_TXGEAR), pwr_mode->gear_tx);
-7eb584db73bebb Dolev Raviv   2014-09-25  4317  	ufshcd_dme_set(hba, UIC_ARG=
-_MIB(PA_ACTIVETXDATALANES),
-7eb584db73bebb Dolev Raviv   2014-09-25  4318  			pwr_mode->lane_tx);
-7eb584db73bebb Dolev Raviv   2014-09-25  4319  	if (pwr_mode->pwr_tx =3D=3D=
- FASTAUTO_MODE ||
-7eb584db73bebb Dolev Raviv   2014-09-25  4320  			pwr_mode->pwr_tx =3D=3D F=
-AST_MODE)
-d3e89bac715534 Seungwon Jeon 2013-08-31  4321  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_TXTERMINATION), TRUE);
-7eb584db73bebb Dolev Raviv   2014-09-25  4322  	else
-7eb584db73bebb Dolev Raviv   2014-09-25  4323  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_TXTERMINATION), FALSE);
-d3e89bac715534 Seungwon Jeon 2013-08-31  4324  =
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+749  		/* Duplicate OPPs */
+064416586190cb0 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+750  		dev_warn(dev, "%s: duplicate OPPs detected. Existing: freq: %lu, vol=
+t: %lu, enabled: %d. New: freq: %lu, volt: %lu, enabled: %d\n",
+dfbe4678d709e25 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  1=
+751  			 __func__, opp->rate, opp->supplies[0].u_volt,
+dfbe4678d709e25 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  1=
+752  			 opp->available, new_opp->rate,
+dfbe4678d709e25 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  1=
+753  			 new_opp->supplies[0].u_volt, new_opp->available);
+23dacf6d2e99355 drivers/base/power/opp.c      Viresh Kumar    2015-07-29  1=
+754  =
 
-7eb584db73bebb Dolev Raviv   2014-09-25  4325  	if (pwr_mode->pwr_rx =3D=3D=
- FASTAUTO_MODE ||
-7eb584db73bebb Dolev Raviv   2014-09-25  4326  	    pwr_mode->pwr_tx =3D=3D=
- FASTAUTO_MODE ||
-7eb584db73bebb Dolev Raviv   2014-09-25  4327  	    pwr_mode->pwr_rx =3D=3D=
- FAST_MODE ||
-7eb584db73bebb Dolev Raviv   2014-09-25  4328  	    pwr_mode->pwr_tx =3D=3D=
- FAST_MODE)
-7eb584db73bebb Dolev Raviv   2014-09-25  4329  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_HSSERIES),
-7eb584db73bebb Dolev Raviv   2014-09-25  4330  						pwr_mode->hs_rate);
-d3e89bac715534 Seungwon Jeon 2013-08-31  4331  =
+dfbe4678d709e25 drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  1=
+755  		/* Should we compare voltages for all regulators here ? */
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+756  		return opp->available &&
+7f8538ebaefc075 drivers/base/power/opp/core.c Viresh Kumar    2017-01-02  1=
+757  		       new_opp->supplies[0].u_volt =3D=3D opp->supplies[0].u_volt ? =
+-EBUSY : -EEXIST;
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+758  	}
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+759  =
 
-b1d0d2eb89d4e3 Kiwoong Kim   2020-12-21  4332  	if (!(hba->quirks & UFSHCD_=
-QUIRK_SKIP_DEF_UNIPRO_TIMEOUT_SETTING)) {
-0834253734cbb4 Can Guo       2019-12-05  4333  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_PWRMODEUSERDATA0),
-0834253734cbb4 Can Guo       2019-12-05  4334  				DL_FC0ProtectionTimeOutV=
-al_Default);
-0834253734cbb4 Can Guo       2019-12-05  4335  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_PWRMODEUSERDATA1),
-0834253734cbb4 Can Guo       2019-12-05  4336  				DL_TC0ReplayTimeOutVal_D=
-efault);
-0834253734cbb4 Can Guo       2019-12-05  4337  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_PWRMODEUSERDATA2),
-0834253734cbb4 Can Guo       2019-12-05  4338  				DL_AFC0ReqTimeOutVal_Def=
-ault);
-0834253734cbb4 Can Guo       2019-12-05  4339  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_PWRMODEUSERDATA3),
-0834253734cbb4 Can Guo       2019-12-05  4340  				DL_FC1ProtectionTimeOutV=
-al_Default);
-0834253734cbb4 Can Guo       2019-12-05  4341  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_PWRMODEUSERDATA4),
-0834253734cbb4 Can Guo       2019-12-05  4342  				DL_TC1ReplayTimeOutVal_D=
-efault);
-0834253734cbb4 Can Guo       2019-12-05  4343  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(PA_PWRMODEUSERDATA5),
-0834253734cbb4 Can Guo       2019-12-05  4344  				DL_AFC1ReqTimeOutVal_Def=
-ault);
-0834253734cbb4 Can Guo       2019-12-05  4345  =
-
-0834253734cbb4 Can Guo       2019-12-05 @4346  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(DME_LocalFC0ProtectionTimeOutVal),
-0834253734cbb4 Can Guo       2019-12-05  4347  				DL_FC0ProtectionTimeOutV=
-al_Default);
-0834253734cbb4 Can Guo       2019-12-05 @4348  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(DME_LocalTC0ReplayTimeOutVal),
-0834253734cbb4 Can Guo       2019-12-05  4349  				DL_TC0ReplayTimeOutVal_D=
-efault);
-0834253734cbb4 Can Guo       2019-12-05 @4350  		ufshcd_dme_set(hba, UIC_AR=
-G_MIB(DME_LocalAFC0ReqTimeOutVal),
-0834253734cbb4 Can Guo       2019-12-05  4351  				DL_AFC0ReqTimeOutVal_Def=
-ault);
-b1d0d2eb89d4e3 Kiwoong Kim   2020-12-21  4352  	}
-0834253734cbb4 Can Guo       2019-12-05  4353  =
-
-7eb584db73bebb Dolev Raviv   2014-09-25  4354  	ret =3D ufshcd_uic_change_p=
-wr_mode(hba, pwr_mode->pwr_rx << 4
-7eb584db73bebb Dolev Raviv   2014-09-25  4355  			| pwr_mode->pwr_tx);
-7eb584db73bebb Dolev Raviv   2014-09-25  4356  =
-
-7eb584db73bebb Dolev Raviv   2014-09-25  4357  	if (ret) {
-d3e89bac715534 Seungwon Jeon 2013-08-31  4358  		dev_err(hba->dev,
-7eb584db73bebb Dolev Raviv   2014-09-25  4359  			"%s: power mode change fa=
-iled %d\n", __func__, ret);
-7eb584db73bebb Dolev Raviv   2014-09-25  4360  	} else {
-0263bcd0e83196 Yaniv Gardi   2015-10-28  4361  		ufshcd_vops_pwr_change_not=
-ify(hba, POST_CHANGE, NULL,
-0263bcd0e83196 Yaniv Gardi   2015-10-28  4362  								pwr_mode);
-7eb584db73bebb Dolev Raviv   2014-09-25  4363  =
-
-7eb584db73bebb Dolev Raviv   2014-09-25  4364  		memcpy(&hba->pwr_info, pwr=
-_mode,
-7eb584db73bebb Dolev Raviv   2014-09-25  4365  			sizeof(struct ufs_pa_laye=
-r_attr));
-7eb584db73bebb Dolev Raviv   2014-09-25  4366  	}
-7eb584db73bebb Dolev Raviv   2014-09-25  4367  =
-
-7eb584db73bebb Dolev Raviv   2014-09-25  4368  	return ret;
-7eb584db73bebb Dolev Raviv   2014-09-25  4369  }
-7eb584db73bebb Dolev Raviv   2014-09-25  4370  =
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+760  	return 0;
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+761  }
+a1e8c13600bfd96 drivers/opp/core.c            Viresh Kumar    2018-04-06  1=
+762  =
 
 
-:::::: The code at line 4346 was first introduced by commit
-:::::: 0834253734cbb40c312c06e5beb9b94ac7cf5e80 scsi: ufs: Do not clear the=
- DL layer timers
+:::::: The code at line 1740 was first introduced by commit
+:::::: 6c591eec67cbb4db988ab35b944f5cf9013c0714 OPP: Add helpers for readin=
+g the binding properties
 
-:::::: TO: Can Guo <cang@codeaurora.org>
-:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
+:::::: TO: Saravana Kannan <saravanak@google.com>
+:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0954983393766353581==--
+--===============7608712692069727320==--
 
