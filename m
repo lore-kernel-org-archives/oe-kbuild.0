@@ -1,317 +1,488 @@
-Content-Type: multipart/mixed; boundary="===============5901817891318505895=="
+Content-Type: multipart/mixed; boundary="===============6965223644862567630=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/acpi/acpi_ipmi.c:361:14: warning: Uninitialized variables: iter.head, iter.addr, iter.tx_msgid, iter.tx_complete, iter.tx_message, iter.msg_done, iter.rx_len, iter.device, iter.kref [uninitvar]
-Date: Sun, 10 Apr 2022 10:54:41 +0800
-Message-ID: <202204101054.ZL5oLwuR-lkp@intel.com>
+Subject: security/integrity/evm/evm_secfs.c:159:3: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length argument...
+Date: Sun, 10 Apr 2022 08:31:27 +0800
+Message-ID: <202204100812.FI25qn4e-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5901817891318505895==
+--===============6965223644862567630==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakob Koschel <jakobkoschel@gmail.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+TO: Arnd Bergmann <arnd@arndb.de>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Alex Shi <alexs@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   e1f700ebd6bea293abe3c7e2807b252018efde01
-commit: 26de0ab9841a1610a477d9b07c024b9bb6d39f98 ACPI: IPMI: replace usage =
-of found with dedicated list iterator variable
-date:   2 weeks ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 2 weeks ago
-compiler: ia64-linux-gcc (GCC) 11.2.0
-reproduce (cppcheck warning):
-        # apt-get install cppcheck
-        git checkout 26de0ab9841a1610a477d9b07c024b9bb6d39f98
-        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
-e=3Dgcc FILE
+commit: e8c07082a810fbb9db303a2b66b66b8d7e588b53 Kbuild: move to -std=3Dgnu=
+11
+date:   4 weeks ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 4 weeks ago
+config: arm-randconfig-c002-20220408 (https://download.01.org/0day-ci/archi=
+ve/20220410/202204100812.FI25qn4e-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c29a51=
+b3a257908aebc01cd7c4655665db317d66)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De8c07082a810fbb9db303a2b66b66b8d7e588b53
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e8c07082a810fbb9db303a2b66b66b8d7e588b53
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/md/dm-integrity.c:4493:7: warning: Local variable 'r' shadows ou=
-ter variable [shadowVariable]
-     int r;
-         ^
-   drivers/md/dm-integrity.c:3966:6: note: Shadowed declaration
-    int r;
-        ^
-   drivers/md/dm-integrity.c:4493:7: note: Shadow variable
-     int r;
-         ^
+clang-analyzer warnings: (new ones prefixed by >>)
+   mm/page-writeback.c:2897:7: note: 'ret' is true
+           if (!ret) {
+                ^~~
+   mm/page-writeback.c:2897:2: note: Taking false branch
+           if (!ret) {
+           ^
+   mm/page-writeback.c:2902:15: note: Calling 'arch_make_folio_accessible'
+           access_ret =3D arch_make_folio_accessible(folio);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mm.h:1694:2: note: 'ret' declared without an initial value
+           int ret;
+           ^~~~~~~
+   include/linux/mm.h:1697:14: note: Assuming 'i' is >=3D 'nr'
+           for (i =3D 0; i < nr; i++) {
+                       ^~~~~~
+   include/linux/mm.h:1697:2: note: Loop condition is false. Execution cont=
+inues on line 1703
+           for (i =3D 0; i < nr; i++) {
+           ^
+   include/linux/mm.h:1703:2: note: Undefined or garbage value returned to =
+caller
+           return ret;
+           ^      ~~~
+   mm/page-writeback.c:637:2: warning: Call to function 'memset' is insecur=
+e as it does not provide security checks introduced in the C11 standard. Re=
+place with analogous functions that support length arguments or provides bo=
+undary checks such as 'memset_s' in case of C11 [clang-analyzer-security.in=
+secureAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(dom, 0, sizeof(*dom));
+           ^~~~~~
+   mm/page-writeback.c:637:2: note: Call to function 'memset' is insecure a=
+s it does not provide security checks introduced in the C11 standard. Repla=
+ce with analogous functions that support length arguments or provides bound=
+ary checks such as 'memset_s' in case of C11
+           memset(dom, 0, sizeof(*dom));
+           ^~~~~~
+   mm/page-writeback.c:1413:14: warning: The result of the left shift is un=
+defined because the right operand is negative [clang-analyzer-core.Undefine=
+dBinaryOperatorResult]
+                   return 1UL << (ilog2(thresh - dirty) >> 1);
+                              ^
+   mm/page-writeback.c:1566:47: note: '?' condition is false
+           struct dirty_throttle_control * const mdtc =3D mdtc_valid(&mdtc_=
+stor) ?
+                                                        ^
+   mm/page-writeback.c:1582:2: note: Loop condition is true.  Entering loop=
+ body
+           for (;;) {
+           ^
+   mm/page-writeback.c:1595:7: note: Assuming 'strictlimit' is false
+                   if (unlikely(strictlimit)) {
+                       ^
+   include/linux/compiler.h:78:40: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                             ^~~~
+   mm/page-writeback.c:1595:3: note: Taking false branch
+                   if (unlikely(strictlimit)) {
+                   ^
+   mm/page-writeback.c:1607:7: note: 'mdtc' is null
+                   if (mdtc) {
+                       ^~~~
+   mm/page-writeback.c:1607:3: note: Taking false branch
+                   if (mdtc) {
+                   ^
+   mm/page-writeback.c:1645:7: note: Assuming the condition is true
+                   if (dirty <=3D dirty_freerun_ceiling(thresh, bg_thresh) =
+&&
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page-writeback.c:1645:7: note: Left side of '&&' is true
+   mm/page-writeback.c:1646:9: note: 'mdtc' is null
+                       (!mdtc ||
+                         ^~~~
+   mm/page-writeback.c:1646:14: note: Left side of '||' is true
+                       (!mdtc ||
+                              ^
+   mm/page-writeback.c:1652:11: note: Calling 'dirty_poll_interval'
+                           intv =3D dirty_poll_interval(dirty, thresh);
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page-writeback.c:1412:6: note: Assuming 'thresh' is > 'dirty'
+           if (thresh > dirty)
+               ^~~~~~~~~~~~~~
+   mm/page-writeback.c:1412:2: note: Taking true branch
+           if (thresh > dirty)
+           ^
+   mm/page-writeback.c:1413:18: note: '?' condition is false
+                   return 1UL << (ilog2(thresh - dirty) >> 1);
+                                  ^
+   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
+           __builtin_constant_p(n) ?       \
+           ^
+   mm/page-writeback.c:1413:18: note: '?' condition is true
+                   return 1UL << (ilog2(thresh - dirty) >> 1);
+                                  ^
+   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
+           (sizeof(n) <=3D 4) ?              \
+           ^
+   mm/page-writeback.c:1413:14: note: The result of the left shift is undef=
+ined because the right operand is negative
+                   return 1UL << (ilog2(thresh - dirty) >> 1);
+                              ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page-writeback.c:2902:2: warning: Value stored to 'access_ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           access_ret =3D arch_make_folio_accessible(folio);
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/page-writeback.c:2902:2: note: Value stored to 'access_ret' is never =
+read
+           access_ret =3D arch_make_folio_accessible(folio);
+           ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 42 warnings (42 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   32 warnings generated.
+   security/integrity/evm/evm_secfs.c:48:2: warning: Call to function 'spri=
+ntf' is insecure as it does not provide security checks introduced in the C=
+11 standard. Replace with analogous functions that support length arguments=
+ or provides boundary checks such as 'sprintf_s' in case of C11 [clang-anal=
+yzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           sprintf(temp, "%d", (evm_initialized & ~EVM_SETUP_COMPLETE));
+           ^~~~~~~
+   security/integrity/evm/evm_secfs.c:48:2: note: Call to function 'sprintf=
+' is insecure as it does not provide security checks introduced in the C11 =
+standard. Replace with analogous functions that support length arguments or=
+ provides boundary checks such as 'sprintf_s' in case of C11
+           sprintf(temp, "%d", (evm_initialized & ~EVM_SETUP_COMPLETE));
+           ^~~~~~~
+>> security/integrity/evm/evm_secfs.c:159:3: warning: Call to function 'spr=
+intf' is insecure as it does not provide bounding of the memory buffer or s=
+ecurity checks introduced in the C11 standard. Replace with analogous funct=
+ions that support length arguments or provides boundary checks such as 'spr=
+intf_s' in case of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUns=
+afeBufferHandling]
+                   sprintf(temp + offset, "%s\n", xattr->name);
+                   ^~~~~~~
+   security/integrity/evm/evm_secfs.c:159:3: note: Call to function 'sprint=
+f' is insecure as it does not provide bounding of the memory buffer or secu=
+rity checks introduced in the C11 standard. Replace with analogous function=
+s that support length arguments or provides boundary checks such as 'sprint=
+f_s' in case of C11
+                   sprintf(temp + offset, "%s\n", xattr->name);
+                   ^~~~~~~
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   30 warnings generated.
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   23 warnings generated.
+   Suppressed 23 warnings (23 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   crypto/poly1305_generic.c:49:4: warning: Value stored to 'src' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                           src +=3D POLY1305_BLOCK_SIZE;
+                           ^
+   crypto/poly1305_generic.c:49:4: note: Value stored to 'src' is never read
+   crypto/poly1305_generic.c:80:3: warning: Call to function 'memcpy' is in=
+secure as it does not provide security checks introduced in the C11 standar=
+d. Replace with analogous functions that support length arguments or provid=
+es boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-securi=
+ty.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dctx->buf + dctx->buflen, src, bytes);
+                   ^~~~~~
+   crypto/poly1305_generic.c:80:3: note: Call to function 'memcpy' is insec=
+ure as it does not provide security checks introduced in the C11 standard. =
+Replace with analogous functions that support length arguments or provides =
+boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(dctx->buf + dctx->buflen, src, bytes);
+                   ^~~~~~
+   crypto/poly1305_generic.c:100:3: warning: Call to function 'memcpy' is i=
+nsecure as it does not provide security checks introduced in the C11 standa=
+rd. Replace with analogous functions that support length arguments or provi=
+des boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-secur=
+ity.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(dctx->buf, src, srclen);
+                   ^~~~~~
+   crypto/poly1305_generic.c:100:3: note: Call to function 'memcpy' is inse=
+cure as it does not provide security checks introduced in the C11 standard.=
+ Replace with analogous functions that support length arguments or provides=
+ boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(dctx->buf, src, srclen);
+                   ^~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   33 warnings generated.
+   Suppressed 33 warnings (33 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   crypto/asymmetric_keys/x509_cert_parser.c:404:3: warning: Call to functi=
+on 'memcpy' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memcpy_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buffer,
+                   ^~~~~~
+   crypto/asymmetric_keys/x509_cert_parser.c:404:3: note: Call to function =
+'memcpy' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buffer,
+                   ^~~~~~
+   crypto/asymmetric_keys/x509_cert_parser.c:408:3: warning: Call to functi=
+on 'memcpy' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memcpy_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+                   memcpy(buffer + ctx->o_size + 2,
+                   ^~~~~~
+   crypto/asymmetric_keys/x509_cert_parser.c:408:3: note: Call to function =
+'memcpy' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memcpy_s' in case of C11
+                   memcpy(buffer + ctx->o_size + 2,
+                   ^~~~~~
+   crypto/asymmetric_keys/x509_cert_parser.c:428:2: warning: Call to functi=
+on 'memcpy' is insecure as it does not provide security checks introduced i=
+n the C11 standard. Replace with analogous functions that support length ar=
+guments or provides boundary checks such as 'memcpy_s' in case of C11 [clan=
+g-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(buffer, name, namesize);
+           ^~~~~~
+   crypto/asymmetric_keys/x509_cert_parser.c:428:2: note: Call to function =
+'memcpy' is insecure as it does not provide security checks introduced in t=
+he C11 standard. Replace with analogous functions that support length argum=
+ents or provides boundary checks such as 'memcpy_s' in case of C11
+           memcpy(buffer, name, namesize);
+           ^~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   31 warnings generated.
+   crypto/asymmetric_keys/x509_public_key.c:214:6: warning: Call to functio=
+n 'memcpy' is insecure as it does not provide security checks introduced in=
+ the C11 standard. Replace with analogous functions that support length arg=
+uments or provides boundary checks such as 'memcpy_s' in case of C11 [clang=
+-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
+           p =3D memcpy(desc, cert->subject, sulen);
+               ^~~~~~
+   crypto/asymmetric_keys/x509_public_key.c:214:6: note: Call to function '=
+memcpy' is insecure as it does not provide security checks introduced in th=
+e C11 standard. Replace with analogous functions that support length argume=
+nts or provides boundary checks such as 'memcpy_s' in case of C11
+           p =3D memcpy(desc, cert->subject, sulen);
+               ^~~~~~
+   Suppressed 30 warnings (30 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   37 warnings generated.
+   crypto/wp512.c:993:2: warning: Call to function 'memset' is insecure as =
+it does not provide security checks introduced in the C11 standard. Replace=
+ with analogous functions that support length arguments or provides boundar=
+y checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecur=
+eAPI.DeprecatedOrUnsafeBufferHandling]
+           memset(wctx->bitLength, 0, 32);
+           ^~~~~~
+   crypto/wp512.c:993:2: note: Call to function 'memset' is insecure as it =
+does not provide security checks introduced in the C11 standard. Replace wi=
+th analogous functions that support length arguments or provides boundary c=
+hecks such as 'memset_s' in case of C11
+           memset(wctx->bitLength, 0, 32);
+           ^~~~~~
+   crypto/wp512.c:1079:4: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                           memset(&buffer[bufferPos], 0, WP512_BLOCK_SIZE -=
+ bufferPos);
+                           ^~~~~~
+   crypto/wp512.c:1079:4: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+                           memset(&buffer[bufferPos], 0, WP512_BLOCK_SIZE -=
+ bufferPos);
+                           ^~~~~~
+   crypto/wp512.c:1084:3: warning: Call to function 'memset' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memset_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+                   memset(&buffer[bufferPos], 0,
+                   ^~~~~~
+   crypto/wp512.c:1084:3: note: Call to function 'memset' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memset_s' in case of C11
+                   memset(&buffer[bufferPos], 0,
+                   ^~~~~~
+   crypto/wp512.c:1087:2: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(&buffer[WP512_BLOCK_SIZE - WP512_LENGTHBYTES],
+           ^~~~~~
+   crypto/wp512.c:1087:2: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+           memcpy(&buffer[WP512_BLOCK_SIZE - WP512_LENGTHBYTES],
+           ^~~~~~
+   crypto/wp512.c:1103:2: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
+           memcpy(out, D, WP384_DIGEST_SIZE);
+           ^~~~~~
+   crypto/wp512.c:1103:2: note: Call to function 'memcpy' is insecure as it=
+ does not provide security checks introduced in the C11 standard. Replace w=
+ith analogous functions that support length arguments or provides boundary =
+checks such as 'memcpy_s' in case of C11
+           memcpy(out, D, WP384_DIGEST_SIZE);
+           ^~~~~~
+   crypto/wp512.c:1114:2: warning: Call to function 'memcpy' is insecure as=
+ it does not provide security checks introduced in the C11 standard. Replac=
+e with analogous functions that support length arguments or provides bounda=
+ry checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.insecu=
+reAPI.DeprecatedOrUnsafeBufferHandling]
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +159 security/integrity/evm/evm_secfs.c
 
->> drivers/acpi/acpi_ipmi.c:361:14: warning: Uninitialized variables: iter.=
-head, iter.addr, iter.tx_msgid, iter.tx_complete, iter.tx_message, iter.msg=
-_done, iter.rx_len, iter.device, iter.kref [uninitvar]
-     if (msg =3D=3D iter) {
-                ^
->> drivers/acpi/acpi_ipmi.c:488:13: warning: Uninitialized variable: iter->=
-ipmi_ifnum [uninitvar]
-     if (iter->ipmi_ifnum !=3D iface) {
-               ^
---
->> drivers/md/dm-integrity.c:2268:3: warning: Address of local auto-variabl=
-e assigned to a function parameter. [autoVariables]
-     dio->completion =3D &read_comp;
-     ^
+66dbc325afcef9 Mimi Zohar      2011-03-15  115  =
 
-vim +361 drivers/acpi/acpi_ipmi.c
+fa516b66a1bfce Matthew Garrett 2018-05-15  116  #ifdef CONFIG_EVM_ADD_XATTRS
+fa516b66a1bfce Matthew Garrett 2018-05-15  117  /**
+fa516b66a1bfce Matthew Garrett 2018-05-15  118   * evm_read_xattrs - read()=
+ for <securityfs>/evm_xattrs
+fa516b66a1bfce Matthew Garrett 2018-05-15  119   *
+fa516b66a1bfce Matthew Garrett 2018-05-15  120   * @filp: file pointer, not=
+ actually used
+fa516b66a1bfce Matthew Garrett 2018-05-15  121   * @buf: where to put the r=
+esult
+fa516b66a1bfce Matthew Garrett 2018-05-15  122   * @count: maximum to send =
+along
+fa516b66a1bfce Matthew Garrett 2018-05-15  123   * @ppos: where to start
+fa516b66a1bfce Matthew Garrett 2018-05-15  124   *
+fa516b66a1bfce Matthew Garrett 2018-05-15  125   * Returns number of bytes =
+read or error code, as appropriate
+fa516b66a1bfce Matthew Garrett 2018-05-15  126   */
+fa516b66a1bfce Matthew Garrett 2018-05-15  127  static ssize_t evm_read_xat=
+trs(struct file *filp, char __user *buf,
+fa516b66a1bfce Matthew Garrett 2018-05-15  128  			       size_t count, lof=
+f_t *ppos)
+fa516b66a1bfce Matthew Garrett 2018-05-15  129  {
+fa516b66a1bfce Matthew Garrett 2018-05-15  130  	char *temp;
+fa516b66a1bfce Matthew Garrett 2018-05-15  131  	int offset =3D 0;
+fa516b66a1bfce Matthew Garrett 2018-05-15  132  	ssize_t rc, size =3D 0;
+fa516b66a1bfce Matthew Garrett 2018-05-15  133  	struct xattr_list *xattr;
+fa516b66a1bfce Matthew Garrett 2018-05-15  134  =
 
-7b9844772237e3 Lv Zheng      2013-09-13  352  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  135  	if (*ppos !=3D 0)
+fa516b66a1bfce Matthew Garrett 2018-05-15  136  		return 0;
+fa516b66a1bfce Matthew Garrett 2018-05-15  137  =
 
-7b9844772237e3 Lv Zheng      2013-09-13  353  static void ipmi_cancel_tx_ms=
-g(struct acpi_ipmi_device *ipmi,
-7b9844772237e3 Lv Zheng      2013-09-13  354  			       struct acpi_ipmi_ms=
-g *msg)
-7b9844772237e3 Lv Zheng      2013-09-13  355  {
-26de0ab9841a16 Jakob Koschel 2022-03-24  356  	struct acpi_ipmi_msg *tx_msg=
- =3D NULL, *iter, *temp;
-7b9844772237e3 Lv Zheng      2013-09-13  357  	unsigned long flags;
-7b9844772237e3 Lv Zheng      2013-09-13  358  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  138  	rc =3D mutex_lock_interrup=
+tible(&xattr_list_mutex);
+fa516b66a1bfce Matthew Garrett 2018-05-15  139  	if (rc)
+fa516b66a1bfce Matthew Garrett 2018-05-15  140  		return -ERESTARTSYS;
+fa516b66a1bfce Matthew Garrett 2018-05-15  141  =
 
-7b9844772237e3 Lv Zheng      2013-09-13  359  	spin_lock_irqsave(&ipmi->tx_=
-msg_lock, flags);
-26de0ab9841a16 Jakob Koschel 2022-03-24  360  	list_for_each_entry_safe(ite=
-r, temp, &ipmi->tx_msg_list, head) {
-26de0ab9841a16 Jakob Koschel 2022-03-24 @361  		if (msg =3D=3D iter) {
-26de0ab9841a16 Jakob Koschel 2022-03-24  362  			tx_msg =3D iter;
-26de0ab9841a16 Jakob Koschel 2022-03-24  363  			list_del(&iter->head);
-7b9844772237e3 Lv Zheng      2013-09-13  364  			break;
-7b9844772237e3 Lv Zheng      2013-09-13  365  		}
-e92b297cc72ade Zhao Yakui    2010-12-08  366  	}
-5ac557ef4951ea Lv Zheng      2013-09-13  367  	spin_unlock_irqrestore(&ipmi=
-->tx_msg_lock, flags);
-7b9844772237e3 Lv Zheng      2013-09-13  368  =
+8c7a703ec9787a Roberto Sassu   2021-05-28  142  	list_for_each_entry(xattr,=
+ &evm_config_xattrnames, list) {
+8c7a703ec9787a Roberto Sassu   2021-05-28  143  		if (!xattr->enabled)
+8c7a703ec9787a Roberto Sassu   2021-05-28  144  			continue;
+8c7a703ec9787a Roberto Sassu   2021-05-28  145  =
 
-26de0ab9841a16 Jakob Koschel 2022-03-24  369  	if (tx_msg)
-7b9844772237e3 Lv Zheng      2013-09-13  370  		acpi_ipmi_msg_put(tx_msg);
-e92b297cc72ade Zhao Yakui    2010-12-08  371  }
-e92b297cc72ade Zhao Yakui    2010-12-08  372  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  146  		size +=3D strlen(xattr->n=
+ame) + 1;
+8c7a703ec9787a Roberto Sassu   2021-05-28  147  	}
+fa516b66a1bfce Matthew Garrett 2018-05-15  148  =
 
-e92b297cc72ade Zhao Yakui    2010-12-08  373  static void ipmi_msg_handler(=
-struct ipmi_recv_msg *msg, void *user_msg_data)
-e92b297cc72ade Zhao Yakui    2010-12-08  374  {
-e92b297cc72ade Zhao Yakui    2010-12-08  375  	struct acpi_ipmi_device *ipm=
-i_device =3D user_msg_data;
-26de0ab9841a16 Jakob Koschel 2022-03-24  376  	struct acpi_ipmi_msg *tx_msg=
- =3D NULL, *iter, *temp;
-2fb037b89a3125 Lv Zheng      2013-09-13  377  	struct device *dev =3D ipmi_=
-device->dev;
-06a8566bcf5cf7 Lv Zheng      2013-09-13  378  	unsigned long flags;
-e92b297cc72ade Zhao Yakui    2010-12-08  379  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  149  	temp =3D kmalloc(size + 1,=
+ GFP_KERNEL);
+b5c90a7526fe39 Dan Carpenter   2018-06-01  150  	if (!temp) {
+b5c90a7526fe39 Dan Carpenter   2018-06-01  151  		mutex_unlock(&xattr_list_=
+mutex);
+fa516b66a1bfce Matthew Garrett 2018-05-15  152  		return -ENOMEM;
+b5c90a7526fe39 Dan Carpenter   2018-06-01  153  	}
+fa516b66a1bfce Matthew Garrett 2018-05-15  154  =
 
-e92b297cc72ade Zhao Yakui    2010-12-08  380  	if (msg->user !=3D ipmi_devi=
-ce->user_interface) {
-50065300314e95 Lv Zheng      2013-09-13  381  		dev_warn(dev,
-50065300314e95 Lv Zheng      2013-09-13  382  			 "Unexpected response is r=
-eturned. returned user %p, expected user %p\n",
-e92b297cc72ade Zhao Yakui    2010-12-08  383  			 msg->user, ipmi_device->u=
-ser_interface);
-6b68f03f95e3f0 Lv Zheng      2013-09-13  384  		goto out_msg;
-e92b297cc72ade Zhao Yakui    2010-12-08  385  	}
-50065300314e95 Lv Zheng      2013-09-13  386  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  155  	list_for_each_entry(xattr,=
+ &evm_config_xattrnames, list) {
+8c7a703ec9787a Roberto Sassu   2021-05-28  156  		if (!xattr->enabled)
+8c7a703ec9787a Roberto Sassu   2021-05-28  157  			continue;
+8c7a703ec9787a Roberto Sassu   2021-05-28  158  =
 
-06a8566bcf5cf7 Lv Zheng      2013-09-13  387  	spin_lock_irqsave(&ipmi_devi=
-ce->tx_msg_lock, flags);
-26de0ab9841a16 Jakob Koschel 2022-03-24  388  	list_for_each_entry_safe(ite=
-r, temp, &ipmi_device->tx_msg_list, head) {
-26de0ab9841a16 Jakob Koschel 2022-03-24  389  		if (msg->msgid =3D=3D iter-=
->tx_msgid) {
-26de0ab9841a16 Jakob Koschel 2022-03-24  390  			tx_msg =3D iter;
-26de0ab9841a16 Jakob Koschel 2022-03-24  391  			list_del(&iter->head);
-e92b297cc72ade Zhao Yakui    2010-12-08  392  			break;
-e92b297cc72ade Zhao Yakui    2010-12-08  393  		}
-e92b297cc72ade Zhao Yakui    2010-12-08  394  	}
-7b9844772237e3 Lv Zheng      2013-09-13  395  	spin_unlock_irqrestore(&ipmi=
-_device->tx_msg_lock, flags);
-e92b297cc72ade Zhao Yakui    2010-12-08  396  =
+fa516b66a1bfce Matthew Garrett 2018-05-15 @159  		sprintf(temp + offset, "%=
+s\n", xattr->name);
+fa516b66a1bfce Matthew Garrett 2018-05-15  160  		offset +=3D strlen(xattr-=
+>name) + 1;
+fa516b66a1bfce Matthew Garrett 2018-05-15  161  	}
+fa516b66a1bfce Matthew Garrett 2018-05-15  162  =
 
-26de0ab9841a16 Jakob Koschel 2022-03-24  397  	if (!tx_msg) {
-50065300314e95 Lv Zheng      2013-09-13  398  		dev_warn(dev,
-50065300314e95 Lv Zheng      2013-09-13  399  			 "Unexpected response (msg=
- id %ld) is returned.\n",
-50065300314e95 Lv Zheng      2013-09-13  400  			 msg->msgid);
-7b9844772237e3 Lv Zheng      2013-09-13  401  		goto out_msg;
-e92b297cc72ade Zhao Yakui    2010-12-08  402  	}
-e92b297cc72ade Zhao Yakui    2010-12-08  403  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  163  	mutex_unlock(&xattr_list_m=
+utex);
+fa516b66a1bfce Matthew Garrett 2018-05-15  164  	rc =3D simple_read_from_bu=
+ffer(buf, count, ppos, temp, strlen(temp));
+fa516b66a1bfce Matthew Garrett 2018-05-15  165  =
 
-e92b297cc72ade Zhao Yakui    2010-12-08  404  	/* copy the response data to=
- Rx_data buffer */
-6b68f03f95e3f0 Lv Zheng      2013-09-13  405  	if (msg->msg.data_len > ACPI=
-_IPMI_MAX_MSG_LENGTH) {
-2fb037b89a3125 Lv Zheng      2013-09-13  406  		dev_WARN_ONCE(dev, true,
-6b68f03f95e3f0 Lv Zheng      2013-09-13  407  			      "Unexpected response=
- (msg len %d).\n",
-6b68f03f95e3f0 Lv Zheng      2013-09-13  408  			      msg->msg.data_len);
-8584ec6ae9cc38 Lv Zheng      2013-09-13  409  		goto out_comp;
-8584ec6ae9cc38 Lv Zheng      2013-09-13  410  	}
-50065300314e95 Lv Zheng      2013-09-13  411  =
+825b8650dc3dd0 Colin Ian King  2018-05-27  166  	kfree(temp);
+825b8650dc3dd0 Colin Ian King  2018-05-27  167  =
 
-8584ec6ae9cc38 Lv Zheng      2013-09-13  412  	/* response msg is an error =
-msg */
-8584ec6ae9cc38 Lv Zheng      2013-09-13  413  	msg->recv_type =3D IPMI_RESP=
-ONSE_RECV_TYPE;
-8584ec6ae9cc38 Lv Zheng      2013-09-13  414  	if (msg->recv_type =3D=3D IP=
-MI_RESPONSE_RECV_TYPE &&
-8584ec6ae9cc38 Lv Zheng      2013-09-13  415  	    msg->msg.data_len =3D=3D=
- 1) {
-8584ec6ae9cc38 Lv Zheng      2013-09-13  416  		if (msg->msg.data[0] =3D=3D=
- IPMI_TIMEOUT_COMPLETION_CODE) {
-f513561455c31f Sinan Kaya    2017-03-23  417  			dev_dbg_once(dev, "Unexpec=
-ted response (timeout).\n");
-8584ec6ae9cc38 Lv Zheng      2013-09-13  418  			tx_msg->msg_done =3D ACPI_=
-IPMI_TIMEOUT;
-8584ec6ae9cc38 Lv Zheng      2013-09-13  419  		}
-8584ec6ae9cc38 Lv Zheng      2013-09-13  420  		goto out_comp;
-8584ec6ae9cc38 Lv Zheng      2013-09-13  421  	}
-50065300314e95 Lv Zheng      2013-09-13  422  =
+fa516b66a1bfce Matthew Garrett 2018-05-15  168  	return rc;
+fa516b66a1bfce Matthew Garrett 2018-05-15  169  }
+fa516b66a1bfce Matthew Garrett 2018-05-15  170  =
 
-e92b297cc72ade Zhao Yakui    2010-12-08  423  	tx_msg->rx_len =3D msg->msg.=
-data_len;
-6b68f03f95e3f0 Lv Zheng      2013-09-13  424  	memcpy(tx_msg->data, msg->ms=
-g.data, tx_msg->rx_len);
-8584ec6ae9cc38 Lv Zheng      2013-09-13  425  	tx_msg->msg_done =3D ACPI_IP=
-MI_OK;
-50065300314e95 Lv Zheng      2013-09-13  426  =
 
-8584ec6ae9cc38 Lv Zheng      2013-09-13  427  out_comp:
-e92b297cc72ade Zhao Yakui    2010-12-08  428  	complete(&tx_msg->tx_complet=
-e);
-7b9844772237e3 Lv Zheng      2013-09-13  429  	acpi_ipmi_msg_put(tx_msg);
-6b68f03f95e3f0 Lv Zheng      2013-09-13  430  out_msg:
-e92b297cc72ade Zhao Yakui    2010-12-08  431  	ipmi_free_recv_msg(msg);
-50065300314e95 Lv Zheng      2013-09-13  432  }
-e92b297cc72ade Zhao Yakui    2010-12-08  433  =
+:::::: The code at line 159 was first introduced by commit
+:::::: fa516b66a1bfce1d72f1620c54bdfebc493000d1 EVM: Allow runtime modifica=
+tion of the set of verified xattrs
 
-e92b297cc72ade Zhao Yakui    2010-12-08  434  static void ipmi_register_bmc=
-(int iface, struct device *dev)
-e92b297cc72ade Zhao Yakui    2010-12-08  435  {
-e92b297cc72ade Zhao Yakui    2010-12-08  436  	struct acpi_ipmi_device *ipm=
-i_device, *temp;
-e92b297cc72ade Zhao Yakui    2010-12-08  437  	int err;
-e92b297cc72ade Zhao Yakui    2010-12-08  438  	struct ipmi_smi_info smi_dat=
-a;
-e92b297cc72ade Zhao Yakui    2010-12-08  439  	acpi_handle handle;
-e92b297cc72ade Zhao Yakui    2010-12-08  440  =
-
-e92b297cc72ade Zhao Yakui    2010-12-08  441  	err =3D ipmi_get_smi_info(if=
-ace, &smi_data);
-e92b297cc72ade Zhao Yakui    2010-12-08  442  	if (err)
-e92b297cc72ade Zhao Yakui    2010-12-08  443  		return;
-e92b297cc72ade Zhao Yakui    2010-12-08  444  =
-
-a1a69b297e4775 Lv Zheng      2013-09-13  445  	if (smi_data.addr_src !=3D S=
-I_ACPI)
-a1a69b297e4775 Lv Zheng      2013-09-13  446  		goto err_ref;
-e92b297cc72ade Zhao Yakui    2010-12-08  447  	handle =3D smi_data.addr_inf=
-o.acpi_info.acpi_handle;
-a1a69b297e4775 Lv Zheng      2013-09-13  448  	if (!handle)
-a1a69b297e4775 Lv Zheng      2013-09-13  449  		goto err_ref;
-a1a69b297e4775 Lv Zheng      2013-09-13  450  =
-
-2fb037b89a3125 Lv Zheng      2013-09-13  451  	ipmi_device =3D ipmi_dev_all=
-oc(iface, smi_data.dev, handle);
-a1a69b297e4775 Lv Zheng      2013-09-13  452  	if (!ipmi_device) {
-2fb037b89a3125 Lv Zheng      2013-09-13  453  		dev_warn(smi_data.dev, "Can=
-'t create IPMI user interface\n");
-a1a69b297e4775 Lv Zheng      2013-09-13  454  		goto err_ref;
-a1a69b297e4775 Lv Zheng      2013-09-13  455  	}
-e92b297cc72ade Zhao Yakui    2010-12-08  456  =
-
-e92b297cc72ade Zhao Yakui    2010-12-08  457  	mutex_lock(&driver_data.ipmi=
-_lock);
-e92b297cc72ade Zhao Yakui    2010-12-08  458  	list_for_each_entry(temp, &d=
-river_data.ipmi_devices, head) {
-e92b297cc72ade Zhao Yakui    2010-12-08  459  		/*
-e92b297cc72ade Zhao Yakui    2010-12-08  460  		 * if the corresponding ACP=
-I handle is already added
-e92b297cc72ade Zhao Yakui    2010-12-08  461  		 * to the device list, don'=
-t add it again.
-e92b297cc72ade Zhao Yakui    2010-12-08  462  		 */
-e92b297cc72ade Zhao Yakui    2010-12-08  463  		if (temp->handle =3D=3D han=
-dle)
-a1a69b297e4775 Lv Zheng      2013-09-13  464  			goto err_lock;
-e92b297cc72ade Zhao Yakui    2010-12-08  465  	}
-e96a94edd7ae30 Lv Zheng      2013-09-13  466  	if (!driver_data.selected_sm=
-i)
-e96a94edd7ae30 Lv Zheng      2013-09-13  467  		driver_data.selected_smi =
-=3D ipmi_device;
-a1a69b297e4775 Lv Zheng      2013-09-13  468  	list_add_tail(&ipmi_device->=
-head, &driver_data.ipmi_devices);
-e92b297cc72ade Zhao Yakui    2010-12-08  469  	mutex_unlock(&driver_data.ip=
-mi_lock);
-50065300314e95 Lv Zheng      2013-09-13  470  =
-
-a1a69b297e4775 Lv Zheng      2013-09-13  471  	put_device(smi_data.dev);
-e92b297cc72ade Zhao Yakui    2010-12-08  472  	return;
-e92b297cc72ade Zhao Yakui    2010-12-08  473  =
-
-a1a69b297e4775 Lv Zheng      2013-09-13  474  err_lock:
-e92b297cc72ade Zhao Yakui    2010-12-08  475  	mutex_unlock(&driver_data.ip=
-mi_lock);
-a1a69b297e4775 Lv Zheng      2013-09-13  476  	ipmi_dev_release(ipmi_device=
-);
-a1a69b297e4775 Lv Zheng      2013-09-13  477  err_ref:
-e92b297cc72ade Zhao Yakui    2010-12-08  478  	put_device(smi_data.dev);
-e92b297cc72ade Zhao Yakui    2010-12-08  479  }
-e92b297cc72ade Zhao Yakui    2010-12-08  480  =
-
-e92b297cc72ade Zhao Yakui    2010-12-08  481  static void ipmi_bmc_gone(int=
- iface)
-e92b297cc72ade Zhao Yakui    2010-12-08  482  {
-26de0ab9841a16 Jakob Koschel 2022-03-24  483  	struct acpi_ipmi_device *ipm=
-i_device =3D NULL, *iter, *temp;
-e92b297cc72ade Zhao Yakui    2010-12-08  484  =
-
-e92b297cc72ade Zhao Yakui    2010-12-08  485  	mutex_lock(&driver_data.ipmi=
-_lock);
-26de0ab9841a16 Jakob Koschel 2022-03-24  486  	list_for_each_entry_safe(ite=
-r, temp,
-e92b297cc72ade Zhao Yakui    2010-12-08  487  				 &driver_data.ipmi_device=
-s, head) {
-26de0ab9841a16 Jakob Koschel 2022-03-24 @488  		if (iter->ipmi_ifnum !=3D i=
-face) {
-26de0ab9841a16 Jakob Koschel 2022-03-24  489  			ipmi_device =3D iter;
-26de0ab9841a16 Jakob Koschel 2022-03-24  490  			__ipmi_dev_kill(iter);
-e92b297cc72ade Zhao Yakui    2010-12-08  491  			break;
-e92b297cc72ade Zhao Yakui    2010-12-08  492  		}
-a1a69b297e4775 Lv Zheng      2013-09-13  493  	}
-e96a94edd7ae30 Lv Zheng      2013-09-13  494  	if (!driver_data.selected_sm=
-i)
-e96a94edd7ae30 Lv Zheng      2013-09-13  495  		driver_data.selected_smi =
-=3D list_first_entry_or_null(
-e96a94edd7ae30 Lv Zheng      2013-09-13  496  					&driver_data.ipmi_device=
-s,
-e96a94edd7ae30 Lv Zheng      2013-09-13  497  					struct acpi_ipmi_device,=
- head);
-e92b297cc72ade Zhao Yakui    2010-12-08  498  	mutex_unlock(&driver_data.ip=
-mi_lock);
-50065300314e95 Lv Zheng      2013-09-13  499  =
-
-26de0ab9841a16 Jakob Koschel 2022-03-24  500  	if (ipmi_device) {
-a1a69b297e4775 Lv Zheng      2013-09-13  501  		ipmi_flush_tx_msg(ipmi_devi=
-ce);
-a1a69b297e4775 Lv Zheng      2013-09-13  502  		acpi_ipmi_dev_put(ipmi_devi=
-ce);
-a1a69b297e4775 Lv Zheng      2013-09-13  503  	}
-e92b297cc72ade Zhao Yakui    2010-12-08  504  }
-50065300314e95 Lv Zheng      2013-09-13  505  =
-
+:::::: TO: Matthew Garrett <mjg59@google.com>
+:::::: CC: Mimi Zohar <zohar@linux.vnet.ibm.com>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5901817891318505895==--
+--===============6965223644862567630==--
 
