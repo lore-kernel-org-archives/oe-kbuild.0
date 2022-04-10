@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5093809774557335251=="
+Content-Type: multipart/mixed; boundary="===============0903037264587737606=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Sun, 10 Apr 2022 17:50:31 +0800
-Message-ID: <202204101719.ar1C744Z-lkp@intel.com>
+Subject: Re: [PATCH 19/22] clk: Stop forwarding clk_rate_requests to the parent
+Date: Sun, 10 Apr 2022 17:30:07 +0800
+Message-ID: <202204101750.HBf16Mxv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5093809774557335251==
+--===============0903037264587737606==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,56 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: linux-kernel(a)vger.kernel.org
-TO: Paolo Valente <paolo.valente@linaro.org>
-CC: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <20220408091037.2041955-20-maxime@cerno.tech>
+References: <20220408091037.2041955-20-maxime@cerno.tech>
+TO: Maxime Ripard <maxime@cerno.tech>
+TO: Mike Turquette <mturquette@baylibre.com>
+TO: Stephen Boyd <sboyd@kernel.org>
+TO: linux-clk(a)vger.kernel.org
+CC: Naresh Kamboju <naresh.kamboju@linaro.org>
+CC: Alexander Stein <alexander.stein@ew.tq-group.com>
+CC: Marek Szyprowski <m.szyprowski@samsung.com>
+CC: Tony Lindgren <tony@atomide.com>
+CC: Jerome Brunet <jbrunet@baylibre.com>
+CC: Yassine Oudjana <y.oudjana@protonmail.com>
+CC: Neil Armstrong <narmstrong@baylibre.com>
+CC: Maxime Ripard <maxime@cerno.tech>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   1862a69c917417142190bc18c8ce16680598664b
-commit: d29bd41428cfff9b582c248db14a47e2be8457a8 block, bfq: reset last_bfq=
-q_created on group change
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20220405 (https://download.01.org/0day-ci/arc=
-hive/20220410/202204101719.ar1C744Z-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
-7d0979e7ff20d7d541af666d822d66b566)
+Hi Maxime,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v5.18-rc1 next-20220408]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/clk-Mo=
+re-clock-rate-fixes-and-tests/20220408-171635
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
+ext
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20220409 (https://download.01.org/0day-ci/archi=
+ve/20220410/202204101750.HBf16Mxv-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 9fdd25=
+848a79892eaacc5414d5aef18555b79919)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dd29bd41428cfff9b582c248db14a47e2be8457a8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d29bd41428cfff9b582c248db14a47e2be8457a8
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/09996dda67af2c68d79=
+e0c27380e72014b78d734
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maxime-Ripard/clk-More-clock-rate-=
+fixes-and-tests/20220408-171635
+        git checkout 09996dda67af2c68d79e0c27380e72014b78d734
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,357 +72,294 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+                             ^
+   drivers/clk/clk.c:1576:6: note: Assuming 'clk' is non-null
+           if (!clk)
+               ^~~~
+   drivers/clk/clk.c:1576:2: note: Taking false branch
+           if (!clk)
            ^
-   drivers/nvme/target/zns.c:478:6: note: Assuming field 'select_all' is no=
-t equal to 0
-           if (req->cmd->zms.select_all) {
+   drivers/clk/clk.c:1581:6: note: Assuming field 'exclusive_count' is 0
+           if (clk->exclusive_count)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1581:2: note: Taking false branch
+           if (clk->exclusive_count)
+           ^
+   drivers/clk/clk.c:1586:8: note: Calling 'clk_core_round_rate_nolock'
+           ret =3D clk_core_round_rate_nolock(clk->core, &req);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1486:2: note: Assuming 'debug_locks' is 0
+           lockdep_assert_held(&prepare_lock);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/clk/clk.c:1486:2: note: Left side of '&&' is false
+           lockdep_assert_held(&prepare_lock);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   drivers/clk/clk.c:1486:2: note: Loop condition is false.  Exiting loop
+           lockdep_assert_held(&prepare_lock);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   drivers/clk/clk.c:1488:7: note: 'core' is non-null
+           if (!core) {
+                ^~~~
+   drivers/clk/clk.c:1488:2: note: Taking false branch
+           if (!core) {
+           ^
+   drivers/clk/clk.c:1493:6: note: Assuming the condition is false
+           if (clk_core_can_round(core))
                ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/target/zns.c:478:2: note: Taking true branch
-           if (req->cmd->zms.select_all) {
+   drivers/clk/clk.c:1493:2: note: Taking false branch
+           if (clk_core_can_round(core))
            ^
-   drivers/nvme/target/zns.c:479:12: note: Calling 'nvmet_bdev_execute_zmgm=
-t_send_all'
-                   status =3D nvmet_bdev_execute_zmgmt_send_all(req);
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/target/zns.c:440:2: note: Control jumps to 'case REQ_OP_ZON=
-E_FINISH:'  at line 450
-           switch (zsa_req_op(req->cmd->zms.zsa)) {
+   drivers/clk/clk.c:1496:6: note: Assuming the condition is true
+           if (core->flags & CLK_SET_RATE_PARENT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1496:2: note: Taking true branch
+           if (core->flags & CLK_SET_RATE_PARENT) {
            ^
-   drivers/nvme/target/zns.c:451:10: note: Calling 'nvmet_bdev_zone_mgmt_em=
-ulate_all'
-                   return nvmet_bdev_zone_mgmt_emulate_all(req);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/target/zns.c:397:6: note: Assuming field 'zbitmap' is non-n=
-ull
-           if (!d.zbitmap) {
-               ^~~~~~~~~~
-   drivers/nvme/target/zns.c:397:2: note: Taking false branch
-           if (!d.zbitmap) {
+   drivers/clk/clk.c:1499:3: note: Calling 'clk_core_forward_rate_req'
+                   clk_core_forward_rate_req(core, core->parent, req, &pare=
+nt_req);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   drivers/clk/clk.c:579:14: note: Assuming the condition is false
+           if (WARN_ON(!clk_core_has_parent(core, parent)))
+                       ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/clk/clk.c:579:2: note: Taking false branch
+           if (WARN_ON(!clk_core_has_parent(core, parent)))
            ^
-   drivers/nvme/target/zns.c:404:6: note: Assuming 'ret' is equal to 'nr_zo=
-nes'
-           if (ret !=3D nr_zones) {
-               ^~~~~~~~~~~~~~~
-   drivers/nvme/target/zns.c:404:2: note: Taking false branch
-           if (ret !=3D nr_zones) {
+   drivers/clk/clk.c:582:2: note: Calling 'clk_core_init_rate_req'
+           clk_core_init_rate_req(parent, req, old_req->rate);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1440:15: note: 'core' is null
+           if (WARN_ON(!core || !req))
+                        ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/clk/clk.c:1440:20: note: Left side of '||' is true
+           if (WARN_ON(!core || !req))
+                             ^
+   drivers/clk/clk.c:1440:2: note: Taking true branch
+           if (WARN_ON(!core || !req))
            ^
-   drivers/nvme/target/zns.c:413:9: note: Assuming the condition is true
-           while (sector < get_capacity(bdev->bd_disk)) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/target/zns.c:413:2: note: Loop condition is true.  Entering=
- loop body
-           while (sector < get_capacity(bdev->bd_disk)) {
-           ^
-   drivers/nvme/target/zns.c:414:16: note: Calling 'blk_queue_zone_no'
-                   if (test_bit(blk_queue_zone_no(q, sector), d.zbitmap)) {
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/blkdev.h:700:2: note: Taking false branch
-           if (!blk_queue_is_zoned(q))
-           ^
-   include/linux/blkdev.h:702:19: note: '?' condition is false
-           return sector >> ilog2(q->limits.chunk_sectors);
-                            ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   include/linux/blkdev.h:702:19: note: '?' condition is true
-           return sector >> ilog2(q->limits.chunk_sectors);
-                            ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   include/linux/blkdev.h:702:19: note: Calling '__ilog2_u32'
-           return sector >> ilog2(q->limits.chunk_sectors);
-                            ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   include/linux/log2.h:24:2: note: Returning the value -1
-           return fls(n) - 1;
-           ^~~~~~~~~~~~~~~~~
-   include/linux/blkdev.h:702:19: note: Returning from '__ilog2_u32'
-           return sector >> ilog2(q->limits.chunk_sectors);
-                            ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   include/linux/blkdev.h:702:16: note: The result of the right shift is un=
-defined because the right operand is negative
-           return sector >> ilog2(q->limits.chunk_sectors);
-                         ^
-   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   block/bfq-wf2q.c:263:7: warning: Access to field 'my_sched_data' results=
- in a dereference of a null pointer (loaded from variable 'entity') [clang-=
-analyzer-core.NullDereference]
-           if (!entity->my_sched_data)
-                ^
-   block/bfq-wf2q.c:1508:2: note: 'entity' initialized to a null pointer va=
-lue
-           struct bfq_entity *entity =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1512:6: note: Assuming the condition is false
-           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:1512:2: note: Taking false branch
-           if (bfq_tot_busy_queues(bfqd) =3D=3D 0)
-           ^
-   block/bfq-wf2q.c:1521:2: note: Loop condition is false. Execution contin=
-ues on line 1582
-           for (; sd ; sd =3D entity->my_sched_data) {
-           ^
-   block/bfq-wf2q.c:1582:28: note: Passing null pointer value via 1st param=
-eter 'entity'
-           bfqq =3D bfq_entity_to_bfqq(entity);
-                                     ^~~~~~
-   block/bfq-wf2q.c:1582:9: note: Calling 'bfq_entity_to_bfqq'
-           bfqq =3D bfq_entity_to_bfqq(entity);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-wf2q.c:263:7: note: Access to field 'my_sched_data' results in=
- a dereference of a null pointer (loaded from variable 'entity')
-           if (!entity->my_sched_data)
-                ^~~~~~
-   Suppressed 10 warnings (3 in non-user code, 7 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> block/bfq-cgroup.c:670:6: warning: Use of memory after it is freed [clan=
-g-analyzer-unix.Malloc]
-               entity->parent->last_bfqq_created =3D=3D bfqq)
-               ^
-   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&bfqd->lock, flags);
-           ^
-   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:254:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   block/bfq-cgroup.c:892:2: note: Loop condition is false.  Exiting loop
-           spin_lock_irqsave(&bfqd->lock, flags);
-           ^
-   include/linux/spinlock.h:391:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   block/bfq-cgroup.c:894:6: note: Assuming 'entity' is non-null
-           if (!entity) /* root group */
-               ^~~~~~~
-   block/bfq-cgroup.c:894:2: note: Taking false branch
-           if (!entity) /* root group */
-           ^
-   block/bfq-cgroup.c:901:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (i =3D 0; i < BFQ_IOPRIO_CLASSES; i++) {
-           ^
-   block/bfq-cgroup.c:916:3: note: Calling 'bfq_reparent_active_queues'
-                   bfq_reparent_active_queues(bfqd, bfqg, st, i);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:866:2: note: Loop condition is true.  Entering loop b=
-ody
-           while ((entity =3D bfq_entity_of(rb_first(active))))
-           ^
-   block/bfq-cgroup.c:867:3: note: Calling 'bfq_reparent_leaf_entity'
-                   bfq_reparent_leaf_entity(bfqd, entity, ioprio_class);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:836:2: note: Loop condition is false. Execution conti=
-nues on line 848
-           while (child_entity->my_sched_data) { /* leaf not reached yet */
-           ^
-   block/bfq-cgroup.c:849:2: note: Calling 'bfq_bfqq_move'
-           bfq_bfqq_move(bfqd, bfqq, bfqd->root_group);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:659:6: note: Assuming 'bfqq' is not equal to field 'i=
-n_service_queue'
-           if (bfqq =3D=3D bfqd->in_service_queue)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:659:2: note: Taking false branch
-           if (bfqq =3D=3D bfqd->in_service_queue)
-           ^
-   block/bfq-cgroup.c:663:6: note: Assuming the condition is false
-           if (bfq_bfqq_busy(bfqq))
-               ^~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:663:2: note: Taking false branch
-           if (bfq_bfqq_busy(bfqq))
-           ^
-   block/bfq-cgroup.c:665:11: note: Assuming field 'on_st_or_in_serv' is fa=
-lse
-           else if (entity->on_st_or_in_serv)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:665:7: note: Taking false branch
-           else if (entity->on_st_or_in_serv)
-                ^
-   block/bfq-cgroup.c:667:20: note: Calling 'bfqq_group'
-           bfqg_and_blkg_put(bfqq_group(bfqq));
-                             ^~~~~~~~~~~~~~~~
-   block/bfq-cgroup.c:312:9: note: Assuming 'group_entity' is non-null
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                  ^~~~~~~~~~~~
-   block/bfq-cgroup.c:312:9: note: '?' condition is true
-   block/bfq-cgroup.c:312:24: note: Left side of '&&' is false
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                                 ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   block/bfq-cgroup.c:312:24: note: Taking false branch
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:310:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   drivers/clk/clk.c:1441:3: note: Returning without writing to 'req->min_r=
+ate'
+                   return;
                    ^
-   block/bfq-cgroup.c:312:24: note: Loop condition is false.  Exiting loop
-           return group_entity ? container_of(group_entity, struct bfq_grou=
-p,
-                                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   drivers/clk/clk.c:582:2: note: Returning from 'clk_core_init_rate_req'
+           clk_core_init_rate_req(parent, req, old_req->rate);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:584:20: note: The left operand of '<' is a garbage val=
+ue
+           if (req->min_rate < old_req->min_rate)
+               ~~~~~~~~~~~~~ ^
+>> drivers/clk/clk.c:1408:14: warning: Assigned value is garbage or undefin=
+ed [clang-analyzer-core.uninitialized.Assign]
+           req->rate =3D clamp(req->rate, req->min_rate, req->max_rate);
+                       ^
+   include/linux/minmax.h:89:45: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+                                               ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:31:3: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                   ^
+   drivers/clk/clk.c:1576:6: note: Assuming 'clk' is non-null
+           if (!clk)
+               ^~~~
+   drivers/clk/clk.c:1576:2: note: Taking false branch
+           if (!clk)
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:322:2: note: expanded from macro 'compile=
-time_assert'
+   drivers/clk/clk.c:1581:6: note: Assuming field 'exclusive_count' is 0
+           if (clk->exclusive_count)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1581:2: note: Taking false branch
+           if (clk->exclusive_count)
+           ^
+   drivers/clk/clk.c:1584:2: note: Calling 'clk_core_init_rate_req'
+           clk_core_init_rate_req(clk->core, &req, rate);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1440:14: note: Assuming 'core' is non-null
+           if (WARN_ON(!core || !req))
+                       ^
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/clk/clk.c:1440:14: note: Left side of '||' is false
+           if (WARN_ON(!core || !req))
+                       ^
+   drivers/clk/clk.c:1440:2: note: Taking false branch
+           if (WARN_ON(!core || !req))
+           ^
+   drivers/clk/clk.c:1447:6: note: Assuming 'parent' is null
+           if (parent) {
+               ^~~~~~
+   drivers/clk/clk.c:1447:2: note: Taking false branch
+           if (parent) {
+           ^
+   drivers/clk/clk.c:1584:2: note: Returning from 'clk_core_init_rate_req'
+           clk_core_init_rate_req(clk->core, &req, rate);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1586:8: note: Calling 'clk_core_round_rate_nolock'
+           ret =3D clk_core_round_rate_nolock(clk->core, &req);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1486:2: note: Assuming 'debug_locks' is 0
+           lockdep_assert_held(&prepare_lock);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/clk/clk.c:1486:2: note: Left side of '&&' is false
+           lockdep_assert_held(&prepare_lock);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   drivers/clk/clk.c:1486:2: note: Loop condition is false.  Exiting loop
+           lockdep_assert_held(&prepare_lock);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   drivers/clk/clk.c:1488:7: note: 'core' is non-null
+           if (!core) {
+                ^~~~
+   drivers/clk/clk.c:1488:2: note: Taking false branch
+           if (!core) {
+           ^
+   drivers/clk/clk.c:1493:6: note: Calling 'clk_core_can_round'
+           if (clk_core_can_round(core))
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1478:9: note: Assuming field 'determine_rate' is null
+           return core->ops->determine_rate || core->ops->round_rate;
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk.c:1478:9: note: Left side of '||' is false
+   drivers/clk/clk.c:1478:2: note: Returning without writing to 'core->pare=
+nt', which participates in a condition later
+           return core->ops->determine_rate || core->ops->round_rate;
+           ^
+   drivers/clk/clk.c:1493:6: note: Returning from 'clk_core_can_round'
 
-vim +670 block/bfq-cgroup.c
+vim +1408 drivers/clk/clk.c
 
-ea25da48086d3b Paolo Valente 2017-04-19  627  =
+7ec986efed0208c Dong Aisheng       2016-06-30  1397  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  628  /**
-ea25da48086d3b Paolo Valente 2017-04-19  629   * bfq_bfqq_move - migrate @b=
-fqq to @bfqg.
-ea25da48086d3b Paolo Valente 2017-04-19  630   * @bfqd: queue descriptor.
-ea25da48086d3b Paolo Valente 2017-04-19  631   * @bfqq: the queue to move.
-ea25da48086d3b Paolo Valente 2017-04-19  632   * @bfqg: the group to move t=
-o.
-ea25da48086d3b Paolo Valente 2017-04-19  633   *
-ea25da48086d3b Paolo Valente 2017-04-19  634   * Move @bfqq to @bfqg, deact=
-ivating it from its old group and reactivating
-ea25da48086d3b Paolo Valente 2017-04-19  635   * it on the new one.  Avoid =
-putting the entity on the old group idle tree.
-ea25da48086d3b Paolo Valente 2017-04-19  636   *
-8f9bebc33dd718 Paolo Valente 2017-06-05  637   * Must be called under the s=
-cheduler lock, to make sure that the blkg
-8f9bebc33dd718 Paolo Valente 2017-06-05  638   * owning @bfqg does not disa=
-ppear (see comments in
-8f9bebc33dd718 Paolo Valente 2017-06-05  639   * bfq_bic_update_cgroup on g=
-uaranteeing the consistency of blkg
-8f9bebc33dd718 Paolo Valente 2017-06-05  640   * objects).
-ea25da48086d3b Paolo Valente 2017-04-19  641   */
-ea25da48086d3b Paolo Valente 2017-04-19  642  void bfq_bfqq_move(struct bfq=
-_data *bfqd, struct bfq_queue *bfqq,
-ea25da48086d3b Paolo Valente 2017-04-19  643  		   struct bfq_group *bfqg)
-ea25da48086d3b Paolo Valente 2017-04-19  644  {
-ea25da48086d3b Paolo Valente 2017-04-19  645  	struct bfq_entity *entity =
-=3D &bfqq->entity;
-ea25da48086d3b Paolo Valente 2017-04-19  646  =
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1398  static int clk_core_de=
+termine_round_nolock(struct clk_core *core,
+0817b62cc037a56 Boris Brezillon    2015-07-07  1399  					   struct clk_rat=
+e_request *req)
+b2476490ef11134 Mike Turquette     2012-03-15  1400  {
+0817b62cc037a56 Boris Brezillon    2015-07-07  1401  	long rate;
+4dff95dc9477a34 Stephen Boyd       2015-04-30  1402  =
 
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  647  	/*
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  648  	 * Get extra reference to pr=
-event bfqq from being freed in
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  649  	 * next possible expire or d=
-eactivate.
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  650  	 */
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  651  	bfqq->ref++;
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  652  =
+4dff95dc9477a34 Stephen Boyd       2015-04-30  1403  	lockdep_assert_held(&=
+prepare_lock);
+b2476490ef11134 Mike Turquette     2012-03-15  1404  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  653  	/* If bfqq is empty, then bf=
-q_bfqq_expire also invokes
-ea25da48086d3b Paolo Valente 2017-04-19  654  	 * bfq_del_bfqq_busy, thereb=
-y removing bfqq and its entity
-ea25da48086d3b Paolo Valente 2017-04-19  655  	 * from data structures rela=
-ted to current group. Otherwise we
-ea25da48086d3b Paolo Valente 2017-04-19  656  	 * need to remove bfqq expli=
-citly with bfq_deactivate_bfqq, as
-ea25da48086d3b Paolo Valente 2017-04-19  657  	 * we do below.
-ea25da48086d3b Paolo Valente 2017-04-19  658  	 */
-ea25da48086d3b Paolo Valente 2017-04-19  659  	if (bfqq =3D=3D bfqd->in_ser=
-vice_queue)
-ea25da48086d3b Paolo Valente 2017-04-19  660  		bfq_bfqq_expire(bfqd, bfqd-=
->in_service_queue,
-ea25da48086d3b Paolo Valente 2017-04-19  661  				false, BFQQE_PREEMPTED);
-ea25da48086d3b Paolo Valente 2017-04-19  662  =
+d6968fca789700a Stephen Boyd       2015-04-30  1405  	if (!core)
+4dff95dc9477a34 Stephen Boyd       2015-04-30  1406  		return 0;
+b2476490ef11134 Mike Turquette     2012-03-15  1407  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  663  	if (bfq_bfqq_busy(bfqq))
-ea25da48086d3b Paolo Valente 2017-04-19  664  		bfq_deactivate_bfqq(bfqd, b=
-fqq, false, false);
-33a16a9804688b Paolo Valente 2020-02-03  665  	else if (entity->on_st_or_in=
-_serv)
-ea25da48086d3b Paolo Valente 2017-04-19  666  		bfq_put_idle_entity(bfq_ent=
-ity_service_tree(entity), entity);
-8f9bebc33dd718 Paolo Valente 2017-06-05  667  	bfqg_and_blkg_put(bfqq_group=
-(bfqq));
-ea25da48086d3b Paolo Valente 2017-04-19  668  =
+948fb0969eae856 Maxime Ripard      2022-02-25 @1408  	req->rate =3D clamp(r=
+eq->rate, req->min_rate, req->max_rate);
+948fb0969eae856 Maxime Ripard      2022-02-25  1409  =
 
-d29bd41428cfff Paolo Valente 2021-10-15  669  	if (entity->parent &&
-d29bd41428cfff Paolo Valente 2021-10-15 @670  	    entity->parent->last_bfq=
-q_created =3D=3D bfqq)
-d29bd41428cfff Paolo Valente 2021-10-15  671  		entity->parent->last_bfqq_c=
-reated =3D NULL;
-d29bd41428cfff Paolo Valente 2021-10-15  672  	else if (bfqd->last_bfqq_cre=
-ated =3D=3D bfqq)
-d29bd41428cfff Paolo Valente 2021-10-15  673  		bfqd->last_bfqq_created =3D=
- NULL;
-d29bd41428cfff Paolo Valente 2021-10-15  674  =
+55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1410  	/*
+e27453adcadd7be Geert Uytterhoeven 2021-03-26  1411  	 * At this point, cor=
+e protection will be disabled
+55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1412  	 * - if the provider =
+is not protected at all
+55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1413  	 * - if the calling c=
+onsumer is the only one which has exclusivity
+55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1414  	 *   over the provider
+55e9b8b7b806ec3 Jerome Brunet      2017-12-01  1415  	 */
+e55a839a7a1c561 Jerome Brunet      2017-12-01  1416  	if (clk_core_rate_is_=
+protected(core)) {
+e55a839a7a1c561 Jerome Brunet      2017-12-01  1417  		req->rate =3D core->=
+rate;
+e55a839a7a1c561 Jerome Brunet      2017-12-01  1418  	} else if (core->ops-=
+>determine_rate) {
+0817b62cc037a56 Boris Brezillon    2015-07-07  1419  		return core->ops->de=
+termine_rate(core->hw, req);
+0817b62cc037a56 Boris Brezillon    2015-07-07  1420  	} else if (core->ops-=
+>round_rate) {
+0817b62cc037a56 Boris Brezillon    2015-07-07  1421  		rate =3D core->ops->=
+round_rate(core->hw, req->rate,
+0817b62cc037a56 Boris Brezillon    2015-07-07  1422  					     &req->best_p=
+arent_rate);
+0817b62cc037a56 Boris Brezillon    2015-07-07  1423  		if (rate < 0)
+0817b62cc037a56 Boris Brezillon    2015-07-07  1424  			return rate;
+0817b62cc037a56 Boris Brezillon    2015-07-07  1425  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  675  	entity->parent =3D bfqg->my_=
-entity;
-ea25da48086d3b Paolo Valente 2017-04-19  676  	entity->sched_data =3D &bfqg=
-->sched_data;
-8f9bebc33dd718 Paolo Valente 2017-06-05  677  	/* pin down bfqg and its ass=
-ociated blkg  */
-8f9bebc33dd718 Paolo Valente 2017-06-05  678  	bfqg_and_blkg_get(bfqg);
-ea25da48086d3b Paolo Valente 2017-04-19  679  =
+0817b62cc037a56 Boris Brezillon    2015-07-07  1426  		req->rate =3D rate;
+0817b62cc037a56 Boris Brezillon    2015-07-07  1427  	} else {
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1428  		return -EINVAL;
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1429  	}
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1430  =
 
-ea25da48086d3b Paolo Valente 2017-04-19  680  	if (bfq_bfqq_busy(bfqq)) {
-8cacc5ab3eacf5 Paolo Valente 2019-03-12  681  		if (unlikely(!bfqd->nonrot_=
-with_queueing))
-ea25da48086d3b Paolo Valente 2017-04-19  682  			bfq_pos_tree_add_move(bfqd=
-, bfqq);
-ea25da48086d3b Paolo Valente 2017-04-19  683  		bfq_activate_bfqq(bfqd, bfq=
-q);
-ea25da48086d3b Paolo Valente 2017-04-19  684  	}
-ea25da48086d3b Paolo Valente 2017-04-19  685  =
-
-ea25da48086d3b Paolo Valente 2017-04-19  686  	if (!bfqd->in_service_queue =
-&& !bfqd->rq_in_driver)
-ea25da48086d3b Paolo Valente 2017-04-19  687  		bfq_schedule_dispatch(bfqd);
-fd1bb3ae54a9a2 Paolo Valente 2020-03-21  688  	/* release extra ref taken a=
-bove, bfqq may happen to be freed now */
-ecedd3d7e19911 Paolo Valente 2020-02-03  689  	bfq_put_queue(bfqq);
-ea25da48086d3b Paolo Valente 2017-04-19  690  }
-ea25da48086d3b Paolo Valente 2017-04-19  691  =
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1431  	return 0;
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1432  }
+0f6cc2b8e94da54 Jerome Brunet      2017-12-01  1433  =
 
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============5093809774557335251==--
+--===============0903037264587737606==--
 
