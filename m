@@ -1,354 +1,168 @@
-Content-Type: multipart/mixed; boundary="===============7731160697208239755=="
+Content-Type: multipart/mixed; boundary="===============2264330142376045436=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [l1k:smsc95xx_5.17 340/888] drivers/media/i2c/ov5647.c:595:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 10 Apr 2022 13:27:04 +0800
-Message-ID: <202204101333.iRw0Qyh3-lkp@intel.com>
+Subject: lib/ref_tracker.c:92:29: warning: Parameter 'trackerp' can be declared with const [constParameter]
+Date: Sun, 10 Apr 2022 13:16:45 +0800
+Message-ID: <202204101301.8ln2LlBp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7731160697208239755==
+--===============2264330142376045436==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: David Plowman <david.plowman@raspberrypi.org>
-CC: Dom Cobley <popcornmix@gmail.com>
-CC: Naushir Patuck <naush@raspberrypi.com>
+TO: Eric Dumazet <edumazet@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://github.com/l1k/linux smsc95xx_5.17
-head:   240f56c27361c195cd502d95aba51c6b8e5b808c
-commit: 645a01bf4309d11d09fc477f931da135347a70dc [340/888] media: ov5647: F=
-ix return codes from ov5647_write/ov5647_read functions.
-:::::: branch date: 2 days ago
-:::::: commit date: 3 weeks ago
-config: i386-randconfig-c001 (https://download.01.org/0day-ci/archive/20220=
-410/202204101333.iRw0Qyh3-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 893e1c=
-18b98d8bbc7b8d7d22cc2c348f65c72ad9)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/l1k/linux/commit/645a01bf4309d11d09fc477f931da=
-135347a70dc
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k smsc95xx_5.17
-        git checkout 645a01bf4309d11d09fc477f931da135347a70dc
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e1f700ebd6bea293abe3c7e2807b252018efde01
+commit: 914a7b5000d08f1487e0efa52f27c4b7ea75b893 lib: add tests for referen=
+ce tracker
+date:   4 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 months ago
+compiler: ia64-linux-gcc (GCC) 11.2.0
+reproduce (cppcheck warning):
+        # apt-get install cppcheck
+        git checkout 914a7b5000d08f1487e0efa52f27c4b7ea75b893
+        cppcheck --quiet --enable=3Dstyle,performance,portability --templat=
+e=3Dgcc FILE
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   include/linux/printk.h:370:7: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                       ^
-   include/linux/hid.h:1036:3: note: Taking true branch
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:370:3: note: expanded from macro '__printk_index_=
-emit'
-                   if (__builtin_constant_p(_fmt) && __builtin_constant_p(_=
-level)) { \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   include/linux/hid.h:1036:3: note: '?' condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:379:12: note: expanded from macro '__printk_index=
-_emit'
-                                   .fmt =3D __builtin_constant_p(_fmt) ? (_=
-fmt) : NULL, \
-                                          ^
-   include/linux/hid.h:1036:3: note: '?' condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:383:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   include/linux/hid.h:1036:3: note: Loop condition is false.  Exiting loop
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:640:3: note: expanded from macro 'printk_ratelimi=
-ted'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                   ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:369:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   include/linux/hid.h:1037:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:656:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:640:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   include/linux/printk.h:446:60: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                                                              ^~~~~~~~~~~
-   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
-rap'
-                   _p_func(_fmt, ##__VA_ARGS__);                           \
-                                   ^~~~~~~~~~~
-   1 warning generated.
-   drivers/media/i2c/ov2680.c:424:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D ov2680_write_reg16(sensor, OV2680_REG_GAIN_PK, gain);
-           ^
-   drivers/media/i2c/ov2680.c:424:2: note: Value stored to 'ret' is never r=
-ead
-   7 warnings generated.
->> drivers/media/i2c/ov5647.c:595:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/i2c/ov5647.c:595:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/i2c/ov5647.c:617:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/i2c/ov5647.c:617:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/i2c/ov5647.c:622:4: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D -EINVAL;
-                           ^     ~~~~~~~
-   drivers/media/i2c/ov5647.c:622:4: note: Value stored to 'ret' is never r=
-ead
-                           ret =3D -EINVAL;
-                           ^     ~~~~~~~
-   drivers/media/i2c/ov5647.c:653:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/i2c/ov5647.c:653:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D 0;
-                   ^     ~
-   drivers/media/i2c/ov5647.c:658:4: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D -EINVAL;
-                           ^     ~~~~~~~
-   drivers/media/i2c/ov5647.c:658:4: note: Value stored to 'ret' is never r=
-ead
-                           ret =3D -EINVAL;
-                           ^     ~~~~~~~
-   drivers/media/i2c/ov5647.c:839:8: warning: The left expression of the co=
-mpound assignment is an uninitialized value. The computed value will also b=
-e garbage [clang-analyzer-core.uninitialized.Assign]
-           rdval &=3D ~0x01;
-           ~~~~~ ^
-   drivers/media/i2c/ov5647.c:824:2: note: 'rdval' declared without an init=
-ial value
-           u8 rdval;
-           ^~~~~~~~
-   drivers/media/i2c/ov5647.c:827:2: note: '?' condition is false
-           dev_dbg(dev, "OV5647 power off\n");
-           ^
-   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/media/i2c/ov5647.c:827:2: note: '?' condition is false
-           dev_dbg(dev, "OV5647 power off\n");
-           ^
-   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/media/i2c/ov5647.c:827:2: note: Taking false branch
-           dev_dbg(dev, "OV5647 power off\n");
-           ^
-   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/media/i2c/ov5647.c:827:2: note: Loop condition is false.  Exitin=
-g loop
-           dev_dbg(dev, "OV5647 power off\n");
-           ^
-   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/ret +595 drivers/media/i2c/ov5647.c
+>> lib/ref_tracker.c:92:29: warning: Parameter 'trackerp' can be declared w=
+ith const [constParameter]
+          struct ref_tracker **trackerp)
+                               ^
+>> lib/ref_tracker.c:54:17: warning: Uninitialized variable: tracker->alloc=
+_stack_handle [uninitvar]
+      if (tracker->alloc_stack_handle)
+                   ^
+--
+>> net/mctp/device.c:125:13: warning: Uninitialized variable: idx [uninitva=
+r]
+    mcb->idx =3D idx;
+               ^
+   net/mctp/device.c:102:16: note: Assuming condition is false
+    for (; mcb->h < NETDEV_HASHENTRIES; mcb->h++, mcb->idx =3D 0) {
+                  ^
+   net/mctp/device.c:125:13: note: Uninitialized variable: idx
+    mcb->idx =3D idx;
+               ^
+--
+>> net/ipv6/ipv6_sockglue.c:1401:7: warning: Local variable 'flags' shadows=
+ outer argument [shadowArgument]
+     int flags;
+         ^
+   net/ipv6/ipv6_sockglue.c:1134:61: note: Shadowed declaration
+         char __user *optval, int __user *optlen, unsigned int flags)
+                                                               ^
+   net/ipv6/ipv6_sockglue.c:1401:7: note: Shadow variable
+     int flags;
+         ^
 
-d7d6074ecd49607 Jacopo Mondi   2020-11-19  582  =
+vim +/trackerp +92 lib/ref_tracker.c
 
-2512c06441e3f0d Dave Stevenson 2020-11-19  583  static int ov5647_write16(s=
-truct v4l2_subdev *sd, u16 reg, u16 val)
-2512c06441e3f0d Dave Stevenson 2020-11-19  584  {
-2512c06441e3f0d Dave Stevenson 2020-11-19  585  	unsigned char data[4] =3D =
-{ reg >> 8, reg & 0xff, val >> 8, val & 0xff};
-2512c06441e3f0d Dave Stevenson 2020-11-19  586  	struct i2c_client *client =
-=3D v4l2_get_subdevdata(sd);
-2512c06441e3f0d Dave Stevenson 2020-11-19  587  	int ret;
-2512c06441e3f0d Dave Stevenson 2020-11-19  588  =
+4e66934eaadc83 Eric Dumazet 2021-12-04  42  =
 
-2512c06441e3f0d Dave Stevenson 2020-11-19  589  	ret =3D i2c_master_send(cl=
-ient, data, 4);
-645a01bf4309d11 David Plowman  2020-01-15  590  	/*
-645a01bf4309d11 David Plowman  2020-01-15  591  	 * Writing the wrong numbe=
-r of bytes also needs to be flagged as an
-645a01bf4309d11 David Plowman  2020-01-15  592  	 * error. Success needs to=
- produce a 0 return code.
-645a01bf4309d11 David Plowman  2020-01-15  593  	 */
-645a01bf4309d11 David Plowman  2020-01-15  594  	if (ret =3D=3D 4) {
-645a01bf4309d11 David Plowman  2020-01-15 @595  		ret =3D 0;
-645a01bf4309d11 David Plowman  2020-01-15  596  	} else {
-2512c06441e3f0d Dave Stevenson 2020-11-19  597  		dev_dbg(&client->dev, "%s=
-: i2c write error, reg: %x\n",
-2512c06441e3f0d Dave Stevenson 2020-11-19  598  			__func__, reg);
-2512c06441e3f0d Dave Stevenson 2020-11-19  599  		return ret;
-2512c06441e3f0d Dave Stevenson 2020-11-19  600  	}
-2512c06441e3f0d Dave Stevenson 2020-11-19  601  =
+4e66934eaadc83 Eric Dumazet 2021-12-04  43  void ref_tracker_dir_print(stru=
+ct ref_tracker_dir *dir,
+4e66934eaadc83 Eric Dumazet 2021-12-04  44  			   unsigned int display_limi=
+t)
+4e66934eaadc83 Eric Dumazet 2021-12-04  45  {
+4e66934eaadc83 Eric Dumazet 2021-12-04  46  	struct ref_tracker *tracker;
+4e66934eaadc83 Eric Dumazet 2021-12-04  47  	unsigned long flags;
+4e66934eaadc83 Eric Dumazet 2021-12-04  48  	unsigned int i =3D 0;
+4e66934eaadc83 Eric Dumazet 2021-12-04  49  =
 
-2512c06441e3f0d Dave Stevenson 2020-11-19  602  	return 0;
-2512c06441e3f0d Dave Stevenson 2020-11-19  603  }
-2512c06441e3f0d Dave Stevenson 2020-11-19  604  =
+4e66934eaadc83 Eric Dumazet 2021-12-04  50  	spin_lock_irqsave(&dir->lock, =
+flags);
+4e66934eaadc83 Eric Dumazet 2021-12-04  51  	list_for_each_entry(tracker, &=
+dir->list, head) {
+4e66934eaadc83 Eric Dumazet 2021-12-04  52  		if (i < display_limit) {
+4e66934eaadc83 Eric Dumazet 2021-12-04  53  			pr_err("leaked reference.\n"=
+);
+4e66934eaadc83 Eric Dumazet 2021-12-04 @54  			if (tracker->alloc_stack_han=
+dle)
+4e66934eaadc83 Eric Dumazet 2021-12-04  55  				stack_depot_print(tracker->=
+alloc_stack_handle);
+4e66934eaadc83 Eric Dumazet 2021-12-04  56  			i++;
+4e66934eaadc83 Eric Dumazet 2021-12-04  57  		} else {
+4e66934eaadc83 Eric Dumazet 2021-12-04  58  			break;
+4e66934eaadc83 Eric Dumazet 2021-12-04  59  		}
+4e66934eaadc83 Eric Dumazet 2021-12-04  60  	}
+4e66934eaadc83 Eric Dumazet 2021-12-04  61  	spin_unlock_irqrestore(&dir->l=
+ock, flags);
+4e66934eaadc83 Eric Dumazet 2021-12-04  62  }
+4e66934eaadc83 Eric Dumazet 2021-12-04  63  EXPORT_SYMBOL(ref_tracker_dir_p=
+rint);
+4e66934eaadc83 Eric Dumazet 2021-12-04  64  =
 
+4e66934eaadc83 Eric Dumazet 2021-12-04  65  int ref_tracker_alloc(struct re=
+f_tracker_dir *dir,
+4e66934eaadc83 Eric Dumazet 2021-12-04  66  		      struct ref_tracker **tr=
+ackerp,
+4e66934eaadc83 Eric Dumazet 2021-12-04  67  		      gfp_t gfp)
+4e66934eaadc83 Eric Dumazet 2021-12-04  68  {
+4e66934eaadc83 Eric Dumazet 2021-12-04  69  	unsigned long entries[REF_TRAC=
+KER_STACK_ENTRIES];
+4e66934eaadc83 Eric Dumazet 2021-12-04  70  	struct ref_tracker *tracker;
+4e66934eaadc83 Eric Dumazet 2021-12-04  71  	unsigned int nr_entries;
+4e66934eaadc83 Eric Dumazet 2021-12-04  72  	unsigned long flags;
+4e66934eaadc83 Eric Dumazet 2021-12-04  73  =
+
+4e66934eaadc83 Eric Dumazet 2021-12-04  74  	*trackerp =3D tracker =3D kzal=
+loc(sizeof(*tracker), gfp | __GFP_NOFAIL);
+4e66934eaadc83 Eric Dumazet 2021-12-04  75  	if (unlikely(!tracker)) {
+4e66934eaadc83 Eric Dumazet 2021-12-04  76  		pr_err_once("memory allocatio=
+n failure, unreliable refcount tracker.\n");
+4e66934eaadc83 Eric Dumazet 2021-12-04  77  		refcount_inc(&dir->untracked);
+4e66934eaadc83 Eric Dumazet 2021-12-04  78  		return -ENOMEM;
+4e66934eaadc83 Eric Dumazet 2021-12-04  79  	}
+4e66934eaadc83 Eric Dumazet 2021-12-04  80  	nr_entries =3D stack_trace_sav=
+e(entries, ARRAY_SIZE(entries), 1);
+4e66934eaadc83 Eric Dumazet 2021-12-04  81  	nr_entries =3D filter_irq_stac=
+ks(entries, nr_entries);
+4e66934eaadc83 Eric Dumazet 2021-12-04  82  	tracker->alloc_stack_handle =
+=3D stack_depot_save(entries, nr_entries, gfp);
+4e66934eaadc83 Eric Dumazet 2021-12-04  83  =
+
+4e66934eaadc83 Eric Dumazet 2021-12-04  84  	spin_lock_irqsave(&dir->lock, =
+flags);
+4e66934eaadc83 Eric Dumazet 2021-12-04  85  	list_add(&tracker->head, &dir-=
+>list);
+4e66934eaadc83 Eric Dumazet 2021-12-04  86  	spin_unlock_irqrestore(&dir->l=
+ock, flags);
+4e66934eaadc83 Eric Dumazet 2021-12-04  87  	return 0;
+4e66934eaadc83 Eric Dumazet 2021-12-04  88  }
+4e66934eaadc83 Eric Dumazet 2021-12-04  89  EXPORT_SYMBOL_GPL(ref_tracker_a=
+lloc);
+4e66934eaadc83 Eric Dumazet 2021-12-04  90  =
+
+4e66934eaadc83 Eric Dumazet 2021-12-04  91  int ref_tracker_free(struct ref=
+_tracker_dir *dir,
+4e66934eaadc83 Eric Dumazet 2021-12-04 @92  		     struct ref_tracker **tra=
+ckerp)
+
+:::::: The code at line 92 was first introduced by commit
+:::::: 4e66934eaadc83b27ada8d42b60894018f3bfabf lib: add reference counting=
+ tracking infrastructure
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============7731160697208239755==--
+--===============2264330142376045436==--
 
