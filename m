@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0656422008798094158=="
+Content-Type: multipart/mixed; boundary="===============8225183130854740792=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-misc:for-linux-next 273/279] drivers/gpu/drm/i915/gem/i915_gem_object.c:783:12-13: WARNING opportunity for min()
-Date: Sun, 10 Apr 2022 08:21:00 +0800
-Message-ID: <202204100857.HFBKHs0O-lkp@intel.com>
+Subject: drivers/net/ethernet/marvell/mvneta.c:2376 mvneta_swbm_build_skb() error: uninitialized symbol 'num_frags'.
+Date: Sun, 10 Apr 2022 08:10:37 +0800
+Message-ID: <202204100802.Ki6yYQXB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0656422008798094158==
+--===============8225183130854740792==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,76 +15,113 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
 CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: Alexei Starovoitov <ast@kernel.org>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc for-linux-next
-head:   3870b54e0684a17ac95ae7ec8fffbcb6357731ea
-commit: 9362a07a0c5d6e566d614e988bc9c96102774a9d [273/279] drm/i915: fix i9=
-15_gem_object_wait_moving_fence
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c002 (https://download.01.org/0day-ci/archive/202=
-20410/202204100857.HFBKHs0O-lkp(a)intel.com/config)
-compiler: gcc-11 (Debian 11.2.0-19) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e1f700ebd6bea293abe3c7e2807b252018efde01
+commit: 76a676947b56710097b755d37fd7d5cea09d6e7d net: mvneta: update frags =
+bit before passing the xdp buffer to eBPF layer
+date:   3 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 months ago
+config: microblaze-randconfig-m031-20220409 (https://download.01.org/0day-c=
+i/archive/20220410/202204100802.Ki6yYQXB-lkp(a)intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/net/ethernet/marvell/mvneta.c:2376 mvneta_swbm_build_skb() error: u=
+ninitialized symbol 'num_frags'.
+
+Old smatch warnings:
+arch/microblaze/include/asm/thread_info.h:91 current_thread_info() error: u=
+ninitialized symbol 'sp'.
+include/linux/skbuff.h:2971 __netdev_alloc_skb_ip_align() warn: should this=
+ be a bitwise op?
+
+vim +/num_frags +2376 drivers/net/ethernet/marvell/mvneta.c
+
+8dc9a0888f4c8e2 Lorenzo Bianconi 2019-10-19  2350  =
+
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2351  static struct sk_buff *
+e4017570daee8ce Matteo Croce     2021-06-07  2352  mvneta_swbm_build_skb(st=
+ruct mvneta_port *pp, struct page_pool *pool,
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2353  		      struct xdp_buff =
+*xdp, u32 desc_status)
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2354  {
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2355  	struct skb_shared_info =
+*sinfo =3D xdp_get_shared_info_from_buff(xdp);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2356  	struct sk_buff *skb;
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2357  	u8 num_frags;
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2358  	int i;
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2359  =
+
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2360  	if (unlikely(xdp_buff_h=
+as_frags(xdp)))
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2361  		num_frags =3D sinfo->n=
+r_frags;
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2362  =
+
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2363  	skb =3D build_skb(xdp->=
+data_hard_start, PAGE_SIZE);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2364  	if (!skb)
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2365  		return ERR_PTR(-ENOMEM=
+);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2366  =
+
+57f05bc2ab2443b Yunsheng Lin     2021-08-06  2367  	skb_mark_for_recycle(sk=
+b);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2368  =
+
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2369  	skb_reserve(skb, xdp->d=
+ata - xdp->data_hard_start);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2370  	skb_put(skb, xdp->data_=
+end - xdp->data);
+aff0824dc4d6ef5 Lorenzo Bianconi 2021-06-22  2371  	skb->ip_summed =3D mvne=
+ta_rx_csum(pp, desc_status);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2372  =
+
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2373  	if (likely(!xdp_buff_ha=
+s_frags(xdp)))
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2374  		goto out;
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2375  =
+
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17 @2376  	for (i =3D 0; i < num_f=
+rags; i++) {
+5273144116d10f6 Lorenzo Bianconi 2020-09-19  2377  		skb_frag_t *frag =3D &=
+sinfo->frags[i];
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2378  =
+
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2379  		skb_add_rx_frag(skb, s=
+kb_shinfo(skb)->nr_frags,
+5273144116d10f6 Lorenzo Bianconi 2020-09-19  2380  				skb_frag_page(frag),=
+ skb_frag_off(frag),
+5273144116d10f6 Lorenzo Bianconi 2020-09-19  2381  				skb_frag_size(frag),=
+ PAGE_SIZE);
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2382  	}
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2383  =
+
+76a676947b56710 Lorenzo Bianconi 2022-01-21  2384  out:
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2385  	return skb;
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2386  }
+ca0e014609f05fa Lorenzo Bianconi 2020-07-17  2387  =
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/gem/i915_gem_object.c:783:12-13: WARNING opportunit=
-y for min()
+:::::: The code at line 2376 was first introduced by commit
+:::::: ca0e014609f05fab577dd251bb5400e815c9f3cf net: mvneta: move skb build=
+ after descriptors processing
 
-vim +783 drivers/gpu/drm/i915/gem/i915_gem_object.c
-
-950505cabe517a Thomas Hellstr=C3=B6m  2022-01-10  758  =
-
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  759  /**
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  760   * i915_gem_object_wait_m=
-oving_fence - Wait for the object's moving fence if any
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  761   * @obj: The object whose=
- moving fence to wait for.
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  762   * @intr: Whether to wait=
- interruptible.
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  763   *
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  764   * If the moving fence si=
-gnaled without an error, it is detached from the
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  765   * object and put.
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  766   *
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  767   * Return: 0 if successfu=
-l, -ERESTARTSYS if the wait was interrupted,
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  768   * negative error code if=
- the async operation represented by the
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  769   * moving fence failed.
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  770   */
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  771  int i915_gem_object_wait_=
-moving_fence(struct drm_i915_gem_object *obj,
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  772  				      bool intr)
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  773  {
-9362a07a0c5d6e Matthew Auld      2022-04-08  774  	long ret;
-9362a07a0c5d6e Matthew Auld      2022-04-08  775  =
-
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  776  	assert_object_held(obj);
-9362a07a0c5d6e Matthew Auld      2022-04-08  777  =
-
-9362a07a0c5d6e Matthew Auld      2022-04-08  778  	ret =3D dma_resv_wait_ti=
-meout(obj->base. resv, DMA_RESV_USAGE_KERNEL,
-1d7f5e6c5240c3 Christian K=C3=B6nig   2021-12-22  779  				    intr, MAX_SC=
-HEDULE_TIMEOUT);
-9362a07a0c5d6e Matthew Auld      2022-04-08  780  	if (!ret)
-9362a07a0c5d6e Matthew Auld      2022-04-08  781  		ret =3D -ETIME;
-9362a07a0c5d6e Matthew Auld      2022-04-08  782  =
-
-9362a07a0c5d6e Matthew Auld      2022-04-08 @783  	return ret < 0 ? ret : 0;
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  784  }
-f6c466b84cfa78 Maarten Lankhorst 2021-11-22  785  =
-
+:::::: TO: Lorenzo Bianconi <lorenzo@kernel.org>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============0656422008798094158==--
+--===============8225183130854740792==--
 
