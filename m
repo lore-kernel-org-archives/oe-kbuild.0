@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1089623192082560628=="
+Content-Type: multipart/mixed; boundary="===============7079624490137454562=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1747/3040] kernel/module/main.c:1154:9: warning: Call to function 'sprintf' is insecure as it does not provide bounding of the memory buffer or security checks introduced in the C11 standard. Replace with analogous functions that support length arguments or provides...
-Date: Sun, 10 Apr 2022 15:18:28 +0800
-Message-ID: <202204101556.s3ENTCfG-lkp@intel.com>
+Subject: sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Sun, 10 Apr 2022 13:57:34 +0800
+Message-ID: <202204101322.kzHZodrj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1089623192082560628==
+--===============7079624490137454562==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,39 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 BCC: lkp(a)intel.com
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Aaron Tomlin <atomlin@redhat.com>
-CC: Luis Chamberlain <mcgrof@kernel.org>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: linux-kernel(a)vger.kernel.org
+TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Venkata Prasad Potturu <quic_potturu@quicinc.com>
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   ff511c1c68a5a35ab0b3efb3c306fd80b10d74be
-commit: cfc1d277891eb499b3b5354df33b30f598683e90 [1747/3040] module: Move a=
-ll into module/
-:::::: branch date: 2 days ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-c007 (https://download.01.org/0day-ci/archive/202=
-20410/202204101556.s3ENTCfG-lkp(a)intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c29a51=
-b3a257908aebc01cd7c4655665db317d66)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   e1f700ebd6bea293abe3c7e2807b252018efde01
+commit: b62c4e5fba2f910bc9f23ae152d11627e4c2f00f ASoC: qcom: lpass-sc7280: =
+Add platform driver for lpass audio
+date:   6 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20220406 (https://download.01.org/0day-ci/archi=
+ve/20220410/202204101322.kzHZodrj-lkp(a)intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c4a1b0=
+7d0979e7ff20d7d541af666d822d66b566)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Dcfc1d277891eb499b3b5354df33b30f598683e90
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout cfc1d277891eb499b3b5354df33b30f598683e90
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db62c4e5fba2f910bc9f23ae152d11627e4c2f00f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b62c4e5fba2f910bc9f23ae152d11627e4c2f00f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,629 +55,325 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/mtrr/cleanup.c:924:2: warning: Call to function 'mem=
-set' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memset_s' in case of C11 [clang-analy=
-zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(num, 0, sizeof(num));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/mtrr/cleanup.c:924:2: note: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11
-           memset(num, 0, sizeof(num));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/mtrr/cleanup.c:944:2: warning: Call to function 'mem=
-set' is insecure as it does not provide security checks introduced in the C=
-11 standard. Replace with analogous functions that support length arguments=
- or provides boundary checks such as 'memset_s' in case of C11 [clang-analy=
-zer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(range, 0, sizeof(range));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/mtrr/cleanup.c:944:2: note: Call to function 'memset=
-' is insecure as it does not provide security checks introduced in the C11 =
-standard. Replace with analogous functions that support length arguments or=
- provides boundary checks such as 'memset_s' in case of C11
-           memset(range, 0, sizeof(range));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/mtrr/cleanup.c:950:4: warning: Value stored to 'high=
-est_pfn' is never read [clang-analyzer-deadcode.DeadStores]
-                           highest_pfn =3D range[nr_range].end;
-                           ^             ~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/mtrr/cleanup.c:950:4: note: Value stored to 'highest=
-_pfn' is never read
-                           highest_pfn =3D range[nr_range].end;
-                           ^             ~~~~~~~~~~~~~~~~~~~
-   Suppressed 36 warnings (36 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   36 warnings generated.
-   Suppressed 36 warnings (36 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   45 warnings generated.
-   Suppressed 45 warnings (45 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   27 warnings generated.
-   Suppressed 27 warnings (27 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   65 warnings generated.
-   kernel/module/main.c:630:3: warning: Call to function 'memcpy' is insecu=
-re as it does not provide security checks introduced in the C11 standard. R=
-eplace with analogous functions that support length arguments or provides b=
-oundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.i=
-nsecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memcpy(per_cpu_ptr(mod->percpu, cpu), from, size);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:630:3: note: Call to function 'memcpy' is insecure =
-as it does not provide security checks introduced in the C11 standard. Repl=
-ace with analogous functions that support length arguments or provides boun=
-dary checks such as 'memcpy_s' in case of C11
-                   memcpy(per_cpu_ptr(mod->percpu, cpu), from, size);
-                   ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1051:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buffer, "%i\n", module_refcount(mk->mod));
-                  ^~~~~~~
-   kernel/module/main.c:1051:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11
-           return sprintf(buffer, "%i\n", module_refcount(mk->mod));
-                  ^~~~~~~
->> kernel/module/main.c:1154:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide bounding of the memory buffer or security check=
-s introduced in the C11 standard. Replace with analogous functions that sup=
-port length arguments or provides boundary checks such as 'sprintf_s' in ca=
-se of C11 [clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHand=
-ling]
-           return sprintf(buffer, "%s\n", state);
-                  ^~~~~~~
-   kernel/module/main.c:1154:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide bounding of the memory buffer or security checks i=
-ntroduced in the C11 standard. Replace with analogous functions that suppor=
-t length arguments or provides boundary checks such as 'sprintf_s' in case =
-of C11
-           return sprintf(buffer, "%s\n", state);
-                  ^~~~~~~
-   kernel/module/main.c:1176:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buffer, "%u\n", mk->mod->core_layout.size);
-                  ^~~~~~~
-   kernel/module/main.c:1176:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11
-           return sprintf(buffer, "%u\n", mk->mod->core_layout.size);
-                  ^~~~~~~
-   kernel/module/main.c:1185:9: warning: Call to function 'sprintf' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'sprintf_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           return sprintf(buffer, "%u\n", mk->mod->init_layout.size);
-                  ^~~~~~~
-   kernel/module/main.c:1185:9: note: Call to function 'sprintf' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'sprintf_s' in case of C11
-           return sprintf(buffer, "%u\n", mk->mod->init_layout.size);
-                  ^~~~~~~
-   kernel/module/main.c:1444:2: warning: Call to function 'strncpy' is inse=
-cure as it does not provide security checks introduced in the C11 standard.=
- Replace with analogous functions that support length arguments or provides=
- boundary checks such as 'strncpy_s' in case of C11 [clang-analyzer-securit=
-y.insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           strncpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
-           ^~~~~~~
-   kernel/module/main.c:1444:2: note: Call to function 'strncpy' is insecur=
-e as it does not provide security checks introduced in the C11 standard. Re=
-place with analogous functions that support length arguments or provides bo=
-undary checks such as 'strncpy_s' in case of C11
-           strncpy(ownername, module_name(fsa.owner), MODULE_NAME_LEN);
-           ^~~~~~~
-   kernel/module/main.c:1518:2: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, bounce, count);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1518:2: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-           memcpy(buf, bounce, count);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1615:2: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memcpy(buf, bin_attr->private + pos, count);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1615:2: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-           memcpy(buf, bin_attr->private + pos, count);
-           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1766:4: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(temp_attr, attr, sizeof(*temp_attr));
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1766:4: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-                           memcpy(temp_attr, attr, sizeof(*temp_attr));
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1833:2: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(&mod->mkobj.kobj, 0, sizeof(mod->mkobj.kobj));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:1833:2: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-           memset(&mod->mkobj.kobj, 0, sizeof(mod->mkobj.kobj));
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:3438:2: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-           memset(ptr, 0, mod->core_layout.size);
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:3438:2: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-           memset(ptr, 0, mod->core_layout.size);
-           ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:3454:3: warning: Call to function 'memset' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memset_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                   memset(ptr, 0, mod->init_layout.size);
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:3454:3: note: Call to function 'memset' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memset_s' in case of C11
-                   memset(ptr, 0, mod->init_layout.size);
-                   ^
-   include/linux/fortify-string.h:272:25: note: expanded from macro 'memset'
-   #define memset(p, c, s) __fortify_memset_chk(p, c, s,                   \
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:265:2: note: expanded from macro '__forti=
-fy_memset_chk'
-           __underlying_memset(p, c, __fortify_size);                      \
-           ^~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:47:29: note: expanded from macro '__under=
-lying_memset'
-   #define __underlying_memset     __builtin_memset
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:3475:4: warning: Call to function 'memcpy' is insec=
-ure as it does not provide security checks introduced in the C11 standard. =
-Replace with analogous functions that support length arguments or provides =
-boundary checks such as 'memcpy_s' in case of C11 [clang-analyzer-security.=
-insecureAPI.DeprecatedOrUnsafeBufferHandling]
-                           memcpy(dest, (void *)shdr->sh_addr, shdr->sh_siz=
-e);
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
-   kernel/module/main.c:3475:4: note: Call to function 'memcpy' is insecure=
- as it does not provide security checks introduced in the C11 standard. Rep=
-lace with analogous functions that support length arguments or provides bou=
-ndary checks such as 'memcpy_s' in case of C11
-                           memcpy(dest, (void *)shdr->sh_addr, shdr->sh_siz=
-e);
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^~~~~~~~~~~~~~~~~
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^~~~~~~~~~~~~~~~
->> kernel/module/main.c:3475:4: warning: Null pointer passed as 1st argumen=
-t to memory copy function [clang-analyzer-unix.cstring.NullArg]
-                           memcpy(dest, (void *)shdr->sh_addr, shdr->sh_siz=
-e);
-                           ^
-   include/linux/fortify-string.h:369:26: note: expanded from macro 'memcpy'
-   #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-                            ^
-   include/linux/fortify-string.h:362:2: note: expanded from macro '__forti=
-fy_memcpy_chk'
-           __underlying_##op(p, q, __fortify_size);                        \
-           ^
-   note: expanded from here
-   include/linux/fortify-string.h:45:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
+   sound/soc/sh/rcar/rsnd.h:529:33: note: expanded from macro 'rsnd_io_to_r=
+untime'
+   #define rsnd_io_to_runtime(io) ((io)->substream ? \
+                                   ^~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/ssi.c:933:36: note: '?' condition is false
+           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
+                                             ^
+   sound/soc/sh/rcar/rsnd.h:529:33: note: expanded from macro 'rsnd_io_to_r=
+untime'
+   #define rsnd_io_to_runtime(io) ((io)->substream ? \
                                    ^
-   kernel/module/main.c:4169:1: note: Calling '__se_sys_init_module'
-   SYSCALL_DEFINE3(init_module, void __user *, umod,
+   sound/soc/sh/rcar/ssi.c:933:2: note: 'runtime' initialized to a null poi=
+nter value
+           struct snd_pcm_runtime *runtime =3D rsnd_io_to_runtime(io);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/sh/rcar/ssi.c:935:38: note: Left side of '||' is false
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                                               ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   sound/soc/sh/rcar/ssi.c:935:38: note: Left side of '||' is false
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                                               ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:313:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   sound/soc/sh/rcar/ssi.c:935:38: note: Left side of '||' is true
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                                               ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:314:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   sound/soc/sh/rcar/ssi.c:935:38: note: Taking false branch
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                                               ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:326:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   sound/soc/sh/rcar/ssi.c:935:38: note: Loop condition is false.  Exiting =
+loop
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                                               ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:346:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:334:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:318:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   sound/soc/sh/rcar/ssi.c:935:29: note: Passing null pointer value via 1st=
+ parameter 'runtime'
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                                      ^~~~~~~
+   sound/soc/sh/rcar/ssi.c:935:13: note: Calling 'bytes_to_frames'
+           *pointer =3D bytes_to_frames(runtime, READ_ONCE(ssi->byte_pos));
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/sound/pcm.h:686:20: note: Access to field 'frame_bits' results i=
+n a dereference of a null pointer (loaded from variable 'runtime')
+           return size * 8 / runtime->frame_bits;
+                             ^~~~~~~
+   sound/soc/sh/rcar/ssi.c:365:17: warning: Value stored to 'dev' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D rsnd_priv_to_dev(priv);
+                          ^~~
+   sound/soc/sh/rcar/ssi.c:365:17: note: Value stored to 'dev' during its i=
+nitialization is never read
+           struct device *dev =3D rsnd_priv_to_dev(priv);
+                          ^~~
+   1 warning generated.
+>> sound/soc/qcom/lpass-cdc-dma.c:274:7: warning: Branch condition evaluate=
+s to a garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (!dmactl)
+                       ^~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:261:2: note: 'dmactl' declared without an=
+ initial value
+           struct lpaif_dmactl *dmactl;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:264:2: note: Control jumps to 'case 3:'  =
+at line 272
+           switch (cmd) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Calling '__lpass_get_dmactl_=
+handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:43:2: note: Control jumps to the 'default=
+' case at line 56
+           switch (dai_id) {
+           ^
+   sound/soc/qcom/lpass-cdc-dma.c:57:3: note: Loop condition is false.  Exi=
+ting loop
+                   dev_err(soc_runtime->dev, "invalid dai id for dma ctl: %=
+d\n", dai_id);
+                   ^
+   include/linux/dev_printk.h:144:2: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##_=
+_VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
+index_wrap'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   sound/soc/qcom/lpass-cdc-dma.c:58:3: note:  Execution continues on line =
+57
+                   break;
+                   ^
+   sound/soc/qcom/lpass-cdc-dma.c:60:1: note: Returning without writing to =
+'*dmactl'
+   }
    ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFI=
-NE3'
-   #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:231:2: note: expanded from macro =
-'__SYSCALL_DEFINEx'
-           __X64_SYS_STUBx(x, name, __VA_ARGS__)                           \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:97:2: note: expanded from macro '=
-__X64_SYS_STUBx'
-           __SYS_STUBx(x64, sys##name,                                     \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
-'__SYS_STUBx'
-                   return __se_##name(__VA_ARGS__);                        \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   kernel/module/main.c:4169:1: note: Calling '__do_sys_init_module'
-   SYSCALL_DEFINE3(init_module, void __user *, umod,
-   ^
-   include/linux/syscalls.h:219:36: note: expanded from macro 'SYSCALL_DEFI=
-NE3'
-   #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS=
-__)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   include/linux/syscalls.h:228:2: note: expanded from macro 'SYSCALL_DEFIN=
-Ex'
-           __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:235:14: note: expanded from macro=
- '__SYSCALL_DEFINEx'
-                   long ret =3D __do_sys##name(__MAP(x,__SC_CAST,__VA_ARGS_=
-_));\
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   kernel/module/main.c:4176:6: note: 'err' is 0
+   sound/soc/qcom/lpass-cdc-dma.c:273:3: note: Returning from '__lpass_get_=
+dmactl_handle'
+                   __lpass_get_dmactl_handle(substream, dai, &dmactl, &id);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/qcom/lpass-cdc-dma.c:274:7: note: Branch condition evaluates t=
+o a garbage value
+                   if (!dmactl)
+                       ^~~~~~~
+   1 warning generated.
+   fs/ntfs3/xattr.c:966:3: warning: 2nd function call argument is an uninit=
+ialized value [clang-analyzer-core.CallAndMessage]
+                   i_uid_write(inode, (uid_t)le32_to_cpu(value[0]));
+                   ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:960:6: note: Calling 'ntfs_get_ea'
+           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:209:6: note: Assuming the condition is false
+           if (!(ni->ni_flags & NI_FLAG_EA))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:209:2: note: Taking false branch
+           if (!(ni->ni_flags & NI_FLAG_EA))
+           ^
+   fs/ntfs3/xattr.c:212:7: note: 'required' is non-null
+           if (!required)
+                ^~~~~~~~
+   fs/ntfs3/xattr.c:212:2: note: Taking false branch
+           if (!required)
+           ^
+   fs/ntfs3/xattr.c:217:6: note: 'name_len' is <=3D 255
+           if (name_len > 255) {
+               ^~~~~~~~
+   fs/ntfs3/xattr.c:217:2: note: Taking false branch
+           if (name_len > 255) {
+           ^
+   fs/ntfs3/xattr.c:223:6: note: 'err' is not equal to 0
            if (err)
                ^~~
-   kernel/module/main.c:4176:2: note: Taking false branch
+   fs/ntfs3/xattr.c:223:2: note: Taking true branch
            if (err)
            ^
-   kernel/module/main.c:4179:2: note: Taking false branch
-           pr_debug("init_module: umod=3D%p, len=3D%lu, uargs=3D%p\n",
+   fs/ntfs3/xattr.c:224:3: note: Control jumps to line 253
+                   goto out;
+                   ^
+   fs/ntfs3/xattr.c:254:7: note: 'required' is non-null
+           if (!required)
+                ^~~~~~~~
+   fs/ntfs3/xattr.c:254:2: note: Taking false branch
+           if (!required)
            ^
-   include/linux/printk.h:576:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+   fs/ntfs3/xattr.c:257:9: note: 'err' is not equal to 0
+           return err ? err : len;
+                  ^~~
+   fs/ntfs3/xattr.c:257:9: note: '?' condition is true
+   fs/ntfs3/xattr.c:257:2: note: Returning without writing to '*buffer'
+           return err ? err : len;
            ^
-   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   kernel/module/main.c:4183:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:4183:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:4186:9: note: Calling 'load_module'
-           return load_module(&info, uargs, 0);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/module/main.c:3962:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3962:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3970:6: note: 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3970:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3978:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3978:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3985:2: note: Taking false branch
-           if (blacklisted(info->name)) {
-           ^
-   kernel/module/main.c:3992:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   kernel/module/main.c:3992:2: note: Taking false branch
-           if (err)
-           ^
-   kernel/module/main.c:3996:2: note: Taking false branch
-           if (!check_modstruct_version(info, info->mod)) {
-           ^
-   kernel/module/main.c:4002:8: note: Calling 'layout_and_allocate'
-           mod =3D layout_and_allocate(info, flags);
+   fs/ntfs3/xattr.c:960:6: note: Returning from 'ntfs_get_ea'
+           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:960:6: note: Assuming the condition is true
+           if (ntfs_get_ea(inode, "$LXUID", sizeof("$LXUID") - 1, &value[0],
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ntfs3/xattr.c:960:6: note: Left side of '&&' is true
+   fs/ntfs3/xattr.c:962:6: note: Assuming the condition is true
+               ntfs_get_ea(inode, "$LXGID", sizeof("$LXGID") - 1, &value[1],
 
-vim +1154 kernel/module/main.c
+vim +274 sound/soc/qcom/lpass-cdc-dma.c
 
-53999bf34d5598 kernel/module.c Kevin Winchester 2012-01-15  1135  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  256  =
 
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1136  static ss=
-ize_t show_initstate(struct module_attribute *mattr,
-4befb026cf74b5 kernel/module.c Kay Sievers      2011-07-24  1137  			      =
-struct module_kobject *mk, char *buffer)
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1138  {
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1139  	const ch=
-ar *state =3D "unknown";
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1140  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  257  static int lpass_cd=
+c_dma_daiops_trigger(struct snd_pcm_substream *substream,
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  258  				    int cmd, st=
+ruct snd_soc_dai *dai)
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  259  {
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  260  	struct snd_soc_pcm=
+_runtime *soc_runtime =3D asoc_substream_to_rtd(substream);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  261  	struct lpaif_dmact=
+l *dmactl;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  262  	int ret =3D 0, id;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  263  =
 
-4befb026cf74b5 kernel/module.c Kay Sievers      2011-07-24  1141  	switch (=
-mk->mod->state) {
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1142  	case MOD=
-ULE_STATE_LIVE:
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1143  		state =
-=3D "live";
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1144  		break;
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1145  	case MOD=
-ULE_STATE_COMING:
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1146  		state =
-=3D "coming";
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1147  		break;
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1148  	case MOD=
-ULE_STATE_GOING:
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1149  		state =
-=3D "going";
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1150  		break;
-0d21b0e3477395 kernel/module.c Rusty Russell    2013-01-12  1151  	default:
-0d21b0e3477395 kernel/module.c Rusty Russell    2013-01-12  1152  		BUG();
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1153  	}
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24 @1154  	return s=
-printf(buffer, "%s\n", state);
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1155  }
-1f71740ab9714b kernel/module.c Kay Sievers      2006-11-24  1156  =
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  264  	switch (cmd) {
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  265  	case SNDRV_PCM_TRI=
+GGER_START:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  266  	case SNDRV_PCM_TRI=
+GGER_RESUME:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  267  	case SNDRV_PCM_TRI=
+GGER_PAUSE_RELEASE:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  268  		__lpass_platform_=
+codec_intf_init(dai, substream);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  269  		break;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  270  	case SNDRV_PCM_TRI=
+GGER_STOP:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  271  	case SNDRV_PCM_TRI=
+GGER_SUSPEND:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  272  	case SNDRV_PCM_TRI=
+GGER_PAUSE_PUSH:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  273  		__lpass_get_dmact=
+l_handle(substream, dai, &dmactl, &id);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24 @274  		if (!dmactl)
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  275  			return -EINVAL;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  276  =
+
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  277  		ret =3D regmap_fi=
+elds_write(dmactl->codec_enable, id, LPAIF_DMACTL_ENABLE_OFF);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  278  		if (ret) {
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  279  			dev_err(soc_runt=
+ime->dev,
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  280  				"error writing =
+to dmactl codec_enable reg: %d\n", ret);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  281  			return ret;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  282  		}
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  283  		break;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  284  	default:
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  285  		ret =3D -EINVAL;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  286  		dev_err(soc_runti=
+me->dev, "%s: invalid %d interface\n", __func__, cmd);
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  287  		break;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  288  	}
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  289  	return ret;
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  290  }
+b81af585ea54ee Srinivasa Rao Mandadapu 2022-02-24  291  =
 
 
-:::::: The code at line 1154 was first introduced by commit
-:::::: 1f71740ab9714bf5ae9ee04c724ff0d5c67ca3dc Driver core: show "initstat=
-e" of module
+:::::: The code at line 274 was first introduced by commit
+:::::: b81af585ea54ee9f749391e594ee9cbd44061eae ASoC: qcom: Add lpass CPU d=
+river for codec dma control
 
-:::::: TO: Kay Sievers <kay.sievers@vrfy.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+:::::: TO: Srinivasa Rao Mandadapu <quic_srivasam@quicinc.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- =
 
 0-DAY CI Kernel Test Service
 https://01.org/lkp
---===============1089623192082560628==--
+--===============7079624490137454562==--
 
